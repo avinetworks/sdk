@@ -1,0 +1,11 @@
+<polUni>
+    <fvTenant name="$TENANT">
+        <fvAp dn="uni/tn-$TENANT/ap-$APPPROFILE" name="$APPPROFILE">
+            <fvAEPg
+                dn="uni/tn-$TENANT/ap-$APPPROFILE/epg-$EPG" name="$EPG">
+                <fvRsBd tnFvBDName="$BD" />
+                <fvRsDomAtt tDn="uni/vmmp-VMware/dom-$DOMAIN"/>
+            </fvAEPg>
+        </fvAp>
+    </fvTenant>
+</polUni>

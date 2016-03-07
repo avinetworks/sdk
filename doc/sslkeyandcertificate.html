@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> SSLKeyAndCertificate </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>SSLKeyAndCertificate</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/sslkeyandcertificate
+    GET /api/sslkeyandcertificate/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show sslkeyandcertificate &ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Examples</h3>
+<div class="container">
+<p>  To generate a self-signed certificate  </p>
+<pre><code> <strong>POST /api/sslkeyandcertificate/generatecertificate</strong>
+
+{
+    "self_signed": true, 
+    "name": "mycert", 
+    "locality": "Sunnyvale", 
+    "country": "US", 
+    "key_params": {
+        "rsa_params": {
+            "key_size": "SSL_KEY_1024_BITS"
+        }, 
+        "algorithm": "SSL_KEY_ALGORITHM_RSA"
+    }, 
+    "state": "CA", 
+    "common_name": "ACME Company", 
+    "organization": "ACME Company"
+}
+ </code></pre>
+<p>  To generate a CA-signed certificate use the following sample. This will provide a Certificate Signing Request that you will have to use to get a CA-siged certificate  </p>
+<pre><code> <strong>POST /api/sslkeyandcertificate/generatecertificate</strong>
+
+{
+    "name": "mycert2", 
+    "locality": "Sunnyvale", 
+    "country": "US", 
+    "key_params": {
+        "rsa_params": {
+            "key_size": "SSL_KEY_1024_BITS"
+        }, 
+        "algorithm": "SSL_KEY_ALGORITHM_RSA"
+    }, 
+    "state": "CA", 
+    "common_name": "ACME Company", 
+    "organization": "ACME Company"
+}
+ </code></pre>
+<p>  To import a CA-signed certificate  </p>
+<pre><code> <strong>POST /api/sslkeyandcertificate/sslkeyandcertificate-2e25a322-8b92-423b-a987-c88faba51433/importcertificate</strong>
+
+{
+    "certificate": "\n-----BEGIN CERTIFICATE-----\nMIICmTCCAgKgAwIBAgIJAKfrg8i8iZZqMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV\nBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwMQWNtZSBDb21wYW55MR0wGwYD\nVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjAeFw0xNTAxMTkwNzEyNThaFw0xNjAx\nMTkwNzEyNThaMFAxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwM\nQWNtZSBDb21wYW55MR0wGwYDVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjCBnzAN\nBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtT9psNKi/4oImbB4aIJLjJDPwTIAIrQP\nLoC4R/GHrBCByRYVfoyxFrHJU9WSg9KTqxc6Ph6/zK2hoR+MchQStMP+K5W+4HcR\nSW+1MJdMwRhm+egxH7hYwnrfsaQoo0GBPVb48deBB/yKTLj7trdGqWTD5oyZqr/B\nk+kR0kXGzx8CAwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3Bl\nblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNhre4joManxHL+F\nDWzYSVblWVdlMB8GA1UdIwQYMBaAFNhre4joManxHL+FDWzYSVblWVdlMA0GCSqG\nSIb3DQEBCwUAA4GBAINlLdqGJW2Enow2ft+FRMZdo2qwOovuF4smNIFoXmSoywhW\n7dyeAkeCyUjZrbqFRNsCf969aUSIE8pARjSnT9P4otOvIMCaIN215F0nzKKZbsIL\nK4pA6A0h5GSd+aqol6P2vAWzLNE+kUbrE/PcZu9pozWp0GdoiAEu+BnqwWrC\n-----END CERTIFICATE-----\n"
+}
+ </code></pre>
+<p>  To import both key and certificate, use the following sample.   </p>
+<pre><code> <strong>POST /api/sslkeyandcertificate/importkeyandcertificate</strong>
+
+{
+    "certificate": "\n-----BEGIN CERTIFICATE-----\nMIIFcjCCA1oCARswDQYJKoZIhvcNAQELBQAwgZAxCzAJBgNVBAYTAlVTMRMwEQYD\nVQQIEwpDYWxpZm9ybmlhMRIwEAYDVQQHEwlTdW5ueXZhbGUxCzAJBgNVBAoTAkNB\nMREwDwYDVQQLEwhJbnRlcm5hbDERMA8GA1UEAxMIY2EubG9jYWwxJTAjBgkqhkiG\n9w0BCQEWFmRlZmF1bHRlbWFpbEBsb2NhbGhvc3QwHhcNMTYwMTA5MDk1MDU0WhcN\nMjYwMTA2MDk1MDU0WjBtMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5p\nYTEUMBIGA1UEBwwLU2FudGEgQ2xhcmExEzARBgNVBAoMCkNvbnRyb2xsZXIxHjAc\nBgNVBAMMFW5vZGUuY29udHJvbGxlci5sb2NhbDCCAiIwDQYJKoZIhvcNAQEBBQAD\nggIPADCCAgoCggIBALXr3f7mtZdOePRaVJYFFqEuOyyoYsVcufDm0BvW1YAluAmj\n9ztwtCvaczwKVcKpyey5hTQhZnsSEW8Sqxoya7UHPDW6VvSTxtSBzj6btTklX8Q+\nlRsvzVFh5NOXH+pecJgTKZ93wn5xpM6RYNCwoT9IWyUN3ATmg4IHvRe46aP9/V9L\nHQ399ZkWPyz/uJFTVPPkMRWqb+U+12BaKWykcesvk7lGjih97n4w3nbtRRe8MsI5\nkhHy3utUJaYzmizKXbXRSSEdL2QwZxdK2cfFnVMBECkuD5vxifSUk4qlxs3QFIy2\nP83Ghk/ZvwsOEzTO12qmx5Fvr6ObJzzwlykQ26Ayc5piRI6EbkAFrQOU1P12/+qi\ntJ9MYhDuobyKX1P5V6HHTjbvwNItkTbcryVLTiJAMaHGsPBkPYWBntsZdkkUQnph\n3xZnK6cIKNS/HMbaVMO/y2EaqkO1agz0bmH1JR0KRDbgxD+AVC5WxCcylJ2UY+N1\nsbvgVMSD+VIbBermlVeNr06ZJKszbc3AuNgsayAFp5uZ3IJZrSjvuMzV8vKiEXGu\nQDSNSJsmTOZD+iPClMszDwH2UPTpjayOeXdHFZNXgE7q29nvqSvErZokef6gGbp5\nsBVLa1zKh0gCR4vryEKsG4wzDmPwMW+MAXWG8j/s3OdE1f48mKm41GkMbhVbAgMB\nAAEwDQYJKoZIhvcNAQELBQADggIBAG/glm9+1Roez6a16yYb13AZb693nngSZUN4\ndBnyphPE+i8vskazOXM2SjmkVcJzIEFNzytLaqXTuJ4psvcZXZg9YoSVQIKzOaun\n73T2SIxnKSJShi5nVR2+AyymG4MjHveKP/cHruHkBPvmP7CQ6wEhlYjWWPRThIUY\n7uZasHhHb0PmyjsKfuIw943c1a0U+EDcSFNqyBmpUGHw5ahDsn4KXKMACB9iPfZ6\nlu23vKFi3EfgNU8jG0Xiy2ND5bBJVPT7I8JjZql+jl26WQyjpudM9izfzcLWNeHL\npMF+k4cF6ze0GClRSyIQAcgzz6788vovSC/X+9ZFJnSJusXGYXKGPHmPk3/5BDC8\ncfg2DQJ9tLMSQJj/2jvb8SHlofGrYmczxUe8MXrA8WDJEbCo3JEWVQDhtkOOna4z\nSXe7TvpgQZaRHdX5bs/vxjL5D0eFkbGNlkGal3uiPNbUuPkhjHpZLUnj/F83Oxwi\nJQMu3tmu9Tjcv74YTJE3Y70AWTRs1oGsFYTrol9li29OM2lt0c55cwAAMrNFcqcN\ng1K7R08kR+WQFt02jLAgPLj9izdPqpFpFqGwoTTCeas2FQzO6GEdCkBWusAdFdHZ\nZd7LJO+IKACyOEodSYr5TtWNFKgV7FlFXOFoew+2uLM04jZ0YsCvE4QCR2sxvb4N\n7qLODuk0\n-----END CERTIFICATE-----\n", 
+    "name": "mycert3", 
+    "key": "\n-----BEGIN PRIVATE KEY-----\n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\nOHzfkj6M6uSvAtoGadmk48hVzcqRgw==\n-----END PRIVATE KEY-----\n"
+}
+ </code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=SSLKeyAndCertificate
+<p><h3 class='text-success'>SSLKeyAndCertificate<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_CERTIFICATE_TYPE_VIRTUALSERVICE</dd><dt>Choices</dt><dd>SSL_CERTIFICATE_TYPE_SYSTEM, SSL_CERTIFICATE_TYPE_VIRTUALSERVICE, SSL_CERTIFICATE_TYPE_CA</dd></dl><p><strong>certificate</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLCertificate>SSLCertificate</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>key_params</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLKeyParams>SSLKeyParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Private key</dd></dl><p><strong>status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_CERTIFICATE_FINISHED</dd><dt>Choices</dt><dd>SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING</dd></dl><p><strong>ca_certs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CertificateAuthority>CertificateAuthority</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>CA certificates in certificate chain</dd></dl><p><strong>enckey_base64</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Encrypted private key corresponding to the private key (e.g. those generated by an HSM such as Thales nShield)</dd></dl><p><strong>enckey_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name of the encrypted private key (e.g. those generated by an HSM such as Thales nShield)</dd></dl><p><strong>hardwaresecuritymodulegroup_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=hardwaresecuritymodulegroup.html#HardwareSecurityModuleGroup>Reference to HardwareSecurityModuleGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=SSLCertificate
+<p><h3 class='text-success'>SSLCertificate<br></h3></p>
+<p><strong>version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>serial_number</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>self_signed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>issuer</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLCertificateDescription>SSLCertificateDescription</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>subject</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLCertificateDescription>SSLCertificateDescription</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>key_params</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLKeyParams>SSLKeyParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>public_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>signature_algorithm</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>signature</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>not_before</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>not_after</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>certificate</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>certificate_signing_request</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>text</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fingerprint</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>expiry_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_CERTIFICATE_GOOD</dd><dt>Choices</dt><dd>SSL_CERTIFICATE_EXPIRED, SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING</dd></dl><p><strong>chain_verified</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=SSLCertificateDescription
+<p><h3 class='text-success'>SSLCertificateDescription<br></h3></p>
+<p><strong>common_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>email_address</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>organization_unit</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>organization</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>locality</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>country</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>distinguished_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=SSLKeyParams
+<p><h3 class='text-success'>SSLKeyParams<br></h3></p>
+<p><strong>algorithm</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_KEY_ALGORITHM_RSA</dd><dt>Choices</dt><dd>SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC</dd></dl><p><strong>rsa_params</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLKeyRSAParams>SSLKeyRSAParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ec_params</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLKeyECParams>SSLKeyECParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=SSLKeyRSAParams
+<p><h3 class='text-success'>SSLKeyRSAParams<br></h3></p>
+<p><strong>key_size</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_KEY_2048_BITS</dd><dt>Choices</dt><dd>SSL_KEY_1024_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS, SSL_KEY_2048_BITS</dd></dl><p><strong>exponent</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>65537</dd></dl></div>
+<div class='container'id=SSLKeyECParams
+<p><h3 class='text-success'>SSLKeyECParams<br></h3></p>
+<p><strong>curve</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_KEY_EC_CURVE_SECP256R1</dd><dt>Choices</dt><dd>SSL_KEY_EC_CURVE_SECP521R1, SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1</dd></dl></div>
+<div class='container'id=CertificateAuthority
+<p><h3 class='text-success'>CertificateAuthority<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ca_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslkeyandcertificate.html#SSLKeyAndCertificate>Reference to SSLKeyAndCertificate</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+<h3 class='text-primary'>Actions</h3>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/sslkeyandcertificate/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    delete sslkeyandcertificate &ltkey&gt
+</code></pre>
+</div>
+
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="hardwaresecuritymodulegroup.html">HardwareSecurityModuleGroup</a>
+<a href="tenant.html">Tenant</a>
+<a href="sslkeyandcertificate.html">SSLKeyAndCertificate</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>

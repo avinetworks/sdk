@@ -1,0 +1,145 @@
+{
+    "SystemConfiguration": [
+    {
+        "uuid":"default",
+        "global_tenant_config":{
+            "tenant_access_to_provider_se": true,
+            "se_in_provider_context": true,
+            "tenant_vrf": false
+        },
+        "dns_configuration":{
+            "search_domain":"avi.local",
+            "server_list":[
+                {
+                    "type":"V4",
+                    "addr": "8.8.8.8"
+                }
+            ]
+        },
+        "tech_support_uploader_configuration":{
+            "auto_upload":false
+        },
+        "ntp_configuration":{
+            "ntp_server_list":[
+                {
+                    "type":"DNS",
+                    "addr":"0.us.pool.ntp.org"
+                }
+            ]
+        },
+        "docker_mode":false
+    }],
+   "Cloud": [
+   {
+       "vcenter_configuration":{
+            "username": "root",
+            "password": "vmware",
+            "management_ip_subnet":{
+                "ip_addr":{
+                    "type": "V4",
+                    "addr": "10.128.3.0"
+                },
+                "mask": 24
+            },
+            "management_network": "VM Network",
+            "privilege": "WRITE_ACCESS",
+            "vcenter_url": "10.128.3.200",
+            "datacenter_ref": "Apic"
+       },
+       "dhcp_enabled": false,
+       "apic_mode": true,
+       "apic_configuration":{
+           "apic_vendor": "Avi",
+           "version": "1.0",
+           "apic_product": "CADP",
+           "apic_username": "admin",
+           "apic_password": "avinetworks",
+           "avi_controller_username": "admin",
+           "avi_controller_password": "admin",
+           "apic_admin_tenant": "Intuit",
+           "apic_domain": "SantaClara_APIC",
+           "apic_name": ["10.128.3.2"],
+           "minor": "2"
+        },
+        "prefer_static_routes":true,
+        "enable_vip_static_routes":true,
+        "mtu": 1500,
+        "vtype": "CLOUD_VCENTER"
+   }],
+   "Cluster": [
+   {
+        "name":"cluster-0-1",
+        "nodes":[
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.130.2.145"
+		        },
+		    "name":  "node-1"
+		    },
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.130.2.149"
+		        },
+		    "name":  "node-2"
+		    },
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.130.2.136"
+		        },
+		    "name":  "node-3"
+		    }
+	    ]
+   }],
+   "ServiceEngineGroup": [
+    {
+        "name":"Default-Group",
+        "vcpus_per_se":2,
+        "auto_rebalance":true,
+        "ha_mode":"HA_MODE_SHARED_PAIR",
+        "placement_mode":"PLACEMENT_MODE_AUTO",
+        "max_scaleout_per_vs": 3,
+        "memory_per_se":2048,
+        "min_scaleout_per_vs":2,
+        "buffer_se":0,
+        "max_se":4
+   }],
+   "ServiceEngineProperties": [
+    {
+        "se_agent_properties":
+         {
+             "controller_echo_rpc_timeout": 500,
+             "controller_echo_miss_limit": 2
+         }
+    }],
+   "Network": [
+    {
+        "name": "VM Network",
+        "configured_subnets": [
+        {
+            "prefix": {
+                "ip_addr": {
+                    "type": "V4",
+                    "addr": "10.128.3.0"
+                },
+                "mask": 24
+            },
+            "static_ranges": [
+            {
+                "begin": {
+                    "type": "V4",
+                    "addr": "10.128.3.90"
+                },
+                "end": {
+                    "type": "V4",
+                    "addr": "10.128.3.95"
+                }
+            }
+            ]
+        }
+        ],
+        "exclude_discovered_subnets": false
+    }]
+}

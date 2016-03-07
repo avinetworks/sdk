@@ -1,0 +1,114 @@
+{
+    "SystemConfiguration": [
+    {
+        "uuid":"default",
+        "global_tenant_config":{
+            "tenant_access_to_provider_se": true,
+            "se_in_provider_context": true,
+            "tenant_vrf": true
+        },
+        "dns_configuration":{
+            "search_domain":"avi.local",
+            "server_list":[
+                {
+                    "type":"V4",
+                    "addr": "10.10.0.100"
+                }
+            ]
+        },
+        "tech_support_uploader_configuration":{
+            "auto_upload":false
+        },
+        "ntp_configuration":{
+            "ntp_server_list":[
+                {
+                    "type":"DNS",
+                    "addr":"0.us.pool.ntp.org"
+                }
+            ]
+        },
+        "docker_mode":false,
+        "enable_vip_static_routes":false,
+        "apic_mode":false
+    }],
+   "Cloud": [
+   {
+        "openstack_configuration":{
+            "username": "avi-lbaas",
+            "password": "avi-lbaas",
+            "admin_tenant": "avi-lbaas",
+            "keystone_host": "10.10.6.82",
+            "mgmt_network_name": "lbaas-mgmt-net",
+            "privilege":"WRITE_ACCESS",
+            "use_keystone_auth": true,
+            "region": "regionOne",
+            "hypervisor":"KVM",
+            "tenant_se": true,
+            "import_keystone_tenants":true,
+            "anti_affinity":true,
+            "port_security":true,
+            "security_groups":true,
+            "allowed_address_pairs":true,
+            "free_floatingips":true,
+            "use_admin_url":true,
+            "img_format":"OS_IMG_FMT_RAW"
+        },
+        "dhcp_enabled":true,
+        "prefer_static_routes":false,
+        "enable_vip_static_routes":false,
+        "mtu": 1500,
+        "vtype": "CLOUD_OPENSTACK"
+   }],
+   "Cluster": [
+   {
+	    "name":"cluster-0-1",
+        "virtual_ip":{
+                       "type":"V4",
+                       "addr":"10.10.25.207"
+                    },
+	    "nodes":[
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.10.25.201"
+		        },
+		    "name":  "avi-1"
+		    },
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.10.25.202"
+		        },
+		    "name":  "avi-2"
+		    },
+		    {
+		    "ip":{
+			      "type":"V4",
+			      "addr": "10.10.25.203"
+		        },
+		    "name":  "avi-3"
+		    }
+	    ]
+   }],
+   "ServiceEngineGroup": [
+    {
+        "name":"Default-Group",
+        "vcpus_per_se":2,
+        "auto_rebalance":true,
+        "ha_mode":"HA_MODE_SHARED_PAIR",
+        "placement_mode":"PLACEMENT_MODE_AUTO",
+        "max_scaleout_per_vs": 3,
+        "memory_per_se":2048,
+        "min_scaleout_per_vs":2,
+        "buffer_se":0,
+        "max_se":4
+   }],
+   "ServiceEngineProperties": [
+    {
+        "se_agent_properties":
+        {
+            "controller_echo_rpc_timeout": 500,
+            "controller_echo_miss_limit": 2
+        }
+   }]
+}

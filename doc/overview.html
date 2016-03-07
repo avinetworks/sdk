@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> REST API Guide Overview </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+
+<h1 class='text-primary'>Overview </h1>
+<p>
+Welcome to Avi Cloud ADC™ by Avi Networks, Inc. 
+This manual covers Avi Controller REST API usage.
+</p>
+
+
+<h2 class='text-primary'>HTTP Headers</h2>
+
+Avi Controller REST APIs uses HTTP Headers and cookies for authentication, denoting content type, ordering, filtering, pagination, etc.
+
+<h3 class='text-primary'>Request Headers</h3>
+
+<div class='container-fluid'>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Name</th>
+<th>Mandatory</th>
+<th>Description</th>
+<th>Usage</th>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>Yes</td>
+<td>Content format. Should be application/json</td>
+<td>Content-Type: application/json</td>
+</tr>
+<tr>
+<td>X-Avi-Version</td>
+<td>Yes</td>
+<td>API version</td>
+<td>X-Avi-Version: 1</td>
+</tr>
+<tr>
+<td>X-Avi-Tenant</td>
+<td>No</td>
+<td>Tenant context. If not present, default tenant for user is used</td>
+<td>X-Avi-Tenant: acme</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>Yes</td>
+<td>Encoded Auth credentials in Base64 or authenticated sessionid cookie is mandatory</td>
+<td>Authorization: Basic yjfsdnj984498</td>
+</tr>
+<tr>
+<td>X-CSRFToken</td>
+<td>Yes</td>
+<td>CSRF Token for POST/PUT. Use from csrftoken cookie </td>
+<td>X-CSRFToken: hdsbf84r34FFI39nvd398</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>Yes
+NB: Mandatory for POST only</td>
+<td>Parent page</td>
+<td>Referer: http://10.10.10.10/</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>Yes
+NB: Mandatory for GET only</td>
+<td>Requested content format. Should be application/json</td>
+<td>Accept-Encoding: application/json</td>
+</tr>
+</table>
+</div>
+
+
+<h3 class='text-primary'>Response Headers</h3>
+
+<div class='container-fluid'>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Format</th>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>Content format. Should be application/json</td>
+<td>Content-Type: application/json</td>
+</tr>
+</table>
+</div>
+
+<h3 class='text-primary'>Response Cookies</h3>
+
+<div class='container-fluid'>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Format</th>
+</tr>
+<tr>
+<td>csrftoken</td>
+<td>Auth Token for session</td>
+<td>csrftoken: HF48348nvdvvdhh8</td>
+</tr>
+<tr>
+<td>sessionid</td>
+<td>Session ID</td>
+<td>sessionid: fdsh734FG578b</td>
+</tr>
+</table>
+</div>
+
+
+<h2 class='text-primary'>Authentication</h2>
+
+Avi Controller allows REST API usage using both Basic Authentication (over https) and Session Authentication.
+
+<h3 class='text-primary'>Basic authentication</h3>
+Auth credentials are encoded as Base 64 and sent as the Authorization header in every request.
+
+The following example retrieves the cluster version using basic authentication using the requests python library.
+
+resp = requests.get('https://10.10.1.101/api/cluster/version', verify=False, auth=('admin','adminpassword'))
+
+<h3 class='text-primary'>Session authentication</h3>
+The client performs a login to the controller. After authentication, a session is established and the sessionid is passed back to the client as a cookie. The client returns the sessionid cookie for subsequent requests.
+
+The following example retrieves the cluster version after session establishment.
+
+<div class='container-fluid'>
+<pre><code>
+<strong>
+login = requests.post('https://10.10.1.101/login', verify=False, data={'username': 'admin', 'password': 'adminpassword'})
+resp = requests.get('https://10.10.1.101/api/cluster/version', verify=False, cookies=dict(sessionid= login.cookies['sessionid']))
+</strong>
+</code></pre>
+</div>
+
+<h2 class='text-primary'>Object Tenancy</h2>
+
+A tenant is associated with every object.  'admin' tenant is the default tenant that exists from the beginning. <br>
+<br>
+Users can just access tenants where they have been assigned a role. Each user has a default tenant. 'admin' user is automatically assigned a role in all tenants. The default tenant for 'admin' user is 'admin' tenant. <br>
+<br>
+In order to perform an operation in a tenant that's different from the default tenant for that user, use the extension header 'X-Avi-Tenant' to specify the tenant. If 'X-Avi-Tenant' isn't specified, the operation is performed in the default tenant for that user. <br>
+<br>
+For e.g., when the 'admin' user performs a GET on /api/pool, without specifying 'X-Avi-Tenant', all pools under the 'admin' tenant are retrieved. When the 'admin' user performs a GET on /api/pool specifying 'X-Avi-Tenant' as 'tenant1', all pools under 'tenant1' tenant are retrieved. <br>
+<br>
+
+<h2 class='text-primary'>Object management</h2>
+
+REST methods can be used for managing objects in the Avi Controller.
+
+<h3 class='text-primary'>Object retrieval</h3>
+Use the GET method to retrieve one or more objects.
+
+<div class='container-fluid'>
+To retrieve all tenants:
+<pre><code>
+<strong>GET /api/tenant</strong>
+{
+    count: 1,
+    results: [
+        {
+            “description”: "",
+            “url”: "https://10.10.5.27/api/tenant/admin",
+            “uuid”: "admin",
+            “name”: "admin",
+            “local”: true,
+            “config_settings”: {
+                “tenant_vrf”: false,
+                “tenant_default_profiles”: false
+            }
+        }
+    ]
+}
+</code></pre>
+</div>
+
+<div class='container-fluid'>
+To retrieve tenants with uuid ‘admin’:
+
+<pre><code>
+<strong>GET /api/tenant/admin</strong>
+
+{
+    "description": "", 
+    "url": "https://10.10.5.27/api/tenant/admin", 
+    "uuid": "admin", 
+    "name": "admin", 
+    "local": true, 
+    "config_settings": {
+        "tenant_vrf": false, 
+        "tenant_default_profiles": false
+    }
+}
+</code></pre>
+</div>
+
+<h3>Object creation</h3>
+Use the POST method to create an object.
+
+<div class='container-fluid'>
+To create  a pool:
+
+<pre><code>
+<strong>POST /api/pool</strong>
+{
+            "description": "my pool",
+            "name": "pool1",
+            "servers": [
+                {
+                    "ip": {
+                        "addr": "10.10.1.10",
+                        "type": "V4"
+                    },
+                    "port": 80,
+                }
+            ],
+}
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Object modification</h3>
+Use the PUT method to modify an object.
+
+<div class='container-fluid'>
+To modify  a pool with uuid ‘pool-13df5490-cb95-47f8-b414-c2b37c897ca7’:
+
+<pre><code>
+<strong>PUT /api/pool/pool-13df5490-cb95-47f8-b414-c2b37c897ca7</strong>
+{
+      "uuid": "pool-13df5490-cb95-47f8-b414-c2b37c897ca7",
+      "name": "p1",
+      "tenant_ref": "https://10.10.1.101/api/tenant/admin",
+      "servers": [
+        {
+            "ip": {
+                "type": "V4",
+                "addr": "10.10.10.10"
+            },
+            "enabled": true
+        },
+        {
+            "ip": {
+                "type": "V4",
+                "addr": "10.10.10.11"
+            },
+            "enabled": true
+        }
+    ]
+}
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Object deletion</h3>
+Use the DELETE method to delete an object.
+
+<div class='container-fluid'>
+To delete  a pool with uuid ‘pool-13df5490-cb95-47f8-b414-c2b37c897ca7’:
+
+<pre><code>
+<strong>DELETE /api/pool/pool-13df5490-cb95-47f8-b414-c2b37c897ca7</strong>
+</code></pre>
+</div>
+
+<h2 class='text-primary'>Response codes</h2>
+
+Avi Controller returns the following response codes.
+
+<h3 class='text-primary'>2xx response codes</h3>
+<div class='container-fluid'>
+These response codes are associated with a successful operation.
+
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Response code</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>200</td>
+<td>OK - Success</td>
+</tr>
+<tr>
+<td>201</td>
+<td>CREATED – Successful object creation</td>
+</tr>
+<tr>
+<td>204</td>
+<td>NO CONTENT – Successfully completed</td>
+</tr>
+</table>
+</div>
+
+<h3 class='text-primary'>3xx response codes</h3>
+<div class='container-fluid'>
+These response codes are used for redirection.
+
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Response code</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>302</td>
+<td>REDIRECT – Indicates client should use new URL</td>
+</tr>
+</table>
+</div>
+
+<h3 class='text-primary'>4xx response codes</h3>
+<div class='container-fluid'>
+These response codes indicate an error.
+
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Response code</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>400</td>
+<td>BAD REQUEST – Content is incorrect</td>
+</tr>
+<tr>
+<td>401</td>
+<td>NOT AUTHORIZED – Authentication failure</td>
+</tr>
+<tr>
+<td>404</td>
+<td>NOT FOUND – Object doesn’t exist</td>
+</tr>
+<tr>
+<td>405</td>
+<td>METHOD NOT ALLOWED – Incorrect method on object</td>
+</tr>
+</table>
+</div>
+
+<h3 class='text-primary'>5xx response codes</h3>
+<div class='container-fluid'>
+These response codes indicate a server error.
+
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Response code</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>500</td>
+<td>SERVER ERROR – Internal server error</td>
+</tr>
+<tr>
+<td>503</td>
+<td>INITIALIZING – Avi Controller is not ready</td>
+</tr>
+</table>
+</div>
+
+<h2 class='text-primary'>Filtering, sorting, paging</h2>
+
+The following sections explain how to filter, sort and page objects.
+
+<h3 class='text-primary'>Filtering</h3>
+<div class='container-fluid'>
+To filter a pool by name:
+
+<pre><code>
+<strong>GET /api/pool?name=pool1</strong>
+{
+    "count": 1,
+    "results": [
+        {
+            "url": "https://10.10.1.101/api/pool/pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "uuid": "pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "name": "pool1",
+            "server_count": 1,
+            "tenant_ref": "https://10.10.1.101/api/tenant/admin",
+            "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+            "use_service_port": false,
+            "inline_health_monitor": true,
+            "default_server_port": 80,
+            "max_concurrent_connections_per_server": 0,
+            "graceful_disable_timeout": 1,
+            "connection_ramp_duration": 10,
+            "servers": [
+                {
+                    "hostname": "10.10.10.10",
+                    "ratio": 1,
+                    "ip": {
+                        "type": "V4",
+                        "addr": "10.10.10.10"
+                    },
+                    "enabled": true,
+                }
+            ],
+            "pd_action_type": "POOL_DOWN_ACTION_CLOSE_CONN",
+        }
+    ]
+}
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Sorting</h3>
+<div class='container-fluid'>
+To sort a pool by name (in ascending order):
+
+<pre><code>
+<strong>GET /api/pool?sort=name</strong>
+{
+    "count": 1,
+    "results": [
+        {
+            "url": "https://10.10.1.101/api/pool/pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "uuid": "pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "name": "pool1",
+            "server_count": 1,
+            "tenant_ref": "https://10.10.1.101/api/tenant/admin",
+            "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+            "use_service_port": false,
+            "inline_health_monitor": true,
+            "default_server_port": 80,
+            "max_concurrent_connections_per_server": 0,
+            "graceful_disable_timeout": 1,
+            "connection_ramp_duration": 10,
+            "servers": [
+                {
+                    "hostname": "10.10.10.10",
+                    "ratio": 1,
+                    "ip": {
+                        "type": "V4",
+                        "addr": "10.10.10.10"
+                    },
+                    "enabled": true,
+                }
+            ],
+            "pd_action_type": "POOL_DOWN_ACTION_CLOSE_CONN",
+        }
+    ]
+}
+</code></pre>
+</div>
+
+<div class='container-fluid'>
+To sort a pool by name (in descending order):
+
+<pre><code>
+<strong>GET /api/pool?sort=-name</strong>
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Paging</h3>
+<div class='container-fluid'>
+To retrive pools in a specific page with a specific page size:
+
+<pre><code>
+<strong>GET /api/pool?page_size=1&page=2</strong>
+{
+    "count": 10,
+    "next": "https://10.10.1.101/api/pool?page=3&page_size=1",
+    "results": [
+        {
+            "url": "https://10.10.1.101/api/pool/pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "uuid": "pool-4afa32c7-6835-4c46-b602-de6d1e9e4d7c",
+            "name": "pool1",
+            "server_count": 1,
+            "tenant_ref": "https://10.10.1.101/api/tenant/admin",
+            "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+            "use_service_port": false,
+            "inline_health_monitor": true,
+            "default_server_port": 80,
+            "max_concurrent_connections_per_server": 0,
+            "graceful_disable_timeout": 1,
+            "connection_ramp_duration": 10,
+            "servers": [
+                {
+                    "hostname": "10.10.10.10",
+                    "ratio": 1,
+                    "ip": {
+                        "type": "V4",
+                        "addr": "10.10.10.10"
+                    },
+                    "enabled": true,
+                }
+            ],
+            "pd_action_type": "POOL_DOWN_ACTION_CLOSE_CONN",
+        }
+    ]
+}
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Retrieving specific fields</h3>
+<div class='container-fluid'>
+To retrieve specific fields in the response, use query ‘?fields=field1,field2,field3’.
+
+<pre><code>
+<strong>GET /api/pool?fields=name,servers,lb_algorithm</strong>
+{
+    "count": 10,
+    "results": [
+        {
+            "name": "pool1",
+           "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+          "servers": [
+                {
+                    "hostname": "10.10.10.10",
+                    "ratio": 1,
+                    "ip": {
+                        "type": "V4",
+                        "addr": "10.10.10.10"
+                    },
+                    "enabled": true,
+                }
+            ],
+        }
+    ]
+}
+</code></pre>
+</div>
+

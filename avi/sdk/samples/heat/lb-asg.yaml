@@ -1,0 +1,126 @@
+heat_template_version: 2013-05-23
+
+description: >
+  Simple template to deploy a single compute instance with ASG up/down URLs
+
+parameters:
+  image:
+    type: string
+    description: Image ID or image name to use for the server
+    constraints:
+      - custom_constraint: glance.image
+  flavor:
+    type: string
+    description: Flavor for the server to be created
+    default: m1.small
+    constraints:
+      - custom_constraint: nova.flavor
+  flavor_update:
+    type: string
+    description: Flavor update policy
+    default: "RESIZE"
+  network:
+    type: string
+    description: Networks used by the server 
+  admin_pass:
+    type: string
+    description: Admin password
+    hidden: true
+  key_name:
+    type: string
+    description: Name of an existing key pair to use for the server
+    constraints:
+      - custom_constraint: nova.keypair
+  user_data:
+    type: string
+    description: Server user_data
+  metadata:
+    type: json
+    description: Server meta_data
+  pool_id:
+    type: string
+    description: Pool to contact
+  security_group:
+    type: string
+    default: "default"
+    description: SGs for the server
+  port_number:
+    type: number
+    default: 80
+    description: Port number to be configured for the server
+  weight:
+    type: number
+    default: 1
+    description: Weight to be configured for the server
+  count:
+    type: number
+    default: 1
+    description: Scale up/down count
+  cooldown:
+    type: number
+    default: 60
+    description: Cooldown time in seconds
+  init:
+    type: number
+    default: 0
+    description: desired initial capacity of stack
+  max:
+    type: number
+    default: 5
+    description: desired max capacity of stack
+    
+resources:
+  wserverasg:
+    type: OS::Heat::AutoScalingGroup
+    properties:
+      cooldown: {get_param: cooldown}
+      desired_capacity: 0
+      min_size: {get_param: init}
+      max_size: {get_param: max}
+      resource:
+        type: OS::Nova::Server::LBServer
+        properties:
+          image: {get_param: image}
+          flavor: {get_param: flavor}
+          network: {get_param: network}
+          admin_pass: { get_param: admin_pass }
+          key_name: {get_param: key_name}
+          user_data: {get_param: user_data}
+          metadata: {get_param: metadata}
+          security_group: { get_param: security_group }
+          flavor_update: { get_param: flavor_update }
+          pool_id: {get_param: pool_id}
+          port_number: {get_param: port_number}
+          weight: {get_param: weight}
+
+  scale_up_policy:
+    type: OS::Heat::ScalingPolicy
+    properties:
+      adjustment_type: change_in_capacity
+      auto_scaling_group_id: {get_resource: wserverasg}
+      cooldown: {get_param: cooldown}
+      scaling_adjustment: {get_param: count}
+
+  scale_down_policy:
+    type: OS::Heat::ScalingPolicy
+    properties:
+      adjustment_type: change_in_capacity
+      auto_scaling_group_id: {get_resource: wserverasg}
+      cooldown: {get_param: cooldown}
+      scaling_adjustment: 
+        str_replace:
+          template: -dec
+          params:
+            dec: {get_param: count}
+
+outputs:
+  scale_up_url:
+    value: {get_attr: [scale_up_policy, alarm_url]}
+  scale_dn_url:
+    value: {get_attr: [scale_down_policy, alarm_url]}
+
+#heat stack-create -e lb-env.yaml -f lb-asg.yaml lbasg -P image=cirros -P flavor=m1.tiny -P network=avi-mgmt -P admin_pass=blah -P security_group="844f5b1b-55c1-46ed-bab5-21e527da82e2" -P key_name=heat_key -P pool_id=4f5590d9-5b72-421d-92bc-0a64f71feaf4 -P metadata='{"name":"siva","test":"heat trials"}' -P user_data="user=root;data=blah" -P cooldown=5 -P init=1
+
+#heat stack-show
+#curl -v -X POST "$SCALE_UP_URL"
+#curl -v -X POST "$SCALE_DOWN_URL"

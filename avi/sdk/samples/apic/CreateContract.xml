@@ -1,0 +1,10 @@
+<polUni>
+    <fvTenant dn="uni/tn-$TENANT" name="$TENANT">
+        <vzBrCP name="$WEBCTRCT" scope="tenant">
+            <vzSubj name="subject">
+                <vzRsSubjFiltAtt tnVzFilterName="$FILTER"/>
+                <vzRsSubjGraphAtt tnVnsAbsGraphName="$WEBGRAPH"/>
+            </vzSubj>
+        </vzBrCP>
+    </fvTenant>
+</polUni>

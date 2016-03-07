@@ -1,0 +1,10 @@
+<polUni>
+    <fvTenant name="$TENANT">
+        <fvCtx name="$PRIVATENETWORK"/>
+        <!-- bridge domain -->
+        <fvBD name="$BD" arpFlood="yes">
+            <fvRsCtx tnFvCtxName="$PRIVATENETWORK"/>
+            <fvSubnet ip="$SUBNET" />
+        </fvBD>
+    </fvTenant>
+</polUni>

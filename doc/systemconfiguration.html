@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> SystemConfiguration </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>SystemConfiguration</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    PUT /api/systemconfiguration
+    GET /api/systemconfiguration
+    GET /api/systemconfiguration
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure systemconfiguration
+    show systemconfiguration
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=SystemConfiguration
+<p><h3 class='text-success'>SystemConfiguration<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>dns_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DNSConfiguration>DNSConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ntp_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#NTPConfiguration>NTPConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tech_support_uploader_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TechSupportUploaderConfiguration>TechSupportUploaderConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>portal_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PortalConfiguration>PortalConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>global_tenant_config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TenantConfiguration>TenantConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>email_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#EmailConfiguration>EmailConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>admin_auth_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AdminAuthConfiguration>AdminAuthConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>docker_mode</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>snmp_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SnmpConfiguration>SnmpConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>linux_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#LinuxConfiguration>LinuxConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>proxy_configuration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ProxyConfiguration>ProxyConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=DNSConfiguration
+<p><h3 class='text-success'>DNSConfiguration<br></h3></p>
+<p><strong>server_list</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of DNS Server IP addresses</dd></dl><p><strong>search_domain</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Search domain to use in DNS lookup</dd></dl></div>
+<div class='container'id=IpAddr
+<p><h3 class='text-success'>IpAddr<br></h3></p>
+<p><strong>addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
+<div class='container'id=NTPConfiguration
+<p><h3 class='text-success'>NTPConfiguration<br></h3></p>
+<p><strong>ntp_server_list</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of NTP server hostnames or IP addresses</dd></dl></div>
+<div class='container'id=TechSupportUploaderConfiguration
+<p><h3 class='text-success'>TechSupportUploaderConfiguration<br></h3></p>
+<p><strong>auto_upload</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=PortalConfiguration
+<p><h3 class='text-success'>PortalConfiguration<br></h3></p>
+<p><strong>enable_https</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>redirect_to_https</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>enable_http</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>sslkeyandcertificate_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslkeyandcertificate.html#SSLKeyAndCertificate>Reference to SSLKeyAndCertificate</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs</dd></dl><p><strong>use_uuid_from_input</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use UUID in POST object data as UUID of the new object, instead of a generated UUID.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>sslprofile_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslprofile.html#SSLProfile>Reference to SSLProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/sslprofile?name=System-Standard</dd></dl><p><strong>enable_clickjacking_protection</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/Disable Clickjacking protection</dd><dt>Default</dt><dd>True</dd></dl><p><strong>allow_basic_authentication</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/Disable HTTP basic authentication</dd><dt>Default</dt><dd>False</dd></dl><p><strong>http_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP port</dd></dl><p><strong>https_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTPS port</dd></dl><p><strong>password_strength_check</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Strict checking of password strength for user accounts</dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=TenantConfiguration
+<p><h3 class='text-success'>TenantConfiguration<br></h3></p>
+<p><strong>tenant_vrf</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>se_in_provider_context</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>tenant_access_to_provider_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl></div>
+<div class='container'id=EmailConfiguration
+<p><h3 class='text-success'>EmailConfiguration<br></h3></p>
+<p><strong>smtp_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of SMTP Mail Service</dd><dt>Default</dt><dd>SMTP_NONE</dd><dt>Choices</dt><dd>SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER</dd></dl><p><strong>from_email</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Email address in From field</dd><dt>Default</dt><dd>admin@avicontroller.net</dd></dl><p><strong>mail_server_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Mail server host</dd><dt>Default</dt><dd>localhost</dd></dl><p><strong>mail_server_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Mail server port</dd><dt>Default</dt><dd>25</dd></dl><p><strong>auth_username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Username for mail server</dd></dl><p><strong>auth_password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Password for mail server</dd></dl></div>
+<div class='container'id=AdminAuthConfiguration
+<p><h3 class='text-success'>AdminAuthConfiguration<br></h3></p>
+<p><strong>auth_profile_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=authprofile.html#AuthProfile>Reference to AuthProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>default_tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>default_role_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Roles name to lookup if no roles match using groups or attributes</dd></dl><p><strong>use_group_membership_for_roles</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use group membership identify the roles for this session</dd></dl><p><strong>attribute_for_roles</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Attribute whole value matches the roles for this session</dd></dl><p><strong>use_group_membership_for_tenant</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use group membership identify the tenant</dd></dl><p><strong>attribute_for_tenant</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Attribute whole value matches the tenant</dd></dl></div>
+<div class='container'id=SnmpConfiguration
+<p><h3 class='text-success'>SnmpConfiguration<br></h3></p>
+<p><strong>community</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Community string for SNMP v2c</dd><dt>Default</dt><dd>public</dd></dl></div>
+<div class='container'id=LinuxConfiguration
+<p><h3 class='text-success'>LinuxConfiguration<br></h3></p>
+<p><strong>motd</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Message of the day, shown to users on login via the command line interface, web interface, or ssh.</dd><dt>Default</dt><dd></dd></dl></div>
+<div class='container'id=ProxyConfiguration
+<p><h3 class='text-success'>ProxyConfiguration<br></h3></p>
+<p><strong>host</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Proxy hostname or IP address</dd></dl><p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Proxy port</dd></dl><p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Username for proxy</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Password for proxy</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="authprofile.html">AuthProfile</a>
+<a href="sslprofile.html">SSLProfile</a>
+<a href="tenant.html">Tenant</a>
+<a href="sslkeyandcertificate.html">SSLKeyAndCertificate</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>

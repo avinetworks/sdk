@@ -1,0 +1,9 @@
+<polUni>
+    <fvTenant name="$TENANT">
+        <fvAp dn="uni/tn-$TENANT/ap-$APPPROFILE" name="$APPPROFILE">
+            <fvAEPg dn="uni/tn-$TENANT/ap-$APPPROFILE/epg-$EPG" name="$EPG">
+                <fvRsProv tnVzBrCPName="$WEBCTRCT"/>
+            </fvAEPg>
+        </fvAp>
+    </fvTenant>
+</polUni>

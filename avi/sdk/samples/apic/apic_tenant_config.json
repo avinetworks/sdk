@@ -1,0 +1,159 @@
+{
+    "Tenant" : "ApicScale",
+    "AppProfile" : [
+        {
+            "name" : "scale",
+            "EpgConfig": [
+                {
+                    "name" : "web",
+                    "vmm_domain" : "SantaClara_APIC",
+                    "bridge_domain" : "Client_BD",
+                    "EpgContract" : [
+                        {
+                            "name" : "AviContract1",
+                            "type" : "CONSUMER"
+                        },
+                        {
+                            "name" : "AviContract2",
+                            "type" : "CONSUMER"
+                        }
+                    ]
+                },
+                {
+                    "name" : "app",
+                    "vmm_domain" : "SantaClara_APIC",
+                    "bridge_domain" : "Server_BD",
+                    "EpgContract" : [
+                        {
+                            "name" : "AviContract1",
+                            "type" : "PROVIDER"
+                        },
+                        {
+                            "name" : "AviContract2",
+                            "type" : "PROVIDER"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "BridgeDomain" : [
+        {
+            "name" : "Client_BD",
+            "network" : "ApicScalectx1", 
+            "subnets" : [
+                {
+                    "gateway" : "10.128.90.1/23"
+                }
+            ]
+        },
+        {
+            "name" : "Server_BD",
+            "network" : "ApicScalectx1", 
+            "subnets" : [
+                {
+                    "gateway" : "10.128.174.1/23"
+                }
+            ]
+        }
+    ],
+    "PrivateNetwork" : [
+        {
+            "name" : "ApicScalectx1"
+        }
+    ],
+    "Contract" : [
+        {
+            "name" : "AviContract1",
+            "subject" : {
+                "name" : "Allow",
+                "filter" : "default",
+                "graph" : "AviGraph1"
+            }
+        },
+        {
+            "name" : "AviContract2",
+            "subject" : {
+                "name" : "Allow",
+                "filter" : "default",
+                "graph" : "AviGraph1"
+            }
+        }
+    ],
+    "Graph" : [
+        {
+            "name" : "AviGraph1",
+            "conn_out" : "L3",
+            "conn_int" : "L2"
+        }
+    ],
+    "AviController" : [
+        {
+            "ip" : "10.128.3.205",
+            "username" : "admin",
+            "password" : "avi123",
+            "Apic" : [
+                {
+                    "ip" : "10.128.3.2",
+                    "username" : "admin",
+                    "password" : "avinetworks",
+                    "domain" : "SantaClara_APIC",
+                    "vendor" : "Avi",
+                    "product" : "CADP"
+                }
+            ],
+            "VirtualService" : [
+                {
+                    "name" : "AviContract1:AviGraph1",
+                    "vip"  : "10.128.90.100",
+                    "services" : [
+                        { 
+                            "port" : "80",
+                            "enable_ssl" : false
+                        }
+                    ],
+                    "pool" : "AviContract1AviGraph1-pool",
+                    "network_security" : {
+                        "allow" : true,
+                        "groups" : ["web-group", "static-ip-group"]
+                    }
+                },
+                {
+                    "name" : "AviContract2:AviGraph1",
+                    "vip"  : "10.128.90.100",
+                    "services" : [
+                        { 
+                            "port" : "8080",
+                            "enable_ssl" : true
+                        }
+                    ],
+                    "pool" : "AviContract2AviGraph1-pool",
+                    "network_security" : {
+                        "allow" : false,
+                        "groups" : ["static-ip-group"]
+                    }
+                }
+            ],
+            "Pool" : [
+                {
+                    "name" : "AviContract1AviGraph1-Pool",
+                    "pool_epg" : "scale:app"
+                },
+                {
+                    "name" : "AviContract2AviGraph1-Pool",
+                    "pool_epg" : "scale:app"
+                }
+            ],
+            "IpAddrGroup" : [
+                {
+                    "name" : "web-group",
+                    "epg" : "scale:web"
+                },
+                {
+                    "name" : "static-ip-group",
+                    "addrs" : [ "10.128.90.37", "10.128.90.41"]
+                }
+            ]
+        }
+    ]
+}
