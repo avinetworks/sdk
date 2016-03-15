@@ -289,7 +289,9 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--password', help='controller user password',
                         default='avi123')
     parser.add_argument('-t', '--tenant', help='tenant name',
-                        default='admin')
+                        default=None)
+    parser.add_argument('--tenant-uuid', help='tenant uuid',
+                        default=None)
     parser.add_argument('-c', '--controller_ip', help='controller ip')
     parser.add_argument('-i', '--vip', help='VIP address')
 
@@ -302,9 +304,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     print 'parsed args', args
-    api = ApiSession(args.controller_ip, args.user, args.password,
-                 tenant=args.tenant)
-
+    api = ApiSession.get_session(args.controller_ip, args.user, args.password,
+                 tenant=args.tenant, tenant_uuid=args.tenant_uuid)
     servers = [server.strip() for server in args.server_ips.split(',')]
     vse = VirtualServiceExample(api)
 

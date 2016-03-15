@@ -45,7 +45,7 @@ def upload_config_to_controller(config_dict, controller_ip,
                                            cert_nmae)
                 if cert_obj:
                     cert_refs.append(session.get_obj_ref(cert_obj))
-                else:
+                elif not cert_refs:
                     cert_obj = session.get_object_by_name("sslkeyandcertificate",
                                            "System-Default-Cert")
                     cert_refs.append(session.get_obj_ref(cert_obj))
@@ -70,8 +70,7 @@ def upload_config_to_controller(config_dict, controller_ip,
 
 
 def create_pool(session, pool_obj):
-
-    monitors = pool_obj.get("health_monitor_refs",[])
+    monitors = pool_obj.get("health_monitor_refs", [])
     monitor_refs = []
     for monitor in monitors:
         if ":" in monitor:
@@ -84,6 +83,27 @@ def create_pool(session, pool_obj):
             continue
     if len(monitor_refs)>0:
         pool_obj["health_monitor_refs"] = monitor_refs
+
+    ssl_profile = pool_obj.get("ssl_profile_ref", None)
+    if ssl_profile:
+        if ":" in ssl_profile:
+            ssl_profile = ssl_profile.split(":")[1]
+        ssl_profile_obj = session.get_object_by_name("sslprofile",
+                                                     ssl_profile)
+        if ssl_profile_obj:
+            pool_obj["ssl_profile_ref"] = session.get_obj_ref(ssl_profile_obj)
+
+    ssl_key = pool_obj.get("ssl_key_and_certificate_ref", None)
+    if ssl_key and ":" in ssl_key:
+        ssl_key = ssl_key.split(":")[1]
+    if ssl_key:
+        cert_obj = session.get_object_by_name("sslkeyandcertificate", ssl_key)
+        if not cert_obj:
+            cert_obj = session.get_object_by_name("sslkeyandcertificate",
+                                           "System-Default-Cert")
+            LOG.warning("Not found key cert files for Pool :%s "
+                        "using System-Default-Cert insted"%pool_obj["name"])
+        pool_obj["ssl_key_and_certificate_ref"] = session.get_obj_ref(cert_obj)
 
     pool = None
     resp = session.post("pool", data=json.dumps(pool_obj))

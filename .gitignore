@@ -1,0 +1,57 @@
+# Object files
+*.o
+*.swp
+*.swo
+# Libraries
+*.lib
+*.a
+
+# Editor Artifacts
+*~
+.ropeproject
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.orig
+*.rej
+*.egg
+
+# dev environment files
+tags
+TAGS
+*.tags
+*.tgz
+cscope*
+
+# python 
+*.pyc
+*.pyo
+.cproject
+.project
+.pydevproject
+.metafiles*
+*.BAK
+.DS_Store
+._.DS_Store
+debug.txt
+CMAKE_BUILD_DIR
+.coverage
+
+#os x
+._.DS_Store
+
+# SDK output files
+python/avi/sdk/utils/f5_converter/parsedUnmatched.txt
+python/avi/sdk/utils/f5_converter/Output.json
+python/avi/sdk/utils/f5_converterOutput.json
+python/avi/sdk/utils/f5_converterparseUnmatched.txt
+python/avi/sdk/utils/f5_converterskipedConversion.json
+

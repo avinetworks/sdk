@@ -229,7 +229,12 @@ class MesosTestUtils(object):
 
         app_obj = json.loads(rsp.text)
         print ' application obj', app_obj
+
         app_obj = app_obj['app']
+         # see AV-7958; could also do it on uri to be forwards compatible rather than backwards
+        app_obj.pop('fetch', None)
+        print ' application obj after pop', app_obj
+
         for k, v in kwargs.iteritems():
             app_obj[k] = v
         del app_obj['version']
@@ -244,9 +249,14 @@ class MesosTestUtils(object):
         marathon_uri = marathon_uri + '/' + app_id + '?force=true'
         rsp = requests.get(marathon_uri, headers=self.MARATHON_HDRS)
         print 'get ', marathon_uri, 'response', rsp
+
         app_obj = json.loads(rsp.text)
         print ' application obj', app_obj
+
         app_obj = app_obj['app']
+         # see AV-7958; could also do it on uri to be forwards compatible rather than backwards
+        app_obj.pop('fetch', None)
+        print ' application obj after pop', app_obj
 
         avi_proxy = json.loads(app_obj['labels']['avi_proxy'])
         if not vs_obj:
@@ -305,13 +315,20 @@ class MesosTestUtils(object):
         log.debug('app id %s info %s', app_id, rsp_dict)
         return rsp_dict
 
+    def getAppInfos(self, marathon_ip):
+        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
+        rsp = requests.get(marathon_uri, headers=self.MARATHON_HDRS)
+        print 'all apps: ', rsp.text
+        all_apps = json.loads(rsp.text) if rsp.text else {}
+        log.debug('info %s', all_apps)
+        return all_apps
 
 if __name__ == '__main__':
     mapp_utils = MesosTestUtils()
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--command',
                         choices=['create-app', 'delete-app', 'update-cloud',
-                                 'show-app'],
+                                 'show-app', 'show-apps'],
                         help='lastest timestamp',
                         default='create-app')
     parser.add_argument('-a', '--app_name', help='Application Name',
@@ -379,4 +396,9 @@ if __name__ == '__main__':
             raise Exception('marathon IP is required')
         app_info = mapp_utils.getAppInfo(args.marathon_ip, args.app_name)
         print app_info
+    elif args.command == 'show-apps':
+        if not args.marathon_ip:
+            raise Exception('marathon IP is required')
+        app_infos = mapp_utils.getAppInfos(args.marathon_ip)
+        print app_infos
 

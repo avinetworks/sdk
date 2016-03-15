@@ -12,7 +12,7 @@ if os.path.exists("./VERSION"):
         AVI_PIP_VERSION = "%s.%s" % (fs["Version"], fs["build"])
 
 setup(
-    name = 'avi.sdk',
+    name = 'avisdk',
     version = AVI_PIP_VERSION,
     packages = find_packages(),
     description = 'Avi python sdk.',
@@ -26,6 +26,9 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
-    install_requires = ['requests'],
+    include_package_data=True,
+    install_requires = ['requests', 'pyyaml'],
+    package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.json', '*.key',
+                          '*.pem', '*.xml', '*.yaml']},
 )
 

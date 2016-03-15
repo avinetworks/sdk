@@ -37,11 +37,11 @@ def get_avi_pool_down_action(action):
         return "POOL_DOWN_ACTION_CLOSE_CONN"
 
 
-def is_monitor_available(monitor_name, monitor_config_list):
+def get_monitor_obj(monitor_name, monitor_config_list):
     for monitor in monitor_config_list:
         if monitor["name"] == monitor_name:
-            return True
-    return False
+            return monitor
+    return None
 
 
 def convert_pool_config(pool_config, nodes, tenant, monitor_config_list):
@@ -66,37 +66,47 @@ def convert_pool_config(pool_config, nodes, tenant, monitor_config_list):
                             "dns":"System-DNS", "tcp":"System-TCP",
                             "udp":"System-UDP","gateway_icmp":"System-Ping",
                             "icmp":"System-Ping"}
+        is_ssl = False
         if monitor_names:
             monitors = monitor_names.split(" and ")
             monitor_refs = []
             for monitor in monitors:
                 monitor = monitor.strip()
-                if monitor in default_monitors.keys():
+                monitor_obj = get_monitor_obj(monitor, monitor_config_list)
+                if monitor_obj:
+                    monitor_refs.append(monitor_obj["name"])
+                    if monitor_obj["type"] == "HEALTH_MONITOR_HTTPS":
+                        is_ssl = True
+                elif monitor in default_monitors.keys():
+                    if monitor == "https":
+                        is_ssl = True
                     monitor = tenant+":"+default_monitors[monitor]
-                    monitor_refs.append(monitor)
-                elif is_monitor_available(monitor, monitor_config_list):
                     monitor_refs.append(monitor)
                 else:
                     LOG.warning("Skiping non supported monitor: %s for pool %s"
                                 %(monitor,pool_name))
-
-
             pool_obj["health_monitor_refs"] = monitor_refs
+        if is_ssl:
+            pool_obj["ssl_profile_ref"] = "admin:System-Standard"
         pool_list.append(pool_obj)
         del pool_config[pool_name]
     return pool_list
 
 
-def get_ssl_profile(profiles):
+def get_ssl_profile(profiles, type, profile_config):
+    profile_names = []
     if not profiles:
-        return None
+        return []
     for name in profiles.keys():
         profile = profiles.get(name, None)
         if profile:
+            profile_obj = [obj for obj in profile_config if obj['name'] == name]
+            if name not in ("clientssl", "serverssl") and not profile_obj:
+                continue
             context = profile.get("context", None)
-            if context in ("clientside","serverside"):
-                return name
-    return None
+            if context == type:
+                profile_names.append(name)
+    return profile_names
 
 
 def is_pool_shared(pool_ref, vs_list):
@@ -118,22 +128,46 @@ def clone_pool(pool_name, vs_name, avi_pool_list):
         return new_pool["name"]
 
 
-def convert_vs_config(vs_congig, vs_state, tenant, avi_pool_list):
+def add_ssl_profile_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
+    if pool_ssl_profiles == "serverssl":
+        pool_ssl_profiles = tenant+":"+"System-Default-Cert"
+    for pool in avi_pool_list:
+        if pool_ref == pool["name"]:
+            pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles
+            if not pool.get("ssl_profile_ref",None):
+                pool["ssl_profile_ref"] = "admin:System-Standard"
+
+
+def convert_vs_config(vs_congig, vs_state, tenant, avi_pool_list,
+                      profile_config_list):
     vs_list = []
     for vs_name in vs_congig.keys():
         f5_vs = vs_congig[vs_name]
         enabled = (vs_state == 'enable')
-        ssl_profile_name = get_ssl_profile(f5_vs.get("profiles", None))
+        client_ssl_profiles = get_ssl_profile(f5_vs.get("profiles", None),
+                                              "clientside", profile_config_list)
         enable_ssl = False
-        if ssl_profile_name:
+        if client_ssl_profiles:
             enable_ssl = True
         parts = f5_vs["destination"].split(':')
         ip_addr = parts[0]
         port = parts[1] if len(parts) == 2 else 80
-        services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
+        if int(port) > 0:
+            services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
+        else:
+            services_obj = [{'port': 1, 'port_range_end' : 65535,
+                             'enable_ssl': enable_ssl}]
+
+
         pool_ref = f5_vs.get("pool", None)
         if pool_ref and is_pool_shared(pool_ref, vs_list):
             pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
+
+        pool_ssl_profiles = get_ssl_profile(f5_vs.get("profiles", None),
+                                      "serverside", profile_config_list)
+        if pool_ref and pool_ssl_profiles:
+            add_ssl_profile_to_pool(avi_pool_list, pool_ref,
+                                    pool_ssl_profiles[0], tenant)
 
         vs_obj = {
             'name': vs_name,
@@ -149,10 +183,11 @@ def convert_vs_config(vs_congig, vs_state, tenant, avi_pool_list):
             'pool_ref': pool_ref
         }
         if enable_ssl:
-            if ssl_profile_name in ("clientssl","serverssl"):
-                ssl_profile_name = tenant+":"+"System-Default-Cert"
+            for ssl_profile_name in client_ssl_profiles:
+                if ssl_profile_name == "clientssl":
+                    ssl_profile_name = tenant+":"+"System-Default-Cert"
             vs_obj['application_profile_name'] = 'System-Secure-HTTP'
-            vs_obj['ssl_key_and_certificate_refs'] = [ssl_profile_name]
+            vs_obj['ssl_key_and_certificate_refs'] = client_ssl_profiles
 
         vs_list.append(vs_obj)
         del vs_congig[vs_name]
@@ -337,22 +372,22 @@ def convert_profile_config(profile_config, certs_location, option):
 def convert_to_avi_dict(f5_config_dict, output_file_path,
                         vs_state, certs_location, tenant, option):
     avi_config_dict = {}
-    monitor_config_list = convert_monitor_config(f5_config_dict["monitor"])
+    monitor_config_list = convert_monitor_config(f5_config_dict.get(
+        "monitor", {}))
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
-    avi_pool_list = convert_pool_config(f5_config_dict["pool"],
-                                        f5_config_dict["node"], tenant,
+    avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}),
+                                        f5_config_dict.get("node", {}), tenant,
                                         monitor_config_list)
     avi_config_dict["Pool"] = avi_pool_list
     LOG.debug("Converted pools")
-
-    profile_config_list = convert_profile_config(f5_config_dict["profile"],
+    f5_profile_dict = f5_config_dict.get("profile", {})
+    profile_config_list = convert_profile_config(f5_profile_dict,
                                                  certs_location, option)
     avi_config_dict["SSLKeyAndCertificate"] = profile_config_list
     LOG.debug("Converted ssl profiles")
-
-    avi_vs_list = convert_vs_config(f5_config_dict["virtual"], vs_state,
-                                    tenant, avi_pool_list)
+    avi_vs_list = convert_vs_config(f5_config_dict.get("virtual", {}), vs_state,
+                                    tenant, avi_pool_list, profile_config_list)
     avi_config_dict["VirtualService"] = avi_vs_list
     LOG.debug("Converted VS")
     text_file = open(output_file_path+os.path.sep+"skipedConversion.json", "w")
