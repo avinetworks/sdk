@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config', default=11)
     parser.add_argument('-o', '--output_file_path',
-                        help='output file path', default='.')
+                        help='output file path', default='output')
     parser.add_argument('-O', '--option', choices=['cli-upload', 'api-upload'],
                         help='Output option', default='cli-upload')
     parser.add_argument('-u', '--user', help='controller user', default='admin')
