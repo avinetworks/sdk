@@ -9,6 +9,7 @@ from copy import deepcopy
 import json
 import math
 import requests
+from requests.auth import HTTPBasicAuth
 from string import Template
 import logging
 from avi.sdk.avi_api import ApiSession
@@ -125,8 +126,7 @@ class MesosTestUtils(object):
     1. Creation
     2. Deletion
     '''
-    MARATHON_URI = Template('http://$marathon_ip:8080/v2/apps')
-    MARATHON_HDRS = {'Content-Type': 'application/json'}
+    MARATHON_HDRS = {'Content-Type': 'application/json', "Accept": "application/json"}
     MARATHON_APP_TEMPLATES = {
         'default': DEFAULT_APP,
         'test-client': DEFAULT_CLIENT,
@@ -163,15 +163,17 @@ class MesosTestUtils(object):
         }
         return mesos_confg_obj
 
-    def createApp(self, marathon_ip, app_type, app_name, num_apps,
+    def createApp(self, marathon_url, app_type, app_name, num_apps,
                   num_instances=None, northsouth=0, vips=None,
-                  virtualservice=None, pool=None, ns_service_port=None, ew_service_port_start_index=None):
+                  virtualservice=None, pool=None,
+                  auth_type='', auth_token='', username='', password='',
+                  ns_service_port=None, ew_service_port_start_index=None):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
             pool = {}
 
-        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
+        marathon_uri = marathon_url + '/v2/apps'
         app_ids = []
         print 'type', app_type, 'name', app_name, 'ns', northsouth, 'vip', vips
         for index in range(num_apps):
@@ -214,49 +216,91 @@ class MesosTestUtils(object):
             if ew_service_port_start_index and not app_obj['labels'].get('FE-Proxy'):
                 app_obj['container']['docker']['portMappings'][0]['servicePort'] = int(ew_service_port_start_index) + index
 
-            rsp = requests.post(marathon_uri,
-                                data=json.dumps(app_obj),
-                                headers=self.MARATHON_HDRS)
+            headers=self.MARATHON_HDRS
+            if auth_type == 'token':
+                headers.update({'Authorization': 'token=%s'%str(auth_token)})
+            if auth_type == 'basic':
+                rsp = requests.post(marathon_uri,
+                                    data=json.dumps(app_obj),
+                                    auth=HTTPBasicAuth(username, password),
+                                    headers=headers)
+            else:
+                rsp = requests.post(marathon_uri,
+                                    data=json.dumps(app_obj),
+                                    headers=headers)
+            if rsp.status_code >= 300:
+                raise RuntimeError('failed to create app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
             print 'created app', app_id, app_obj, ' response ', rsp.text
         return app_ids
 
-    def updateAppConfig(self, marathon_ip, app_id, **kwargs):
-        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
-        marathon_uri = marathon_uri + '/' + app_id + '?force=true'
-        print 'get ', marathon_uri
-        rsp = requests.get(marathon_uri)
-        print 'response', rsp
+    def getAppInfo(self, marathon_url, app_id,
+                   auth_type='', auth_token='', username='', password=''):
+        marathon_uri = marathon_url + '/v2/apps'
+        marathon_uri += '/' + app_id
 
-        app_obj = json.loads(rsp.text)
-        print ' application obj', app_obj
+        headers=self.MARATHON_HDRS
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        if auth_type == 'basic':
+            rsp = requests.get(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
+        else:
+            rsp = requests.get(marathon_uri, headers=headers)
+        if rsp.status_code >= 300:
+                raise RuntimeError('failed to get app info, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print ' app id info ', app_id, ': ', rsp.text
+        rsp_dict = json.loads(rsp.text) if rsp.text else {}
+        log.debug('app id %s info %s', app_id, rsp_dict)
+        return rsp_dict
 
+    def getAppInfos(self, marathon_url,
+                    auth_type='', auth_token='', username='', password=''):
+        marathon_uri = marathon_url + '/v2/apps'
+        headers=self.MARATHON_HDRS
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        if auth_type == 'basic':
+            rsp = requests.get(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
+        else:
+            rsp = requests.get(marathon_uri, headers=headers)
+        if rsp.status_code >= 300:
+                raise RuntimeError('failed to get apps, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print 'all apps: ', rsp.text
+        all_apps = json.loads(rsp.text) if rsp.text else {}
+        log.debug('info %s', all_apps)
+        return all_apps
+
+    def updateAppConfig(self, marathon_url, app_id,
+                        auth_type='', auth_token='', username='', password='',
+                        **kwargs):
+        app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
-         # see AV-7958; could also do it on uri to be forwards compatible rather than backwards
+        # see https://github.com/mesosphere/marathon/issues/3054
+        # could also do it on uri to be forwards compatible rather than backwards
         app_obj.pop('fetch', None)
-        print ' application obj after pop', app_obj
 
         for k, v in kwargs.iteritems():
             app_obj[k] = v
         del app_obj['version']
 
-        rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                           headers=self.MARATHON_HDRS)
+        if auth_type == 'basic':
+            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                               auth=HTTPBasicAuth(username, password), headers=headers)
+        else:
+            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                               headers=headers)
+        if rsp.status_code >= 300:
+                raise RuntimeError('failed to update app config, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return rsp
 
-    def updateApp(self, marathon_ip, app_id, vs_obj=None, **kwargs):
-        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
-        marathon_uri = marathon_uri + '/' + app_id + '?force=true'
-        rsp = requests.get(marathon_uri, headers=self.MARATHON_HDRS)
-        print 'get ', marathon_uri, 'response', rsp
-
-        app_obj = json.loads(rsp.text)
-        print ' application obj', app_obj
-
+    def updateApp(self, marathon_url, app_id, vs_obj=None,
+                  auth_type='', auth_token='', username='', password='',
+                  **kwargs):
+        app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
-         # see AV-7958; could also do it on uri to be forwards compatible rather than backwards
+        # see https://github.com/mesosphere/marathon/issues/3054
+        # could also do it on uri to be forwards compatible rather than backwards
         app_obj.pop('fetch', None)
-        print ' application obj after pop', app_obj
 
         avi_proxy = json.loads(app_obj['labels']['avi_proxy'])
         if not vs_obj:
@@ -273,20 +317,35 @@ class MesosTestUtils(object):
         app_obj['labels']['avi_proxy']= json.dumps(avi_proxy)
         del app_obj['version']
         log.info('uri %s app %s', marathon_uri, app_obj)
-        rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                           headers=self.MARATHON_HDRS)
 
+        if auth_type == 'basic':
+            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                               auth=HTTPBasicAuth(username, password), headers=headers)
+        else:
+            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                               headers=headers)
+        if rsp.status_code >= 300:
+                raise RuntimeError('failed to update app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return app_obj
 
-    def deleteApp(self, marathon_ip, app_name, num_apps):
+    def deleteApp(self, marathon_url, app_name, num_apps,
+                  auth_type='', auth_token='', username='', password=''):
         app_ids = []
+        base_marathon_uri = marathon_url + '/v2/apps'
+        headers=self.MARATHON_HDRS
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
         for index in range(num_apps):
             app_id = (app_name + '-' + str(index + 1)
                       if num_apps > 1 else app_name)
-            marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
-            marathon_uri = marathon_uri + '/' + app_id
-            rsp = requests.delete(marathon_uri, headers=self.MARATHON_HDRS)
+            marathon_uri = base_marathon_uri + '/' + app_id
+            if auth_type == 'basic':
+                rsp = requests.delete(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
+            else:
+                rsp = requests.delete(marathon_uri, headers=headers)
+            if rsp.status_code >= 300:
+                raise RuntimeError('failed to delete app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
             print ' deleted app', app_id, ' rsp ', rsp.text
             app_ids.append(app_id)
         return app_ids
@@ -306,23 +365,6 @@ class MesosTestUtils(object):
                                     data=json.dumps(cloud_data))
         print 'updated cloud', cloud_data
 
-    def getAppInfo(self, marathon_ip, app_id):
-        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
-        marathon_uri += '/' + app_id
-        rsp = requests.get(marathon_uri, headers=self.MARATHON_HDRS)
-        print ' app id info ', app_id, ': ', rsp.text
-        rsp_dict = json.loads(rsp.text) if rsp.text else {}
-        log.debug('app id %s info %s', app_id, rsp_dict)
-        return rsp_dict
-
-    def getAppInfos(self, marathon_ip):
-        marathon_uri = self.MARATHON_URI.substitute(marathon_ip=marathon_ip)
-        rsp = requests.get(marathon_uri, headers=self.MARATHON_HDRS)
-        print 'all apps: ', rsp.text
-        all_apps = json.loads(rsp.text) if rsp.text else {}
-        log.debug('info %s', all_apps)
-        return all_apps
-
 if __name__ == '__main__':
     mapp_utils = MesosTestUtils()
     parser = argparse.ArgumentParser()
@@ -336,8 +378,8 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--num_apps',
                         help='Number of Applications',
                         default=1, type=int)
-    parser.add_argument('-m', '--marathon_ip',
-                        help='IP address of the marathon')
+    parser.add_argument('-m', '--marathon_url',
+                        help='address of the marathon service')
     parser.add_argument('-f', '--fleet_endpoint_ip',
                         help='IP address of the fleet')
     parser.add_argument('-s', '--se_folder',
@@ -365,7 +407,7 @@ if __name__ == '__main__':
     print 'parsed args', args
 
     if args.command == 'create-app':
-        if not args.marathon_ip:
+        if not args.marathon_url:
             raise Exception('marathon IP is required')
         pool = None
         if args.autoscalepolicy:
@@ -378,27 +420,27 @@ if __name__ == '__main__':
             pool['capacity_estimation'] = True
             pool['capacity_estimation_ttfb_thresh'] = 10
 
-        mapp_utils.createApp(args.marathon_ip, args.app_type,
+        mapp_utils.createApp(args.marathon_url, args.app_type,
                              args.app_name, args.num_apps, args.instances,
                              northsouth=args.northsouth,
                              vips=args.vip.split(','), pool=pool)
     elif args.command == 'delete-app':
-        if not args.marathon_ip:
-            raise Exception('marathon IP is required')
-        mapp_utils.deleteApp(args.marathon_ip, args.app_name, args.num_apps)
+        if not args.marathon_url:
+            raise Exception('marathon URL is required')
+        mapp_utils.deleteApp(args.marathon_url, args.app_name, args.num_apps)
     elif args.command == 'update-cloud':
         api = ApiSession.get_session(args.controller_ip, 'admin', 'avi123', tenant='admin')
-        mapp_utils.updateMesosCloud(api, args.marathon_ip,
+        mapp_utils.updateMesosCloud(api, args.marathon_url,
                                     args.fleet_endpoint_ip,
                                     args.se_folder, args.east_west_subnet)
     elif args.command == 'show-app':
-        if not args.marathon_ip:
-            raise Exception('marathon IP is required')
-        app_info = mapp_utils.getAppInfo(args.marathon_ip, args.app_name)
+        if not args.marathon_url:
+            raise Exception('marathon URL is required')
+        app_info = mapp_utils.getAppInfo(args.marathon_url, args.app_name)
         print app_info
     elif args.command == 'show-apps':
-        if not args.marathon_ip:
-            raise Exception('marathon IP is required')
-        app_infos = mapp_utils.getAppInfos(args.marathon_ip)
+        if not args.marathon_url:
+            raise Exception('marathon URL is required')
+        app_infos = mapp_utils.getAppInfos(args.marathon_url)
         print app_infos
 
