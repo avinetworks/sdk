@@ -166,7 +166,7 @@ class MesosTestUtils(object):
     def createApp(self, marathon_url, app_type, app_name, num_apps,
                   num_instances=None, northsouth=0, vips=None,
                   virtualservice=None, pool=None,
-                  auth_type='', auth_token='', username='', password='',
+                  auth_type=None, auth_token=None, username=None, password=None,
                   ns_service_port=None, ew_service_port_start_index=None):
         if virtualservice is None:
             virtualservice = {}
@@ -216,61 +216,57 @@ class MesosTestUtils(object):
             if ew_service_port_start_index and not app_obj['labels'].get('FE-Proxy'):
                 app_obj['container']['docker']['portMappings'][0]['servicePort'] = int(ew_service_port_start_index) + index
 
-            headers=self.MARATHON_HDRS
+            headers = self.MARATHON_HDRS
+            auth = None
             if auth_type == 'token':
                 headers.update({'Authorization': 'token=%s'%str(auth_token)})
-            if auth_type == 'basic':
-                rsp = requests.post(marathon_uri,
-                                    data=json.dumps(app_obj),
-                                    auth=HTTPBasicAuth(username, password),
-                                    headers=headers)
-            else:
-                rsp = requests.post(marathon_uri,
-                                    data=json.dumps(app_obj),
-                                    headers=headers)
+            elif auth_type == 'basic':
+                auth=HTTPBasicAuth(username, password)
+            rsp = requests.post(marathon_uri, data=json.dumps(app_obj),
+                                auth = auth, headers=headers)
             if rsp.status_code >= 300:
                 raise RuntimeError('failed to create app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
             print 'created app', app_id, app_obj, ' response ', rsp.text
         return app_ids
 
     def getAppInfo(self, marathon_url, app_id,
-                   auth_type='', auth_token='', username='', password=''):
+                   auth_type=None, auth_token=None, username=None, password=None):
         marathon_uri = marathon_url + '/v2/apps'
         marathon_uri += '/' + app_id
 
-        headers=self.MARATHON_HDRS
+        headers = self.MARATHON_HDRS
+        auth = None
         if auth_type == 'token':
             headers.update({'Authorization': 'token=%s'%str(auth_token)})
-        if auth_type == 'basic':
-            rsp = requests.get(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
-        else:
-            rsp = requests.get(marathon_uri, headers=headers)
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.get(marathon_uri, auth=auth, headers=headers)
         if rsp.status_code >= 300:
-                raise RuntimeError('failed to get app info, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+            raise RuntimeError('failed to get app info, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print ' app id info ', app_id, ': ', rsp.text
         rsp_dict = json.loads(rsp.text) if rsp.text else {}
         log.debug('app id %s info %s', app_id, rsp_dict)
         return rsp_dict
 
     def getAppInfos(self, marathon_url,
-                    auth_type='', auth_token='', username='', password=''):
+                    auth_type=None, auth_token=None, username=None, password=None):
         marathon_uri = marathon_url + '/v2/apps'
-        headers=self.MARATHON_HDRS
+        headers = self.MARATHON_HDRS
+        auth = None
         if auth_type == 'token':
             headers.update({'Authorization': 'token=%s'%str(auth_token)})
-        if auth_type == 'basic':
-            rsp = requests.get(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
-        else:
-            rsp = requests.get(marathon_uri, headers=headers)
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.get(marathon_uri, auth=auth, headers=headers)
         if rsp.status_code >= 300:
-                raise RuntimeError('failed to get apps, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+            raise RuntimeError('failed to get apps, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'all apps: ', rsp.text
         all_apps = json.loads(rsp.text) if rsp.text else {}
         log.debug('info %s', all_apps)
         return all_apps
 
     def updateAppConfig(self, marathon_url, app_id,
-                        auth_type='', auth_token='', username='', password='',
+                        auth_type=None, auth_token=None, username=None, password=None,
                         **kwargs):
         app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
@@ -282,19 +278,21 @@ class MesosTestUtils(object):
             app_obj[k] = v
         del app_obj['version']
 
-        if auth_type == 'basic':
-            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                               auth=HTTPBasicAuth(username, password), headers=headers)
-        else:
-            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                               headers=headers)
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                           auth=auth, headers=headers)
         if rsp.status_code >= 300:
-                raise RuntimeError('failed to update app config, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+            raise RuntimeError('failed to update app config, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return rsp
 
     def updateApp(self, marathon_url, app_id, vs_obj=None,
-                  auth_type='', auth_token='', username='', password='',
+                  auth_type=None, auth_token=None, username=None, password=None,
                   **kwargs):
         app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
@@ -318,32 +316,34 @@ class MesosTestUtils(object):
         del app_obj['version']
         log.info('uri %s app %s', marathon_uri, app_obj)
 
-        if auth_type == 'basic':
-            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                               auth=HTTPBasicAuth(username, password), headers=headers)
-        else:
-            rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
-                               headers=headers)
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                           auth=auth, headers=headers)
         if rsp.status_code >= 300:
-                raise RuntimeError('failed to update app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+            raise RuntimeError('failed to update app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return app_obj
 
     def deleteApp(self, marathon_url, app_name, num_apps,
-                  auth_type='', auth_token='', username='', password=''):
+                  auth_type=None, auth_token=None, username=None, password=None):
         app_ids = []
         base_marathon_uri = marathon_url + '/v2/apps'
-        headers=self.MARATHON_HDRS
+        headers = self.MARATHON_HDRS
+        auth = None
         if auth_type == 'token':
             headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
         for index in range(num_apps):
             app_id = (app_name + '-' + str(index + 1)
                       if num_apps > 1 else app_name)
             marathon_uri = base_marathon_uri + '/' + app_id
-            if auth_type == 'basic':
-                rsp = requests.delete(marathon_uri, auth=HTTPBasicAuth(username, password), headers=headers)
-            else:
-                rsp = requests.delete(marathon_uri, headers=headers)
+            rsp = requests.delete(marathon_uri, auth=auth, headers=headers)
             if rsp.status_code >= 300:
                 raise RuntimeError('failed to delete app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
             print ' deleted app', app_id, ' rsp ', rsp.text
