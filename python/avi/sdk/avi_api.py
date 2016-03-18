@@ -369,14 +369,14 @@ class ApiSessionAdapter:
         Adapter settings.
         """
         self.api = api
+        new_headers = copy.deepcopy(api.headers)
         if headers:
-            new_headers = copy.deepcopy(api.headers)
             new_headers.update(headers)
-            self.adapter_args["headers"] = new_headers
+        self.adapter_args["headers"] = new_headers
+        new_cookies = copy.deepcopy(api.cookies)
         if cookies:
-            new_cookies = copy.deepcopy(api.cookies)
             new_cookies.update(cookies)
-            self.adapter_args["cookies"] = new_cookies
+        self.adapter_args["cookies"] = new_cookies
         if hooks:
             self.adapter_args["hooks"] = hooks
         if tenant:
@@ -384,7 +384,7 @@ class ApiSessionAdapter:
                 "X-Avi-Tenant": "%s" % tenant})
         elif tenant_uuid:
             self.adapter_args["headers"].update({
-                "X-Avi-Tenant-UUID": "%s" % tenant})
+                "X-Avi-Tenant-UUID": "%s" % tenant_uuid})
         return
 
     def get(self, path, **kwargs):
