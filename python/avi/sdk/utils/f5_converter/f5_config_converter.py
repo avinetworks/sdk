@@ -70,6 +70,7 @@ def convert_pool_config(pool_config, nodes, tenant,
                         monitor_config_list, conversion_status):
     """
     Convert list of pools from F5 config to Avi config
+    :param conversion_status: Dict maintains conversion status of all objects
     :param pool_config: F5 pool config
     :param nodes: F5 node list to resolve server IPs
     :param tenant: name of tenant for default objects
@@ -97,10 +98,10 @@ def convert_pool_config(pool_config, nodes, tenant,
         monitor_names = f5_pool.get("monitor", None)
         default_monitors = {"http": "System-HTTP", "https": "System-HTTPS",
                             "dns": "System-DNS", "tcp": "System-TCP",
-                            "udp": "System-UDP","gateway_icmp": "System-Ping",
+                            "udp": "System-UDP", "gateway_icmp": "System-Ping",
                             "icmp": "System-Ping"}
         is_ssl = False
-        skipped_monitors =[]
+        skipped_monitors = []
         if monitor_names:
             monitors = monitor_names.split(" and ")
             monitor_refs = []
@@ -133,27 +134,71 @@ def convert_pool_config(pool_config, nodes, tenant,
         if skipped_monitors:
             skipped.append({"Unsupported monitors": skipped_monitors})
         if skipped:
-            conversion_status["partial_conversion"].append(
-                {"pool "+pool_name: skipped})
+            conv_stat = conversion_status["partial_conversion"].get("pool", [])
+            conv_stat.append({pool_name: skipped})
+            conversion_status["partial_conversion"]["pool"] = conv_stat
         else:
             conversion_status["successful_conversion"].append("pool "+pool_name)
     return pool_list
 
 
-def get_ssl_profile(profiles, type, profile_config):
-    profile_names = []
+def get_profiles_for_vs(profiles, profile_config, tenant):
+    vs_ssl_profile_names = []
+    pool_ssl_profile_names = []
+    app_profile_names = []
     if not profiles:
         return []
     for name in profiles.keys():
-        profile = profiles.get(name, None)
-        if profile:
-            profile_obj = [obj for obj in profile_config if obj['name'] == name]
-            if name not in ("clientssl", "serverssl") and not profile_obj:
+        ssl_profiles = [obj for obj in profile_config["ssl_profile_list"]
+                        if obj['name'] == name]
+        if ssl_profiles or name in ["clientssl", "serverssl"]:
+            if not ssl_profiles and name == "clientssl":
+                vs_ssl_profile_names.append(tenant+":System-Standard")
                 continue
+            if not ssl_profiles and name == "serverssl":
+                pool_ssl_profile_names.append(tenant+":System-Standard")
+                continue
+            profile = profiles.get(name, None)
             context = profile.get("context", None)
-            if context == type:
-                profile_names.append(name)
-    return profile_names
+            if context == "clientside":
+                vs_ssl_profile_names.append(name)
+            elif context == "serverside":
+                pool_ssl_profile_names.append(name)
+        app_profiles = [obj for obj in profile_config["app_profile_list"]
+                        if obj['name'] == name]
+        if app_profiles or name in ["http", "dns",
+                                    "web-acceleration", "http-compression"]:
+            if not app_profiles and name == "http":
+                app_profile_names.append(tenant+":System-HTTP")
+            elif not app_profiles and name == "dns":
+                app_profile_names.append(tenant+":System-DNS")
+            elif not app_profiles and name == "web-acceleration":
+                app_profile = dict()
+                http_profile = dict()
+                app_profile['name'] = "web-acceleration"
+                app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
+                cache_config = dict()
+                cache_config['query_cacheable'] = True
+                cache_config['enabled'] = True
+                http_profile["cache_config"] = cache_config
+                app_profile["http_profile"] = http_profile
+                profile_config["app_profile_list"].append(app_profile)
+                app_profile_names.append("web-acceleration")
+            elif not app_profiles and name == "http-compression":
+                app_profile = dict()
+                http_profile = dict()
+                app_profile['name'] = "http-compression"
+                app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
+                compression_profile = dict()
+                compression_profile["type"] = "AUTO_COMPRESSION"
+                compression_profile["compression"] = True
+                http_profile["compression_profile"] = compression_profile
+                app_profile["http_profile"] = http_profile
+                profile_config["app_profile_list"].append(app_profile)
+                app_profile_names.append("http-compression")
+            else:
+                app_profile_names.append(name)
+    return vs_ssl_profile_names, pool_ssl_profile_names, app_profile_names
 
 
 def is_pool_shared(pool_ref, vs_list):
@@ -190,7 +235,7 @@ def clone_pool(pool_name, vs_name, avi_pool_list):
         return new_pool["name"]
 
 
-def add_ssl_profile_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
+def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
     """
     F5 serverside SSL need to be added to pool if VS contains serverside SSL
     profile this method add that profile to pool
@@ -216,8 +261,9 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
     :param vs_state: state of new VS to be created in Avi
     :param tenant: tenant name for default object
     :param avi_pool_list: List of pools to handle shared pool scenario
-    :param profile_config: Avi profile config
-    referenced in vs
+    :param profile_config: Avi profile config for profiles referenced in vs
+    :param conversion_status: Dict maintains conversion status of all objects
+
     :return: List of Avi VS configs
     """
     vs_list = []
@@ -227,12 +273,16 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         skipped_attr = [key for key in f5_vs.keys() if
                         key not in supported_attr]
         enabled = (vs_state == 'enable')
-        client_ssl_profiles = get_ssl_profile(
-            f5_vs.get("profiles", None),"clientside",
-            profile_config["ssl_key_cert_list"])
+        ssl_vs, ssl_pool, app_prof = get_profiles_for_vs(f5_vs.get(
+            "profiles", None), profile_config, tenant)
+        if not app_prof:
+            app_prof = [tenant+':System-HTTP']
         enable_ssl = False
-        if client_ssl_profiles:
+        if ssl_vs:
             enable_ssl = True
+            if app_prof[0] == (tenant+':System-HTTP'):
+                app_prof[0] = tenant+':System-Secure-HTTP'
+
         parts = f5_vs["destination"].split(':')
         ip_addr = parts[0]
         port = parts[1] if len(parts) == 2 else 80
@@ -246,12 +296,8 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         if pool_ref and is_pool_shared(pool_ref, vs_list):
             pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
 
-        pool_ssl_profiles = get_ssl_profile(
-            f5_vs.get("profiles", None), "serverside",
-            profile_config["ssl_key_cert_list"])
-        if pool_ref and pool_ssl_profiles:
-            add_ssl_profile_to_pool(avi_pool_list, pool_ref,
-                                    pool_ssl_profiles[0], tenant)
+        if pool_ref and ssl_pool:
+            add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0], tenant)
 
         vs_obj = {
             'name': vs_name,
@@ -262,61 +308,64 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
             },
             'enabled': enabled,
             'services': services_obj,
-            'ssl_profile_name': 'System-Standard',
-            'application_profile_name': 'System-HTTP',
+            'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
         if enable_ssl:
             default_cert = tenant+":"+"System-Default-Cert"
-            client_ssl_profiles = [word.replace('clientssl', default_cert)
-                                   for word in client_ssl_profiles]
-            vs_obj['application_profile_name'] = 'System-Secure-HTTP'
-            vs_obj['ssl_key_and_certificate_refs'] = client_ssl_profiles
+            vs_obj['ssl_profile_name'] = ssl_vs[0]
+            if 'System-Standard' in ssl_vs[0]:
+                vs_obj['ssl_key_and_certificate_refs'] = [default_cert]
+            else:
+                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]]
 
         vs_list.append(vs_obj)
         if skipped_attr:
-            conversion_status["partial_conversion"].append(
-                {"virtual "+vs_name: skipped_attr})
+            conv_stat = conversion_status[
+                "partial_conversion"].get("virtual", [])
+            conv_stat.append({vs_name: skipped_attr})
+            conversion_status["partial_conversion"]["virtual"] = conv_stat
         else:
-            conversion_status["successful_conversion"].append("virtual "+vs_name)
+            conversion_status["successful_conversion"].append(
+                "virtual "+vs_name)
 
     return vs_list
 
 
-def get_defaults(type, f5_monitor, monitor_config):
+def get_defaults(monitor_type, f5_monitor, monitor_config):
     """
     Monitor can have inheritance used by attribute defaults-from in F5
     configuration this method recursively gets all the attributes from the
     default objects and forms complete object
-    :param type: Monitor type
+    :param monitor_type: Monitor type
     :param f5_monitor: F5 monitor object
     :param monitor_config: List of F5 monitor configs
     :return:
     """
     parent_name = f5_monitor.get("defaults-from", None)
     if parent_name:
-        parent_monitor = monitor_config.get(type+" "+parent_name, None)
+        parent_monitor = monitor_config.get(monitor_type+" "+parent_name, None)
         if parent_monitor:
-            parent_monitor = get_defaults(type, parent_monitor, monitor_config)
+            parent_monitor = get_defaults(monitor_type,
+                                          parent_monitor, monitor_config)
             parent_monitor = copy.deepcopy(parent_monitor)
             parent_monitor.update(f5_monitor)
             f5_monitor = parent_monitor
     return f5_monitor
 
 
-def convert_monitor_entity(type, name, f5_monitor):
+def convert_monitor_entity(monitor_type, name, f5_monitor):
     """
     Conversion of single F5 monitor object to Avi health monitor object
-    :param type: Health monitor type
+    :param monitor_type: Health monitor type
     :param name: name of health monitor
     :param f5_monitor: F5 monitor config object
     :return: Avi monitor config object
     """
-    skiped_attr = []
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description"]
-    skiped = [key for key in f5_monitor.keys() if key not in
-                  supported_attributes]
+    skiped = [key for key in f5_monitor.keys() if
+              key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", 16))
     interval = int(f5_monitor.get("interval", 5))
     time_until_up = int(f5_monitor.get("time-until-up", 1))
@@ -335,21 +384,21 @@ def convert_monitor_entity(type, name, f5_monitor):
     if description:
         monitor_dict["description"] = description
 
-    if type == "http":
+    if monitor_type == "http":
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": "HEAD / HTTP/1.0",
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
-    elif type == "https":
+    elif monitor_type == "https":
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": "HEAD / HTTP/1.0",
             "http_response_code": [
-            {"code": "HTTP_2XX"},{"code": "HTTP_3XX"}
+                {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
-    elif type == "dns":
+    elif monitor_type == "dns":
         skiped = [key for key in skiped if key not in ["accept-rcode"]]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         if accept_rcode and accept_rcode == "no-error":
@@ -357,42 +406,43 @@ def convert_monitor_entity(type, name, f5_monitor):
         else:
             rcode = "RCODE_ANYTHING"
         monitor_dict["type"] = "HEALTH_MONITOR_DNS"
-        dns_monitor = {"rcode": rcode}
+        dns_monitor = dict()
+        dns_monitor["rcode"] = rcode
         dns_monitor["query_name"] = f5_monitor.get("qname", None)
         dns_monitor["qtype"] = "DNS_QUERY_TYPE"
         monitor_dict["dns_monitor"] = dns_monitor
-    elif type == "tcp":
-        tcp_attr = ["destination","send", "recv"]
+    elif monitor_type == "tcp":
+        tcp_attr = ["destination", "send", "recv"]
         skiped = [key for key in skiped if key not in tcp_attr]
         destination = f5_monitor.get("destination", "*:*")
-        str = destination.split(":")
-        if len(str) > 1 and isinstance(str[1], numbers.Integral):
-            monitor_dict["monitor_port"] = str[1]
+        dest_str = destination.split(":")
+        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-    elif type == "udp":
-        udp_attr = ["destination","send", "recv"]
+    elif monitor_type == "udp":
+        udp_attr = ["destination", "send", "recv"]
         skiped = [key for key in skiped if key not in udp_attr]
         destination = f5_monitor.get("destination", "*:*")
-        str = destination.split(":")
-        if len(str) > 1 and isinstance(str[1], numbers.Integral):
-            monitor_dict["monitor_port"] = str[1]
-        monitor_dict["type"]="HEALTH_MONITOR_UDP"
+        dest_str = destination.split(":")
+        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
+        monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
         if request or response:
             tcp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-    elif type in ["gateway-icmp", "icmp"]:
-        monitor_dict["type"]="HEALTH_MONITOR_PING"
-    elif type == "external":
-        ext_attr = ["run","args", "user-defined"]
+    elif monitor_type in ["gateway-icmp", "icmp"]:
+        monitor_dict["type"] = "HEALTH_MONITOR_PING"
+    elif monitor_type == "external":
+        ext_attr = ["run", "args", "user-defined"]
         skiped = [key for key in skiped if key not in ext_attr]
-        monitor_dict["type"]="HEALTH_MONITOR_EXTERNAL"
+        monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
             "command_code": f5_monitor.get("run", None),
             "command_parameters": f5_monitor.get("args", None),
@@ -406,6 +456,7 @@ def convert_monitor_config(monitor_config, conversion_status):
     """
     Convert F5 monitor config dict to Avi health monitor config list
     :param monitor_config: F5 monitor config dict
+    :param conversion_status: Dict maintains conversion status of all objects
     :return: List of Avi health monitor objects
     """
     monitor_list = []
@@ -413,8 +464,8 @@ def convert_monitor_config(monitor_config, conversion_status):
     supported_types = ["http", "https", "dns", "external", "tcp", "udp",
                        "gateway-icmp", "icmp"]
     for key in monitor_config.keys():
-        type, name = key.split(" ")
-        if type not in supported_types:
+        monitor_type, name = key.split(" ")
+        if monitor_type not in supported_types:
             LOG.debug("Monitor type not supported by Avi : "+name)
             conversion_status["skipped_conversion"].append("monitor "+name)
             continue
@@ -422,13 +473,14 @@ def convert_monitor_config(monitor_config, conversion_status):
         if not f5_monitor:
             conversion_status["skipped_conversion"].append("monitor "+name)
             continue
-        f5_monitor = get_defaults(type, f5_monitor, monitor_config)
+        f5_monitor = get_defaults(monitor_type, f5_monitor, monitor_config)
         avi_monitor, skipped_attr = convert_monitor_entity(
-            type, name, f5_monitor)
+            monitor_type, name, f5_monitor)
         if skipped_attr:
-            conversion_status["partial_conversion"].append(
-                {"monitor "+name: {"Unsupported attributes"
-                                   : skipped_attr}})
+            conv_stat = conversion_status[
+                "partial_conversion"].get("monitor", [])
+            conv_stat.append({name: skipped_attr})
+            conversion_status["partial_conversion"]["monitor"] = conv_stat
         else:
             conversion_status["successful_conversion"].append("monitor "+name)
         monitor_list.append(avi_monitor)
@@ -473,21 +525,23 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
     return ssl_kc_obj
 
 
-def update_with_default_profile(type, profile, profile_config):
+def update_with_default_profile(profile_type, profile, profile_config):
     """
     Profiles can have inheritance used by attribute defaults-from in F5
     configuration this method recursively gets all the attributes from the
     default objects and forms complete object
-    :param type: type of profile
+    :param profile_type: type of profile
     :param profile: currant profile object
     :param profile_config: F5 profile config dict
     :return: Complete profile with updated attributes from defaults
     """
     parent_name = profile.get("defaults-from", None)
     if parent_name:
-        parent_profile = profile_config.get(type+" "+parent_name, None)
+        parent_profile = profile_config.get(profile_type + " " +
+                                            parent_name, None)
         if parent_profile:
-            parent_profile = get_defaults(type, parent_profile, profile_config)
+            parent_profile = get_defaults(profile_type,
+                                          parent_profile, profile_config)
             parent_profile = copy.deepcopy(parent_profile)
             parent_profile.update(profile)
             profile = parent_profile
@@ -496,6 +550,15 @@ def update_with_default_profile(type, profile, profile_config):
 
 def convert_profile_config(profile_config, certs_location,
                            option, conversion_status):
+    """
+    Converts F5 profiles to equivalent Avi profiles
+    :param profile_config: F5 Profile config dict
+    :param certs_location: location of cert and key file location
+    :param option: api-upload or cli-file both requires different
+    object structure
+    :param conversion_status: Dict maintains conversion status of all objects
+    :return:
+    """
     ssl_key_cert_list = []
     app_profile_list = []
     ssl_profile_list = []
@@ -503,16 +566,17 @@ def convert_profile_config(profile_config, certs_location,
     string_group = []
     network_profile_list = []
     for key in profile_config.keys():
-        type, name = key.split(" ")
+        profile_type, name = key.split(" ")
         profile = profile_config[key]
         skipped = profile.keys()
-        profile = update_with_default_profile(type, profile, profile_config)
-        if type in ("client-ssl", "server-ssl"):
+        profile = update_with_default_profile(profile_type,
+                                              profile, profile_config)
+        if profile_type in ("client-ssl", "server-ssl"):
             supported_attr = ["cert-key-chain", "cert", "key",
                               "ciphers", "unclean-shutdown",
                               "crl-file", "ca-file"]
-            skipped = [key for key in profile.keys() if key not in
-                  supported_attr]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
             cert_obj = profile.get("cert-key-chain", None)
             key_file = None
             cert_file = None
@@ -524,8 +588,8 @@ def convert_profile_config(profile_config, certs_location,
                 cert_file = profile["cert"]
                 key_file = profile["key"]
             if key_file and cert_file:
-                key_cert_obj = get_key_cert_obj(name, key_file, cert_file,
-                                    certs_location, option)
+                key_cert_obj = get_key_cert_obj(
+                    name, key_file, cert_file, certs_location, option)
             if key_cert_obj:
                 ssl_key_cert_list.append(key_cert_obj)
             ciphers = profile.get('ciphers', 'DEFAULT')
@@ -542,11 +606,11 @@ def convert_profile_config(profile_config, certs_location,
             options = profile.get("options", "")
             options = options.keys()+options.values()
             accepted_versions = []
-            if not "no-tls" in options:
+            if "no-tls" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1"})
-            if not "no-tlsv1.1" in options:
+            if "no-tlsv1.1" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_1"})
-            if not "no-tlsv1.2" in options:
+            if "no-tlsv1.2" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
             if accepted_versions:
                 ssl_profile["accepted_versions"] = accepted_versions
@@ -566,6 +630,7 @@ def convert_profile_config(profile_config, certs_location,
                 pki_profile = dict()
                 file_path = certs_location+os.path.sep+ca_file_name
                 pki_profile["name"] = name
+                error = False
                 try:
                     ca_file = open(file_path, "r")
                     ca = ca_file.read()
@@ -573,21 +638,24 @@ def convert_profile_config(profile_config, certs_location,
                 except:
                     LOG.error("Error to read file" +
                               certs_location+os.path.sep+ca_file_name)
+                    error = True
                 if crl_file_name:
                     file_path = certs_location+os.path.sep+crl_file_name
                     try:
                         crl_file = open(file_path, "r")
                         crl = crl_file.read()
-                        pki_profile["crls"] =[{'body': crl}]
+                        pki_profile["crls"] = [{'body': crl}]
                     except:
                         LOG.error("Error to read file" +
                                   certs_location+os.path.sep+crl_file_name)
-                pki_profile_list.append(pki_profile)
-        elif type == 'http':
+                        error = True
+                if not error:
+                    pki_profile_list.append(pki_profile)
+        elif profile_type == 'http':
             supported_attr = ["description", "insert-xforwarded-for",
                               "enforcement", "ciphers", "unclean-shutdown"]
-            skipped = [key for key in profile.keys() if key not in
-                  supported_attr]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -601,23 +669,23 @@ def convert_profile_config(profile_config, certs_location,
             if enforcement:
                 header_size = enforcement.get('max-header-size', 49152)
                 http_profile['client_max_header_size'] = int(header_size)/1024
-                enf_skipped = [key for key in enforcement.keys() if key not in
-                  ["max-header-size"]]
+                enf_skipped = [key for key in enforcement.keys()
+                               if key not in ["max-header-size"]]
                 skipped.append({"enforcement": enf_skipped})
             app_profile["http_profile"] = http_profile
             app_profile_list.append(app_profile)
-        elif type == 'dns':
+        elif profile_type == 'dns':
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             app_profile['description'] = profile.get('description', None)
             app_profile_list.append(app_profile)
-        elif type == 'web-acceleration':
+        elif profile_type == 'web-acceleration':
             supported_attr = ["description", "cache-object-min-size",
-                               "cache-max-age", "cache-object-max-size",
+                              "cache-max-age", "cache-object-max-size",
                               "cache-insert-age-header"]
-            skipped = [key for key in profile.keys() if key not in
-                  supported_attr]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -638,12 +706,15 @@ def convert_profile_config(profile_config, certs_location,
             # max_entities = profile.get('cache-max-entries', 0)
             # cache_config['max_cache_size'] = \
             #     (int(max_entities) * int(cache_config['max_object_size']))
+            http_profile = dict()
+            http_profile["cache_config"] = cache_config
+            app_profile["http_profile"] = http_profile
             app_profile_list.append(app_profile)
-        elif type == 'http-compression':
+        elif profile_type == 'http-compression':
             supported_attr = ["description", "content-type-include",
                               "keep-accept-encoding"]
-            skipped = [key for key in profile.keys() if key not in
-                  supported_attr]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -674,12 +745,14 @@ def convert_profile_config(profile_config, certs_location,
             app_profile["http_profile"] = http_profile
             app_profile_list.append(app_profile)
         else:
-            LOG.warning("Not supported profile type: %s"%type)
+            LOG.warning("Not supported profile type: %s" % profile_type)
             conversion_status["skipped_conversion"].append("profile "+name)
             continue
         if skipped:
-            conversion_status["partial_conversion"].append(
-                {"profile "+name: {"Unsupported attributes": skipped}})
+            conv_stat = conversion_status[
+                "partial_conversion"].get("profile", [])
+            conv_stat.append({name: skipped})
+            conversion_status["partial_conversion"]["profile"] = conv_stat
         else:
             conversion_status["successful_conversion"].append("monitor "+name)
     avi_profiles = dict()
@@ -693,8 +766,8 @@ def convert_profile_config(profile_config, certs_location,
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
                         vs_state, certs_location, tenant, option):
-    conversion_status ={"partial_conversion": [], "successful_conversion": [],
-                        "skipped_conversion": []}
+    conversion_status = {"partial_conversion": {},
+                         "successful_conversion": [], "skipped_conversion": []}
     avi_config_dict = {}
     monitor_config_list = convert_monitor_config(f5_config_dict.get(
         "monitor", {}), conversion_status)
@@ -725,12 +798,10 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     del f5_config_dict["virtual"]
     LOG.debug("Converted VS")
     for key in f5_config_dict.keys():
-        object = f5_config_dict[key]
-        if object.keys():
-            conversion_status["skipped_conversion"].append({key: object.keys()})
-    print conversion_status
+        f5_obj = f5_config_dict[key]
+        if f5_obj.keys():
+            conversion_status["skipped_conversion"].append({key: f5_obj.keys()})
     text_file = open(output_file_path+os.path.sep+"ConversionStatus.json", "w")
     json.dump(conversion_status, text_file, indent=4)
     text_file.close()
-    print output_file_path+os.path.sep+"ConversionStatus.json"
     return avi_config_dict
