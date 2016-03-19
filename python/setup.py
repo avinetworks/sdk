@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-AVI_PIP_VERSION = '16.1'
+AVI_PIP_VERSION = 'master'
 if os.path.exists("./VERSION"):
     with open("./VERSION", "r") as f:
         fs = yaml.load(f.read())

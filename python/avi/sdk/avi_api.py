@@ -13,13 +13,56 @@ class ObjectNotFound(Exception):
 
 
 class APIError(Exception):
-    def __init__(self, arg):
+    def __init__(self, arg, rsp=None):
         self.args = arg
+        self.rsp = rsp
 
 
 class APINotImplemented(Exception):
     pass
 
+
+class ApiResponse(Response):
+    '''
+    Returns copy of the requests.Response object provides additional helper
+    routines
+        1. obj: returns dictionary of Avi Object
+    '''
+    def __init__(self, rsp):
+        super(ApiResponse, self).__init__()
+        for k, v in rsp.__dict__.iteritems():
+            setattr(self, k, v)
+    def obj(self):
+        '''
+        returns the Avi object as a dictionary from rsp.text
+        '''
+        if self.status_code == 404:
+            raise ObjectNotFound()
+        if self.status_code < 200 or self.status_code > 299:
+            raise APIError('HTTP Error: %d Error Msg %s' % (self.status_code,
+                                                            self.text), self)
+        if not self.text:
+            # In cases like status_code == 201 the response text could be empty
+            # string.
+            return None
+        return json.loads(self.text)
+
+    def count(self):
+        '''
+        return the number of objects in the collection response. If it is not
+        a collection response then it would simply return 1.
+        '''
+        obj = self.obj()
+        if 'count' in obj:
+            # this was a resposne to collection
+            return obj['count']
+        return 1
+
+    @staticmethod
+    def to_avi_response(resp):
+        if type(resp) == Response:
+            return ApiResponse(resp)
+        return resp
 
 class ApiSession(Session):
     """
@@ -151,7 +194,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.get(path, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def get_object_by_name(self, path, name, **kwargs):
         """
@@ -200,7 +243,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.post(path, data, json_data, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def put(self, path, data=None, **kwargs):
         """
@@ -217,7 +260,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.put(path, data, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def put_by_name(self, path, name, data=None, **kwargs):
         """
@@ -238,7 +281,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.put_by_name(path, name, data, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def delete(self, path, **kwargs):
         """
@@ -255,7 +298,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.delete(path, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def delete_by_name(self, path, name, **kwargs):
         """
@@ -268,7 +311,6 @@ class ApiSession(Session):
         
         returns session's response object
         """
-
         uuid = self._get_uuid_by_name(path, name)
         fullpath = self._get_api_path(path, uuid)
         resp = super(ApiSession, self).delete(fullpath, **kwargs)
@@ -276,7 +318,7 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             resp = self.delete_by_name(path, name, **kwargs)
         self._update_session_last_used()
-        return resp
+        return ApiResponse.to_avi_response(resp)
 
     def get_obj_ref(self, obj):
         """returns reference url from dict object"""

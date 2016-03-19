@@ -2,16 +2,18 @@ import json
 import logging
 import unittest
 import time
-from avi.sdk.avi_api import ApiSession
+from avi.sdk.avi_api import ApiSession, ObjectNotFound, APIError, ApiResponse
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
+import copy
+from requests import Response
+import traceback
 
 gSAMPLE_CONFIG = None
 api = None
 log = logging.getLogger(__name__)
-
-
+login_info = None
 
 
 def setUpModule():
@@ -21,7 +23,9 @@ def setUpModule():
     gSAMPLE_CONFIG = json.loads(cfg)
     log.debug(' read cofig %s', gSAMPLE_CONFIG)
 
+    global login_info
     login_info = gSAMPLE_CONFIG["LoginInfo"]
+
     global api
     api = ApiSession.get_session(login_info["controller_ip"],
                                 login_info.get("username", "admin"),
@@ -96,6 +100,42 @@ class Test(unittest.TestCase):
         resp = api.delete("virtualservice/"+vs_obj["uuid"])
         resp2 = api.delete("pool/"+pool_obj["uuid"])
         assert resp.status_code < 300 and resp2.status_code < 300
+
+    def test_avi_obj(self):
+        rsp = Response()
+        rsp.status_code = 404
+        rsp._content = 'Not found'
+        try:
+            avi_rsp = ApiResponse(rsp)
+            avi_rsp.obj()
+            assert False
+        except ObjectNotFound:
+            pass
+        except Exception:
+            assert False
+
+        rsp.status_code = 501
+        try:
+            avi_rsp = ApiResponse(rsp)
+            avi_rsp.obj()
+            assert False
+        except APIError:
+            pass
+        except Exception:
+            assert False
+
+        rsp.status_code = 200
+        rsp._content = json.dumps({'count': 3, 'results': ['a', 'b', 'c']})
+        try:
+            avi_rsp = ApiResponse(rsp)
+            obj = avi_rsp.obj()
+            assert obj['count']
+            assert avi_rsp.count() == 3
+            assert len(obj['results']) == 3
+        except Exception as e:
+            log.debug('exception %s', str(e))
+            log.debug('%s', traceback.format_exc())
+            assert False
 
 
 if __name__ == "__main__":
