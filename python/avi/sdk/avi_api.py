@@ -14,7 +14,7 @@ class ObjectNotFound(Exception):
 
 class APIError(Exception):
     def __init__(self, arg, rsp=None):
-        self.args = arg
+        self.args = [arg, rsp]
         self.rsp = rsp
 
 
@@ -23,19 +23,20 @@ class APINotImplemented(Exception):
 
 
 class ApiResponse(Response):
-    '''
+    """
     Returns copy of the requests.Response object provides additional helper
     routines
         1. obj: returns dictionary of Avi Object
-    '''
+    """
     def __init__(self, rsp):
         super(ApiResponse, self).__init__()
         for k, v in rsp.__dict__.iteritems():
             setattr(self, k, v)
+
     def obj(self):
-        '''
+        """
         returns the Avi object as a dictionary from rsp.text
-        '''
+        """
         if self.status_code == 404:
             raise ObjectNotFound()
         if self.status_code < 200 or self.status_code > 299:
@@ -48,10 +49,10 @@ class ApiResponse(Response):
         return json.loads(self.text)
 
     def count(self):
-        '''
+        """
         return the number of objects in the collection response. If it is not
         a collection response then it would simply return 1.
-        '''
+        """
         obj = self.obj()
         if 'count' in obj:
             # this was a resposne to collection
@@ -63,6 +64,7 @@ class ApiResponse(Response):
         if type(resp) == Response:
             return ApiResponse(resp)
         return resp
+
 
 class ApiSession(Session):
     """
@@ -117,6 +119,12 @@ class ApiSession(Session):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
+        :param controller_ip: controller IP address
+        :param username:
+        :param password:
+        :param token: Token to use; example, a valid keystone token
+        :param tenant: Name of the tenant on Avi Controller
+        :param tenant_uuid: Don't specify tenant when using tenant_id
         """
         try:
             user_session = ApiSession.sessionDict[username]["api"]
