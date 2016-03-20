@@ -235,7 +235,7 @@ class ApiSession(Session):
         self._update_session_last_used()
         return obj
 
-    def post(self, path, data=None, json_data=None, **kwargs):
+    def post(self, path, data=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -246,10 +246,10 @@ class ApiSession(Session):
         """
         fullpath = self._get_api_path(path)
         resp = super(ApiSession, self).post(fullpath, data=data,
-                                            json=json_data, **kwargs)
+                                            **kwargs)
         if resp.status_code in (401, 419):
             ApiSession.reset_session(self)
-            resp = self.post(path, data, json_data, **kwargs)
+            resp = self.post(path, data, **kwargs)
         self._update_session_last_used()
         return ApiResponse.to_avi_response(resp)
 
@@ -447,9 +447,9 @@ class ApiSessionAdapter:
         resp = self.api.get_object_by_name(path, name, **self.adapter_args)
         return resp
 
-    def post(self, path, data=None, json_data=None, **kwargs):
+    def post(self, path, data=None, **kwargs):
         self.adapter_args.update(kwargs)
-        resp = self.api.post(path, data=data, json_data=json_data,
+        resp = self.api.post(path, data=data,
                              **self.adapter_args)
         return resp
 
