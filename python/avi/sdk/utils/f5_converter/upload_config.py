@@ -15,12 +15,50 @@ def upload_config_to_controller(config_dict, controller_ip,
          if resp.status_code>299:
             LOG.error("Failed to create monitor :" + monitor["name"] + " " +
                       resp.text)
+
+    for string_group in config_dict.get("StringGroup", []):
+        resp = session.post("stringgroup", data=json.dumps(string_group))
+        if resp.status_code>299:
+            LOG.error("Failed upload stringgroup :" + string_group["name"] +
+                      " " + resp.text)
+
     for ssl_cert in config_dict.get("SSLKeyAndCertificate", []):
         resp = session.post("sslkeyandcertificate/importkeyandcertificate",
                             data=json.dumps(ssl_cert))
         if resp.status_code>299:
             LOG.error("Failed upload cert :" + ssl_cert["name"] + " " +
                       resp.text)
+
+    for ssl_profile in config_dict.get("SSLProfile", []):
+        resp = session.post("sslprofile", data=json.dumps(ssl_profile))
+        if resp.status_code>299:
+            LOG.error("Failed upload sslprofile :" + ssl_profile["name"] +
+                      " " + resp.text)
+
+    for pki_profile in config_dict.get("PKIProfile", []):
+        resp = session.post("pkiprofile", data=json.dumps(pki_profile))
+        if resp.status_code>299:
+            LOG.error("Failed upload pkiprofilet :" + pki_profile["name"]
+                      + " " + resp.text)
+
+    for app_profile in config_dict.get("ApplicationProfile", []):
+        comp_prof = app_profile.get("compression_profile",None)
+        if comp_prof:
+            content_ref = comp_prof.get("compressible_content_ref", None)
+            if content_ref:
+                str_grp = session.get_object_by_name("stringgroup", content_ref)
+                str_grp_ref = session.get_obj_ref(str_grp)
+                comp_prof["compressible_content_ref"] = str_grp_ref
+        resp = session.post("applicationprofile", data=json.dumps(app_profile))
+        if resp.status_code>299:
+            LOG.error("Failed upload applicationprofile :" +
+                      app_profile["name"] + " " + resp.text)
+
+    for network_profile in config_dict.get("NetworkProfile", []):
+        resp = session.post("networkprofile", data=json.dumps(network_profile))
+        if resp.status_code>299:
+            LOG.error("Failed upload networkprofile :" +
+                      network_profile["name"] + " " + resp.text)
 
     pools = config_dict["Pool"]
     for pool in pools:
@@ -52,6 +90,14 @@ def upload_config_to_controller(config_dict, controller_ip,
                     LOG.warning("Failed to get cert referance for : " +
                                 cert_nmae+" adding System-Default-Cert insted")
             vs["ssl_key_and_certificate_refs"] = cert_refs
+
+        app_profile = vs["application_profile_ref"]
+        if ":" in app_profile:
+            app_profile = app_profile.split(":")[1]
+        app_profile_obj = session.get_object_by_name(
+            "applicationprofile", app_profile)
+        app_profile_ref = session.get_obj_ref(app_profile_obj)
+        vs["application_profile_ref"] = app_profile_ref
 
 
         resp = session.post('virtualservice', data=json.dumps(vs))
