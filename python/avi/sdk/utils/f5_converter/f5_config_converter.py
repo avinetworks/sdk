@@ -253,6 +253,57 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
                 pool["ssl_profile_ref"] = "admin:System-Standard"
 
 
+def get_service_obj(destination, vs_list, enable_ssl):
+    services_obj = []
+    parts = destination.split(':')
+    ip_addr = parts[0]
+    port = parts[1] if len(parts) == 2 else 80
+    vs_dup_ips = [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
+    service_updated = False
+    if int(port) > 0:
+        for vs in vs_dup_ips:
+            for service in vs['services']:
+                port_end  = service.get('port_range_end', None)
+                if port_end and service['port'] <= int(port) <= port_end:
+                    if port not in [1,65535]:
+                        new_end = service['port_range_end']
+                        service['port_range_end'] = int(port)-1
+                        new_service = {'port': int(port)+1,
+                                       'port_range_end':new_end,
+                                       'enable_ssl': enable_ssl}
+                        vs['services'].append(new_service)
+                    elif port == 1:
+                        service['port'] = 2
+                    elif port == 65535:
+                        service['port_range_end'] = 65534
+                    service_updated = True
+                    break
+            if service_updated:
+                break
+        services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
+    else:
+        used_ports = []
+        for vs in vs_dup_ips:
+            for service in vs['services']:
+                used_ports.append(service['port'])
+        if used_ports:
+            services_obj = []
+            if 65535 not in used_ports:
+                used_ports.append(65536)
+            used_ports = sorted(used_ports, key=int)
+            start = 1
+            for i in range(len(used_ports)):
+                if start == used_ports[i]:
+                    start += 1
+                    continue
+                end = int(used_ports[i])-1
+                services_obj.append({'port': start,
+                                     'port_range_end': end,
+                                     'enable_ssl': enable_ssl})
+                start = int(used_ports[i])+1
+    return services_obj, ip_addr
+
+
 def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
                       profile_config, conversion_status):
     """
@@ -282,16 +333,9 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
             enable_ssl = True
             if app_prof[0] == (tenant+':System-HTTP'):
                 app_prof[0] = tenant+':System-Secure-HTTP'
-
-        parts = f5_vs["destination"].split(':')
-        ip_addr = parts[0]
-        port = parts[1] if len(parts) == 2 else 80
-        if int(port) > 0:
-            services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
-        else:
-            services_obj = [{'port': 1, 'port_range_end': 65535,
-                             'enable_ssl': enable_ssl}]
-
+        destination = f5_vs["destination"]
+        services_obj, ip_addr = get_service_obj(destination, vs_list,
+                                                enable_ssl)
         pool_ref = f5_vs.get("pool", None)
         if pool_ref and is_pool_shared(pool_ref, vs_list):
             pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)

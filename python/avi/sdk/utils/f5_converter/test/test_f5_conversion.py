@@ -10,7 +10,7 @@ gSAMPLE_CONFIG = None
 log = logging.getLogger(__name__)
 
 
-def setup_module():
+def setUpModule():
     cfg_file = open('bigip.conf', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
@@ -22,8 +22,9 @@ class Test(unittest.TestCase):
 
     LOG = logging.getLogger("converter-log")
     LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler("../output" + os.path.sep + "converter.log",
-                             mode='a', encoding=None, delay=False)
+    fh = logging.FileHandler(".." + os.path.sep + "output" + os.path.sep +
+                             "converter.log", mode='a', encoding=None,
+                             delay=False)
     fh.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -31,7 +32,8 @@ class Test(unittest.TestCase):
     LOG.addHandler(fh)
 
     def test_config_conversion(self):
-        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, "./", 11)
+        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, ".." +
+                                                os.path.sep + "output", 11)
         assert f5_config_dict.get("virtual", None)
         assert f5_config_dict.get("monitor", None)
         assert f5_config_dict.get("pool", None)
@@ -39,7 +41,8 @@ class Test(unittest.TestCase):
         assert f5_config_dict.get("node", None)
         f5_config_test = copy.deepcopy(f5_config_dict)
         avi_config_dict = f5_config_converter.convert_to_avi_dict(
-            f5_config_dict, ".", "disable", "certs", "admin", "api-upload")
+            f5_config_dict, ".."+os.path.sep+"output", "disable",
+            "certs", "admin", "api-upload")
 
         assert len(f5_config_test["virtual"].keys()) == len(
             avi_config_dict["VirtualService"])
