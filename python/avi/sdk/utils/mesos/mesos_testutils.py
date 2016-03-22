@@ -229,46 +229,38 @@ class MesosTestUtils(object):
             print 'created app', app_id, app_obj, ' response ', rsp.text
         return app_ids
 
+    def getInfo(self, marathon_uri, auth_type=None, auth_token=None, username=None, password=None):
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.get(marathon_uri, auth=auth, headers=headers)
+        if rsp.status_code >= 300:
+            raise RuntimeError('failed to get ' + marathon_uri + ', got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print 'response: ', rsp.text
+        info = json.loads(rsp.text) if rsp.text else {}
+        log.debug('info %s', info)
+        return info
+
     def getAppInfo(self, marathon_url, app_id,
                    auth_type=None, auth_token=None, username=None, password=None):
         marathon_uri = marathon_url + '/v2/apps'
         marathon_uri += '/' + app_id
 
-        headers = self.MARATHON_HDRS
-        auth = None
-        if auth_type == 'token':
-            headers.update({'Authorization': 'token=%s'%str(auth_token)})
-        elif auth_type == 'basic':
-            auth=HTTPBasicAuth(username, password)
-        rsp = requests.get(marathon_uri, auth=auth, headers=headers)
-        if rsp.status_code >= 300:
-            raise RuntimeError('failed to get app info, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print ' app id info ', app_id, ': ', rsp.text
-        rsp_dict = json.loads(rsp.text) if rsp.text else {}
-        log.debug('app id %s info %s', app_id, rsp_dict)
-        return rsp_dict
+        return self.getInfo(marathon_uri, auth_type=auth_type, auth_token=auth_token, username=username, password=password)
 
     def getAppInfos(self, marathon_url,
                     auth_type=None, auth_token=None, username=None, password=None):
         marathon_uri = marathon_url + '/v2/apps'
-        headers = self.MARATHON_HDRS
-        auth = None
-        if auth_type == 'token':
-            headers.update({'Authorization': 'token=%s'%str(auth_token)})
-        elif auth_type == 'basic':
-            auth=HTTPBasicAuth(username, password)
-        rsp = requests.get(marathon_uri, auth=auth, headers=headers)
-        if rsp.status_code >= 300:
-            raise RuntimeError('failed to get apps, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'all apps: ', rsp.text
-        all_apps = json.loads(rsp.text) if rsp.text else {}
-        log.debug('info %s', all_apps)
-        return all_apps
+
+        return self.getInfo(marathon_uri, auth_type=auth_type, auth_token=auth_token, username=username, password=password)
 
     def updateAppConfig(self, marathon_url, app_id,
                         auth_type=None, auth_token=None, username=None, password=None,
                         **kwargs):
-        app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
+        app_obj = self.getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
         # see https://github.com/mesosphere/marathon/issues/3054
         # could also do it on uri to be forwards compatible rather than backwards
@@ -284,6 +276,7 @@ class MesosTestUtils(object):
             headers.update({'Authorization': 'token=%s'%str(auth_token)})
         elif auth_type == 'basic':
             auth=HTTPBasicAuth(username, password)
+        marathon_uri = marathon_url + '/v2/apps/' + app_id + '?force=true'
         rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
                            auth=auth, headers=headers)
         if rsp.status_code >= 300:
@@ -294,7 +287,7 @@ class MesosTestUtils(object):
     def updateApp(self, marathon_url, app_id, vs_obj=None,
                   auth_type=None, auth_token=None, username=None, password=None,
                   **kwargs):
-        app_obj = getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
+        app_obj = self.getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
         # see https://github.com/mesosphere/marathon/issues/3054
         # could also do it on uri to be forwards compatible rather than backwards
@@ -314,6 +307,8 @@ class MesosTestUtils(object):
         avi_proxy['virtualservice'] = vs_cfg
         app_obj['labels']['avi_proxy']= json.dumps(avi_proxy)
         del app_obj['version']
+
+        marathon_uri = marathon_url + '/v2/apps/' + app_id + '?force=true'
         log.info('uri %s app %s', marathon_uri, app_obj)
 
         headers = self.MARATHON_HDRS
