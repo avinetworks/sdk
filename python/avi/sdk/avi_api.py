@@ -18,6 +18,11 @@ class APIError(Exception):
         self.rsp = rsp
 
 
+class AviServerError(APIError):
+    def __init__(self, arg, rsp=None):
+        super(AviServerError, self).__init__(arg, rsp)
+
+
 class APINotImplemented(Exception):
     pass
 
@@ -33,27 +38,33 @@ class ApiResponse(Response):
         for k, v in rsp.__dict__.iteritems():
             setattr(self, k, v)
 
-    def obj(self):
+    def json(self):
         """
+        Extends the session default json interface to handle special errors
+        and raise Exceptions
         returns the Avi object as a dictionary from rsp.text
         """
-        if self.status_code == 404:
+        if self.status_code in (200, 201):
+            if not self.text:
+                # In cases like status_code == 201 the response text could be
+                # empty string.
+                return None
+            return super(ApiResponse, self).json()
+        elif self.status_code == 404:
             raise ObjectNotFound()
-        if self.status_code < 200 or self.status_code > 299:
-            raise APIError('HTTP Error: %d Error Msg %s' % (self.status_code,
-                                                            self.text), self)
-        if not self.text:
-            # In cases like status_code == 201 the response text could be empty
-            # string.
-            return None
-        return json.loads(self.text)
+        elif self.status_code >= 500:
+            raise AviServerError('HTTP Error: %d Error Msg %s' % (
+                                    self.status_code, self.text), self)
+        else:
+            raise APIError('HTTP Error: %d Error Msg %s' % (
+                    self.status_code, self.text), self)
 
     def count(self):
         """
         return the number of objects in the collection response. If it is not
         a collection response then it would simply return 1.
         """
-        obj = self.obj()
+        obj = self.json()
         if 'count' in obj:
             # this was a resposne to collection
             return obj['count']
@@ -87,11 +98,7 @@ class ApiSession(Session):
         self.password = password
         self.keystone_token = token
         self.tenant_uuid = tenant_uuid
-        self.tenant = None
-        if tenant:
-            self.tenant = tenant
-        elif not tenant_uuid:
-            self.tenant = "admin"
+        self.tenant = tenant if tenant else "admin"
         self.headers = {}
         self.prefix = (controller_ip if controller_ip.startswith('http')
                        else "https://%s" % controller_ip)
@@ -106,11 +113,12 @@ class ApiSession(Session):
                                                 "last_used": datetime.utcnow()}
             user_session = self
         self.headers = copy.deepcopy(user_session.headers)
-        if self.tenant:
-            self.headers.update({"X-Avi-Tenant": "%s" % self.tenant})
-        if self.tenant_uuid:
-            self.headers.update({"X-Avi-Tenant-UUID": "%s" % self.tenant_uuid})
+        # don't save the tenant headers as it would interfer with the
+        # individual method tenant overrides
+        self.headers.pop("X-Avi-Tenant-UUID", None)
+        self.headers.pop("X-Avi-Tenant", None)
         self.cookies = user_session.cookies
+        self.num_session_retries = 0
         return
 
     @staticmethod
@@ -146,7 +154,7 @@ class ApiSession(Session):
     def reset_session(self):
         """
         resets and re-authenticates the current session.
-        @param api: ApiSession object
+        :param api: ApiSession object
         """
         logger.info('resetting session for %s', self.username)
         self.headers = {}
@@ -155,8 +163,8 @@ class ApiSession(Session):
 
     def authenticate_session(self):
         """
-        Performs session authentication with Avi controller and stores 
-        session cookies and sets header options like tenant. 
+        Performs session authentication with Avi controller and stores
+        session cookies and sets header options like tenant.
         """
         body = {"username": self.username}
         if not self.keystone_token:
@@ -168,7 +176,7 @@ class ApiSession(Session):
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=5, verify=False)
         if rsp.status_code != 200:
-            raise Exception("Authentication failed: code %d: msg: %s", 
+            raise Exception("Authentication failed: code %d: msg: %s",
                             rsp.status_code, rsp.text)
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
@@ -177,156 +185,180 @@ class ApiSession(Session):
             "Content-Type": "application/json"
         })
         # switch to a different tenant if needed
-        if self.tenant:
-            self.headers.update({"X-Avi-Tenant": "%s" % self.tenant})
-        elif self.tenant_uuid:
-            self.headers.update({"X-Avi-Tenant-UUID": "%s" % self.tenant_uuid})
-        logger.debug("authentication success for user %s with headers: %s", 
+        logger.debug("authentication success for user %s with headers: %s",
                      self.username, self.headers)
         return
 
-    def get(self, path, **kwargs):
+    def _api(self, api_name, path, tenant, tenant_uuid, data=None,
+             **kwargs):
+        if 'timeout' not in kwargs:
+            kwargs['timeout'] = 20
+        if 'verify' not in kwargs:
+            kwargs['verify'] = False
+        headers = copy.deepcopy(self.headers)
+        if 'headers' in kwargs:
+            headers.update(kwargs['headers'])
+
+        # If either tenant or tenant_uuid is set then we need to use them
+        # else use the default.
+        if tenant:
+            tenant_uuid = None
+        elif tenant_uuid:
+            tenant = None
+        else:
+            tenant = self.tenant
+            tenant_uuid = self.tenant_uuid
+        if tenant:
+            headers.update({"X-Avi-Tenant": "%s" % tenant})
+            headers.pop("X-Avi-Tenant-UUID", None)
+        if tenant_uuid:
+            headers.update({"X-Avi-Tenant-UUID": "%s" % tenant_uuid})
+            headers.pop("X-Avi-Tenant", None)
+        kwargs['headers'] = headers
+        fullpath = self._get_api_path(path)
+        fn = getattr(super(ApiSession, self), api_name)
+        if (data is not None) and (type(data) == dict):
+            resp = fn(fullpath, json=data, **kwargs)
+        else:
+            resp = fn(fullpath, data=data, **kwargs)
+        logger.info('kwargs: %s rsp %s', kwargs, resp.text)
+        if resp.status_code in (401, 419):
+            logger.info('received error %d %s so resetting connection',
+                        resp.status_code, resp.text)
+            ApiSession.reset_session(self)
+            self.num_session_retries += 1
+            if self.num_session_retries > 2:
+                raise APIError("giving up after %d retries" %
+                               self.num_session_retries)
+            resp = self._api(api_name, path, tenant, tenant_uuid, data,
+                             **kwargs)
+            self.num_session_retries = 0
+        if resp.cookies and 'csrftoken' in resp.cookies:
+            csrftoken = resp.cookies['csrftoken']
+            self.headers.update({"X-CSRFToken": csrftoken})
+        self._update_session_last_used()
+        return ApiResponse.to_avi_response(resp)
+
+    def get(self, path, tenant='', tenant_uuid='', **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
         the global user session cache.
-        @param path: takes relative path to the AVI api. 
+        :param path: takes relative path to the AVI api.
         get method takes relative path to service and kwargs as per Session
             class get method
-        returns session's response object 
+        returns session's response object
         """
-        fullpath = self._get_api_path(path)
-        resp = super(ApiSession, self).get(fullpath, timeout=20, verify=False,
-                                           **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.get(path, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        return self._api('get', path, tenant, tenant_uuid, **kwargs)
 
-    def get_object_by_name(self, path, name, **kwargs):
+    def get_object_by_name(self, path, name, tenant='', tenant_uuid='',
+                           **kwargs):
         """
-        Helper function to access Avi REST Objects using object 
-        type and name. It behaves like python dictionary interface where it 
+        Helper function to access Avi REST Objects using object
+        type and name. It behaves like python dictionary interface where it
         returns None when the object is not present in the AviController.
-        
         Internally, it transforms the request to api/path?name=<name>...
-        
-        @param path: relative path to service 
-        @param name: name of the object
-        
+        :param path: relative path to service
+        :param name: name of the object
         returns dictionary object if successful else None
         """
         obj = None
-        fullpath = self._get_api_path(path)
-        params = kwargs.get('params', {})
-        params.update({'name': name})
-        resp = super(ApiSession, self).get(fullpath, params=params, timeout=20,
-                                           verify=False, **kwargs)
+        if 'params' not in kwargs:
+            kwargs['params'] = {}
+        kwargs['params'] = {'name': name}
+        resp = self.get(path, tenant, tenant_uuid, **kwargs)
         if resp.status_code in (401, 419):
             ApiSession.reset_session(self)
             resp = self.get_object_by_name(path, name, **kwargs)
         if resp.status_code > 299:
             return obj
         try:
-            obj = json.loads(resp.text)['results'][0]
+            obj = resp.json()['results'][0]
         except IndexError:
             obj = None
         self._update_session_last_used()
         return obj
 
-    def post(self, path, data=None, **kwargs):
+    def post(self, path, data=None, tenant='', tenant_uuid='', **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
         the global user session cache.
-        @param path: takes relative path to the AVI api.It is modified by 
+        :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
         returns session's response object
         """
-        fullpath = self._get_api_path(path)
-        resp = super(ApiSession, self).post(fullpath, data=data,
-                                            **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.post(path, data, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        return self._api('post', path, tenant, tenant_uuid, data=data,
+                         **kwargs)
 
-    def put(self, path, data=None, **kwargs):
+    def put(self, path, data=None, tenant='', tenant_uuid='', **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
         the global user session cache.
-        @param path: takes relative path to the AVI api.It is modified by 
+        :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
         returns session's response object
         """
-        fullpath = self._get_api_path(path)
-        resp = super(ApiSession, self).put(fullpath, data=data, **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.put(path, data, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        try:
+            # this behavior is because controller does not automatically
+            # create object on a put.
+            resp = self.get(path, tenant, tenant_uuid, **kwargs)
+            if resp.status_code == 404:
+                raise ObjectNotFound
+            return self._api('put', path, tenant, tenant_uuid, data=data,
+                             **kwargs)
+        except ObjectNotFound:
+            return self.post(path, tenant, tenant_uuid, data=data, **kwargs)
 
-    def put_by_name(self, path, name, data=None, **kwargs):
+    def put_by_name(self, path, name, data=None, tenant='',
+                    tenant_uuid='', **kwargs):
         """
-        Helper function to perform HTTP PUT on Avi REST Objects using object 
-        type and name. 
-        
+        Helper function to perform HTTP PUT on Avi REST Objects using object
+        type and name.
         Internally, it transforms the request to api/path?name=<name>...
-        
-        @param path: relative path to service 
-        @param name: name of the object
-        
+        :param path: relative path to service
+        :param name: name of the object
         returns session's response object
         """
-        uuid = self._get_uuid_by_name(path, name)
-        fullpath = self._get_api_path(path, uuid)
-        resp = super(ApiSession, self).put(fullpath, data=data, **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.put_by_name(path, name, data, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        try:
+            uuid = self._get_uuid_by_name(path, name)
+        except ObjectNotFound:
+            # use put instead
+            return self.post(path, data, tenant, tenant_uuid, **kwargs)
+        else:
+            path = '%s/%s' % (path, uuid)
+        return self.put(path, data, tenant, tenant_uuid, **kwargs)
 
-    def delete(self, path, **kwargs):
+    def delete(self, path, tenant='', tenant_uuid='', **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
         the global user session cache.
-        @param path: takes relative path to the AVI api.It is modified by 
+        :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
         returns session's response object
         """
-        fullpath = self._get_api_path(path)
-        resp = super(ApiSession, self).delete(fullpath, **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.delete(path, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        return self._api('delete', path, tenant, tenant_uuid, data=None,
+                         **kwargs)
 
-    def delete_by_name(self, path, name, **kwargs):
+    def delete_by_name(self, path, name, tenant='', tenant_uuid='', **kwargs):
         """
-        Helper function to perform HTTP DELETE on Avi REST Objects using object 
-        type and name.Internally, it transforms the request to 
+        Helper function to perform HTTP DELETE on Avi REST Objects using object
+        type and name.Internally, it transforms the request to
         api/path?name=<name>...
-        
-        @param path: relative path to service 
-        @param name: name of the object
-        
+        :param path: relative path to service
+        :param name: name of the object
         returns session's response object
         """
-        uuid = self._get_uuid_by_name(path, name)
-        fullpath = self._get_api_path(path, uuid)
-        resp = super(ApiSession, self).delete(fullpath, **kwargs)
-        if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
-            resp = self.delete_by_name(path, name, **kwargs)
-        self._update_session_last_used()
-        return ApiResponse.to_avi_response(resp)
+        uuid = self._get_uuid_by_name(path, name, tenant, tenant_uuid)
+        if not uuid:
+            raise ObjectNotFound
+        path = '%s/%s' % (path, uuid)
+        if 'params' not in kwargs:
+            kwargs['params'] = {}
+        kwargs['params'] = {'name': name}
+        return self.delete(path, tenant, tenant_uuid, **kwargs)
 
     def get_obj_ref(self, obj):
         """returns reference url from dict object"""
@@ -361,9 +393,9 @@ class ApiSession(Session):
         else:
             return self.prefix+'/api/'+path
 
-    def _get_uuid_by_name(self, path, name):
+    def _get_uuid_by_name(self, path, name, tenant, tenant_uuid):
         """gets object by name and service path and returns uuid"""
-        resp = self.get_object_by_name(path, name)
+        resp = self.get_object_by_name(path, name, tenant, tenant_uuid)
         if not resp:
             raise ObjectNotFound("%s/%s" % (path, name))
         return self.get_obj_uuid(resp)
@@ -381,94 +413,3 @@ class ApiSession(Session):
                     total_seconds() > 20*60:
                 del ApiSession.sessionDict[sess_dict["api"].username]
                 print "Removed session for :" + sess_dict["api"].username
-
-
-class ApiSessionAdapter:
-    """
-    This is helper class that allows re-using an Avi ApiSession object with 
-    different header options like tenant etc. ApiSessionAdapter is recommended 
-    for use in situations like OpenStack LBASS Plugin or load balancer 
-    Orchestration software that is automating load balancer function using 
-    a common API user across different tenants and keeps AVI Controller session 
-    active all the time. It also provides a convenience of not passing
-    tenant or other headers with every API call.
-    
-    Usage Example:
-    avi_ssn = ApiSession.get_session(controller_ip,username="admin",
-                password="admin", tenant="admin")
-    tenant_ssn =  ApiSessionAdapter(avi_ssn, tenant="tenant_A")
-    # returns all vs from tenant A
-    all_tenant_vs = tenant_ssn.get("virtualservice")
-
-    Here is summary of usage behaviors when multiple adapters share an API 
-    session 
-    1. A common Session Library object is created and used.
-    2. Single network connection to AVI Controller is used across the adapters
-    sharing Avi ApiSession object.
-    3. Any session timeout or re-authentication is done once across all the 
-    Adapter instances.
-    """
-    adapter_args = {}
-    api = None
-
-    def __init__(self, api, tenant=None, tenant_uuid=None, headers=None,
-                 cookies=None, hooks=None):
-        """
-        @param api: Avi ApiSession object
-        Rest of the arguments are used for modifying API calls as per 
-        Adapter settings.
-        """
-        self.api = api
-        new_headers = copy.deepcopy(api.headers)
-        if headers:
-            new_headers.update(headers)
-        self.adapter_args["headers"] = new_headers
-        new_cookies = copy.deepcopy(api.cookies)
-        if cookies:
-            new_cookies.update(cookies)
-        self.adapter_args["cookies"] = new_cookies
-        if hooks:
-            self.adapter_args["hooks"] = hooks
-        if tenant:
-            self.adapter_args["headers"].update({
-                "X-Avi-Tenant": "%s" % tenant})
-        elif tenant_uuid:
-            self.adapter_args["headers"].update({
-                "X-Avi-Tenant-UUID": "%s" % tenant_uuid})
-        return
-
-    def get(self, path, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.get(path, **self.adapter_args)
-        return resp
-
-    def get_by_name(self, path, name, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.get_object_by_name(path, name, **self.adapter_args)
-        return resp
-
-    def post(self, path, data=None, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.post(path, data=data,
-                             **self.adapter_args)
-        return resp
-
-    def put(self, path, data=None, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.put(path, data=data, **self.adapter_args)
-        return resp
-
-    def put_by_name(self, path, name, data=None, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.put_by_name(path, name, data=data, **self.adapter_args)
-        return resp
-
-    def delete(self, path, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.delete(path, **self.adapter_args)
-        return resp
-
-    def delete_by_name(self, path, name, **kwargs):
-        self.adapter_args.update(kwargs)
-        resp = self.api.delete_by_name(path, name, **self.adapter_args)
-        return resp

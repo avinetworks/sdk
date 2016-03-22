@@ -1,19 +1,21 @@
 import json
 import logging
 import unittest
-import time
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, APIError, ApiResponse
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
-import copy
 from requests import Response
 import traceback
+import copy
+import time
 
 gSAMPLE_CONFIG = None
 api = None
 log = logging.getLogger(__name__)
 login_info = None
+
+urllib3.disable_warnings()
 
 
 def setUpModule():
@@ -27,21 +29,29 @@ def setUpModule():
     login_info = gSAMPLE_CONFIG["LoginInfo"]
 
     global api
-    api = ApiSession.get_session(login_info["controller_ip"],
-                                login_info.get("username", "admin"),
-                                login_info.get("password", "avi123"),
-                                tenant=login_info.get("tenant", "admin"),
-                                tenant_uuid=login_info.get("tenant_uuid", None))
+    api = ApiSession.get_session(
+            login_info["controller_ip"], login_info.get("username", "admin"),
+            login_info.get("password", "avi123"),
+            tenant=login_info.get("tenant", "admin"),
+            tenant_uuid=login_info.get("tenant_uuid", None))
 
 
 class Test(unittest.TestCase):
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
-        resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]))
         vs_obj = basic_vs_cfg["vs_obj"]
+        resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]))
+        assert resp.status_code in (200, 201)
         vs_obj["pool_ref"] = api.get_obj_ref(resp)
         resp = api.post('virtualservice', data=json.dumps(vs_obj))
-        assert resp.status_code < 300
+        assert resp.status_code in (200, 201)
+        pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
+        resp = api.get('virtualservice', tenant='admin')
+        assert resp.json()['count'] >= 1
+        resp = api.delete_by_name('virtualservice', vs_obj['name'])
+        assert resp.status_code in (200, 204)
+        resp = api.delete_by_name("pool", pool_name)
+        assert resp.status_code in (200, 204)
 
     def test_reuse_server_session(self):
         api2 = ApiSession(api.controller_ip, api.username, api.password,
@@ -54,33 +64,31 @@ class Test(unittest.TestCase):
                                       tenant_uuid=api.tenant_uuid)
         assert api == api2
 
-    def test_delete_by_name(self):
-        vs_name = gSAMPLE_CONFIG["BasicVS"]["vs_obj"]["name"]
-        pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
-        resp = api.delete_by_name("virtualservice", vs_name)
-        resp2 = api.delete_by_name("pool", pool_name)
-        assert resp.status_code < 300 and resp2.status_code < 300
-
     def test_ssl_vs(self):
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
+        vs_obj = ssl_vs_cfg["vs_obj"]
+        pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
         resp = api.post('pool', data=json.dumps(ssl_vs_cfg["pool_obj"]))
         pool_ref = api.get_obj_ref(resp)
         cert, key, _, _ = get_sample_ssl_params(folder_path='../samples/')
         api_utils = ApiUtils(api)
         resp = api_utils.import_ssl_certificate("ssl-vs-kc", key, cert)
         ssl_key_and_cert_ref = [api.get_obj_ref(resp)]
-        vs_obj = ssl_vs_cfg["vs_obj"]
         vs_obj["pool_ref"] = pool_ref
         vs_obj["ssl_key_and_certificate_refs"] = ssl_key_and_cert_ref
         resp = api.post('virtualservice', data=json.dumps(vs_obj))
         assert resp.status_code < 300
+        resp = api.delete_by_name('virtualservice', vs_obj['name'])
+        assert resp.status_code in (200, 204)
+        resp = api.delete_by_name("pool", pool_name)
+        assert resp.status_code in (200, 204)
 
     def test_reset_connection(self):
         login_info = gSAMPLE_CONFIG["User2"]
         old_password = login_info["password"]
-        api2 = ApiSession.get_session(api.controller_ip,
-                                login_info["username"], old_password,
-                                tenant=api.tenant, tenant_uuid=api.tenant_uuid)
+        api2 = ApiSession.get_session(
+                api.controller_ip, login_info["username"], old_password,
+                tenant=api.tenant, tenant_uuid=api.tenant_uuid)
         user_obj = api.get_object_by_name("user", login_info["name"])
         new_password = "avi1234"
         if login_info["password"] == new_password:
@@ -92,22 +100,13 @@ class Test(unittest.TestCase):
         resp = api2.get("pool")
         assert resp.status_code < 300
 
-    def test_delete_vs(self):
-        vs_name = gSAMPLE_CONFIG["SSL-VS"]["vs_obj"]["name"]
-        pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
-        vs_obj = api.get_object_by_name("virtualservice", vs_name)
-        pool_obj = api.get_object_by_name("pool", pool_name)
-        resp = api.delete("virtualservice/"+vs_obj["uuid"])
-        resp2 = api.delete("pool/"+pool_obj["uuid"])
-        assert resp.status_code < 300 and resp2.status_code < 300
-
-    def test_avi_obj(self):
+    def test_avi_json(self):
         rsp = Response()
         rsp.status_code = 404
         rsp._content = 'Not found'
         try:
             avi_rsp = ApiResponse(rsp)
-            avi_rsp.obj()
+            avi_rsp.json()
             assert False
         except ObjectNotFound:
             pass
@@ -117,7 +116,7 @@ class Test(unittest.TestCase):
         rsp.status_code = 501
         try:
             avi_rsp = ApiResponse(rsp)
-            avi_rsp.obj()
+            avi_rsp.json()
             assert False
         except APIError:
             pass
@@ -128,7 +127,7 @@ class Test(unittest.TestCase):
         rsp._content = json.dumps({'count': 3, 'results': ['a', 'b', 'c']})
         try:
             avi_rsp = ApiResponse(rsp)
-            obj = avi_rsp.obj()
+            obj = avi_rsp.json()
             assert obj['count']
             assert avi_rsp.count() == 3
             assert len(obj['results']) == 3
@@ -136,6 +135,45 @@ class Test(unittest.TestCase):
             log.debug('exception %s', str(e))
             log.debug('%s', traceback.format_exc())
             assert False
+
+    def test_multiple_tenants(self):
+        """
+        Tests api with multiple tenants to make sure object is only returned
+        for the right tenant.
+        """
+        tobj = {'name': 'test-tenant'}
+        resp = api.post('tenant', data=json.dumps(tobj))
+        assert resp.status_code in (200, 201)
+        tapi = ApiSession(api.controller_ip, api.username, api.password,
+                          tenant=tobj['name'])
+        t_obj = tapi.get_object_by_name('tenant', tobj['name'])
+        # created pool.
+        log.info('tenant %s', t_obj)
+        basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
+        pool_cfg = copy.deepcopy(basic_vs_cfg["pool_obj"])
+        pool_cfg['name'] = pool_cfg['name'] + '-test-tenant'
+        resp = tapi.post('pool', data=pool_cfg)
+        assert resp.status_code in (200, 201)
+        # check pool was not created in tenant admin
+        pname = pool_cfg['name']
+        resp = api.get_object_by_name('pool', pname)
+        assert resp is None
+        resp = tapi.get_object_by_name('pool', pname)
+        assert resp
+        resp = api.get_object_by_name('pool', pname, tenant_uuid=t_obj['uuid'])
+        assert resp
+        resp = api.get_object_by_name('pool', pname, tenant='test-tenant')
+        assert resp
+        resp = tapi.delete_by_name("pool", pname)
+        assert resp.status_code in (200, 201, 204)
+        resp = api.get_object_by_name('pool', pname, tenant='test-tenant')
+        assert resp is None
+        resp = tapi.delete_by_name('tenant', 'test-tenant', tenant='admin')
+        assert resp.status_code in (200, 201, 204)
+
+    def test_delete_tenant(self):
+        resp = api.delete_by_name('tenant', 'test-tenant')
+        assert resp.status_code in (200, 201, 204)
 
 
 if __name__ == "__main__":
