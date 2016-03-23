@@ -8,7 +8,6 @@ from requests.packages import urllib3
 from requests import Response
 import traceback
 import copy
-import time
 
 gSAMPLE_CONFIG = None
 api = None
@@ -33,7 +32,8 @@ def setUpModule():
             login_info["controller_ip"], login_info.get("username", "admin"),
             login_info.get("password", "avi123"),
             tenant=login_info.get("tenant", "admin"),
-            tenant_uuid=login_info.get("tenant_uuid", None))
+            tenant_uuid=login_info.get("tenant_uuid", None),
+            verify=False)
 
 
 class Test(unittest.TestCase):
@@ -61,26 +61,30 @@ class Test(unittest.TestCase):
     def test_reuse_api_session(self):
         api2 = ApiSession.get_session(api.controller_ip, api.username,
                                       api.password, tenant=api.tenant,
-                                      tenant_uuid=api.tenant_uuid)
+                                      tenant_uuid=api.tenant_uuid,
+                                      verify=False)
         assert api == api2
 
     def test_ssl_vs(self):
+        # papi = ApiSession(api.controller_ip, api.username, api.password,
+        #                  verify=False)
+        papi = api
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
-        resp = api.post('pool', data=json.dumps(ssl_vs_cfg["pool_obj"]))
-        pool_ref = api.get_obj_ref(resp)
+        resp = papi.post('pool', data=json.dumps(ssl_vs_cfg["pool_obj"]))
+        pool_ref = papi.get_obj_ref(resp)
         cert, key, _, _ = get_sample_ssl_params(folder_path='../samples/')
-        api_utils = ApiUtils(api)
+        api_utils = ApiUtils(papi)
         resp = api_utils.import_ssl_certificate("ssl-vs-kc", key, cert)
-        ssl_key_and_cert_ref = [api.get_obj_ref(resp)]
+        ssl_key_and_cert_ref = [papi.get_obj_ref(resp)]
         vs_obj["pool_ref"] = pool_ref
         vs_obj["ssl_key_and_certificate_refs"] = ssl_key_and_cert_ref
-        resp = api.post('virtualservice', data=json.dumps(vs_obj))
+        resp = papi.post('virtualservice', data=json.dumps(vs_obj))
         assert resp.status_code < 300
-        resp = api.delete_by_name('virtualservice', vs_obj['name'])
+        resp = papi.delete_by_name('virtualservice', vs_obj['name'])
         assert resp.status_code in (200, 204)
-        resp = api.delete_by_name("pool", pool_name)
+        resp = papi.delete_by_name("pool", pool_name)
         assert resp.status_code in (200, 204)
 
     def test_reset_connection(self):
@@ -88,7 +92,7 @@ class Test(unittest.TestCase):
         old_password = login_info["password"]
         api2 = ApiSession.get_session(
                 api.controller_ip, login_info["username"], old_password,
-                tenant=api.tenant, tenant_uuid=api.tenant_uuid)
+                tenant=api.tenant, tenant_uuid=api.tenant_uuid, verify=False)
         user_obj = api.get_object_by_name("user", login_info["name"])
         new_password = "avi1234"
         if login_info["password"] == new_password:
@@ -142,10 +146,10 @@ class Test(unittest.TestCase):
         for the right tenant.
         """
         tobj = {'name': 'test-tenant'}
-        resp = api.post('tenant', data=json.dumps(tobj))
+        resp = api.post('tenant', data=tobj)
         assert resp.status_code in (200, 201)
         tapi = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=tobj['name'])
+                          tenant=tobj['name'], verify=False)
         t_obj = tapi.get_object_by_name('tenant', tobj['name'])
         # created pool.
         log.info('tenant %s', t_obj)
@@ -171,7 +175,11 @@ class Test(unittest.TestCase):
         resp = tapi.delete_by_name('tenant', 'test-tenant', tenant='admin')
         assert resp.status_code in (200, 201, 204)
 
-    def test_delete_tenant(self):
+    def test_timeout(self):
+        resp = api.get_object_by_name('tenant', 'admin', timeout=2)
+        assert resp
+
+    def Ntest_delete_tenant(self):
         resp = api.delete_by_name('tenant', 'test-tenant')
         assert resp.status_code in (200, 201, 204)
 
