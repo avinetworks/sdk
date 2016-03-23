@@ -115,7 +115,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl><p><strong>cloud_config_cksum</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Checksum of cloud configuration for Pool. Internally set by cloud connector</dd></dl><p><strong>request_queue_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable request queue when pool is full</dd><dt>Default</dt><dd>False</dd></dl><p><strong>request_queue_depth</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of requests to be queued when pool is full.</dd><dt>Default</dt><dd>16</dd></dl><p><strong>ab_pool</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of requests to be queued when pool is full.</dd><dt>Default</dt><dd>128</dd></dl><p><strong>ab_pool</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AbPool>AbPool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A/B pool configuration.</dd></dl><p><strong>description</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A description of the pool.</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
@@ -969,6 +969,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_flushes</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_dispatched</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_full</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_evicted</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>

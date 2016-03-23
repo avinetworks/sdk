@@ -47,7 +47,7 @@
 <p><h3 class='text-success'>CloudProperties<br></h3></p>
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cc_vtypes</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Cloud types supported by CloudConnector</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>hyp_props</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Cloud types supported by CloudConnector</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>hyp_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Hypervisor_Properties>Hypervisor_Properties</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Hypervisor properties</dd></dl><p><strong>cc_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CC_Properties>CC_Properties</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>CloudConnector properties</dd></dl><p><strong>info</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CloudInfo>CloudInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Properties specific to a cloud type</dd></dl></div>
@@ -65,7 +65,7 @@
 <div class='container'id=CloudInfo
 <p><h3 class='text-success'>CloudInfo<br></h3></p>
 <p><strong>vtype</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Cloud type</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>htypes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Cloud type</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>htypes</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Supported hypervisors</dd><dt>Choices</dt><dd>DEFAULT, VMWARE_VSAN, VMWARE_ESX, KVM</dd></dl><p><strong>flavor_regex_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>flavor_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CloudFlavor>CloudFlavor</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Flavor properties specific to this cloud type</dd></dl><p><strong>cca_props</strong><br></p>
