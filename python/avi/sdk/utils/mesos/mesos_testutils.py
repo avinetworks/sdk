@@ -167,7 +167,8 @@ class MesosTestUtils(object):
                   num_instances=None, northsouth=0, vips=None,
                   virtualservice=None, pool=None,
                   auth_type=None, auth_token=None, username=None, password=None,
-                  ns_service_port=None, ew_service_port_start_index=None):
+                  ns_service_port=None, ew_service_port_start_index=None,
+                  num_service_ports=1):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
@@ -175,7 +176,8 @@ class MesosTestUtils(object):
 
         marathon_uri = marathon_url + '/v2/apps'
         app_ids = []
-        print 'type', app_type, 'name', app_name, 'ns', northsouth, 'vip', vips
+        print 'type', app_type, 'name', app_name, 'instances', num_instances
+        print 'service_port count', num_service_ports, 'ns', northsouth, 'vip', vips
         for index in range(num_apps):
             app_id = (app_name + '-' + str(index + 1)
                       if num_apps > 1 else app_name)
@@ -212,9 +214,15 @@ class MesosTestUtils(object):
                         avi_proxy['pool'][k] = v
             app_obj['labels']['avi_proxy'] = json.dumps(avi_proxy)
 
-            #if service_port and not northsouth:
-            if ew_service_port_start_index and not app_obj['labels'].get('FE-Proxy'):
-                app_obj['container']['docker']['portMappings'][0]['servicePort'] = int(ew_service_port_start_index) + index
+            port_mapping_template = {'containerPort': 80, 'hostPort': 0, 'servicePort': 0, 'protocol': 'tcp'}
+            for service_port_counter in range(num_service_ports):
+                if service_port_counter > 0:
+                    port_mapping = deepcopy(port_mapping_template)
+                    app_obj['container']['docker']['portMappings'].append(port_mapping)
+                #if service_port and not northsouth:
+                if ew_service_port_start_index and not app_obj['labels'].get('FE-Proxy'):
+                    app_obj['container']['docker']['portMappings'][service_port_counter]['servicePort'] = \
+                        int(ew_service_port_start_index) + (index*num_service_ports) + service_port_counter
 
             headers = self.MARATHON_HDRS
             auth = None
