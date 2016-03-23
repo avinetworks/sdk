@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import logging
 from datetime import datetime
 from requests import Response
@@ -121,6 +122,7 @@ class ApiSession(Session):
         self.headers.pop("X-Avi-Tenant", None)
         self.cookies = user_session.cookies
         self.num_session_retries = 0
+        self.pid = os.getpid()
         return
 
     @staticmethod
@@ -197,6 +199,16 @@ class ApiSession(Session):
 
     def _api(self, api_name, path, tenant, tenant_uuid, data=None,
              timeout=60, **kwargs):
+        if self.pid != os.getpid():
+            logger.info("Session getting used in a different process;"
+                        " Resetting current https adapter"
+                        " (prev %s, curr %s)", self.pid,
+                        os.getpid())
+            if "https://" in self.adapters:
+                logger.info("Resetting the https adapter")
+                self.adapters["https://"].close()
+            self.pid = os.getpid()
+
         kwargs['timeout'] = timeout
         headers = copy.deepcopy(self.headers)
         if 'headers' in kwargs:
