@@ -84,6 +84,7 @@ class ApiSession(Session):
     etc.
     """
     sessionDict = {}
+    AVI_SLUG = 'Slug'
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False):
@@ -181,10 +182,15 @@ class ApiSession(Session):
                             rsp.status_code, rsp.text)
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
-            "X-CSRFToken": dict(rsp.cookies).get('csrftoken', ''),
             "Referer": self.prefix,
             "Content-Type": "application/json"
         })
+        if rsp.cookies and 'csrftoken' in rsp.cookies:
+            csrftoken = rsp.cookies['csrftoken']
+            self.headers.update({"X-CSRFToken": csrftoken})
+            if self.username in ApiSession.sessionDict:
+                cached_api = ApiSession.sessionDict[self.username]['api']
+                cached_api.headers.update({"X-CSRFToken": csrftoken})
         logger.debug("authentication success for user %s with headers: %s",
                      self.username, self.headers)
         return
@@ -243,6 +249,10 @@ class ApiSession(Session):
         handle session exceptions related to authentication and update
         the global user session cache.
         :param path: takes relative path to the AVI api.
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         get method takes relative path to service and kwargs as per Session
             class get method
         returns session's response object
@@ -259,6 +269,10 @@ class ApiSession(Session):
         Internally, it transforms the request to api/path?name=<name>...
         :param path: relative path to service
         :param name: name of the object
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         returns dictionary object if successful else None
         """
         obj = None
@@ -280,18 +294,22 @@ class ApiSession(Session):
         return obj
 
     def post(self, path, data=None, tenant='', tenant_uuid='', timeout=60,
-             forced_uuid=None, **kwargs):
+             force_uuid=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
         the global user session cache.
         :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         returns session's response object
         """
-        if forced_uuid is not None:
+        if force_uuid is not None:
             headers = kwargs.get('headers', {})
-            headers['SLUG'] = forced_uuid
+            headers[self.AVI_SLUG] = force_uuid
             kwargs['headers'] = headers
         return self._api('post', path, tenant, tenant_uuid, data=data,
                          timeout=timeout, **kwargs)
@@ -303,7 +321,11 @@ class ApiSession(Session):
         handle session exceptions related to authentication and update
         the global user session cache.
         :param path: takes relative path to the AVI api.It is modified by
-        the library to conform to AVI Controller's REST API interface
+            the library to conform to AVI Controller's REST API interface
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         returns session's response object
         """
         return self._api('put', path, tenant, tenant_uuid, data=data,
@@ -317,6 +339,10 @@ class ApiSession(Session):
         Internally, it transforms the request to api/path?name=<name>...
         :param path: relative path to service
         :param name: name of the object
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         returns session's response object
         """
         uuid = self._get_uuid_by_name(path, name)
@@ -332,6 +358,10 @@ class ApiSession(Session):
         the global user session cache.
         :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
         returns session's response object
         """
         return self._api('delete', path, tenant, tenant_uuid, data=None,
@@ -345,6 +375,9 @@ class ApiSession(Session):
         api/path?name=<name>...
         :param path: relative path to service
         :param name: name of the object
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
         returns session's response object
         """
         uuid = self._get_uuid_by_name(path, name, tenant, tenant_uuid)

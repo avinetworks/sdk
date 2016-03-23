@@ -66,9 +66,8 @@ class Test(unittest.TestCase):
         assert api == api2
 
     def test_ssl_vs(self):
-        # papi = ApiSession(api.controller_ip, api.username, api.password,
-        #                  verify=False)
-        papi = api
+        papi = ApiSession(api.controller_ip, api.username, api.password,
+                          verify=False)
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
@@ -169,20 +168,28 @@ class Test(unittest.TestCase):
         resp = api.get_object_by_name('pool', pname, tenant='test-tenant')
         assert resp
         resp = tapi.delete_by_name("pool", pname)
-        assert resp.status_code in (200, 201, 204)
+        assert resp.status_code in (200, 204)
         resp = api.get_object_by_name('pool', pname, tenant='test-tenant')
         assert resp is None
         resp = tapi.delete_by_name('tenant', 'test-tenant', tenant='admin')
-        assert resp.status_code in (200, 201, 204)
+        assert resp.status_code in (200, 204)
 
     def test_timeout(self):
         resp = api.get_object_by_name('tenant', 'admin', timeout=2)
         assert resp
 
-    def Ntest_delete_tenant(self):
-        resp = api.delete_by_name('tenant', 'test-tenant')
-        assert resp.status_code in (200, 201, 204)
-
+    def test_force_uuid(self):
+        basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
+        pool_cfg = copy.deepcopy(basic_vs_cfg["pool_obj"])
+        pool_cfg['name'] = pool_cfg['name'] + '-force'
+        resp = api.post('pool', data=pool_cfg, force_uuid='pool-force-42')
+        assert resp.status_code in (200, 201)
+        pool_obj = resp.json()
+        assert pool_obj['uuid'] == 'pool-force-42'
+        pool_obj = api.get_object_by_name('pool', pool_cfg['name'])
+        assert pool_obj['uuid'] == 'pool-force-42'
+        resp = api.delete_by_name("pool", pool_cfg['name'])
+        assert resp.status_code in (200, 204)
 
 if __name__ == "__main__":
     unittest.main()
