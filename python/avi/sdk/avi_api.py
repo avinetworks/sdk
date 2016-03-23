@@ -307,6 +307,8 @@ class ApiSession(Session):
         the global user session cache.
         :param path: takes relative path to the AVI api.It is modified by
         the library to conform to AVI Controller's REST API interface
+        :param data: dictionary of the data. Support for json string
+            is deprecated
         :param tenant: overrides the tenant used during session creation
         :param tenant_uuid: overrides the tenant or tenant_uuid during session
             creation
@@ -330,6 +332,8 @@ class ApiSession(Session):
         the global user session cache.
         :param path: takes relative path to the AVI api.It is modified by
             the library to conform to AVI Controller's REST API interface
+        :param data: dictionary of the data. Support for json string
+            is deprecated
         :param tenant: overrides the tenant used during session creation
         :param tenant_uuid: overrides the tenant or tenant_uuid during session
             creation
@@ -349,6 +353,8 @@ class ApiSession(Session):
         Internally, it transforms the request to api/path?name=<name>...
         :param path: relative path to service
         :param name: name of the object
+        :param data: dictionary of the data. Support for json string
+            is deprecated
         :param tenant: overrides the tenant used during session creation
         :param tenant_uuid: overrides the tenant or tenant_uuid during session
             creation
