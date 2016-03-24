@@ -2,7 +2,7 @@
 set -x
 assets=""
 REL=latest
-BRANCH=master
+BRANCH=test-16.2
 git tag -d $REL
 git tag $REL
 git push -f origin $REL
