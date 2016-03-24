@@ -84,8 +84,8 @@ def upload_config_to_controller(config_dict, controller_ip,
                 if cert_obj:
                     cert_refs.append(session.get_obj_ref(cert_obj))
                 elif not cert_refs:
-                    cert_obj = session.get_object_by_name("sslkeyandcertificate",
-                                           "System-Default-Cert")
+                    cert_obj = session.get_object_by_name(
+                        "sslkeyandcertificate", "System-Default-Cert")
                     cert_refs.append(session.get_obj_ref(cert_obj))
                     LOG.warning("Failed to get cert referance for : " +
                                 cert_nmae+" adding System-Default-Cert insted")

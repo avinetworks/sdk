@@ -56,16 +56,6 @@ def get_avi_pool_down_action(action):
         return "POOL_DOWN_ACTION_CLOSE_CONN"
 
 
-def get_monitor_obj(monitor_name, monitor_config_list):
-    """
-    Search monitor by name from list of monitors
-    """
-    for monitor in monitor_config_list:
-        if monitor["name"] == monitor_name:
-            return monitor
-    return None
-
-
 def convert_pool_config(pool_config, nodes, tenant,
                         monitor_config_list, conversion_status):
     """
@@ -107,10 +97,11 @@ def convert_pool_config(pool_config, nodes, tenant,
             monitor_refs = []
             for monitor in monitors:
                 monitor = monitor.strip()
-                monitor_obj = get_monitor_obj(monitor, monitor_config_list)
+                monitor_obj = [obj for obj in monitor_config_list
+                               if obj["name"] == monitor]
                 if monitor_obj:
-                    monitor_refs.append(monitor_obj["name"])
-                    if monitor_obj["type"] == "HEALTH_MONITOR_HTTPS":
+                    monitor_refs.append(monitor_obj[0]["name"])
+                    if monitor_obj[0]["type"] == "HEALTH_MONITOR_HTTPS":
                         is_ssl = True
                 elif monitor in default_monitors.keys():
                     if monitor == "https":
@@ -143,9 +134,18 @@ def convert_pool_config(pool_config, nodes, tenant,
 
 
 def get_profiles_for_vs(profiles, profile_config, tenant):
+    """
+    Searches for profile refs in converted profile config if not found creates
+    default profiles
+    :param profiles: profiles in f5 config assigned to VS
+    :param profile_config: avi profile config
+    :param tenant: tenant name for default profiles
+    :return: returns list of profile refs assigned to VS in avi config
+    """
     vs_ssl_profile_names = []
     pool_ssl_profile_names = []
     app_profile_names = []
+    network_profile_names = []
     if not profiles:
         return []
     for name in profiles.keys():
@@ -153,22 +153,28 @@ def get_profiles_for_vs(profiles, profile_config, tenant):
                         if obj['name'] == name]
         if ssl_profiles or name in ["clientssl", "serverssl"]:
             if not ssl_profiles and name == "clientssl":
-                vs_ssl_profile_names.append(tenant+":System-Standard")
+                vs_ssl_profile_names.append({
+                    "profile": tenant + ":System-Standard", "cert": None})
                 continue
             if not ssl_profiles and name == "serverssl":
-                pool_ssl_profile_names.append(tenant+":System-Standard")
+                pool_ssl_profile_names.append({
+                    "profile": tenant+":System-Standard", "cert": None})
                 continue
+            key_cert = [obj for obj in profile_config["ssl_key_cert_list"]
+                        if obj['name'] == name]
+            key_cert = name if key_cert else None
             profile = profiles.get(name, None)
             context = profile.get("context", None)
             if context == "clientside":
-                vs_ssl_profile_names.append(name)
+                vs_ssl_profile_names.append({"profile": name, "cert": key_cert})
             elif context == "serverside":
-                pool_ssl_profile_names.append(name)
+                pool_ssl_profile_names.append(
+                    {"profile": name, "cert": key_cert})
         app_profiles = [obj for obj in profile_config["app_profile_list"]
                         if obj['name'] == name]
         if app_profiles or name in ["http", "dns",
                                     "web-acceleration", "http-compression"]:
-            if not app_profiles and name == "http":
+            if not app_profiles and name in ("http", "fasthttp"):
                 app_profile_names.append(tenant+":System-HTTP")
             elif not app_profiles and name == "dns":
                 app_profile_names.append(tenant+":System-DNS")
@@ -198,21 +204,28 @@ def get_profiles_for_vs(profiles, profile_config, tenant):
                 app_profile_names.append("http-compression")
             else:
                 app_profile_names.append(name)
-    return vs_ssl_profile_names, pool_ssl_profile_names, app_profile_names
+        network_profiles = [obj for obj in profile_config[
+            "network_profile_list"] if obj['name'] == name]
+        if network_profiles or name in ["fasthttp", "tcp", "udp"]:
+            if not network_profiles and name == "fasthttp":
+                network_profile_names.append(tenant+":System-TCP-Proxy")
+            if not network_profiles and name == "fastL4":
+                network_profile_names.append(tenant+":System-TCP-Fast-Path")
+            elif not network_profiles and name == "tcp":
+                network_profile_names.append(tenant+":System-TCP-Proxy")
+            elif not network_profiles and name == "udp":
+                network_profile_names.append(tenant+":System-UDP-Fast-Path")
+            else:
+                network_profile_names.append(name)
 
+    if not app_profile_names:
+        if network_profile_names:
+            app_profile_names.append(tenant+":System-L4-Application")
+        else:
+            app_profile_names.append(tenant+":System-HTTP")
 
-def is_pool_shared(pool_ref, vs_list):
-    """
-    F5 supports shared pool here we validate for if pool in VS
-    is shared with other VS or not
-    :param pool_ref: Name of the pool
-    :param vs_list: List of existing converted VS
-    :return: Boolean for shared pool
-    """
-    for vs in vs_list:
-        if vs["pool_ref"] == pool_ref:
-            return True
-    return False
+    return vs_ssl_profile_names, pool_ssl_profile_names, \
+           app_profile_names, network_profile_names
 
 
 def clone_pool(pool_name, vs_name, avi_pool_list):
@@ -244,40 +257,61 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
     :param pool_ssl_profiles: ssl profiles to be added to pool
     :param tenant: tenant name for default object
     """
-    if pool_ssl_profiles == "serverssl":
+    if pool_ssl_profiles["profile"] == "serverssl":
         pool_ssl_profiles = tenant+":"+"System-Default-Cert"
     for pool in avi_pool_list:
         if pool_ref == pool["name"]:
-            pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles
+            if pool_ssl_profiles["cert"]:
+                pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles
             if not pool.get("ssl_profile_ref", None):
                 pool["ssl_profile_ref"] = "admin:System-Standard"
 
 
+def update_service(port, vs, enable_ssl):
+    """
+    iterates over services of existing vs in converted list to update
+    services for port overlapping scenario
+    :param port: port for currant VS
+    :param vs: VS from converted config list
+    :param enable_ssl: value to put in service object
+    :return: boolean if service is updated or not
+    """
+    service_updated = False
+    for service in vs['services']:
+        port_end = service.get('port_range_end', None)
+        if port_end and (service['port'] <= int(port) <= port_end):
+            if port not in [1, 65535]:
+                new_end = service['port_range_end']
+                service['port_range_end'] = int(port)-1
+                new_service = {'port': int(port)+1,
+                               'port_range_end':new_end,
+                               'enable_ssl': enable_ssl}
+                vs['services'].append(new_service)
+            elif port == 1:
+                service['port'] = 2
+            elif port == 65535:
+                service['port_range_end'] = 65534
+            service_updated = True
+            break
+    return service_updated
+
+
 def get_service_obj(destination, vs_list, enable_ssl):
+    """
+    Checks port overlapping scenario for port value 0 in F5 config
+    :param destination: IP and Port destination of VS
+    :param vs_list: List of existing vs converted to avi config
+    :param enable_ssl: value to put in service objects
+    :return: List of services for VS
+    """
     services_obj = []
     parts = destination.split(':')
     ip_addr = parts[0]
     port = parts[1] if len(parts) == 2 else 80
     vs_dup_ips = [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
-    service_updated = False
     if int(port) > 0:
         for vs in vs_dup_ips:
-            for service in vs['services']:
-                port_end  = service.get('port_range_end', None)
-                if port_end and service['port'] <= int(port) <= port_end:
-                    if port not in [1,65535]:
-                        new_end = service['port_range_end']
-                        service['port_range_end'] = int(port)-1
-                        new_service = {'port': int(port)+1,
-                                       'port_range_end':new_end,
-                                       'enable_ssl': enable_ssl}
-                        vs['services'].append(new_service)
-                    elif port == 1:
-                        service['port'] = 2
-                    elif port == 65535:
-                        service['port_range_end'] = 65534
-                    service_updated = True
-                    break
+            service_updated = update_service(port, vs, enable_ssl)
             if service_updated:
                 break
         services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
@@ -324,10 +358,8 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         skipped_attr = [key for key in f5_vs.keys() if
                         key not in supported_attr]
         enabled = (vs_state == 'enable')
-        ssl_vs, ssl_pool, app_prof = get_profiles_for_vs(f5_vs.get(
+        ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(f5_vs.get(
             "profiles", None), profile_config, tenant)
-        if not app_prof:
-            app_prof = [tenant+':System-HTTP']
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
@@ -337,11 +369,13 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                 enable_ssl)
         pool_ref = f5_vs.get("pool", None)
-        if pool_ref and is_pool_shared(pool_ref, vs_list):
-            pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
-
-        if pool_ref and ssl_pool:
-            add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0], tenant)
+        if pool_ref:
+            shared_vs = [obj for obj in vs_list
+                         if obj.get("pool_ref", "") == pool_ref]
+            if shared_vs:
+                pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
+            if ssl_pool:
+                add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0], tenant)
 
         vs_obj = {
             'name': vs_name,
@@ -355,13 +389,15 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
             'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
+        if ntwk_prof:
+            vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
             default_cert = tenant+":"+"System-Default-Cert"
-            vs_obj['ssl_profile_name'] = ssl_vs[0]
-            if 'System-Standard' in ssl_vs[0]:
-                vs_obj['ssl_key_and_certificate_refs'] = [default_cert]
+            vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
+            if ssl_vs[0]["cert"]:
+                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
             else:
-                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]]
+                vs_obj['ssl_key_and_certificate_refs'] = [default_cert]
 
         vs_list.append(vs_obj)
         if skipped_attr:
@@ -408,7 +444,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     """
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description"]
-    skiped = [key for key in f5_monitor.keys() if
+    skipped = [key for key in f5_monitor.keys() if
               key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", 16))
     interval = int(f5_monitor.get("interval", 5))
@@ -443,7 +479,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
     elif monitor_type == "dns":
-        skiped = [key for key in skiped if key not in ["accept-rcode"]]
+        skipped = [key for key in skipped if key not in ["accept-rcode"]]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         if accept_rcode and accept_rcode == "no-error":
             rcode = "RCODE_NO_ERROR"
@@ -457,7 +493,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         monitor_dict["dns_monitor"] = dns_monitor
     elif monitor_type == "tcp":
         tcp_attr = ["destination", "send", "recv"]
-        skiped = [key for key in skiped if key not in tcp_attr]
+        skipped = [key for key in skipped if key not in tcp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -470,7 +506,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
             monitor_dict["tcp_monitor"] = tcp_monitor
     elif monitor_type == "udp":
         udp_attr = ["destination", "send", "recv"]
-        skiped = [key for key in skiped if key not in udp_attr]
+        skipped = [key for key in skipped if key not in udp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -485,7 +521,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
     elif monitor_type == "external":
         ext_attr = ["run", "args", "user-defined"]
-        skiped = [key for key in skiped if key not in ext_attr]
+        skipped = [key for key in skipped if key not in ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
             "command_code": f5_monitor.get("run", None),
@@ -493,7 +529,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
             "command_variables": f5_monitor.get("user-defined", None)
         }
         monitor_dict["external_monitor"] = ext_monitor
-    return monitor_dict, skiped
+    return monitor_dict, skipped
 
 
 def convert_monitor_config(monitor_config, conversion_status):
@@ -670,6 +706,7 @@ def convert_profile_config(profile_config, certs_location,
             if not ca_file_name and crl_file_name:
                 LOG.warning("Skipped PKI profile for profile %s "
                             "because of missing CA file" % name)
+
             elif ca_file_name:
                 pki_profile = dict()
                 file_path = certs_location+os.path.sep+ca_file_name
@@ -788,6 +825,89 @@ def convert_profile_config(profile_config, certs_location,
             http_profile["compression_profile"] = compression_profile
             app_profile["http_profile"] = http_profile
             app_profile_list.append(app_profile)
+        elif profile_type == 'fastl4':
+            supported_attr = ["description", "explicit-flow-migration",
+                              "idle-timeout", "software-syn-cookie"]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
+            syn_protection = (profile.get("software-syn-cookie",
+                                          None) == 'enabled')
+            timeout = profile.get("idle-timeout", 0)
+            ntwk_profile = {
+                  "profile": {
+                        "tcp_fast_path_profile": {
+                          "session_idle_timeout": timeout,
+                          "enable_syn_protection": syn_protection
+                        },
+                        "type": "PROTOCOL_TYPE_TCP_FAST_PATH"
+                  },
+                  "name": name
+                }
+            app_profile = dict()
+            app_profile['name'] = name
+            app_profile['type'] = 'APPLICATION_PROFILE_TYPE_L4'
+            explicit_tracking = profile.get("explicit-flow-migration",None)
+            l4_profile = {"rl_profile": {
+                    "client_ip_connections_rate_limit": {
+                        "explicit_tracking": (explicit_tracking == 'enabled')
+                    }}
+            }
+            app_profile['dos_rl_profile'] = l4_profile
+            app_profile_list.append(app_profile)
+            network_profile_list.append(ntwk_profile)
+        elif profile_type == 'fasthttp':
+            supported_attr = ["description", "receive-window-size",
+                              "idle-timeout"]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
+            receive_window = profile.get("receive-window-size", 64)
+            if not (32 <= int(receive_window) <= 65536):
+                receive_window = 64
+            timeout = profile.get("idle-timeout", 0)
+            ntwk_profile = {
+                "profile": {
+                    "tcp_proxy_profile": {
+                        "receive_window": receive_window,
+                        "idle_connection_timeout": timeout
+                    },
+                    "type": "PROTOCOL_TYPE_TCP_PROXY"
+                },
+                "name": name
+            }
+            network_profile_list.append(ntwk_profile)
+        elif profile_type == 'tcp':
+            supported_attr = ["description", " idle-timeout"]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
+            timeout = profile.get("idle-timeout", 0)
+            ntwk_profile = {
+                  "profile": {
+                        "tcp_proxy_profile": {
+                          "session_idle_timeout": timeout
+                        },
+                        "type": "PROTOCOL_TYPE_TCP_PROXY"
+                  },
+                  "name": name
+                }
+            network_profile_list.append(ntwk_profile)
+        elif profile_type == 'udp':
+            supported_attr = ["description", "idle-timeout",
+                              "datagram-load-balancing"]
+            skipped = [key for key in profile.keys()
+                       if key not in supported_attr]
+            per_pkt = profile.get("datagram-load-balancing", 'disabled')
+            timeout = profile.get("idle-timeout", 0)
+            ntwk_profile = {
+                "profile": {
+                    "type": "PROTOCOL_TYPE_UDP_FAST_PATH",
+                    "udp_fast_path_profile": {
+                        "per_pkt_loadbalance": (per_pkt == 'enabled'),
+                        "session_idle_timeout": timeout
+                    }
+                },
+                "name": "System-UDP-Fast-Path"
+            }
+            network_profile_list.append(ntwk_profile)
         else:
             LOG.warning("Not supported profile type: %s" % profile_type)
             conversion_status["skipped_conversion"].append("profile "+name)
