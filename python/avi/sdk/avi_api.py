@@ -206,27 +206,12 @@ class ApiSession(Session):
                      self.username, self.headers)
         return
 
-    def _api(self, api_name, path, tenant, tenant_uuid, data=None,
-             timeout=60, **kwargs):
-        if self.pid != os.getpid():
-            logger.info("Session getting used in a different process;"
-                        " Resetting current https adapter"
-                        " (prev %s, curr %s)", self.pid,
-                        os.getpid())
-            if "https://" in self.adapters:
-                logger.info("Resetting the https adapter")
-                self.adapters["https://"].close()
-            self.pid = os.getpid()
-
-        kwargs['timeout'] = timeout
-        headers = copy.deepcopy(self.headers)
-        if 'headers' in kwargs:
-            headers.update(kwargs['headers'])
-        if self.pid != os.getpid():
-            logger.info('pid %d change detected new %d. Closing session',
-                        self.pid, os.getpid())
-            self.close()
-            self.pid = os.getpid()
+    def _get_api_headers(self, tenant, tenant_uuid, timeout, headers):
+        """
+        returns the headers that are passed to the requests.Session api calls.
+        """
+        api_hdrs = copy.deepcopy(self.headers)
+        api_hdrs['timeout'] = timeout
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -235,19 +220,44 @@ class ApiSession(Session):
             tenant = self.tenant
             tenant_uuid = self.tenant_uuid
         if tenant_uuid:
-            headers.update({"X-Avi-Tenant-UUID": "%s" % tenant_uuid})
-            headers.pop("X-Avi-Tenant", None)
+            api_hdrs.update({"X-Avi-Tenant-UUID": "%s" % tenant_uuid})
+            api_hdrs.pop("X-Avi-Tenant", None)
         elif tenant:
-            headers.update({"X-Avi-Tenant": "%s" % tenant})
-            headers.pop("X-Avi-Tenant-UUID", None)
-        kwargs['headers'] = headers
+            api_hdrs.update({"X-Avi-Tenant": "%s" % tenant})
+            api_hdrs.pop("X-Avi-Tenant-UUID", None)
+        if headers:
+            # overwrite the headers passed via the API calls.
+            api_hdrs.update(headers)
+        return api_hdrs
+
+    def _api(self, api_name, path, tenant, tenant_uuid, data=None,
+             timeout=60, headers=None, **kwargs):
+        """
+        It calls the requests.Session APIs and handles session expiry
+        and other situations where session needs to be reset.
+        returns ApiResponse object
+        :param path: takes relative path to the AVI api.
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
+        :param headers: dictionary of headers that override the session
+            headers.
+        """
+        if self.pid != os.getpid():
+            logger.info('pid %d change detected new %d. Closing session',
+                        self.pid, os.getpid())
+            self.close()
+            self.pid = os.getpid()
         fullpath = self._get_api_path(path)
         fn = getattr(super(ApiSession, self), api_name)
+        api_hdrs = \
+            self._get_api_headers(tenant, tenant_uuid, timeout, headers)
         if (data is not None) and (type(data) == dict):
-            resp = fn(fullpath, json=data, **kwargs)
+            resp = fn(fullpath, json=data, headers=api_hdrs, **kwargs)
         else:
-            resp = fn(fullpath, data=data, **kwargs)
-        logger.info('kwargs: %s rsp %s', kwargs, resp.text)
+            resp = fn(fullpath, data=data, headers=api_hdrs, **kwargs)
+        logger.debug('kwargs: %s rsp %s', kwargs, resp.text)
         if resp.status_code in (401, 419):
             logger.info('received error %d %s so resetting connection',
                         resp.status_code, resp.text)
@@ -256,8 +266,9 @@ class ApiSession(Session):
             if self.num_session_retries > 2:
                 raise APIError("giving up after %d retries" %
                                self.num_session_retries)
+            # should restore the updated_hdrs to one passed down
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
-                             **kwargs)
+                             headers=headers, **kwargs)
             self.num_session_retries = 0
         if resp.cookies and 'csrftoken' in resp.cookies:
             csrftoken = resp.cookies['csrftoken']
