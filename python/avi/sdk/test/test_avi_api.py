@@ -6,8 +6,10 @@ from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
 from requests import Response
+from multiprocessing import Pool, Process
 import traceback
 import copy
+import os
 
 gSAMPLE_CONFIG = None
 api = None
@@ -34,6 +36,22 @@ def setUpModule():
             tenant=login_info.get("tenant", "admin"),
             tenant_uuid=login_info.get("tenant_uuid", None),
             verify=False)
+
+
+def create_sessions(args):
+    login_info, num_sessions = args
+    log.info('pid %d num_sessions %d', os.getpid(), num_sessions)
+    user = login_info.get("username", "admin")
+    for _ in xrange(num_sessions):
+        api = ApiSession(login_info["controller_ip"],
+                         login_info.get("username", "admin"),
+                         login_info.get("password", "avi123"))
+    return 1 if user in ApiSession.sessionDict else 0
+
+
+def shared_session_check(index):
+    rsp = api.get('tenant')
+    return rsp.status_code
 
 
 class Test(unittest.TestCase):
@@ -86,7 +104,7 @@ class Test(unittest.TestCase):
         resp = papi.delete_by_name("pool", pool_name)
         assert resp.status_code in (200, 204)
 
-    def test_reset_connection(self):
+    def reset_connection(self):
         login_info = gSAMPLE_CONFIG["User2"]
         old_password = login_info["password"]
         api2 = ApiSession.get_session(
@@ -190,6 +208,30 @@ class Test(unittest.TestCase):
         assert pool_obj['uuid'] == 'pool-force-42'
         resp = api.delete_by_name("pool", pool_cfg['name'])
         assert resp.status_code in (200, 204)
+
+    def test_multiprocess_cache(self):
+        p = Pool(4)
+        num_sessions_list = [1, 4, 3, 2, 1]
+        p_args = []
+        for num_ssn in num_sessions_list:
+            t = (login_info, num_ssn)
+            p_args.append(t)
+        results = p.map(create_sessions, p_args)
+        for result in results:
+            assert result == 1
+
+    def test_multiprocess_sharing(self):
+        api.get_object_by_name('tenant', name='admin')
+        p = Process(target=shared_session_check, args=(1,))
+        p.start()
+        p.join()
+        p = Pool(16)
+        shared_sessions = []
+        for index in xrange(16):
+            shared_sessions.append(index)
+        results = p.map(shared_session_check, shared_sessions)
+        for result in results:
+            assert result == 200
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,7 @@ import copy
 import json
 import os
 import logging
+import os
 from datetime import datetime
 from requests import Response
 from requests.sessions import Session
@@ -88,7 +89,11 @@ class ApiSession(Session):
     etc.
     """
     sessionDict = {}
+    # This keeps track of the process which created the cache.
+    # At anytime the pid of the process changes then it would create
+    # a new cache for that process.
     AVI_SLUG = 'Slug'
+    SESSION_CACHE_EXPIRY = 20*60
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False):
@@ -115,8 +120,8 @@ class ApiSession(Session):
             logger.debug("Session does not exist creating new session for %s",
                          username)
             self.authenticate_session()
-            ApiSession.sessionDict[username] = {"api": self,
-                                                "last_used": datetime.utcnow()}
+            ApiSession.sessionDict[username] = \
+                {"api": self, "last_used": datetime.utcnow()}
             user_session = self
         self.headers = copy.deepcopy(user_session.headers)
         # don't save the tenant headers as it would interfer with the
@@ -194,7 +199,8 @@ class ApiSession(Session):
             csrftoken = rsp.cookies['csrftoken']
             self.headers.update({"X-CSRFToken": csrftoken})
             if self.username in ApiSession.sessionDict:
-                cached_api = ApiSession.sessionDict[self.username]['api']
+                cached_api = \
+                    ApiSession.sessionDict[self.username]['api']
                 cached_api.headers.update({"X-CSRFToken": csrftoken})
         logger.debug("authentication success for user %s with headers: %s",
                      self.username, self.headers)
@@ -216,9 +222,11 @@ class ApiSession(Session):
         headers = copy.deepcopy(self.headers)
         if 'headers' in kwargs:
             headers.update(kwargs['headers'])
-
-        # If either tenant or tenant_uuid is set then we need to use them
-        # else use the default.
+        if self.pid != os.getpid():
+            logger.info('pid %d change detected new %d. Closing session',
+                        self.pid, os.getpid())
+            self.close()
+            self.pid = os.getpid()
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -471,10 +479,12 @@ class ApiSession(Session):
     @staticmethod
     def _clean_inactive_sessions():
         """Removes sessions which are inactive more than 20 min"""
-        print "cleaning inactive sessions"
-        print ApiSession.sessionDict
-        for sess_dict in ApiSession.sessionDict.values():
-            if (datetime.utcnow() - sess_dict["last_used"]).\
-                    total_seconds() > 20*60:
-                del ApiSession.sessionDict[sess_dict["api"].username]
-                print "Removed session for :" + sess_dict["api"].username
+        session_cache = ApiSession.sessionDict
+        logger.debug("cleaning inactive sessions in pid %d num elem %d",
+                     os.getpid(), len(session_cache))
+        for user, session in session_cache.iteritems():
+            tdiff = (datetime.utcnow() - session["last_used"]).total_seconds()
+            if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
+                continue
+            logger.debug("Removed session for : %s", user)
+            del session_cache[user]
