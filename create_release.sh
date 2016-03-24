@@ -16,5 +16,5 @@ rm -rf dist
 rm -rf avisdk.egg-info
 assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-$BRANCH"
 cd ../
-/usr/local/bin/hub release edit $assets -F ReleaseNote $REL
+/usr/local/bin/hub release create $assets -F ReleaseNote $REL
 rm avisdk-$BRANCH.tar.gz
