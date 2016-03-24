@@ -1,11 +1,11 @@
+#!/usr/bin/env python
 import argparse
 import json
 import logging
 import os
-
-import f5_config_converter
-import f5_parser
-import upload_config
+from avi.sdk.utils.f5_converter import f5_config_converter
+from avi.sdk.utils.f5_converter import f5_parser
+from avi.sdk.utils.f5_converter import upload_config
 from requests.packages import urllib3
 
 urllib3.disable_warnings()
@@ -31,7 +31,8 @@ if __name__ == "__main__":
                         help='location of cert files', default='.')
 
     args = parser.parse_args()
-
+    if not os.path.exists(args.output_file_path):
+        os.mkdir(args.output_file_path)
     output_file_path = os.path.normpath(args.output_file_path)
     certs_location = os.path.normpath(args.certs_location)
 

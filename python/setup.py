@@ -12,14 +12,15 @@ if os.path.exists("./VERSION"):
         AVI_PIP_VERSION = "%s.%s" % (fs["Version"], fs["build"])
 
 setup(
-    name = 'avisdk',
-    version = AVI_PIP_VERSION,
-    packages = find_packages(),
-    description = 'Avi python sdk.',
-    url = 'http://avinetworks.com/',
-    author = 'Avi Networks',
-    author_email = 'support@avinetworks.com',
-    classifiers = [
+    name='avisdk',
+    version=AVI_PIP_VERSION,
+    packages=find_packages(),
+    description='Avi python sdk.',
+    url='http://avinetworks.com/',
+    author='Avi Networks',
+    author_email='support@avinetworks.com',
+    scripts=['avi/sdk/utils/f5_converter/f5_converter.py'],
+    classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
@@ -27,8 +28,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     include_package_data=True,
-    install_requires = ['requests', 'pyyaml'],
+    install_requires=['requests', 'pyyaml', 'pyparsing'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.json', '*.key',
                           '*.pem', '*.xml', '*.yaml']},
 )
-
