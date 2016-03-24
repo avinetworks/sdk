@@ -108,13 +108,25 @@
 <div class='container'id=AdminAuthConfiguration
 <p><h3 class='text-success'>AdminAuthConfiguration<br></h3></p>
 <p><strong>auth_profile_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=authprofile.html#AuthProfile>Reference to AuthProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>default_tenant_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>default_role_name</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Roles name to lookup if no roles match using groups or attributes</dd></dl><p><strong>use_group_membership_for_roles</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use group membership identify the roles for this session</dd></dl><p><strong>attribute_for_roles</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Attribute whole value matches the roles for this session</dd></dl><p><strong>use_group_membership_for_tenant</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use group membership identify the tenant</dd></dl><p><strong>attribute_for_tenant</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Attribute whole value matches the tenant</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=authprofile.html#AuthProfile>Reference to AuthProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>mapping_rules</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthMappingRule>AuthMappingRule</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Rules list for tenant or role mapping</dd></dl></div>
+<div class='container'id=AuthMappingRule
+<p><h3 class='text-success'>AuthMappingRule<br></h3></p>
+<p><strong>index</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>group_matches</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthMatchGroupMembership>AuthMatchGroupMembership</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>attribute_matches</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthMatchAttribute>AuthMatchAttribute</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>assign_tenant</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>ASSIGN_ALL, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME</dd></dl><p><strong>tenant_attribute_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>assign_role</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>ASSIGN_ALL, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME</dd></dl><p><strong>role_attribute_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>role_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=role.html#Role>Reference to Role</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=AuthMatchGroupMembership
+<p><h3 class='text-success'>AuthMatchGroupMembership<br></h3></p>
+<p><strong>criteria</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>rule match criteria</dd><dt>Choices</dt><dd>AUTH_CHECK_CONTAINS, AUTH_CHECK_EXISTS, AUTH_CHECK_DOES_NOT_CONTAIN</dd></dl><p><strong>groups</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=SnmpConfiguration
 <p><h3 class='text-success'>SnmpConfiguration<br></h3></p>
 <p><strong>community</strong><br></p>
@@ -137,10 +149,11 @@
 <h1 class='text-primary'>References</h1>
 <p>
 <a href=".html"></a>
-<a href="authprofile.html">AuthProfile</a>
-<a href="sslprofile.html">SSLProfile</a>
-<a href="tenant.html">Tenant</a>
 <a href="sslkeyandcertificate.html">SSLKeyAndCertificate</a>
+<a href="sslprofile.html">SSLProfile</a>
+<a href="role.html">Role</a>
+<a href="authprofile.html">AuthProfile</a>
+<a href="tenant.html">Tenant</a>
 </p>
 
 <h1 class='text-primary'>Sub Objects</h1>
