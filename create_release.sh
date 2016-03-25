@@ -1,8 +1,12 @@
 #!/bin/bash
 set -x
 assets=""
-REL=latest
-BRANCH=master
+echo "Usage ./create_release.sh <branch> <release_name>"
+REL=$2
+BRANCH=$1
+if [ $BRANCH = "eng" ]; then
+    BRANCH="master"
+fi
 git tag -d $REL
 git tag $REL
 git push -f origin $REL
