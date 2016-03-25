@@ -53,7 +53,7 @@ for vs in resp.json()['results']:
 # delete virtualservice
 resp = api.delete('virtualservice', 'sample_vs')
 ```
-## F5 Converter Usage
+#### F5 Converter Usage
 See all the F5 converter options
 ```sh
 f5_converter.py -h
@@ -63,7 +63,7 @@ Convert bigip.conf into Avi configuration. Output is in output directory
 f5_converter.py -f bigip.conf 
 ls output
 ```
-## VirtualService Examples
+#### virtualservice_examples_api Usage
 Create a basic virtualservice named basic-vs
 ```sh
 virtualservice_examples_api.py -h
