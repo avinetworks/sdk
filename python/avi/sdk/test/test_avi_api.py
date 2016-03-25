@@ -60,7 +60,7 @@ class Test(unittest.TestCase):
         vs_obj = basic_vs_cfg["vs_obj"]
         resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]))
         assert resp.status_code in (200, 201)
-        vs_obj["pool_ref"] = api.get_obj_ref(resp)
+        vs_obj["pool_ref"] = api.get_obj_ref(resp.json())
         resp = api.post('virtualservice', data=json.dumps(vs_obj))
         assert resp.status_code in (200, 201)
         pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
@@ -90,11 +90,11 @@ class Test(unittest.TestCase):
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
         resp = papi.post('pool', data=json.dumps(ssl_vs_cfg["pool_obj"]))
-        pool_ref = papi.get_obj_ref(resp)
+        pool_ref = papi.get_obj_ref(resp.json())
         cert, key, _, _ = get_sample_ssl_params(folder_path='../samples/')
         api_utils = ApiUtils(papi)
         resp = api_utils.import_ssl_certificate("ssl-vs-kc", key, cert)
-        ssl_key_and_cert_ref = [papi.get_obj_ref(resp)]
+        ssl_key_and_cert_ref = [papi.get_obj_ref(resp.json())]
         vs_obj["pool_ref"] = pool_ref
         vs_obj["ssl_key_and_certificate_refs"] = ssl_key_and_cert_ref
         resp = papi.post('virtualservice', data=json.dumps(vs_obj))
