@@ -131,6 +131,7 @@ class ApiSession(Session):
         self.cookies = user_session.cookies
         self.num_session_retries = 0
         self.pid = os.getpid()
+        ApiSession._clean_inactive_sessions()
         return
 
     @staticmethod
@@ -171,7 +172,6 @@ class ApiSession(Session):
         logger.info('resetting session for %s', self.username)
         self.headers = {}
         self.authenticate_session()
-        ApiSession._clean_inactive_sessions()
 
     def authenticate_session(self):
         """
@@ -485,7 +485,12 @@ class ApiSession(Session):
         return self.get_obj_uuid(resp)
 
     def _update_session_last_used(self):
-        ApiSession.sessionDict[self.username]["last_used"] = datetime.utcnow()
+        if self.username in ApiSession.sessionDict:
+            ApiSession.sessionDict[self.username]["last_used"] = \
+                datetime.utcnow()
+        else:
+            ApiSession.sessionDict[self.username] = \
+                {'api': self, 'last_used': datetime.utcnow()}
 
     @staticmethod
     def _clean_inactive_sessions():

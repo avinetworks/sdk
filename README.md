@@ -23,4 +23,49 @@ Here are list of important SDK directories
         creating HTTP request and redirect policies for most common use cases
         - **Mesos**: Provides CRUD apis to create Marathon App with AVI labels
 
+# Installation
+Pip packages are hosted on GitHub. They can be installed simply as:
+```sh
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-master.tar.gz
+```
 
+# Usage  
+## ApiSession Usage  
+
+```python
+from avi.sdk.avi_api import ApiSession
+# create Avi API Session
+api = ApiSession.get_session("10.10.10.42", "admin", "something", tenant="admin")
+
+# create virtualservice using pool sample_pool
+pool_obj = api.get_object_by_name('pool', 'sample_pool')
+pool_ref = api.get_obj_ref(pool_obj)
+services_obj = [{'port': 80, 'enable_ssl': False}]
+vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4'},
+         'services': services_obj', 'pool_ref': pool_ref}
+resp = api.post('virtualservice', data=vs_obj)
+
+# print list of all virtualservices 
+resp = api.get('virtualservice')
+for vs in resp.json()['results']:
+    print vs['name']
+
+# delete virtualservice
+resp = api.delete('virtualservice', 'sample_vs')
+```
+#### F5 Converter Usage
+See all the F5 converter options
+```sh
+f5_converter.py -h
+```
+Convert bigip.conf into Avi configuration. Output is in output directory
+```sh
+f5_converter.py -f bigip.conf 
+ls output
+```
+#### virtualservice_examples_api Usage
+Create a basic virtualservice named basic-vs
+```sh
+virtualservice_examples_api.py -h
+virtualservice_examples_api.py -c 10.10.25.42 -i 10.90.64.141 -o create-basic-vs -s 10.90.64.12
+```
