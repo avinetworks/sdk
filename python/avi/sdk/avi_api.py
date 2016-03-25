@@ -490,7 +490,7 @@ class ApiSession(Session):
                 datetime.utcnow()
         else:
             ApiSession.sessionDict[self.username] = \
-                {'api': self, 'last_userd': datetime.utcnow()}
+                {'api': self, 'last_used': datetime.utcnow()}
 
     @staticmethod
     def _clean_inactive_sessions():
