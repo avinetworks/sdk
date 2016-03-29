@@ -3,9 +3,8 @@ import argparse
 import json
 import logging
 import os
-from avi.sdk.utils.f5_converter import f5_config_converter
-from avi.sdk.utils.f5_converter import f5_parser
-from avi.sdk.utils.f5_converter import upload_config
+from avi.sdk.utils.f5_converter import f5_config_converter, \
+    f5_config_converter_v10, f5_parser, upload_config
 from requests.packages import urllib3
 
 urllib3.disable_warnings()
@@ -51,11 +50,20 @@ if __name__ == "__main__":
     source_str = source_file.read()
     LOG.debug('Reading source file:'+source_file.name)
     f5_config_dict = f5_parser.parse_config(source_str,
-                                            output_file_path, 11)
+                                            output_file_path,
+                                            args.f5_config_version)
+    print f5_config_dict
     LOG.debug('File Parsed successfully')
-    avi_config_dict = f5_config_converter.\
-        convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
-                            certs_location, args.tenant, args.option)
+    avi_config_dict = None
+    if int(args.f5_config_version) == 11:
+        avi_config_dict = f5_config_converter.\
+            convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
+                                certs_location, args.tenant, args.option)
+    elif int(args.f5_config_version) == 10:
+        avi_config_dict = f5_config_converter_v10.\
+            convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
+                                certs_location, args.tenant, args.option)
+
     LOG.debug('Conversion started')
     if args.option == "cli-upload":
         avi_config_dict["META"] = {

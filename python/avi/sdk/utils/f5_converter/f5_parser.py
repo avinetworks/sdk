@@ -49,6 +49,58 @@ def generate_grammar_v11():
     dataset = entities.ignore(ignore)
     return dataset
 
+
+def generate_grammar_v10():
+    # define data types that might be in the values
+    unquoted_string = Word(alphanums+"!#$%&'()*+,-./:;<=>?@[\]^_`|~")
+    quoted_string = quotedString.setParseAction(removeQuotes)
+    ltm = Keyword("ltm")
+    apm = Keyword("apm")
+    auth = Keyword("auth")
+    net = Keyword("net")
+    sys = Keyword("sys")
+    opt_kw = Keyword("options")
+    monitor_kw = Keyword("monitor")
+    profiles_kw = Keyword("profiles")
+    session_kw = Keyword("session")
+    empty_object = Keyword("{ }")
+
+    common = Suppress("/Common/")
+    comment = Suppress("#") + Suppress(restOfLine)
+    BS, LBRACE, RBRACE = map(Suppress, " {}")
+    LBRACE_KW = Keyword("{")
+    RBRACE_KW = Keyword("}")
+    EOL = LineEnd().suppress()
+    SOL = LineStart().suppress()
+    reserved_words = (ltm | apm | auth | net | sys).suppress()
+
+    ignore = (common | comment)
+
+    entity_type = SOL.suppress()+Optional(reserved_words).suppress()+\
+                  unquoted_string
+    data = (unquoted_string | quoted_string)
+
+    key_exceptions = (opt_kw | profiles_kw | monitor_kw | session_kw)
+
+    # define structures
+    value = Forward()
+    object = Forward()
+    multy_word_key = originalTextFor(OneOrMore((~key_exceptions)+data+(~EOL)))
+    property_name = (data+EOL | key_exceptions | multy_word_key)
+    property = dictOf(property_name, Optional(value, default=None))
+    properties = Dict(property)
+    entity_details = (originalTextFor(ZeroOrMore(unquoted_string)))
+    entity = Group(entity_type+Group(entity_details+LBRACE +
+                                    (property | BS)+RBRACE))
+    entities = OneOrMore(entity)
+
+    object << ((LBRACE + properties + RBRACE) | empty_object)
+    value << (object | originalTextFor(data +restOfLine+(~LBRACE_KW)) | data)
+
+    dataset = entities.ignore(ignore)
+    return dataset
+
+
 def parse_config(source_str, output_file_path, version = 11):
     grammar = get_grammar_by_version(version)
     result = []
@@ -62,14 +114,16 @@ def parse_config(source_str, output_file_path, version = 11):
         last_end = end
     LOG.debug("Parsing complete...")
     LOG.info("Parse Unmatched String: "+skiped.replace("\n\n", ""))
+    print result
     dict = convert_to_dict(result)
     return dict
 
+
 def get_grammar_by_version(version):
     grammer = None
-    if version == 10:
-        grammer = generate_grammar_v11()
-    elif version == 11:
+    if int(version) == 10:
+        grammer = generate_grammar_v10()
+    elif int(version) == 11:
         grammer = generate_grammar_v11()
     return grammer
 
