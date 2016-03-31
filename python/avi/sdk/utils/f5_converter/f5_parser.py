@@ -63,6 +63,9 @@ def generate_grammar_v10():
     monitor_kw = Keyword("monitor")
     profiles_kw = Keyword("profiles")
     session_kw = Keyword("session")
+    mode_kw = Keyword("mode")
+    lb_method_kw = Keyword("lb method")
+    v_addr_kw = Keyword("virtual address")
     empty_object = Keyword("{ }")
 
     common = Suppress("/Common/")
@@ -77,10 +80,11 @@ def generate_grammar_v10():
     ignore = (common | comment)
 
     entity_type = SOL.suppress()+Optional(reserved_words).suppress()+\
-                  unquoted_string
+                  (v_addr_kw | unquoted_string)
     data = (unquoted_string | quoted_string)
 
-    key_exceptions = (opt_kw | profiles_kw | monitor_kw | session_kw)
+    key_exceptions = (opt_kw | profiles_kw | monitor_kw |
+                      session_kw | mode_kw | lb_method_kw)
 
     # define structures
     value = Forward()
@@ -114,7 +118,6 @@ def parse_config(source_str, output_file_path, version = 11):
         last_end = end
     LOG.debug("Parsing complete...")
     LOG.info("Parse Unmatched String: "+skiped.replace("\n\n", ""))
-    print result
     dict = convert_to_dict(result)
     return dict
 

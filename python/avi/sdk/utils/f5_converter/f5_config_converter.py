@@ -333,6 +333,9 @@ def get_service_obj(destination, vs_list, enable_ssl):
                                      'port_range_end': end,
                                      'enable_ssl': enable_ssl})
                 start = int(used_ports[i])+1
+        else:
+            services_obj = [{'port': 1, 'port_range_end': 65535,
+                             'enable_ssl': enable_ssl}]
     return services_obj, ip_addr
 
 
@@ -345,7 +348,6 @@ def convert_vs_config(vs_config, vs_state, tenant,
     :param tenant: tenant name for default object
     :param avi_pool_list: List of pools to handle shared pool scenario
     :param profile_config: Avi profile config for profiles referenced in vs
-    :param conversion_status: Dict maintains conversion status of all objects
 
     :return: List of Avi VS configs
     """
@@ -447,6 +449,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     successful_checks = int(timeout/interval)
     if time_until_up > 0:
         failed_checks = int(time_until_up/interval)
+        failed_checks = 1 if failed_checks == 0 else failed_checks
     else:
         failed_checks = 1
     description = f5_monitor.get("description", None)
@@ -628,7 +631,6 @@ def convert_profile_config(profile_config, certs_location, option):
     :param certs_location: location of cert and key file location
     :param option: api-upload or cli-file both requires different
     object structure
-    :param conversion_status: Dict maintains conversion status of all objects
     :return:
     """
     ssl_key_cert_list = []
@@ -681,7 +683,7 @@ def convert_profile_config(profile_config, certs_location, option):
             options = profile.get("options", "")
             options = options.keys()+options.values()
             accepted_versions = []
-            if "no-tls" not in options:
+            if "no-tlsv1" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1"})
             if "no-tlsv1.1" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_1"})
@@ -690,8 +692,8 @@ def convert_profile_config(profile_config, certs_location, option):
             if accepted_versions:
                 ssl_profile["accepted_versions"] = accepted_versions
             if options:
-                skipped_options = [key for key in options if key not in
-                                   ["no-tls", "no-tlsv1.1", "no-tlsv1.2", None]]
+                skipped_options = [key for key in options if key not in [
+                    "no-tlsv1", "no-tlsv1.1", "no-tlsv1.2", None]]
                 skipped.append({"Unsupported options": skipped_options})
 
             crl_file_name = profile.get('crl-file', None)
@@ -730,7 +732,7 @@ def convert_profile_config(profile_config, certs_location, option):
                     converted_objs.append({'pki_profile': pki_profile})
         elif profile_type == 'http':
             supported_attr = ["description", "insert-xforwarded-for",
-                              "enforcement", "ciphers", "unclean-shutdown"]
+                              "enforcement", "xff-alternative-names"]
             skipped = [key for key in profile.keys()
                        if key not in supported_attr]
             app_profile = dict()
