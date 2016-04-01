@@ -49,9 +49,7 @@ if __name__ == "__main__":
     source_file = open(args.bigip_config_file, "r")
     source_str = source_file.read()
     LOG.debug('Reading source file:'+source_file.name)
-    f5_config_dict = f5_parser.parse_config(source_str,
-                                            output_file_path,
-                                            args.f5_config_version)
+    f5_config_dict = f5_parser.parse_config(source_str, args.f5_config_version)
     LOG.debug('File Parsed successfully')
     avi_config_dict = None
     if int(args.f5_config_version) == 11:

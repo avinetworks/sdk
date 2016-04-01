@@ -37,8 +37,8 @@ def convert_servers_config(servers_config, nodes):
             'port': port,
             'enabled': enabled
         })
-        skipped = [key for key in server.keys() if key not in
-                  supported_attributes]
+        skipped = [key for key in server.keys()
+                   if key not in supported_attributes]
         if skipped:
             skipped_list.append({server_name: skipped})
     return server_list, skipped_list
@@ -125,9 +125,11 @@ def convert_pool_config(pool_config, nodes, tenant, monitor_config_list):
         if skipped_monitors:
             skipped.append({"monitors": skipped_monitors})
         if skipped:
-            add_status_row('pool', None, pool_name, 'partial', skipped, pool_obj)
+            add_status_row('pool', None, pool_name, 'partial',
+                           skipped, pool_obj)
         else:
-            add_status_row('pool', None, pool_name, 'successful', skipped, pool_obj)
+            add_status_row('pool', None, pool_name, 'successful',
+                           skipped, pool_obj)
     return pool_list
 
 
@@ -282,7 +284,7 @@ def update_service(port, vs, enable_ssl):
                 new_end = service['port_range_end']
                 service['port_range_end'] = int(port)-1
                 new_service = {'port': int(port)+1,
-                               'port_range_end':new_end,
+                               'port_range_end': new_end,
                                'enable_ssl': enable_ssl}
                 vs['services'].append(new_service)
             elif port == 1:
@@ -302,7 +304,6 @@ def get_service_obj(destination, vs_list, enable_ssl):
     :param enable_ssl: value to put in service objects
     :return: List of services for VS
     """
-    services_obj = []
     parts = destination.split(':')
     ip_addr = parts[0]
     port = parts[1] if len(parts) == 2 else 80
@@ -355,8 +356,8 @@ def convert_vs_config(vs_config, vs_state, tenant,
     supported_attr = ['profiles', 'destination', 'pool']
     for vs_name in vs_config.keys():
         f5_vs = vs_config[vs_name]
-        skipped = [key for key in f5_vs.keys() if
-                        key not in supported_attr]
+        skipped = [key for key in f5_vs.keys()
+                   if key not in supported_attr]
         enabled = (vs_state == 'enable')
         ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(f5_vs.get(
             "profiles", None), profile_config, tenant)
@@ -441,8 +442,8 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     """
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description"]
-    skipped = [key for key in f5_monitor.keys() if
-              key not in supported_attributes]
+    skipped = [key for key in f5_monitor.keys()
+               if key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", 16))
     interval = int(f5_monitor.get("interval", 5))
     time_until_up = int(f5_monitor.get("time-until-up", 1))
@@ -849,7 +850,7 @@ def convert_profile_config(profile_config, certs_location, option):
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_L4'
-            explicit_tracking = profile.get("explicit-flow-migration",None)
+            explicit_tracking = profile.get("explicit-flow-migration", None)
             l4_profile = {"rl_profile": {
                     "client_ip_connections_rate_limit": {
                         "explicit_tracking": (explicit_tracking == 'enabled')
@@ -920,9 +921,11 @@ def convert_profile_config(profile_config, certs_location, option):
             add_status_row('profile', profile_type, name, 'skipped', None, None)
             continue
         if skipped:
-            add_status_row('profile', profile_type, name, 'partial', skipped, converted_objs)
+            add_status_row('profile', profile_type, name, 'partial',
+                           skipped, converted_objs)
         else:
-            add_status_row('profile', profile_type, name, 'successful', skipped, converted_objs)
+            add_status_row('profile', profile_type, name, 'successful',
+                           skipped, converted_objs)
     avi_profiles = dict()
     avi_profiles["ssl_key_cert_list"] = ssl_key_cert_list
     avi_profiles["app_profile_list"] = app_profile_list

@@ -32,8 +32,7 @@ class Test(unittest.TestCase):
     LOG.addHandler(fh)
 
     def test_config_conversion(self):
-        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, ".." +
-                                                os.path.sep + "output", 11)
+        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, 11)
         assert f5_config_dict.get("virtual", None)
         assert f5_config_dict.get("monitor", None)
         assert f5_config_dict.get("pool", None)
