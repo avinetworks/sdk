@@ -911,7 +911,7 @@ def convert_profile_config(profile_config, certs_location, option):
                         "session_idle_timeout": timeout
                     }
                 },
-                "name": "System-UDP-Fast-Path"
+                "name": name
             }
             network_profile_list.append(ntwk_profile)
             converted_objs.append({'network_profile': ntwk_profile})

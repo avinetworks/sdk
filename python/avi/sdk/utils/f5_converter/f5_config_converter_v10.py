@@ -945,7 +945,6 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
             enable_ssl = True
             if app_prof[0] == (tenant+':System-HTTP'):
                 app_prof[0] = tenant+':System-Secure-HTTP'
-        print f5_vs
         destination = f5_vs["destination"]
         services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                 enable_ssl)
