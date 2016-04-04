@@ -106,11 +106,10 @@ def get_avi_lb_algorithm(f5_algorithm):
     return avi_algorithm
 
 
-def convert_pool_config(pool_config, tenant, monitor_config_list):
+def convert_pool_config(pool_config, monitor_config_list):
     """
     Convert list of pools from F5 config to Avi config
     :param pool_config: F5 pool config
-    :param tenant: name of tenant for default objects
     :param monitor_config_list: Avi monitor config list
     :return: List of pools converted to Avi configuration
     """
@@ -136,9 +135,6 @@ def convert_pool_config(pool_config, tenant, monitor_config_list):
                 "lb_algorithm": lb_algorithm
             }
         monitor_names = f5_pool.get("monitor", None)
-        default_monitors = {"http": "System-HTTP", "https": "System-HTTPS",
-                            "tcp": "System-TCP", "icmp": "System-Ping",
-                            "udp": "System-UDP", "gateway_icmp": "System-Ping"}
         is_ssl = False
         skipped_monitors = []
         if monitor_names:
@@ -153,11 +149,6 @@ def convert_pool_config(pool_config, tenant, monitor_config_list):
                     monitor_refs.append(monitor_obj[0]["name"])
                     if monitor_obj[0]["type"] == "HEALTH_MONITOR_HTTPS":
                         is_ssl = True
-                elif monitor in default_monitors.keys():
-                    if monitor == "https":
-                        is_ssl = True
-                    monitor = tenant+":"+default_monitors[monitor]
-                    monitor_refs.append(monitor)
                 else:
                     LOG.warning("Skiping non supported monitor: %s for pool %s"
                                 % (monitor, pool_name))
@@ -183,7 +174,7 @@ def convert_pool_config(pool_config, tenant, monitor_config_list):
     return pool_list
 
 
-def get_defaults(f5_monitor, monitor_config):
+def get_defaults(f5_monitor, monitor_config, monitor_name):
     """
     Monitor can have inheritance used by attribute defaults-from in F5
     configuration this method recursively gets all the attributes from the
@@ -196,12 +187,13 @@ def get_defaults(f5_monitor, monitor_config):
     if parent_name:
         parent_monitor = monitor_config.get(parent_name, None)
         if parent_monitor:
-            parent_monitor = get_defaults(parent_monitor, monitor_config)
+            parent_monitor = get_defaults(parent_monitor, monitor_config,
+                                          parent_name)
             parent_monitor = copy.deepcopy(parent_monitor)
             parent_monitor.update(f5_monitor)
             f5_monitor = parent_monitor
-        else:
-            f5_monitor["type"] = parent_name
+    else:
+        f5_monitor["type"] = monitor_name
     return f5_monitor
 
 
@@ -304,7 +296,7 @@ def convert_monitor_config(monitor_config):
         if not f5_monitor:
             add_status_row('monitor', '', key, 'skipped', None, None)
             continue
-        f5_monitor = get_defaults(f5_monitor, monitor_config)
+        f5_monitor = get_defaults(f5_monitor, monitor_config, key)
         if f5_monitor["type"] not in supported_types:
             LOG.debug("Monitor type not supported by Avi : "+key)
             add_status_row('monitor', f5_monitor["type"], key, 'skipped',
@@ -337,17 +329,18 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
     cert = None
     key_file_name = key_file_name.replace('\"', '')
     cert_file_name = cert_file_name.replace('\"', '')
-    folder_path = folder_path+os.path.sep
-    try:
-        key_file = open(folder_path+key_file_name, "r")
-        key = key_file.read()
-    except:
-        LOG.error("Error to read file" + folder_path+key_file_name)
-    try:
-        cert_file = open(folder_path+cert_file_name, "r")
-        cert = cert_file.read()
-    except:
-        LOG.error("Error to read file" + folder_path+cert_file_name)
+    if cert_file_name or key_file_name:
+        folder_path = folder_path+os.path.sep
+        try:
+            key_file = open(folder_path+key_file_name, "r")
+            key = key_file.read()
+        except:
+            LOG.error("Error to read file " + folder_path+key_file_name)
+        try:
+            cert_file = open(folder_path+cert_file_name, "r")
+            cert = cert_file.read()
+        except:
+            LOG.error("Error to read file " + folder_path+cert_file_name)
     ssl_kc_obj = None
     if key and cert:
         if option == "cli-upload":
@@ -376,7 +369,8 @@ def update_with_default_profile(profile_type, profile, profile_config):
         parent_profile = profile_config.get(profile_type + " " +
                                             parent_name, None)
         if parent_profile:
-            parent_profile = get_defaults(profile_type, parent_profile)
+            parent_profile = update_with_default_profile(
+                profile_type, parent_profile, profile_config)
             parent_profile = copy.deepcopy(parent_profile)
             parent_profile.update(profile)
             profile = parent_profile
@@ -529,8 +523,8 @@ def convert_profile_config(profile_config, certs_location, option):
                 LOG.warning("Skipped PKI profile for profile %s "
                             "because of missing CA file" % name)
 
-            elif ca_file_name:
-                ca_file_name = ca_file_name.replace('\"', '')
+            elif ca_file_name and ca_file_name.replace('\"', '').strip():
+                ca_file_name = ca_file_name.replace('\"', '').strip()
                 pki_profile = dict()
                 file_path = certs_location+os.path.sep+ca_file_name
                 pki_profile["name"] = name
@@ -540,18 +534,18 @@ def convert_profile_config(profile_config, certs_location, option):
                     ca = ca_file.read()
                     pki_profile["ca_certs"] = [{'certificate': ca}]
                 except:
-                    LOG.error("Error to read file" +
+                    LOG.error("Error to read file " +
                               certs_location+os.path.sep+ca_file_name)
                     error = True
-                if crl_file_name:
-                    crl_file_name = crl_file_name.replace('\"', '')
+                if crl_file_name and crl_file_name.replace('\"', '').strip():
+                    crl_file_name = crl_file_name.replace('\"', '').strip()
                     file_path = certs_location+os.path.sep+crl_file_name
                     try:
                         crl_file = open(file_path, "r")
                         crl = crl_file.read()
                         pki_profile["crls"] = [{'body': crl}]
                     except:
-                        LOG.error("Error to read file" +
+                        LOG.error("Error to read file " +
                                   certs_location+os.path.sep+crl_file_name)
                         error = True
                 if not error:
@@ -589,7 +583,12 @@ def convert_profile_config(profile_config, certs_location, option):
                   },
                   "name": name
                 }
+            app_profile = {
+                "type": "APPLICATION_PROFILE_TYPE_L4",
+                "name": name
+            }
             network_profile_list.append(ntwk_profile)
+            app_profile_list.append(app_profile)
             converted_objs.append({'network_profile': ntwk_profile})
         elif profile_type == 'fasthttp':
             supported_attr = ["idle timeout", "defaults from"]
@@ -637,7 +636,7 @@ def convert_profile_config(profile_config, certs_location, option):
                         "session_idle_timeout": timeout
                     }
                 },
-                "name": "System-UDP-Fast-Path"
+                "name": name
             }
             network_profile_list.append(ntwk_profile)
             converted_objs.append({'network_profile': ntwk_profile})
@@ -714,13 +713,12 @@ def convert_profile_config(profile_config, certs_location, option):
     return avi_profiles, string_group, hash_algorithm
 
 
-def get_profiles_for_vs(profiles, profile_config, tenant):
+def get_profiles_for_vs(profiles, profile_config):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
     :param profiles: profiles in f5 config assigned to VS
     :param profile_config: avi profile config
-    :param tenant: tenant name for default profiles
     :return: returns list of profile refs assigned to VS in avi config
     """
     vs_ssl_profile_names = []
@@ -735,53 +733,30 @@ def get_profiles_for_vs(profiles, profile_config, tenant):
     for name in profiles.keys():
         ssl_profiles = [obj for obj in profile_config["ssl_profile_list"]
                         if obj['name'] == name]
-        if ssl_profiles or name in ["clientssl", "serverssl"]:
-            if not ssl_profiles and name == "clientssl":
-                vs_ssl_profile_names.append({
-                    "profile": tenant + ":System-Standard", "cert": None})
-                continue
-            if not ssl_profiles and name == "serverssl":
-                pool_ssl_profile_names.append({
-                    "profile": tenant+":System-Standard", "cert": None})
-                continue
+        if ssl_profiles :
             key_cert = [obj for obj in profile_config["ssl_key_cert_list"]
                         if obj['name'] == name]
             key_cert = name if key_cert else None
             profile = profiles.get(name, None)
             keys = profile.keys()
+            pki_profiles = [obj for obj in profile_config["pki_profile_list"]
+                        if obj['name'] == name]
             if "clientside" in keys:
-                vs_ssl_profile_names.append({"profile": name, "cert": key_cert})
+                vs_ssl_profile_names.append({"profile": name, "cert": key_cert,
+                                             "pki": pki_profiles})
             elif "serverside" in keys:
                 pool_ssl_profile_names.append(
-                    {"profile": name, "cert": key_cert})
+                    {"profile": name, "cert": key_cert, "pki": pki_profiles})
         app_profiles = [obj for obj in profile_config["app_profile_list"]
                         if obj['name'] == name]
-        if app_profiles or name in ["http", "dns",
-                                    "web-acceleration", "http-compression"]:
-            if not app_profiles and name in ("http", "fasthttp"):
-                app_profile_names.append(tenant+":System-HTTP")
-            elif not app_profiles and name == "dns":
-                app_profile_names.append(tenant+":System-DNS")
-            else:
-                app_profile_names.append(name)
+        if app_profiles:
+            app_profile_names.append(name)
         network_profiles = [obj for obj in profile_config[
             "network_profile_list"] if obj['name'] == name]
-        if network_profiles or name in ["fasthttp", "tcp", "udp"]:
-            if not network_profiles and name == "fasthttp":
-                network_profile_names.append(tenant+":System-TCP-Proxy")
-            if not network_profiles and name == "fastL4":
-                network_profile_names.append(tenant+":System-TCP-Fast-Path")
-            elif not network_profiles and name == "tcp":
-                network_profile_names.append(tenant+":System-TCP-Proxy")
-            elif not network_profiles and name == "udp":
-                network_profile_names.append(tenant+":System-UDP-Fast-Path")
-            else:
-                network_profile_names.append(name)
+        if network_profiles:
+            network_profile_names.append(name)
     if not app_profile_names:
-        if network_profile_names:
-            app_profile_names.append(tenant+":System-L4-Application")
-        else:
-            app_profile_names.append(tenant+":System-HTTP")
+        app_profile_names.append("http")
 
     return vs_ssl_profile_names, pool_ssl_profile_names, app_profile_names, \
            network_profile_names
@@ -886,7 +861,7 @@ def clone_pool(pool_name, vs_name, avi_pool_list):
 
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
-                            tenant, hash_profiles, persist_config):
+                            hash_profiles, persist_config):
     pool_updated = True
     pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
     pool_obj = pool_obj[0]
@@ -894,48 +869,40 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                            if obj["name"] == persist_profile]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
-        pool_obj[persist_ref_key] = persist_profile
+        pool_obj[persist_ref_key] = persist_profile.replace(' ', '_')
     elif persist_profile == "hash" or persist_profile in hash_profiles:
         del pool_obj["lb_algorithm"]
         hash_algorithm = "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
         pool_obj["lb_algorithm_hash"] = hash_algorithm
-    elif persist_profile == "cookie":
-        pool_obj[persist_ref_key] = tenant + "System-Persistence-Http-Cookie"
-    elif persist_profile == "ssl":
-        pool_obj[persist_ref_key] = tenant + "System-Persistence-TLS"
-    elif persist_profile == "source addr":
-        pool_obj[persist_ref_key] = tenant + "System-Persistence-Client-IP"
     else:
         pool_updated = False
     return pool_updated
 
 
-def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant):
+def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
     """
     F5 serverside SSL need to be added to pool if VS contains serverside SSL
     profile this method add that profile to pool
     :param avi_pool_list: List of pools to search pool object
     :param pool_ref: name of the pool
     :param pool_ssl_profiles: ssl profiles to be added to pool
-    :param tenant: tenant name for default object
     """
-    if pool_ssl_profiles["profile"] == "serverssl":
-        pool_ssl_profiles = tenant+":"+"System-Default-Cert"
     for pool in avi_pool_list:
         if pool_ref == pool["name"]:
+            if pool_ssl_profiles["profile"]:
+                pool["ssl_profile_ref"] = pool_ssl_profiles["profile"]
+            if pool_ssl_profiles["pki"]:
+                pool["pki_profile_ref"] = pool_ssl_profiles["pki"]
             if pool_ssl_profiles["cert"]:
-                pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles
-            if not pool.get("ssl_profile_ref", None):
-                pool["ssl_profile_ref"] = "admin:System-Standard"
+                pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles["cert"]
 
 
-def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
+def convert_vs_config(vs_config, vs_state, avi_pool_list,
                       profile_config, hash_profiles):
     """
     F5 virtual server object conversion to Avi VS object
     :param vs_config: F5 virtual server config list
     :param vs_state: state of new VS to be created in Avi
-    :param tenant: tenant name for default object
     :param avi_pool_list: List of pools to handle shared pool scenario
     :param profile_config: Avi profile config for profiles referenced in vs
     :param hash_profiles: Hash profiles handled separately as
@@ -950,12 +917,10 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         enabled = (vs_state == 'enable')
         vs_profiles = f5_vs.get("profiles", None)
         ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
-            vs_profiles, profile_config, tenant)
+            vs_profiles, profile_config)
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
-            if app_prof[0] == (tenant+':System-HTTP'):
-                app_prof[0] = tenant+':System-Secure-HTTP'
         destination = f5_vs["destination"]
         services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                 enable_ssl)
@@ -967,14 +932,14 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
             if shared_vs:
                 pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
             if ssl_pool:
-                add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0], tenant)
+                add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0])
             persist_ref = (f5_vs.get("persist", None))
             if persist_ref:
                 persist_config = profile_config.get("persist_profile_list",
                                                     None)
                 pool_updated = update_pool_for_persist(
-                    avi_pool_list, pool_ref, persist_ref, tenant,
-                    hash_profiles, persist_config)
+                    avi_pool_list, pool_ref, persist_ref,hash_profiles,
+                    persist_config)
                 if not pool_updated:
                     skipped.append("persist")
                     LOG.warning("persist type not supported skipped for vs:" +
@@ -994,13 +959,18 @@ def convert_vs_config(vs_config, vs_state, tenant, avi_pool_list,
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
-            default_cert = tenant+":"+"System-Default-Cert"
             vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
-            else:
-                vs_obj['ssl_key_and_certificate_refs'] = [default_cert]
-
+            if ssl_vs[0]["pki"] and app_prof[0] != "http":
+                app_profiles = [obj for obj in profile_config["app_profile_list"]
+                        if obj['name'] == app_prof[0]]
+                if app_profiles[0]["type"] == 'APPLICATION_PROFILE_TYPE_HTTP':
+                    app_profiles[0]["http_profile"][
+                        "ssl_client_certificate_mode"] = \
+                        "SSL_CLIENT_CERTIFICATE_REQUEST"
+                    app_profiles[0]["http_profile"]["pki_profile_ref"] = \
+                        ssl_vs[0]["pki"][0]["name"]
         vs_list.append(vs_obj)
         if skipped:
             add_status_row('virtual', None, vs_name, 'partial', skipped, vs_obj)
@@ -1043,7 +1013,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     del f5_config_dict["monitor"]
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
-    avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}), tenant,
+    avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}),
                                         monitor_config_list)
     del f5_config_dict["pool"]
     avi_config_dict["Pool"] = avi_pool_list
@@ -1062,8 +1032,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict["StringGroup"] = string_group
     LOG.debug("Converted ssl profiles")
     avi_vs_list = convert_vs_config(f5_config_dict.get("virtual", {}), vs_state,
-                                    tenant, avi_pool_list, avi_profiles,
-                                    hash_profiles)
+                                    avi_pool_list, avi_profiles, hash_profiles)
     avi_config_dict["VirtualService"] = avi_vs_list
     del f5_config_dict["virtual"]
     LOG.debug("Converted VS")

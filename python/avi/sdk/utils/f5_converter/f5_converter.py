@@ -9,6 +9,16 @@ from requests.packages import urllib3
 
 urllib3.disable_warnings()
 
+
+def dict_merge(dct, merge_dct):
+    for k, v in merge_dct.iteritems():
+        if (k in dct and isinstance(dct[k], dict) and
+                isinstance(merge_dct[k], dict)):
+            dict_merge(dct[k], merge_dct[k])
+        else:
+            dct[k] = merge_dct[k]
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--bigip_config_file',
@@ -53,10 +63,18 @@ if __name__ == "__main__":
     LOG.debug('File Parsed successfully')
     avi_config_dict = None
     if int(args.f5_config_version) == 11:
+        defaults_file = open("f5_v11_defaults.conf", "r")
+        f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 11)
+        dict_merge(f5_defaults_dict, f5_config_dict)
+        f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v11.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
                                 certs_location, args.tenant, args.option)
     elif int(args.f5_config_version) == 10:
+        defaults_file = open("f5_v10_defaults.conf", "r")
+        f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 10)
+        dict_merge(f5_defaults_dict, f5_config_dict)
+        f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v10.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
                                 certs_location, args.tenant, args.option)

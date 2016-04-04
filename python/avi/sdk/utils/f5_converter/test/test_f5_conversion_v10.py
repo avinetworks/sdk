@@ -5,6 +5,7 @@ import unittest
 
 import avi.sdk.utils.f5_converter.f5_config_converter_v10 as f5_config_converter
 import avi.sdk.utils.f5_converter.f5_parser as f5_parser
+import avi.sdk.utils.f5_converter.f5_converter as f5_converter
 
 gSAMPLE_CONFIG = None
 log = logging.getLogger(__name__)
@@ -33,6 +34,11 @@ class Test(unittest.TestCase):
 
     def test_config_conversion(self):
         f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, 10)
+        defaults_file = open("../f5_v10_defaults.conf", "r")
+        f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 10)
+        f5_converter.dict_merge(f5_defaults_dict, f5_config_dict)
+        f5_config_dict = f5_defaults_dict
+
         assert f5_config_dict.get("virtual", None)
         assert f5_config_dict.get("monitor", None)
         assert f5_config_dict.get("pool", None)
@@ -53,7 +59,7 @@ class Test(unittest.TestCase):
         f5_monitor_config = f5_config_test["monitor"]
         for key in f5_monitor_config.keys():
             monitor = f5_config_converter.get_defaults(
-                f5_monitor_config[key], f5_monitor_config)
+                f5_monitor_config[key], f5_monitor_config, key)
             if monitor['type'] in supported_types:
                 supported_monitor_count += 1
         assert supported_monitor_count == len(avi_config_dict["HealthMonitor"])
@@ -66,24 +72,27 @@ class Test(unittest.TestCase):
         network_profile_count = 0
         persist_profile_count = 0
         for key in f5_profile_config.keys():
-            if key.split(" ")[0] in ["clientssl", "serverssl"]:
+            profile_type = key.split(" ")[0]
+            if profile_type in ["clientssl", "serverssl"]:
                 ssl_profile_count += 1
                 profile = f5_profile_config[key]
+                profile = f5_config_converter.update_with_default_profile(
+                    profile_type, profile, f5_profile_config)
                 ca_file = profile.get("ca file", 'none')
-                if not ca_file == 'none':
+                ca_file = None if ca_file == 'none' else ca_file
+                if ca_file and ca_file.replace('\"', '').strip():
                     pki_profile_count += 1
-                if profile.get("cert", None):
-                    cert_file = profile["cert"]
-                    key_file = profile["key"]
-                    key_file = None if key_file == 'none' else key_file
-                    cert_file = None if cert_file == 'none' else cert_file
+                cert_file = profile.get("cert", None)
+                key_file = profile.get("key", None)
+                key_file = None if key_file == 'none' else key_file
+                cert_file = None if cert_file == 'none' else cert_file
                 if key_file and cert_file:
                     ssl_key_cert_count += 1
-            if key.split(" ")[0] in ["http", "dns"]:
+            if profile_type in ["http", "dns", "fastL4"]:
                 app_profile_count += 1
-            if key.split(" ")[0] in ["udp", "tcp", "fasthttp", "fastL4"]:
+            if profile_type in ["udp", "tcp", "fasthttp", "fastL4"]:
                 network_profile_count += 1
-            if key.split(" ")[0] == "persist" and f5_profile_config[
+            if profile_type == "persist" and f5_profile_config[
                 key]["mode"] in ["cookie", "ssl", "source addr"]:
                 persist_profile_count += 1
 
