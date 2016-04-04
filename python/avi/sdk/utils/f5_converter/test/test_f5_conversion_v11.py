@@ -3,7 +3,7 @@ import logging
 import os
 import unittest
 
-import avi.sdk.utils.f5_converter.f5_config_converter as f5_config_converter
+import avi.sdk.utils.f5_converter.f5_config_converter_v11 as f5_config_converter
 import avi.sdk.utils.f5_converter.f5_parser as f5_parser
 
 gSAMPLE_CONFIG = None
@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def setUpModule():
-    cfg_file = open('bigip.conf', 'r')
+    cfg_file = open('bigip_v11.conf', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = cfg
@@ -32,8 +32,7 @@ class Test(unittest.TestCase):
     LOG.addHandler(fh)
 
     def test_config_conversion(self):
-        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, ".." +
-                                                os.path.sep + "output", 11)
+        f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, 11)
         assert f5_config_dict.get("virtual", None)
         assert f5_config_dict.get("monitor", None)
         assert f5_config_dict.get("pool", None)
@@ -62,6 +61,7 @@ class Test(unittest.TestCase):
         ssl_profile_count = 0
         pki_profile_count = 0
         app_profile_count = 0
+        network_profile_count = 0
         for key in f5_profile_config.keys():
             if key.split(" ")[0] in ["client-ssl", "server-ssl"]:
                 ssl_profile_count += 1
@@ -82,11 +82,15 @@ class Test(unittest.TestCase):
                     cert_file = None if cert_file == 'none' else cert_file
                 if key_file and cert_file:
                     ssl_key_cert_count += 1
-            elif key.split(" ")[0] in ["http", "dns", "web-acceleration",
-                                       "http-compression"]:
+            if key.split(" ")[0] in ["http", "dns", "web-acceleration",
+                                       "http-compression", "fastl4"]:
                 app_profile_count += 1
+            if key.split(" ")[0] in ["udp", "tcp", "fasthttp", "fastl4"]:
+                network_profile_count += 1
+
         assert ssl_profile_count == len(avi_config_dict["SSLProfile"])
         assert app_profile_count == len(avi_config_dict["ApplicationProfile"])
+        assert network_profile_count == len(avi_config_dict["NetworkProfile"])
         assert ssl_key_cert_count == len(
             avi_config_dict["SSLKeyAndCertificate"])
         assert pki_profile_count == len(avi_config_dict["PKIProfile"])
