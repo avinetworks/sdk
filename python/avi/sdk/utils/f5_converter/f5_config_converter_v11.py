@@ -2,12 +2,10 @@ import copy
 import numbers
 import logging
 import os
-
-from openpyxl import Workbook
+import csv
 
 LOG = logging.getLogger("converter-log")
-row_count = 1
-ws = None
+csv_writer = None
 
 
 def convert_servers_config(servers_config, nodes):
@@ -937,30 +935,27 @@ def convert_profile_config(profile_config, certs_location, option):
 
 def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
                    avi_object):
-    global row_count
-    global ws
-    ws['A'+str(row_count)] = f5_type
-    ws['B'+str(row_count)] = f5_sub_type
-    ws['C'+str(row_count)] = f5_id
-    ws['D'+str(row_count)] = status
-    ws['E'+str(row_count)] = str(skipped_params)
-    ws['F'+str(row_count)] = str(avi_object)
-    row_count += 1
+    global csv_writer
+    row = {
+        'F5 type': f5_type,
+        'F5 SubType': f5_sub_type,
+        'F5 ID': f5_id,
+        'Status': status,
+        'Skipped settings': str(skipped_params),
+        'Avi Object': str(avi_object)
+    }
+    csv_writer.writerow(row)
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
                         vs_state, certs_location, tenant, option):
-    global row_count
-    global ws
-    wb = Workbook()
-    ws = wb.active
-    ws['A'+str(row_count)] = 'F5 type'
-    ws['B'+str(row_count)] = 'F5 SubType'
-    ws['C'+str(row_count)] = 'F5 ID'
-    ws['D'+str(row_count)] = 'Status'
-    ws['E'+str(row_count)] = 'Skipped settings'
-    ws['F'+str(row_count)] = 'Avi Object'
-    row_count += 1
+    csv_file = open(output_file_path+os.path.sep+"ConversionStatus.csv", 'w')
+    global csv_writer
+    fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
+                  'Skipped settings', 'Avi Object']
+    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
+                                lineterminator='\n',)
+    csv_writer.writeheader()
     avi_config_dict = {}
     monitor_config_list = convert_monitor_config(f5_config_dict.get(
         "monitor", {}))
@@ -996,5 +991,5 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
             if ' ' in key:
                 sub_type, key = key.rsplit(' ', 1)
             add_status_row(f5_type, sub_type, key, 'skipped', None, None)
-    wb.save(filename = output_file_path+os.path.sep+"ConversionStatus.xls")
+    csv_file.close()
     return avi_config_dict
