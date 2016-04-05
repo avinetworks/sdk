@@ -171,7 +171,7 @@ def convert_pool_config(pool_config, monitor_config_list):
     return pool_list
 
 
-def get_defaults(f5_monitor, monitor_config, monitor_name):
+def get_monitor_defaults(f5_monitor, monitor_config, monitor_name):
     """
     Monitor can have inheritance used by attribute defaults-from in F5
     configuration this method recursively gets all the attributes from the
@@ -186,8 +186,8 @@ def get_defaults(f5_monitor, monitor_config, monitor_name):
     if parent_name:
         parent_monitor = monitor_config.get(parent_name, None)
         if parent_monitor:
-            parent_monitor = get_defaults(parent_monitor, monitor_config,
-                                          parent_name)
+            parent_monitor = get_monitor_defaults(
+                parent_monitor, monitor_config, parent_name)
             parent_monitor = copy.deepcopy(parent_monitor)
             parent_monitor.update(f5_monitor)
             f5_monitor = parent_monitor
@@ -245,7 +245,8 @@ def convert_monitor_entity(name, f5_monitor):
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", None)
         if maintenance_response.replace('\"', '').strip():
-            maintenance_response = maintenance_response.replace('\"', '').strip()
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
             monitor_dict["http_monitor"]["maintenance_response"] = \
                 maintenance_response
 
@@ -263,7 +264,8 @@ def convert_monitor_entity(name, f5_monitor):
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", None)
         if maintenance_response.replace('\"', '').strip():
-            maintenance_response = maintenance_response.replace('\"', '').strip()
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
             monitor_dict["https_monitor"]["maintenance_response"] = \
                 maintenance_response
     elif f5_monitor["type"] == "tcp":
@@ -288,7 +290,8 @@ def convert_monitor_entity(name, f5_monitor):
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", None)
         if maintenance_response.replace('\"', '').strip():
-            maintenance_response = maintenance_response.replace('\"', '').strip()
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
             if tcp_monitor:
                 tcp_monitor["maintenance_response"] = maintenance_response
             else:
@@ -316,7 +319,8 @@ def convert_monitor_entity(name, f5_monitor):
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", None)
         if maintenance_response.replace('\"', '').strip():
-            maintenance_response = maintenance_response.replace('\"', '').strip()
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
             if udp_monitor:
                 udp_monitor["maintenance_response"] = maintenance_response
             else:
@@ -351,7 +355,7 @@ def convert_monitor_config(monitor_config):
         if not f5_monitor:
             add_status_row('monitor', '', key, 'skipped', None, None)
             continue
-        f5_monitor = get_defaults(f5_monitor, monitor_config, key)
+        f5_monitor = get_monitor_defaults(f5_monitor, monitor_config, key)
         if f5_monitor["type"] not in supported_types:
             LOG.debug("Monitor type not supported by Avi : "+key)
             add_status_row('monitor', f5_monitor["type"], key, 'skipped',
@@ -789,14 +793,14 @@ def get_profiles_for_vs(profiles, profile_config):
     for name in profiles.keys():
         ssl_profiles = [obj for obj in profile_config["ssl_profile_list"]
                         if obj['name'] == name]
-        if ssl_profiles :
+        if ssl_profiles:
             key_cert = [obj for obj in profile_config["ssl_key_cert_list"]
                         if obj['name'] == name]
             key_cert = name if key_cert else None
             profile = profiles.get(name, None)
             keys = profile.keys()
             pki_profiles = [obj for obj in profile_config["pki_profile_list"]
-                        if obj['name'] == name]
+                            if obj['name'] == name]
             if "clientside" in keys:
                 vs_ssl_profile_names.append({"profile": name, "cert": key_cert,
                                              "pki": pki_profiles})
@@ -994,7 +998,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
                 persist_config = profile_config.get("persist_profile_list",
                                                     None)
                 pool_updated = update_pool_for_persist(
-                    avi_pool_list, pool_ref, persist_ref,hash_profiles,
+                    avi_pool_list, pool_ref, persist_ref, hash_profiles,
                     persist_config)
                 if not pool_updated:
                     skipped.append("persist")
@@ -1019,8 +1023,9 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
-                app_profiles = [obj for obj in profile_config["app_profile_list"]
-                        if obj['name'] == app_prof[0]]
+                app_profiles = [obj for obj in
+                                profile_config["app_profile_list"]
+                                if obj['name'] == app_prof[0]]
                 if app_profiles[0]["type"] == 'APPLICATION_PROFILE_TYPE_HTTP':
                     app_profiles[0]["http_profile"][
                         "ssl_client_certificate_mode"] = \
