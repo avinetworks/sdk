@@ -38,6 +38,8 @@ if __name__ == "__main__":
                         help='state of created VS', default='disable')
     parser.add_argument('-l', '--certs_location',
                         help='location of cert files', default='.')
+    parser.add_argument('--controller_version',
+                        help='target controller version', default='16.2')
 
     args = parser.parse_args()
     if not os.path.exists(args.output_file_path):
@@ -95,7 +97,7 @@ if __name__ == "__main__":
             },
             "version": {
                 "Product": "controller",
-                "Version": "16.1",
+                "Version": args.controller_version,
                 "min_version": 15.2,
                 "ProductName": "Avi Cloud Controller"
             },

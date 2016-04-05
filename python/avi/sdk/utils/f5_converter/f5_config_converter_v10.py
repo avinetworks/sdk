@@ -178,6 +178,8 @@ def get_defaults(f5_monitor, monitor_config, monitor_name):
     default objects and forms complete object
     :param f5_monitor: F5 monitor object
     :param monitor_config: List of F5 monitor configs
+    :param monitor_name: There is no attribute in config to determine type of
+    monitor it can be mapped from root monitors name
     :return:
     """
     parent_name = f5_monitor.get("defaults from", None)
@@ -201,6 +203,11 @@ def convert_monitor_entity(name, f5_monitor):
     :param f5_monitor: F5 monitor config object
     :return: Avi monitor config object
     """
+    reverse = f5_monitor.get("reverse", None)
+    if reverse:
+        parts = reverse.rsplit(" ")
+        f5_monitor[parts[0]] = parts[1]
+        f5_monitor["reverse"] = None
     supported_attributes = ["timeout", "interval", "time until up",
                             "description", "type", "defaults from"]
     skipped = [key for key in f5_monitor.keys()
@@ -225,21 +232,42 @@ def convert_monitor_entity(name, f5_monitor):
         monitor_dict["description"] = description
 
     if f5_monitor["type"] == "http":
+        http_attr = ["recv", "recv disable", "reverse"]
+        skipped = [key for key in skipped if key not in http_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": "HEAD / HTTP/1.0",
-            "http_response_code": [
-                {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
-            ]}
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
+        }
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = maintenance_response.replace('\"', '').strip()
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                maintenance_response
+
     elif f5_monitor["type"] == "https":
+        https_attr = ["recv", "recv disable", "reverse"]
+        skipped = [key for key in skipped if key not in https_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": "HEAD / HTTP/1.0",
-            "http_response_code": [
-                {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
-            ]}
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
+        }
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = maintenance_response.replace('\"', '').strip()
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                maintenance_response
     elif f5_monitor["type"] == "tcp":
-        tcp_attr = ["dest", "send", "recv"]
+        tcp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
         skipped = [key for key in skipped if key not in tcp_attr]
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
@@ -248,11 +276,26 @@ def convert_monitor_entity(name, f5_monitor):
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        tcp_monitor = None
         if request or response:
+            request = request.replace('\"', '') if request else None
+            response = response.replace('\"', '') if response else None
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = maintenance_response.replace('\"', '').strip()
+            if tcp_monitor:
+                tcp_monitor["maintenance_response"] = maintenance_response
+            else:
+                tcp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["tcp_monitor"] = tcp_monitor
     elif f5_monitor["type"] == "udp":
-        udp_attr = ["dest", "send", "recv"]
+        udp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
         skipped = [key for key in skipped if key not in udp_attr]
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
@@ -261,9 +304,24 @@ def convert_monitor_entity(name, f5_monitor):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        udp_monitor = None
         if request or response:
-            tcp_monitor = {"udp_request": request, "udp_response": response}
-            monitor_dict["tcp_monitor"] = tcp_monitor
+            request = request.replace('\"', '') if request else None
+            response = response.replace('\"', '') if response else None
+            udp_monitor = {"udp_request": request, "udp_response": response}
+            monitor_dict["udp_monitor"] = udp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = maintenance_response.replace('\"', '').strip()
+            if udp_monitor:
+                udp_monitor["maintenance_response"] = maintenance_response
+            else:
+                udp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["udp_monitor"] = udp_monitor
     elif f5_monitor["type"] in ["gateway_icmp", "icmp"]:
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
     elif f5_monitor["type"] == "external":
@@ -332,12 +390,12 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
             key_file = open(folder_path+key_file_name, "r")
             key = key_file.read()
         except:
-            LOG.error("Error to read file " + folder_path+key_file_name)
+            LOG.error("Error to read file %s%s" % (folder_path, key_file_name))
         try:
             cert_file = open(folder_path+cert_file_name, "r")
             cert = cert_file.read()
         except:
-            LOG.error("Error to read file " + folder_path+cert_file_name)
+            LOG.error("Error to read file %s%s" % (folder_path, cert_file_name))
     ssl_kc_obj = None
     if key and cert:
         if option == "cli-upload":
@@ -425,12 +483,16 @@ def convert_http_profile(profile, name):
         content_type = profile.get("compress content type include", "")
         if content_type:
             content_types = content_type.keys()+content_type.values()
-            sg_obj = {"name": name+"-content_type"}
+            sg_obj = {
+                "kv": [],
+                "type": "SG_TYPE_STRING",
+                "name": name+"-content_type"
+            }
             uris = []
             for content_type in content_types:
-                uri = {"str": content_type}
+                uri = {"key": content_type}
                 uris.append(uri)
-            sg_obj["uris"] = uris
+            sg_obj["kv"] = uris
 
             compression_profile["compressible_content_ref"]\
                 = name + "-content_type"
@@ -514,14 +576,15 @@ def convert_profile_config(profile_config, certs_location, option):
 
             crl_file_name = profile.get('crl file', None)
             ca_file_name = profile.get('ca file', None)
-            crl_file_name = None if crl_file_name == 'none' else crl_file_name
-            ca_file_name = None if ca_file_name == 'none' else ca_file_name
-            if not ca_file_name and crl_file_name:
-                LOG.warning("Skipped PKI profile for profile %s "
-                            "because of missing CA file" % name)
-
-            elif ca_file_name and ca_file_name.replace('\"', '').strip():
+            if crl_file_name and crl_file_name != 'none':
+                crl_file_name = crl_file_name.replace('\"', '').strip()
+            else:
+                crl_file_name = None
+            if ca_file_name and ca_file_name != 'none':
                 ca_file_name = ca_file_name.replace('\"', '').strip()
+            else:
+                ca_file_name = None
+            if ca_file_name and crl_file_name:
                 pki_profile = dict()
                 file_path = certs_location+os.path.sep+ca_file_name
                 pki_profile["name"] = name
@@ -531,20 +594,16 @@ def convert_profile_config(profile_config, certs_location, option):
                     ca = ca_file.read()
                     pki_profile["ca_certs"] = [{'certificate': ca}]
                 except:
-                    LOG.error("Error to read file " +
-                              certs_location+os.path.sep+ca_file_name)
+                    LOG.error("Error to read file %s" % file_path)
                     error = True
-                if crl_file_name and crl_file_name.replace('\"', '').strip():
-                    crl_file_name = crl_file_name.replace('\"', '').strip()
-                    file_path = certs_location+os.path.sep+crl_file_name
-                    try:
-                        crl_file = open(file_path, "r")
-                        crl = crl_file.read()
-                        pki_profile["crls"] = [{'body': crl}]
-                    except:
-                        LOG.error("Error to read file " +
-                                  certs_location+os.path.sep+crl_file_name)
-                        error = True
+                file_path = certs_location+os.path.sep+crl_file_name
+                try:
+                    crl_file = open(file_path, "r")
+                    crl = crl_file.read()
+                    pki_profile["crls"] = [{'body': crl}]
+                except:
+                    LOG.error("Error to read file %s" % file_path)
+                    error = True
                 if not error:
                     pki_profile_list.append(pki_profile)
                     converted_objs.append({'pki_profile': pki_profile})
@@ -686,7 +745,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 continue
             else:
                 LOG.error(
-                    'persist mode not supported skipping conversion: ' + name)
+                    'persist mode not supported skipping conversion: %s' % name)
                 continue
             persist_profile_list.append(persist_profile)
             converted_objs.append({'persist_profile': persist_profile})

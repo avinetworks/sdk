@@ -512,8 +512,8 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
         if request or response:
-            tcp_monitor = {"udp_request": request, "udp_response": response}
-            monitor_dict["tcp_monitor"] = tcp_monitor
+            udp_monitor = {"udp_request": request, "udp_response": response}
+            monitor_dict["udp_monitor"] = udp_monitor
     elif monitor_type in ["gateway-icmp", "icmp"]:
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
     elif monitor_type == "external":
