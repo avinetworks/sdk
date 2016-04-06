@@ -129,6 +129,7 @@ class MesosTestUtils(object):
     MARATHON_HDRS = {'Content-Type': 'application/json', "Accept": "application/json"}
     MARATHON_APP_TEMPLATES = {
         'default': DEFAULT_APP,
+        'floating': DEFAULT_APP,
         'test-client': DEFAULT_CLIENT,
         'avi-server': AVI_SERVER}
     DOCKER_REGISTRY = '10.128.7.253'
@@ -201,8 +202,12 @@ class MesosTestUtils(object):
                         avi_proxy['virtualservice'][k] = v
             if northsouth and vips and (index % math.ceil(float(num_apps)/northsouth) == 0):
                 app_obj['labels']['FE-Proxy'] = 'Yes'
-                ns_index = int(index / (num_apps/northsouth))
-                app_obj['labels']['FE-Proxy-VIP'] = vips[ns_index]
+                if app_type == 'floating':
+                    avi_proxy['virtualservice']['auto_allocate_floating_ip'] = True
+                    avi_proxy['virtualservice']['auto_allocate_ip'] = True
+                else:
+                    ns_index = int(index / (num_apps/northsouth))
+                    app_obj['labels']['FE-Proxy-VIP'] = vips[ns_index]
                 # add services same as service port
                 avi_proxy['virtualservice']['services'] = \
                     [{'port': int(ns_service_port)}]
