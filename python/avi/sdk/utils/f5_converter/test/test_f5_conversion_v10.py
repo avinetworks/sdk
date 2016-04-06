@@ -58,7 +58,7 @@ class Test(unittest.TestCase):
                            "udp", "gateway_icmp", "icmp"]
         f5_monitor_config = f5_config_test["monitor"]
         for key in f5_monitor_config.keys():
-            monitor = f5_config_converter.get_defaults(
+            monitor = f5_config_converter.get_monitor_defaults(
                 f5_monitor_config[key], f5_monitor_config, key)
             if monitor['type'] in supported_types:
                 supported_monitor_count += 1
@@ -78,9 +78,17 @@ class Test(unittest.TestCase):
                 profile = f5_profile_config[key]
                 profile = f5_config_converter.update_with_default_profile(
                     profile_type, profile, f5_profile_config)
-                ca_file = profile.get("ca file", 'none')
-                ca_file = None if ca_file == 'none' else ca_file
-                if ca_file and ca_file.replace('\"', '').strip():
+                crl_file_name = profile.get('crl file', None)
+                ca_file_name = profile.get('ca file', None)
+                if crl_file_name and crl_file_name != 'none':
+                    crl_file_name = crl_file_name.replace('\"', '').strip()
+                else:
+                    crl_file_name = None
+                if ca_file_name and ca_file_name != 'none':
+                    ca_file_name = ca_file_name.replace('\"', '').strip()
+                else:
+                    ca_file_name = None
+                if ca_file_name and crl_file_name:
                     pki_profile_count += 1
                 cert_file = profile.get("cert", None)
                 key_file = profile.get("key", None)

@@ -957,8 +957,23 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
                 pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles["cert"]
 
 
+def get_snat_list_for_vs(snat_pool):
+    snat_list = []
+    members = snat_pool.get("members")
+    ips = members.keys()+members.values()
+    if None in ips:
+        ips.remove(None)
+    for ip in ips:
+        snat_obj ={
+          "type": "V4",
+          "addr": ip
+        }
+        snat_list.append(snat_obj)
+    return snat_list
+
+
 def convert_vs_config(vs_config, vs_state, avi_pool_list,
-                      profile_config, hash_profiles):
+                      profile_config, hash_profiles, f5_snat_pools):
     """
     F5 virtual server object conversion to Avi VS object
     :param vs_config: F5 virtual server config list
@@ -967,6 +982,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
     :param profile_config: Avi profile config for profiles referenced in vs
     :param hash_profiles: Hash profiles handled separately as
     mapped to lb algorithm
+    :param f5_snat_pools:
     :return: List of Avi VS configs
     """
     vs_list = []
@@ -984,7 +1000,6 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
         destination = f5_vs["destination"]
         services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                 enable_ssl)
-
         pool_ref = f5_vs.get("pool", None)
         if pool_ref:
             shared_vs = [obj for obj in vs_list
@@ -1016,6 +1031,12 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
             'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
+        snat = f5_vs.get("snat", 'automap')
+        snat = None if snat == 'automap' else snat
+        snat_pool = f5_snat_pools.get(snat, None)
+        if snat_pool:
+            snat_list = get_snat_list_for_vs(snat_pool)
+            vs_obj["snat_ip"] = snat_list
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -1088,9 +1109,11 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict["ApplicationPersistenceProfile"] = avi_profiles[
         "persist_profile_list"]
     avi_config_dict["StringGroup"] = string_group
+    f5_snat_pools = f5_config_dict.get("snatpool", {})
     LOG.debug("Converted ssl profiles")
     avi_vs_list = convert_vs_config(f5_config_dict.get("virtual", {}), vs_state,
-                                    avi_pool_list, avi_profiles, hash_profiles)
+                                    avi_pool_list, avi_profiles, hash_profiles,
+                                    f5_snat_pools)
     avi_config_dict["VirtualService"] = avi_vs_list
     del f5_config_dict["virtual"]
     LOG.debug("Converted VS")
