@@ -36,8 +36,8 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--controller_ip', help='controller ip')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of created VS', default='disable')
-    parser.add_argument('-l', '--certs_location',
-                        help='location of cert files', default='.')
+    parser.add_argument('-l', '--input_folder_location',
+                        help='location of input files', default='.')
     parser.add_argument('--controller_version',
                         help='target controller version', default='16.2')
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     output_file_path = os.path.normpath(args.output_file_path)
-    certs_location = os.path.normpath(args.certs_location)
+    input_folder_location = os.path.normpath(args.input_folder_location)
 
     LOG = logging.getLogger("converter-log")
     LOG.setLevel(logging.DEBUG)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v11.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
-                                certs_location, args.tenant, args.option)
+                                input_folder_location, args.tenant, args.option)
     elif int(args.f5_config_version) == 10:
         defaults_file = open("f5_v10_defaults.conf", "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 10)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v10.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
-                                certs_location, args.tenant, args.option)
+                                input_folder_location, args.tenant, args.option)
 
     LOG.debug('Conversion started')
     if args.option == "cli-upload":
