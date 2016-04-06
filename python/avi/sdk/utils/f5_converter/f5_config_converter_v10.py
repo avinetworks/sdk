@@ -33,6 +33,16 @@ def get_port_by_protocol(protocol):
     return port
 
 
+def upload_file(file_path):
+    file_str = None
+    try:
+        file_obj = open(file_path, "r")
+        file_str = file_obj.read()
+    except:
+        LOG.error("Error to read file %s" % file_path)
+    return file_str
+
+
 def convert_servers_config(servers_config):
     """
     Converts the config of servers in the pool
@@ -196,11 +206,12 @@ def get_monitor_defaults(f5_monitor, monitor_config, monitor_name):
     return f5_monitor
 
 
-def convert_monitor_entity(name, f5_monitor):
+def convert_monitor_entity(name, f5_monitor, file_location):
     """
     Conversion of single F5 monitor object to Avi health monitor object
     :param name: name of health monitor
     :param f5_monitor: F5 monitor config object
+    :param file_location: External monitor script file location
     :return: Avi monitor config object
     """
     reverse = f5_monitor.get("reverse", None)
@@ -329,22 +340,38 @@ def convert_monitor_entity(name, f5_monitor):
     elif f5_monitor["type"] in ["gateway_icmp", "icmp"]:
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
     elif f5_monitor["type"] == "external":
+        script_vars = ""
         ext_attr = ["run", "args", "user-defined"]
+        for key in f5_monitor.keys():
+            if key not in ('args', 'run') and '\"' in f5_monitor[key]:
+                ext_attr.append(key)
+                param_value = f5_monitor[key].replace('\"', '')
+                script_vars += "%s=%s," % (key, param_value)
+        if script_vars:
+            script_vars = script_vars[:-1]
         skipped = [key for key in skipped if key not in ext_attr]
+        cmd_code = f5_monitor.get("run", None)
+        cmd_params = f5_monitor.get("args", None)
+        cmd_code = cmd_code.replace('\"', '') if cmd_code else None
+        cmd_params = cmd_params.replace('\"', '') if cmd_params else None
+        if cmd_code:
+            cmd_code = upload_file(file_location+os.path.sep+cmd_code)
+
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
-            "command_code": f5_monitor.get("run", None),
-            "command_parameters": f5_monitor.get("args", None),
-            "command_variables": f5_monitor.get("user-defined", None)
+            "command_code": cmd_code,
+            "command_parameters": cmd_params,
+            "command_variables": script_vars
         }
         monitor_dict["external_monitor"] = ext_monitor
     return monitor_dict, skipped
 
 
-def convert_monitor_config(monitor_config):
+def convert_monitor_config(monitor_config, file_location):
     """
     Convert F5 monitor config dict to Avi health monitor config list
     :param monitor_config: F5 monitor config dict
+    :param file_location: External monitor script file location
     :return: List of Avi health monitor objects
     """
     monitor_list = []
@@ -361,7 +388,8 @@ def convert_monitor_config(monitor_config):
             add_status_row('monitor', f5_monitor["type"], key, 'skipped',
                            None, None)
             continue
-        avi_monitor, skipped = convert_monitor_entity(key, f5_monitor)
+        avi_monitor, skipped = convert_monitor_entity(key, f5_monitor,
+                                                      file_location)
         if skipped:
             add_status_row('monitor', f5_monitor["type"], key, 'partial',
                            skipped, avi_monitor)
@@ -390,16 +418,8 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
     cert_file_name = cert_file_name.replace('\"', '')
     if cert_file_name or key_file_name:
         folder_path = folder_path+os.path.sep
-        try:
-            key_file = open(folder_path+key_file_name, "r")
-            key = key_file.read()
-        except:
-            LOG.error("Error to read file %s%s" % (folder_path, key_file_name))
-        try:
-            cert_file = open(folder_path+cert_file_name, "r")
-            cert = cert_file.read()
-        except:
-            LOG.error("Error to read file %s%s" % (folder_path, cert_file_name))
+        key = upload_file(folder_path+key_file_name)
+        cert = upload_file(folder_path+cert_file_name)
     ssl_kc_obj = None
     if key and cert:
         if option == "cli-upload":
@@ -593,20 +613,16 @@ def convert_profile_config(profile_config, certs_location, option):
                 file_path = certs_location+os.path.sep+ca_file_name
                 pki_profile["name"] = name
                 error = False
-                try:
-                    ca_file = open(file_path, "r")
-                    ca = ca_file.read()
+                ca = upload_file(file_path)
+                if ca:
                     pki_profile["ca_certs"] = [{'certificate': ca}]
-                except:
-                    LOG.error("Error to read file %s" % file_path)
+                else:
                     error = True
                 file_path = certs_location+os.path.sep+crl_file_name
-                try:
-                    crl_file = open(file_path, "r")
-                    crl = crl_file.read()
+                crl = upload_file(file_path)
+                if crl:
                     pki_profile["crls"] = [{'body': crl}]
-                except:
-                    LOG.error("Error to read file %s" % file_path)
+                else:
                     error = True
                 if not error:
                     pki_profile_list.append(pki_profile)
@@ -964,7 +980,7 @@ def get_snat_list_for_vs(snat_pool):
     if None in ips:
         ips.remove(None)
     for ip in ips:
-        snat_obj ={
+        snat_obj = {
           "type": "V4",
           "addr": ip
         }
@@ -1078,7 +1094,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
-                        vs_state, certs_location, tenant, option):
+                        vs_state, input_folder_location, tenant, option):
     csv_file = open(output_file_path+os.path.sep+"ConversionStatus.csv", 'w')
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
@@ -1088,7 +1104,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     csv_writer.writeheader()
     avi_config_dict = {}
     monitor_config_list = convert_monitor_config(f5_config_dict.get(
-        "monitor", {}))
+        "monitor", {}), input_folder_location)
     del f5_config_dict["monitor"]
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
@@ -1099,7 +1115,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     LOG.debug("Converted pools")
     f5_profile_dict = f5_config_dict.get("profile", {})
     avi_profiles, string_group, hash_profiles = convert_profile_config(
-        f5_profile_dict, certs_location, option)
+        f5_profile_dict, input_folder_location, option)
     del f5_config_dict["profile"]
     avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
     avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
