@@ -29,7 +29,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     include_package_data=True,
-    install_requires=['requests', 'pyyaml', 'pyparsing'],
-    package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.json', '*.key',
-                          '*.pem', '*.xml', '*.yaml']},
+    install_requires=['pyyaml', 'requests', 'pyparsing'],
+    package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
+                          '*.key', '*.pem', '*.xml', '*.yaml']},
 )
