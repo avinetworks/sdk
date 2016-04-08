@@ -64,7 +64,7 @@ HEAT_KWARGS = {'image': 'cirros', 'flavor': 'm1.tiny',
 
 def setup():
     global API
-    API = ApiSession.get_session('10.10.24.152', 'admin', 'avi123', tenant='admin')
+    API = ApiSession.get_session('127.0.0.1', 'admin', 'avi123', tenant='admin')
     ApiUtils(API).import_ssl_certificate('MyCert', server_key, server_cert)
 
 setup()
@@ -102,8 +102,7 @@ def autoscale_dump(*args):
 def scaleout_params(scaleout_type, alert_info):
     pool_name = alert_info.get('obj_name')
     print ' get pool obj for ', pool_name
-    resp = API.get('pool/%s' % pool_name)
-    pool_obj = json.loads(resp.text)
+    pool_obj = API.get_object_by_name('pool', pool_name)
     print 'returned pool obj', pool_obj
     pool_uuid = pool_obj['uuid']
     num_autoscale = 0
@@ -143,12 +142,6 @@ def scaleout(*args):
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scaleout', alert_info)
-    resp = API.get('serverautoscalepolicy/%s' %
-                     pool_obj.get('autoscale_policy_uuid'))
-    autoscale_policy = json.loads(resp.text)
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale, 'policy',
-           autoscale_policy)
-
     if pool_name.find('heat') != -1:
         hkwargs = copy.deepcopy(HEAT_KWARGS)
         hkwargs['lbpool'] = pool_uuid.split('pool-')[1]
@@ -182,11 +175,7 @@ def scalein(*args):
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scalein', alert_info)
 
-    resp = API.get('serverautoscalepolicy/%s' %
-                     pool_obj.get('autoscale_policy_uuid'))
-    autoscale_policy = json.loads(resp.text)
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale, 'policy',
-           autoscale_policy)
+    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
     if pool_name.find('heat') != -1:
         hkwargs = copy.deepcopy(HEAT_KWARGS)
         hkwargs['lbpool'] = pool_uuid.split('pool-')[1]
