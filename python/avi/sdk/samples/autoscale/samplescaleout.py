@@ -37,7 +37,7 @@ from avi.protobuf.common_pb2 import SCALEIN, SCALEOUT
 from avi.protobuf.options_pb2 import V4
 from avi.infrastructure.rpc_channel import RpcChannel
 import time
-import boto.ec2
+
 
 def get_ssl_params_from_path(folder_path=''):
     print folder_path
@@ -136,44 +136,6 @@ def server_autoscale(api, pool_uuid, pool_obj, num_autoscale, action):
     api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
 
 
-def create_aws_instance(ami_id, security_gid):
-    conn = boto.ec2.connect_to_region(
-        "us-west-2",
-        aws_access_key_id='***REMOVED***',
-        aws_secret_access_key='***REMOVED***')
-
-    interface = boto.ec2.networkinterface.NetworkInterfaceSpecification(
-        groups=[security_gid], associate_public_ip_address=True)
-    interfaces = \
-        boto.ec2.networkinterface.NetworkInterfaceCollection(interface)
-    reservations = conn.run_instances(
-        ami_id, instance_type='t2.micro',
-        network_interfaces=interfaces)
-
-    if not reservations.instances:
-        return '', '', ''
-    instance = reservations.instances[0]
-    # Wait for the instance to enter the running state
-    # check for instance is running
-    while instance.update() != 'running':
-        time.sleep(10)
-    print instance.ip_address
-    print instance.public_dns_name
-    return instance.id, instance.ip_address, instance.public_dns_name
-
-
-def delete_aws_instance(instance_ids):
-    print 'deleting instances ', instance_ids
-    conn = boto.ec2.connect_to_region(
-        "us-west-2",
-        aws_access_key_id='***REMOVED***',
-        aws_secret_access_key='***REMOVED***')
-    rc = conn.stop_instances(instance_ids=instance_ids)
-    print 'stopping instances ', instance_ids, rc
-    rc = conn.terminate_instances(instance_ids=instance_ids)
-    print 'terminating instances ', instance_ids, rc
-
-
 def scaleout(*args):
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
@@ -204,22 +166,6 @@ def scaleout(*args):
         print pool_uuid, 'calling scaleout launch done '
         AutoScaleService_Stub(RpcChannel()).NotifyAutoScaleStatus(
             RpcController(), astatus)
-    elif pool_name.lower().find('aws') != -1:
-        ami_id = 'ami-ac6491cc'
-        security_gid = 'sg-ca682bad'
-        # create AWS instance using these two ids.
-        insid, ip_addr, hostname = create_aws_instance(ami_id, security_gid)
-        new_server = {
-            'ip': {'addr': ip_addr, 'type': 'V4'},
-            'port': 0,
-            'hostname': hostname,
-            'external_uuid': insid
-        }
-        # add new server to the pool
-        pool_obj['servers'].append(new_server)
-        # call controller API to update the pool
-        print 'new pool obj', pool_obj
-        API.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
 
 
 def scalein(*args):
@@ -255,15 +201,6 @@ def scalein(*args):
         AutoScaleService_Stub(RpcChannel()).NotifyAutoScaleStatus(
             RpcController(), astatus)
         time.sleep(1)
-    elif pool_name.lower().find('hsbc') != -1:
-        # remove the last server from the pool
-        scalein_server = pool_obj['servers'][-1]
-        instance_ids = [scalein_server['external_uuid']]
-        delete_aws_instance(instance_ids)
-        pool_obj['servers'] = pool_obj['servers'][:-1]
-        # call controller API to update the pool
-        print 'new pool obj', pool_obj
-        API.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
 
 
 def autoscale(*args):
