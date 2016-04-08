@@ -67,7 +67,9 @@ def getAviApiSession():
 def create_aws_connection(aws_settings):
     """
     creates aws connection
-    :param aws_settings: dictionary of aws settings like credentials etc.
+    :param aws_settings: dictionary of aws settings keys [aws_access_key_id,
+    aws_secret_access_key, ec2_region, security_group_ids, instance_type,
+    image_id]
     """
     aws_access_key_id = aws_settings['aws_access_key_id']
     aws_secret_access_key = aws_settings['aws_secret_access_key']
@@ -83,7 +85,9 @@ def create_aws_connection(aws_settings):
 def create_aws_instance(aws_settings):
     """
     Create AWS instance with public IP address.
-    :param aws_settings: dictionary of aws settings like credentials etc.
+    :param aws_settings: dictionary of aws settings keys [aws_access_key_id,
+    aws_secret_access_key, ec2_region, security_group_ids, instance_type,
+    image_id]
     """
     ami_id = aws_settings['image_id']
     security_groups = aws_settings['security_group_ids']
@@ -102,8 +106,14 @@ def create_aws_instance(aws_settings):
     instance = reservations.instances[0]
     # Wait for the instance to enter the running state
     # check for instance is running
-    while instance.update() != 'running':
+    for _ in xrange(25):
+        # try for 2mins
+        rc = instance.update()
+        if rc == 'running':
+            break
         time.sleep(5)
+    if rc != 'running':
+        print 'instance', instance.id, ' is still not running', rc
     print 'created', instance.id, instance.ip_address, instance.public_dns_name
     return instance.id, instance.ip_address, instance.public_dns_name
 
@@ -111,7 +121,9 @@ def create_aws_instance(aws_settings):
 def delete_aws_instance(aws_settings, instance_ids):
     """
     deletes an istance from the aws
-    :param aws_settings: dictionary of aws settings like credentials etc.
+    :param aws_settings: dictionary of aws settings keys [aws_access_key_id,
+    aws_secret_access_key, ec2_region, security_group_ids, instance_type,
+    image_id]
     :param instance_ids: list of instance ids to delete. These are typically
     stored in the external uuid of the server.
     """
@@ -127,7 +139,9 @@ def scaleout(aws_settings, *args):
     """
     1. Creates an instance in AWS
     2. Registers that instance as a Pool Member
-    :param aws_settings: dictionary of the aws params needed for scaleout
+    :param aws_settings: dictionary of aws settings keys [aws_access_key_id,
+    aws_secret_access_key, ec2_region, security_group_ids, instance_type,
+    image_id]
     :param args: The args passed down as part of the alert.
     """
     # print all the args passed down
@@ -157,7 +171,9 @@ def scaleout(aws_settings, *args):
 def scalein(aws_settings, *args):
     """
     Deletes an instance from AWS and removes it from the Pool
-    :param aws_settings: dictionary of the aws params needed for scaleout
+    :param aws_settings: dictionary of aws settings keys [aws_access_key_id,
+    aws_secret_access_key, ec2_region, security_group_ids, instance_type,
+    image_id]
     :param args: The args passed down as part of the alert.
     """
     autoscale_dump(*args)
