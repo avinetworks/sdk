@@ -37,7 +37,7 @@ def upload_file(file_path):
     file_str = None
     try:
         file_obj = open(file_path, "r")
-        file_str = file_obj.read()
+        file_str = file_obj.read().decode("utf-8")
     except:
         LOG.error("Error to read file %s" % file_path)
     return file_str
@@ -1053,6 +1053,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
         if snat_pool:
             snat_list = get_snat_list_for_vs(snat_pool)
             vs_obj["snat_ip"] = snat_list
+            del f5_snat_pools[snat]
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -1094,7 +1095,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
-                        vs_state, input_folder_location, tenant, option):
+                        vs_state, input_folder_location, option):
     csv_file = open(output_file_path+os.path.sep+"ConversionStatus.csv", 'w')
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
