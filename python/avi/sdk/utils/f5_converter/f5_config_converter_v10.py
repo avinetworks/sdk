@@ -568,6 +568,7 @@ def convert_profile_config(profile_config, certs_location, option):
             ciphers = ciphers.replace('\"', '')
             ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
                                                     'NATIVE'] else ciphers
+            ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             ssl_profile['accepted_ciphers'] = ciphers
