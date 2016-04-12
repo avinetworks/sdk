@@ -696,6 +696,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'key_cert': key_cert_obj})
             ciphers = profile.get('ciphers', 'DEFAULT')
             ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
+            ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             ssl_profile['accepted_ciphers'] = ciphers
@@ -707,7 +708,9 @@ def convert_profile_config(profile_config, certs_location, option):
             ssl_profile_list.append(ssl_profile)
             converted_objs.append({'ssl_profile': ssl_profile})
             options = profile.get("options", "")
-            print "options:"+options
+            options = options.keys()+options.values()
+            if None in options:
+                options.remove(None)
             accepted_versions = []
             if "no-tlsv1" not in options:
                 accepted_versions.append({"type": "SSL_VERSION_TLS1"})
