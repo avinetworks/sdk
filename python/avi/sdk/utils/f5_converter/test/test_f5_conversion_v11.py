@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
         f5_config_test = copy.deepcopy(f5_config_dict)
         avi_config_dict = f5_config_converter.convert_to_avi_dict(
             f5_config_dict, ".."+os.path.sep+"output", "disable",
-            "certs", "admin", "api-upload")
+            "certs", "api-upload")
 
         assert len(f5_config_test["virtual"].keys()) == len(
             avi_config_dict["VirtualService"])
@@ -66,20 +66,30 @@ class Test(unittest.TestCase):
             if key.split(" ")[0] in ["client-ssl", "server-ssl"]:
                 ssl_profile_count += 1
                 profile = f5_profile_config[key]
-                ca_file = profile.get("ca-file", 'none')
-                if not ca_file == 'none':
+                crl_file_name = profile.get('crl-file', None)
+                ca_file_name = profile.get('ca-file', None)
+                if crl_file_name and crl_file_name != 'none':
+                    crl_file_name = crl_file_name.replace('\"', '').strip()
+                else:
+                    crl_file_name = None
+                if ca_file_name and ca_file_name != 'none':
+                    ca_file_name = ca_file_name.replace('\"', '').strip()
+                else:
+                    ca_file_name = None
+
+                if ca_file_name and crl_file_name:
                     pki_profile_count += 1
                 cert_obj = profile.get("cert-key-chain", None)
-                key_file = None
                 cert_file = None
+                key_cert_obj = None
                 if cert_obj:
                     key_file = cert_obj["default"]["key"]
                     cert_file = cert_obj["default"]["cert"]
                 elif profile.get("cert", None):
-                    cert_file = profile["cert"]
-                    key_file = profile["key"]
-                    key_file = None if key_file == 'none' else key_file
-                    cert_file = None if cert_file == 'none' else cert_file
+                    cert_file = profile["cert"] if \
+                        profile["cert"] != 'none' else None
+                    key_file = profile["key"] if \
+                        profile["key"] != 'none' else None
                 if key_file and cert_file:
                     ssl_key_cert_count += 1
             if key.split(" ")[0] in ["http", "dns", "web-acceleration",

@@ -47,7 +47,7 @@ class Test(unittest.TestCase):
         f5_config_test = copy.deepcopy(f5_config_dict)
         avi_config_dict = f5_config_converter.convert_to_avi_dict(
             f5_config_dict, ".."+os.path.sep+"output", "disable",
-            "certs", "admin", "api-upload")
+            "certs", "api-upload")
 
         assert len(f5_config_test["virtual"].keys()) == len(
             avi_config_dict["VirtualService"])
