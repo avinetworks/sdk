@@ -64,6 +64,7 @@ if __name__ == "__main__":
     f5_config_dict = f5_parser.parse_config(source_str, args.f5_config_version)
     LOG.debug('File Parsed successfully')
     avi_config_dict = None
+    LOG.debug('Conversion started')
     if int(args.f5_config_version) == 11:
         defaults_file = open("f5_v11_defaults.conf", "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 11)
@@ -71,7 +72,7 @@ if __name__ == "__main__":
         f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v11.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
-                                input_folder_location, args.tenant, args.option)
+                                input_folder_location, args.option)
     elif int(args.f5_config_version) == 10:
         defaults_file = open("f5_v10_defaults.conf", "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 10)
@@ -79,9 +80,8 @@ if __name__ == "__main__":
         f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter_v10.\
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
-                                input_folder_location, args.tenant, args.option)
+                                input_folder_location, args.option)
 
-    LOG.debug('Conversion started')
     if args.option == "cli-upload":
         avi_config_dict["META"] = {
             "supported_migrations": {

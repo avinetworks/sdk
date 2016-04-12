@@ -20,6 +20,7 @@ def generate_grammar_v11():
     comment = Suppress("#") + Suppress(restOfLine)
     BS, LBRACE, RBRACE = map(Suppress, " {}")
     SOL = LineStart().suppress()
+    EOL = LineEnd().suppress()
     reserved_words = (ltm | apm | auth | net | sys).suppress()
 
     ignore = (common | comment)
@@ -32,15 +33,16 @@ def generate_grammar_v11():
     value = Forward()
     value_object = Forward()
 
-    property_name = Word(alphanums+"_-.:/")
-    f5_property = dictOf(property_name, Optional(value, default=None))
-    properties = Dict(f5_property)
+    property_name = data
+    dict_kv = property_name+(~EOL) + Optional(value, default=None)
+    dict_sv = property_name+EOL + Empty()
+    f5_property = Dict(ZeroOrMore(Group(dict_kv | dict_sv)))
     entity_details = (originalTextFor(ZeroOrMore(unquoted_string)))
     entity = Group(entity_type+Group(entity_details +
                                      LBRACE + (f5_property | BS) + RBRACE))
     entities = OneOrMore(entity)
 
-    value_object << ((LBRACE + properties + RBRACE) | empty_object)
+    value_object << ((LBRACE + f5_property + RBRACE) | empty_object)
     value << (value_object | originalTextFor(data + OneOrMore(and_kw+data)) |
               data)
 

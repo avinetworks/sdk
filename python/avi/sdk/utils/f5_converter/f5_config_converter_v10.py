@@ -37,7 +37,7 @@ def upload_file(file_path):
     file_str = None
     try:
         file_obj = open(file_path, "r")
-        file_str = file_obj.read()
+        file_str = file_obj.read().decode("utf-8")
     except:
         LOG.error("Error to read file %s" % file_path)
     return file_str
@@ -568,6 +568,7 @@ def convert_profile_config(profile_config, certs_location, option):
             ciphers = ciphers.replace('\"', '')
             ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
                                                     'NATIVE'] else ciphers
+            ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             ssl_profile['accepted_ciphers'] = ciphers
@@ -1053,6 +1054,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
         if snat_pool:
             snat_list = get_snat_list_for_vs(snat_pool)
             vs_obj["snat_ip"] = snat_list
+            del f5_snat_pools[snat]
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -1094,7 +1096,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
-                        vs_state, input_folder_location, tenant, option):
+                        vs_state, input_folder_location, option):
     csv_file = open(output_file_path+os.path.sep+"ConversionStatus.csv", 'w')
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
@@ -1105,18 +1107,18 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict = {}
     monitor_config_list = convert_monitor_config(f5_config_dict.get(
         "monitor", {}), input_folder_location)
-    del f5_config_dict["monitor"]
+    f5_config_dict.pop("monitor", None)
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
     avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}),
                                         monitor_config_list)
-    del f5_config_dict["pool"]
+    f5_config_dict.pop("pool", None)
     avi_config_dict["Pool"] = avi_pool_list
     LOG.debug("Converted pools")
     f5_profile_dict = f5_config_dict.get("profile", {})
     avi_profiles, string_group, hash_profiles = convert_profile_config(
         f5_profile_dict, input_folder_location, option)
-    del f5_config_dict["profile"]
+    f5_config_dict.pop("profile", None)
     avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
     avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
     avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
@@ -1131,7 +1133,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
                                     avi_pool_list, avi_profiles, hash_profiles,
                                     f5_snat_pools)
     avi_config_dict["VirtualService"] = avi_vs_list
-    del f5_config_dict["virtual"]
+    f5_config_dict.pop("virtual", None)
     LOG.debug("Converted VS")
     for f5_type in f5_config_dict.keys():
         f5_obj = f5_config_dict[f5_type]
