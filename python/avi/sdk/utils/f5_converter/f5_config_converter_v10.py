@@ -1107,18 +1107,18 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict = {}
     monitor_config_list = convert_monitor_config(f5_config_dict.get(
         "monitor", {}), input_folder_location)
-    del f5_config_dict["monitor"]
+    f5_config_dict.pop("monitor", None)
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
     avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}),
                                         monitor_config_list)
-    del f5_config_dict["pool"]
+    f5_config_dict.pop("pool", None)
     avi_config_dict["Pool"] = avi_pool_list
     LOG.debug("Converted pools")
     f5_profile_dict = f5_config_dict.get("profile", {})
     avi_profiles, string_group, hash_profiles = convert_profile_config(
         f5_profile_dict, input_folder_location, option)
-    del f5_config_dict["profile"]
+    f5_config_dict.pop("profile", None)
     avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
     avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
     avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
@@ -1133,7 +1133,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
                                     avi_pool_list, avi_profiles, hash_profiles,
                                     f5_snat_pools)
     avi_config_dict["VirtualService"] = avi_vs_list
-    del f5_config_dict["virtual"]
+    f5_config_dict.pop("virtual", None)
     LOG.debug("Converted VS")
     for f5_type in f5_config_dict.keys():
         f5_obj = f5_config_dict[f5_type]
