@@ -9,10 +9,15 @@ csv_writer = None
 
 
 def upload_file(file_path):
+    """
+    Reads the given file and returns the UTF-8 string
+    :param file_path: Path of file to read
+    :return: UTF-8 string read from file
+    """
     file_str = None
     try:
-        file_obj = open(file_path, "r")
-        file_str = file_obj.read().decode("utf-8")
+        with open(file_path, "r") as file_obj:
+            file_str = file_obj.read().decode("utf-8")
     except:
         LOG.error("Error to read file %s" % file_path)
     return file_str
@@ -67,6 +72,11 @@ def get_avi_pool_down_action(action):
 
 
 def get_avi_lb_algorithm(f5_algorithm):
+    """
+    Converts f5 LB algorithm to equivalent avi LB algorithm
+    :param f5_algorithm: f5 algorithm name
+    :return: Avi LB algorithm enum value
+    """
     avi_algorithm = None
     if not f5_algorithm or f5_algorithm in ["ratio-node", "ratio-member"]:
         avi_algorithm = "LB_ALGORITHM_ROUND_ROBIN"
@@ -318,6 +328,16 @@ def get_service_obj(destination, vs_list, enable_ssl):
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                             hash_profiles, persist_config):
+    """
+    Updates pool for persistence profile assigned in F5 VS config
+    :param avi_pool_list: List of all converted pool objects to avi config
+    :param pool_ref: pool name to be updated
+    :param persist_profile: persistence profile to be added to pool
+    :param hash_profiles: list of profile name for which pool's lb algorithm
+    updated to hash
+    :param persist_config: list of all converted persistence profiles
+    :return: Boolean of is pool updated successfully
+    """
     pool_updated = True
     pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
     pool_obj = pool_obj[0]
@@ -336,6 +356,11 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def get_snat_list_for_vs(snat_pool):
+    """
+    Converts the f5 snat pool config object to Avi snat list
+    :param snat_pool: f5 snat pool config
+    :return: Avi snat list
+    """
     snat_list = []
     members = snat_pool.get("members")
     ips = members.keys()+members.values()
@@ -413,11 +438,10 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
         snat_pool_name = snat.get("pool", None)
         snat_pool = None
         if snat_pool_name:
-            snat_pool = f5_snat_pools.get(snat_pool_name, None)
+            snat_pool = f5_snat_pools.pop(snat_pool_name, None)
         if snat_pool:
             snat_list =  get_snat_list_for_vs(snat_pool)
             vs_obj["snat_ip"] = snat_list
-            del f5_snat_pools[snat_pool_name]
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -961,6 +985,15 @@ def convert_profile_config(profile_config, certs_location, option):
 
 def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
                    avi_object):
+    """
+    Adds as status row in conversion status csv
+    :param f5_type: Object type
+    :param f5_sub_type: Object sub type
+    :param f5_id: Name of object
+    :param status: conversion status
+    :param skipped_params: skipped params if partial conversion
+    :param avi_object: converted avi object
+    """
     global csv_writer
     row = {
         'F5 type': f5_type,
@@ -974,6 +1007,12 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
 
 
 def convert_persistence_config(f5_persistence_dict):
+    """
+    Conversion of f5 persistence to avi persistence profile
+    :param f5_persistence_dict: f5_persistence config
+    :return: avi persistence config, list of persistence profiles to be
+    changed for hash lb algorithm
+    """
     persist_profile_list = []
     hash_algorithm = []
     for key in f5_persistence_dict.keys():
@@ -1039,8 +1078,21 @@ def convert_persistence_config(f5_persistence_dict):
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
-                        vs_state, certs_location, option):
-    csv_file = open(output_file_path+os.path.sep+"ConversionStatus.csv", 'w')
+                        vs_state, input_files_location, option):
+    """
+    Converts f5 config to avi config pops the config lists for conversion of
+    each type from f5 config and remaining marked as skipped in the
+    conversion status file
+    :param f5_config_dict: dict representation of f5 config from the file
+    :param output_file_path: Folder path to put output files
+    :param vs_state: State of created Avi VS object
+    :param input_files_location: Location of cert and external monitor
+    script files
+    :param option: Upload option cli-upload or api-upload
+    :return: Converted avi objects
+    """
+    status_file = output_file_path+os.path.sep+"ConversionStatus.csv"
+    csv_file = open(status_file, 'w')
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                   'Skipped settings', 'Avi Object']
@@ -1048,22 +1100,21 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
                                 lineterminator='\n',)
     csv_writer.writeheader()
     avi_config_dict = {}
-    monitor_config_list = convert_monitor_config(f5_config_dict.get(
-        "monitor", {}))
-    f5_config_dict.pop("monitor", None)
+    monitor_config = f5_config_dict.pop("monitor", {})
+    monitor_config_list = convert_monitor_config(monitor_config)
     avi_config_dict["HealthMonitor"] = monitor_config_list
     LOG.debug("Converted health monitors")
-    avi_pool_list = convert_pool_config(f5_config_dict.get("pool", {}),
-                                        f5_config_dict.get("node", {}),
+    pool_config = f5_config_dict.pop("pool", {})
+    node_config = f5_config_dict.pop("node", {})
+    avi_pool_list = convert_pool_config(pool_config,node_config,
                                         monitor_config_list)
-    f5_config_dict.pop("pool", None)
     avi_config_dict["Pool"] = avi_pool_list
     LOG.debug("Converted pools")
-    f5_profile_dict = f5_config_dict.get("profile", {})
+    f5_profile_dict = f5_config_dict.pop("profile", {})
     avi_profiles, string_group = convert_profile_config(
-        f5_profile_dict, certs_location, option)
-    f5_config_dict.pop("profile", None)
-    avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
+        f5_profile_dict, input_files_location, option)
+    avi_config_dict["SSLKeyAndCertificate"] = avi_profiles[
+        "ssl_key_cert_list"]
     avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
     avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
     avi_config_dict["ApplicationProfile"] = avi_profiles["app_profile_list"]
@@ -1071,17 +1122,15 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict["StringGroup"] = string_group
     LOG.debug("Converted profiles")
 
-    f5_persistence_dict = f5_config_dict.get("persistence", {})
+    f5_persistence_dict = f5_config_dict.pop("persistence", {})
     avi_persistence, hash_algorithm = convert_persistence_config(
         f5_persistence_dict)
-    f5_config_dict.pop("persistence", None)
     avi_config_dict["ApplicationPersistenceProfile"] = avi_persistence
     f5_snat_pools = f5_config_dict.get("snatpool", {})
-    avi_vs_list = convert_vs_config(f5_config_dict.get("virtual", {}), vs_state,
-                                    avi_pool_list, avi_profiles, hash_algorithm,
-                                    avi_persistence, f5_snat_pools)
+    avi_vs_list = convert_vs_config(
+        f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
+        avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools)
     avi_config_dict["VirtualService"] = avi_vs_list
-    f5_config_dict.pop("virtual", None)
     LOG.debug("Converted VS")
     for f5_type in f5_config_dict.keys():
         f5_obj = f5_config_dict[f5_type]
