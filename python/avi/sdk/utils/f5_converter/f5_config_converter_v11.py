@@ -705,8 +705,8 @@ def convert_profile_config(profile_config, certs_location, option):
             cert_file = None
             key_cert_obj = None
             if cert_obj:
-                key_file = cert_obj["default"]["key"]
-                cert_file = cert_obj["default"]["cert"]
+                key_file = cert_obj[cert_obj.keys()[0]]["key"]
+                cert_file = cert_obj[cert_obj.keys()[0]]["cert"]
             elif profile.get("cert", None):
                 cert_file = profile["cert"] if \
                     profile["cert"] != 'none' else None
