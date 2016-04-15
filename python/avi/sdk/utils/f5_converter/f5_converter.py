@@ -3,9 +3,11 @@ import argparse
 import json
 import logging
 import os
+
+from requests.packages import urllib3
+
 from avi.sdk.utils.f5_converter import f5_config_converter_v11, \
     f5_config_converter_v10, f5_parser, upload_config
-from requests.packages import urllib3
 
 urllib3.disable_warnings()
 

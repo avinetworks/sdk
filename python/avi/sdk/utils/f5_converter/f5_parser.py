@@ -108,17 +108,24 @@ def generate_grammar_v10():
 def parse_config(source_str, version=11):
     grammar = get_grammar_by_version(version)
     result = []
+    skipped_list = []
     last_end = 0
-    skipped = ""
     source_str = source_str.replace("\t", "    ")
     for tokens, start, end in grammar.scanString(source_str):
         result = result+tokens.asList()
         if last_end != 0:
-            skipped = skipped+source_str[last_end:start]
+            if start - 3 > last_end:
+                skipped_info = {"start": last_end, "end": start,
+                                "str_start":
+                                    source_str[last_end:last_end+10]+"...",
+                                "str_end": "..."+source_str[start-10:start]}
+                skipped_list.append(skipped_info)
         last_end = end
-    LOG.debug("Parsing complete...")
-    LOG.info("Parse Unmatched String: "+skipped.replace("\n\n", ""))
+    for skipped in skipped_list:
+        LOG.warn("Skipped for parse unmatched from offset:%s to offset:%s" %
+                 (skipped["start"], skipped["end"]))
     result_dict = convert_to_dict(result)
+    LOG.debug("Parsing complete...")
     return result_dict
 
 
@@ -136,6 +143,7 @@ def convert_to_dict(result):
     for item in result:
         # determine the key and value to be inserted into the dict
         key = None
+        dict_val = None
         if isinstance(item, list):
             try:
                 key = item[0].replace("/Common/", "")
@@ -151,7 +159,6 @@ def convert_to_dict(result):
                     else:
                         result_dict[key] = item[1]
             except IndexError:
-                dict_val = None
                 # determine whether to insert the value into the key or to
                 # merge the value with existing values at this key
                 if key:
@@ -161,7 +168,9 @@ def convert_to_dict(result):
                         else:
                             old = result_dict[key]
                             new = [old]
-                            new.append(dict_val.replace("/Common/", ""))
+                            dict_val = dict_val.replace("/Common/", "") \
+                                if dict_val else None
+                            new.append(dict_val)
                             result_dict[key] = new
                     else:
                         result_dict[key] = dict_val

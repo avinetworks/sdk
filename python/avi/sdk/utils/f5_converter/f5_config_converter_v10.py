@@ -133,61 +133,63 @@ def convert_pool_config(pool_config, monitor_config_list):
     pool_list = []
     supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method']
     for pool_name in pool_config.keys():
-        skipped = []
-        f5_pool = pool_config[pool_name]
-        if not f5_pool:
-            LOG.debug("Empty pool skipped for conversion :"+pool_name)
-            add_status_row('pool', None, pool_name, 'skipped', None, None)
-            continue
-        servers, member_skipped_config = convert_servers_config(
-            f5_pool.get("members", {}))
-        sd_action = f5_pool.get("action on svcdown", "")
-        pd_action = get_avi_pool_down_action(sd_action)
-        lb_method = f5_pool.get("lb method", None)
-        lb_algorithm = get_avi_lb_algorithm(lb_method)
-        pool_obj = {
-                "name": pool_name,
-                "servers": servers,
-                "pd_action_type": pd_action,
-                "lb_algorithm": lb_algorithm
-            }
-        monitor_names = f5_pool.get("monitor", None)
-        is_ssl = False
-        skipped_monitors = []
-        if monitor_names:
-            monitors = monitor_names.split(" ")
-            monitor_refs = []
-            for monitor in monitors:
-                if monitor in ["and", "all", "min", "of"] or monitor.isdigit():
-                    continue
-                monitor_obj = [obj for obj in monitor_config_list
-                               if obj["name"] == monitor]
-                if monitor_obj:
-                    monitor_refs.append(monitor_obj[0]["name"])
-                    if monitor_obj[0]["type"] == "HEALTH_MONITOR_HTTPS":
-                        is_ssl = True
-                else:
-                    LOG.warning("Skiping non supported monitor: %s for pool %s"
-                                % (monitor, pool_name))
-                    skipped_monitors.append(monitor)
-            pool_obj["health_monitor_refs"] = monitor_refs
-        if is_ssl:
-            pool_obj["ssl_profile_ref"] = "admin:System-Standard"
-        pool_list.append(pool_obj)
-        skipped_attr = [key for key in f5_pool.keys() if
-                        key not in supported_attr]
-        if skipped_attr:
-            skipped.append(skipped_attr)
-        if member_skipped_config:
-            skipped.append(member_skipped_config)
-        if skipped_monitors:
-            skipped.append({"monitors": skipped_monitors})
-        if skipped:
-            add_status_row('pool', None, pool_name, 'partial',
-                           skipped, pool_obj)
-        else:
-            add_status_row('pool', None, pool_name, 'successful',
-                           skipped, pool_obj)
+        LOG.debug("Converting Pool: %s" % pool_name)
+        try:
+            skipped = []
+            f5_pool = pool_config[pool_name]
+            if not f5_pool:
+                LOG.debug("Empty pool skipped for conversion :" + pool_name)
+                add_status_row('pool', None, pool_name, 'skipped', None, None)
+                continue
+            servers, member_skipped_config = convert_servers_config(
+                f5_pool.get("members", {}))
+            sd_action = f5_pool.get("action on svcdown", "")
+            pd_action = get_avi_pool_down_action(sd_action)
+            lb_method = f5_pool.get("lb method", None)
+            lb_algorithm = get_avi_lb_algorithm(lb_method)
+            pool_obj = {
+                    "name": pool_name,
+                    "servers": servers,
+                    "pd_action_type": pd_action,
+                    "lb_algorithm": lb_algorithm
+                }
+            monitor_names = f5_pool.get("monitor", None)
+            skipped_monitors = []
+            if monitor_names:
+                monitors = monitor_names.split(" ")
+                monitor_refs = []
+                for monitor in monitors:
+                    if monitor in ["and", "all", "min", "of"] \
+                            or monitor.isdigit():
+                        continue
+                    monitor_obj = [obj for obj in monitor_config_list
+                                   if obj["name"] == monitor]
+                    if monitor_obj:
+                        monitor_refs.append(monitor_obj[0]["name"])
+                    else:
+                        LOG.warning("Monitor %s not found for pool %s"
+                                    % (monitor, pool_name))
+                        skipped_monitors.append(monitor)
+                pool_obj["health_monitor_refs"] = monitor_refs
+            pool_list.append(pool_obj)
+            skipped_attr = [key for key in f5_pool.keys() if
+                            key not in supported_attr]
+            if skipped_attr:
+                skipped.append(skipped_attr)
+            if member_skipped_config:
+                skipped.append(member_skipped_config)
+            if skipped_monitors:
+                skipped.append({"monitors": skipped_monitors})
+            if skipped:
+                add_status_row('pool', None, pool_name, 'partial',
+                               skipped, pool_obj)
+            else:
+                add_status_row('pool', None, pool_name, 'successful',
+                               skipped, pool_obj)
+        except:
+            LOG.error("Failed to convert pool: %s" % pool_name, exc_info=True)
+            add_status_row('pool', None, pool_name, 'Error')
+        LOG.debug("Conversion successful for Pool: %s" % pool_name)
     return pool_list
 
 
@@ -388,25 +390,31 @@ def convert_monitor_config(monitor_config, file_location):
     supported_types = ["http", "https", "dns", "external", "tcp", "udp",
                        "gateway_icmp", "icmp"]
     for key in monitor_config.keys():
-        f5_monitor = monitor_config[key]
-        if not f5_monitor:
-            add_status_row('monitor', '', key, 'skipped', None, None)
-            continue
-        f5_monitor = get_monitor_defaults(f5_monitor, monitor_config, key)
-        if f5_monitor["type"] not in supported_types:
-            LOG.debug("Monitor type not supported by Avi : "+key)
-            add_status_row('monitor', f5_monitor["type"], key, 'skipped',
-                           None, None)
-            continue
-        avi_monitor, skipped = convert_monitor_entity(key, f5_monitor,
-                                                      file_location)
-        if skipped:
-            add_status_row('monitor', f5_monitor["type"], key, 'partial',
-                           skipped, avi_monitor)
-        else:
-            add_status_row('monitor', f5_monitor["type"], key, 'successful',
-                           None, avi_monitor)
-        monitor_list.append(avi_monitor)
+        try:
+            LOG.debug("Converting monitor: %s" % key)
+            f5_monitor = monitor_config[key]
+            if not f5_monitor:
+                add_status_row('monitor', '', key, 'skipped', None, None)
+                continue
+            f5_monitor = get_monitor_defaults(f5_monitor, monitor_config, key)
+            if f5_monitor["type"] not in supported_types:
+                LOG.debug("Monitor type not supported by Avi : "+key)
+                add_status_row('monitor', f5_monitor["type"], key, 'skipped',
+                               None, None)
+                continue
+            avi_monitor, skipped = convert_monitor_entity(key, f5_monitor,
+                                                          file_location)
+            if skipped:
+                add_status_row('monitor', f5_monitor["type"], key, 'partial',
+                               skipped, avi_monitor)
+            else:
+                add_status_row('monitor', f5_monitor["type"], key, 'successful',
+                               None, avi_monitor)
+            monitor_list.append(avi_monitor)
+        except:
+            LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
+            add_status_row('monitor', key, key, 'Error')
+        LOG.debug("Conversion successful for monitor: %s" % key)
     return monitor_list
 
 
@@ -560,243 +568,255 @@ def convert_profile_config(profile_config, certs_location, option):
     hash_algorithm = []
     network_profile_list = []
     for key in profile_config.keys():
-        converted_objs = []
-        profile_type, name = key.split(" ")
-        profile = profile_config[key]
-        profile = update_with_default_profile(profile_type,
-                                              profile, profile_config)
-        if profile_type in ("clientssl", "serverssl"):
-            supported_attr = ["cert", "key", "ciphers", "unclean shutdown",
-                              "crl file", "ca file", "defaults from"]
-            skipped = [key for key in profile.keys()
-                       if key not in supported_attr]
-            key_cert_obj = None
-            cert_file = profile.get("cert", None)
-            key_file = profile.get("key", None)
-            key_file = None if key_file == 'none' else key_file
-            cert_file = None if cert_file == 'none' else cert_file
-            if key_file and cert_file:
-                key_cert_obj = get_key_cert_obj(
-                    name, key_file, cert_file, certs_location, option)
-            if key_cert_obj:
-                ssl_key_cert_list.append(key_cert_obj)
-                converted_objs.append({'key_cert': key_cert_obj})
-            ciphers = profile.get('ciphers', 'DEFAULT')
-            ciphers = ciphers.replace('\"', '')
-            ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
-                                                    'NATIVE'] else ciphers
-            ciphers = ciphers.replace(":@SPEED", "")
-            ssl_profile = dict()
-            ssl_profile['name'] = name
-            ssl_profile['accepted_ciphers'] = ciphers
-            close_notify = profile.get('unclean shutdown', None)
-            if close_notify and close_notify == 'enabled':
-                ssl_profile['send_close_notify'] = True
-            else:
-                ssl_profile['send_close_notify'] = False
-            ssl_profile_list.append(ssl_profile)
-            converted_objs.append({'ssl_profile': ssl_profile})
-            options = profile.get("options", "")
-            if isinstance(options, dict):
-                opt = []
-                for opt_key in options.keys():
-                    opt.append(opt_key+' '+options[opt_key])
-                options = opt
-            accepted_versions = []
-            if "no tlsv1" not in options:
-                accepted_versions.append({"type": "SSL_VERSION_TLS1"})
-            if "no tlsv1.1" not in options:
-                accepted_versions.append({"type": "SSL_VERSION_TLS1_1"})
-            if "no tlsv1.2" not in options:
-                accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
-            if accepted_versions:
-                ssl_profile["accepted_versions"] = accepted_versions
-            if options:
-                skipped_options = [key for key in options if key not in [
-                    "no tlsv1", "no tlsv1.1", "no tlsv1.2", None]]
-                skipped.append({"Unsupported options": skipped_options})
+        profile_type = None
+        name = None
+        try:
+            converted_objs = []
+            profile_type, name = key.split(" ")
+            LOG.debug("Converting profile: %s" % name)
+            profile = profile_config[key]
+            profile = update_with_default_profile(profile_type,
+                                                  profile, profile_config)
+            if profile_type in ("clientssl", "serverssl"):
+                supported_attr = ["cert", "key", "ciphers", "unclean shutdown",
+                                  "crl file", "ca file", "defaults from"]
+                skipped = [key for key in profile.keys()
+                           if key not in supported_attr]
+                key_cert_obj = None
+                cert_file = profile.get("cert", None)
+                key_file = profile.get("key", None)
+                key_file = None if key_file == 'none' else key_file
+                cert_file = None if cert_file == 'none' else cert_file
+                if key_file and cert_file:
+                    key_cert_obj = get_key_cert_obj(
+                        name, key_file, cert_file, certs_location, option)
+                if key_cert_obj:
+                    ssl_key_cert_list.append(key_cert_obj)
+                    converted_objs.append({'key_cert': key_cert_obj})
+                ciphers = profile.get('ciphers', 'DEFAULT')
+                ciphers = ciphers.replace('\"', '')
+                ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
+                                                        'NATIVE'] else ciphers
+                ciphers = ciphers.replace(":@SPEED", "")
+                ssl_profile = dict()
+                ssl_profile['name'] = name
+                ssl_profile['accepted_ciphers'] = ciphers
+                close_notify = profile.get('unclean shutdown', None)
+                if close_notify and close_notify == 'enabled':
+                    ssl_profile['send_close_notify'] = True
+                else:
+                    ssl_profile['send_close_notify'] = False
+                ssl_profile_list.append(ssl_profile)
+                converted_objs.append({'ssl_profile': ssl_profile})
+                options = profile.get("options", "")
+                if isinstance(options, dict):
+                    opt = []
+                    for opt_key in options.keys():
+                        opt.append(opt_key+' '+options[opt_key])
+                    options = opt
+                accepted_versions = []
+                if "no tlsv1" not in options:
+                    accepted_versions.append({"type": "SSL_VERSION_TLS1"})
+                if "no tlsv1.1" not in options:
+                    accepted_versions.append({"type": "SSL_VERSION_TLS1_1"})
+                if "no tlsv1.2" not in options:
+                    accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
+                if accepted_versions:
+                    ssl_profile["accepted_versions"] = accepted_versions
+                if options:
+                    skipped_options = [key for key in options if key not in [
+                        "no tlsv1", "no tlsv1.1", "no tlsv1.2", None]]
+                    skipped.append({"Unsupported options": skipped_options})
 
-            crl_file_name = profile.get('crl file', None)
-            ca_file_name = profile.get('ca file', None)
-            if crl_file_name and crl_file_name != 'none':
-                crl_file_name = crl_file_name.replace('\"', '').strip()
-            else:
-                crl_file_name = None
-            if ca_file_name and ca_file_name != 'none':
-                ca_file_name = ca_file_name.replace('\"', '').strip()
-            else:
-                ca_file_name = None
-            if ca_file_name and crl_file_name:
-                pki_profile = dict()
-                file_path = certs_location+os.path.sep+ca_file_name
-                pki_profile["name"] = name
-                error = False
-                ca = upload_file(file_path)
-                if ca:
-                    pki_profile["ca_certs"] = [{'certificate': ca}]
+                crl_file_name = profile.get('crl file', None)
+                ca_file_name = profile.get('ca file', None)
+                if crl_file_name and crl_file_name != 'none':
+                    crl_file_name = crl_file_name.replace('\"', '').strip()
                 else:
-                    error = True
-                file_path = certs_location+os.path.sep+crl_file_name
-                crl = upload_file(file_path)
-                if crl:
-                    pki_profile["crls"] = [{'body': crl}]
+                    crl_file_name = None
+                if ca_file_name and ca_file_name != 'none':
+                    ca_file_name = ca_file_name.replace('\"', '').strip()
                 else:
-                    error = True
-                if not error:
-                    pki_profile_list.append(pki_profile)
-                    converted_objs.append({'pki_profile': pki_profile})
-        elif profile_type == 'http':
-            app_profile, sg_obj, skipped = convert_http_profile(profile, name)
-            if sg_obj:
-                string_group.append(sg_obj)
-                converted_objs.append({'string_group': sg_obj})
-            app_profile_list.append(app_profile)
-            converted_objs.append({'app_profile': app_profile})
-        elif profile_type == 'dns':
-            skipped = profile.keys()
-            app_profile = dict()
-            app_profile['name'] = name
-            app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
-            app_profile_list.append(app_profile)
-            converted_objs.append({'app_profile': app_profile})
-        elif profile_type == 'fastL4':
-            supported_attr = ["idle timeout", "software syncookie",
-                              "defaults from"]
-            skipped = [key for key in profile.keys()
-                       if key not in supported_attr]
-            syn_protection = (profile.get("software syncookie", None) ==
-                              'enabled')
-            timeout = profile.get("idle timeout", 0)
-            ntwk_profile = {
-                  "profile": {
+                    ca_file_name = None
+                if ca_file_name and crl_file_name:
+                    pki_profile = dict()
+                    file_path = certs_location+os.path.sep+ca_file_name
+                    pki_profile["name"] = name
+                    error = False
+                    ca = upload_file(file_path)
+                    if ca:
+                        pki_profile["ca_certs"] = [{'certificate': ca}]
+                    else:
+                        error = True
+                    file_path = certs_location+os.path.sep+crl_file_name
+                    crl = upload_file(file_path)
+                    if crl:
+                        pki_profile["crls"] = [{'body': crl}]
+                    else:
+                        error = True
+                    if not error:
+                        pki_profile_list.append(pki_profile)
+                        converted_objs.append({'pki_profile': pki_profile})
+            elif profile_type == 'http':
+                app_profile, sg_obj, skipped = \
+                    convert_http_profile(profile, name)
+                if sg_obj:
+                    string_group.append(sg_obj)
+                    converted_objs.append({'string_group': sg_obj})
+                app_profile_list.append(app_profile)
+                converted_objs.append({'app_profile': app_profile})
+            elif profile_type == 'dns':
+                skipped = profile.keys()
+                app_profile = dict()
+                app_profile['name'] = name
+                app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
+                app_profile_list.append(app_profile)
+                converted_objs.append({'app_profile': app_profile})
+            elif profile_type == 'fastL4':
+                supported_attr = ["idle timeout", "software syncookie",
+                                  "defaults from"]
+                skipped = [key for key in profile.keys()
+                           if key not in supported_attr]
+                syn_protection = (profile.get("software syncookie", None) ==
+                                  'enabled')
+                timeout = profile.get("idle timeout", 0)
+                ntwk_profile = {
+                    "profile": {
                         "tcp_fast_path_profile": {
                           "session_idle_timeout": timeout,
                           "enable_syn_protection": syn_protection
                         },
                         "type": "PROTOCOL_TYPE_TCP_FAST_PATH"
-                  },
-                  "name": name
-                }
-            app_profile = {
-                "type": "APPLICATION_PROFILE_TYPE_L4",
-                "name": name
-            }
-            network_profile_list.append(ntwk_profile)
-            app_profile_list.append(app_profile)
-            converted_objs.append({'network_profile': ntwk_profile})
-        elif profile_type == 'fasthttp':
-            supported_attr = ["idle timeout", "defaults from"]
-            skipped = [key for key in profile.keys()
-                       if key not in supported_attr]
-            timeout = profile.get("idle-timeout", 0)
-            ntwk_profile = {
-                "profile": {
-                    "tcp_proxy_profile": {
-                        "idle_connection_timeout": timeout
                     },
-                    "type": "PROTOCOL_TYPE_TCP_PROXY"
-                },
-                "name": name
-            }
-            network_profile_list.append(ntwk_profile)
-            converted_objs.append({'network_profile': ntwk_profile})
-        elif profile_type == 'tcp':
-            supported_attr = [" idle timeout", "defaults from"]
-            skipped = [key for key in profile.keys()
-                       if key not in supported_attr]
-            timeout = profile.get("idle timeout", 0)
-            ntwk_profile = {
-                  "profile": {
+                    "name": name
+                }
+                app_profile = {
+                    "type": "APPLICATION_PROFILE_TYPE_L4",
+                    "name": name
+                }
+                network_profile_list.append(ntwk_profile)
+                app_profile_list.append(app_profile)
+                converted_objs.append({'network_profile': ntwk_profile})
+            elif profile_type == 'fasthttp':
+                supported_attr = ["idle timeout", "defaults from"]
+                skipped = [key for key in profile.keys()
+                           if key not in supported_attr]
+                timeout = profile.get("idle-timeout", 0)
+                ntwk_profile = {
+                    "profile": {
+                        "tcp_proxy_profile": {
+                            "idle_connection_timeout": timeout
+                        },
+                        "type": "PROTOCOL_TYPE_TCP_PROXY"
+                    },
+                    "name": name
+                }
+                network_profile_list.append(ntwk_profile)
+                converted_objs.append({'network_profile': ntwk_profile})
+            elif profile_type == 'tcp':
+                supported_attr = [" idle timeout", "defaults from"]
+                skipped = [key for key in profile.keys()
+                           if key not in supported_attr]
+                timeout = profile.get("idle timeout", 0)
+                ntwk_profile = {
+                    "profile": {
                         "tcp_proxy_profile": {
                           "session_idle_timeout": timeout
                         },
                         "type": "PROTOCOL_TYPE_TCP_PROXY"
-                  },
-                  "name": name
+                    },
+                    "name": name
                 }
-            network_profile_list.append(ntwk_profile)
-            converted_objs.append({'network_profile': ntwk_profile})
-        elif profile_type == 'udp':
-            supported_attr = ["idle timeout", "datagram lb", "defaults from"]
-            skipped = [key for key in profile.keys()
-                       if key not in supported_attr]
-            per_pkt = profile.get("datagram lb", 'disable')
-            timeout = profile.get("idle timeout", 0)
-            ntwk_profile = {
-                "profile": {
-                    "type": "PROTOCOL_TYPE_UDP_FAST_PATH",
-                    "udp_fast_path_profile": {
-                        "per_pkt_loadbalance": (per_pkt == 'enable'),
-                        "session_idle_timeout": timeout
+                network_profile_list.append(ntwk_profile)
+                converted_objs.append({'network_profile': ntwk_profile})
+            elif profile_type == 'udp':
+                supported_attr = ["idle timeout", "datagram lb",
+                                  "defaults from"]
+                skipped = [key for key in profile.keys()
+                           if key not in supported_attr]
+                per_pkt = profile.get("datagram lb", 'disable')
+                timeout = profile.get("idle timeout", 0)
+                ntwk_profile = {
+                    "profile": {
+                        "type": "PROTOCOL_TYPE_UDP_FAST_PATH",
+                        "udp_fast_path_profile": {
+                            "per_pkt_loadbalance": (per_pkt == 'enable'),
+                            "session_idle_timeout": timeout
+                        }
+                    },
+                    "name": name
+                }
+                network_profile_list.append(ntwk_profile)
+                converted_objs.append({'network_profile': ntwk_profile})
+            elif profile_type == 'persist':
+                persist_mode = profile.get("mode")
+                if persist_mode == "cookie":
+                    supported_attr = ["cookie name", "mode", "defaults from"]
+                    skipped = [key for key in profile.keys()
+                               if key not in supported_attr]
+                    cookie_name = profile.get("cookie name", None)
+                    if cookie_name == "none":
+                        cookie_name = None
+                    persist_profile = {
+                        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                        "http_cookie_persistence_profile": {
+                            "cookie_name": cookie_name
+                        },
+                        "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
+                        "name": name
                     }
-                },
-                "name": name
-            }
-            network_profile_list.append(ntwk_profile)
-            converted_objs.append({'network_profile': ntwk_profile})
-        elif profile_type == 'persist':
-            persist_mode = profile.get("mode")
-            if persist_mode == "cookie":
-                supported_attr = ["cookie name", "mode", "defaults from"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
-                cookie_name = profile.get("cookie name", None)
-                if cookie_name == "none":
-                    cookie_name = None
-                persist_profile = {
-                    "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                    "http_cookie_persistence_profile": {
-                        "cookie_name": cookie_name
-                    },
-                    "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
-                    "name": name
-                }
-            elif persist_mode == "ssl":
-                supported_attr = ["mode", "defaults from"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
-                persist_profile = {
-                    "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                    "persistence_type": "PERSISTENCE_TYPE_TLS",
-                    "name": name
-                }
-            elif persist_mode == "source addr":
-                supported_attr = ["timeout", "mode", "defaults from"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
-                timeout = profile.get("timeout", 180)
-                if timeout > 0:
-                    timeout = int(timeout)/60
-                persist_profile = {
-                    "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                    "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
-                    "ip_persistence_profile": {
-                        "ip_persistent_timeout": timeout
-                    },
-                    "name": name
-                }
-            elif persist_mode == "hash":
-                hash_algorithm.append(name)
-                add_status_row('profile', "hash-persistence", name,
-                               'indirect-mapping', None,
-                               "Will be mapped to pools lb algorithm")
-                continue
+                elif persist_mode == "ssl":
+                    supported_attr = ["mode", "defaults from"]
+                    skipped = [key for key in profile.keys()
+                               if key not in supported_attr]
+                    persist_profile = {
+                        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                        "persistence_type": "PERSISTENCE_TYPE_TLS",
+                        "name": name
+                    }
+                elif persist_mode == "source addr":
+                    supported_attr = ["timeout", "mode", "defaults from"]
+                    skipped = [key for key in profile.keys()
+                               if key not in supported_attr]
+                    timeout = profile.get("timeout", 180)
+                    if timeout > 0:
+                        timeout = int(timeout)/60
+                    persist_profile = {
+                        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                        "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+                        "ip_persistence_profile": {
+                            "ip_persistent_timeout": timeout
+                        },
+                        "name": name
+                    }
+                elif persist_mode == "hash":
+                    hash_algorithm.append(name)
+                    add_status_row('profile', "hash-persistence", name,
+                                   'indirect-mapping', None,
+                                   "Will be mapped to pools lb algorithm")
+                    continue
+                else:
+                    LOG.error('persist mode not supported : %s' % name)
+                    continue
+                persist_profile_list.append(persist_profile)
+                converted_objs.append({'persist_profile': persist_profile})
             else:
-                LOG.error(
-                    'persist mode not supported skipping conversion: %s' % name)
+                LOG.warning("Not supported profile type: %s" % profile_type)
+                add_status_row('profile', profile_type, name, 'skipped', None, None)
                 continue
-            persist_profile_list.append(persist_profile)
-            converted_objs.append({'persist_profile': persist_profile})
-        else:
-            LOG.warning("Not supported profile type: %s" % profile_type)
-            add_status_row('profile', profile_type, name, 'skipped', None, None)
-            continue
-        if skipped:
-            add_status_row('profile', profile_type, name, 'partial',
-                           skipped, converted_objs)
-        else:
-            add_status_row('profile', profile_type, name, 'successful',
-                           skipped, converted_objs)
+            if skipped:
+                add_status_row('profile', profile_type, name, 'partial',
+                               skipped, converted_objs)
+            else:
+                add_status_row('profile', profile_type, name, 'successful',
+                               skipped, converted_objs)
+        except:
+            LOG.error("Failed to convert profile: %s" % key, exc_info=True)
+            if name:
+                add_status_row('profile', profile_type, name, 'Error')
+            else:
+                add_status_row('profile', key, key, 'Error')
+        LOG.debug("Conversion successful for profile: %s" % name)
     avi_profiles = dict()
     avi_profiles["ssl_key_cert_list"] = ssl_key_cert_list
     avi_profiles["app_profile_list"] = app_profile_list
@@ -825,16 +845,16 @@ def get_profiles_for_vs(profiles, profile_config):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
     for name in profiles.keys():
-        ssl_profiles = [obj for obj in profile_config["ssl_profile_list"]
-                        if obj['name'] == name]
+        ssl_profile_list = profile_config.get("ssl_profile_list", [])
+        ssl_profiles = [obj for obj in ssl_profile_list if obj['name'] == name]
         if ssl_profiles:
-            key_cert = [obj for obj in profile_config["ssl_key_cert_list"]
-                        if obj['name'] == name]
+            ssl_key_cert_list = profile_config.get("ssl_key_cert_list", [])
+            key_cert = [obj for obj in ssl_key_cert_list if obj['name'] == name]
             key_cert = name if key_cert else None
             profile = profiles.get(name, None)
             keys = profile.keys()
-            pki_profiles = [obj for obj in profile_config["pki_profile_list"]
-                            if obj['name'] == name]
+            pki_list = profile_config.get("pki_profile_list", [])
+            pki_profiles = [obj for obj in pki_list if obj['name'] == name]
             if "clientside" in keys:
                 vs_ssl_profile_names.append({"profile": name, "cert": key_cert,
                                              "pki": pki_profiles})
@@ -845,13 +865,12 @@ def get_profiles_for_vs(profiles, profile_config):
                         if obj['name'] == name]
         if app_profiles:
             app_profile_names.append(name)
-        network_profiles = [obj for obj in profile_config[
-            "network_profile_list"] if obj['name'] == name]
+        ntwk_prof_lst = profile_config.get("network_profile_list", [])
+        network_profiles = [obj for obj in ntwk_prof_lst if obj['name'] == name]
         if network_profiles:
             network_profile_names.append(name)
     if not app_profile_names:
         app_profile_names.append("http")
-
     return vs_ssl_profile_names, pool_ssl_profile_names, app_profile_names, \
            network_profile_names
 
@@ -968,6 +987,10 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
     """
     pool_updated = True
     pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
+    if not pool_obj:
+        LOG.error("Pool %s not fount to add profile %s" %
+                  (pool_ref, persist_profile))
+        return False
     pool_obj = pool_obj[0]
     persist_profile_obj = [obj for obj in persist_config
                            if obj["name"] == persist_profile]
@@ -1037,78 +1060,82 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
     vs_list = []
     supported_attr = ['profiles', 'destination', 'pool', 'persist']
     for vs_name in vs_config.keys():
-        f5_vs = vs_config[vs_name]
-        skipped = [key for key in f5_vs.keys() if key not in supported_attr]
-        enabled = (vs_state == 'enable')
-        vs_profiles = f5_vs.get("profiles", None)
-        ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
-            vs_profiles, profile_config)
-        enable_ssl = False
-        if ssl_vs:
-            enable_ssl = True
-        destination = f5_vs["destination"]
-        services_obj, ip_addr = get_service_obj(destination, vs_list,
-                                                enable_ssl)
-        pool_ref = f5_vs.get("pool", None)
-        if pool_ref:
-            shared_vs = [obj for obj in vs_list
-                         if obj.get("pool_ref", "") == pool_ref]
-            if shared_vs:
-                pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
-            if ssl_pool:
-                add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0])
-            persist_ref = (f5_vs.get("persist", None))
-            if persist_ref:
-                persist_config = profile_config.get("persist_profile_list",
-                                                    None)
-                pool_updated = update_pool_for_persist(
-                    avi_pool_list, pool_ref, persist_ref, hash_profiles,
-                    persist_config)
-                if not pool_updated:
-                    skipped.append("persist")
-                    LOG.warning("persist type not supported skipped for vs:" +
-                                vs_name)
-        vs_obj = {
-            'name': vs_name,
-            'type': 'VS_TYPE_NORMAL',
-            'ip_address': {
-                'addr': ip_addr,
-                'type': 'V4'
-            },
-            'enabled': enabled,
-            'services': services_obj,
-            'application_profile_ref': app_prof[0],
-            'pool_ref': pool_ref
-        }
-        snat = f5_vs.get("snat", 'automap')
-        snat = None if snat == 'automap' else snat
-        snat_pool = f5_snat_pools.pop(snat, None)
-        if snat_pool:
-            snat_list = get_snat_list_for_vs(snat_pool)
-            vs_obj["snat_ip"] = snat_list
-        if ntwk_prof:
-            vs_obj['network_profile_ref'] = ntwk_prof[0]
-        if enable_ssl:
-            vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
-            if ssl_vs[0]["cert"]:
-                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
-            if ssl_vs[0]["pki"] and app_prof[0] != "http":
-                app_profiles = [obj for obj in
-                                profile_config["app_profile_list"]
-                                if obj['name'] == app_prof[0]]
-                if app_profiles[0]["type"] == 'APPLICATION_PROFILE_TYPE_HTTP':
-                    app_profiles[0]["http_profile"][
-                        "ssl_client_certificate_mode"] = \
-                        "SSL_CLIENT_CERTIFICATE_REQUEST"
-                    app_profiles[0]["http_profile"]["pki_profile_ref"] = \
-                        ssl_vs[0]["pki"][0]["name"]
-        vs_list.append(vs_obj)
-        if skipped:
-            add_status_row('virtual', None, vs_name, 'partial', skipped, vs_obj)
-        else:
-            add_status_row('virtual', None, vs_name, 'successful',
-                           skipped, vs_obj)
-
+        LOG.debug("Converting VS: %s" % vs_name)
+        try:
+            f5_vs = vs_config[vs_name]
+            skipped = [key for key in f5_vs.keys() if key not in supported_attr]
+            enabled = (vs_state == 'enable')
+            vs_profiles = f5_vs.get("profiles", None)
+            ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
+                vs_profiles, profile_config)
+            enable_ssl = False
+            if ssl_vs:
+                enable_ssl = True
+            destination = f5_vs["destination"]
+            services_obj, ip_addr = get_service_obj(destination, vs_list,
+                                                    enable_ssl)
+            pool_ref = f5_vs.get("pool", None)
+            if pool_ref:
+                shared_vs = [obj for obj in vs_list
+                             if obj.get("pool_ref", "") == pool_ref]
+                if shared_vs:
+                    pool_ref = clone_pool(pool_ref, vs_name, avi_pool_list)
+                if ssl_pool:
+                    add_ssl_to_pool(avi_pool_list, pool_ref, ssl_pool[0])
+                persist_ref = (f5_vs.get("persist", None))
+                if persist_ref:
+                    persist_config = profile_config.get("persist_profile_list",
+                                                        None)
+                    pool_updated = update_pool_for_persist(
+                        avi_pool_list, pool_ref, persist_ref, hash_profiles,
+                        persist_config)
+                    if not pool_updated:
+                        skipped.append("persist")
+                        LOG.warning("persist type not supported skipped for vs:" +
+                                    vs_name)
+            vs_obj = {
+                'name': vs_name,
+                'type': 'VS_TYPE_NORMAL',
+                'ip_address': {
+                    'addr': ip_addr,
+                    'type': 'V4'
+                },
+                'enabled': enabled,
+                'services': services_obj,
+                'application_profile_ref': app_prof[0],
+                'pool_ref': pool_ref
+            }
+            snat = f5_vs.get("snat", 'automap')
+            snat = None if snat == 'automap' else snat
+            snat_pool = f5_snat_pools.pop(snat, None)
+            if snat_pool:
+                snat_list = get_snat_list_for_vs(snat_pool)
+                vs_obj["snat_ip"] = snat_list
+            if ntwk_prof:
+                vs_obj['network_profile_ref'] = ntwk_prof[0]
+            if enable_ssl:
+                vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
+                if ssl_vs[0]["cert"]:
+                    vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
+                if ssl_vs[0]["pki"] and app_prof[0] != "http":
+                    app_profiles = [obj for obj in
+                                    profile_config["app_profile_list"]
+                                    if obj['name'] == app_prof[0]]
+                    if app_profiles[0]["type"] == 'APPLICATION_PROFILE_TYPE_HTTP':
+                        app_profiles[0]["http_profile"][
+                            "ssl_client_certificate_mode"] = \
+                            "SSL_CLIENT_CERTIFICATE_REQUEST"
+                        app_profiles[0]["http_profile"]["pki_profile_ref"] = \
+                            ssl_vs[0]["pki"][0]["name"]
+            vs_list.append(vs_obj)
+            if skipped:
+                add_status_row('virtual', None, vs_name, 'partial', skipped, vs_obj)
+            else:
+                add_status_row('virtual', None, vs_name, 'successful',
+                               skipped, vs_obj)
+        except Exception as e:
+            LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
+        LOG.debug("Conversion successful for VS: %s" % vs_name)
     return vs_list
 
 
@@ -1156,33 +1183,36 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
     csv_writer.writeheader()
-    avi_config_dict = {}
-    monitor_config_list = convert_monitor_config(f5_config_dict.pop(
-        "monitor", {}), input_folder_location)
-    avi_config_dict["HealthMonitor"] = monitor_config_list
-    LOG.debug("Converted health monitors")
-    avi_pool_list = convert_pool_config(f5_config_dict.pop("pool", {}),
-                                        monitor_config_list)
-    avi_config_dict["Pool"] = avi_pool_list
-    LOG.debug("Converted pools")
-    f5_profile_dict = f5_config_dict.pop("profile", {})
-    avi_profiles, string_group, hash_profiles = convert_profile_config(
-        f5_profile_dict, input_folder_location, option)
-    avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
-    avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
-    avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
-    avi_config_dict["ApplicationProfile"] = avi_profiles["app_profile_list"]
-    avi_config_dict["NetworkProfile"] = avi_profiles["network_profile_list"]
-    avi_config_dict["ApplicationPersistenceProfile"] = avi_profiles[
-        "persist_profile_list"]
-    avi_config_dict["StringGroup"] = string_group
-    f5_snat_pools = f5_config_dict.get("snatpool", {})
-    LOG.debug("Converted ssl profiles")
-    avi_vs_list = convert_vs_config(f5_config_dict.pop("virtual", {}), vs_state,
-                                    avi_pool_list, avi_profiles, hash_profiles,
-                                    f5_snat_pools)
-    avi_config_dict["VirtualService"] = avi_vs_list
-    LOG.debug("Converted VS")
+    try:
+        avi_config_dict = {}
+        monitor_config_list = convert_monitor_config(f5_config_dict.pop(
+            "monitor", {}), input_folder_location)
+        avi_config_dict["HealthMonitor"] = monitor_config_list
+        LOG.debug("Converted health monitors")
+        avi_pool_list = convert_pool_config(f5_config_dict.pop("pool", {}),
+                                            monitor_config_list)
+        avi_config_dict["Pool"] = avi_pool_list
+        LOG.debug("Converted pools")
+        f5_profile_dict = f5_config_dict.pop("profile", {})
+        avi_profiles, string_group, hash_profiles = convert_profile_config(
+            f5_profile_dict, input_folder_location, option)
+        avi_config_dict["SSLKeyAndCertificate"] = avi_profiles["ssl_key_cert_list"]
+        avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
+        avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
+        avi_config_dict["ApplicationProfile"] = avi_profiles["app_profile_list"]
+        avi_config_dict["NetworkProfile"] = avi_profiles["network_profile_list"]
+        avi_config_dict["ApplicationPersistenceProfile"] = avi_profiles[
+            "persist_profile_list"]
+        avi_config_dict["StringGroup"] = string_group
+        f5_snat_pools = f5_config_dict.get("snatpool", {})
+        LOG.debug("Converted ssl profiles")
+        avi_vs_list = convert_vs_config(
+            f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
+            avi_profiles, hash_profiles, f5_snat_pools)
+        avi_config_dict["VirtualService"] = avi_vs_list
+        LOG.debug("Converted VS")
+    except:
+        LOG.error("Conversion error", exc_info=True)
     for f5_type in f5_config_dict.keys():
         f5_obj = f5_config_dict[f5_type]
         for key in f5_obj.keys():
