@@ -7,14 +7,14 @@ import os
 from requests.packages import urllib3
 
 from avi.sdk.utils.f5_converter import f5_config_converter_v11, \
-    f5_config_converter_v10, f5_parser, upload_config
+    f5_config_converter_v10, f5_parser, upload_config, scp_util
 
 urllib3.disable_warnings()
 
 
 def dict_merge(dct, merge_dct):
     for k, v in merge_dct.iteritems():
-        if (k in dct and isinstance(dct[k], dict) and
+        if (k in dct.keys() and isinstance(dct[k], dict) and
                 isinstance(merge_dct[k], dict)):
             dict_merge(dct[k], merge_dct[k])
         else:
@@ -40,6 +40,10 @@ if __name__ == "__main__":
                         help='state of created VS', default='disable')
     parser.add_argument('-l', '--input_folder_location',
                         help='location of input files', default='.')
+    parser.add_argument('--f5_host', help='host of f5 instance')
+    parser.add_argument('--f5_un', help='f5 host username')
+    parser.add_argument('--f5_pw', help='f5 host password')
+    parser.add_argument('--f5_key', help='f5 host key file location')
     parser.add_argument('--controller_version',
                         help='target controller version', default='16.2')
 
@@ -60,7 +64,12 @@ if __name__ == "__main__":
     fh.setFormatter(formatter)
     LOG.addHandler(fh)
 
-    source_file = open(args.bigip_config_file, "r")
+    if args.f5_host:
+        scp_util.get_files_from_f5(input_folder_location, args.f5_host,
+                                   args.f5_un, args.f5_pw)
+        source_file = open(input_folder_location+os.path.sep+"bigip.conf", "r")
+    else:
+        source_file = open(args.bigip_config_file, "r")
     source_str = source_file.read()
     LOG.debug('Reading source file:'+source_file.name)
     f5_config_dict = f5_parser.parse_config(source_str, args.f5_config_version)
