@@ -1,8 +1,8 @@
 import copy
-import numbers
-import logging
-import os
 import csv
+import logging
+import numbers
+import os
 
 LOG = logging.getLogger("converter-log")
 csv_writer = None
@@ -130,9 +130,13 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             monitor_names = f5_pool.get("monitor", None)
             skipped_monitors = []
             if monitor_names:
-                monitors = monitor_names.split(" and ")
+                monitors = monitor_names.split(" ")
                 monitor_refs = []
+                garbage_val = ["and", "all", "min", "of", "{", "}"]
                 for monitor in monitors:
+                    if not monitor or monitor in garbage_val or \
+                            monitor.isdigit():
+                        continue
                     monitor = monitor.strip()
                     monitor_obj = [obj for obj in monitor_config_list
                                    if obj["name"] == monitor]
@@ -509,7 +513,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     :return: Avi monitor config object
     """
     supported_attributes = ["timeout", "interval", "time-until-up",
-                            "description"]
+                            "description", "defaults-from"]
     skipped = [key for key in f5_monitor.keys()
                if key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", 16))
@@ -532,21 +536,48 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         monitor_dict["description"] = description
 
     if monitor_type == "http":
+        http_attr = ["recv", "recv-disable", "reverse", "send"]
+        skipped = [key for key in skipped if key not in http_attr]
+        send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
-            "http_request": "HEAD / HTTP/1.0",
+            "http_request": send,
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", None)
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                maintenance_response
     elif monitor_type == "https":
+        http_attr = ["recv", "recv-disable", "reverse", "send"]
+        skipped = [key for key in skipped if key not in http_attr]
+        send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
-            "http_request": "HEAD / HTTP/1.0",
+            "http_request": send,
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", None)
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                maintenance_response
     elif monitor_type == "dns":
-        skipped = [key for key in skipped if key not in ["accept-rcode"]]
+        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode"]
+        skipped = [key for key in skipped if key not in dns_attr]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         if accept_rcode and accept_rcode == "no-error":
             rcode = "RCODE_NO_ERROR"
@@ -558,8 +589,18 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         dns_monitor["query_name"] = f5_monitor.get("qname", None)
         dns_monitor["qtype"] = "DNS_QUERY_TYPE"
         monitor_dict["dns_monitor"] = dns_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", None)
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            monitor_dict["dns_monitor"]["maintenance_response"] = \
+                maintenance_response
     elif monitor_type == "tcp":
-        tcp_attr = ["destination", "send", "recv"]
+        tcp_attr = ["recv-disable", "reverse", "destination", "send", "recv"]
         skipped = [key for key in skipped if key not in tcp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
@@ -571,8 +612,21 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", None)
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            if tcp_monitor:
+                tcp_monitor["maintenance_response"] = maintenance_response
+            else:
+                tcp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["tcp_monitor"] = tcp_monitor
     elif monitor_type == "udp":
-        udp_attr = ["destination", "send", "recv"]
+        udp_attr = ["recv", "recv-disable", "reverse", "destination", "send"]
         skipped = [key for key in skipped if key not in udp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
@@ -584,6 +638,19 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         if request or response:
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", None)
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            if udp_monitor:
+                udp_monitor["maintenance_response"] = maintenance_response
+            else:
+                udp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["udp_monitor"] = udp_monitor
     elif monitor_type in ["gateway-icmp", "icmp"]:
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
     elif monitor_type == "external":
@@ -690,6 +757,15 @@ def update_with_default_profile(profile_type, profile, profile_config):
             parent_profile.update(profile)
             profile = parent_profile
     return profile
+
+
+def get_cc_algo_val(cc_algo):
+    avi_algo_val = "CC_ALGO_NEW_RENO"
+    if cc_algo == "high-speed":
+        avi_algo_val = "CC_ALGO_HTCP"
+    elif cc_algo == "cubic":
+        avi_algo_val = "CC_ALGO_CUBIC"
+    return avi_algo_val
 
 
 def convert_profile_config(profile_config, certs_location, option):
@@ -856,9 +932,9 @@ def convert_profile_config(profile_config, certs_location, option):
                 cache_config['enabled'] = True
                 cache_config['default_expire'] = \
                     profile.get('cache-max-age', 600)
-                # max_entities = profile.get('cache-max-entries', 0)
-                # cache_config['max_cache_size'] = \
-                #     (int(max_entities) * int(cache_config['max_object_size']))
+                max_entities = profile.get('cache-max-entries', 0)
+                cache_config['max_cache_size'] = \
+                    (int(max_entities) * int(cache_config['max_object_size']))
                 http_profile = dict()
                 http_profile["cache_config"] = cache_config
                 app_profile["http_profile"] = http_profile
@@ -953,14 +1029,36 @@ def convert_profile_config(profile_config, certs_location, option):
                 network_profile_list.append(ntwk_profile)
                 converted_objs.append({'network_profile': ntwk_profile})
             elif profile_type == 'tcp':
-                supported_attr = ["description", " idle-timeout"]
+                supported_attr = ["description", "idle-timeout", "nagle",
+                                  "syn-max-retrans", "time-wait-recycle",
+                                  "time-wait-timeout", "congestion-control",
+                                  "receive-window-size"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 timeout = profile.get("idle-timeout", 0)
+                nagle = profile.get("nagle", 'disabled')
+                nagle = False if nagle == 'disabled' else True
+                retrans = profile.get("syn-max-retrans", 3)
+                retrans = 3 if int(retrans) < 3 else retrans
+                retrans = 8 if int(retrans) > 8 else retrans
+                conn_type = profile.get("time-wait-recycle", "disabled")
+                conn_type = "CLOSE_IDLE" if \
+                    conn_type == "disabled" else "KEEP_ALIVE"
+                delay = profile.get("time-wait-timeout", 0)
+                window = profile.get("receive-window-size", 32768)
+                window = int(int(window)/1024)
+                cc_algo = profile.get("congestion-control", "")
+                cc_algo = get_cc_algo_val(cc_algo)
                 ntwk_profile = {
                     "profile": {
                         "tcp_proxy_profile": {
-                          "session_idle_timeout": timeout
+                            "idle_connection_timeout": timeout,
+                            "nagles_algorithm": nagle,
+                            "max_syn_retransmissions": retrans,
+                            "idle_connection_type": conn_type,
+                            "time_wait_delay": delay,
+                            "receive_window": window,
+                            "cc_algo": cc_algo
                         },
                         "type": "PROTOCOL_TYPE_TCP_PROXY"
                     },
@@ -1054,18 +1152,21 @@ def convert_persistence_config(f5_persistence_dict):
             profile = update_with_default_profile(persist_mode, profile,
                                                   f5_persistence_dict)
             if persist_mode == "cookie":
-                supported_attr = ["cookie-name", "defaults-from"]
+                supported_attr = ["cookie-name", "defaults-from", "expiration"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 cookie_name = profile.get("cookie-name", None)
-                cookie_name = None if cookie_name == "none" else cookie_name
+                # cookie_name = None if cookie_name == "none" else cookie_name
+                timeout = profile.get("expiration", 1)
+                timeout = 1 if int(timeout) == 0 else timeout
                 persist_profile = {
-                    "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                    "http_cookie_persistence_profile": {
-                        "cookie_name": cookie_name
+                    "name": name,
+                    "app_cookie_persistence_profile": {
+                        "prst_hdr_name": cookie_name,
+                        "timeout": timeout
                     },
-                    "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
-                    "name": name
+                    "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                    "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
                 }
             elif persist_mode == "ssl":
                 supported_attr = ["defaults from"]

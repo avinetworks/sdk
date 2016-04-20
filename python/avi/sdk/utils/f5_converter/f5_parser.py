@@ -14,6 +14,7 @@ def generate_grammar_v11():
     net = Keyword("net")
     sys = Keyword("sys")
     and_kw = Keyword("and")
+    monitor_kw = Keyword("monitor")
     empty_object = Keyword("{ }")
 
     common = Suppress("/Common/")
@@ -34,9 +35,10 @@ def generate_grammar_v11():
     value_object = Forward()
 
     property_name = data
+    monitor_kv = monitor_kw+restOfLine
     dict_kv = property_name+(~EOL) + Optional(value, default=None)
     dict_sv = property_name+EOL + Empty()
-    f5_property = Dict(ZeroOrMore(Group(dict_kv | dict_sv)))
+    f5_property = Dict(ZeroOrMore(Group(monitor_kv | dict_kv | dict_sv)))
     entity_details = (originalTextFor(ZeroOrMore(unquoted_string)))
     entity = Group(entity_type+Group(entity_details +
                                      LBRACE + (f5_property | BS) + RBRACE))
@@ -149,7 +151,7 @@ def convert_to_dict(result):
                 key = item[0].replace("/Common/", "")
                 if isinstance(item[1], list):
                     dict_val = convert_to_dict(item)
-                    if result_dict.get(key, None):
+                    if isinstance(result_dict.get(key, ""), dict):
                         result_dict[key].update(dict_val)
                     else:
                         result_dict[key] = dict_val

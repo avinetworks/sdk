@@ -255,11 +255,12 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         monitor_dict["description"] = description
 
     if f5_monitor["type"] == "http":
-        http_attr = ["recv", "recv disable", "reverse"]
+        http_attr = ["recv", "recv disable", "reverse", "send"]
         skipped = [key for key in skipped if key not in http_attr]
+        send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
-            "http_request": "HEAD / HTTP/1.0",
+            "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
         maintenance_response = None
@@ -274,11 +275,12 @@ def convert_monitor_entity(name, f5_monitor, file_location):
                 maintenance_response
 
     elif f5_monitor["type"] == "https":
-        https_attr = ["recv", "recv disable", "reverse"]
+        https_attr = ["recv", "recv disable", "reverse", "send"]
         skipped = [key for key in skipped if key not in https_attr]
+        send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
-            "http_request": "HEAD / HTTP/1.0",
+            "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
         maintenance_response = None
@@ -550,6 +552,15 @@ def convert_http_profile(profile, name):
     return app_profile, sg_obj, skipped
 
 
+def get_cc_algo_val(cc_algo):
+    avi_algo_val = "CC_ALGO_NEW_RENO"
+    if cc_algo == "high-speed":
+        avi_algo_val = "CC_ALGO_HTCP"
+    elif cc_algo == "cubic":
+        avi_algo_val = "CC_ALGO_CUBIC"
+    return avi_algo_val
+
+
 def convert_profile_config(profile_config, certs_location, option):
     """
     Converts F5 profiles to equivalent Avi profiles
@@ -714,14 +725,36 @@ def convert_profile_config(profile_config, certs_location, option):
                 network_profile_list.append(ntwk_profile)
                 converted_objs.append({'network_profile': ntwk_profile})
             elif profile_type == 'tcp':
-                supported_attr = [" idle timeout", "defaults from"]
+                supported_attr = ["description", "idle timeout", "nagle",
+                                  "max retrans syn", "time wait recycle",
+                                  "time wait", "congestion control",
+                                  "recv window"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 timeout = profile.get("idle timeout", 0)
+                nagle = profile.get("nagle", 'disabled')
+                nagle = False if nagle == 'disabled' else True
+                retrans = profile.get("max retrans syn", 3)
+                retrans = 3 if int(retrans) < 3 else retrans
+                retrans = 8 if int(retrans) > 8 else retrans
+                conn_type = profile.get("time wait recycle", "disabled")
+                conn_type = "CLOSE_IDLE" if \
+                    conn_type == "disabled" else "KEEP_ALIVE"
+                delay = profile.get("time wait", 0)
+                window = profile.get("recv window", 32768)
+                window = int(int(window)/1024)
+                cc_algo = profile.get("congestion-control", "")
+                cc_algo = get_cc_algo_val(cc_algo)
                 ntwk_profile = {
                     "profile": {
                         "tcp_proxy_profile": {
-                          "session_idle_timeout": timeout
+                            "idle_connection_timeout": timeout,
+                            "nagles_algorithm": nagle,
+                            "max_syn_retransmissions": retrans,
+                            "idle_connection_type": conn_type,
+                            "time_wait_delay": delay,
+                            "receive_window": window,
+                            "cc_algo": cc_algo
                         },
                         "type": "PROTOCOL_TYPE_TCP_PROXY"
                     },
@@ -755,15 +788,17 @@ def convert_profile_config(profile_config, certs_location, option):
                     skipped = [key for key in profile.keys()
                                if key not in supported_attr]
                     cookie_name = profile.get("cookie name", None)
+                    timeout = profile.get("expiration", 0)
                     if cookie_name == "none":
                         cookie_name = None
                     persist_profile = {
-                        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                        "http_cookie_persistence_profile": {
-                            "cookie_name": cookie_name
+                        "name": name,
+                        "app_cookie_persistence_profile": {
+                            "prst_hdr_name": cookie_name,
+                            "timeout": timeout
                         },
-                        "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
-                        "name": name
+                        "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                        "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
                     }
                 elif persist_mode == "ssl":
                     supported_attr = ["mode", "defaults from"]
