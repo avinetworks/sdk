@@ -783,11 +783,18 @@ def convert_profile_config(profile_config, certs_location, option):
     pki_profile_list = []
     string_group = []
     network_profile_list = []
+    supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
+                       "web-acceleration", "http-compression", "fastl4", "tcp",
+                       "udp"]
     for key in profile_config.keys():
         profile_type = name = None
         converted_objs = []
         try:
             profile_type, name = key.split(" ")
+            if profile_type not in supported_types:
+                LOG.warning("Not supported profile type: %s" % profile_type)
+                add_status_row('profile', profile_type, name, 'skipped')
+                continue
             LOG.debug("Converting profile: %s" % name)
             profile = profile_config[key]
             skipped = profile.keys()
@@ -795,7 +802,8 @@ def convert_profile_config(profile_config, certs_location, option):
                                                   profile, profile_config)
             if profile_type in ("client-ssl", "server-ssl"):
                 supported_attr = ["cert-key-chain", "cert", "key", "ciphers",
-                                  "unclean-shutdown", "crl-file", "ca-file"]
+                                  "unclean-shutdown", "crl-file", "ca-file",
+                                  "options"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 cert_obj = profile.get("cert-key-chain", None)
@@ -841,10 +849,6 @@ def convert_profile_config(profile_config, certs_location, option):
                     accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
                 if accepted_versions:
                     ssl_profile["accepted_versions"] = accepted_versions
-                if options:
-                    skipped_options = [key for key in options if key not in [
-                        "no-tlsv1", "no-tlsv1.1", "no-tlsv1.2", None]]
-                    skipped.append({"Unsupported options": skipped_options})
 
                 crl_file_name = profile.get('crl-file', None)
                 ca_file_name = profile.get('ca-file', None)
@@ -911,7 +915,8 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'web-acceleration':
                 supported_attr = ["description", "cache-object-min-size",
                                   "cache-max-age", "cache-object-max-size",
-                                  "cache-insert-age-header"]
+                                  "cache-insert-age-header",
+                                  "cache-uri-exclude", "cache-uri-include"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 app_profile = dict()
@@ -935,6 +940,18 @@ def convert_profile_config(profile_config, certs_location, option):
                 max_entities = profile.get('cache-max-entries', 0)
                 cache_config['max_cache_size'] = \
                     (int(max_entities) * int(cache_config['max_object_size']))
+                exclude_uri = profile.get("cache-uri-exclude", None)
+                include_uri = profile.get("cache-uri-include", None)
+                if exclude_uri and isinstance(exclude_uri, dict):
+                    exclude_uri = exclude_uri.keys() + exclude_uri.values()
+                    if None in exclude_uri:
+                        exclude_uri.remove(None)
+                    cache_config['mime_types_black_list'] = exclude_uri
+                if include_uri and isinstance(include_uri, dict):
+                    include_uri = include_uri.keys() + include_uri.values()
+                    if None in include_uri:
+                        include_uri.remove(None)
+                    cache_config['mime_types_list'] = include_uri
                 http_profile = dict()
                 http_profile["cache_config"] = cache_config
                 app_profile["http_profile"] = http_profile
@@ -1085,10 +1102,6 @@ def convert_profile_config(profile_config, certs_location, option):
                 }
                 network_profile_list.append(ntwk_profile)
                 converted_objs.append({'network_profile': ntwk_profile})
-            else:
-                LOG.warning("Not supported profile type: %s" % profile_type)
-                add_status_row('profile', profile_type, name, 'skipped')
-                continue
             if skipped:
                 add_status_row('profile', profile_type, name, 'partial',
                                skipped, converted_objs)
