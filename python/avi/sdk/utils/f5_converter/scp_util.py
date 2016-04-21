@@ -42,7 +42,7 @@ class SCPUtil(object):
             try:
                 self.get(remote_path+file, local_path+file)
             except IOError as e:
-                print(e)
+                LOG.error(e)
  
     def close(self):
         """

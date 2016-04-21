@@ -398,7 +398,9 @@ def convert_monitor_config(monitor_config, file_location):
             if not f5_monitor:
                 add_status_row('monitor', '', key, 'skipped', None, None)
                 continue
-            f5_monitor = get_monitor_defaults(f5_monitor, monitor_config, key)
+            f5_monitor = get_monitor_defaults(f5_monitor, monitor_config,
+                                              f5_monitor.get("defaults from",
+                                                             key))
             if f5_monitor["type"] not in supported_types:
                 LOG.debug("Monitor type not supported by Avi : "+key)
                 add_status_row('monitor', f5_monitor["type"], key, 'skipped',
@@ -578,19 +580,26 @@ def convert_profile_config(profile_config, certs_location, option):
     string_group = []
     hash_algorithm = []
     network_profile_list = []
+    supported_types = ["clientssl", "serverssl", "http", "dns",
+                       "persist", "fastL4", "fasthttp", "tcp", "udp"]
     for key in profile_config.keys():
         profile_type = None
         name = None
         try:
             converted_objs = []
             profile_type, name = key.split(" ")
+            if profile_type not in supported_types:
+                LOG.warning("Not supported profile type: %s" % profile_type)
+                add_status_row('profile', profile_type, name, 'skipped')
+                continue
             LOG.debug("Converting profile: %s" % name)
             profile = profile_config[key]
             profile = update_with_default_profile(profile_type,
                                                   profile, profile_config)
             if profile_type in ("clientssl", "serverssl"):
                 supported_attr = ["cert", "key", "ciphers", "unclean shutdown",
-                                  "crl file", "ca file", "defaults from"]
+                                  "crl file", "ca file", "defaults from",
+                                  "options"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 key_cert_obj = None
@@ -634,10 +643,6 @@ def convert_profile_config(profile_config, certs_location, option):
                     accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
                 if accepted_versions:
                     ssl_profile["accepted_versions"] = accepted_versions
-                if options:
-                    skipped_options = [key for key in options if key not in [
-                        "no tlsv1", "no tlsv1.1", "no tlsv1.2", None]]
-                    skipped.append({"Unsupported options": skipped_options})
 
                 crl_file_name = profile.get('crl file', None)
                 ca_file_name = profile.get('ca file', None)
@@ -835,10 +840,6 @@ def convert_profile_config(profile_config, certs_location, option):
                     continue
                 persist_profile_list.append(persist_profile)
                 converted_objs.append({'persist_profile': persist_profile})
-            else:
-                LOG.warning("Not supported profile type: %s" % profile_type)
-                add_status_row('profile', profile_type, name, 'skipped', None, None)
-                continue
             if skipped:
                 add_status_row('profile', profile_type, name, 'partial',
                                skipped, converted_objs)
@@ -1174,8 +1175,8 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
     return vs_list
 
 
-def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params,
-                   avi_object):
+def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
+                   avi_object=None):
     """
     Adds as status row in conversion status csv
     :param f5_type: Object type
