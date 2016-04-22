@@ -1,9 +1,0 @@
-recursive-include avi *.cfg
-recursive-include avi *.conf
-recursive-include avi *.crt
-recursive-include avi *.json
-recursive-include avi *.key
-recursive-include avi *.pem
-recursive-include avi *.xml
-recursive-include avi *.yaml
-
