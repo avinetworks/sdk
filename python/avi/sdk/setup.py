@@ -1,6 +1,6 @@
 import os
 from setuptools import setup, find_packages
-
+from avi.version import AVI_VERSION
 """
 This setup needs to be copied to the top level python directory and then
 create the package.
@@ -9,7 +9,6 @@ create the package.
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-AVI_VERSION = 'master'
 setup(
     name='avisdk',
     version=AVI_VERSION,
