@@ -14,7 +14,7 @@ urllib3.disable_warnings()
 
 def dict_merge(dct, merge_dct):
     for k, v in merge_dct.iteritems():
-        if (k in dct.keys() and isinstance(dct[k], dict) and
+        if (k in dct and isinstance(dct[k], dict) and
                 isinstance(merge_dct[k], dict)):
             dict_merge(dct[k], merge_dct[k])
         else:
