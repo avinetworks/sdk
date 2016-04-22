@@ -6,7 +6,7 @@ import os
 
 from requests.packages import urllib3
 
-from avi.sdk.utils.f5_converter import f5_config_converter_v11, \
+from avi.f5_converter import f5_config_converter_v11, \
     f5_config_converter_v10, f5_parser, upload_config, scp_util
 
 urllib3.disable_warnings()

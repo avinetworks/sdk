@@ -6,15 +6,15 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 AVI_VERSION = 'master'
 setup(
-    name='avisdk',
+    name='avif5converter',
     version=AVI_VERSION,
-    packages=find_packages(),
-    description='Avi python sdk.',
+    #package_dir={'': 'avi/f5_converter'},
+    packages=find_packages(exclude=['*sdk*']),
+    description='Avi F5 Converter.',
     url='http://avinetworks.com/',
     author='Avi Networks',
     author_email='support@avinetworks.com',
-    scripts=['avi/sdk/utils/f5_converter/f5_converter.py',
-             'avi/sdk/samples/virtualservice_examples_api.py'],
+    scripts=['avi/f5_converter/f5_converter.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -23,7 +23,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     include_package_data=True,
-    install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko'],
+    install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
+                      'pycrypto', 'ecdsa'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )
