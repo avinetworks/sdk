@@ -399,7 +399,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
     :return: List of Avi VS configs
     """
     vs_list = []
-    supported_attr = ['profiles', 'destination', 'pool', 'persist',
+    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool'
                       'source-address-translation']
     for vs_name in vs_config.keys():
         LOG.debug("Converting VS: %s" % vs_name)
@@ -448,6 +448,8 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             }
             snat = f5_vs.get("source-address-translation", {})
             snat_pool_name = snat.get("pool", None)
+            if not snat_pool_name:
+                snat_pool_name = f5_vs.get("snatpool", None)
             snat_pool = None
             if snat_pool_name:
                 snat_pool = f5_snat_pools.pop(snat_pool_name, None)
