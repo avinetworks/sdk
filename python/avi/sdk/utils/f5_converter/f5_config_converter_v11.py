@@ -3,6 +3,7 @@ import csv
 import logging
 import numbers
 import os
+import converter_constants as final
 
 LOG = logging.getLogger("converter-log")
 csv_writer = None
@@ -270,17 +271,17 @@ def update_service(port, vs, enable_ssl):
     for service in vs['services']:
         port_end = service.get('port_range_end', None)
         if port_end and (service['port'] <= int(port) <= port_end):
-            if port not in [1, 65535]:
+            if port not in [final.PORT_START, final.PORT_END]:
                 new_end = service['port_range_end']
                 service['port_range_end'] = int(port)-1
                 new_service = {'port': int(port)+1,
                                'port_range_end': new_end,
                                'enable_ssl': enable_ssl}
                 vs['services'].append(new_service)
-            elif port == 1:
+            elif port == final.PORT_START:
                 service['port'] = 2
-            elif port == 65535:
-                service['port_range_end'] = 65534
+            elif port == final.PORT_END:
+                service['port_range_end'] = (final.PORT_START - 1)
             service_updated = True
             break
     return service_updated
@@ -296,7 +297,7 @@ def get_service_obj(destination, vs_list, enable_ssl):
     """
     parts = destination.split(':')
     ip_addr = parts[0]
-    port = parts[1] if len(parts) == 2 else 80
+    port = parts[1] if len(parts) == 2 else final.DEFAULT_PORT
     vs_dup_ips = [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
     if int(port) > 0:
         for vs in vs_dup_ips:
@@ -311,10 +312,10 @@ def get_service_obj(destination, vs_list, enable_ssl):
                 used_ports.append(service['port'])
         if used_ports:
             services_obj = []
-            if 65535 not in used_ports:
-                used_ports.append(65536)
+            if final.PORT_END not in used_ports:
+                used_ports.append(final.PORT_END+1)
             used_ports = sorted(used_ports, key=int)
-            start = 1
+            start = final.PORT_START
             for i in range(len(used_ports)):
                 if start == used_ports[i]:
                     start += 1
@@ -325,7 +326,7 @@ def get_service_obj(destination, vs_list, enable_ssl):
                                      'enable_ssl': enable_ssl})
                 start = int(used_ports[i])+1
         else:
-            services_obj = [{'port': 1, 'port_range_end': 65535,
+            services_obj = [{'port': 1, 'port_range_end': final.PORT_END,
                              'enable_ssl': enable_ssl}]
     return services_obj, ip_addr
 
@@ -398,7 +399,8 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
     :return: List of Avi VS configs
     """
     vs_list = []
-    supported_attr = ['profiles', 'destination', 'pool']
+    supported_attr = ['profiles', 'destination', 'pool', 'persist',
+                      'source-address-translation']
     for vs_name in vs_config.keys():
         LOG.debug("Converting VS: %s" % vs_name)
         try:
@@ -476,7 +478,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             else:
                 add_status_row('virtual', None, vs_name, 'successful',
                                skipped, vs_obj)
-        except Exception as e:
+        except:
             LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
         LOG.debug("Conversion successful for VS: %s" % vs_name)
     return vs_list
@@ -516,15 +518,16 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
                             "description", "defaults-from"]
     skipped = [key for key in f5_monitor.keys()
                if key not in supported_attributes]
-    timeout = int(f5_monitor.get("timeout", 16))
-    interval = int(f5_monitor.get("interval", 5))
-    time_until_up = int(f5_monitor.get("time-until-up", 1))
+    timeout = int(f5_monitor.get("timeout", final.DEFAULT_TIMEOUT))
+    interval = int(f5_monitor.get("interval", final.DEFAULT_INTERVAL))
+    time_until_up = int(f5_monitor.get("time-until-up",
+                                       final.DEFAULT_TIME_UNTIL_UP))
     successful_checks = int(timeout/interval)
+    failed_checks = final.DEFAULT_FAILED_CHECKS
     if time_until_up > 0:
         failed_checks = int(time_until_up/interval)
         failed_checks = 1 if failed_checks == 0 else failed_checks
-    else:
-        failed_checks = 1
+
     description = f5_monitor.get("description", None)
     monitor_dict = dict()
     monitor_dict["name"] = name
@@ -538,7 +541,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     if monitor_type == "http":
         http_attr = ["recv", "recv-disable", "reverse", "send"]
         skipped = [key for key in skipped if key not in http_attr]
-        send = f5_monitor.get('send', None)
+        send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
@@ -609,6 +612,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        tcp_monitor = None
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
@@ -635,6 +639,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        udp_monitor = None
         if request or response:
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
@@ -792,14 +797,15 @@ def convert_profile_config(profile_config, certs_location, option):
         try:
             profile_type, name = key.split(" ")
             if profile_type not in supported_types:
-                LOG.warning("Not supported profile type: %s" % profile_type)
+                LOG.warning("Skipped not supported profile: %s of type: %s" %
+                            (name, profile_type))
                 add_status_row('profile', profile_type, name, 'skipped')
                 continue
             LOG.debug("Converting profile: %s" % name)
             profile = profile_config[key]
-            skipped = profile.keys()
             profile = update_with_default_profile(profile_type,
                                                   profile, profile_config)
+            skipped = profile.keys()
             if profile_type in ("client-ssl", "server-ssl"):
                 supported_attr = ["cert-key-chain", "cert", "key", "ciphers",
                                   "unclean-shutdown", "crl-file", "ca-file",
@@ -896,9 +902,10 @@ def convert_profile_config(profile_config, certs_location, option):
                     profile.get('xff-alternative-names', None)
                 enforcement = profile.get('enforcement', None)
                 if enforcement:
-                    header_size = enforcement.get('max-header-size', 49152)
+                    header_size = enforcement.get('max-header-size',
+                                                  final.DEFAULT_MAX_HEADER)
                     http_profile['client_max_header_size'] = \
-                        int(header_size)/1024
+                        int(header_size)/final.BYTES_IN_KB
                     enf_skipped = [key for key in enforcement.keys()
                                    if key not in ["max-header-size"]]
                     skipped.append({"enforcement": enf_skipped})
@@ -925,10 +932,10 @@ def convert_profile_config(profile_config, certs_location, option):
                 app_profile['description'] = profile.get('description', None)
                 cache_config = dict()
                 cache_config['min_object_size'] = profile.get(
-                    'cache-object-min-size', 100)
+                    'cache-object-min-size', final.MIN_CACHE_OBJ_SIZE)
                 cache_config['query_cacheable'] = True
                 cache_config['max_object_size'] = profile.get(
-                    'cache-object-max-size', 4194304)
+                    'cache-object-max-size', final.MAX_CACHE_OBJ_SIZE)
                 age_header = profile.get('cache-insert-age-header', 'disabled')
                 if age_header == 'enabled':
                     cache_config['age_header'] = True
@@ -936,7 +943,7 @@ def convert_profile_config(profile_config, certs_location, option):
                     cache_config['age_header'] = False
                 cache_config['enabled'] = True
                 cache_config['default_expire'] = \
-                    profile.get('cache-max-age', 600)
+                    profile.get('cache-max-age', final.DEFAULT_CACHE_MAX_AGE)
                 max_entities = profile.get('cache-max-entries', 0)
                 cache_config['max_cache_size'] = \
                     (int(max_entities) * int(cache_config['max_object_size']))
@@ -1029,9 +1036,11 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "idle-timeout"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
-                receive_window = profile.get("receive-window-size", 64)
-                if not (32 <= int(receive_window) <= 65536):
-                    receive_window = 64
+                receive_window = profile.get("receive-window-size",
+                                             final.DEFAULT_RECV_WIN)
+                if not (final.MIN_RECV_WIN <= int(receive_window) <=
+                            final.MAX_RECV_WIN):
+                    receive_window = final.DEFAULT_RECV_WIN
                 timeout = profile.get("idle-timeout", 0)
                 ntwk_profile = {
                     "profile": {
@@ -1055,15 +1064,18 @@ def convert_profile_config(profile_config, certs_location, option):
                 timeout = profile.get("idle-timeout", 0)
                 nagle = profile.get("nagle", 'disabled')
                 nagle = False if nagle == 'disabled' else True
-                retrans = profile.get("syn-max-retrans", 3)
-                retrans = 3 if int(retrans) < 3 else retrans
-                retrans = 8 if int(retrans) > 8 else retrans
+                retrans = profile.get("syn-max-retrans", final.MIN_SYN_RETRANS)
+                retrans = final.MIN_SYN_RETRANS if \
+                    int(retrans) < final.MIN_SYN_RETRANS else retrans
+                retrans = final.MAX_SYN_RETRANS if \
+                    int(retrans) > final.MAX_SYN_RETRANS else retrans
                 conn_type = profile.get("time-wait-recycle", "disabled")
                 conn_type = "CLOSE_IDLE" if \
                     conn_type == "disabled" else "KEEP_ALIVE"
                 delay = profile.get("time-wait-timeout", 0)
-                window = profile.get("receive-window-size", 32768)
-                window = int(int(window)/1024)
+                window = profile.get("receive-window-size",
+                                     (final.MIN_RECV_WIN * final.BYTES_IN_KB))
+                window = int(int(window)/final.BYTES_IN_KB)
                 cc_algo = profile.get("congestion-control", "")
                 cc_algo = get_cc_algo_val(cc_algo)
                 ntwk_profile = {
@@ -1194,9 +1206,9 @@ def convert_persistence_config(f5_persistence_dict):
                 supported_attr = ["timeout", "defaults from"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
-                timeout = profile.get("timeout", 180)
+                timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
                 if timeout > 0:
-                    timeout = int(timeout)/60
+                    timeout = int(timeout)/final.SEC_IN_MIN
                 persist_profile = {
                     "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
                     "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
@@ -1253,8 +1265,8 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
     csv_writer.writeheader()
+    avi_config_dict = {}
     try:
-        avi_config_dict = {}
         monitor_config = f5_config_dict.pop("monitor", {})
         monitor_config_list = convert_monitor_config(monitor_config)
         avi_config_dict["HealthMonitor"] = monitor_config_list
