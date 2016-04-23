@@ -1,0 +1,9 @@
+recursive-include avi/f5_converter *.cfg
+recursive-include avi/f5_converter *.conf
+recursive-include avi/f5_converter *.crt
+recursive-include avi/f5_converter *.json
+recursive-include avi/f5_converter *.key
+recursive-include avi/f5_converter *.pem
+recursive-include avi/f5_converter *.xml
+recursive-include avi/f5_converter *.yaml
+
