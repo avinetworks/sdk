@@ -1,0 +1,9 @@
+recursive-include avi/sdk *.cfg
+recursive-include avi/sdk *.conf
+recursive-include avi/sdk *.crt
+recursive-include avi/sdk *.json
+recursive-include avi/sdk *.key
+recursive-include avi/sdk *.pem
+recursive-include avi/sdk *.xml
+recursive-include avi/sdk *.yaml
+
