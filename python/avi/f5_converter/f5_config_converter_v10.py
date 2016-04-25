@@ -490,9 +490,10 @@ def convert_http_profile(profile, name):
     supported_attr = ["insert xforwarded for", "xff alternative names",
                       "max header size", "ramcache min object size",
                       "ramcache max age", "ramcache max object size",
-                      "ramcache insert age header",
-                      "compress keep accept encoding",
-                      "compress content type include"]
+                      "ramcache insert age header", "oneconnect transformations"
+                      "compress keep accept encoding", "ramcache uri exclude",
+                      "compress content type include", "ramcache uri include",
+                      "compress browser workarounds", "ramcache size"]
     skipped = [key for key in profile.keys()
                if key not in supported_attr]
     app_profile = dict()
@@ -523,6 +524,18 @@ def convert_http_profile(profile, name):
         cache_config['enabled'] = True
         cache_config['default_expire'] = profile.get(
             'ramcache max age', final.DEFAULT_CACHE_MAX_AGE)
+        exclude_uri = profile.get("ramcache uri exclude", None)
+        include_uri = profile.get("ramcache uri include", None)
+        if exclude_uri and isinstance(exclude_uri, dict):
+            exclude_uri = exclude_uri.keys() + exclude_uri.values()
+            if None in exclude_uri:
+                exclude_uri.remove(None)
+            cache_config['mime_types_black_list'] = exclude_uri
+        if include_uri and isinstance(include_uri, dict):
+            include_uri = include_uri.keys() + include_uri.values()
+            if None in include_uri:
+                include_uri.remove(None)
+            cache_config['mime_types_list'] = include_uri
         http_profile["cache_config"] = cache_config
     compression = profile.get('compress', 'disable')
     if not compression == 'disable':
@@ -694,7 +707,8 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'app_profile': app_profile})
             elif profile_type == 'fastL4':
                 supported_attr = ["idle timeout", "software syncookie",
-                                  "defaults from"]
+                                  "defaults from", "pva acceleration",
+                                  "reset on timeout"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 syn_protection = (profile.get("software syncookie", None) ==
@@ -796,7 +810,9 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'persist':
                 persist_mode = profile.get("mode")
                 if persist_mode == "cookie":
-                    supported_attr = ["cookie name", "mode", "defaults from"]
+                    supported_attr = ["cookie name", "mode", "defaults from",
+                                      "cookie hash offset", "mirror",
+                                      "cookie hash length"]
                     skipped = [key for key in profile.keys()
                                if key not in supported_attr]
                     cookie_name = profile.get("cookie name", None)
@@ -813,7 +829,7 @@ def convert_profile_config(profile_config, certs_location, option):
                         "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
                     }
                 elif persist_mode == "ssl":
-                    supported_attr = ["mode", "defaults from"]
+                    supported_attr = ["mode", "defaults from", "mirror"]
                     skipped = [key for key in profile.keys()
                                if key not in supported_attr]
                     persist_profile = {
