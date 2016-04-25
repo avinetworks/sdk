@@ -890,7 +890,9 @@ def convert_profile_config(profile_config, certs_location, option):
                         converted_objs.append({'pki_profile': pki_profile})
             elif profile_type == 'http':
                 supported_attr = ["description", "insert-xforwarded-for",
-                                  "enforcement", "xff-alternative-names"]
+                                  "enforcement", "xff-alternative-names",
+                                  "request-chunking", "response-chunking",
+                                  "oneconnect-transformations"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 app_profile = dict()
@@ -925,7 +927,8 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "cache-object-min-size",
                                   "cache-max-age", "cache-object-max-size",
                                   "cache-insert-age-header",
-                                  "cache-uri-exclude", "cache-uri-include"]
+                                  "cache-uri-exclude", "cache-uri-include",
+                                  "cache-size"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 app_profile = dict()
@@ -968,7 +971,8 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'app_profile': app_profile})
             elif profile_type == 'http-compression':
                 supported_attr = ["description", "content-type-include",
-                                  "keep-accept-encoding"]
+                                  "keep-accept-encoding", "browser-workarounds",
+                                  "uri-include"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 app_profile = dict()
@@ -1004,7 +1008,8 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'app_profile': app_profile})
             elif profile_type == 'fastl4':
                 supported_attr = ["description", "explicit-flow-migration",
-                                  "idle-timeout", "software-syn-cookie"]
+                                  "idle-timeout", "software-syn-cookie",
+                                  "pva-acceleration", "reset-on-timeout"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 syn_protection = (profile.get("software-syn-cookie",
@@ -1179,7 +1184,9 @@ def convert_persistence_config(f5_persistence_dict):
             profile = update_with_default_profile(persist_mode, profile,
                                                   f5_persistence_dict)
             if persist_mode == "cookie":
-                supported_attr = ["cookie-name", "defaults-from", "expiration"]
+                supported_attr = ["cookie-name", "defaults-from", "expiration",
+                                  "hash-length", "hash-offset", "mirror",
+                                  "method"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 cookie_name = profile.get("cookie-name", None)
@@ -1196,7 +1203,7 @@ def convert_persistence_config(f5_persistence_dict):
                     "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
                 }
             elif persist_mode == "ssl":
-                supported_attr = ["defaults from"]
+                supported_attr = ["defaults from", "mirror"]
                 skipped = [key for key in profile.keys()
                            if key not in supported_attr]
                 persist_profile = {
