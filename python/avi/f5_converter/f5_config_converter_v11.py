@@ -401,10 +401,18 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
     vs_list = []
     supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool'
                       'source-address-translation']
+    unsupported_types = ["l2-forward", "ip-forward", "stateless",
+                              "dhcp-relay", "internal", "reject"]
     for vs_name in vs_config.keys():
         LOG.debug("Converting VS: %s" % vs_name)
         try:
             f5_vs = vs_config[vs_name]
+            vs_type = [key for key in f5_vs.keys() if key in unsupported_types]
+            if vs_type:
+                LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
+                          (vs_type, vs_name))
+                add_status_row('virtual', None, vs_name, 'skipped')
+                continue
             skipped = [key for key in f5_vs.keys()
                        if key not in supported_attr]
             enabled = (vs_state == 'enable')
@@ -688,7 +696,7 @@ def convert_monitor_config(monitor_config):
             monitor_type, name = key.split(" ")
             LOG.debug("Converting monitor: %s" % name)
             if monitor_type not in supported_types:
-                LOG.debug("Monitor type not supported by Avi : "+name)
+                LOG.warn("Monitor type not supported by Avi : "+name)
                 add_status_row('monitor', monitor_type, name, 'skipped')
                 continue
             f5_monitor = monitor_config[key]
@@ -926,7 +934,7 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'web-acceleration':
                 supported_attr = ["description", "cache-object-min-size",
                                   "cache-max-age", "cache-object-max-size",
-                                  "cache-insert-age-header",
+                                  "cache-insert-age-header", "cache-max-entries"
                                   "cache-uri-exclude", "cache-uri-include",
                                   "cache-size"]
                 skipped = [key for key in profile.keys()
@@ -1187,12 +1195,28 @@ def convert_persistence_config(f5_persistence_dict):
                 supported_attr = ["cookie-name", "defaults-from", "expiration",
                                   "hash-length", "hash-offset", "mirror",
                                   "method"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 cookie_name = profile.get("cookie-name", None)
                 # cookie_name = None if cookie_name == "none" else cookie_name
-                timeout = profile.get("expiration", 1)
-                timeout = 1 if int(timeout) == 0 else timeout
+                timeout = profile.get("expiration", '1')
+                if ':' in str(timeout):
+                    expiration = timeout.split(':')
+                    expiration.reverse()
+                    timeout = 0
+                    i = 0
+                    for val in expiration:
+                        if i == 0:
+                            timeout = int(val)
+                        elif i == 1:
+                            timeout += (int(val)*60)
+                        elif i == 2:
+                            timeout += (int(val)*60*60)
+                        elif i == 3:
+                            timeout += (int(val)*60*60*24)
+                        i += 1
+                else:
+                    timeout = 1 if int(timeout) == 0 else timeout
                 persist_profile = {
                     "name": name,
                     "app_cookie_persistence_profile": {
@@ -1204,8 +1228,8 @@ def convert_persistence_config(f5_persistence_dict):
                 }
             elif persist_mode == "ssl":
                 supported_attr = ["defaults from", "mirror"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 persist_profile = {
                     "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
                     "persistence_type": "PERSISTENCE_TYPE_TLS",
@@ -1213,8 +1237,8 @@ def convert_persistence_config(f5_persistence_dict):
                 }
             elif persist_mode == "source-addr":
                 supported_attr = ["timeout", "defaults from"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
                 if timeout > 0:
                     timeout = int(timeout)/final.SEC_IN_MIN
@@ -1238,8 +1262,12 @@ def convert_persistence_config(f5_persistence_dict):
                 add_status_row("persistence", persist_mode, name, "skipped")
                 continue
             persist_profile_list.append(persist_profile)
-            add_status_row("persistence", persist_mode, name, "partial",
-                           skipped, persist_profile)
+            if skipped:
+                add_status_row("persistence", persist_mode, name, "partial",
+                               skipped, persist_profile)
+            else:
+                add_status_row("persistence", persist_mode, name, "successful",
+                               skipped, persist_profile)
         except:
             LOG.error("Failed to convert persistance profile : %s" % key,
                       exc_info=True)

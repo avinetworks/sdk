@@ -403,7 +403,7 @@ def convert_monitor_config(monitor_config, file_location):
                                               f5_monitor.get("defaults from",
                                                              key))
             if f5_monitor["type"] not in supported_types:
-                LOG.debug("Monitor type not supported by Avi : "+key)
+                LOG.warn("Monitor type not supported by Avi : "+key)
                 add_status_row('monitor', f5_monitor["type"], key, 'skipped',
                                None, None)
                 continue
@@ -816,7 +816,24 @@ def convert_profile_config(profile_config, certs_location, option):
                     skipped = [key for key in profile.keys()
                                if key not in supported_attr]
                     cookie_name = profile.get("cookie name", None)
-                    timeout = profile.get("expiration", 0)
+                    timeout = profile.get("expiration", '1')
+                    if ':' in str(timeout):
+                        expiration = timeout.split(':')
+                        expiration.reverse()
+                        timeout = 0
+                        i = 0
+                        for val in expiration:
+                            if i == 0:
+                                timeout = int(val)
+                            elif i == 1:
+                                timeout += (int(val)*60)
+                            elif i == 2:
+                                timeout += (int(val)*60*60)
+                            elif i == 3:
+                                timeout += (int(val)*60*60*24)
+                            i += 1
+                    else:
+                        timeout = 1 if int(timeout) == 0 else timeout
                     if cookie_name == "none":
                         cookie_name = None
                     persist_profile = {
@@ -1118,10 +1135,17 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list,
     """
     vs_list = []
     supported_attr = ['profiles', 'destination', 'pool', 'persist']
+    unsupported_types = ["l2 forward", "ip forward", "stateless", "reject"]
     for vs_name in vs_config.keys():
         LOG.debug("Converting VS: %s" % vs_name)
         try:
             f5_vs = vs_config[vs_name]
+            vs_type = [key for key in f5_vs.keys() if key in unsupported_types]
+            if vs_type:
+                LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
+                          (vs_type, vs_name))
+                add_status_row('virtual', None, vs_name, 'skipped')
+                continue
             skipped = [key for key in f5_vs.keys() if key not in supported_attr]
             enabled = (vs_state == 'enable')
             vs_profiles = f5_vs.get("profiles", None)

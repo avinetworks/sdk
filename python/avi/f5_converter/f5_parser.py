@@ -68,6 +68,8 @@ def generate_grammar_v10():
     mode_kw = Keyword("mode")
     lb_method_kw = Keyword("lb method")
     v_addr_kw = Keyword("virtual address")
+    ip_forward_kw = Keyword("ip forward")
+    l2_forward_kw = Keyword("l2 forward")
     empty_object = Keyword("{ }")
 
     common = Suppress("/Common/")
@@ -84,8 +86,8 @@ def generate_grammar_v10():
         suppress() + (v_addr_kw | unquoted_string)
     data = (unquoted_string | quoted_string)
 
-    key_exceptions = (opt_kw | profiles_kw | monitor_kw |
-                      session_kw | mode_kw | lb_method_kw)
+    key_exceptions = (opt_kw | profiles_kw | monitor_kw | session_kw | mode_kw |
+                      lb_method_kw | ip_forward_kw | l2_forward_kw)
 
     # define structures
     value = Forward()

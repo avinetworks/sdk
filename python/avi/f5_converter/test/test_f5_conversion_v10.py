@@ -3,9 +3,9 @@ import logging
 import os
 import unittest
 
-import avi.sdk.utils.f5_converter.f5_config_converter_v10 as f5_config_converter
-import avi.sdk.utils.f5_converter.f5_parser as f5_parser
-import avi.sdk.utils.f5_converter.f5_converter as f5_converter
+import avi.f5_converter.f5_config_converter_v10 as f5_config_converter
+import avi.f5_converter.f5_parser as f5_parser
+import avi.f5_converter.f5_converter as f5_converter
 
 gSAMPLE_CONFIG = None
 log = logging.getLogger(__name__)
@@ -48,9 +48,16 @@ class Test(unittest.TestCase):
         avi_config_dict = f5_config_converter.convert_to_avi_dict(
             f5_config_dict, ".."+os.path.sep+"output", "disable",
             "certs", "api-upload")
+        vs_count = 0
+        unsupported_types = ["l2 forward", "ip forward", "stateless", "reject"]
+        vs_config = f5_config_test["virtual"]
+        for key in vs_config.keys():
+            vs_type = [key for key in vs_config[key].keys() if key in
+                       unsupported_types]
+            if not vs_type:
+                vs_count += 1
+        assert vs_count == len(avi_config_dict["VirtualService"])
 
-        assert len(f5_config_test["virtual"].keys()) == len(
-            avi_config_dict["VirtualService"])
         assert len(f5_config_test["pool"].keys()) <= len(
             avi_config_dict["Pool"])
         supported_monitor_count = 0
