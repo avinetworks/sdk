@@ -24,6 +24,16 @@ def upload_file(file_path):
     return file_str
 
 
+def update_skipped_attributes(skipped, indirect_list, ignore_dict, object):
+    indirect_mappings = [attr for attr in indirect_list if attr in skipped]
+    skipped = [attr for attr in skipped if attr not in indirect_list]
+    for key in ignore_dict.keys():
+        if key in object and key in skipped and object[key] == \
+                ignore_dict[key]:
+            skipped.remove(key)
+    return skipped, indirect_mappings
+
+
 def convert_servers_config(servers_config, nodes):
     """
     Converts the config of servers in the pool
@@ -106,7 +116,8 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
     """
     pool_list = []
     supported_attr = ['members', 'monitor', 'service-down-action',
-                      'load-balancing-mode']
+                      'load-balancing-mode', 'description']
+
     for pool_name in pool_config.keys():
         LOG.debug("Converting Pool: %s" % pool_name)
         try:
@@ -122,8 +133,10 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             pd_action = get_avi_pool_down_action(sd_action)
             lb_method = f5_pool.get("load-balancing-mode", None)
             lb_algorithm = get_avi_lb_algorithm(lb_method)
+            description = f5_pool.get('description', None)
             pool_obj = {
                     "name": pool_name,
+                    "description": description,
                     "servers": servers,
                     "pd_action_type": pd_action,
                     "lb_algorithm": lb_algorithm
@@ -516,12 +529,13 @@ def get_defaults(monitor_type, f5_monitor, monitor_config):
     return f5_monitor
 
 
-def convert_monitor_entity(monitor_type, name, f5_monitor):
+def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
     """
     Conversion of single F5 monitor object to Avi health monitor object
     :param monitor_type: Health monitor type
     :param name: name of health monitor
     :param f5_monitor: F5 monitor config object
+    :param file_location: External monitor script file location
     :return: Avi monitor config object
     """
     supported_attributes = ["timeout", "interval", "time-until-up",
@@ -589,7 +603,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
             monitor_dict["https_monitor"]["maintenance_response"] = \
                 maintenance_response
     elif monitor_type == "dns":
-        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode"]
+        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode", "qname"]
         skipped = [key for key in skipped if key not in dns_attr]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         if accept_rcode and accept_rcode == "no-error":
@@ -672,8 +686,12 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
         ext_attr = ["run", "args", "user-defined"]
         skipped = [key for key in skipped if key not in ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
+        cmd_code = f5_monitor.get("run", 'none')
+        cmd_code = None if cmd_code == 'none' else cmd_code
+        if cmd_code:
+            cmd_code = upload_file(file_location+os.path.sep+cmd_code)
         ext_monitor = {
-            "command_code": f5_monitor.get("run", None),
+            "command_code": cmd_code,
             "command_parameters": f5_monitor.get("args", None),
             "command_variables": f5_monitor.get("user-defined", None)
         }
@@ -681,10 +699,11 @@ def convert_monitor_entity(monitor_type, name, f5_monitor):
     return monitor_dict, skipped
 
 
-def convert_monitor_config(monitor_config):
+def convert_monitor_config(monitor_config, file_location):
     """
     Convert F5 monitor config dict to Avi health monitor config list
     :param monitor_config: F5 monitor config dict
+    :param file_location: External monitor script file location
     :return: List of Avi health monitor objects
     """
     monitor_list = []
@@ -705,13 +724,18 @@ def convert_monitor_config(monitor_config):
                 continue
             f5_monitor = get_defaults(monitor_type, f5_monitor, monitor_config)
             avi_monitor, skipped = convert_monitor_entity(
-                monitor_type, name, f5_monitor)
+                monitor_type, name, f5_monitor, file_location)
+            indirect_mappings = ["up-interval", "debug", "ip-dscp"]
+            ignore_for_defaults = {"destination": "*:*",
+                                   "manual-resume": 'disabled'}
+            skipped, indirect_list = update_skipped_attributes(
+                skipped, indirect_mappings, ignore_for_defaults, f5_monitor)
             if skipped:
                 add_status_row('monitor', monitor_type, name, 'partial',
-                               skipped, avi_monitor)
+                               skipped, avi_monitor, indirect_list)
             else:
                 add_status_row('monitor', monitor_type, name, 'successful',
-                               None, avi_monitor)
+                               None, avi_monitor, indirect_list)
             monitor_list.append(avi_monitor)
         except:
             LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
@@ -804,6 +828,7 @@ def convert_profile_config(profile_config, certs_location, option):
     for key in profile_config.keys():
         profile_type = name = None
         converted_objs = []
+        ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
         try:
             profile_type, name = key.split(" ")
             if profile_type not in supported_types:
@@ -816,12 +841,13 @@ def convert_profile_config(profile_config, certs_location, option):
             profile = update_with_default_profile(profile_type,
                                                   profile, profile_config)
             skipped = profile.keys()
+            indirect = []
             if profile_type in ("client-ssl", "server-ssl"):
                 supported_attr = ["cert-key-chain", "cert", "key", "ciphers",
                                   "unclean-shutdown", "crl-file", "ca-file",
-                                  "options"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "options", "defaults-from"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 cert_obj = profile.get("cert-key-chain", None)
                 key_cert_obj = None
                 if cert_obj and cert_obj.keys():
@@ -899,32 +925,47 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'http':
                 supported_attr = ["description", "insert-xforwarded-for",
                                   "enforcement", "xff-alternative-names",
-                                  "request-chunking", "response-chunking",
-                                  "oneconnect-transformations"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "encrypt-cookies", "defaults-from",
+                                  "accept-xff", "oneconnect-transformations"]
+                indirect = ["request-chunking", "response-chunking"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
                 app_profile['description'] = profile.get('description', None)
+                encpt_cookie = profile.get('encrypt-cookies', 'none')
+                encpt_cookie = False if encpt_cookie == 'none' else True
+                xff_enabled = profile.get('accept-xff', 'disabled')
+                xff_enabled = False if xff_enabled == 'disabled' else True
+                con_mltplxng = profile.get('oneconnect-transformations',
+                                               'disabled')
+                con_mltplxng = False if con_mltplxng == 'disabled' else True
                 http_profile = dict()
                 http_profile['x_forwarded_proto_enabled'] = \
                     profile.get('insert-xforwarded-for', False)
                 http_profile['xff_alternate_name'] = \
                     profile.get('xff-alternative-names', None)
+                http_profile['secure_cookie_enabled'] = encpt_cookie
+                http_profile['xff_enabled'] = xff_enabled
+                http_profile['connection_multiplexing_enabled'] = con_mltplxng
+
                 enforcement = profile.get('enforcement', None)
                 if enforcement:
                     header_size = enforcement.get('max-header-size',
                                                   final.DEFAULT_MAX_HEADER)
                     http_profile['client_max_header_size'] = \
                         int(header_size)/final.BYTES_IN_KB
-                    enf_skipped = [key for key in enforcement.keys()
-                                   if key not in ["max-header-size"]]
+                    enf_skipped = [enf for enf in enforcement.keys()
+                                   if enf not in ["max-header-size"]]
                     skipped.append({"enforcement": enf_skipped})
                 app_profile["http_profile"] = http_profile
                 app_profile_list.append(app_profile)
                 converted_objs.append({'app_profile': app_profile})
             elif profile_type == 'dns':
+                supported_attr = ["description", "defaults-from"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
@@ -934,11 +975,12 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'web-acceleration':
                 supported_attr = ["description", "cache-object-min-size",
                                   "cache-max-age", "cache-object-max-size",
-                                  "cache-insert-age-header", "cache-max-entries"
+                                  "cache-insert-age-header", "defaults-from",
                                   "cache-uri-exclude", "cache-uri-include",
-                                  "cache-size"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                   "cache-max-entries"]
+                indirect = ["cache-size", "cache-aging-rate"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -979,10 +1021,11 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'app_profile': app_profile})
             elif profile_type == 'http-compression':
                 supported_attr = ["description", "content-type-include",
-                                  "keep-accept-encoding", "browser-workarounds",
-                                  "uri-include"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "keep-accept-encoding", "defaults-from"]
+                indirect = ["browser-workarounds", "uri-include",
+                            "gzip-window-size", "gzip-level"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -1017,12 +1060,14 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'fastl4':
                 supported_attr = ["description", "explicit-flow-migration",
                                   "idle-timeout", "software-syn-cookie",
-                                  "pva-acceleration", "reset-on-timeout"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "pva-acceleration", "defaults-from"]
+                indirect = ["reset-on-timeout", "pva-acceleration"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 syn_protection = (profile.get("software-syn-cookie",
                                               None) == 'enabled')
                 timeout = profile.get("idle-timeout", 0)
+                description = profile.get('description', None)
                 ntwk_profile = {
                     "profile": {
                         "tcp_fast_path_profile": {
@@ -1031,11 +1076,13 @@ def convert_profile_config(profile_config, certs_location, option):
                         },
                         "type": "PROTOCOL_TYPE_TCP_FAST_PATH"
                     },
-                    "name": name
+                    "name": name,
+                    "description": description
                 }
                 app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_L4'
+                app_profile['description'] = description
                 explicit_tracking = profile.get("explicit-flow-migration", None)
                 l4_profile = {"rl_profile": {
                     "client_ip_connections_rate_limit": {
@@ -1048,9 +1095,10 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'network_profile': ntwk_profile})
             elif profile_type == 'fasthttp':
                 supported_attr = ["description", "receive-window-size",
-                                  "idle-timeout"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "idle-timeout", "defaults-from"]
+                indirect = ["reset-on-timeout"]
+                skipped = [attr for attr in profile_config[key].keys()
+                           if attr not in supported_attr]
                 receive_window = profile.get("receive-window-size",
                                              final.DEFAULT_RECV_WIN)
                 if not (final.MIN_RECV_WIN <= int(receive_window) <=
@@ -1070,20 +1118,27 @@ def convert_profile_config(profile_config, certs_location, option):
                 network_profile_list.append(ntwk_profile)
                 converted_objs.append({'network_profile': ntwk_profile})
             elif profile_type == 'tcp':
-                supported_attr = ["description", "idle-timeout", "nagle",
+                supported_attr = ["description", "idle-timeout", "max-retrans",
                                   "syn-max-retrans", "time-wait-recycle",
-                                  "time-wait-timeout", "congestion-control",
-                                  "receive-window-size"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "time-wait-timeout", "nagle", "defaults-from",
+                                  "congestion-control", "receive-window-size"]
+                indirect = ["reset-on-timeout", "slow-start"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 timeout = profile.get("idle-timeout", 0)
                 nagle = profile.get("nagle", 'disabled')
                 nagle = False if nagle == 'disabled' else True
-                retrans = profile.get("syn-max-retrans", final.MIN_SYN_RETRANS)
+                retrans = profile.get("smax-retrans", final.MIN_SYN_RETRANS)
                 retrans = final.MIN_SYN_RETRANS if \
                     int(retrans) < final.MIN_SYN_RETRANS else retrans
                 retrans = final.MAX_SYN_RETRANS if \
                     int(retrans) > final.MAX_SYN_RETRANS else retrans
+                syn_retrans = profile.get("syn-max-retrans",
+                                          final.MIN_SYN_RETRANS)
+                syn_retrans = final.MIN_SYN_RETRANS if \
+                    int(syn_retrans) < final.MIN_SYN_RETRANS else syn_retrans
+                syn_retrans = final.MAX_SYN_RETRANS if \
+                    int(syn_retrans) > final.MAX_SYN_RETRANS else syn_retrans
                 conn_type = profile.get("time-wait-recycle", "disabled")
                 conn_type = "CLOSE_IDLE" if \
                     conn_type == "disabled" else "KEEP_ALIVE"
@@ -1098,7 +1153,8 @@ def convert_profile_config(profile_config, certs_location, option):
                         "tcp_proxy_profile": {
                             "idle_connection_timeout": timeout,
                             "nagles_algorithm": nagle,
-                            "max_syn_retransmissions": retrans,
+                            "max_syn_retransmissions": syn_retrans,
+                            "max_retransmissions": retrans,
                             "idle_connection_type": conn_type,
                             "time_wait_delay": delay,
                             "receive_window": window,
@@ -1112,9 +1168,9 @@ def convert_profile_config(profile_config, certs_location, option):
                 converted_objs.append({'network_profile': ntwk_profile})
             elif profile_type == 'udp':
                 supported_attr = ["description", "idle-timeout",
-                                  "datagram-load-balancing"]
-                skipped = [key for key in profile.keys()
-                           if key not in supported_attr]
+                                  "datagram-load-balancing", "defaults-from"]
+                skipped = [attr for attr in profile.keys()
+                           if attr not in supported_attr]
                 per_pkt = profile.get("datagram-load-balancing", 'disabled')
                 timeout = profile.get("idle-timeout", 0)
                 ntwk_profile = {
@@ -1129,12 +1185,15 @@ def convert_profile_config(profile_config, certs_location, option):
                 }
                 network_profile_list.append(ntwk_profile)
                 converted_objs.append({'network_profile': ntwk_profile})
+
+            skipped, indirect = update_skipped_attributes(
+                    skipped, indirect, ignore_for_defaults, profile)
             if skipped:
                 add_status_row('profile', profile_type, name, 'partial',
-                               skipped, converted_objs)
+                               skipped, converted_objs, indirect)
             else:
                 add_status_row('profile', profile_type, name, 'successful',
-                               skipped, converted_objs)
+                               skipped, converted_objs, indirect)
         except:
             LOG.error("Failed to convert profile: %s" % key, exc_info=True)
             if name:
@@ -1152,7 +1211,7 @@ def convert_profile_config(profile_config, certs_location, option):
 
 
 def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
-                   avi_object=None):
+                   avi_object=None, indirect_params=None):
     """
     Adds as status row in conversion status csv
     :param f5_type: Object type
@@ -1160,6 +1219,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
     :param f5_id: Name of object
     :param status: conversion status
     :param skipped_params: skipped params if partial conversion
+    :param indirect_params: List of attributes have indirect mappings
     :param avi_object: converted avi object
     """
     global csv_writer
@@ -1168,6 +1228,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
         'F5 SubType': f5_sub_type,
         'F5 ID': f5_id,
         'Status': status,
+        'Indirect mapping': indirect_params,
         'Skipped settings': str(skipped_params),
         'Avi Object': str(avi_object)
     }
@@ -1191,10 +1252,10 @@ def convert_persistence_config(f5_persistence_dict):
             profile = f5_persistence_dict[key]
             profile = update_with_default_profile(persist_mode, profile,
                                                   f5_persistence_dict)
+            indirect_mappings = ["hash-length", "hash-offset", "mirror",
+                                 "method"]
             if persist_mode == "cookie":
-                supported_attr = ["cookie-name", "defaults-from", "expiration",
-                                  "hash-length", "hash-offset", "mirror",
-                                  "method"]
+                supported_attr = ["cookie-name", "defaults-from", "expiration"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 cookie_name = profile.get("cookie-name", None)
@@ -1227,16 +1288,17 @@ def convert_persistence_config(f5_persistence_dict):
                     "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
                 }
             elif persist_mode == "ssl":
-                supported_attr = ["defaults from", "mirror"]
+                supported_attr = ["defaults-from"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
+                indirect_mappings.append("timeout")
                 persist_profile = {
                     "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
                     "persistence_type": "PERSISTENCE_TYPE_TLS",
                     "name": name
                 }
             elif persist_mode == "source-addr":
-                supported_attr = ["timeout", "defaults from"]
+                supported_attr = ["timeout", "defaults-from"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
@@ -1262,12 +1324,16 @@ def convert_persistence_config(f5_persistence_dict):
                 add_status_row("persistence", persist_mode, name, "skipped")
                 continue
             persist_profile_list.append(persist_profile)
+
+            ignore_for_defaults = {"app-service": "none", "mask": "none"}
+            skipped, indirect = update_skipped_attributes(
+                skipped, indirect_mappings, ignore_for_defaults, profile)
             if skipped:
                 add_status_row("persistence", persist_mode, name, "partial",
-                               skipped, persist_profile)
+                               skipped, persist_profile, indirect)
             else:
                 add_status_row("persistence", persist_mode, name, "successful",
-                               skipped, persist_profile)
+                               skipped, persist_profile, indirect)
         except:
             LOG.error("Failed to convert persistance profile : %s" % key,
                       exc_info=True)
@@ -1298,14 +1364,15 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     csv_file = open(status_file, 'w')
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
-                  'Skipped settings', 'Avi Object']
+                  'Skipped settings', 'Indirect mapping', 'Avi Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
     csv_writer.writeheader()
     avi_config_dict = {}
     try:
         monitor_config = f5_config_dict.pop("monitor", {})
-        monitor_config_list = convert_monitor_config(monitor_config)
+        monitor_config_list = convert_monitor_config(monitor_config,
+                                                     input_files_location)
         avi_config_dict["HealthMonitor"] = monitor_config_list
         LOG.debug("Converted health monitors")
         pool_config = f5_config_dict.pop("pool", {})
