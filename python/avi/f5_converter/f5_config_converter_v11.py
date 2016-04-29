@@ -146,7 +146,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             if monitor_names:
                 monitors = monitor_names.split(" ")
                 monitor_refs = []
-                garbage_val = ["and", "all", "min", "of", "{", "}"]
+                garbage_val = ["and", "all", "min", "of", "{", "}", "none"]
                 for monitor in monitors:
                     if not monitor or monitor in garbage_val or \
                             monitor.isdigit():
@@ -169,7 +169,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             if member_skipped_config:
                 skipped.append(member_skipped_config)
             if skipped_monitors:
-                skipped.append({"monitors": skipped_monitors})
+                skipped.append({"monitor": skipped_monitors})
             if skipped:
                 add_status_row('pool', None, pool_name, 'partial',
                                skipped, pool_obj)
@@ -412,8 +412,8 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
     :return: List of Avi VS configs
     """
     vs_list = []
-    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool'
-                      'source-address-translation']
+    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool',
+                      'source-address-translation', 'description', 'disabled']
     unsupported_types = ["l2-forward", "ip-forward", "stateless",
                               "dhcp-relay", "internal", "reject"]
     for vs_name in vs_config.keys():
@@ -429,12 +429,15 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             skipped = [key for key in f5_vs.keys()
                        if key not in supported_attr]
             enabled = (vs_state == 'enable')
+            if enabled:
+                enabled = False if "disabled" in f5_vs.keys() else True
             ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
                 f5_vs.get("profiles", None), profile_config)
             enable_ssl = False
             if ssl_vs:
                 enable_ssl = True
             destination = f5_vs.get("destination", None)
+            description = f5_vs.get("description", None)
             services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                     enable_ssl)
             pool_ref = f5_vs.get("pool", None)
@@ -457,6 +460,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
                                     (persist_ref, vs_name))
             vs_obj = {
                 'name': vs_name,
+                'description': description,
                 'type': 'VS_TYPE_NORMAL',
                 'ip_address': {
                     'addr': ip_addr,
