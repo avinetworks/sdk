@@ -18,9 +18,15 @@ def upload_file(file_path):
     file_str = None
     try:
         with open(file_path, "r") as file_obj:
-            file_str = file_obj.read().decode("utf-8")
+            file_str = file_obj.read()
+            file_str = file_str.decode("utf-8")
+    except UnicodeDecodeError as ude:
+        try:
+            file_str = file_str.decode('latin-1')
+        except:
+            LOG.error("Error to read file %s" % file_path, exc_info=True)
     except:
-        LOG.error("Error to read file %s" % file_path)
+        LOG.error("Error to read file %s" % file_path, exc_info=True)
     return file_str
 
 
@@ -146,7 +152,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             if monitor_names:
                 monitors = monitor_names.split(" ")
                 monitor_refs = []
-                garbage_val = ["and", "all", "min", "of", "{", "}"]
+                garbage_val = ["and", "all", "min", "of", "{", "}", "none"]
                 for monitor in monitors:
                     if not monitor or monitor in garbage_val or \
                             monitor.isdigit():
@@ -169,7 +175,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             if member_skipped_config:
                 skipped.append(member_skipped_config)
             if skipped_monitors:
-                skipped.append({"monitors": skipped_monitors})
+                skipped.append({"monitor": skipped_monitors})
             if skipped:
                 add_status_row('pool', None, pool_name, 'partial',
                                skipped, pool_obj)
@@ -412,8 +418,8 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
     :return: List of Avi VS configs
     """
     vs_list = []
-    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool'
-                      'source-address-translation']
+    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool',
+                      'source-address-translation', 'description', 'disabled']
     unsupported_types = ["l2-forward", "ip-forward", "stateless",
                               "dhcp-relay", "internal", "reject"]
     for vs_name in vs_config.keys():
@@ -429,12 +435,15 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             skipped = [key for key in f5_vs.keys()
                        if key not in supported_attr]
             enabled = (vs_state == 'enable')
+            if enabled:
+                enabled = False if "disabled" in f5_vs.keys() else True
             ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
                 f5_vs.get("profiles", None), profile_config)
             enable_ssl = False
             if ssl_vs:
                 enable_ssl = True
             destination = f5_vs.get("destination", None)
+            description = f5_vs.get("description", None)
             services_obj, ip_addr = get_service_obj(destination, vs_list,
                                                     enable_ssl)
             pool_ref = f5_vs.get("pool", None)
@@ -457,6 +466,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
                                     (persist_ref, vs_name))
             vs_obj = {
                 'name': vs_name,
+                'description': description,
                 'type': 'VS_TYPE_NORMAL',
                 'ip_address': {
                     'addr': ip_addr,
@@ -690,6 +700,10 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
         cmd_code = None if cmd_code == 'none' else cmd_code
         if cmd_code:
             cmd_code = upload_file(file_location+os.path.sep+cmd_code)
+        else:
+            LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
+            add_status_row("monitor", "external", name, "error")
+            return
         ext_monitor = {
             "command_code": cmd_code,
             "command_parameters": f5_monitor.get("args", None),
@@ -725,6 +739,8 @@ def convert_monitor_config(monitor_config, file_location):
             f5_monitor = get_defaults(monitor_type, f5_monitor, monitor_config)
             avi_monitor, skipped = convert_monitor_entity(
                 monitor_type, name, f5_monitor, file_location)
+            if not f5_monitor:
+                continue
             indirect_mappings = ["up-interval", "debug", "ip-dscp"]
             ignore_for_defaults = {"destination": "*:*",
                                    "manual-resume": 'disabled'}
@@ -922,6 +938,9 @@ def convert_profile_config(profile_config, certs_location, option):
                     if not error:
                         pki_profile_list.append(pki_profile)
                         converted_objs.append({'pki_profile': pki_profile})
+                elif ca_file_name:
+                    LOG.warn("crl-file missing hence skipped ca-file")
+                    skipped.append("ca-file")
             elif profile_type == 'http':
                 supported_attr = ["description", "insert-xforwarded-for",
                                   "enforcement", "xff-alternative-names",
@@ -1066,7 +1085,15 @@ def convert_profile_config(profile_config, certs_location, option):
                            if attr not in supported_attr]
                 syn_protection = (profile.get("software-syn-cookie",
                                               None) == 'enabled')
-                timeout = profile.get("idle-timeout", 0)
+                timeout = profile.get("idle-timeout", final.MIN_SESSION_TIMEOUT)
+                if timeout < 60:
+                    timeout = final.MIN_SESSION_TIMEOUT
+                    LOG.warn("idle-timeout for profile: %s is less" % name +
+                    " than minimum, changed to Avis minimum value")
+                elif timeout > final.MAX_SESSION_TIMEOUT:
+                    timeout = final.MAX_SESSION_TIMEOUT
+                    LOG.warn("idle-timeout for profile: %s  is grater" % name +
+                    " than maximum, changed to Avis maximum value")
                 description = profile.get('description', None)
                 ntwk_profile = {
                     "profile": {
@@ -1267,14 +1294,15 @@ def convert_persistence_config(f5_persistence_dict):
                     timeout = 0
                     i = 0
                     for val in expiration:
+                        val = int(val)
                         if i == 0:
-                            timeout = int(val)
+                            timeout = int(val/final.SEC_IN_MIN)
                         elif i == 1:
-                            timeout += (int(val)*60)
+                            timeout += (val)
                         elif i == 2:
-                            timeout += (int(val)*60*60)
+                            timeout += (val*final.MIN_IN_HR)
                         elif i == 3:
-                            timeout += (int(val)*60*60*24)
+                            timeout += (val*final.MIN_IN_HR*final.HR_IN_DAY)
                         i += 1
                 else:
                     timeout = 1 if int(timeout) == 0 else timeout
