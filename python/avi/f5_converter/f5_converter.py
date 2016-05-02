@@ -45,28 +45,41 @@ def get_default_config(version, is_download, path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--bigip_config_file',
-                        help='F5 config file location')
+                        help='absolute path for F5 config file')
     parser.add_argument('-v', '--f5_config_version',
-                        help='version of f5 config', default=11)
+                        help='version of f5 config file', default=11)
     parser.add_argument('-o', '--output_file_path',
-                        help='output file path', default='output')
-    parser.add_argument('-O', '--option', choices=['cli-upload', 'api-upload'],
-                        help='Output option', default='cli-upload')
-    parser.add_argument('-u', '--user', help='controller user', default='admin')
-    parser.add_argument('-p', '--password', help='controller user password',
+                        help='Folder path for output files to be created in',
+                        default='output')
+    parser.add_argument('-O', '--option', choices=['cli-upload', 'auto-upload'],
+                        help='Upload option cli-upload genarates Avi config ' +
+                             'file auto upload will upload config to ' +
+                             'controller', default='cli-upload')
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
+    parser.add_argument('-p', '--password',
+                        help='controller password for auto upload',
                         default='avi123')
-    parser.add_argument('-t', '--tenant', help='tenant name', default='admin')
-    parser.add_argument('-c', '--controller_ip', help='controller ip')
+    parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
+                        default='admin')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of created VS', default='disable')
+                        help='state of VS created', default='disable')
     parser.add_argument('-l', '--input_folder_location',
-                        help='location of input files', default='.')
-    parser.add_argument('--f5_host', help='host of f5 instance')
-    parser.add_argument('--f5_un', help='f5 host username')
-    parser.add_argument('--f5_pw', help='f5 host password')
-    parser.add_argument('--f5_key', help='f5 host key file location')
+                        help='location of input files like cert files ' +
+                             'external monitor scripts', default='.')
+    parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
+    parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
+    parser.add_argument('--f5_ssh_password',
+                        help='f5 host ssh password if password based ' +
+                             'authentication')
+    parser.add_argument('--f5_key_file',
+                        help='f5 host key file location if key based ' +
+                             'authentication')
     parser.add_argument('--controller_version',
-                        help='target controller version', default='16.2')
+                        help='Target Avi controller version', default='16.2')
 
     args = parser.parse_args()
     if not os.path.exists(args.output_file_path):
