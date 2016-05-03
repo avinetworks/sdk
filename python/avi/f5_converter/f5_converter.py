@@ -87,12 +87,12 @@ if __name__ == "__main__":
     output_file_path = os.path.normpath(args.output_file_path)
     input_folder_location = os.path.normpath(args.input_folder_location)
     is_download_from_host = False
-    if args.f5_host:
-        input_folder_location = output_file_path+os.path.sep+args.f5_host + \
+    if args.f5_host_ip:
+        input_folder_location = output_file_path+os.path.sep+args.f5_host_ip + \
                           os.path.sep+"input"
         if not os.path.exists(input_folder_location):
             os.makedirs(input_folder_location)
-        output_file_path = output_file_path+os.path.sep+args.f5_host + \
+        output_file_path = output_file_path+os.path.sep+args.f5_host_ip + \
                            os.path.sep+"output"
         if not os.path.exists(output_file_path):
             os.makedirs(output_file_path)
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     LOG.addHandler(fh)
     if is_download_from_host:
         LOG.debug("Copying files from host")
-        scp_util.get_files_from_f5(input_folder_location, args.f5_host,
-                                   args.f5_un, args.f5_pw)
+        scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
+                                   args.f5_ssh_user, args.f5_ssh_password)
         LOG.debug("Copied input files")
         source_file = open(input_folder_location+os.path.sep+"bigip.conf", "r")
     else:
