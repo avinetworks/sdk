@@ -80,12 +80,15 @@ def get_avi_pool_down_action(action):
     :param action: F5 action string
     :return: Avi action String
     """
+    action_close_con = {
+        "type": "FAIL_ACTION_CLOSE_CONN"
+    }
     if action == "reset":
-        return "POOL_DOWN_ACTION_CLOSE_CONN"
+        return action_close_con
     if action == "reselect":
-        return "POOL_DOWN_ACTION_CLOSE_CONN"
+        return action_close_con
     else:
-        return "POOL_DOWN_ACTION_CLOSE_CONN"
+        return action_close_con
 
 
 def get_avi_lb_algorithm(f5_algorithm):
@@ -144,7 +147,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
                     "name": pool_name,
                     "description": description,
                     "servers": servers,
-                    "pd_action_type": pd_action,
+                    "fail_action": pd_action,
                     "lb_algorithm": lb_algorithm
                 }
             monitor_names = f5_pool.get("monitor", None)
@@ -350,6 +353,22 @@ def get_service_obj(destination, vs_list, enable_ssl):
     return services_obj, ip_addr
 
 
+def update_pool_for_fallback(host, avi_pool_list, pool_ref):
+    pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
+    if pool_obj:
+        pool_obj = pool_obj[0]
+        fail_action = {
+            "redirect":
+            {
+              "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+              "host": host,
+              "protocol": "HTTPS"
+            },
+            "type": "FAIL_ACTION_HTTP_REDIRECT"
+        }
+        pool_obj["fail_action"] = fail_action
+
+
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                             hash_profiles, persist_config):
     """
@@ -404,7 +423,8 @@ def get_snat_list_for_vs(snat_pool):
 
 
 def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
-                      hash_profiles, avi_persistence, f5_snat_pools):
+                      hash_profiles, avi_persistence, f5_snat_pools,
+                      realm_dict, fallback_host_dict):
     """
     F5 virtual server object conversion to Avi VS object
     :param vs_config: F5 virtual server config list
@@ -464,6 +484,10 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
                         skipped.append("persist")
                         LOG.warning("persist profile %s not found for vs:%s" %
                                     (persist_ref, vs_name))
+                if app_prof[0] in fallback_host_dict.keys():
+                    host = fallback_host_dict[app_prof[0]]
+                    update_pool_for_fallback(host, avi_pool_list, pool_ref)
+
             vs_obj = {
                 'name': vs_name,
                 'description': description,
@@ -703,7 +727,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
             add_status_row("monitor", "external", name, "error")
-            return
+            return None, None
         ext_monitor = {
             "command_code": cmd_code,
             "command_parameters": f5_monitor.get("args", None),
@@ -739,7 +763,7 @@ def convert_monitor_config(monitor_config, file_location):
             f5_monitor = get_defaults(monitor_type, f5_monitor, monitor_config)
             avi_monitor, skipped = convert_monitor_entity(
                 monitor_type, name, f5_monitor, file_location)
-            if not f5_monitor:
+            if not avi_monitor:
                 continue
             indirect_mappings = ["up-interval", "debug", "ip-dscp"]
             ignore_for_defaults = {"destination": "*:*",
@@ -838,6 +862,8 @@ def convert_profile_config(profile_config, certs_location, option):
     pki_profile_list = []
     string_group = []
     network_profile_list = []
+    realm_dict = {}
+    fallback_host_dict = {}
     supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
                        "web-acceleration", "http-compression", "fastl4", "tcp",
                        "udp"]
@@ -945,8 +971,11 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "insert-xforwarded-for",
                                   "enforcement", "xff-alternative-names",
                                   "encrypt-cookies", "defaults-from",
-                                  "accept-xff", "oneconnect-transformations"]
-                indirect = ["request-chunking", "response-chunking"]
+                                  "accept-xff", "oneconnect-transformations",
+                                  "basic-auth-realm", "fallback-host"]
+                indirect = ["request-chunking", "response-chunking",
+                            "lws-width", "lws-separator", "max-requests",
+                            "sflow"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -981,6 +1010,18 @@ def convert_profile_config(profile_config, certs_location, option):
                 app_profile["http_profile"] = http_profile
                 app_profile_list.append(app_profile)
                 converted_objs.append({'app_profile': app_profile})
+                realm = profile.get("basic-auth-realm", 'none')
+                realm = None if realm == 'none' else realm
+                if realm:
+                    realm_dict[name] = realm
+                realm = profile.get("basic-auth-realm", 'none')
+                realm = None if realm == 'none' else realm
+                if realm:
+                    realm_dict[name] = realm
+                host = profile.get("fallback-host", 'none')
+                host = None if host == 'none' else host
+                if host:
+                    fallback_host_dict[name] = host
             elif profile_type == 'dns':
                 supported_attr = ["description", "defaults-from"]
                 skipped = [attr for attr in profile.keys()
@@ -996,7 +1037,7 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "cache-max-age", "cache-object-max-size",
                                   "cache-insert-age-header", "defaults-from",
                                   "cache-uri-exclude", "cache-uri-include",
-                                   "cache-max-entries"]
+                                  "cache-max-entries"]
                 indirect = ["cache-size", "cache-aging-rate"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
@@ -1234,7 +1275,7 @@ def convert_profile_config(profile_config, certs_location, option):
     avi_profiles["ssl_profile_list"] = ssl_profile_list
     avi_profiles["pki_profile_list"] = pki_profile_list
     avi_profiles["network_profile_list"] = network_profile_list
-    return avi_profiles, string_group
+    return avi_profiles, string_group, realm_dict, fallback_host_dict
 
 
 def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
@@ -1410,8 +1451,9 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
         avi_config_dict["Pool"] = avi_pool_list
         LOG.debug("Converted pools")
         f5_profile_dict = f5_config_dict.pop("profile", {})
-        avi_profiles, string_group = convert_profile_config(
-            f5_profile_dict, input_files_location, option)
+        avi_profiles, string_group, realm_dict, fallback_host_dict = \
+            convert_profile_config(f5_profile_dict, input_files_location,
+                                   option)
         avi_config_dict["SSLKeyAndCertificate"] = avi_profiles[
             "ssl_key_cert_list"]
         avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
@@ -1428,7 +1470,8 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
         f5_snat_pools = f5_config_dict.get("snatpool", {})
         avi_vs_list = convert_vs_config(
             f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
-            avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools)
+            avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
+            realm_dict, fallback_host_dict)
         avi_config_dict["VirtualService"] = avi_vs_list
         LOG.debug("Converted VS")
     except:
