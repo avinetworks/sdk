@@ -1,0 +1,552 @@
+-- *****************************************************************
+-- AVI-NETWORKS-MIB.my:  Avi Networks MIB File.
+--
+-- Copyright (c) 2015-2016, by Avi Networks, Inc.
+--
+-- All rights reserved.
+-- *****************************************************************
+
+AVI-NETWORKS-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+        MODULE-IDENTITY,
+        NOTIFICATION-TYPE,
+        OBJECT-TYPE,
+        Integer32,
+ 		enterprises
+                FROM SNMPv2-SMI
+        DisplayString
+                FROM SNMPv2-TC
+        MODULE-COMPLIANCE,
+        NOTIFICATION-GROUP,
+        OBJECT-GROUP
+                FROM SNMPv2-CONF
+		SnmpAdminString
+                FROM SNMP-FRAMEWORK-MIB
+        InetAddress,
+        InetAddressType
+                FROM INET-ADDRESS-MIB;
+
+aviNetworksMIB MODULE-IDENTITY
+        LAST-UPDATED    "201502080000Z"
+        ORGANIZATION    "Avi Networks, Inc."
+        CONTACT-INFO
+                " Avi Networks, Inc
+                  945 Stewart Dr., 
+		  Suite 150, 
+		  Sunnyvale, 
+		  CA 94085 
+		  United States
+                Phone: 408-628-1300
+                E-mail: supportp@avinetworks.com"
+        DESCRIPTION
+                "The MIB module to provide the system and configuration
+                 details for the Avi network system."
+    	REVISION        "201502080000Z"
+    	DESCRIPTION
+       		 "The initial version of the MIB module."
+        ::= { enterprises 45468 }
+
+-- *********************************************************************
+-- * Top-Level Trees                                                   *
+-- *********************************************************************
+
+aviNotificationsObjects OBJECT IDENTIFIER ::= { aviNetworksMIB 0 }
+
+aviSystemMIBObjects OBJECT IDENTIFIER ::= { aviNetworksMIB 1 }
+
+aviNotifMIBObjects OBJECT IDENTIFIER ::= { aviSystemMIBObjects 1 }
+
+aviConfigMIBObjects OBJECT IDENTIFIER ::= { aviNetworksMIB 2 }
+
+aviMIBConformance OBJECT IDENTIFIER ::= { aviNetworksMIB 3 }
+
+-- *********************************************************************
+-- * Scalar Objects                                                    *
+-- *********************************************************************
+
+aviSystemName OBJECT-TYPE
+        SYNTAX     DisplayString (SIZE (1..20))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "This represents the system name of the avi system."
+        ::= { aviSystemMIBObjects 2 }
+
+
+-- *********************************************************************
+-- * Controller Table                                                  *
+-- *********************************************************************
+
+aviControllerTable OBJECT-TYPE
+        SYNTAX     SEQUENCE OF AviControllerEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A table of controller info for this device."
+        ::= { aviConfigMIBObjects 1 }
+
+aviControllerEntry OBJECT-TYPE
+        SYNTAX     AviControllerEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A controller entry for this device
+                 device. Each entry is indexed by a controller index."
+        INDEX   { aviControllerIndex }
+        ::= { aviControllerTable 1 }
+
+AviControllerEntry ::=
+    SEQUENCE {
+        aviControllerIndex      Integer32,
+        aviControllerUUID       SnmpAdminString,
+        aviControllerName       DisplayString,
+        aviControllerAddrType   InetAddressType,
+        aviControllerAddr       InetAddress,
+		aviControllerStatus     INTEGER
+
+    }
+
+aviControllerIndex OBJECT-TYPE
+        SYNTAX     Integer32 (1..2147483647)
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A monotonically increasing integer for the sole
+                 purpose of indexing table.  When it reaches the
+                 maximum value the agent flushes the table and wraps
+                 the value back to 1."
+        ::= { aviControllerEntry 1 }
+
+aviControllerUUID OBJECT-TYPE
+	SYNTAX      SnmpAdminString
+    	MAX-ACCESS  read-only
+    	STATUS      current
+    	DESCRIPTION
+        	"A globally unique, system-generated identifier for a port
+        	object.  The ObjectId (UUID or GUID) uniquely identifies the
+        	port for the lifetime of this port.  A UUID is 128 bits long,
+        	and can guarantee uniqueness across space and time."
+    		REFERENCE
+        	"RFC-4122 A Universally Unique IDentifier (UUID) URN
+        	Namespace."
+        ::= { aviControllerEntry 2 }
+
+aviControllerName OBJECT-TYPE
+        SYNTAX     DisplayString (SIZE (1..20))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "Name of the controller"
+        ::= { aviControllerEntry 3 }
+
+aviControllerAddrType OBJECT-TYPE
+        SYNTAX     InetAddressType
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The type of Internet address of this controller server."
+        ::= { aviControllerEntry 4 }
+
+aviControllerAddr OBJECT-TYPE
+        SYNTAX     InetAddress (SIZE(0..64))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The Internet address of this controller server.
+                 The type of this address is determined by the
+                 value of the aviControllerAddrType object."
+        ::= { aviControllerEntry 5 }
+
+aviControllerStatus OBJECT-TYPE
+    	SYNTAX          INTEGER  {
+                        up(1),
+                        down(2)
+                    }
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the status of the controller."
+    ::= { aviControllerEntry 6 }
+
+-- *********************************************************************
+-- * Service Engine (SE) Table                                         *
+-- *********************************************************************
+
+aviServiceEngineTable OBJECT-TYPE
+        SYNTAX     SEQUENCE OF AviServiceEngineEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A table of ServiceEngine info for this device."
+        ::= { aviConfigMIBObjects 2 }
+
+aviServiceEngineEntry OBJECT-TYPE
+        SYNTAX     AviServiceEngineEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A ServiceEngine entry for this device
+                 device. Each entry is indexed by a ServiceEngine index."
+        INDEX   { aviServiceEngineIndex }
+        ::= { aviServiceEngineTable 1 }
+
+AviServiceEngineEntry ::=
+    SEQUENCE {
+        aviServiceEngineIndex      Integer32,
+        aviServiceEngineUUID       SnmpAdminString,
+        aviServiceEngineName       DisplayString,
+        aviServiceEngineAddrType   InetAddressType,
+        aviServiceEngineAddr       InetAddress,
+		aviServiceEngineStatus 	   INTEGER
+    }
+
+aviServiceEngineIndex OBJECT-TYPE
+        SYNTAX     Integer32 (1..2147483647)
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A monotonically increasing integer for the sole
+                 purpose of indexing table.  When it reaches the
+                 maximum value the agent flushes the table and wraps
+                 the value back to 1."
+        ::= { aviServiceEngineEntry 1 }
+
+aviServiceEngineUUID OBJECT-TYPE
+	SYNTAX      SnmpAdminString
+    	MAX-ACCESS  read-only
+    	STATUS      current
+    	DESCRIPTION
+        	"A globally unique, system-generated identifier for a port
+        	object.  The ObjectId (UUID or GUID) uniquely identifies the
+        	port for the lifetime of this port.  A UUID is 128 bits long,
+        	and can guarantee uniqueness across space and time."
+    		REFERENCE
+        	"RFC-4122 A Universally Unique IDentifier (UUID) URN
+        	Namespace."
+        ::= { aviServiceEngineEntry 2 }
+
+aviServiceEngineName OBJECT-TYPE
+        SYNTAX     DisplayString (SIZE (1..20))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "Name of the controller"
+        ::= { aviServiceEngineEntry 3 }
+
+aviServiceEngineAddrType OBJECT-TYPE
+        SYNTAX     InetAddressType
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The type of Internet address of this controller server."
+        ::= { aviServiceEngineEntry 4 }
+
+aviServiceEngineAddr OBJECT-TYPE
+        SYNTAX     InetAddress (SIZE(0..64))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The Internet address of this controller server.
+                 The type of this address is determined by the
+                 value of the aviControllerAddrType object."
+        ::= { aviServiceEngineEntry 5 }
+
+aviServiceEngineStatus OBJECT-TYPE
+    	SYNTAX          INTEGER  {
+                        up(1),
+                        down(2)
+                    }
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the status of the controller."
+        ::= { aviServiceEngineEntry 6 }
+
+-- *********************************************************************
+-- * Virtual Service (VS) Table                                         *
+-- *********************************************************************
+
+aviVirtualServiceTable OBJECT-TYPE
+        SYNTAX     SEQUENCE OF AviVirtualServiceEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A table of VirtualService info for this device."
+        ::= { aviConfigMIBObjects 3 }
+
+aviVirtualServiceEntry OBJECT-TYPE
+        SYNTAX     AviVirtualServiceEntry
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A VirtualService entry for this device
+                 device. Each entry is indexed by a VirtualService index."
+        INDEX   { aviVirtualServiceIndex }
+        ::= { aviVirtualServiceTable 1 }
+
+AviVirtualServiceEntry ::=
+    SEQUENCE {
+        aviVirtualServiceIndex      Integer32,
+        aviVirtualServiceUUID       SnmpAdminString,
+        aviVirtualServiceName       DisplayString,
+        aviVirtualServiceAddrType   InetAddressType,
+        aviVirtualServiceAddr       InetAddress,
+		aviVirtualServiceStatus     INTEGER
+    }
+
+aviVirtualServiceIndex OBJECT-TYPE
+        SYNTAX     Integer32 (1..2147483647)
+        MAX-ACCESS not-accessible
+        STATUS     current
+        DESCRIPTION
+                "A monotonically increasing integer for the sole
+                 purpose of indexing table.  When it reaches the
+                 maximum value the agent flushes the table and wraps
+                 the value back to 1."
+        ::= { aviVirtualServiceEntry 1 }
+
+aviVirtualServiceUUID OBJECT-TYPE
+	SYNTAX      SnmpAdminString
+    	MAX-ACCESS  read-only
+    	STATUS      current
+    	DESCRIPTION
+        	"A globally unique, system-generated identifier for a port
+        	object.  The ObjectId (UUID or GUID) uniquely identifies the
+        	port for the lifetime of this port.  A UUID is 128 bits long,
+        	and can guarantee uniqueness across space and time."
+    		REFERENCE
+        	"RFC-4122 A Universally Unique IDentifier (UUID) URN
+        	Namespace."
+        ::= { aviVirtualServiceEntry 2 }
+
+aviVirtualServiceName OBJECT-TYPE
+        SYNTAX     DisplayString (SIZE (1..20))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "Name of the controller"
+        ::= { aviVirtualServiceEntry 3 }
+
+aviVirtualServiceAddrType OBJECT-TYPE
+        SYNTAX     InetAddressType
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The type of Internet address of this controller server."
+        ::= { aviVirtualServiceEntry 4 }
+
+aviVirtualServiceAddr OBJECT-TYPE
+        SYNTAX     InetAddress (SIZE(0..64))
+        MAX-ACCESS read-only
+        STATUS     current
+        DESCRIPTION
+                "The Internet address of this controller server.
+                 The type of this address is determined by the
+                 value of the aviControllerAddrType object."
+        ::= { aviVirtualServiceEntry 5 }
+
+aviVirtualServiceStatus OBJECT-TYPE
+    	SYNTAX          INTEGER  {
+                        up(1),
+                        down(2),
+                        other(3)
+                    }
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the status of the controller."
+    ::= { aviVirtualServiceEntry 6 }
+
+-- *********************************************************************
+-- * Notification Objects                                              *
+-- *********************************************************************
+aviVirtualServiceStatusReason OBJECT-TYPE
+    	SYNTAX          DisplayString
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the reason when the aviVirtualServiceStatus is other."
+    ::= { aviNotifMIBObjects 4 }
+
+aviOperStatusReason OBJECT-TYPE
+    	SYNTAX          DisplayString
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the operational status reason."
+    ::= { aviNotifMIBObjects 5 }
+
+aviSSLCertificateInfo OBJECT-TYPE
+    	SYNTAX          DisplayString
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the details about the certificate expiry."
+    ::= { aviNotifMIBObjects 6 }
+
+aviSystemAlertInfoDesc OBJECT-TYPE
+    	SYNTAX          DisplayString
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents system alert description."
+    ::= { aviNotifMIBObjects 7 }
+
+
+aviObjectURL OBJECT-TYPE
+    	SYNTAX          DisplayString
+    	MAX-ACCESS      accessible-for-notify
+    	STATUS          current
+    	DESCRIPTION
+       	 	"Represents the URL of the object that can be used with REST API."
+    
+    ::= { aviNotifMIBObjects 8 }
+
+-- *********************************************************************
+-- * Notifications                                                     *
+-- *********************************************************************
+
+aviControllerStatusChanged NOTIFICATION-TYPE
+        OBJECTS { 
+           aviControllerStatus,
+	   	   aviOperStatusReason		
+        }
+        STATUS     current
+        DESCRIPTION
+                "This alert is generated when controller status changes."
+        ::= { aviNotificationsObjects 1 }
+
+aviServiceEngineStatusChanged NOTIFICATION-TYPE
+        OBJECTS { 
+           aviObjectURL,
+           aviServiceEngineStatus,
+	       aviOperStatusReason		
+        }
+        STATUS     current
+        DESCRIPTION
+                "This alert is generated when Service Engine status changes."
+        ::= { aviNotificationsObjects 2 }
+
+aviVirtualServiceStatusChanged NOTIFICATION-TYPE
+        OBJECTS { 
+           aviObjectURL,
+           aviVirtualServiceStatus,
+	       aviVirtualServiceStatusReason		
+        }
+        STATUS     current
+        DESCRIPTION
+                "This alert is generated when virtual service status changes."
+        ::= { aviNotificationsObjects 3 }
+
+aviSSLCertificateExpired NOTIFICATION-TYPE
+        OBJECTS { 
+           aviObjectURL,
+           aviSSLCertificateInfo
+        }
+        STATUS     current
+        DESCRIPTION
+                "This alert is generated when SSL Certificate Expires."
+        ::= { aviNotificationsObjects 4 }
+
+aviSystemAlert NOTIFICATION-TYPE
+        OBJECTS { 
+           aviSystemAlertInfoDesc
+        }
+        STATUS     current
+        DESCRIPTION
+                "This is a generic system alert"
+        ::= { aviNotificationsObjects 5 }
+
+-- *********************************************************************
+-- * Conformance                                                       *
+-- *********************************************************************
+
+
+aviSystemMIBCompliances OBJECT IDENTIFIER ::= { aviMIBConformance 1 }
+aviSystemMIBGroups      OBJECT IDENTIFIER ::= { aviMIBConformance 2 }
+
+aviSystemMIBCompliance MODULE-COMPLIANCE
+       STATUS  current
+       DESCRIPTION
+               "The compliance statement for entities which implement
+                the Avi Network System MIB."
+       MODULE  -- this module
+--     MANDATORY-GROUPS { aviSystemGroup }
+
+       GROUP aviSystemGroup
+       DESCRIPTION
+           "The implementation of this group is
+           mandatory for those systems where
+           configuration of remote hosts 
+           is supported."
+
+       GROUP aviNetworkGroup
+       DESCRIPTION
+           "The implementation of this group is
+           mandatory for those systems where
+           origin identifier is supported."
+
+       GROUP aviNotificationsGroup
+       DESCRIPTION
+           "The implementation of this group is
+           mandatory for those systems where
+           notification is supported."
+       ::= { aviSystemMIBCompliances 1 }
+     
+-- *********************************************************************
+-- * Units of Conformance                                              *
+-- *********************************************************************
+
+aviSystemGroup OBJECT-GROUP
+       OBJECTS { 
+		aviSystemName,
+		aviControllerStatus,
+		aviServiceEngineStatus,
+		aviVirtualServiceStatus,
+		aviVirtualServiceStatusReason,
+		aviOperStatusReason,
+		aviSSLCertificateInfo,
+		aviSystemAlertInfoDesc
+       }
+       STATUS  current
+       DESCRIPTION
+               "A collection of objects providing the system
+                MIB ."
+      ::= { aviSystemMIBGroups 1 }
+
+aviNetworkGroup OBJECT-GROUP
+       OBJECTS {
+        aviControllerUUID,
+        aviControllerName,
+        aviControllerAddrType,
+        aviControllerAddr,
+        aviServiceEngineUUID,
+        aviServiceEngineName,
+        aviServiceEngineAddrType,
+        aviServiceEngineAddr,
+		aviVirtualServiceUUID,
+		aviVirtualServiceName,
+		aviVirtualServiceAddrType,
+		aviVirtualServiceAddr
+       }
+       STATUS  current
+       DESCRIPTION
+               "A collection of objects providing avi network server
+                information."
+       ::= { aviSystemMIBGroups 2 }
+
+aviNotificationsGroup NOTIFICATION-GROUP
+       NOTIFICATIONS { 
+		aviControllerStatusChanged,
+		aviServiceEngineStatusChanged,
+		aviVirtualServiceStatusChanged,
+		aviSSLCertificateExpired,
+		aviSystemAlert
+	}
+       STATUS  current
+       DESCRIPTION
+               "A collection of notification(s) for avi network feature."
+      ::= { aviSystemMIBGroups 3 }
+
+END
