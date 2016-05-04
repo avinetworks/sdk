@@ -379,6 +379,27 @@ class ApiSession(Session):
         return self._api('put', path, tenant, tenant_uuid, data=data,
                          timeout=timeout, params=params, **kwargs)
 
+    def patch(self, path, data=None, tenant='', tenant_uuid='',
+              timeout=60, params=None, **kwargs):
+        """
+        It extends the Session Library interface to add AVI API prefixes,
+        handle session exceptions related to authentication and update
+        the global user session cache.
+        :param path: takes relative path to the AVI api.It is modified by
+            the library to conform to AVI Controller's REST API interface
+        :param data: dictionary of the data. Support for json string
+            is deprecated
+        :param tenant: overrides the tenant used during session creation
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation
+        :param timeout: timeout for API calls
+        :param params: dictionary of key value pairs to be sent as query
+            parameters
+        returns session's response object
+        """
+        return self._api('patch', path, tenant, tenant_uuid, data=data,
+                         timeout=timeout, params=params, **kwargs)
+
     def put_by_name(self, path, name, data=None, tenant='',
                     tenant_uuid='', timeout=60, params=None, **kwargs):
         """
