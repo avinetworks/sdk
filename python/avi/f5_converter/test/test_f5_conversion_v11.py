@@ -61,7 +61,14 @@ class Test(unittest.TestCase):
                            "udp", "gateway-icmp", "icmp"]
         f5_monitor_config = f5_config_test["monitor"]
         for key in f5_monitor_config.keys():
-            if key.split(" ")[0] in supported_types:
+            monitor_type = key.split(" ")[0]
+            if monitor_type in supported_types:
+                if monitor_type == "external":
+                    f5_monitor = f5_monitor_config[key]
+                    cmd_code = f5_monitor.get("run", 'none')
+                    cmd_code = None if cmd_code == 'none' else cmd_code
+                    if not cmd_code:
+                        continue
                 supported_monitor_count += 1
         assert supported_monitor_count == len(avi_config_dict["HealthMonitor"])
 
@@ -107,10 +114,10 @@ class Test(unittest.TestCase):
             if key.split(" ")[0] in ["udp", "tcp", "fasthttp", "fastl4"]:
                 network_profile_count += 1
 
-        assert ssl_profile_count == len(avi_config_dict["SSLProfile"])
+        assert ssl_profile_count >= len(avi_config_dict["SSLProfile"])
         assert app_profile_count == len(avi_config_dict["ApplicationProfile"])
         assert network_profile_count == len(avi_config_dict["NetworkProfile"])
-        assert ssl_key_cert_count == len(
+        assert ssl_key_cert_count >= len(
             avi_config_dict["SSLKeyAndCertificate"])
         assert pki_profile_count == len(avi_config_dict["PKIProfile"])
 

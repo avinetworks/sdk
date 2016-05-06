@@ -68,6 +68,11 @@ class Test(unittest.TestCase):
             monitor = f5_config_converter.get_monitor_defaults(
                 f5_monitor_config[key], f5_monitor_config, key)
             if monitor['type'] in supported_types:
+                if monitor['type'] == "external":
+                    cmd_code = monitor.get("run", None)
+                    cmd_code = cmd_code.replace('\"', '') if cmd_code else None
+                    if not cmd_code:
+                        continue
                 supported_monitor_count += 1
         assert supported_monitor_count == len(avi_config_dict["HealthMonitor"])
 
@@ -111,10 +116,10 @@ class Test(unittest.TestCase):
                 key]["mode"] in ["cookie", "ssl", "source addr"]:
                 persist_profile_count += 1
 
-        assert ssl_profile_count == len(avi_config_dict["SSLProfile"])
+        assert ssl_profile_count >= len(avi_config_dict["SSLProfile"])
         assert app_profile_count == len(avi_config_dict["ApplicationProfile"])
         assert network_profile_count == len(avi_config_dict["NetworkProfile"])
-        assert ssl_key_cert_count == len(
+        assert ssl_key_cert_count >= len(
             avi_config_dict["SSLKeyAndCertificate"])
         assert persist_profile_count == len (
             avi_config_dict["ApplicationPersistenceProfile"])
