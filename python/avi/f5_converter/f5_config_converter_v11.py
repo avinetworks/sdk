@@ -34,10 +34,33 @@ def update_skipped_attributes(skipped, indirect_list, ignore_dict, object):
     indirect_mappings = [attr for attr in indirect_list if attr in skipped]
     skipped = [attr for attr in skipped if attr not in indirect_list]
     for key in ignore_dict.keys():
-        if key in object and key in skipped and object[key] == \
-                ignore_dict[key]:
+        if key in object and key in skipped and object[key] == ignore_dict[key]:
             skipped.remove(key)
     return skipped, indirect_mappings
+
+
+def remove_dup_key(obj_list):
+    for obj in obj_list:
+        obj.pop('dup_of', None)
+
+
+def update_for_duplicates(obj_list):
+    for src_obj in obj_list:
+        for tmp_obj in obj_list:
+            if not src_obj["name"] == tmp_obj["name"]:
+                src_cp = copy.deepcopy(src_obj)
+                tmp_cp = copy.deepcopy(tmp_obj)
+                del src_cp["name"]
+                if "description" in src_cp:
+                    del src_cp["description"]
+                del tmp_cp["name"]
+                if "description" in tmp_cp:
+                  del tmp_cp["description"]
+                dup_lst = src_cp.pop("dup_of", [])
+                if cmp(src_cp, tmp_cp) == 0:
+                    dup_lst.append(tmp_obj["name"])
+                    src_obj["dup_of"] = dup_lst
+                    obj_list.remove(tmp_obj)
 
 
 def convert_servers_config(servers_config, nodes):
@@ -208,27 +231,32 @@ def get_profiles_for_vs(profiles, profile_config):
         return []
     for name in profiles.keys():
         ssl_profile_list = profile_config.get("ssl_profile_list", [])
-        ssl_profiles = [obj for obj in ssl_profile_list if obj['name'] == name]
+        ssl_profiles = [obj for obj in ssl_profile_list if
+                        (obj['name'] == name or name in obj.get("dup_of", []))]
         if ssl_profiles:
             ssl_key_cert_list = profile_config.get("ssl_key_cert_list", [])
-            key_cert = [obj for obj in ssl_key_cert_list if obj['name'] == name]
-            key_cert = name if key_cert else None
+            key_cert = [obj for obj in ssl_key_cert_list if
+                        (obj['name'] == name or name in obj.get("dup_of", []))]
+            key_cert = key_cert[0]['name'] if key_cert else None
             profile = profiles.get(name, None)
             context = profile.get("context", None)
             pki_list = profile_config.get("pki_profile_list", [])
             pki_profiles = [obj for obj in pki_list if obj['name'] == name]
             if context == "clientside":
-                vs_ssl_profile_names.append({"profile": name, "cert": key_cert,
+                vs_ssl_profile_names.append({"profile": ssl_profiles[0]["name"],
+                                             "cert": key_cert,
                                              "pki": pki_profiles})
             elif context == "serverside":
                 pool_ssl_profile_names.append(
                     {"profile": name, "cert": key_cert, "pki": pki_profiles})
         app_profile_list = profile_config.get("app_profile_list", [])
-        app_profiles = [obj for obj in app_profile_list if obj['name'] == name]
+        app_profiles = [obj for obj in app_profile_list if
+                        (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
             app_profile_names.append(name)
         ntwk_prof_lst = profile_config.get("network_profile_list")
-        network_profiles = [obj for obj in ntwk_prof_lst if obj['name'] == name]
+        network_profiles = [obj for obj in ntwk_prof_lst if (
+            obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
             network_profile_names.append(name)
     if not app_profile_names:
@@ -1014,10 +1042,6 @@ def convert_profile_config(profile_config, certs_location, option):
                 realm = None if realm == 'none' else realm
                 if realm:
                     realm_dict[name] = realm
-                realm = profile.get("basic-auth-realm", 'none')
-                realm = None if realm == 'none' else realm
-                if realm:
-                    realm_dict[name] = realm
                 host = profile.get("fallback-host", 'none')
                 host = None if host == 'none' else host
                 if host:
@@ -1196,7 +1220,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 timeout = profile.get("idle-timeout", 0)
                 nagle = profile.get("nagle", 'disabled')
                 nagle = False if nagle == 'disabled' else True
-                retrans = profile.get("smax-retrans", final.MIN_SYN_RETRANS)
+                retrans = profile.get("max-retrans", final.MIN_SYN_RETRANS)
                 retrans = final.MIN_SYN_RETRANS if \
                     int(retrans) < final.MIN_SYN_RETRANS else retrans
                 retrans = final.MAX_SYN_RETRANS if \
@@ -1339,7 +1363,7 @@ def convert_persistence_config(f5_persistence_dict):
                         if i == 0:
                             timeout = int(val/final.SEC_IN_MIN)
                         elif i == 1:
-                            timeout += (val)
+                            timeout += val
                         elif i == 2:
                             timeout += (val*final.MIN_IN_HR)
                         elif i == 3:
@@ -1456,7 +1480,9 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
                                    option)
         avi_config_dict["SSLKeyAndCertificate"] = avi_profiles[
             "ssl_key_cert_list"]
+        update_for_duplicates(avi_config_dict["SSLKeyAndCertificate"])
         avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
+        update_for_duplicates(avi_config_dict["SSLProfile"])
         avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
         avi_config_dict["ApplicationProfile"] = avi_profiles["app_profile_list"]
         avi_config_dict["NetworkProfile"] = avi_profiles["network_profile_list"]
@@ -1472,6 +1498,8 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
             f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
             avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
             realm_dict, fallback_host_dict)
+        remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
+        remove_dup_key(avi_config_dict["SSLProfile"])
         avi_config_dict["VirtualService"] = avi_vs_list
         LOG.debug("Converted VS")
     except:
