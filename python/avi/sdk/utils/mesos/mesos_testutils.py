@@ -169,7 +169,8 @@ class MesosTestUtils(object):
                   virtualservice=None, pool=None,
                   auth_type=None, auth_token=None, username=None, password=None,
                   ns_service_port=None, ew_service_port_start_index=None,
-                  num_service_ports=1):
+                  num_service_ports=1, constraints=None,
+                  cpus=None, mem=None):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
@@ -184,11 +185,16 @@ class MesosTestUtils(object):
                       if num_apps > 1 else app_name)
             app_obj = self.MARATHON_APP_TEMPLATES[app_type]
             app_obj = deepcopy(app_obj)
+
             if num_instances:
                 if num_instances != -1:
                     app_obj['instances'] = num_instances
                 else:
                     app_obj['instances'] = index % 3 + 1
+            if cpus:
+                app_obj['cpus'] = cpus
+            if mem:
+                app_obj['mem'] = mem
             app_obj['id'] = app_id
             app_ids.append(app_id)
             avi_proxy_json = app_obj['labels']['avi_proxy']
@@ -228,6 +234,12 @@ class MesosTestUtils(object):
                 if ew_service_port_start_index and not app_obj['labels'].get('FE-Proxy'):
                     app_obj['container']['docker']['portMappings'][service_port_counter]['servicePort'] = \
                         int(ew_service_port_start_index) + (index*num_service_ports) + service_port_counter
+
+            if constraints:
+                app_obj['constraints'] = []
+                for constraint in constraints:
+                    app_obj['constraints'].append(constraint)
+                print 'constraints:', app_obj['constraints']
 
             headers = self.MARATHON_HDRS
             auth = None
