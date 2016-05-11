@@ -62,7 +62,7 @@ pool_obj = api.get_object_by_name('pool', 'sample_pool')
 pool_ref = api.get_obj_ref(pool_obj)
 services_obj = [{'port': 80, 'enable_ssl': False}]
 vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4'},
-         'services': services_obj', 'pool_ref': pool_ref}
+         'services': services_obj, 'pool_ref': pool_ref}
 resp = api.post('virtualservice', data=vs_obj)
 
 # print list of all virtualservices 
