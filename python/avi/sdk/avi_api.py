@@ -3,11 +3,27 @@ import json
 import os
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from requests import Response
 from requests.sessions import Session
+import sys
 
 logger = logging.getLogger(__name__)
+
+
+def avi_timedelta(td):
+    '''
+    This is a wrapper class to workaround python 2.6 builtin datetime.timedelta
+    does not have total_seconds method
+    :param timedelta object
+    '''
+    if type(td) != timedelta:
+        raise TypeError()
+    if sys.version_info >= (2, 7):
+        ts = td.total_seconds()
+    else:
+        ts = td.seconds + (24 * 3600 * td.days)
+    return ts
 
 
 class ObjectNotFound(Exception):
@@ -520,7 +536,7 @@ class ApiSession(Session):
         logger.debug("cleaning inactive sessions in pid %d num elem %d",
                      os.getpid(), len(session_cache))
         for user, session in session_cache.iteritems():
-            tdiff = (datetime.utcnow() - session["last_used"]).total_seconds()
+            tdiff = avi_timedelta(session["last_used"] - datetime.utcnow())
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue
             logger.debug("Removed session for : %s", user)
