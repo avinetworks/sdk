@@ -78,7 +78,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
     """
     pool_list = []
     supported_attr = ['members', 'monitor', 'service-down-action',
-                      'load-balancing-mode', 'description']
+                      'load-balancing-mode', 'description', 'slow-ramp-time']
 
     for pool_name in pool_config.keys():
         LOG.debug("Converting Pool: %s" % pool_name)
@@ -103,6 +103,10 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
                     "fail_action": pd_action,
                     "lb_algorithm": lb_algorithm
                 }
+
+            ramp_time = f5_pool.get('slow-ramp-time', None)
+            if ramp_time:
+                pool_obj['connection_ramp_duration'] = ramp_time
             monitor_names = f5_pool.get("monitor", None)
             skipped_monitors = []
             if monitor_names:
@@ -557,6 +561,8 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
 
     if monitor_type == "http":
         http_attr = ["recv", "recv-disable", "reverse", "send"]
+        ignore_list = ['adaptive']
+        http_attr = http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -576,8 +582,10 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
             monitor_dict["http_monitor"]["maintenance_response"] = \
                 maintenance_response
     elif monitor_type == "https":
-        http_attr = ["recv", "recv-disable", "reverse", "send"]
-        skipped = [key for key in skipped if key not in http_attr]
+        https_attr = ["recv", "recv-disable", "reverse", "send"]
+        ignore_list = ['compatibility']
+        https_attr = ignore_list + https_attr
+        skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
@@ -596,18 +604,24 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
             monitor_dict["https_monitor"]["maintenance_response"] = \
                 maintenance_response
     elif monitor_type == "dns":
-        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode", "qname"]
+        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode", "qname",
+                    "qtype"]
         skipped = [key for key in skipped if key not in dns_attr]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         if accept_rcode and accept_rcode == "no-error":
             rcode = "RCODE_NO_ERROR"
         else:
             rcode = "RCODE_ANYTHING"
+        qtype = f5_monitor.get("qtype", None)
+        if qtype and qtype == 'a':
+            qtype = 'DNS_QUERY_TYPE'
+        else:
+            qtype = 'DNS_ANY_TYPE'
         monitor_dict["type"] = "HEALTH_MONITOR_DNS"
         dns_monitor = dict()
         dns_monitor["rcode"] = rcode
         dns_monitor["query_name"] = f5_monitor.get("qname", None)
-        dns_monitor["qtype"] = "DNS_QUERY_TYPE"
+        dns_monitor["qtype"] = qtype
         monitor_dict["dns_monitor"] = dns_monitor
         maintenance_response = None
         if "reverse" in f5_monitor.keys():
@@ -923,9 +937,10 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "encrypt-cookies", "defaults-from",
                                   "accept-xff", "oneconnect-transformations",
                                   "basic-auth-realm", "fallback-host"]
+                ignore_list = ['lws-width']
+                supported_attr = ignore_list + supported_attr
                 indirect = ["request-chunking", "response-chunking",
-                            "lws-width", "lws-separator", "max-requests",
-                            "sflow"]
+                            "lws-separator", "max-requests", "sflow"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -940,8 +955,9 @@ def convert_profile_config(profile_config, certs_location, option):
                                            'disabled')
                 con_mltplxng = False if con_mltplxng == 'disabled' else True
                 http_profile = dict()
-                http_profile['x_forwarded_proto_enabled'] = \
-                    profile.get('insert-xforwarded-for', False)
+                insert_xff = profile.get('insert-xforwarded-for', 'disabled')
+                insert_xff = True if insert_xff == 'enabled' else False
+                http_profile['x_forwarded_proto_enabled'] = insert_xff
                 http_profile['xff_alternate_name'] = \
                     profile.get('xff-alternative-names', None)
                 http_profile['secure_cookie_enabled'] = encpt_cookie
@@ -1029,8 +1045,10 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'http-compression':
                 supported_attr = ["description", "content-type-include",
                                   "keep-accept-encoding", "defaults-from"]
-                indirect = ["browser-workarounds", "uri-include",
-                            "gzip-window-size", "gzip-level"]
+                indirect = ['browser-workarounds', 'uri-include', 'gzip-level'
+                            'gzip-window-size', 'cpu-saver-high', 'cpu-saver',
+                            'min-size', 'vary-header', 'buffer-size',
+                            'gzip-memory-level', 'cpu-saver-low']
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -1112,10 +1130,34 @@ def convert_profile_config(profile_config, certs_location, option):
                                             'network_profile', converted_objs)
             elif profile_type == 'fasthttp':
                 supported_attr = ["description", "receive-window-size",
-                                  "idle-timeout", "defaults-from"]
+                                  "idle-timeout", "defaults-from",
+                                  'max-header-size', 'insert-xforwarded-for']
+                ignore_for_defaults = {'client-close-timeout': '5',
+                                       'connpool-idle-timeout-override': '0',
+                                       'connpool-max-reuse': '0',
+                                       'connpool-max-size': '2048',
+                                       'connpool-min-size': '0',
+                                       'connpool-step': '4', 'header-insert':
+                                       'none', 'server-close-timeout': '5',
+                                       'max-requests': '0', 'mss-override': '0',
+                                       'layer-7': 'enabled'}
                 indirect = ["reset-on-timeout"]
                 skipped = [attr for attr in profile_config[key].keys()
                            if attr not in supported_attr]
+                app_profile['name'] = name
+                app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
+                app_profile['description'] = profile.get('description', None)
+                http_profile = dict()
+                insert_xff = profile.get('insert-xforwarded-for', 'disabled')
+                insert_xff = True if insert_xff == 'enabled' else False
+                http_profile['x_forwarded_proto_enabled'] = insert_xff
+                header_size = profile.get('max-header-size',
+                                          final.DEFAULT_MAX_HEADER)
+                http_profile['client_max_header_size'] = \
+                    int(header_size)/final.BYTES_IN_KB
+                app_profile["http_profile"] = http_profile
+                util.update_skip_duplicates(app_profile, app_profile_list,
+                                            'app_profile', converted_objs)
                 receive_window = profile.get("receive-window-size",
                                              final.DEFAULT_RECV_WIN)
                 if not (final.MIN_RECV_WIN <= int(receive_window) <=
@@ -1140,6 +1182,14 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "time-wait-timeout", "nagle", "defaults-from",
                                   "congestion-control", "receive-window-size"]
                 indirect = ["reset-on-timeout", "slow-start"]
+                ignore_for_defaults = {'ack-on-push': 'enabled',
+                    'deferred-accept': 'disabled', 'ecn': 'disabled',
+                    'proxy-mss': 'disabled', 'selective-acks': 'enabled',
+                    'timestamps': 'enabled', 'proxy-buffer-high': '49152',
+                    'proxy-buffer-low': '32768', 'proxy-options': 'disabled',
+                    'limited-transmit': 'enabled', 'fin-wait-timeout': '5',
+                    'close-wait-timeout': '5', 'keep-alive-interval': '1800',
+                    'delayed-acks': 'enabled', 'send-buffer-size': '65535'}
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 timeout = profile.get("idle-timeout", 0)
