@@ -207,6 +207,8 @@ def convert_monitor_entity(name, f5_monitor, file_location):
 
     if f5_monitor["type"] == "http":
         http_attr = ["recv", "recv disable", "reverse", "send"]
+        ignore_list = ['adaptive']
+        http_attr = http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -227,6 +229,8 @@ def convert_monitor_entity(name, f5_monitor, file_location):
 
     elif f5_monitor["type"] == "https":
         https_attr = ["recv", "recv disable", "reverse", "send"]
+        ignore_list = ['compatibility']
+        http_attr = ignore_list + https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
@@ -453,10 +457,10 @@ def convert_http_profile(profile, name):
                       "ramcache insert age header", "oneconnect transformations"
                       "compress keep accept encoding", "ramcache uri exclude",
                       "compress content type include", "ramcache uri include",
-                      "compress browser workarounds", "ramcache size",
-                      "encrypt cookies", "fallback"]
-    skipped = [key for key in profile.keys()
-               if key not in supported_attr]
+                      "ramcache size", "encrypt cookies", "fallback"]
+    ignore_list = ['lws width']
+    supported_attr = ignore_list + supported_attr
+    skipped = [key for key in profile.keys() if key not in supported_attr]
     app_profile = dict()
     sg_obj = None
     app_profile['name'] = name
@@ -663,10 +667,15 @@ def convert_profile_config(profile_config, certs_location, option):
                     convert_http_profile(profile, name)
                 if fallback_host:
                     fallback_host_dict[name] = fallback_host
-                indirect = ["lws width", "lws separator", "max requests",
+                indirect = ["lws separator", "max requests",
                             "compress browser workarounds", "cache size",
                             "compress uri include", "ramcache aging rate",
-                            "compress gzip window size", "compress gzip level"]
+                            "compress gzip window size", "compress gzip level",
+                            'compress cpu saver', 'compress cpu saver high',
+                            'compress cpu saver low', 'compress min size',
+                            'compress gzip memory level',
+                            'compress vary header']
+
                 ignore_for_defaults = {'compress uri exclude': 'none'}
                 if sg_obj:
                     string_group.append(sg_obj)
@@ -722,10 +731,33 @@ def convert_profile_config(profile_config, certs_location, option):
                                             'app_profile', converted_objs)
             elif profile_type == 'fasthttp':
                 supported_attr = ["description", "idle timeout",
-                                  "defaults from"]
+                                  "defaults from", "max header size",
+                                  "insert xforwarded for"]
+                ignore_for_defaults = {
+                    'server close timeout': '5', 'client close timeout': '5',
+                    'conn pool idle timeout override': '0',
+                    'conn pool max reuse': '0', 'conn pool max size': '2048',
+                    'conn pool min size': '0', 'conn pool step': '4',
+                    'header insert': '""', 'max requests': '0',
+                    'max segment override': '0', 'layer7': 'enable'
+                }
                 indirect = ["reset on timeout"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
+                app_profile['name'] = name
+                app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
+                app_profile['description'] = profile.get('description', None)
+                http_profile = dict()
+                insert_xff = profile.get('insert xforwarded for', 'disabled')
+                insert_xff = True if insert_xff == 'enabled' else False
+                http_profile['x_forwarded_proto_enabled'] = insert_xff
+                header_size = profile.get('max header size',
+                                          final.DEFAULT_MAX_HEADER)
+                http_profile['client_max_header_size'] = \
+                    int(header_size)/final.BYTES_IN_KB
+                app_profile["http_profile"] = http_profile
+                util.update_skip_duplicates(app_profile, app_profile_list,
+                                            'app_profile', converted_objs)
                 timeout = profile.get("idle-timeout", 0)
                 ntwk_profile = {
                     "profile": {
@@ -743,6 +775,14 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "max retrans syn", "time wait recycle",
                                   "time wait", "congestion control",
                                   "recv window", "max retrans"]
+                ignore_for_defaults = {
+                    'delayed acks': 'enable', 'deferred accept': 'disable',
+                    'proxy max segment': 'disable', 'selective acks': 'enable',
+                    'ecn': 'disable', 'limited transmit': 'enable',
+                    'rfc1323': 'enable', 'fin wait': '5', 'close wait': '5',
+                    'send buffer': '32768', 'keep alive interval': '1800',
+                    'zero window timeout': '20000'
+                }
                 indirect = ["reset on timeout", "slow start"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
