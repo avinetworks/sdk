@@ -1,7 +1,8 @@
 import json
 import logging
 import unittest
-from avi.sdk.avi_api import ApiSession, ObjectNotFound, APIError, ApiResponse
+from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
+                             avi_timedelta)
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
@@ -10,6 +11,7 @@ from multiprocessing import Pool, Process
 import traceback
 import copy
 import os
+from datetime import timedelta
 
 gSAMPLE_CONFIG = None
 api = None
@@ -247,6 +249,14 @@ class Test(unittest.TestCase):
         assert 'api' in ApiSession.sessionDict[api.username]
         assert 'last_used' in ApiSession.sessionDict[api.username]
 
+    
+    def test_avi_timedelta(self):
+        try:
+            avi_timedelta(10)
+            assert False
+        except:
+            pass
+        assert avi_timedelta(timedelta(seconds=10)) == 10
 
 if __name__ == "__main__":
     unittest.main()
