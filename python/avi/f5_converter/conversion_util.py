@@ -153,4 +153,15 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
         LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
     else:
         obj_list.append(obj)
-        converted_objs.append({'obj_type': obj})
+        converted_objs.append({obj_type: obj})
+
+
+def get_containt_string_group(name, content_types):
+    sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
+    kv = []
+    for content_type in content_types:
+        uri = {"key": content_type}
+        kv.append(uri)
+    sg_obj["kv"] = kv
+    return sg_obj
+
