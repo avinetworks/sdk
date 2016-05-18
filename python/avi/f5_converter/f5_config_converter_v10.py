@@ -29,21 +29,25 @@ def convert_servers_config(servers_config):
             port = util.get_port_by_protocol(port)
         enabled = True
         state = 'enabled'
+        ratio = None
         if server:
             state = server.get("session", 'enabled')
             skipped = [key for key in server.keys()
                        if key not in supported_attributes]
+            ratio = server.get("ratio", None)
         if state == "user disabled":
             enabled = False
-        server_list.append({
+        server_obj = {
             'ip': {
                 'addr': ip_addr,
                 'type': 'V4'
             },
             'port': port,
             'enabled': enabled
-        })
-
+        }
+        if ratio:
+            server_obj["ratio"] = ratio
+        server_list.append(server_obj)
         if skipped:
             skipped_list.append({server_name: skipped})
     return server_list, skipped_list
@@ -139,7 +143,7 @@ def convert_pool_config(pool_config, monitor_config_list):
                                     skipped, pool_obj)
         except:
             LOG.error("Failed to convert pool: %s" % pool_name, exc_info=True)
-            util.add_status_row('pool', None, pool_name, 'Error')
+            util.add_status_row('pool', None, pool_name, 'error')
         LOG.debug("Conversion successful for Pool: %s" % pool_name)
     return pool_list
 
@@ -184,6 +188,7 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         f5_monitor["reverse"] = None
     supported_attributes = ["timeout", "interval", "time until up",
                             "description", "type", "defaults from"]
+    indirect_mappings = ["up interval", "debug", "ip dscp"]
     skipped = [key for key in f5_monitor.keys()
                if key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", final.DEFAULT_TIMEOUT))
@@ -204,6 +209,13 @@ def convert_monitor_entity(name, f5_monitor, file_location):
     monitor_dict["successful_checks"] = successful_checks
     if description:
         monitor_dict["description"] = description
+
+    # transparent : Only flag if 'destination' or 'port' are set, else ignore
+    transparent = f5_monitor.get("transparent", 'disabled')
+    transparent = False if transparent == 'disabled' else True
+    destination = f5_monitor.get("destination", '*.*')
+    if not transparent or destination == '*.*':
+        supported_attributes.append('transparent')
 
     if f5_monitor["type"] == "http":
         http_attr = ["recv", "recv disable", "reverse", "send"]
@@ -327,8 +339,8 @@ def convert_monitor_entity(name, f5_monitor, file_location):
             cmd_code = util.upload_file(file_location+os.path.sep+cmd_code)
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            util.add_status_row("monitor", "external", name, "error")
-            return None, None
+            util.add_status_row("monitor", "external", name, "skipped")
+            return None, None, None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
             "command_code": cmd_code,
@@ -336,7 +348,9 @@ def convert_monitor_entity(name, f5_monitor, file_location):
             "command_variables": script_vars
         }
         monitor_dict["external_monitor"] = ext_monitor
-    return monitor_dict, skipped
+    skipped, indirect_list = util.update_skipped_attributes(
+                skipped, indirect_mappings, {}, f5_monitor)
+    return monitor_dict, skipped, indirect_list
 
 
 def convert_monitor_config(monitor_config, file_location):
@@ -364,13 +378,10 @@ def convert_monitor_config(monitor_config, file_location):
                 util.add_status_row('monitor', f5_monitor["type"], key,
                                     'skipped')
                 continue
-            avi_monitor, skipped = convert_monitor_entity(key, f5_monitor,
-                                                          file_location)
+            avi_monitor, skipped, indirect_list = convert_monitor_entity(
+                key, f5_monitor, file_location)
             if not avi_monitor:
                 continue
-            indirect_mappings = ["up interval", "debug", "ip dscp"]
-            skipped, indirect_list = util.update_skipped_attributes(
-                skipped, indirect_mappings, {}, f5_monitor)
             if skipped:
                 util.add_status_row('monitor', f5_monitor["type"], key,
                                     'partial', skipped, avi_monitor,
@@ -382,7 +393,7 @@ def convert_monitor_config(monitor_config, file_location):
             monitor_list.append(avi_monitor)
         except:
             LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
-            util.add_status_row('monitor', key, key, 'Error')
+            util.add_status_row('monitor', key, key, 'error')
         LOG.debug("Conversion successful for monitor: %s" % key)
     return monitor_list
 
@@ -523,21 +534,26 @@ def convert_http_profile(profile, name):
             encoding = False
         compression_profile["remove_accept_encoding_header"] = encoding
         content_type = profile.get("compress content type include", "")
+        content_type = None if content_type == 'none' else content_type
+        ct_exclude = profile.get("compress content type exclude", "")
+        content_type_exclude = None if ct_exclude == 'none' else ct_exclude
         if content_type:
-            content_types = content_type.keys()+content_type.values()
-            sg_obj = {
-                "kv": [],
-                "type": "SG_TYPE_STRING",
-                "name": name+"-content_type"
-            }
-            uris = []
-            for content_type in content_types:
-                uri = {"key": content_type}
-                uris.append(uri)
-            sg_obj["kv"] = uris
+            content_type = content_type.keys()+content_type.values()
+        elif content_type_exclude:
+            content_type = final.DEFAULT_CONTENT_TYPE
+        if content_type_exclude:
+            content_type_exclude = content_type_exclude.keys() + \
+                                   content_type_exclude.values()
+            content_type = [ct for ct in content_type
+                            if ct not in content_type_exclude]
+        if content_type:
+            sg_obj = util.get_containt_string_group(name, content_type)
+            compression_profile["compressible_content_ref"] = \
+                name + "-content_type"
+            http_profile = dict()
+            http_profile["compression_profile"] = compression_profile
 
-            compression_profile["compressible_content_ref"]\
-                = name + "-content_type"
+        compression_profile["compressible_content_ref"]= name + "-content_type"
         http_profile["compression_profile"] = compression_profile
     app_profile["http_profile"] = http_profile
     return app_profile, sg_obj, skipped, fallback_host
@@ -744,6 +760,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 indirect = ["reset on timeout"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
+                app_profile = dict()
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
                 app_profile['description'] = profile.get('description', None)
@@ -934,9 +951,9 @@ def convert_profile_config(profile_config, certs_location, option):
         except:
             LOG.error("Failed to convert profile: %s" % key, exc_info=True)
             if name:
-                util.add_status_row('profile', profile_type, name, 'Error')
+                util.add_status_row('profile', profile_type, name, 'error')
             else:
-                util.add_status_row('profile', key, key, 'Error')
+                util.add_status_row('profile', key, key, 'error')
         LOG.debug("Conversion successful for profile: %s" % name)
     avi_profiles = dict()
     avi_profiles["ssl_key_cert_list"] = ssl_key_cert_list

@@ -139,37 +139,35 @@ if __name__ == "__main__":
             convert_to_avi_dict(f5_config_dict, output_file_path, args.vs_state,
                                 input_folder_location, args.option)
 
+
+    avi_config_dict["META"] = {
+        "supported_migrations": {
+            "versions": [
+                "14_2",
+                "15_1",
+                "15_1_1",
+                "15_2",
+                "15_2_3",
+                "15_3",
+                "current_version"
+            ]
+        },
+        "version": {
+            "Product": "controller",
+            "Version": args.controller_version,
+            "min_version": 15.2,
+            "ProductName": "Avi Cloud Controller"
+        },
+        "upgrade_mode": False,
+        "use_tenant": args.tenant
+    }
+    text_file = open(output_file_path+os.path.sep+"Output.json", "w")
+    json.dump(avi_config_dict, text_file, indent=4)
+    text_file.close()
     if args.option == "cli-upload":
-        avi_config_dict["META"] = {
-            "supported_migrations": {
-                "versions": [
-                    "14_2",
-                    "15_1",
-                    "15_1_1",
-                    "15_2",
-                    "15_2_3",
-                    "15_3",
-                    "current_version"
-                ]
-            },
-            "version": {
-                "Product": "controller",
-                "Version": args.controller_version,
-                "min_version": 15.2,
-                "ProductName": "Avi Cloud Controller"
-            },
-            "upgrade_mode": False,
-            "use_tenant": args.tenant
-        }
-        text_file = open(output_file_path+os.path.sep+"Output.json", "w")
-        json.dump(avi_config_dict, text_file, indent=4)
-        text_file.close()
         LOG.info('written avi config file ' +
                  output_file_path+os.path.sep+"Output.json")
     else:
-        text_file = open(output_file_path+"Output.json", "w")
-        json.dump(avi_config_dict, text_file, indent=4)
-        text_file.close()
         upload_config.upload_config_to_controller(
             avi_config_dict, args.controller_ip,
             args.user, args.password, args.tenant)
