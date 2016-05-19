@@ -3,7 +3,7 @@ import logging
 import numbers
 import os
 
-import conversion_util as util
+import conversion_util as conv_utils
 import converter_constants as final
 
 LOG = logging.getLogger("converter-log")
@@ -91,12 +91,12 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             f5_pool = pool_config[pool_name]
             if not f5_pool:
                 LOG.debug("Empty pool skipped for conversion :%s" % pool_name)
-                util.add_status_row('pool', None, pool_name, 'skipped')
+                conv_utils.add_status_row('pool', None, pool_name, 'skipped')
                 continue
             servers, member_skipped_config = convert_servers_config(
                 f5_pool.get("members", {}), nodes)
             sd_action = f5_pool.get("service-down-action", "")
-            pd_action = util.get_avi_pool_down_action(sd_action)
+            pd_action = conv_utils.get_avi_pool_down_action(sd_action)
             lb_method = f5_pool.get("load-balancing-mode", None)
             lb_algorithm = get_avi_lb_algorithm(lb_method)
             description = f5_pool.get('description', None)
@@ -141,14 +141,14 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
             if skipped_monitors:
                 skipped.append({"monitor": skipped_monitors})
             if skipped:
-                util.add_status_row('pool', None, pool_name, 'partial',
-                                    skipped, pool_obj)
+                conv_utils.add_status_row('pool', None, pool_name, 'partial',
+                                          skipped, pool_obj)
             else:
-                util.add_status_row('pool', None, pool_name, 'successful',
-                                    skipped, pool_obj)
+                conv_utils.add_status_row('pool', None, pool_name, 'successful',
+                                          skipped, pool_obj)
         except:
             LOG.error("Failed to convert pool: %s" % pool_name, exc_info=True)
-            util.add_status_row('pool', None, pool_name, 'Error')
+            conv_utils.add_status_row('pool', None, pool_name, 'Error')
         LOG.debug("Conversion successful for Pool: %s" % pool_name)
     return pool_list
 
@@ -417,7 +417,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             if vs_type:
                 LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
                          (vs_type, vs_name))
-                util.add_status_row('virtual', None, vs_name, 'skipped')
+                conv_utils.add_status_row('virtual', None, vs_name, 'skipped')
                 continue
             skipped = [key for key in f5_vs.keys()
                        if key not in supported_attr]
@@ -497,11 +497,11 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
                             ssl_vs[0]["pki"][0]["name"]
             vs_list.append(vs_obj)
             if skipped:
-                util.add_status_row('virtual', None, vs_name, 'partial',
-                                    skipped, vs_obj)
+                conv_utils.add_status_row('virtual', None, vs_name, 'partial',
+                                          skipped, vs_obj)
             else:
-                util.add_status_row('virtual', None, vs_name, 'successful',
-                                    skipped, vs_obj)
+                conv_utils.add_status_row('virtual', None, vs_name,
+                                          'successful', skipped, vs_obj)
         except:
             LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
         LOG.debug("Conversion successful for VS: %s" % vs_name)
@@ -713,10 +713,11 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
         cmd_code = f5_monitor.get("run", 'none')
         cmd_code = None if cmd_code == 'none' else cmd_code
         if cmd_code:
-            cmd_code = util.upload_file(file_location+os.path.sep+cmd_code)
+            cmd_code = conv_utils.upload_file(
+                file_location + os.path.sep + cmd_code)
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            util.add_status_row("monitor", "external", name, "error")
+            conv_utils.add_status_row("monitor", "external", name, "error")
             return None, None, None
         ext_monitor = {
             "command_code": cmd_code,
@@ -724,7 +725,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
             "command_variables": f5_monitor.get("user-defined", None)
         }
         monitor_dict["external_monitor"] = ext_monitor
-    skipped, indirect_mappings = util.update_skipped_attributes(
+    skipped, indirect_mappings = conv_utils.update_skipped_attributes(
         skipped, indirect_mappings, ignore_for_defaults, monitor_dict)
     return monitor_dict, skipped, indirect_mappings
 
@@ -746,11 +747,13 @@ def convert_monitor_config(monitor_config, file_location):
             LOG.debug("Converting monitor: %s" % name)
             if monitor_type not in supported_types:
                 LOG.warn("Monitor type not supported by Avi : "+name)
-                util.add_status_row('monitor', monitor_type, name, 'skipped')
+                conv_utils.add_status_row('monitor', monitor_type, name,
+                                          'skipped')
                 continue
             f5_monitor = monitor_config[key]
             if not f5_monitor:
-                util.add_status_row('monitor', monitor_type, name, 'skipped')
+                conv_utils.add_status_row('monitor', monitor_type, name,
+                                          'skipped')
                 LOG.warn("Empty config for monitor: %s " % name)
                 continue
             f5_monitor = get_defaults(monitor_type, f5_monitor, monitor_config)
@@ -759,18 +762,21 @@ def convert_monitor_config(monitor_config, file_location):
             if not avi_monitor:
                 continue
             if skipped:
-                util.add_status_row('monitor', monitor_type, name, 'partial',
-                                    skipped, avi_monitor, indirect_list)
+                conv_utils.add_status_row(
+                    'monitor', monitor_type, name, 'partial', skipped,
+                    avi_monitor, indirect_list)
             else:
-                util.add_status_row('monitor', monitor_type, name, 'successful',
-                                    None, avi_monitor, indirect_list)
+                conv_utils.add_status_row(
+                    'monitor', monitor_type, name, 'successful', None,
+                    avi_monitor, indirect_list)
             monitor_list.append(avi_monitor)
         except:
             LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
             if name:
-                util.add_status_row('monitor', monitor_type, name, 'Error')
+                conv_utils.add_status_row('monitor', monitor_type, name,
+                                          'error')
             else:
-                util.add_status_row('monitor', key, key, 'Error')
+                conv_utils.add_status_row('monitor', key, key, 'error')
         LOG.debug("Conversion successful for monitor: %s" % name)
     return monitor_list
 
@@ -788,8 +794,8 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
     :return:SSLKeyAndCertificate object
     """
     folder_path = folder_path+os.path.sep
-    key = util.upload_file(folder_path+key_file_name)
-    cert = util.upload_file(folder_path+cert_file_name)
+    key = conv_utils.upload_file(folder_path + key_file_name)
+    cert = conv_utils.upload_file(folder_path + cert_file_name)
     ssl_kc_obj = None
     if key and cert:
         if option == "cli-upload":
@@ -855,7 +861,8 @@ def convert_profile_config(profile_config, certs_location, option):
             if profile_type not in supported_types:
                 LOG.warning("Skipped not supported profile: %s of type: %s" %
                             (name, profile_type))
-                util.add_status_row('profile', profile_type, name, 'skipped')
+                conv_utils.add_status_row('profile', profile_type, name,
+                                          'skipped')
                 continue
             LOG.debug("Converting profile: %s" % name)
             profile = profile_config[key]
@@ -887,8 +894,9 @@ def convert_profile_config(profile_config, certs_location, option):
                     key_cert_obj = get_key_cert_obj(
                         name, key_file, cert_file, certs_location, option)
 
-                    util.update_skip_duplicates(key_cert_obj, ssl_key_cert_list,
-                                                'key_cert', converted_objs)
+                    conv_utils.update_skip_duplicates(
+                        key_cert_obj, ssl_key_cert_list, 'key_cert',
+                        converted_objs)
                 ciphers = profile.get('ciphers', 'DEFAULT')
                 ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
                 ciphers = ciphers.replace(":@SPEED", "")
@@ -900,7 +908,7 @@ def convert_profile_config(profile_config, certs_location, option):
                     ssl_profile['send_close_notify'] = True
                 else:
                     ssl_profile['send_close_notify'] = False
-                util.update_skip_duplicates(ssl_profile, ssl_profile_list,
+                conv_utils.update_skip_duplicates(ssl_profile, ssl_profile_list,
                                             'ssl_profile', converted_objs)
                 options = profile.get("options", "")
                 options = options.keys()+options.values()
@@ -932,19 +940,19 @@ def convert_profile_config(profile_config, certs_location, option):
                     file_path = certs_location+os.path.sep+ca_file_name
                     pki_profile["name"] = name
                     error = False
-                    ca = util.upload_file(file_path)
+                    ca = conv_utils.upload_file(file_path)
                     if ca:
                         pki_profile["ca_certs"] = [{'certificate': ca}]
                     else:
                         error = True
                     file_path = certs_location+os.path.sep+crl_file_name
-                    crl = util.upload_file(file_path)
+                    crl = conv_utils.upload_file(file_path)
                     if crl:
                         pki_profile["crls"] = [{'body': crl}]
                     else:
                         error = True
                     if not error:
-                        util.update_skip_duplicates(
+                        conv_utils.update_skip_duplicates(
                             pki_profile, pki_profile_list, 'pki_profile',
                             converted_objs)
                 elif ca_file_name:
@@ -995,7 +1003,7 @@ def convert_profile_config(profile_config, certs_location, option):
                     skipped.append({"enforcement": enf_skipped})
                 app_profile["http_profile"] = http_profile
 
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
                 realm = profile.get("basic-auth-realm", 'none')
                 realm = None if realm == 'none' else realm
@@ -1013,7 +1021,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 app_profile['name'] = name
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
                 app_profile['description'] = profile.get('description', None)
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
             elif profile_type == 'web-acceleration':
                 supported_attr = ["description", "cache-object-min-size",
@@ -1062,7 +1070,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 http_profile = dict()
                 http_profile["cache_config"] = cache_config
                 app_profile["http_profile"] = http_profile
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
             elif profile_type == 'http-compression':
                 supported_attr = ["description", "content-type-include",
@@ -1101,14 +1109,15 @@ def convert_profile_config(profile_config, certs_location, option):
                     content_type = [ct for ct in content_type
                                     if ct not in ct_exclude]
                 if content_type:
-                    sg_obj = util.get_containt_string_group(name, content_type)
+                    sg_obj = conv_utils.get_containt_string_group(name,
+                                                                  content_type)
                     string_group.append(sg_obj)
                     converted_objs.append({'string_group': sg_obj})
                     compression_profile["compressible_content_ref"] = \
                         name + "-content_type"
                     http_profile["compression_profile"] = compression_profile
                 app_profile["http_profile"] = http_profile
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
             elif profile_type == 'fastl4':
                 supported_attr = ["description", "explicit-flow-migration",
@@ -1151,11 +1160,12 @@ def convert_profile_config(profile_config, certs_location, option):
                     }}
                 }
                 app_profile['dos_rl_profile'] = l4_profile
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
 
-                util.update_skip_duplicates(ntwk_profile, network_profile_list,
-                                            'network_profile', converted_objs)
+                conv_utils.update_skip_duplicates(
+                    ntwk_profile, network_profile_list, 'network_profile',
+                    converted_objs)
             elif profile_type == 'fasthttp':
                 supported_attr = ["description", "receive-window-size",
                                   "idle-timeout", "defaults-from",
@@ -1182,7 +1192,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 http_profile['client_max_header_size'] = \
                     int(header_size)/final.BYTES_IN_KB
                 app_profile["http_profile"] = http_profile
-                util.update_skip_duplicates(app_profile, app_profile_list,
+                conv_utils.update_skip_duplicates(app_profile, app_profile_list,
                                             'app_profile', converted_objs)
                 receive_window = profile.get("receive-window-size",
                                              final.DEFAULT_RECV_WIN)
@@ -1200,8 +1210,9 @@ def convert_profile_config(profile_config, certs_location, option):
                     },
                     "name": name
                 }
-                util.update_skip_duplicates(ntwk_profile, network_profile_list,
-                                            'network_profile', converted_objs)
+                conv_utils.update_skip_duplicates(
+                    ntwk_profile, network_profile_list, 'network_profile',
+                    converted_objs)
             elif profile_type == 'tcp':
                 supported_attr = ["description", "idle-timeout", "max-retrans",
                                   "syn-max-retrans", "time-wait-recycle",
@@ -1241,7 +1252,7 @@ def convert_profile_config(profile_config, certs_location, option):
                                      (final.MIN_RECV_WIN * final.BYTES_IN_KB))
                 window = int(int(window)/final.BYTES_IN_KB)
                 cc_algo = profile.get("congestion-control", "")
-                cc_algo = util.get_cc_algo_val(cc_algo)
+                cc_algo = conv_utils.get_cc_algo_val(cc_algo)
                 ntwk_profile = {
                     "profile": {
                         "tcp_proxy_profile": {
@@ -1258,8 +1269,9 @@ def convert_profile_config(profile_config, certs_location, option):
                     },
                     "name": name
                 }
-                util.update_skip_duplicates(ntwk_profile, network_profile_list,
-                                            'network_profile', converted_objs)
+                conv_utils.update_skip_duplicates(
+                    ntwk_profile, network_profile_list, 'network_profile',
+                    converted_objs)
             elif profile_type == 'udp':
                 supported_attr = ["description", "idle-timeout",
                                   "datagram-load-balancing", "defaults-from"]
@@ -1277,23 +1289,27 @@ def convert_profile_config(profile_config, certs_location, option):
                     },
                     "name": name
                 }
-                util.update_skip_duplicates(ntwk_profile, network_profile_list,
-                                            'network_profile', converted_objs)
+                conv_utils.update_skip_duplicates(
+                    ntwk_profile, network_profile_list, 'network_profile',
+                    converted_objs)
 
-            skipped, indirect = util.update_skipped_attributes(
+            skipped, indirect = conv_utils.update_skipped_attributes(
                     skipped, indirect, ignore_for_defaults, profile)
             if skipped:
-                util.add_status_row('profile', profile_type, name, 'partial',
-                                    skipped, converted_objs, indirect)
+                conv_utils.add_status_row(
+                    'profile', profile_type, name, 'partial', skipped,
+                    converted_objs, indirect)
             else:
-                util.add_status_row('profile', profile_type, name, 'successful',
-                                    skipped, converted_objs, indirect)
+                conv_utils.add_status_row(
+                    'profile', profile_type, name, 'successful', skipped,
+                    converted_objs, indirect)
         except:
             LOG.error("Failed to convert profile: %s" % key, exc_info=True)
             if name:
-                util.add_status_row('profile', profile_type, name, 'Error')
+                conv_utils.add_status_row('profile', profile_type, name,
+                                          'error')
             else:
-                util.add_status_row('profile', key, key, 'Error')
+                conv_utils.add_status_row('profile', key, key, 'error')
         LOG.debug("Conversion successful for profile: %s" % name)
     avi_profiles = dict()
     avi_profiles["ssl_key_cert_list"] = ssl_key_cert_list
@@ -1384,36 +1400,37 @@ def convert_persistence_config(f5_persistence_dict):
                 }
             elif persist_mode == "hash":
                 hash_algorithm.append(name)
-                util.add_status_row('profile', "hash-persistence", name,
+                conv_utils.add_status_row('profile', "hash-persistence", name,
                                     'indirect-mapping', None,
                                     "Will be mapped to pools lb algorithm")
                 continue
             else:
                 LOG.error(
                     'persist mode not supported skipping conversion: %s' % name)
-                util.add_status_row("persistence", persist_mode, name,
+                conv_utils.add_status_row("persistence", persist_mode, name,
                                     "skipped")
                 continue
             persist_profile_list.append(persist_profile)
 
             ignore_for_defaults = {"app-service": "none", "mask": "none"}
-            skipped, indirect = util.update_skipped_attributes(
+            skipped, indirect = conv_utils.update_skipped_attributes(
                 skipped, indirect_mappings, ignore_for_defaults, profile)
             if skipped:
-                util.add_status_row("persistence", persist_mode, name,
+                conv_utils.add_status_row("persistence", persist_mode, name,
                                     "partial", skipped, persist_profile,
-                                    indirect)
+                                          indirect)
             else:
-                util.add_status_row("persistence", persist_mode, name,
+                conv_utils.add_status_row("persistence", persist_mode, name,
                                     "successful", skipped, persist_profile,
-                                    indirect)
+                                          indirect)
         except:
             LOG.error("Failed to convert persistance profile : %s" % key,
                       exc_info=True)
             if name:
-                util.add_status_row("persistence", persist_mode, name, "error")
+                conv_utils.add_status_row("persistence", persist_mode, name,
+                                          "error")
             else:
-                util.add_status_row("persistence", key, key, "error")
+                conv_utils.add_status_row("persistence", key, key, "error")
         LOG.debug("Conversion successful for persistence profile: %s" % name)
     return persist_profile_list, hash_algorithm
 
@@ -1435,7 +1452,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
 
     status_file = output_file_path+os.path.sep+"ConversionStatus.csv"
     csv_file = open(status_file, 'w')
-    util.add_csv_headers(csv_file)
+    conv_utils.add_csv_headers(csv_file)
     avi_config_dict = {}
     try:
         monitor_config = f5_config_dict.pop("monitor", {})
@@ -1471,8 +1488,8 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
             f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
             avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
             realm_dict, fallback_host_dict)
-        util.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
-        util.remove_dup_key(avi_config_dict["SSLProfile"])
+        conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
+        conv_utils.remove_dup_key(avi_config_dict["SSLProfile"])
         avi_config_dict["VirtualService"] = avi_vs_list
         LOG.debug("Converted VS")
     except:
@@ -1483,6 +1500,6 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
             sub_type = None
             if ' ' in key:
                 sub_type, key = key.rsplit(' ', 1)
-            util.add_status_row(f5_type, sub_type, key, 'skipped')
+            conv_utils.add_status_row(f5_type, sub_type, key, 'skipped')
     csv_file.close()
     return avi_config_dict
