@@ -728,7 +728,7 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
                 file_location + os.path.sep + cmd_code)
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            conv_utils.add_status_row("monitor", "external", name, "error")
+            conv_utils.add_status_row("monitor", "external", name, "skipped")
             return None, None, None
         ext_monitor = {
             "command_code": cmd_code,
@@ -982,8 +982,9 @@ def convert_profile_config(profile_config, certs_location, option):
                 ignore_list = ['lws-width', 'lws-separator ']
                 ignore_for_defaults["proxy-type"] = "reverse"
                 supported_attr = ignore_list + supported_attr
-                indirect = ["request-chunking", "response-chunking",
-                            "sflow"]
+                indirect = ["request-chunking", "response-chunking", "sflow",
+                            'response-headers-permitted', 'via-response',
+                            'via-request', 'server-agent-name']
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -1031,6 +1032,12 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'dns':
                 supported_attr = ["description", "defaults-from"]
                 ignore_list = ['enable-gtm']
+                indirect = ['avr-dnsstat-sample-rate', 'unhandled-query-action',
+                            'use-local-bind', 'log-profile', 'dns64', 'cache',
+                            'enable-cache', 'process-rd', 'enable-dns-express',
+                            'enable-dnssec', 'dns-security', 'process-xfr',
+                            'enable-dns-firewall', 'enable-rapid-response',
+                            'enable-logging', 'rapid-response-last-action']
                 supported_attr += ignore_list
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
@@ -1140,7 +1147,17 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "explicit-flow-migration",
                                   "idle-timeout", "software-syn-cookie",
                                   "pva-acceleration", "defaults-from"]
-                indirect = ["reset-on-timeout", "pva-acceleration"]
+                indirect = ['reset-on-timeout', 'ip-tos-to-server',
+                            'pva-offload-dynamic', 'tcp-handshake-timeout',
+                            'timeout-recovery', 'pva-dynamic-server-packets',
+                            'pva-acceleration', 'pva-dynamic-client-packets',
+                            'tcp-timestamp-mode', 'link-qos-to-server',
+                            'client-timeout', 'tcp-wscale-mode', 'server-sack',
+                            'late-binding', 'syn-cookie-whitelist',
+                            'rtt-from-client', 'rtt-from-server',
+                            'link-qos-to-client', 'tcp-generate-isn',
+                            'ip-tos-to-client', 'server-timestamp',
+                            'receive-window-size']
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 syn_protection = (profile.get("software-syn-cookie",
@@ -1194,7 +1211,10 @@ def convert_profile_config(profile_config, certs_location, option):
                      'connpool-step': '4', 'header-insert': 'none',
                      'server-close-timeout': '5', 'max-requests': '0',
                      'mss-override': '0', 'layer-7': 'enabled'})
-                indirect = ["reset-on-timeout"]
+                indirect = ['reset-on-timeout',  'unclean-shutdown',
+                            'http-11-close-workarounds', 'server-sack',
+                            'force-http-10-response', 'hardware-syn-cookie',
+                            'connpool-replenish', 'server-timestamp']
                 skipped = [attr for attr in profile_config[key].keys()
                            if attr not in supported_attr]
                 app_profile['name'] = name
@@ -1235,7 +1255,13 @@ def convert_profile_config(profile_config, certs_location, option):
                                   "syn-max-retrans", "time-wait-recycle",
                                   "time-wait-timeout", "nagle", "defaults-from",
                                   "congestion-control", "receive-window-size"]
-                indirect = ["reset-on-timeout", "slow-start"]
+                indirect = ['reset-on-timeout', 'slow-start', 'minimum-rto',
+                            'syn-cookie-whitelist', 'max-segment-size', 'mptcp',
+                            'mptcp-csum', 'mptcp-csum-verify', 'mptcp-rxmitmin',
+                            'mptcp-fallback', 'mptcp-fastjoin', 'mptcp-debug',
+                            'mptcp-join-max', 'mptcp-makeafterbreak',
+                            'mptcp-nojoindssack', 'mptcp-rtomax',
+                            'mptcp-subflowmax', 'mptcp-timeout']
                 ignore_for_defaults.update(
                     {'ack-on-push': 'enabled',
                      'deferred-accept': 'disabled', 'ecn': 'disabled',
@@ -1292,6 +1318,8 @@ def convert_profile_config(profile_config, certs_location, option):
             elif profile_type == 'udp':
                 supported_attr = ["description", "idle-timeout",
                                   "datagram-load-balancing", "defaults-from"]
+                indirect = ['link-qos-to-client', 'proxy-mss',
+                            'ip-tos-to-client', 'allow-no-payload']
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 per_pkt = profile.get("datagram-load-balancing", 'disabled')
@@ -1355,7 +1383,8 @@ def convert_persistence_config(f5_persistence_dict):
             profile = update_with_default_profile(persist_mode, profile,
                                                   f5_persistence_dict)
             indirect_mappings = ["hash-length", "hash-offset", "mirror",
-                                 "method"]
+                                 "method", "cookie-encryption",
+                                 'override-connection-limit']
 
             if persist_mode == "cookie":
                 supported_attr = ["cookie-name", "defaults-from", "expiration"]

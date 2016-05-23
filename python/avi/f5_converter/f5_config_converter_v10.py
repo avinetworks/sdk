@@ -217,7 +217,7 @@ def convert_monitor_entity(name, f5_monitor, file_location):
     transparent = f5_monitor.get("transparent", 'disabled')
     transparent = False if transparent == 'disabled' else True
     destination = f5_monitor.get("dest", '*:*')
-    if destination in ['*', '*:0']:
+    if destination.strip() in ['*', '*:0']:
         destination = '*:*'
         f5_monitor["dest"] = destination
     if not transparent or destination == '*:*':
@@ -305,6 +305,7 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        indirect_mappings += ['timeoutpackets', 'sendpackets']
         udp_monitor = None
         if request or response:
             request = request.replace('\"', '') if request else None
@@ -804,7 +805,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "idle timeout", "nagle",
                                   "max retrans syn", "time wait recycle",
                                   "time wait", "congestion control",
-                                  "recv window", "max retrans"]
+                                  "recv window", "max retrans", "defaults from"]
                 ignore_for_defaults = {
                     'delayed acks': 'enable', 'deferred accept': 'disable',
                     'proxy max segment': 'disable', 'selective acks': 'enable',
