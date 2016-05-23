@@ -73,6 +73,16 @@ for vs in resp.json()['results']:
 # delete virtualservice
 resp = api.delete('virtualservice', 'sample_vs')
 ```
+
+If ApiSession is invoked in the context of a control script, then token can be used for authentication.
+Along with that, information regarding username and tenant information can also be retrieved as follows: 
+```python
+token=os.environ.get('API_TOKEN')
+user=os.environ.get('USER')
+tenant=os.environ.get('TENANT')
+api = ApiSession.get_session("localhost", user, token=token, tenant=tenant)
+```
+
 #### F5 Converter Usage
 See all the F5 converter options
 ```sh
