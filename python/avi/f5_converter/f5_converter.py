@@ -171,4 +171,4 @@ if __name__ == "__main__":
         upload_config.upload_config_to_controller(
             avi_config_dict, args.controller_ip,
             args.user, args.password, args.tenant)
-        LOG.info('Config uploaded to controller')
+        # LOG.info('Config uploaded to controller')
