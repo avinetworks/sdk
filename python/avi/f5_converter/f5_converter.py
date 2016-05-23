@@ -71,7 +71,7 @@ if __name__ == "__main__":
                         help='state of VS created', default='disable')
     parser.add_argument('-l', '--input_folder_location',
                         help='location of input files like cert files ' +
-                             'external monitor scripts', default='.')
+                             'external monitor scripts', default='./test/certs')
     parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
     parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
     parser.add_argument('--f5_ssh_password',
@@ -111,8 +111,8 @@ if __name__ == "__main__":
     LOG.addHandler(fh)
     if is_download_from_host:
         LOG.debug("Copying files from host")
-        scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
-                                   args.f5_ssh_user, args.f5_ssh_password)
+        # scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
+        #                            args.f5_ssh_user, args.f5_ssh_password)
         LOG.debug("Copied input files")
         source_file = open(input_folder_location+os.path.sep+"bigip.conf", "r")
     else:
