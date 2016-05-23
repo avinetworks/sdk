@@ -186,13 +186,14 @@ class MesosTestUtils(object):
             app_obj = self.MARATHON_APP_TEMPLATES[app_type]
             app_obj = deepcopy(app_obj)
 
-            if num_instances == 0:
+            if num_instances:
+                if num_instances < 0:
+                    app_obj['instances'] = index % 3 + 1
+                else:
+                    app_obj['instances'] = num_instances
+            elif num_instances == 0:
                 app_obj['instances'] = 0
-            elif num_instances < 0:
-                app_obj['instances'] = index % 3 + 1
-            elif num_instances:
-                app_obj['instances'] = num_instances
-            # else not set; use the default
+            # else None: not set so use the default
 
             if cpus:
                 app_obj['cpus'] = cpus
