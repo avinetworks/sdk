@@ -181,23 +181,25 @@ def get_profiles_for_vs(profiles, profile_config):
             pki_list = profile_config.get("pki_profile_list", [])
             pki_profiles = [obj for obj in pki_list if (obj['name'] == name or
                                                 name in obj.get("dup_of", []))]
+            pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             if context == "clientside":
                 vs_ssl_profile_names.append({"profile": ssl_profiles[0]["name"],
                                              "cert": key_cert,
-                                             "pki": pki_profiles})
+                                             "pki": pki_profile})
             elif context == "serverside":
                 pool_ssl_profile_names.append(
-                    {"profile": name, "cert": key_cert, "pki": pki_profiles})
+                    {"profile": ssl_profiles[0]["name"], "cert": key_cert,
+                     "pki": pki_profile})
         app_profile_list = profile_config.get("app_profile_list", [])
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
-            app_profile_names.append(name)
+            app_profile_names.append(app_profiles[0]['name'])
         ntwk_prof_lst = profile_config.get("network_profile_list")
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
-            network_profile_names.append(name)
+            network_profile_names.append(network_profiles[0]['name'])
     if not app_profile_names:
         app_profile_names.append("http")
     return vs_ssl_profile_names, pool_ssl_profile_names, \
@@ -542,6 +544,8 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description", "defaults-from"]
     indirect_mappings = ["up-interval", "debug", "ip-dscp"]
+    ignore_list = ['adaptive', 'compatibility']
+    supported_attributes = supported_attributes + ignore_list
     ignore_for_defaults = {"destination": "*:*", "manual-resume": 'disabled'}
     skipped = [key for key in f5_monitor.keys()
                if key not in supported_attributes]
@@ -568,14 +572,15 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
     # transparent : Only flag if 'destination' or 'port' are set, else ignore
     transparent = f5_monitor.get("transparent", 'disabled')
     transparent = False if transparent == 'disabled' else True
-    destination = f5_monitor.get("destination", '*.*')
-    if not transparent or destination == '*.*':
+    destination = f5_monitor.get("destination", '*:*')
+    if destination == '*':
+        destination = '*:*'
+        f5_monitor["destination"] = destination
+    if not transparent or destination == '*:*':
         supported_attributes.append('transparent')
 
     if monitor_type == "http":
         http_attr = ["recv", "recv-disable", "reverse", "send"]
-        ignore_list = ['adaptive']
-        http_attr = http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -596,8 +601,6 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
                 maintenance_response
     elif monitor_type == "https":
         https_attr = ["recv", "recv-disable", "reverse", "send"]
-        ignore_list = ['compatibility']
-        https_attr = ignore_list + https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
@@ -711,6 +714,14 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
         skipped = [key for key in skipped if key not in ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         cmd_code = f5_monitor.get("run", 'none')
+        user_defined_vars = ""
+        for m_key in f5_monitor.keys():
+            if 'user-defined_' in m_key:
+                var_value = f5_monitor[m_key]
+                var_key = m_key.replace('user-defined_', '')
+                skipped.remove(m_key)
+                user_defined_vars += '%s=%s,' % (var_key, var_value)
+        user_defined_vars = user_defined_vars[:-1]
         cmd_code = None if cmd_code == 'none' else cmd_code
         if cmd_code:
             cmd_code = conv_utils.upload_file(
@@ -722,11 +733,11 @@ def convert_monitor_entity(monitor_type, name, f5_monitor, file_location):
         ext_monitor = {
             "command_code": cmd_code,
             "command_parameters": f5_monitor.get("args", None),
-            "command_variables": f5_monitor.get("user-defined", None)
+            "command_variables": user_defined_vars
         }
         monitor_dict["external_monitor"] = ext_monitor
     skipped, indirect_mappings = conv_utils.update_skipped_attributes(
-        skipped, indirect_mappings, ignore_for_defaults, monitor_dict)
+        skipped, indirect_mappings, ignore_for_defaults, f5_monitor)
     return monitor_dict, skipped, indirect_mappings
 
 
@@ -798,8 +809,7 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
     cert = conv_utils.upload_file(folder_path + cert_file_name)
     ssl_kc_obj = None
     if key and cert:
-        if option == "cli-upload":
-            cert = {"certificate": cert}
+        cert = {"certificate": cert}
         ssl_kc_obj = {
                 'name': name,
                 'key': key,
@@ -874,6 +884,11 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["cert-key-chain", "cert", "key", "ciphers",
                                   "unclean-shutdown", "crl-file", "ca-file",
                                   "options", "defaults-from"]
+                ignore_list = ['chain', 'secure-renegotiation', 'cache-size',
+                               'renegotiate-size', 'cache-timeout',
+                               'strict-resume', 'renegotiate-max-record-delay',
+                               'renegotiate-period']
+                supported_attr = supported_attr + ignore_list
                 ignore_for_defaults.update(
                     {'allow-non-ssl': 'disabled', 'ssl-sign-hash': 'any',
                      'peer-no-renegotiate-timeout': '10',
@@ -959,16 +974,16 @@ def convert_profile_config(profile_config, certs_location, option):
                     LOG.warn("crl-file missing hence skipped ca-file")
                     skipped.append("ca-file")
             elif profile_type == 'http':
-                supported_attr = ["description", "insert-xforwarded-for",
-                                  "enforcement", "xff-alternative-names",
-                                  "encrypt-cookies", "defaults-from",
-                                  "accept-xff", "oneconnect-transformations",
-                                  "basic-auth-realm", "fallback-host"]
-                ignore_list = ['lws-width']
-                ignore_for_defaults ["proxy-type"] = "reverse"
+                supported_attr = [
+                    "description", "insert-xforwarded-for", "enforcement",
+                    "xff-alternative-names", "encrypt-cookies", "defaults-from",
+                    "accept-xff", "oneconnect-transformations",
+                    "basic-auth-realm", "fallback-host"]
+                ignore_list = ['lws-width', 'lws-separator ']
+                ignore_for_defaults["proxy-type"] = "reverse"
                 supported_attr = ignore_list + supported_attr
                 indirect = ["request-chunking", "response-chunking",
-                            "lws-separator", "max-requests", "sflow"]
+                            "sflow"]
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -1015,6 +1030,8 @@ def convert_profile_config(profile_config, certs_location, option):
                     fallback_host_dict[name] = host
             elif profile_type == 'dns':
                 supported_attr = ["description", "defaults-from"]
+                ignore_list = ['enable-gtm']
+                supported_attr += ignore_list
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 app_profile = dict()
@@ -1076,10 +1093,10 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "content-type-include",
                                   "keep-accept-encoding", "defaults-from",
                                   "content-type-exclude"]
-                indirect = ['browser-workarounds', 'uri-include', 'gzip-level'
-                            'gzip-window-size', 'cpu-saver-high', 'cpu-saver',
-                            'min-size', 'vary-header', 'buffer-size',
-                            'gzip-memory-level', 'cpu-saver-low']
+                ignore_list = ['cpu-saver-high', 'buffer-size', 'cpu-saver-low']
+                supported_attr = supported_attr + ignore_list
+                indirect = ['browser-workarounds', 'uri-include', 'gzip-level',
+                            'gzip-window-size', 'gzip-memory-level']
                 ignore_for_defaults.update({'method-prefer': 'gzip'})
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
@@ -1339,12 +1356,14 @@ def convert_persistence_config(f5_persistence_dict):
                                                   f5_persistence_dict)
             indirect_mappings = ["hash-length", "hash-offset", "mirror",
                                  "method"]
+
             if persist_mode == "cookie":
                 supported_attr = ["cookie-name", "defaults-from", "expiration"]
+                ignore_lst = ['always-send']
+                supported_attr += ignore_lst
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 cookie_name = profile.get("cookie-name", None)
-                # cookie_name = None if cookie_name == "none" else cookie_name
                 timeout = profile.get("expiration", '1')
                 if ':' in str(timeout):
                     expiration = timeout.split(':')
@@ -1385,6 +1404,8 @@ def convert_persistence_config(f5_persistence_dict):
                 }
             elif persist_mode == "source-addr":
                 supported_attr = ["timeout", "defaults-from"]
+                ignore_lst = ['map-proxies']
+                supported_attr += ignore_lst
                 skipped = [attr for attr in profile.keys()
                            if attr not in supported_attr]
                 timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
@@ -1489,6 +1510,8 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
             avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
             realm_dict, fallback_host_dict)
         conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
+        conv_utils.remove_dup_key(avi_config_dict["ApplicationProfile"])
+        conv_utils.remove_dup_key(avi_config_dict["NetworkProfile"])
         conv_utils.remove_dup_key(avi_config_dict["SSLProfile"])
         avi_config_dict["VirtualService"] = avi_vs_list
         LOG.debug("Converted VS")
