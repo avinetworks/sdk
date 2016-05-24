@@ -188,7 +188,10 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         f5_monitor["reverse"] = None
     supported_attributes = ["timeout", "interval", "time until up",
                             "description", "type", "defaults from"]
+    ignore_list = ['compatibility']
+    supported_attributes += ignore_list
     indirect_mappings = ["up interval", "debug", "ip dscp"]
+    ignore_for_defaults = {"dest": "*:*", "manual-resume": 'disabled'}
     skipped = [key for key in f5_monitor.keys()
                if key not in supported_attributes]
     timeout = int(f5_monitor.get("timeout", final.DEFAULT_TIMEOUT))
@@ -213,8 +216,11 @@ def convert_monitor_entity(name, f5_monitor, file_location):
     # transparent : Only flag if 'destination' or 'port' are set, else ignore
     transparent = f5_monitor.get("transparent", 'disabled')
     transparent = False if transparent == 'disabled' else True
-    destination = f5_monitor.get("destination", '*.*')
-    if not transparent or destination == '*.*':
+    destination = f5_monitor.get("dest", '*:*')
+    if destination.strip() in ['*', '*:0']:
+        destination = '*:*'
+        f5_monitor["dest"] = destination
+    if not transparent or destination == '*:*':
         supported_attributes.append('transparent')
 
     if f5_monitor["type"] == "http":
@@ -299,6 +305,7 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         response = f5_monitor.get("recv", None)
+        indirect_mappings += ['timeoutpackets', 'sendpackets']
         udp_monitor = None
         if request or response:
             request = request.replace('\"', '') if request else None
@@ -350,7 +357,7 @@ def convert_monitor_entity(name, f5_monitor, file_location):
         }
         monitor_dict["external_monitor"] = ext_monitor
     skipped, indirect_list = conv_utils.update_skipped_attributes(
-                skipped, indirect_mappings, {}, f5_monitor)
+                skipped, indirect_mappings, ignore_for_defaults, f5_monitor)
     return monitor_dict, skipped, indirect_list
 
 
@@ -421,8 +428,7 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, folder_path, option):
         cert = conv_utils.upload_file(folder_path + cert_file_name)
     ssl_kc_obj = None
     if key and cert:
-        if option == "cli-upload":
-            cert = {"certificate": cert}
+        cert = {"certificate": cert}
         ssl_kc_obj = {
                 'name': name,
                 'key': key,
@@ -538,7 +544,9 @@ def convert_http_profile(profile, name):
         content_type = None if content_type == 'none' else content_type
         ct_exclude = profile.get("compress content type exclude", "")
         content_type_exclude = None if ct_exclude == 'none' else ct_exclude
-        if content_type:
+        if content_type and isinstance(content_type, str):
+            content_type = content_type.split(" ")
+        elif  content_type and isinstance(content_type, dict):
             content_type = content_type.keys()+content_type.values()
         elif content_type_exclude:
             content_type = final.DEFAULT_CONTENT_TYPE
@@ -797,7 +805,7 @@ def convert_profile_config(profile_config, certs_location, option):
                 supported_attr = ["description", "idle timeout", "nagle",
                                   "max retrans syn", "time wait recycle",
                                   "time wait", "congestion control",
-                                  "recv window", "max retrans"]
+                                  "recv window", "max retrans", "defaults from"]
                 ignore_for_defaults = {
                     'delayed acks': 'enable', 'deferred accept': 'disable',
                     'proxy max segment': 'disable', 'selective acks': 'enable',
@@ -882,6 +890,12 @@ def convert_profile_config(profile_config, certs_location, option):
                     skipped = [attr for attr in profile.keys()
                                if attr not in supported_attr]
                     cookie_name = profile.get("cookie name", None)
+                    if not cookie_name:
+                        LOG.error("Missing Required field cookie name in: %s",
+                                  name)
+                        conv_utils.add_status_row('profile', 'persist-cookie',
+                                                  name, 'skipped')
+                        continue
                     timeout = profile.get("expiration", '1')
                     if ':' in str(timeout):
                         expiration = timeout.split(':')
@@ -901,8 +915,6 @@ def convert_profile_config(profile_config, certs_location, option):
                                 i += 1
                     else:
                         timeout = 1 if int(timeout) == 0 else timeout
-                    if cookie_name == "none":
-                        cookie_name = None
                     persist_profile = {
                         "name": name,
                         "app_cookie_persistence_profile": {
@@ -944,7 +956,8 @@ def convert_profile_config(profile_config, certs_location, option):
                         None, "Will be mapped to pools lb algorithm")
                     continue
                 else:
-                    LOG.error('persist mode not supported : %s' % name)
+                    LOG.warn('Skipped profile persist mode not supported : %s'
+                             % name)
                     continue
                 persist_profile_list.append(persist_profile)
                 converted_objs.append({'persist_profile': persist_profile})
@@ -1007,22 +1020,24 @@ def get_profiles_for_vs(profiles, profile_config):
             pki_list = profile_config.get("pki_profile_list", [])
             pki_profiles = [obj for obj in pki_list if (obj['name'] == name or
                                                 name in obj.get("dup_of", []))]
+            pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             if "clientside" in keys:
                 vs_ssl_profile_names.append({"profile": ssl_profiles[0]["name"],
                                              "cert": key_cert,
-                                             "pki": pki_profiles})
+                                             "pki": pki_profile})
             elif "serverside" in keys:
                 pool_ssl_profile_names.append(
-                    {"profile": name, "cert": key_cert, "pki": pki_profiles})
+                    {"profile": ssl_profiles[0]["name"], "cert": key_cert,
+                     "pki": pki_profile})
         app_profiles = [obj for obj in profile_config["app_profile_list"] if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
-            app_profile_names.append(name)
+            app_profile_names.append(app_profiles[0]['name'])
         ntwk_prof_lst = profile_config.get("network_profile_list", [])
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
-            network_profile_names.append(name)
+            network_profile_names.append(network_profiles[0]['name'])
     if not app_profile_names:
         app_profile_names.append("http")
     return vs_ssl_profile_names, pool_ssl_profile_names, app_profile_names, \
