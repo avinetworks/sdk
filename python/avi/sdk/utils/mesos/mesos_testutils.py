@@ -187,10 +187,14 @@ class MesosTestUtils(object):
             app_obj = deepcopy(app_obj)
 
             if num_instances:
-                if num_instances != -1:
-                    app_obj['instances'] = num_instances
-                else:
+                if num_instances < 0:
                     app_obj['instances'] = index % 3 + 1
+                else:
+                    app_obj['instances'] = num_instances
+            elif num_instances == 0:
+                app_obj['instances'] = 0
+            # else None: not set so use the default
+
             if cpus:
                 app_obj['cpus'] = cpus
             if mem:
@@ -306,6 +310,31 @@ class MesosTestUtils(object):
                            auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to update app config, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print 'updated app', app_id, ' response ', rsp.text
+        return rsp
+
+    def updateAviProxy(self, marathon_url, app_id, avi_proxy,
+                       auth_type=None, auth_token=None, username=None, password=None):
+        app_obj = self.getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
+        app_obj = app_obj['app']
+        # see https://github.com/mesosphere/marathon/issues/3054
+        # could also do it on uri to be forwards compatible rather than backwards
+        app_obj.pop('fetch', None)
+
+        app_obj['labels']['avi_proxy'] = json.dumps(avi_proxy)
+        del app_obj['version']
+
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        marathon_uri = marathon_url + '/v2/apps/' + app_id + '?force=true'
+        rsp = requests.put(marathon_uri, data=json.dumps(app_obj),
+                           auth=auth, headers=headers)
+        if rsp.status_code >= 300:
+            raise RuntimeError('failed to update app avi proxy, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return rsp
 
