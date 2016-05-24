@@ -70,6 +70,8 @@ def generate_grammar_v10():
     v_addr_kw = Keyword("virtual address")
     ip_forward_kw = Keyword("ip forward")
     l2_forward_kw = Keyword("l2 forward")
+    ct_include_kw = Keyword("compress content type include")
+    ct_exclude_kw = Keyword("compress content type exclude")
     empty_object = Keyword("{ }")
 
     common = Suppress("/Common/")
@@ -87,7 +89,8 @@ def generate_grammar_v10():
     data = (unquoted_string | quoted_string)
 
     key_exceptions = (opt_kw | profiles_kw | monitor_kw | session_kw | mode_kw |
-                      lb_method_kw | ip_forward_kw | l2_forward_kw)
+                      lb_method_kw | ip_forward_kw | l2_forward_kw |
+                      ct_include_kw | ct_exclude_kw)
 
     # define structures
     value = Forward()
@@ -115,6 +118,7 @@ def parse_config(source_str, version=11):
     skipped_list = []
     last_end = 0
     source_str = source_str.replace("\t", "    ")
+    source_str = source_str.replace("user-defined ", "user-defined_")
     for tokens, start, end in grammar.scanString(source_str):
         result = result+tokens.asList()
         if last_end != 0:
