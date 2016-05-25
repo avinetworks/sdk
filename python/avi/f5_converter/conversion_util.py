@@ -4,7 +4,7 @@ import logging
 
 import converter_constants as final
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 csv_writer = None
 
 

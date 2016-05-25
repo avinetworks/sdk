@@ -1,19 +1,57 @@
-import logging
-import conversion_util as conv_utils
 import copy
-import converter_constants as final
+import logging
 import numbers
 import os
-LOG = logging.getLogger("converter-log")
+
+import avi.f5_converter.conversion_util as conv_utils
+import avi.f5_converter.converter_constants as conv_const
+
+LOG = logging.getLogger(__name__)
 
 
 class MonitorConfigConv(object):
     @classmethod
-    def factory(cls, version):
+    def get_instance(cls, version):
         if version == 10:
             return MonitorConfigConvV10()
         if version == 11:
             return MonitorConfigConvV11()
+
+    supported_attributes = None
+    supported_types = None
+    indirect_mappings = None
+    tup = None
+
+    def get_defaults(self, monitor_config, key):
+        pass
+
+    def get_name_type(self, f5_monitor, key):
+        pass
+
+    def get_default_monitor(self, monitor_type, monitor_config):
+        pass
+
+    def convert_http(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_https(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_dns(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_tcp(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_udp(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_icmp(self, monitor_dict, f5_monitor, skipped):
+        pass
+
+    def convert_external(self, monitor_dict, f5_monitor, skipped, input_dir,
+                         name):
+        pass
 
     def convert(self, f5_config, avi_config, input_dir):
         monitor_list = []
@@ -51,6 +89,7 @@ class MonitorConfigConv(object):
                         'monitor', monitor_type, name, 'successful', None,
                         avi_monitor, indirect_list)
                 monitor_list.append(avi_monitor)
+                LOG.debug("Conversion successful for monitor: %s" % name)
             except:
                 LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
                 if name:
@@ -58,31 +97,20 @@ class MonitorConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('monitor', key, key, 'error')
-            LOG.debug("Conversion successful for monitor: %s" % name)
-            avi_config["HealthMonitor"] = monitor_list
-        return monitor_list
-
+        avi_config["HealthMonitor"] = monitor_list
 
     def convert_monitor(self, key, monitor_config, input_dir):
-        """
-        Conversion of single F5 monitor object to Avi health monitor object
-        :param monitor_type: Health monitor type
-        :param name: name of health monitor
-        :param f5_monitor: F5 monitor config object
-        :param file_location: External monitor script file location
-        :return: Avi monitor config object
-        """
         f5_monitor = monitor_config[key]
         monitor_type, name = self.get_name_type(f5_monitor, key)
         skipped = [key for key in f5_monitor.keys()
                    if key not in self.supported_attributes]
         indirect_mappings = self.indirect_mappings
-        timeout = int(f5_monitor.get("timeout", final.DEFAULT_TIMEOUT))
-        interval = int(f5_monitor.get("interval", final.DEFAULT_INTERVAL))
+        timeout = int(f5_monitor.get("timeout", conv_const.DEFAULT_TIMEOUT))
+        interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
         time_until_up = int(f5_monitor.get(self.tup,
-                                           final.DEFAULT_TIME_UNTIL_UP))
+                                           conv_const.DEFAULT_TIME_UNTIL_UP))
         successful_checks = int(timeout/interval)
-        failed_checks = final.DEFAULT_FAILED_CHECKS
+        failed_checks = conv_const.DEFAULT_FAILED_CHECKS
         if time_until_up > 0:
             failed_checks = int(time_until_up/interval)
             failed_checks = 1 if failed_checks == 0 else failed_checks
@@ -97,11 +125,12 @@ class MonitorConfigConv(object):
 
         if description:
             monitor_dict["description"] = description
-        # transparent : Only flag if 'destination' or 'port' are set, else ignore
+        # transparent : Only flag if destination or port are set, else ignore
         transparent = f5_monitor.get("transparent", 'disabled')
         transparent = False if transparent == 'disabled' else True
         destination = f5_monitor.get("destination", '*.*')
-        if (not transparent or destination == '*.*') and 'transparent' in skipped:
+        if (not transparent or destination == '*.*') and \
+                        'transparent' in skipped:
             skipped.remove('transparent')
 
         ignore_for_defaults = self.get_default_monitor(type, monitor_config)
@@ -141,19 +170,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return monitor_config.get("%s %s" % (monitor_type, monitor_type), {})
 
     def get_defaults(self, monitor_config, key):
-        """
-        Monitor can have inheritance used by attribute defaults-from in F5
-        configuration this method recursively gets all the attributes from the
-        default objects and forms complete object
-        :param monitor_type: Monitor type
-        :param f5_monitor: F5 monitor object
-        :param monitor_config: List of F5 monitor configs
-        :return:
-        """
         f5_monitor = monitor_config[key]
-        monitor_type = key.split(" ")[0]
+        monitor_type, monitor_name = key.split(" ")
         parent_name = f5_monitor.get("defaults-from", None)
-        if parent_name:
+        parent_name = None if parent_name == 'none' else parent_name
+        if parent_name and monitor_name != parent_name:
             key = monitor_type+" "+parent_name
             parent_monitor = monitor_config.get(key, None)
             if parent_monitor:
@@ -228,9 +249,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             if qtype == 'query-type':
                 qtype = 'DNS_QUERY_TYPE'
             elif qtype == 'any-type':
-                 qtype = 'DNS_ANY_TYPE'
+                qtype = 'DNS_ANY_TYPE'
             elif qtype == 'anything':
-                 qtype = 'DNS_ANY_THING'
+                qtype = 'DNS_ANY_THING'
             dns_monitor["qtype"] = qtype
         monitor_dict["type"] = "HEALTH_MONITOR_DNS"
         dns_monitor["rcode"] = rcode
@@ -336,33 +357,175 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
 class MonitorConfigConvV10(MonitorConfigConv):
     tup = "time until up"
+    supported_types = ["http", "https", "dns", "external", "tcp", "udp",
+                       "gateway_icmp", "icmp"]
+    supported_attributes = ["timeout", "interval", "time until up",
+                            "description", "type", "defaults from"]
+    indirect_mappings = ['up interval', 'debug', 'ip dscp', 'timeoutpackets',
+                         'sendpackets']
+    ignore_for_defaults = {"dest": "*:*", "manual-resume": 'disabled'}
 
     def get_name_type(self, f5_monitor, key):
-        return f5_monitor.pop("type"), key
+        return f5_monitor.get("type"), key
 
     def get_default_monitor(self, monitor_type, monitor_config):
         return monitor_config.get(monitor_type, {})
 
     def get_defaults(self, monitor_config, key):
-        """
-        Monitor can have inheritance used by attribute defaults-from in F5
-        configuration this method recursively gets all the attributes from the
-        default objects and forms complete object
-        :param f5_monitor: F5 monitor object
-        :param monitor_config: List of F5 monitor configs
-        :param monitor_name: There is no attribute in config to determine type of
-        monitor it can be mapped from root monitors name
-        :return:
-        """
         f5_monitor = monitor_config[key]
         parent_name = f5_monitor.get("defaults from", None)
-        if parent_name:
+        parent_name = None if parent_name == 'none' else parent_name
+        if parent_name and key != parent_name:
             parent_monitor = monitor_config.get(parent_name, None)
             if parent_monitor:
-                parent_monitor = self.get_defaults( monitor_config, parent_name)
+                parent_monitor = self.get_defaults(monitor_config, parent_name)
                 parent_monitor = copy.deepcopy(parent_monitor)
                 parent_monitor.update(f5_monitor)
                 f5_monitor = parent_monitor
         else:
             f5_monitor["type"] = key
         return f5_monitor
+
+    def convert_http(self, monitor_dict, f5_monitor, skipped):
+        http_attr = ["recv", "recv disable", "reverse", "send"]
+        ignore_list = ['adaptive']
+        http_attr = http_attr + ignore_list
+        skipped = [key for key in skipped if key not in http_attr]
+        send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
+        monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
+        monitor_dict["http_monitor"] = {
+            "http_request": send,
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
+        }
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                maintenance_response
+        return skipped
+
+    def convert_https(self, monitor_dict, f5_monitor, skipped):
+        https_attr = ["recv", "recv disable", "reverse", "send"]
+        ignore_list = ['compatibility']
+        https_attr = ignore_list + https_attr
+        skipped = [key for key in skipped if key not in https_attr]
+        send = f5_monitor.get('send', None)
+        monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
+        monitor_dict["https_monitor"] = {
+            "http_request": send,
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
+        }
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                maintenance_response
+        return skipped
+
+    def convert_tcp(self, monitor_dict, f5_monitor, skipped):
+        tcp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
+        skipped = [key for key in skipped if key not in tcp_attr]
+        destination = f5_monitor.get("dest", "*:*")
+        dest_str = destination.split(":")
+        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
+        monitor_dict["type"] = "HEALTH_MONITOR_TCP"
+        request = f5_monitor.get("send", None)
+        response = f5_monitor.get("recv", None)
+        tcp_monitor = None
+        if request or response:
+            request = request.replace('\"', '') if request else None
+            response = response.replace('\"', '') if response else None
+            tcp_monitor = {"tcp_request": request, "tcp_response": response}
+            monitor_dict["tcp_monitor"] = tcp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            if tcp_monitor:
+                tcp_monitor["maintenance_response"] = maintenance_response
+            else:
+                tcp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["tcp_monitor"] = tcp_monitor
+        return skipped
+
+    def convert_udp(self, monitor_dict, f5_monitor, skipped):
+        udp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
+        skipped = [key for key in skipped if key not in udp_attr]
+        destination = f5_monitor.get("dest", "*:*")
+        dest_str = destination.split(":")
+        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
+        monitor_dict["type"] = "HEALTH_MONITOR_UDP"
+        request = f5_monitor.get("send", None)
+        response = f5_monitor.get("recv", None)
+        udp_monitor = None
+        if request or response:
+            request = request.replace('\"', '') if request else None
+            response = response.replace('\"', '') if response else None
+            udp_monitor = {"udp_request": request, "udp_response": response}
+            monitor_dict["udp_monitor"] = udp_monitor
+        maintenance_response = None
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", None)
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", None)
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+            if udp_monitor:
+                udp_monitor["maintenance_response"] = maintenance_response
+            else:
+                udp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["udp_monitor"] = udp_monitor
+        return skipped
+
+    def convert_icmp(self, monitor_dict, f5_monitor, skipped):
+        monitor_dict["type"] = "HEALTH_MONITOR_PING"
+        return skipped
+
+    def convert_external(self, monitor_dict, f5_monitor, skipped,
+                         input_dir, name):
+        script_vars = ""
+        ext_attr = ["run", "args", "user-defined"]
+        for key in f5_monitor.keys():
+            if key not in ('args', 'run') and '\"' in f5_monitor[key]:
+                ext_attr.append(key)
+                param_value = f5_monitor[key].replace('\"', '')
+                script_vars += "%s=%s," % (key, param_value)
+        if script_vars:
+            script_vars = script_vars[:-1]
+        skipped = [key for key in skipped if key not in ext_attr]
+        cmd_code = f5_monitor.get("run", None)
+        cmd_params = f5_monitor.get("args", None)
+        cmd_code = cmd_code.replace('\"', '') if cmd_code else None
+        cmd_params = cmd_params.replace('\"', '') if cmd_params else None
+        if cmd_code:
+            cmd_code = conv_utils.upload_file(
+                input_dir + os.path.sep + cmd_code)
+        else:
+            LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
+            conv_utils.add_status_row("monitor", "external", name, "skipped")
+            return None, None, None
+        monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
+        ext_monitor = {
+            "command_code": cmd_code,
+            "command_parameters": cmd_params,
+            "command_variables": script_vars
+        }
+        monitor_dict["external_monitor"] = ext_monitor
+        return skipped

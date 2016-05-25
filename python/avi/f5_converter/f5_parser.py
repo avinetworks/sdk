@@ -1,7 +1,7 @@
 from pyparsing import *
 import logging
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 
 
 def generate_grammar_v11():

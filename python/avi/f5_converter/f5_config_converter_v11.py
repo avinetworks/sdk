@@ -6,8 +6,9 @@ import os
 import conversion_util as conv_utils
 import converter_constants as final
 from monitor_converter import MonitorConfigConv
+from pool_converter import PoolConfigConv
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 csv_writer = None
 
 
@@ -1505,18 +1506,12 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     csv_file = open(status_file, 'w')
     conv_utils.add_csv_headers(csv_file)
     avi_config_dict = {}
-    mon_conv = MonitorConfigConv.factory(11)
-    mon_conv.convert(f5_config_dict, avi_config_dict, input_files_location)
-    print avi_config_dict
     try:
-        mon_conv = MonitorConfigConv.factory(11)
+        mon_conv = MonitorConfigConv.get_instance(11)
         mon_conv.convert(f5_config_dict, avi_config_dict, input_files_location)
         LOG.debug("Converted health monitors")
-        pool_config = f5_config_dict.pop("pool", {})
-        node_config = f5_config_dict.pop("node", {})
-        avi_pool_list = convert_pool_config(pool_config, node_config,
-                                            avi_config_dict['HealthMonitor'])
-        avi_config_dict["Pool"] = avi_pool_list
+        pool_conv = PoolConfigConv.get_instance(11)
+        pool_conv.convert(f5_config_dict, avi_config_dict)
         LOG.debug("Converted pools")
         f5_profile_dict = f5_config_dict.pop("profile", {})
         avi_profiles, string_group, realm_dict, fallback_host_dict = \
@@ -1537,7 +1532,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
         avi_config_dict["ApplicationPersistenceProfile"] = avi_persistence
         f5_snat_pools = f5_config_dict.get("snatpool", {})
         avi_vs_list = convert_vs_config(
-            f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
+            f5_config_dict.pop("virtual", {}), vs_state, avi_config_dict['Pool'],
             avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
             realm_dict, fallback_host_dict)
         conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
