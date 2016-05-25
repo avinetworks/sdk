@@ -2,7 +2,7 @@ import paramiko
 import logging
 import os
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 
 
 class SCPUtil(object):

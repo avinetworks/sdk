@@ -3,13 +3,22 @@ import argparse
 import json
 import logging
 import os
+import scp_util
 
 from requests.packages import urllib3
 
 from avi.f5_converter import f5_config_converter_v11, \
-    f5_config_converter_v10, f5_parser, upload_config, scp_util
+    f5_config_converter_v10, f5_parser, upload_config
 
 urllib3.disable_warnings()
+LOG = logging.getLogger(__name__)
+
+
+def init_logger_path(path):
+    LOG.setLevel(logging.DEBUG)
+    formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(filename=os.path.join(path, 'converter.log'),
+                        level=logging.DEBUG, format=formatter)
 
 
 def dict_merge(dct, merge_dct):
@@ -82,8 +91,8 @@ if __name__ == "__main__":
                              'authentication')
     parser.add_argument('--controller_version',
                         help='Target Avi controller version', default='16.2')
-
     args = parser.parse_args()
+    init_logger_path(args.output_file_path)
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     output_file_path = os.path.normpath(args.output_file_path)
@@ -100,19 +109,10 @@ if __name__ == "__main__":
             os.makedirs(output_file_path)
         is_download_from_host = True
 
-    LOG = logging.getLogger("converter-log")
-    LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler(output_file_path + os.path.sep + "converter.log",
-                             mode='a', encoding=None, delay=False)
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    LOG.addHandler(fh)
     if is_download_from_host:
         LOG.debug("Copying files from host")
-        # scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
-        #                            args.f5_ssh_user, args.f5_ssh_password)
+        scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
+                                   args.f5_ssh_user, args.f5_ssh_password)
         LOG.debug("Copied input files")
         source_file = open(input_folder_location+os.path.sep+"bigip.conf", "r")
     else:

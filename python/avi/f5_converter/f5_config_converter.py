@@ -3,7 +3,7 @@ import os
 import conversion_util as conv_utils
 from monitor_converter import MonitorConfigConv
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 csv_writer = None
 
 def convert(f5_config_dict, output_dir, input_dir, vs_state, version):

@@ -5,8 +5,10 @@ import os
 
 import conversion_util as conv_utils
 import converter_constants as final
+from monitor_converter import MonitorConfigConv
+from pool_converter import PoolConfigConv
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 csv_writer = None
 
 
@@ -1359,13 +1361,12 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     conv_utils.add_csv_headers(csv_file)
     avi_config_dict = {}
     try:
-        monitor_config_list = convert_monitor_config(f5_config_dict.pop(
-            "monitor", {}), input_folder_location)
-        avi_config_dict["HealthMonitor"] = monitor_config_list
+        mon_conv = MonitorConfigConv.get_instance(10)
+        mon_conv.convert(f5_config_dict, avi_config_dict, input_folder_location)
         LOG.debug("Converted health monitors")
-        avi_pool_list = convert_pool_config(f5_config_dict.pop("pool", {}),
-                                            monitor_config_list)
-        avi_config_dict["Pool"] = avi_pool_list
+        pool_conv = PoolConfigConv.get_instance(10)
+        pool_conv.convert(f5_config_dict, avi_config_dict)
+        LOG.debug("Converted pools")
         LOG.debug("Converted pools")
         f5_profile_dict = f5_config_dict.pop("profile", {})
         avi_profiles, string_group, hash_profiles, fallback_host_dict = \
@@ -1383,7 +1384,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
         f5_snat_pools = f5_config_dict.get("snatpool", {})
         LOG.debug("Converted ssl profiles")
         avi_vs_list = convert_vs_config(
-            f5_config_dict.pop("virtual", {}), vs_state, avi_pool_list,
+            f5_config_dict.pop("virtual", {}), vs_state, avi_config_dict['Pool'],
             avi_profiles, hash_profiles, f5_snat_pools, fallback_host_dict)
         avi_config_dict["VirtualService"] = avi_vs_list
         conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
