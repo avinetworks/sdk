@@ -7,6 +7,10 @@ import conversion_util as conv_utils
 import converter_constants as final
 from monitor_converter import MonitorConfigConv
 from pool_converter import PoolConfigConv
+from profile_converter import ProfileConfigConv
+from persistence_converter import PersistenceConfigConv
+from vs_converter import  VSConfigConv
+
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -155,7 +159,7 @@ def convert_pool_config(pool_config, nodes, monitor_config_list):
     return pool_list
 
 
-def get_profiles_for_vs(profiles, profile_config):
+def get_profiles_for_vs(profiles, avi_config):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -170,17 +174,17 @@ def get_profiles_for_vs(profiles, profile_config):
     if not profiles:
         return []
     for name in profiles.keys():
-        ssl_profile_list = profile_config.get("ssl_profile_list", [])
+        ssl_profile_list = avi_config.get("SSLProfile", [])
         ssl_profiles = [obj for obj in ssl_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if ssl_profiles:
-            ssl_key_cert_list = profile_config.get("ssl_key_cert_list", [])
+            ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
             key_cert = [obj for obj in ssl_key_cert_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
             key_cert = key_cert[0]['name'] if key_cert else None
             profile = profiles.get(name, None)
             context = profile.get("context", None)
-            pki_list = profile_config.get("pki_profile_list", [])
+            pki_list = avi_config.get("PKIProfile", [])
             pki_profiles = [obj for obj in pki_list if (obj['name'] == name or
                                                 name in obj.get("dup_of", []))]
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
@@ -192,12 +196,12 @@ def get_profiles_for_vs(profiles, profile_config):
                 pool_ssl_profile_names.append(
                     {"profile": ssl_profiles[0]["name"], "cert": key_cert,
                      "pki": pki_profile})
-        app_profile_list = profile_config.get("app_profile_list", [])
+        app_profile_list = avi_config.get("ApplicationProfile", [])
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
             app_profile_names.append(app_profiles[0]['name'])
-        ntwk_prof_lst = profile_config.get("network_profile_list")
+        ntwk_prof_lst = avi_config.get("NetworkProfile")
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
@@ -393,21 +397,13 @@ def get_snat_list_for_vs(snat_pool):
     return snat_list
 
 
-def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
-                      hash_profiles, avi_persistence, f5_snat_pools,
-                      realm_dict, fallback_host_dict):
-    """
-    F5 virtual server object conversion to Avi VS object
-    :param vs_config: F5 virtual server config list
-    :param vs_state: state of new VS to be created in Avi
-    :param avi_pool_list: List of pools to handle shared pool scenario
-    :param profile_config: Avi profile config for profiles referenced in vs
-    :param hash_profiles: Hash profiles handled separately as
-    mapped to lb algorithm
-    :param avi_persistence: persistence profile config
-    :param f5_snat_pools: F5 snat pool config converted to snat list
-    :return: List of Avi VS configs
-    """
+def convert_vs_config(f5_config, vs_state, avi_config,
+                      hash_profiles, avi_persistence):
+    f5_snat_pools = f5_config.get("snatpool", {})
+    vs_config = f5_config.get("virtual", {})
+    avi_pool_list = avi_config.get('Pool', {})
+    realm_dict = avi_config.pop('realm_dict')
+    fallback_host_dict = avi_config.pop('fallback_host_dict')
     vs_list = []
     supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool',
                       'source-address-translation', 'description', 'disabled']
@@ -429,7 +425,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
             if enabled:
                 enabled = False if "disabled" in f5_vs.keys() else True
             ssl_vs, ssl_pool, app_prof, ntwk_prof = get_profiles_for_vs(
-                f5_vs.get("profiles", None), profile_config)
+                f5_vs.get("profiles", None), avi_config)
             enable_ssl = False
             if ssl_vs:
                 enable_ssl = True
@@ -490,7 +486,7 @@ def convert_vs_config(vs_config, vs_state, avi_pool_list, profile_config,
                     vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
                 if ssl_vs[0]["pki"] and app_prof[0] != "http":
                     app_profiles = [obj for obj in
-                                    profile_config["app_profile_list"]
+                                    avi_config["ApplicationProfile"]
                                     if obj['name'] == app_prof[0]]
                     if app_profiles[0]["type"] == \
                             'APPLICATION_PROFILE_TYPE_HTTP':
@@ -836,7 +832,7 @@ def update_with_default_profile(profile_type, profile, profile_config):
         parent_profile = profile_config.get(profile_type + " " +
                                             parent_name, None)
         if parent_profile:
-            parent_profile = get_defaults(profile_type,
+            parent_profile = update_with_default_profile(profile_type,
                                           parent_profile, profile_config)
             parent_profile = copy.deepcopy(parent_profile)
             parent_profile.update(profile)
@@ -1488,7 +1484,7 @@ def convert_persistence_config(f5_persistence_dict):
 
 
 def convert_to_avi_dict(f5_config_dict, output_file_path,
-                        vs_state, input_files_location, option):
+                        vs_state, input_dir, option):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -1496,8 +1492,7 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     :param f5_config_dict: dict representation of f5 config from the file
     :param output_file_path: Folder path to put output files
     :param vs_state: State of created Avi VS object
-    :param input_files_location: Location of cert and external monitor
-    script files
+    :param input_dir: Location of cert and external monitor script files
     :param option: Upload option cli-upload or api-upload
     :return: Converted avi objects
     """
@@ -1508,39 +1503,30 @@ def convert_to_avi_dict(f5_config_dict, output_file_path,
     avi_config_dict = {}
     try:
         mon_conv = MonitorConfigConv.get_instance(11)
-        mon_conv.convert(f5_config_dict, avi_config_dict, input_files_location)
+        mon_conv.convert(f5_config_dict, avi_config_dict, input_dir)
         LOG.debug("Converted health monitors")
         pool_conv = PoolConfigConv.get_instance(11)
         pool_conv.convert(f5_config_dict, avi_config_dict)
         LOG.debug("Converted pools")
-        f5_profile_dict = f5_config_dict.pop("profile", {})
-        avi_profiles, string_group, realm_dict, fallback_host_dict = \
-            convert_profile_config(f5_profile_dict, input_files_location,
-                                   option)
-        avi_config_dict["SSLKeyAndCertificate"] = avi_profiles[
-            "ssl_key_cert_list"]
-        avi_config_dict["SSLProfile"] = avi_profiles["ssl_profile_list"]
-        avi_config_dict["PKIProfile"] = avi_profiles["pki_profile_list"]
-        avi_config_dict["ApplicationProfile"] = avi_profiles["app_profile_list"]
-        avi_config_dict["NetworkProfile"] = avi_profiles["network_profile_list"]
-        avi_config_dict["StringGroup"] = string_group
+
+        profile_conv = ProfileConfigConv.get_instance(11)
+        profile_conv.convert(f5_config_dict, avi_config_dict, input_dir)
+
         LOG.debug("Converted profiles")
 
-        f5_persistence_dict = f5_config_dict.pop("persistence", {})
-        avi_persistence, hash_algorithm = convert_persistence_config(
-            f5_persistence_dict)
-        avi_config_dict["ApplicationPersistenceProfile"] = avi_persistence
-        f5_snat_pools = f5_config_dict.get("snatpool", {})
-        avi_vs_list = convert_vs_config(
-            f5_config_dict.pop("virtual", {}), vs_state, avi_config_dict['Pool'],
-            avi_profiles, hash_algorithm, avi_persistence, f5_snat_pools,
-            realm_dict, fallback_host_dict)
+        persist_conv = PersistenceConfigConv.get_instance(11)
+        persist_conv.convert(f5_config_dict, avi_config_dict)
+
+        LOG.debug("Converted persistence profiles")
+
+        vs_conv = VSConfigConv.get_instance(11)
+        vs_conv.convert(f5_config_dict, avi_config_dict, vs_state)
+        LOG.debug("Converted VS")
+
         conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
         conv_utils.remove_dup_key(avi_config_dict["ApplicationProfile"])
         conv_utils.remove_dup_key(avi_config_dict["NetworkProfile"])
         conv_utils.remove_dup_key(avi_config_dict["SSLProfile"])
-        avi_config_dict["VirtualService"] = avi_vs_list
-        LOG.debug("Converted VS")
     except:
         LOG.error("Conversion error", exc_info=True)
     for f5_type in f5_config_dict.keys():

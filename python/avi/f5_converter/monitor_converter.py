@@ -20,6 +20,8 @@ class MonitorConfigConv(object):
     supported_attributes = None
     supported_types = None
     indirect_mappings = None
+    ignore = None
+    dest_key = None
     tup = None
 
     def get_defaults(self, monitor_config, key):
@@ -128,19 +130,25 @@ class MonitorConfigConv(object):
         # transparent : Only flag if destination or port are set, else ignore
         transparent = f5_monitor.get("transparent", 'disabled')
         transparent = False if transparent == 'disabled' else True
-        destination = f5_monitor.get("destination", '*.*')
-        if (not transparent or destination == '*.*') and \
-                        'transparent' in skipped:
-            skipped.remove('transparent')
-
-        ignore_for_defaults = self.get_default_monitor(type, monitor_config)
+        destination = f5_monitor.get(self.dest_key, '*:*')
+        if destination == '*':
+            destination = '*:*'
+            f5_monitor[self.dest_key] = destination
+        if not transparent or destination == '*:*':
+            if 'transparent' in skipped:
+                skipped.remove('transparent')
+        ignore_for_defaults = {}
+        defaults = self.get_default_monitor(type, monitor_config)
+        if defaults:
+            ignore_for_defaults = copy.deepcopy(defaults)
+        ignore_for_defaults.append(self.ignore)
         if monitor_type == "http":
             skipped = self.convert_http(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "https":
             skipped = self.convert_https(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "dns":
             skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
-            ignore_for_defaults['qtype'] = 'a'
+            ignore_for_defaults.append({'qtype':'a'})
         elif monitor_type == "tcp":
             skipped = self.convert_tcp(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "udp":
@@ -151,7 +159,7 @@ class MonitorConfigConv(object):
             skipped = self.convert_external(monitor_dict, f5_monitor, skipped,
                                             input_dir, name)
         if monitor_dict.get('error', False):
-            return None, None, None
+            return []
         skipped, indirect_mappings = conv_utils.update_skipped_attributes(
             skipped, indirect_mappings, ignore_for_defaults, monitor_dict)
         return monitor_dict, skipped, indirect_mappings
@@ -163,10 +171,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description", "defaults-from"]
     indirect_mappings = ["up-interval", "debug", "ip-dscp"]
-    ignore_for_defaults = {"destination": "*:*", "manual-resume": 'disabled'}
+    ignore = {"destination": "*:*", "manual-resume": 'disabled'}
     tup = "time-until-up"
+    dest_key = "destination"
 
     def get_default_monitor(self, monitor_type, monitor_config):
+        print monitor_config
         return monitor_config.get("%s %s" % (monitor_type, monitor_type), {})
 
     def get_defaults(self, monitor_config, key):
@@ -363,7 +373,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
                             "description", "type", "defaults from"]
     indirect_mappings = ['up interval', 'debug', 'ip dscp', 'timeoutpackets',
                          'sendpackets']
-    ignore_for_defaults = {"dest": "*:*", "manual-resume": 'disabled'}
+    ignore = {"dest": "*:*", "manual-resume": 'disabled'}
+    dest_key = "dest"
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key
