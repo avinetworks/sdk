@@ -29,11 +29,14 @@ def upload_file(file_path):
     return file_str
 
 
-def update_skipped_attributes(skipped, indirect_list, ignore_dict, object):
+def update_skipped_attributes(skipped, indirect_list, ignore_dict,
+                              f5_object, user_ignore=[]):
+    skipped = [attr for attr in skipped if attr not in user_ignore]
     indirect_mappings = [attr for attr in indirect_list if attr in skipped]
     skipped = [attr for attr in skipped if attr not in indirect_list]
     for key in ignore_dict.keys():
-        if key in object and key in skipped and object[key] == ignore_dict[key]:
+        if key in f5_object and key in skipped and \
+                        f5_object[key] == ignore_dict[key]:
             skipped.remove(key)
     return skipped, indirect_mappings
 
