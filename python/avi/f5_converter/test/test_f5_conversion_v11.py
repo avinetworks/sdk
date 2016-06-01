@@ -4,7 +4,7 @@ import os
 import unittest
 import csv
 
-import avi.f5_converter.f5_config_converter_v11 as f5_config_converter
+import avi.f5_converter.f5_config_converter as f5_config_converter
 import avi.f5_converter.f5_parser as f5_parser
 
 gSAMPLE_CONFIG = None

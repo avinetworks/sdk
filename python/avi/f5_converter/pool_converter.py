@@ -153,7 +153,7 @@ class PoolConfigConvV11(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
-        supported_attributes = ['address', 'state']
+        supported_attributes = ['address', 'state', 'ratio']
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -184,7 +184,7 @@ class PoolConfigConvV11(PoolConfigConv):
 
 class PoolConfigConvV10(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method',
-                      'description']
+                      'description', 'slow ramp time']
 
     def convert_pool(self, pool_name, f5_config, avi_config):
         nodes = f5_config.pop("node", {})
@@ -243,7 +243,7 @@ class PoolConfigConvV10(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
-        supported_attributes = ['session']
+        supported_attributes = ['session', 'ratio']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]

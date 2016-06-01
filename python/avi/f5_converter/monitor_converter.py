@@ -23,6 +23,13 @@ class MonitorConfigConv(object):
     ignore = None
     dest_key = None
     tup = None
+    na_http = None
+    na_https = None
+    na_dns = None
+    na_tcp = None
+    na_udp = None
+    na_icmp = None
+    na_external = None
 
     def get_defaults(self, monitor_config, key):
         pass
@@ -55,8 +62,9 @@ class MonitorConfigConv(object):
                          name):
         pass
 
-    def convert(self, f5_config, avi_config, input_dir):
-        monitor_list = []
+    def convert(self, f5_config, avi_config, input_dir, user_ignore):
+        avi_config["HealthMonitor"] = []
+        m_user_ignore = user_ignore.get('monitor', {})
         monitor_config = f5_config.pop("monitor", {})
         for key in monitor_config.keys():
             f5_monitor = monitor_config[key]
@@ -78,19 +86,11 @@ class MonitorConfigConv(object):
                     conv_utils.add_status_row('monitor', monitor_type, name,
                                               'skipped')
                     continue
-                avi_monitor, skipped, indirect_list = \
-                    self.convert_monitor(key, monitor_config, input_dir)
+                avi_monitor = self.convert_monitor(key, monitor_config,
+                                                   input_dir, m_user_ignore)
                 if not avi_monitor:
                     continue
-                if skipped:
-                    conv_utils.add_status_row(
-                        'monitor', monitor_type, name, 'partial', skipped,
-                        avi_monitor, indirect_list)
-                else:
-                    conv_utils.add_status_row(
-                        'monitor', monitor_type, name, 'successful', None,
-                        avi_monitor, indirect_list)
-                monitor_list.append(avi_monitor)
+                avi_config["HealthMonitor"].append(avi_monitor)
                 LOG.debug("Conversion successful for monitor: %s" % name)
             except:
                 LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
@@ -99,14 +99,13 @@ class MonitorConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('monitor', key, key, 'error')
-        avi_config["HealthMonitor"] = monitor_list
 
-    def convert_monitor(self, key, monitor_config, input_dir):
+    def convert_monitor(self, key, monitor_config, input_dir, user_ignore):
         f5_monitor = monitor_config[key]
         monitor_type, name = self.get_name_type(f5_monitor, key)
         skipped = [key for key in f5_monitor.keys()
                    if key not in self.supported_attributes]
-        indirect_mappings = self.indirect_mappings
+        indirect = copy.deepcopy(self.indirect_mappings)
         timeout = int(f5_monitor.get("timeout", conv_const.DEFAULT_TIMEOUT))
         interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
         time_until_up = int(f5_monitor.get(self.tup,
@@ -136,33 +135,57 @@ class MonitorConfigConv(object):
             f5_monitor[self.dest_key] = destination
         if not transparent or destination == '*:*':
             if 'transparent' in skipped:
-                skipped.remove('transparent')
+                indirect.append('transparent')
         ignore_for_defaults = {}
-        defaults = self.get_default_monitor(type, monitor_config)
+        defaults = self.get_default_monitor(monitor_type, monitor_config)
         if defaults:
             ignore_for_defaults = copy.deepcopy(defaults)
-        ignore_for_defaults.append(self.ignore)
+        ignore_for_defaults.update(self.ignore)
+        u_ignore = []
+        na_list = []
         if monitor_type == "http":
-            skipped = self.convert_http(monitor_dict, f5_monitor, skipped)
+            u_ignore = user_ignore.get("http", [])
+            na_list = self.na_http
+            self.convert_http(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "https":
-            skipped = self.convert_https(monitor_dict, f5_monitor, skipped)
+            na_list = self.na_https
+            u_ignore = user_ignore.get("https", [])
+            self.convert_https(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "dns":
-            skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
-            ignore_for_defaults.append({'qtype':'a'})
+            na_list = self.na_dns
+            u_ignore = user_ignore.get("dns", [])
+            self.convert_dns(monitor_dict, f5_monitor, skipped)
+            ignore_for_defaults.update({'qtype':'a'})
         elif monitor_type == "tcp":
-            skipped = self.convert_tcp(monitor_dict, f5_monitor, skipped)
+            na_list = self.na_tcp
+            u_ignore = user_ignore.get("tcp", [])
+            self.convert_tcp(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "udp":
-            skipped = self.convert_udp(monitor_dict, f5_monitor, skipped)
-        elif monitor_type == "icmp":
-            skipped = self.convert_icmp(monitor_dict, f5_monitor, skipped)
+            na_list = self.na_udp
+            u_ignore = user_ignore.get("udp", [])
+            self.convert_udp(monitor_dict, f5_monitor, skipped)
+        elif monitor_type == "icmp" or monitor_type == "gateway-icmp":
+            na_list = self.na_icmp
+            u_ignore = user_ignore.get("icmp", [])
+            u_ignore += user_ignore.get("gateway-icmp", [])
+            self.convert_icmp(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "external":
-            skipped = self.convert_external(monitor_dict, f5_monitor, skipped,
+            na_list = self.na_external
+            u_ignore = user_ignore.get("external", [])
+            self.convert_external(monitor_dict, f5_monitor, skipped,
                                             input_dir, name)
         if monitor_dict.get('error', False):
             return []
-        skipped, indirect_mappings = conv_utils.update_skipped_attributes(
-            skipped, indirect_mappings, ignore_for_defaults, monitor_dict)
-        return monitor_dict, skipped, indirect_mappings
+        skipped_attr, indirect_mappings = conv_utils.update_skipped_attributes(
+            skipped, indirect, ignore_for_defaults, f5_monitor,
+            u_ignore)
+        if skipped:
+            status = 'partial'
+        else:
+            status = 'successful'
+        conv_utils.add_status_row('monitor', monitor_type, name, status,
+                                  skipped, monitor_dict, indirect_mappings)
+        return monitor_dict
 
 
 class MonitorConfigConvV11(MonitorConfigConv):
@@ -174,10 +197,17 @@ class MonitorConfigConvV11(MonitorConfigConv):
     ignore = {"destination": "*:*", "manual-resume": 'disabled'}
     tup = "time-until-up"
     dest_key = "destination"
+    na_http = ['adaptive']
+    na_https = ['compatibility']
+    na_dns = []
+    na_tcp = []
+    na_udp = []
+    na_icmp = []
+    na_external = []
 
     def get_default_monitor(self, monitor_type, monitor_config):
-        print monitor_config
-        return monitor_config.get("%s %s" % (monitor_type, monitor_type), {})
+        default_name = "%s %s" % (monitor_type, monitor_type)
+        return monitor_config.get(default_name, {})
 
     def get_defaults(self, monitor_config, key):
         f5_monitor = monitor_config[key]
@@ -198,8 +228,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
         http_attr = ["recv", "recv-disable", "reverse", "send"]
-        ignore_list = ['adaptive']
-        http_attr = http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -218,12 +246,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["http_monitor"]["maintenance_response"] = \
                 maintenance_response
-        return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
         https_attr = ["recv", "recv-disable", "reverse", "send"]
-        ignore_list = ['compatibility']
-        https_attr = ignore_list + https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
@@ -242,7 +267,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["https_monitor"]["maintenance_response"] = \
                 maintenance_response
-        return skipped
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
         dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode", "qname",
@@ -277,7 +301,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["dns_monitor"]["maintenance_response"] = \
                 maintenance_response
-        return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped):
         tcp_attr = ["recv-disable", "reverse", "destination", "send", "recv"]
@@ -306,7 +329,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
             else:
                 tcp_monitor = {"maintenance_response": maintenance_response}
                 monitor_dict["tcp_monitor"] = tcp_monitor
-        return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
         udp_attr = ["recv", "recv-disable", "reverse", "destination", "send"]
@@ -335,11 +357,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             else:
                 udp_monitor = {"maintenance_response": maintenance_response}
                 monitor_dict["udp_monitor"] = udp_monitor
-        return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
-        return skipped
 
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
@@ -362,7 +382,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "command_variables": f5_monitor.get("user-defined", None)
         }
         monitor_dict["external_monitor"] = ext_monitor
-        return skipped
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
@@ -375,6 +394,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
                          'sendpackets']
     ignore = {"dest": "*:*", "manual-resume": 'disabled'}
     dest_key = "dest"
+    na_http = ['adaptive']
+    na_https = ['compatibility']
+    na_dns = []
+    na_tcp = []
+    na_udp = []
+    na_icmp = []
+    na_external = []
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key
@@ -418,7 +444,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["http_monitor"]["maintenance_response"] = \
                 maintenance_response
-        return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
         https_attr = ["recv", "recv disable", "reverse", "send"]
@@ -441,7 +466,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["https_monitor"]["maintenance_response"] = \
                 maintenance_response
-        return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped):
         tcp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
@@ -472,7 +496,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
             else:
                 tcp_monitor = {"maintenance_response": maintenance_response}
                 monitor_dict["tcp_monitor"] = tcp_monitor
-        return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
         udp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
@@ -503,11 +526,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
             else:
                 udp_monitor = {"maintenance_response": maintenance_response}
                 monitor_dict["udp_monitor"] = udp_monitor
-        return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
-        return skipped
 
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
@@ -539,4 +560,3 @@ class MonitorConfigConvV10(MonitorConfigConv):
             "command_variables": script_vars
         }
         monitor_dict["external_monitor"] = ext_monitor
-        return skipped
