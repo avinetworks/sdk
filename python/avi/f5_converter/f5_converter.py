@@ -111,8 +111,8 @@ if __name__ == "__main__":
     LOG.addHandler(fh)
     if is_download_from_host:
         LOG.debug("Copying files from host")
-        # scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
-        #                            args.f5_ssh_user, args.f5_ssh_password)
+        scp_util.get_files_from_f5(input_folder_location, args.f5_host_ip,
+                                   args.f5_ssh_user, args.f5_ssh_password)
         LOG.debug("Copied input files")
         source_file = open(input_folder_location+os.path.sep+"bigip.conf", "r")
     else:
