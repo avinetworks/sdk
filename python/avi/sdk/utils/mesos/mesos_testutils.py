@@ -393,8 +393,10 @@ class MesosTestUtils(object):
                       if num_apps > 1 else app_name)
             marathon_uri = base_marathon_uri + '/' + app_id
             rsp = requests.delete(marathon_uri, auth=auth, headers=headers)
-            if rsp.status_code >= 300:
-                raise RuntimeError('failed to delete app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+            if (rsp.status_code != 404) and (rsp.status_code >= 300):
+                raise RuntimeError(
+                    'failed to delete app, got response code %d:%s' %
+                    (rsp.status_code, rsp.text))
             print ' deleted app', app_id, ' rsp ', rsp.text
             app_ids.append(app_id)
         return app_ids
