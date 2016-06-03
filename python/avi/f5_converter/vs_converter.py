@@ -13,9 +13,12 @@ class VSConfigConv(object):
         if version == 11:
             return VSConfigConvV11()
 
+    def get_persist_ref(self, f5_vs):
+        pass
+
     supported_attr = None
 
-    def convert(self, f5_config, avi_config, vs_state):
+    def convert(self, f5_config, avi_config, vs_state, user_ignore):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         realm_dict = avi_config.pop('realm_dict')
@@ -41,16 +44,16 @@ class VSConfigConv(object):
                                               'skipped')
                     continue
                 vs_obj = self.convert_vs(vs_name, vs_config, f5_vs, vs_state,
-                                         avi_config, f5_snat_pools)
+                                         avi_config, f5_snat_pools, user_ignore)
                 avi_config['VirtualService'].append(vs_obj)
-
+                LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
-            LOG.debug("Conversion successful for VS: %s" % vs_name)
+
         avi_config.pop('fallback_host_dict')
 
     def convert_vs(self, vs_name, vs_config, f5_vs, vs_state, avi_config,
-                   snat_config):
+                   snat_config, user_ignore):
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
         fallback_host_dict = avi_config.get('fallback_host_dict')
@@ -134,12 +137,14 @@ class VSConfigConv(object):
                         "SSL_CLIENT_CERTIFICATE_REQUEST"
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
                         ssl_vs[0]["pki"][0]["name"]
+
+        conv_status = dict()
+        conv_status['skipped'] = skipped
+        ststus = 'successful'
         if skipped:
-            conv_utils.add_status_row('virtual', None, vs_name, 'partial',
-                                      skipped, vs_obj)
-        else:
-            conv_utils.add_status_row('virtual', None, vs_name,
-                                      'successful', skipped, vs_obj)
+            ststus = 'partial'
+        conv_status['ststus'] = ststus
+        conv_utils.add_conv_status('virtual', None, vs_name, conv_status, vs_obj)
 
         return vs_obj
 

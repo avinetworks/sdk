@@ -15,12 +15,13 @@ class PoolConfigConv(object):
             return PoolConfigConvV11()
     supported_attr = None
 
-    def convert_pool(self, pool_name, f5_config, avi_config):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
         pass
 
-    def convert(self, f5_config, avi_config):
+    def convert(self, f5_config, avi_config, user_ignore):
         pool_list = []
-        pool_config = f5_config['pool']
+        pool_config = f5_config.get('pool', {})
+        user_ignore = user_ignore.get('pool', {})
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
@@ -29,14 +30,16 @@ class PoolConfigConv(object):
                 conv_utils.add_status_row('pool', None, pool_name, 'skipped')
                 continue
             try:
-                pool_obj = self.convert_pool(pool_name, f5_config, avi_config)
+                pool_obj = self.convert_pool(pool_name, f5_config, avi_config,
+                                             user_ignore)
                 pool_list.append(pool_obj)
+                LOG.debug("Conversion successful for Pool: %s" % pool_name)
             except:
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name, 'Error')
-            LOG.debug("Conversion successful for Pool: %s" % pool_name)
         avi_config['Pool'] = pool_list
+        f5_config.pop('pool', {})
 
     def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name):
             skipped_monitors = []
@@ -72,27 +75,49 @@ class PoolConfigConv(object):
             pool_obj['connection_ramp_duration'] = ramp_time
         return pool_obj
 
-    def add_status(self, name, skipped_attr, member_skipped_config,
-                   skipped_monitors, pool_obj):
+    def add_status(self, name, skipped_attr, member_skipped,
+                   skipped_monitors, pool_obj, user_ignore):
         skipped = []
+        conv_status = dict()
+        conv_status['user_ignore'] = []
         if skipped_attr:
-            skipped.append(skipped_attr)
-        if member_skipped_config:
-            skipped.append(member_skipped_config)
-        if skipped_monitors:
+            p_ignore = user_ignore.get('pool', [])
+            conv_status['user_ignore'] = [val for val in skipped_attr if val in p_ignore]
+            skipped_attr = [attr for attr in skipped_attr if attr not in p_ignore]
+            if skipped_attr:
+                skipped.append(skipped_attr)
+        if member_skipped:
+            m_ignore = user_ignore.get('members', [])
+            if m_ignore:
+                um_list = []
+                ms_new = []
+                for obj in member_skipped:
+                    um_skipped = dict()
+                    um_skipped[obj.keys()[0]] = \
+                        [val for val in obj[obj.keys()[0]] if val in m_ignore]
+                    temp = [val for val in obj[obj.keys()[0]]
+                                          if val not in m_ignore]
+                    um_list.append(um_skipped)
+                    if temp:
+                        ms_new.append({obj.keys()[0] : temp})
+                conv_status['user_ignore'].append(um_list)
+            if ms_new:
+                skipped.append(ms_new)
+        if skipped_monitors and not user_ignore('monitor', None):
             skipped.append({"monitor": skipped_monitors})
+        conv_status['skipped'] = skipped
         status = 'successful'
         if skipped:
             status = 'partial'
-        conv_utils.add_status_row('pool', None, name, status, skipped,
-                                  pool_obj)
+        conv_status['status']= status
+        conv_utils.add_conv_status('pool', None, name, conv_status, pool_obj)
 
 
 class PoolConfigConvV11(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'service-down-action',
                       'load-balancing-mode', 'description', 'slow-ramp-time']
 
-    def convert_pool(self, pool_name, f5_config, avi_config):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
@@ -117,7 +142,7 @@ class PoolConfigConvV11(PoolConfigConv):
                         key not in self.supported_attr]
         super(PoolConfigConvV11, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            pool_obj)
+            pool_obj, user_ignore)
         return pool_obj
 
     def get_avi_lb_algorithm(self, f5_algorithm):
@@ -186,7 +211,7 @@ class PoolConfigConvV10(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method',
                       'description', 'slow ramp time']
 
-    def convert_pool(self, pool_name, f5_config, avi_config):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']

@@ -41,6 +41,40 @@ def update_skipped_attributes(skipped, indirect_list, ignore_dict,
     return skipped, indirect_mappings
 
 
+def get_conv_status(skipped, indirect_list, ignore_dict, f5_object,
+                    user_ignore=None, na_list=None):
+    conv_status = dict()
+    user_ignore = [] if not user_ignore else user_ignore
+    na_list = [] if not na_list else na_list
+
+    conv_status['user_ignore'] = [val for val in skipped if val in user_ignore]
+    skipped = [attr for attr in skipped if attr not in user_ignore]
+
+    conv_status['indirect'] = [val for val in skipped if val in indirect_list]
+    skipped = [attr for attr in skipped if attr not in indirect_list]
+
+    conv_status['na_list'] = [val for val in skipped if val in na_list]
+    skipped = [attr for attr in skipped if attr not in na_list]
+
+    default_skip = []
+    for key in ignore_dict.keys():
+        f5_val = f5_object.get(key)
+        default_val = ignore_dict.get(key)
+        if key in skipped and f5_val == default_val:
+            skipped.remove(key)
+            default_skip.append(key)
+
+    conv_status['skipped'] = skipped
+    conv_status['default_skip'] = default_skip
+    if skipped:
+        status = 'partial'
+    else:
+        status = 'successful'
+    conv_status['status'] = status
+    return conv_status
+
+
+
 def remove_dup_key(obj_list):
     for obj in obj_list:
         obj.pop('dup_of', None)
@@ -90,8 +124,32 @@ def get_cc_algo_val(cc_algo):
     return avi_algo_val
 
 
-def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
-                   avi_object=None, indirect_params=None):
+def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
+    """
+    Adds as status row in conversion status csv
+    :param f5_type: Object type
+    :param f5_sub_type: Object sub type
+    :param f5_id: Name oconv_f object
+    :param statu dict
+    :param avi_object: Converted objectconverted avi object
+    """
+    global csv_writer
+    row = {
+        'F5 type': f5_type,
+        'F5 SubType': f5_sub_type,
+        'F5 ID': f5_id,
+        'Status': conv_status.get('status'),
+        'Skipped settings': str(conv_status.get('skipped', '')),
+        'Skipped for defaults': str(conv_status.get('default_skip', '')),
+        'Indirect mapping': str(conv_status.get('indirect', '')),
+        'Not Applicable': str(conv_status.get('na_list', '')),
+        'User Ignored': str(conv_status.get('user_ignore', '')),
+        'Avi Object': str(avi_object)
+    }
+    csv_writer.writerow(row)
+
+
+def add_status_row(f5_type, f5_sub_type, f5_id, status):
     """
     Adds as status row in conversion status csv
     :param f5_type: Object type
@@ -108,11 +166,18 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status, skipped_params=None,
         'F5 SubType': f5_sub_type,
         'F5 ID': f5_id,
         'Status': status,
-        'Indirect mapping': indirect_params,
-        'Skipped settings': str(skipped_params),
-        'Avi Object': str(avi_object)
     }
     csv_writer.writerow(row)
+
+
+def add_csv_headers(csv_file):
+    global csv_writer
+    fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
+                  'Skipped settings', 'Indirect mapping', 'Not Applicable',
+                  'User Ignored', 'Skipped for defaults','Avi Object']
+    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
+                                lineterminator='\n',)
+    csv_writer.writeheader()
 
 
 def get_port_by_protocol(protocol):
@@ -136,17 +201,7 @@ def get_port_by_protocol(protocol):
     elif protocol == "snmp-trap":
         port = final.SNMP_TRAP_PORT
     elif protocol == "ssh":
-        port = final.SSH_PORT
-    return port
-
-
-def add_csv_headers(csv_file):
-    global csv_writer
-    fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
-                  'Skipped settings', 'Indirect mapping', 'Avi Object']
-    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
-                                lineterminator='\n',)
-    csv_writer.writeheader()
+        port = final.SSH_PORter.writeheader()
 
 
 def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
@@ -174,7 +229,7 @@ def get_profiles_for_vs(profiles, avi_config):
     Searches for profile refs in converted profile config if not found creates
     default profiles
     :param profiles: profiles in f5 config assigned to VS
-    :param profile_config: avi profile config
+    :param avi_config: converted avi config
     :return: returns list of profile refs assigned to VS in avi config
     """
     vs_ssl_profile_names = []
@@ -414,3 +469,9 @@ def get_snat_list_for_vs(snat_pool):
         }
         snat_list.append(snat_obj)
     return snat_list
+
+def cleanup_config(avi_config):
+    remove_dup_key(avi_config["SSLKeyAndCertificate"])
+    remove_dup_key(avi_config["ApplicationProfile"])
+    remove_dup_key(avi_config["NetworkProfile"])
+    remove_dup_key(avi_config["SSLProfile"])

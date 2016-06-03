@@ -63,6 +63,7 @@ class MonitorConfigConv(object):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore):
+        LOG.debug("Converting health monitors")
         avi_config["HealthMonitor"] = []
         m_user_ignore = user_ignore.get('monitor', {})
         monitor_config = f5_config.pop("monitor", {})
@@ -99,6 +100,7 @@ class MonitorConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('monitor', key, key, 'error')
+        LOG.debug("Converted health monitors")
 
     def convert_monitor(self, key, monitor_config, input_dir, user_ignore):
         f5_monitor = monitor_config[key]
@@ -176,15 +178,11 @@ class MonitorConfigConv(object):
                                             input_dir, name)
         if monitor_dict.get('error', False):
             return []
-        skipped_attr, indirect_mappings = conv_utils.update_skipped_attributes(
-            skipped, indirect, ignore_for_defaults, f5_monitor,
-            u_ignore)
-        if skipped:
-            status = 'partial'
-        else:
-            status = 'successful'
-        conv_utils.add_status_row('monitor', monitor_type, name, status,
-                                  skipped, monitor_dict, indirect_mappings)
+        conv_status = conv_utils.get_conv_status(
+            skipped, indirect, ignore_for_defaults, f5_monitor, u_ignore)
+
+        conv_utils.add_conv_status('monitor', monitor_type, name, conv_status,
+                                  monitor_dict)
         return monitor_dict
 
 

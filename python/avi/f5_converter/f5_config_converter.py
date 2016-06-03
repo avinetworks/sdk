@@ -21,7 +21,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version, user_ignore):
     :param output_dir: Folder path to put output files
     :param vs_state: State of created Avi VS object
     :param input_dir: Location of cert and external monitor script files
-    :param option: Upload option cli-upload or api-upload
+    :param version: Version of F5 config
+    :param user_ignore: Ignore config defined by user
     :return: Converted avi objects
     """
 
@@ -32,29 +33,27 @@ def convert(f5_config, output_dir, vs_state, input_dir, version, user_ignore):
     try:
         mon_conv = MonitorConfigConv.get_instance(version)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore)
-        LOG.debug("Converted health monitors")
+
         pool_conv = PoolConfigConv.get_instance(version)
-        pool_conv.convert(f5_config, avi_config_dict)
+        pool_conv.convert(f5_config, avi_config_dict, user_ignore)
         LOG.debug("Converted pools")
 
         profile_conv = ProfileConfigConv.get_instance(version)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore)
 
         LOG.debug("Converted profiles")
 
         persist_conv = PersistenceConfigConv.get_instance(version)
-        persist_conv.convert(f5_config, avi_config_dict)
+        persist_conv.convert(f5_config, avi_config_dict, user_ignore)
 
         LOG.debug("Converted persistence profiles")
 
         vs_conv = VSConfigConv.get_instance(version)
-        vs_conv.convert(f5_config, avi_config_dict, vs_state)
+        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore)
         LOG.debug("Converted VS")
 
-        conv_utils.remove_dup_key(avi_config_dict["SSLKeyAndCertificate"])
-        conv_utils.remove_dup_key(avi_config_dict["ApplicationProfile"])
-        conv_utils.remove_dup_key(avi_config_dict["NetworkProfile"])
-        conv_utils.remove_dup_key(avi_config_dict["SSLProfile"])
+        conv_utils.cleanup_config(avi_config_dict)
+
     except:
         LOG.error("Conversion error", exc_info=True)
     for f5_type in f5_config.keys():

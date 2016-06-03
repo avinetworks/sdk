@@ -20,10 +20,11 @@ class ProfileConfigConv(object):
     ignore_for_defaults = None
     default_key = None
 
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir):
+    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
+                        user_ignore):
         pass
 
-    def convert(self, f5_config, avi_config, input_dir):
+    def convert(self, f5_config, avi_config, input_dir, user_ignore):
         profile_config = f5_config.get("profile", {})
         avi_config["SSLKeyAndCertificate"] = []
         avi_config["SSLProfile"] = []
@@ -48,9 +49,10 @@ class ProfileConfigConv(object):
                 profile = profile_config[key]
                 profile = self.update_with_default_profile(
                     profile_type, profile, profile_config, name)
+                u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(profile, key, f5_config, avi_config,
-                                     input_dir)
-
+                                     input_dir, u_ignore)
+                LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
                 if name:
@@ -58,7 +60,9 @@ class ProfileConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('profile', key, key, 'error')
-            LOG.debug("Conversion successful for profile: %s" % name)
+
+        f5_config.pop("profile")
+
 
     def update_with_default_profile(self, profile_type, profile,
                                     profile_config, profile_name):
@@ -69,6 +73,7 @@ class ProfileConfigConv(object):
         :param profile_type: type of profile
         :param profile: currant profile object
         :param profile_config: F5 profile config dict
+        :param profile_name: Name of profile
         :return: Complete profile with updated attributes from defaults
         """
         parent_name = profile.get(self.default_key, None)
@@ -114,27 +119,93 @@ class ProfileConfigConvV11(ProfileConfigConv):
                        "web-acceleration", "http-compression", "fastl4", "tcp",
                        "udp"]
     ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
-
     default_key = "defaults-from"
 
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir):
+    na_ssl = ['chain', 'secure-renegotiation', 'cache-size', 'cache-timeout',
+              'renegotiate-size', 'renegotiate-max-record-delay',
+              'strict-resume', 'renegotiate-period']
+    supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
+                     'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from']
+
+    na_http = ['lws-width', 'lws-separator ']
+    supported_http = ["description", "insert-xforwarded-for", "enforcement",
+                      "xff-alternative-names", "encrypt-cookies",
+                      "defaults-from", "accept-xff", "fallback-host",
+                      "oneconnect-transformations", "basic-auth-realm"]
+    indirect_http = ["request-chunking", "response-chunking", "sflow",
+                     'response-headers-permitted', 'via-response',
+                     'via-request', 'server-agent-name']
+
+    na_dns = ['enable-gtm']
+    supported_dns = ["description", "defaults-from"]
+    indirect_dns = ['avr-dnsstat-sample-rate', 'unhandled-query-action',
+                    'use-local-bind', 'log-profile', 'dns64', 'cache',
+                    'enable-cache', 'process-rd', 'enable-dns-express',
+                    'enable-dnssec', 'dns-security', 'process-xfr',
+                    'enable-dns-firewall', 'enable-rapid-response',
+                    'enable-logging', 'rapid-response-last-action']
+
+    supported_hc = ["description", "content-type-include", "defaults-from",
+                    "keep-accept-encoding", "content-type-exclude"]
+    na_hc = ['cpu-saver-high', 'buffer-size', 'cpu-saver-low']
+    indirect_hc = ['browser-workarounds', 'uri-include', 'gzip-level',
+                   'gzip-window-size', 'gzip-memory-level']
+
+    supported_wa = ["description", "cache-object-min-size", "cache-max-age",
+                    "cache-object-max-size", "cache-insert-age-header",
+                    "defaults-from", "cache-uri-exclude", "cache-uri-include",
+                    "cache-max-entries"]
+    indirect_wa = ["cache-size", "cache-aging-rate"]
+
+    supported_l4 = ["description", "explicit-flow-migration", "idle-timeout",
+                    "software-syn-cookie", "pva-acceleration", "defaults-from"]
+    indirect_l4 = ['reset-on-timeout', 'ip-tos-to-server', 'timeout-recovery',
+                   'pva-offload-dynamic', 'tcp-handshake-timeout',
+                   'pva-dynamic-server-packets', 'pva-dynamic-client-packets',
+                   'pva-acceleration', 'tcp-timestamp-mode', 'client-timeout',
+                   'link-qos-to-server', 'tcp-wscale-mode', 'server-timestamp',
+                   'late-binding', 'syn-cookie-whitelist', 'rtt-from-client',
+                   'rtt-from-server', 'link-qos-to-client', 'tcp-generate-isn',
+                   'ip-tos-to-client', 'server-sack', 'receive-window-size']
+
+    supported_fh = ["description", "receive-window-size", "idle-timeout",
+                    "defaults-from", 'max-header-size', 'insert-xforwarded-for']
+    indirect_fh = ['reset-on-timeout',  'unclean-shutdown', 'server-timestamp',
+                   'http-11-close-workarounds', 'force-http-10-response',
+                   'hardware-syn-cookie', 'connpool-replenish', 'server-sack']
+
+    supported_tcp = ["description", "idle-timeout", "max-retrans", "nagle",
+                     "syn-max-retrans", "time-wait-recycle", "defaults-from",
+                     "time-wait-timeout", "congestion-control",
+                     "receive-window-size"]
+    indirect_tcp = ['reset-on-timeout', 'slow-start', 'minimum-rto', 'mptcp',
+                    'syn-cookie-whitelist', 'max-segment-size',  'mptcp-csum',
+                    'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
+                    'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
+                    'mptcp-makeafterbreak', 'mptcp-nojoindssack',
+                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout']
+    supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
+                     "defaults-from"]
+    indirect_udp = ['link-qos-to-client', 'proxy-mss', 'ip-tos-to-client',
+                    'allow-no-payload']
+
+    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
+                        user_ignore):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
         default_ignore = {}
+        na_list = []
+        u_ignore = []
         parent_cls = super(ProfileConfigConvV11, self)
-        profile_type, name = key.split(" ")
-        if profile_type in ("client-ssl", "server-ssl"):
-            supported_attr = ["cert-key-chain", "cert", "key", "ciphers",
-                              "unclean-shutdown", "crl-file", "ca-file",
-                              "options", "defaults-from"]
-            ignore_list = ['chain', 'secure-renegotiation', 'cache-size',
-                           'renegotiate-size', 'cache-timeout',
-                           'strict-resume', 'renegotiate-max-record-delay',
-                           'renegotiate-period']
-            supported_attr = supported_attr + ignore_list
+        profile_type, name = key.split(' ')
+        if profile_type in ('client-ssl', 'server-ssl'):
+            supported_attr = self.supported_ssl
+            na_list = self.na_ssl
+            u_ignore = user_ignore.get('client-ssl', [])
+            u_ignore += user_ignore.get('server-ssl', [])
             default_profile_name = '%s %s' % (profile_type,
-                                              profile_type.replace("-", ""))
+                                              profile_type.replace('-', ''))
             default_ignore = f5_config['profile'].get(default_profile_name, {})
             default_ignore.update(self.ignore_for_defaults)
             skipped = [attr for attr in profile.keys()
@@ -220,19 +291,12 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 LOG.warn("crl-file missing hence skipped ca-file")
                 skipped.append("ca-file")
         elif profile_type == 'http':
-            supported_attr = [
-                "description", "insert-xforwarded-for", "enforcement",
-                "xff-alternative-names", "encrypt-cookies", "defaults-from",
-                "accept-xff", "oneconnect-transformations",
-                "basic-auth-realm", "fallback-host"]
-            ignore_list = ['lws-width', 'lws-separator ']
+            supported_attr = self.supported_http
+            na_list = self.na_http
+            u_ignore = user_ignore.get('http', [])
             default_ignore = f5_config['profile'].get('http http', {})
             default_ignore.update(self.ignore_for_defaults)
-            # ignore_for_defaults["proxy-type"] = "reverse"
-            supported_attr = ignore_list + supported_attr
-            indirect = ["request-chunking", "response-chunking", "sflow",
-                        'response-headers-permitted', 'via-response',
-                        'via-request', 'server-agent-name']
+            indirect = self.indirect_http
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -279,15 +343,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if host:
                 avi_config['fallback_host_dict'][name] = host
         elif profile_type == 'dns':
-            supported_attr = ["description", "defaults-from"]
-            ignore_list = ['enable-gtm']
-            indirect = ['avr-dnsstat-sample-rate', 'unhandled-query-action',
-                        'use-local-bind', 'log-profile', 'dns64', 'cache',
-                        'enable-cache', 'process-rd', 'enable-dns-express',
-                        'enable-dnssec', 'dns-security', 'process-xfr',
-                        'enable-dns-firewall', 'enable-rapid-response',
-                        'enable-logging', 'rapid-response-last-action']
-            supported_attr += ignore_list
+            supported_attr = self.supported_dns
+            na_list = self.na_dns
+            u_ignore = user_ignore.get('dns', [])
+            default_ignore = f5_config['profile'].get('dns dns', {})
+            indirect = self.indirect_dns
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -298,12 +358,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'web-acceleration':
-            supported_attr = ["description", "cache-object-min-size",
-                              "cache-max-age", "cache-object-max-size",
-                              "cache-insert-age-header", "defaults-from",
-                              "cache-uri-exclude", "cache-uri-include",
-                              "cache-max-entries"]
-            indirect = ["cache-size", "cache-aging-rate"]
+            supported_attr = self.supported_wa
+            indirect = self.indirect_wa
+            u_ignore = user_ignore.get('web-acceleration', [])
             default_profile_name = 'web-acceleration web-acceleration'
             default_ignore = f5_config['profile'].get(default_profile_name, {})
             # ignore_for_defaults.update({
@@ -350,14 +407,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'http-compression':
-            supported_attr = ["description", "content-type-include",
-                              "keep-accept-encoding", "defaults-from",
-                              "content-type-exclude"]
-            ignore_list = ['cpu-saver-high', 'buffer-size', 'cpu-saver-low']
-            supported_attr = supported_attr + ignore_list
-            indirect = ['browser-workarounds', 'uri-include', 'gzip-level',
-                        'gzip-window-size', 'gzip-memory-level']
-            # ignore_for_defaults.update({'method-prefer': 'gzip'})
+            supported_attr = self.supported_hc
+            u_ignore = user_ignore.get('http-compression', [])
+            na_list = self.na_hc
+            indirect = self.indirect_hc
             default_profile_name = 'http-compression http-compression'
             default_ignore = f5_config['profile'].get(default_profile_name, {})
             skipped = [attr for attr in profile.keys()
@@ -400,20 +453,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'fastl4':
-            supported_attr = ["description", "explicit-flow-migration",
-                              "idle-timeout", "software-syn-cookie",
-                              "pva-acceleration", "defaults-from"]
-            indirect = ['reset-on-timeout', 'ip-tos-to-server',
-                        'pva-offload-dynamic', 'tcp-handshake-timeout',
-                        'timeout-recovery', 'pva-dynamic-server-packets',
-                        'pva-acceleration', 'pva-dynamic-client-packets',
-                        'tcp-timestamp-mode', 'link-qos-to-server',
-                        'client-timeout', 'tcp-wscale-mode', 'server-sack',
-                        'late-binding', 'syn-cookie-whitelist',
-                        'rtt-from-client', 'rtt-from-server',
-                        'link-qos-to-client', 'tcp-generate-isn',
-                        'ip-tos-to-client', 'server-timestamp',
-                        'receive-window-size']
+            supported_attr = self.supported_l4
+            indirect = self.indirect_l4
+            u_ignore = user_ignore.get('fastl4', [])
+            default_ignore = f5_config['profile'].get('fastl4 fastl4', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             syn_protection = (profile.get("software-syn-cookie",
@@ -458,21 +501,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'fasthttp':
-            supported_attr = ["description", "receive-window-size",
-                              "idle-timeout", "defaults-from",
-                              'max-header-size', 'insert-xforwarded-for']
+            supported_attr = self.supported_fh
+            indirect = self.indirect_fh
             default_ignore = f5_config['profile'].get('fasthttp fasthttp', {})
-            # ignore_for_defaults.update(
-            #     {'client-close-timeout': '5', 'connpool-max-reuse': '0',
-            #      'connpool-idle-timeout-override': '0',
-            #      'connpool-max-size': '2048', 'connpool-min-size': '0',
-            #      'connpool-step': '4', 'header-insert': 'none',
-            #      'server-close-timeout': '5', 'max-requests': '0',
-            #      'mss-override': '0', 'layer-7': 'enabled'})
-            indirect = ['reset-on-timeout',  'unclean-shutdown',
-                        'http-11-close-workarounds', 'server-sack',
-                        'force-http-10-response', 'hardware-syn-cookie',
-                        'connpool-replenish', 'server-timestamp']
+
+            u_ignore = user_ignore.get('fasthttp', [])
             skipped = [attr for attr in f5_config['profile'][key].keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -511,26 +544,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'tcp':
-            supported_attr = ["description", "idle-timeout", "max-retrans",
-                              "syn-max-retrans", "time-wait-recycle",
-                              "time-wait-timeout", "nagle", "defaults-from",
-                              "congestion-control", "receive-window-size"]
-            indirect = ['reset-on-timeout', 'slow-start', 'minimum-rto',
-                        'syn-cookie-whitelist', 'max-segment-size', 'mptcp',
-                        'mptcp-csum', 'mptcp-csum-verify', 'mptcp-rxmitmin',
-                        'mptcp-fallback', 'mptcp-fastjoin', 'mptcp-debug',
-                        'mptcp-join-max', 'mptcp-makeafterbreak',
-                        'mptcp-nojoindssack', 'mptcp-rtomax',
-                        'mptcp-subflowmax', 'mptcp-timeout']
-            # ignore_for_defaults.update(
-            #     {'ack-on-push': 'enabled',
-            #      'deferred-accept': 'disabled', 'ecn': 'disabled',
-            #      'proxy-mss': 'disabled', 'selective-acks': 'enabled',
-            #      'timestamps': 'enabled', 'proxy-buffer-high': '49152',
-            #      'proxy-buffer-low': '32768', 'proxy-options': 'disabled',
-            #      'limited-transmit': 'enabled', 'fin-wait-timeout': '5',
-            #      'close-wait-timeout': '5', 'keep-alive-interval': '1800',
-            #      'delayed-acks': 'enabled', 'send-buffer-size': '65535'})
+            supported_attr = self.supported_tcp
+            indirect = self.indirect_tcp
+            u_ignore = user_ignore.get('tcp', [])
             default_ignore = f5_config['profile'].get('tcp tcp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -577,10 +593,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'udp':
-            supported_attr = ["description", "idle-timeout",
-                              "datagram-load-balancing", "defaults-from"]
-            indirect = ['link-qos-to-client', 'proxy-mss',
-                        'ip-tos-to-client', 'allow-no-payload']
+            supported_attr = self.supported_tcp
+            indirect = self.indirect_udp
+            u_ignore = user_ignore.get('udp', [])
+            default_ignore = f5_config['profile'].get('udp udp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram-load-balancing", 'disabled')
@@ -599,32 +615,74 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
 
-        skipped, indirect = conv_utils.update_skipped_attributes(
-                skipped, indirect, default_ignore, profile)
-        if skipped:
-            conv_utils.add_status_row(
-                'profile', profile_type, name, 'partial', skipped,
-                converted_objs, indirect)
-        else:
-            conv_utils.add_status_row(
-                'profile', profile_type, name, 'successful', skipped,
-                converted_objs, indirect)
+        conv_status = conv_utils.get_conv_status(
+                skipped, indirect, default_ignore, profile, u_ignore, na_list)
+        conv_utils.add_conv_status('profile', profile_type, name, conv_status,
+                                  converted_objs)
+
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir):
+    supported_types = ["clientssl", "serverssl", "http", "dns", "persist",
+                       "fastL4", "fasthttp", "tcp", "udp"]
+    default_key = "defaults from"
+
+    supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
+                     "ca file", "defaults from", "options"]
+
+    na_http = ['lws width']
+    supported_http = ["insert xforwarded for", "xff alternative names",
+                      "max header size", "ramcache min object size",
+                      "ramcache max age", "ramcache max object size",
+                      "ramcache insert age header", "oneconnect transformations"
+                      "compress keep accept encoding", "ramcache uri exclude",
+                      "compress content type include", "ramcache uri include",
+                      "ramcache size", "encrypt cookies", "fallback"]
+    indirect_http = ["lws separator", "max requests", "compress uri include",
+                     "compress browser workarounds", "cache size",
+                     "ramcache aging rate", "compress gzip window size",
+                     "compress gzip level", 'compress cpu saver',
+                     'compress cpu saver high', 'compress cpu saver low',
+                     'compress min size', 'compress gzip memory level',
+                     'compress vary header']
+
+    na_dns = []
+    supported_dns = ["description", "defaults from"]
+    indirect_dns = []
+
+    supported_l4 = ["idle timeout", "software syncookie", "defaults from"]
+    indirect_l4 = ["reset on timeout", "pva acceleration"]
+
+    supported_fh = ["description", "idle timeout", "defaults from",
+                    "max header size", "insert xforwarded for"]
+    indirect_fh = ["reset on timeout"]
+
+    supported_tcp = ["description", "idle timeout", "nagle", "max retrans syn",
+                     "time wait recycle", "time wait", "congestion control",
+                     "recv window", "max retrans", "defaults from"]
+    indirect_tcp = ["reset on timeout", "slow start"]
+
+    supported_udp = ["idle timeout", "datagram lb", "defaults from"]
+    indirect_udp = []
+
+    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
+                        user_ignore):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
         f5_config["persistence"] = {}
         default_ignore = {}
+        u_ignore = []
+        na_list = []
         parent_cls = super(ProfileConfigConvV10, self)
         profile_type, name = key.split(" ")
         if profile_type in ("clientssl", "serverssl"):
-            supported_attr = ["cert", "key", "ciphers", "unclean shutdown",
-                              "crl file", "ca file", "defaults from",
-                              "options"]
+            supported_attr = self.supported_ssl
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
+            u_ignore = user_ignore.get('clientssl', [])
+            u_ignore += user_ignore.get('serverssl', [])
+            default_profile_name = '%s %s' % (profile_type, profile_type)
+            default_ignore = f5_config['profile'].get(default_profile_name, {})
             key_cert_obj = None
             cert_file = profile.get("cert", None)
             key_file = profile.get("key", None)
@@ -705,18 +763,13 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'http':
             app_profile, sg_obj, skipped, fallback_host = \
                 self.convert_http_profile(profile, name)
+            u_ignore = user_ignore.get('http', [])
+            default_ignore = f5_config['profile'].get('http http', {})
+            default_ignore.update(self.ignore_for_defaults)
+            na_list = self.na_http
             if fallback_host:
                 avi_config['fallback_host_dict'][name] = fallback_host
-            indirect = ["lws separator", "max requests",
-                        "compress browser workarounds", "cache size",
-                        "compress uri include", "ramcache aging rate",
-                        "compress gzip window size", "compress gzip level",
-                        'compress cpu saver', 'compress cpu saver high',
-                        'compress cpu saver low', 'compress min size',
-                        'compress gzip memory level',
-                        'compress vary header']
-
-            ignore_for_defaults = {'compress uri exclude': 'none'}
+            indirect = self.indirect_http
             if sg_obj:
                 avi_config['StringGroup'].append(sg_obj)
                 converted_objs.append({'string_group': sg_obj})
@@ -724,9 +777,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'dns':
-            supported_attr = ["description", "defaults from"]
+            supported_attr = self.supported_dns
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
+            default_ignore = f5_config['profile'].get('dns dns', {})
+            u_ignore = user_ignore.get('dns', [])
             app_profile = dict()
             app_profile['name'] = name
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
@@ -734,11 +789,12 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'fastL4':
-            supported_attr = ["idle timeout", "software syncookie",
-                              "defaults from"]
-            indirect = ["reset on timeout", "pva acceleration"]
+            supported_attr = self.supported_l4
+            indirect = self.indirect_l4
+            default_ignore = f5_config['profile'].get('fastL4 fastL4', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
+            u_ignore = user_ignore.get('fastL4', [])
             syn_protection = (profile.get("software syncookie", None) ==
                               'enabled')
             description = profile.get('description', None)
@@ -774,18 +830,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
         elif profile_type == 'fasthttp':
-            supported_attr = ["description", "idle timeout",
-                              "defaults from", "max header size",
-                              "insert xforwarded for"]
-            ignore_for_defaults = {
-                'server close timeout': '5', 'client close timeout': '5',
-                'conn pool idle timeout override': '0',
-                'conn pool max reuse': '0', 'conn pool max size': '2048',
-                'conn pool min size': '0', 'conn pool step': '4',
-                'header insert': '""', 'max requests': '0',
-                'max segment override': '0', 'layer7': 'enable'
-            }
-            indirect = ["reset on timeout"]
+            supported_attr = self.supported_fh
+            u_ignore = user_ignore.get('fasthttp', [])
+            default_ignore = f5_config['profile'].get('fasthttp fasthttp', {})
+            indirect = self.indirect_fh
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -818,19 +866,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'tcp':
-            supported_attr = ["description", "idle timeout", "nagle",
-                              "max retrans syn", "time wait recycle",
-                              "time wait", "congestion control",
-                              "recv window", "max retrans", "defaults from"]
-            ignore_for_defaults = {
-                'delayed acks': 'enable', 'deferred accept': 'disable',
-                'proxy max segment': 'disable', 'selective acks': 'enable',
-                'ecn': 'disable', 'limited transmit': 'enable',
-                'rfc1323': 'enable', 'fin wait': '5', 'close wait': '5',
-                'send buffer': '32768', 'keep alive interval': '1800',
-                'zero window timeout': '20000'
-            }
-            indirect = ["reset on timeout", "slow start"]
+            u_ignore = user_ignore.get('tcp', [])
+            supported_attr = self.supported_tcp
+            indirect = self.indirect_tcp
+            default_ignore = f5_config['profile'].get('tcp tcp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             timeout = profile.get("idle timeout", 0)
@@ -876,10 +915,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'udp':
-            supported_attr = ["idle timeout", "datagram lb",
-                              "defaults from"]
+            u_ignore = user_ignore.get('udp', [])
+            supported_attr = self.supported_udp
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
+            default_ignore = f5_config['profile'].get('udp udp', {})
             per_pkt = profile.get("datagram lb", 'disable')
             timeout = profile.get("idle timeout", 0)
             ntwk_profile = {
@@ -898,14 +938,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'persist':
             f5_config["persistence"]['%s %s' %
                                      (profile.get("mode"), name)] = profile
-        if skipped:
-            conv_utils.add_status_row(
-                'profile', profile_type, name, 'partial', skipped,
-                converted_objs, indirect)
-        else:
-            conv_utils.add_status_row(
-                'profile', profile_type, name, 'successful', skipped,
-                converted_objs, indirect)
+
+        conv_status = conv_utils.get_conv_status(
+                skipped, indirect, default_ignore, profile, u_ignore, na_list)
+        conv_utils.add_conv_status('profile', profile_type, name, conv_status,
+                                  converted_objs)
 
     def convert_http_profile(self, profile, name):
         """
@@ -915,15 +952,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         :param name: http profile name
         :return: Avi http profile config
         """
-        supported_attr = ["insert xforwarded for", "xff alternative names",
-                          "max header size", "ramcache min object size",
-                          "ramcache max age", "ramcache max object size",
-                          "ramcache insert age header", "oneconnect transformations"
-                          "compress keep accept encoding", "ramcache uri exclude",
-                          "compress content type include", "ramcache uri include",
-                          "ramcache size", "encrypt cookies", "fallback"]
-        ignore_list = ['lws width']
-        supported_attr = ignore_list + supported_attr
+        supported_attr = self.supported_http
         skipped = [key for key in profile.keys() if key not in supported_attr]
         app_profile = dict()
         sg_obj = None
@@ -936,10 +965,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         con_mltplxng = False if con_mltplxng == 'disabled' else True
         http_profile['x_forwarded_proto_enabled'] = profile.get(
             'insert xforwarded for', False)
-        http_profile['xff_alternate_name'] = profile.get('xff alternative names',
-                                                         None)
+        http_profile['xff_alternate_name'] = profile.get(
+            'xff alternative names', None)
         header_size = profile.get('max header size', final.DEFAULT_MAX_HEADER)
-        http_profile['client_max_header_size'] = int(header_size)/final.BYTES_IN_KB
+        http_profile['client_max_header_size'] = int(
+            header_size)/final.BYTES_IN_KB
         http_profile['connection_multiplexing_enabled'] = con_mltplxng
         http_profile['secure_cookie_enabled'] = encpt_cookie
         app_profile["http_profile"] = http_profile
@@ -992,7 +1022,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             content_type_exclude = None if ct_exclude == 'none' else ct_exclude
             if content_type and isinstance(content_type, str):
                 content_type = content_type.split(" ")
-            elif  content_type and isinstance(content_type, dict):
+            elif content_type and isinstance(content_type, dict):
                 content_type = content_type.keys()+content_type.values()
             elif content_type_exclude:
                 content_type = final.DEFAULT_CONTENT_TYPE
@@ -1008,7 +1038,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 http_profile = dict()
                 http_profile["compression_profile"] = compression_profile
 
-            compression_profile["compressible_content_ref"]= name + "-content_type"
+            compression_profile["compressible_content_ref"] = \
+                name + "-content_type"
             http_profile["compression_profile"] = compression_profile
         app_profile["http_profile"] = http_profile
         return app_profile, sg_obj, skipped, fallback_host
