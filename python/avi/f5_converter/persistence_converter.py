@@ -30,14 +30,16 @@ class PersistenceConfigConv(object):
     def convert_source_addr(self, name, profile, skipped):
         pass
 
-    def convert(self, f5_config, avi_config):
+    def convert(self, f5_config, avi_config, user_ignore):
         avi_config['hash_algorithm'] = []
         avi_config["ApplicationPersistenceProfile"] = []
         f5_persistence_dict = f5_config.get('persistence')
+        user_ignore = user_ignore.get('persistence', {})
         for key in f5_persistence_dict.keys():
             persist_mode = None
             name = None
             skipped = []
+            u_ignore = []
             try:
                 persist_mode, name = key.split(" ")
                 LOG.debug("Converting persistence profile: %s" % name)
@@ -45,31 +47,32 @@ class PersistenceConfigConv(object):
                 prof_conv = ProfileConfigConv()
                 profile = prof_conv.update_with_default_profile(
                     persist_mode, profile, f5_persistence_dict, name)
-                indirect_mappings = ["hash-length", "hash-offset", "mirror",
-                                     "method", "cookie-encryption",
-                                     'override-connection-limit']
+                indirect = ["hash-length", "hash-offset", "mirror", "method",
+                            "cookie-encryption", 'override-connection-limit']
 
                 if persist_mode == "cookie":
                     persist_profile = self.convert_cookie(name, profile,
                                                           skipped)
+                    u_ignore = user_ignore.get('cookie', [])
                 elif persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
-                        name, profile, skipped, indirect_mappings)
+                        name, profile, skipped, indirect)
+                    u_ignore = user_ignore.get('ssl', [])
                 elif persist_mode == "source-addr":
                     persist_profile = self.convert_source_addr(
                         name, profile, skipped)
+                    u_ignore = user_ignore.get('source-addr', [])
                 elif persist_mode == "hash":
                     avi_config['hash_algorithm'].append(name)
                     conv_utils.add_status_row(
-                        'profile', "hash-persistence", name, 'indirect-mapping',
-                        None, "Will be mapped to pools lb algorithm")
+                        'profile', "hash-persistence", name, 'indirect-mapping')
                     continue
                 else:
                     LOG.error(
                         'persist mode not supported skipping conversion: %s' %
                         name)
                     conv_utils.add_status_row("persistence", persist_mode, name,
-                                        "skipped")
+                                              "skipped")
                     continue
                 if not persist_profile:
                     continue
@@ -77,16 +80,12 @@ class PersistenceConfigConv(object):
                     persist_profile)
 
                 ignore_for_defaults = {"app-service": "none", "mask": "none"}
-                skipped, indirect = conv_utils.update_skipped_attributes(
-                    skipped, indirect_mappings, ignore_for_defaults, profile)
-                if skipped:
-                    conv_utils.add_status_row("persistence", persist_mode, name,
-                                        "partial", skipped, persist_profile,
-                                              indirect)
-                else:
-                    conv_utils.add_status_row("persistence", persist_mode, name,
-                                        "successful", skipped, persist_profile,
-                                              indirect)
+                conv_status = conv_utils.get_conv_status(
+                skipped, indirect, ignore_for_defaults, profile, u_ignore)
+                conv_utils.add_conv_status('persistence', persist_mode, name,
+                                          conv_status, persist_profile)
+                LOG.debug("Conversion successful for persistence profile: %s" %
+                          name)
             except:
                 LOG.error("Failed to convert persistance profile : %s" % key,
                           exc_info=True)
@@ -95,7 +94,8 @@ class PersistenceConfigConv(object):
                                               "error")
                 else:
                     conv_utils.add_status_row("persistence", key, key, "error")
-            LOG.debug("Conversion successful for persistence profile: %s" % name)
+        f5_config.pop('persistence')
+
 
     def convert_timeout(self, timeout):
         if ':' in str(timeout):
