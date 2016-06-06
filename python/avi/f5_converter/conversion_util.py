@@ -2,7 +2,7 @@ import copy
 import csv
 import logging
 
-import converter_constants as final
+import converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -19,7 +19,7 @@ def upload_file(file_path):
         with open(file_path, "r") as file_obj:
             file_str = file_obj.read()
             file_str = file_str.decode("utf-8")
-    except UnicodeDecodeError as ude:
+    except UnicodeDecodeError:
         try:
             file_str = file_str.decode('latin-1')
         except:
@@ -30,7 +30,8 @@ def upload_file(file_path):
 
 
 def update_skipped_attributes(skipped, indirect_list, ignore_dict,
-                              f5_object, user_ignore=[]):
+                              f5_object, user_ignore=None):
+    user_ignore = user_ignore if user_ignore else []
     skipped = [attr for attr in skipped if attr not in user_ignore]
     indirect_mappings = [attr for attr in indirect_list if attr in skipped]
     skipped = [attr for attr in skipped if attr not in indirect_list]
@@ -74,7 +75,6 @@ def get_conv_status(skipped, indirect_list, ignore_dict, f5_object,
     return conv_status
 
 
-
 def remove_dup_key(obj_list):
     for obj in obj_list:
         obj.pop('dup_of', None)
@@ -89,7 +89,7 @@ def check_for_duplicates(src_obj, obj_list):
             del src_cp["description"]
         del tmp_cp["name"]
         if "description" in tmp_cp:
-          del tmp_cp["description"]
+            del tmp_cp["description"]
         dup_lst = tmp_cp.pop("dup_of", [])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
@@ -130,7 +130,7 @@ def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
     :param f5_type: Object type
     :param f5_sub_type: Object sub type
     :param f5_id: Name oconv_f object
-    :param statu dict
+    :param conv_status: dict of conversion status
     :param avi_object: Converted objectconverted avi object
     """
     global csv_writer
@@ -156,9 +156,6 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
     :param f5_sub_type: Object sub type
     :param f5_id: Name of object
     :param status: conversion status
-    :param skipped_params: skipped params if partial conversion
-    :param indirect_params: List of attributes have indirect mappings
-    :param avi_object: converted avi object
     """
     global csv_writer
     row = {
@@ -174,7 +171,7 @@ def add_csv_headers(csv_file):
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                   'Skipped settings', 'Indirect mapping', 'Not Applicable',
-                  'User Ignored', 'Skipped for defaults','Avi Object']
+                  'User Ignored', 'Skipped for defaults', 'Avi Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
     csv_writer.writeheader()
@@ -187,21 +184,22 @@ def get_port_by_protocol(protocol):
     :param protocol: protocol name
     :return: integer value for protocol
     """
-    port = final.DEFAULT_PORT
+    port = conv_const.DEFAULT_PORT
     if protocol == "https":
-        port = final.HTTPS_PORT
+        port = conv_const.HTTPS_PORT
     elif protocol == "ftp":
-        port = final.FTP_PORT
+        port = conv_const.FTP_PORT
     elif protocol == "smtp":
-        port = final.SMTP_PORT
+        port = conv_const.SMTP_PORT
     elif protocol == "snmp":
-        port = final.SNMP_PORT
+        port = conv_const.SNMP_PORT
     elif protocol == "telnet":
-        port = final.TELNET_PORT
+        port = conv_const.TELNET_PORT
     elif protocol == "snmp-trap":
-        port = final.SNMP_TRAP_PORT
+        port = conv_const.SNMP_TRAP_PORT
     elif protocol == "ssh":
-        port = final.SSH_PORter.writeheader()
+        port = conv_const.SSH_PORT
+    return port
 
 
 def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
@@ -224,7 +222,7 @@ def get_containt_string_group(name, content_types):
     return sg_obj
 
 
-def get_profiles_for_vs(profiles, avi_config):
+def get_vs_ssl_profiles(profiles, avi_config):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -234,8 +232,6 @@ def get_profiles_for_vs(profiles, avi_config):
     """
     vs_ssl_profile_names = []
     pool_ssl_profile_names = []
-    app_profile_names = []
-    network_profile_names = []
     if not profiles:
         return []
     if isinstance(profiles, str):
@@ -253,8 +249,8 @@ def get_profiles_for_vs(profiles, avi_config):
             profile = profiles.get(name, None)
             context = profile.get("context", None)
             pki_list = avi_config.get("PKIProfile", [])
-            pki_profiles = [obj for obj in pki_list if (obj['name'] == name or
-                                                name in obj.get("dup_of", []))]
+            pki_profiles = [obj for obj in pki_list if (
+                obj['name'] == name or name in obj.get("dup_of", []))]
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             if context == "clientside":
                 vs_ssl_profile_names.append({"profile": ssl_profiles[0]["name"],
@@ -264,20 +260,60 @@ def get_profiles_for_vs(profiles, avi_config):
                 pool_ssl_profile_names.append(
                     {"profile": ssl_profiles[0]["name"], "cert": key_cert,
                      "pki": pki_profile})
+    return vs_ssl_profile_names, pool_ssl_profile_names
+
+
+def get_vs_app_profiles(profiles, avi_config):
+    """
+    Searches for profile refs in converted profile config if not found creates
+    default profiles
+    :param profiles: profiles in f5 config assigned to VS
+    :param avi_config: converted avi config
+    :return: returns list of profile refs assigned to VS in avi config
+    """
+    app_profile_names = []
+    policy_set = []
+    if not profiles:
+        return []
+    if isinstance(profiles, str):
+        profiles = profiles.replace(" {}", "")
+        profiles = {profiles: None}
+    for name in profiles.keys():
         app_profile_list = avi_config.get("ApplicationProfile", [])
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
             app_profile_names.append(app_profiles[0]['name'])
+            if app_profiles[0].get('HTTPPolicySet', None):
+                policy_name = app_profiles[0].pop('HTTPPolicySet')
+                policy_set.append({"http_policy_set_ref":  policy_name})
+    if not app_profile_names:
+        app_profile_names.append("http")
+    return app_profile_names, policy_set
+
+
+def get_vs_ntwk_profiles(profiles, avi_config):
+    """
+    Searches for profile refs in converted profile config if not found creates
+    default profiles
+    :param profiles: profiles in f5 config assigned to VS
+    :param avi_config: converted avi config
+    :return: returns list of profile refs assigned to VS in avi config
+    """
+    network_profile_names = []
+    if not profiles:
+        return []
+    if isinstance(profiles, str):
+        profiles = profiles.replace(" {}", "")
+        profiles = {profiles: None}
+    for name in profiles.keys():
         ntwk_prof_lst = avi_config.get("NetworkProfile")
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
             network_profile_names.append(network_profiles[0]['name'])
-    if not app_profile_names:
-        app_profile_names.append("http")
-    return vs_ssl_profile_names, pool_ssl_profile_names, \
-           app_profile_names, network_profile_names
+
+    return network_profile_names
 
 
 def update_service(port, vs, enable_ssl):
@@ -293,17 +329,17 @@ def update_service(port, vs, enable_ssl):
     for service in vs['services']:
         port_end = service.get('port_range_end', None)
         if port_end and (service['port'] <= int(port) <= port_end):
-            if port not in [final.PORT_START, final.PORT_END]:
+            if port not in [conv_const.PORT_START, conv_const.PORT_END]:
                 new_end = service['port_range_end']
                 service['port_range_end'] = int(port)-1
                 new_service = {'port': int(port)+1,
                                'port_range_end': new_end,
                                'enable_ssl': enable_ssl}
                 vs['services'].append(new_service)
-            elif port == final.PORT_START:
+            elif port == conv_const.PORT_START:
                 service['port'] = 2
-            elif port == final.PORT_END:
-                service['port_range_end'] = (final.PORT_START - 1)
+            elif port == conv_const.PORT_END:
+                service['port_range_end'] = (conv_const.PORT_START - 1)
             service_updated = True
             break
     return service_updated
@@ -319,7 +355,7 @@ def get_service_obj(destination, vs_list, enable_ssl):
     """
     parts = destination.split(':')
     ip_addr = parts[0]
-    port = parts[1] if len(parts) == 2 else final.DEFAULT_PORT
+    port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
     vs_dup_ips = [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
 
     if port == 'any':
@@ -340,10 +376,10 @@ def get_service_obj(destination, vs_list, enable_ssl):
                 used_ports.append(service['port'])
         if used_ports:
             services_obj = []
-            if final.PORT_END not in used_ports:
-                used_ports.append(final.PORT_END+1)
+            if conv_const.PORT_END not in used_ports:
+                used_ports.append(conv_const.PORT_END + 1)
             used_ports = sorted(used_ports, key=int)
-            start = final.PORT_START
+            start = conv_const.PORT_START
             for i in range(len(used_ports)):
                 if start == used_ports[i]:
                     start += 1
@@ -354,7 +390,7 @@ def get_service_obj(destination, vs_list, enable_ssl):
                                      'enable_ssl': enable_ssl})
                 start = int(used_ports[i])+1
         else:
-            services_obj = [{'port': 1, 'port_range_end': final.PORT_END,
+            services_obj = [{'port': 1, 'port_range_end': conv_const.PORT_END,
                              'enable_ssl': enable_ssl}]
     return services_obj, ip_addr
 
@@ -470,8 +506,48 @@ def get_snat_list_for_vs(snat_pool):
         snat_list.append(snat_obj)
     return snat_list
 
+
 def cleanup_config(avi_config):
     remove_dup_key(avi_config["SSLKeyAndCertificate"])
     remove_dup_key(avi_config["ApplicationProfile"])
     remove_dup_key(avi_config["NetworkProfile"])
     remove_dup_key(avi_config["SSLProfile"])
+    avi_config.pop('hash_algorithm', [])
+    avi_config.pop('realm_dict', [])
+    for profile in avi_config['ApplicationProfile']:
+        profile.pop('HTTPPolicySet', None)
+
+
+def create_hdr_erase_rule(name, hdr_name):
+    return create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",
+                              "HTTP_REPLACE_HDR", "000000")
+
+
+def create_hdr_insert_rule(name, hdr_name, val):
+    return create_header_rule(name, hdr_name, "HDR_EXISTS", "HTTP_ADD_HDR", val)
+
+
+def create_header_rule(name, hdr_name, match, action, val):
+    rule = {
+        "name": name,
+        "match": {
+            "hdrs": [
+                {
+                    "hdr": hdr_name,
+                    "match_criteria": match
+                }
+            ]
+        },
+        "hdr_action": [
+            {
+                "action": action,
+                "hdr": {
+                    "name": hdr_name,
+                    "value": {
+                        "val": val
+                    }
+                }
+            }
+        ]
+    }
+    return rule

@@ -8,9 +8,9 @@ LOG = logging.getLogger(__name__)
 class VSConfigConv(object):
     @classmethod
     def get_instance(cls, version):
-        if version == 10:
+        if version == '10':
             return VSConfigConvV10()
-        if version == 11:
+        if version == '11':
             return VSConfigConvV11()
 
     def get_persist_ref(self, f5_vs):
@@ -23,12 +23,6 @@ class VSConfigConv(object):
         vs_config = f5_config.get("virtual", {})
         realm_dict = avi_config.pop('realm_dict')
         avi_config['VirtualService'] = []
-
-
-        avi_config['VirtualService'] = []
-        supported_attr = ['profiles', 'destination', 'pool', 'persist',
-                          'snatpool', 'source-address-translation',
-                          'description', 'disabled']
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
         for vs_name in vs_config.keys():
@@ -43,17 +37,18 @@ class VSConfigConv(object):
                     conv_utils.add_status_row('virtual', None, vs_name,
                                               'skipped')
                     continue
-                vs_obj = self.convert_vs(vs_name, vs_config, f5_vs, vs_state,
-                                         avi_config, f5_snat_pools, user_ignore)
+                vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
+                                         f5_snat_pools, user_ignore)
                 avi_config['VirtualService'].append(vs_obj)
                 LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
 
-        avi_config.pop('fallback_host_dict')
+        avi_config.pop('fallback_host_dict', {})
+        f5_config.pop("virtual", {})
 
-    def convert_vs(self, vs_name, vs_config, f5_vs, vs_state, avi_config,
-                   snat_config, user_ignore):
+    def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
+                   user_ignore):
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
         fallback_host_dict = avi_config.get('fallback_host_dict')
@@ -62,8 +57,11 @@ class VSConfigConv(object):
         enabled = (vs_state == 'enable')
         if enabled:
             enabled = False if "disabled" in f5_vs.keys() else True
-        ssl_vs, ssl_pool, app_prof, ntwk_prof = conv_utils.get_profiles_for_vs(
-            f5_vs.get("profiles", None), avi_config)
+        profiles = f5_vs.get("profiles", None)
+        ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
+        app_prof, policy_set = conv_utils.get_vs_app_profiles(profiles,
+                                                              avi_config)
+        ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
@@ -91,12 +89,11 @@ class VSConfigConv(object):
                     skipped.append("persist")
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
-                                (persist_ref, vs_name))
+                        (persist_ref, vs_name))
             if app_prof[0] in fallback_host_dict.keys():
                 host = fallback_host_dict[app_prof[0]]
                 conv_utils.update_pool_for_fallback(host, avi_config['Pool'],
                                                     pool_ref)
-
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -110,6 +107,10 @@ class VSConfigConv(object):
             'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
+
+        if policy_set:
+            vs_obj['http_policies'] = policy_set
+
         snat = f5_vs.get("source-address-translation", {})
         snat_pool_name = snat.get("pool", None)
         if not snat_pool_name:
@@ -144,7 +145,8 @@ class VSConfigConv(object):
         if skipped:
             ststus = 'partial'
         conv_status['ststus'] = ststus
-        conv_utils.add_conv_status('virtual', None, vs_name, conv_status, vs_obj)
+        conv_utils.add_conv_status('virtual', None, vs_name,
+                                   conv_status, vs_obj)
 
         return vs_obj
 
@@ -154,6 +156,7 @@ class VSConfigConvV11(VSConfigConv):
                       'source-address-translation', 'description', 'disabled']
     unsupported_types = ["l2-forward", "ip-forward", "stateless", "dhcp-relay",
                          "internal", "reject"]
+
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
         if persist_ref:
