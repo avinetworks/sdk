@@ -273,6 +273,9 @@ def get_vs_app_profiles(profiles, avi_config):
     """
     app_profile_names = []
     policy_set = []
+    f_host = None
+    realm = None
+
     if not profiles:
         return []
     if isinstance(profiles, str):
@@ -287,9 +290,17 @@ def get_vs_app_profiles(profiles, avi_config):
             if app_profiles[0].get('HTTPPolicySet', None):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
                 policy_set.append({"http_policy_set_ref":  policy_name})
+            if app_profiles[0].get('fallback_host', None):
+                f_host = app_profiles[0].pop('fallback_host')
+            if app_profiles[0].get('realm', None):
+                realm = {
+                    "type": "HTTP_BASIC_AUTH",
+                    "auth_profile_ref": "System-Default-Auth-Profile",
+                    "realm": app_profiles[0].pop('realm')
+                }
     if not app_profile_names:
         app_profile_names.append("http")
-    return app_profile_names, policy_set
+    return app_profile_names, f_host, realm,  policy_set
 
 
 def get_vs_ntwk_profiles(profiles, avi_config):
