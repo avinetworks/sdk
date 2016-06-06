@@ -21,7 +21,6 @@ class VSConfigConv(object):
     def convert(self, f5_config, avi_config, vs_state, user_ignore):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
-        realm_dict = avi_config.pop('realm_dict')
         avi_config['VirtualService'] = []
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
@@ -51,7 +50,6 @@ class VSConfigConv(object):
                    user_ignore):
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
-        fallback_host_dict = avi_config.get('fallback_host_dict')
         skipped = [key for key in f5_vs.keys()
                    if key not in self.supported_attr]
         enabled = (vs_state == 'enable')
@@ -59,8 +57,8 @@ class VSConfigConv(object):
             enabled = False if "disabled" in f5_vs.keys() else True
         profiles = f5_vs.get("profiles", None)
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
-        app_prof, policy_set = conv_utils.get_vs_app_profiles(profiles,
-                                                              avi_config)
+        app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
+            profiles, avi_config)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
         enable_ssl = False
         if ssl_vs:
@@ -90,10 +88,9 @@ class VSConfigConv(object):
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
-            if app_prof[0] in fallback_host_dict.keys():
-                host = fallback_host_dict[app_prof[0]]
-                conv_utils.update_pool_for_fallback(host, avi_config['Pool'],
-                                                    pool_ref)
+            if f_host:
+                conv_utils.update_pool_for_fallback(
+                    f_host, avi_config['Pool'], pool_ref)
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -107,6 +104,9 @@ class VSConfigConv(object):
             'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
+
+        if realm:
+            vs_obj['client_auth'] = realm
 
         if policy_set:
             vs_obj['http_policies'] = policy_set

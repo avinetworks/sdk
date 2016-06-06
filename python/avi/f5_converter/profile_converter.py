@@ -32,8 +32,6 @@ class ProfileConfigConv(object):
         avi_config["ApplicationProfile"] = []
         avi_config["NetworkProfile"] = []
         avi_config["StringGroup"] = []
-        avi_config['realm_dict'] = {}
-        avi_config['fallback_host_dict'] = {}
         avi_config['HTTPPolicySet'] = []
         persistence = f5_config.get("persistence", None)
         if not persistence:
@@ -367,17 +365,18 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 app_profile["HTTPPolicySet"] = policy_name
                 converted_objs.append({'policy_set': policy})
 
+                realm = profile.get("basic-auth-realm", 'none')
+                realm = None if realm == 'none' else realm
+                if realm:
+                    app_profile['realm'] = realm
+                host = profile.get("fallback-host", 'none')
+                host = None if host == 'none' else host
+                if host:
+                    app_profile['fallback_host'] = host
+
             conv_utils.update_skip_duplicates(
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
-            realm = profile.get("basic-auth-realm", 'none')
-            realm = None if realm == 'none' else realm
-            if realm:
-                avi_config['realm_dict'][name] = realm
-            host = profile.get("fallback-host", 'none')
-            host = None if host == 'none' else host
-            if host:
-                avi_config['fallback_host_dict'][name] = host
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
             na_list = self.na_dns
@@ -999,7 +998,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         fallback_host = profile.get("fallback", 'none')
         fallback_host = None if fallback_host == 'none' else fallback_host
         if fallback_host:
-                avi_config['fallback_host_dict'][name] = fallback_host
+                app_profile['fallback_host'] = fallback_host
 
         cache = profile.get('ramcache', 'disable')
         if not cache == 'disable':
