@@ -40,9 +40,9 @@ class Test(unittest.TestCase):
         assert f5_config_dict.get("profile", None)
         assert f5_config_dict.get("node", None)
         f5_config_test = copy.deepcopy(f5_config_dict)
-        avi_config_dict = f5_config_converter.convert_to_avi_dict(
+        avi_config_dict = f5_config_converter.convert(
             f5_config_dict, ".."+os.path.sep+"output", "disable",
-            "certs", "api-upload")
+            "certs", "api-upload", 11)
 
         with open('../output/ConversionStatus.csv') as csvfile:
             reader = csv.DictReader(csvfile)
