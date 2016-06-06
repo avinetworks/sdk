@@ -344,15 +344,17 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
             if header_erase or header_insert:
                 rules = []
+                rule_index = 1
                 if header_erase:
                     if ':' in header_erase:
                         header_erase = header_erase.split(':')[0]
                     rules.append(conv_utils.create_hdr_erase_rule(
-                        'rule-header-erase', header_erase))
+                        'rule-header-erase', header_erase, rule_index))
+                    rule_index += 1
                 if header_insert:
                     header, val = header_insert.split(':')
                     rules.append(conv_utils.create_hdr_insert_rule(
-                        'rule-header-insert', header, val))
+                        'rule-header-insert', header, val, rule_index))
                 policy_name = name + '-HTTP-Policy-Set'
                 policy = {
                     "name": policy_name,
