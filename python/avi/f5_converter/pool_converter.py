@@ -9,9 +9,9 @@ LOG = logging.getLogger(__name__)
 class PoolConfigConv(object):
     @classmethod
     def get_instance(cls, version):
-        if version == 10:
+        if version == '10':
             return PoolConfigConvV10()
-        if version == 11:
+        if version == '11':
             return PoolConfigConvV11()
     supported_attr = None
 
@@ -82,34 +82,37 @@ class PoolConfigConv(object):
         conv_status['user_ignore'] = []
         if skipped_attr:
             p_ignore = user_ignore.get('pool', [])
-            conv_status['user_ignore'] = [val for val in skipped_attr if val in p_ignore]
-            skipped_attr = [attr for attr in skipped_attr if attr not in p_ignore]
+            conv_status['user_ignore'] = [val for val in skipped_attr
+                                          if val in p_ignore]
+            skipped_attr = [attr for attr in skipped_attr
+                            if attr not in p_ignore]
             if skipped_attr:
                 skipped.append(skipped_attr)
         if member_skipped:
             m_ignore = user_ignore.get('members', [])
             if m_ignore:
-                um_list = []
                 ms_new = []
+                um_list = []
                 for obj in member_skipped:
                     um_skipped = dict()
                     um_skipped[obj.keys()[0]] = \
                         [val for val in obj[obj.keys()[0]] if val in m_ignore]
                     temp = [val for val in obj[obj.keys()[0]]
-                                          if val not in m_ignore]
-                    um_list.append(um_skipped)
+                            if val not in m_ignore]
+                    if um_skipped[um_skipped.keys()[0]]:
+                        um_list.append(um_skipped)
                     if temp:
-                        ms_new.append({obj.keys()[0] : temp})
+                        ms_new.append({obj.keys()[0]: temp})
                 conv_status['user_ignore'].append(um_list)
-            if ms_new:
-                skipped.append(ms_new)
+                if ms_new:
+                    skipped.append(ms_new)
         if skipped_monitors and not user_ignore('monitor', None):
             skipped.append({"monitor": skipped_monitors})
         conv_status['skipped'] = skipped
         status = 'successful'
         if skipped:
             status = 'partial'
-        conv_status['status']= status
+        conv_status['status'] = status
         conv_utils.add_conv_status('pool', None, name, conv_status, pool_obj)
 
 
@@ -236,7 +239,7 @@ class PoolConfigConvV10(PoolConfigConv):
                         key not in self.supported_attr]
         super(PoolConfigConvV10, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            pool_obj)
+            pool_obj, user_ignore)
         return pool_obj
 
     def get_avi_lb_algorithm(self, f5_algorithm):

@@ -11,9 +11,9 @@ LOG = logging.getLogger(__name__)
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version):
-        if version == 10:
+        if version == '10':
             return ProfileConfigConvV10()
-        if version == 11:
+        if version == '11':
             return ProfileConfigConvV11()
 
     supported_types = None
@@ -34,6 +34,10 @@ class ProfileConfigConv(object):
         avi_config["StringGroup"] = []
         avi_config['realm_dict'] = {}
         avi_config['fallback_host_dict'] = {}
+        avi_config['HTTPPolicySet'] = []
+        persistence = f5_config.get("persistence", None)
+        if not persistence:
+            f5_config['persistence'] = {}
         for key in profile_config.keys():
             profile_type = None
             name = None
@@ -62,7 +66,6 @@ class ProfileConfigConv(object):
                     conv_utils.add_status_row('profile', key, key, 'error')
 
         f5_config.pop("profile")
-
 
     def update_with_default_profile(self, profile_type, profile,
                                     profile_config, profile_name):
@@ -131,7 +134,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
     supported_http = ["description", "insert-xforwarded-for", "enforcement",
                       "xff-alternative-names", "encrypt-cookies",
                       "defaults-from", "accept-xff", "fallback-host",
-                      "oneconnect-transformations", "basic-auth-realm"]
+                      "oneconnect-transformations", "basic-auth-realm",
+                      "header-erase", "header-insert"]
     indirect_http = ["request-chunking", "response-chunking", "sflow",
                      'response-headers-permitted', 'via-response',
                      'via-request', 'server-agent-name']
@@ -331,6 +335,38 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 skipped.append({"enforcement": enf_skipped})
             app_profile["http_profile"] = http_profile
 
+            header_erase = profile.get('header-erase', None)
+            header_erase = None if header_erase == 'none' else header_erase
+            if header_erase:
+                header_erase = header_erase.replace('\"', '')
+            header_insert = profile.get('header-insert', None)
+            header_insert = None if header_insert == 'none' else header_insert
+            if header_insert:
+                header_insert = header_insert.replace('\"', '')
+
+            if header_erase or header_insert:
+                rules = []
+                if header_erase:
+                    if ':' in header_erase:
+                        header_erase = header_erase.split(':')[0]
+                    rules.append(conv_utils.create_hdr_erase_rule(
+                        'rule-header-erase', header_erase))
+                if header_insert:
+                    header, val = header_insert.split(':')
+                    rules.append(conv_utils.create_hdr_insert_rule(
+                        'rule-header-insert', header, val))
+                policy_name = name + '-HTTP-Policy-Set'
+                policy = {
+                    "name": policy_name,
+                    "http_request_policy": {
+                        "rules": rules
+                    },
+                    "is_internal_policy": False
+                }
+                avi_config['HTTPPolicySet'].append(policy)
+                app_profile["HTTPPolicySet"] = policy_name
+                converted_objs.append({'policy_set': policy})
+
             conv_utils.update_skip_duplicates(
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
@@ -363,8 +399,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             u_ignore = user_ignore.get('web-acceleration', [])
             default_profile_name = 'web-acceleration web-acceleration'
             default_ignore = f5_config['profile'].get(default_profile_name, {})
-            # ignore_for_defaults.update({
-            #     'cache-client-cache-control-mode': 'none'})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -618,7 +652,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
         conv_utils.add_conv_status('profile', profile_type, name, conv_status,
-                                  converted_objs)
+                                   converted_objs)
 
 
 class ProfileConfigConvV10(ProfileConfigConv):
@@ -669,7 +703,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
-        f5_config["persistence"] = {}
         default_ignore = {}
         u_ignore = []
         na_list = []
@@ -689,6 +722,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
             key_file = None if key_file == 'none' else key_file
             cert_file = None if cert_file == 'none' else cert_file
             if key_file and cert_file:
+                key_file = key_file.replace('\"', '')
+                cert_file = cert_file.replace('\"', '')
                 key_cert_obj = parent_cls.get_key_cert_obj(
                     name, key_file, cert_file, input_dir)
             if key_cert_obj:
@@ -761,18 +796,13 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 LOG.warn("crl-file missing hence skipped ca-file")
                 skipped.append("ca-file")
         elif profile_type == 'http':
-            app_profile, sg_obj, skipped, fallback_host = \
-                self.convert_http_profile(profile, name)
+            app_profile, skipped = \
+                self.convert_http_profile(
+                    profile, name, avi_config, converted_objs)
             u_ignore = user_ignore.get('http', [])
             default_ignore = f5_config['profile'].get('http http', {})
-            default_ignore.update(self.ignore_for_defaults)
             na_list = self.na_http
-            if fallback_host:
-                avi_config['fallback_host_dict'][name] = fallback_host
             indirect = self.indirect_http
-            if sg_obj:
-                avi_config['StringGroup'].append(sg_obj)
-                converted_objs.append({'string_group': sg_obj})
             conv_utils.update_skip_duplicates(
                 app_profile, avi_config['ApplicationProfile'], 'app_profile',
                 converted_objs)
@@ -936,22 +966,15 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'persist':
-            f5_config["persistence"]['%s %s' %
-                                     (profile.get("mode"), name)] = profile
+            mode = profile.get("mode").replace(' ', '-')
+            f5_config["persistence"]['%s %s' % (mode, name)] = profile
 
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
         conv_utils.add_conv_status('profile', profile_type, name, conv_status,
-                                  converted_objs)
+                                   converted_objs)
 
-    def convert_http_profile(self, profile, name):
-        """
-        Converts HTTP f5 profile config to Avi HTTP profile config with
-        caching and compression config
-        :param profile: F5 http profile config
-        :param name: http profile name
-        :return: Avi http profile config
-        """
+    def convert_http_profile(self, profile, name, avi_config, converted_objs):
         supported_attr = self.supported_http
         skipped = [key for key in profile.keys() if key not in supported_attr]
         app_profile = dict()
@@ -975,6 +998,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
         app_profile["http_profile"] = http_profile
         fallback_host = profile.get("fallback", 'none')
         fallback_host = None if fallback_host == 'none' else fallback_host
+        if fallback_host:
+                avi_config['fallback_host_dict'][name] = fallback_host
 
         cache = profile.get('ramcache', 'disable')
         if not cache == 'disable':
@@ -1032,7 +1057,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 content_type = [ct for ct in content_type
                                 if ct not in content_type_exclude]
             if content_type:
-                sg_obj = conv_utils.get_containt_string_group(name, content_type)
+                sg_obj = conv_utils.get_containt_string_group(
+                    name, content_type)
                 compression_profile["compressible_content_ref"] = \
                     name + "-content_type"
                 http_profile = dict()
@@ -1042,4 +1068,39 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 name + "-content_type"
             http_profile["compression_profile"] = compression_profile
         app_profile["http_profile"] = http_profile
-        return app_profile, sg_obj, skipped, fallback_host
+        header_erase = profile.get('header-erase', None)
+        header_erase = None if header_erase == 'none' else header_erase
+
+        if header_erase:
+            header_erase = header_erase.replace('\"', '')
+        header_insert = profile.get('header-insert', None)
+        header_insert = None if header_insert == 'none' else header_insert
+        if header_insert:
+            header_insert = header_insert.replace('\"', '')
+
+        if header_erase or header_insert:
+            rules = []
+            if header_erase:
+                if ':' in header_erase:
+                    header_erase = header_erase.split(':')[0]
+                rules.append(conv_utils.create_hdr_erase_rule(
+                    'rule-header-erase', header_erase))
+            if header_insert:
+                header, val = header_insert.split(':')
+                rules.append(conv_utils.create_hdr_insert_rule(
+                    'rule-header-insert', header, val))
+            policy_name = name + '-HTTP-Policy-Set'
+            policy = {
+                "name": policy_name,
+                "http_request_policy": {
+                    "rules": rules
+                },
+                "is_internal_policy": False
+            }
+            avi_config['HTTPPolicySet'].append(policy)
+            app_profile["HTTPPolicySet"] = policy_name
+            converted_objs.append({'policy_set': policy})
+            if sg_obj:
+                avi_config['StringGroup'].append(sg_obj)
+                converted_objs.append({'string_group': sg_obj})
+        return app_profile, skipped

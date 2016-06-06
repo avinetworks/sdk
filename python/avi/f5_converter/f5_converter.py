@@ -58,7 +58,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('-v', '--f5_config_version',
-                        help='version of f5 config file', default=11)
+                        help='version of f5 config file', default='11')
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in',
                         default='output')
@@ -103,11 +103,11 @@ if __name__ == "__main__":
     is_download_from_host = False
     if args.f5_host_ip:
         input_dir = output_dir + os.path.sep + args.f5_host_ip + \
-                    os.path.sep +"input"
+                    os.path.sep + "input"
         if not os.path.exists(input_dir):
             os.makedirs(input_dir)
         output_dir = output_dir + os.path.sep + args.f5_host_ip + \
-                     os.path.sep +"output"
+                     os.path.sep + "output"
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         is_download_from_host = True
@@ -140,8 +140,7 @@ if __name__ == "__main__":
     f5_config_dict = f5_defaults_dict
     avi_config_dict = f5_config_converter.\
         convert(f5_config_dict, output_dir, args.vs_state,
-                            input_dir, args.f5_config_version, user_ignore)
-
+                input_dir, args.f5_config_version, user_ignore)
 
     avi_config_dict["META"] = {
         "supported_migrations": {
@@ -164,14 +163,14 @@ if __name__ == "__main__":
         "upgrade_mode": False,
         "use_tenant": args.tenant
     }
-    text_file = open(output_dir + os.path.sep + "Output.json", "w")
-    json.dump(avi_config_dict, text_file, indent=4)
-    text_file.close()
+
     if args.option == "cli-upload":
+        text_file = open(output_dir + os.path.sep + "Output.json", "w")
+        json.dump(avi_config_dict, text_file, indent=4)
+        text_file.close()
         LOG.info('written avi config file ' +
                  output_dir + os.path.sep + "Output.json")
     else:
         upload_config.upload_config_to_controller(
             avi_config_dict, args.controller_ip,
             args.user, args.password, args.tenant)
-        # LOG.info('Config uploaded to controller')

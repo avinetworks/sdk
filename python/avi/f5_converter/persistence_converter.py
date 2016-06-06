@@ -10,9 +10,9 @@ LOG = logging.getLogger(__name__)
 class PersistenceConfigConv(object):
     @classmethod
     def get_instance(cls, version):
-        if version == 10:
+        if version == '10':
             return PersistenceConfigConvV10()
-        if version == 11:
+        if version == '11':
             return PersistenceConfigConvV11()
 
     supported_types = None
@@ -39,7 +39,6 @@ class PersistenceConfigConv(object):
             persist_mode = None
             name = None
             skipped = []
-            u_ignore = []
             try:
                 persist_mode, name = key.split(" ")
                 LOG.debug("Converting persistence profile: %s" % name)
@@ -81,9 +80,9 @@ class PersistenceConfigConv(object):
 
                 ignore_for_defaults = {"app-service": "none", "mask": "none"}
                 conv_status = conv_utils.get_conv_status(
-                skipped, indirect, ignore_for_defaults, profile, u_ignore)
+                    skipped, indirect, ignore_for_defaults, profile, u_ignore)
                 conv_utils.add_conv_status('persistence', persist_mode, name,
-                                          conv_status, persist_profile)
+                                           conv_status, persist_profile)
                 LOG.debug("Conversion successful for persistence profile: %s" %
                           name)
             except:
@@ -95,7 +94,6 @@ class PersistenceConfigConv(object):
                 else:
                     conv_utils.add_status_row("persistence", key, key, "error")
         f5_config.pop('persistence')
-
 
     def convert_timeout(self, timeout):
         if ':' in str(timeout):
@@ -126,8 +124,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         ignore_lst = ['always-send']
         parent_obj = super(PersistenceConfigConvV11, self)
         supported_attr += ignore_lst
-        skipped = [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+        skipped += [attr for attr in profile.keys()
+                    if attr not in supported_attr]
         cookie_name = profile.get("cookie-name", None)
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
@@ -146,7 +144,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
     def convert_ssl(self, name, profile, skipped, indirect_mappings):
         supported_attr = ["defaults-from"]
         skipped += [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+                    if attr not in supported_attr]
         indirect_mappings.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -160,7 +158,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         ignore_lst = ['map-proxies']
         supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+                    if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
         if timeout > 0:
             timeout = int(timeout)/final.SEC_IN_MIN
@@ -180,7 +178,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
     def convert_cookie(self, name, profile, skipped):
         supported_attr = ["cookie name", "mode", "defaults from", "mirror",
                           "cookie hash offset", "cookie hash length"]
-        skipped = [attr for attr in profile.keys() if attr not in supported_attr]
+        skipped = [attr for attr in profile.keys()
+                   if attr not in supported_attr]
         cookie_name = profile.get("cookie name", None)
         if not cookie_name:
             LOG.error("Missing Required field cookie name in: %s", name)
@@ -204,7 +203,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
     def convert_ssl(self, name, profile, skipped, indirect):
         supported_attr = ["mode", "defaults from", "mirror"]
         skipped += [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+                    if attr not in supported_attr]
         indirect.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -215,8 +214,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
 
     def convert_source_addr(self, name, profile, skipped):
         supported_attr = ["timeout", "mode", "defaults from"]
-        skipped = [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+        skipped += [attr for attr in profile.keys()
+                    if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
         if timeout > 0:
             timeout = int(timeout)/final.SEC_IN_MIN

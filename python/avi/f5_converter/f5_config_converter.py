@@ -6,7 +6,7 @@ from monitor_converter import MonitorConfigConv
 from persistence_converter import PersistenceConfigConv
 from pool_converter import PoolConfigConv
 from profile_converter import ProfileConfigConv
-from vs_converter import  VSConfigConv
+from vs_converter import VSConfigConv
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
