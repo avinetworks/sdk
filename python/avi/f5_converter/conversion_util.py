@@ -62,8 +62,9 @@ def get_conv_status(skipped, indirect_list, ignore_dict, f5_object,
         f5_val = f5_object.get(key)
         default_val = ignore_dict.get(key)
         if key in skipped and f5_val == default_val:
-            skipped.remove(key)
             default_skip.append(key)
+    if default_skip:
+        skipped = [attr for attr in skipped if attr not in default_skip]
 
     conv_status['skipped'] = skipped
     conv_status['default_skip'] = default_skip
@@ -289,7 +290,8 @@ def get_vs_app_profiles(profiles, avi_config):
             app_profile_names.append(app_profiles[0]['name'])
             if app_profiles[0].get('HTTPPolicySet', None):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
-                policy_set.append({"http_policy_set_ref":  policy_name})
+                policy_set.append({"index": 12,
+                                   "http_policy_set_ref":  policy_name})
             if app_profiles[0].get('fallback_host', None):
                 f_host = app_profiles[0].pop('fallback_host')
             if app_profiles[0].get('realm', None):
@@ -529,18 +531,20 @@ def cleanup_config(avi_config):
         profile.pop('HTTPPolicySet', None)
 
 
-def create_hdr_erase_rule(name, hdr_name):
+def create_hdr_erase_rule(name, hdr_name, rule_index):
     return create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",
-                              "HTTP_REPLACE_HDR", "000000")
+                              "HTTP_REPLACE_HDR", "000000", rule_index)
 
 
-def create_hdr_insert_rule(name, hdr_name, val):
-    return create_header_rule(name, hdr_name, "HDR_EXISTS", "HTTP_ADD_HDR", val)
+def create_hdr_insert_rule(name, hdr_name, val, rule_index):
+    return create_header_rule(name, hdr_name, "HDR_EXISTS", "HTTP_ADD_HDR",
+                              val, rule_index)
 
 
-def create_header_rule(name, hdr_name, match, action, val):
+def create_header_rule(name, hdr_name, match, action, val, rule_index):
     rule = {
         "name": name,
+        "index": rule_index,
         "match": {
             "hdrs": [
                 {
