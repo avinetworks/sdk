@@ -43,7 +43,7 @@ class VSConfigConv(object):
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
 
-        avi_config.pop('fallback_host_dict', {})
+        LOG.debug("Converted %s VS" % len(avi_config['VirtualService']))
         f5_config.pop("virtual", {})
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
@@ -140,6 +140,9 @@ class VSConfigConv(object):
                         ssl_vs[0]["pki"][0]["name"]
 
         conv_status = dict()
+        conv_status['user_ignore'] = [val for val in skipped
+                                      if val in user_ignore]
+        skipped = [attr for attr in skipped if attr not in user_ignore]
         conv_status['skipped'] = skipped
         ststus = 'successful'
         if skipped:

@@ -39,6 +39,7 @@ class PoolConfigConv(object):
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name, 'Error')
         avi_config['Pool'] = pool_list
+        LOG.debug("Converted %s pools" % len(pool_list))
         f5_config.pop('pool', {})
 
     def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name):
@@ -106,7 +107,7 @@ class PoolConfigConv(object):
                 conv_status['user_ignore'].append(um_list)
                 if ms_new:
                     skipped.append(ms_new)
-        if skipped_monitors and not user_ignore('monitor', None):
+        if skipped_monitors and not user_ignore.get('monitor', None):
             skipped.append({"monitor": skipped_monitors})
         conv_status['skipped'] = skipped
         status = 'successful'

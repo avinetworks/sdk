@@ -37,21 +37,15 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         pool_conv = PoolConfigConv.get_instance(version)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore)
-        LOG.debug("Converted pools")
 
         profile_conv = ProfileConfigConv.get_instance(version)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore)
 
-        LOG.debug("Converted profiles")
-
         persist_conv = PersistenceConfigConv.get_instance(version)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore)
 
-        LOG.debug("Converted persistence profiles")
-
         vs_conv = VSConfigConv.get_instance(version)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore)
-        LOG.debug("Converted VS")
 
         conv_utils.cleanup_config(avi_config_dict)
 
