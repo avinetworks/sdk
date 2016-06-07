@@ -198,12 +198,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
     tup = "time-until-up"
     dest_key = "destination"
     na_http = ['adaptive']
-    na_https = ['compatibility']
-    na_dns = []
-    na_tcp = []
-    na_udp = []
-    na_icmp = []
-    na_external = []
+    na_https = ['adaptive', 'compatibility']
+    na_dns = ['adaptive']
+    na_tcp = ['adaptive']
+    na_udp = ['adaptive']
+    na_icmp = ['adaptive']
+    na_external = ['adaptive']
 
     def get_default_monitor(self, monitor_type, monitor_config):
         default_name = "%s %s" % (monitor_type, monitor_type)
@@ -374,19 +374,27 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         cmd_code = f5_monitor.get("run", 'none')
+        user_defined_vars = ""
+        for m_key in f5_monitor.keys():
+            if 'user-defined_' in m_key:
+                var_value = f5_monitor[m_key]
+                var_key = m_key.replace('user-defined_', '')
+                skipped.remove(m_key)
+                user_defined_vars += '%s=%s,' % (var_key, var_value)
+        user_defined_vars = user_defined_vars[:-1]
         cmd_code = None if cmd_code == 'none' else cmd_code
         if cmd_code:
             cmd_code = conv_utils.upload_file(
                 input_dir + os.path.sep + cmd_code)
-        if not cmd_code:
+        else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            conv_utils.add_status_row("monitor", "external", name, "error")
+            conv_utils.add_status_row("monitor", "external", name, "skipped")
             monitor_dict['error'] = True
             return None
         ext_monitor = {
             "command_code": cmd_code,
             "command_parameters": f5_monitor.get("args", None),
-            "command_variables": f5_monitor.get("user-defined", None)
+            "command_variables": user_defined_vars
         }
         monitor_dict["external_monitor"] = ext_monitor
         return skipped
@@ -403,12 +411,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
     ignore = {"dest": "*:*", "manual-resume": 'disabled'}
     dest_key = "dest"
     na_http = ['adaptive']
-    na_https = ['compatibility']
-    na_dns = []
-    na_tcp = []
-    na_udp = []
-    na_icmp = []
-    na_external = []
+    na_https = ['adaptive', 'compatibility']
+    na_dns = ['adaptive']
+    na_tcp = ['adaptive']
+    na_udp = ['adaptive']
+    na_icmp = ['adaptive']
+    na_external = ['adaptive']
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key

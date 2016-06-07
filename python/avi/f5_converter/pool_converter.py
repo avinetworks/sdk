@@ -107,6 +107,9 @@ class PoolConfigConv(object):
                 conv_status['user_ignore'].append(um_list)
                 if ms_new:
                     skipped.append(ms_new)
+            else:
+                skipped.append(member_skipped)
+
         if skipped_monitors and not user_ignore.get('monitor', None):
             skipped.append({"monitor": skipped_monitors})
         conv_status['skipped'] = skipped
