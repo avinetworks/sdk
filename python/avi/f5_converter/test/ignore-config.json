@@ -1,0 +1,21 @@
+{
+  "monitor": {
+    "https": ["destination"],
+    "gateway-icmp": ["destination", "adaptive"]
+  },
+  "pool":{
+    "members":["rate-limit", "priority-group", "monitor", "connection-limit", "session", "description"],
+    "pool": ["min-active-members","reselect-tries"],
+    "monitor":[]
+  },
+  "profile":{
+    "tcp":["ack-on-push", "proxy-buffer-low", "send-buffer-size", "proxy-buffer-high", "delayed-acks", "cmetrics-cache", "init-cwnd", "dsack", "delay-window-control", "ecn", "pkt-loss-ignore-rate", "abc", "pkt-loss-ignore-burst", "syn-rto-base", "rate-pace", "early-retransmit", "md5-signature-passphrase", "md5-signature", "hardware-syn-cookie", "selective-nack", "zero-window-timeout", "init-rwnd", "link-qos-to-client", "ip-tos-to-client", "tail-loss-probe", "app-service", "verified-accept"],
+    "udp":["datagram-load-balancing"],
+    "server-ssl":["authenticate", "peer-cert-mode", "mode", "session-mirroring", "sni-default", "ssl-sign-hash", "proxy-ssl", "untrusted-cert-response-control", "ssl-forward-proxy", "proxy-ssl-passthrough", "sni-require", "generic-alert", "retain-certificate", "expire-cert-response-control", "session-ticket", "ssl-forward-proxy-bypass", "server-name"],
+    "client-ssl":["ca-file"],
+    "web-acceleration":["app-service", "cache-client-cache-control-mode", "cache-uri-pinned", "metadata-cache-max-size", "cache-uri-include-override"],
+    "dns":["app-service"],
+    "http-compression":["min-size", "uri-exclude", "allow-http-10", "app-service", "selective", "method-prefer", "vary-header", "cpu-saver"],
+    "fastl4":["loose-close", "mss-override", "keep-alive-interval", "tcp-close-timeout", "reassemble-fragments", "tcp-strip-sack", "hardware-syn-cookie", "loose-initialization", "app-service"]
+  }
+}
