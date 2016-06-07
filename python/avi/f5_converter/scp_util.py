@@ -2,7 +2,7 @@ import paramiko
 import logging
 import os
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 
 
 class SCPUtil(object):
@@ -29,7 +29,7 @@ class SCPUtil(object):
         self._openSFTPConnection()        
         self.sftp.get(remote_path, local_path)        
  
-    def get_all_file_names(self,  remote_path):
+    def get_all_file_names(self, remote_path):
         """
         Copies a file from the local host to the remote host
         """
