@@ -93,6 +93,8 @@ class PersistenceConfigConv(object):
                                               "error")
                 else:
                     conv_utils.add_status_row("persistence", key, key, "error")
+        count = len(avi_config["ApplicationPersistenceProfile"])
+        LOG.debug("Converted %s persistence profiles" % count)
         f5_config.pop('persistence')
 
     def convert_timeout(self, timeout):

@@ -100,7 +100,8 @@ class MonitorConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('monitor', key, key, 'error')
-        LOG.debug("Converted health monitors")
+        LOG.debug("Converted %s health monitors" %
+                  len(avi_config["HealthMonitor"]))
 
     def convert_monitor(self, f5_monitor, key, monitor_config, input_dir,
                         user_ignore):
@@ -218,8 +219,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             parent_monitor = monitor_config.get(key, None)
             if parent_monitor:
                 parent_monitor = self.get_defaults(monitor_config, key)
-                parent_monitor.update(f5_monitor)
-                f5_monitor = parent_monitor
+                copy_P_mon = copy.deepcopy(parent_monitor)
+                copy_P_mon.update(f5_monitor)
+                f5_monitor = copy_P_mon
         return f5_monitor
 
     def get_name_type(self, f5_monitor, key):

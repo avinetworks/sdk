@@ -29,21 +29,18 @@ def upload_file(file_path):
     return file_str
 
 
-def update_skipped_attributes(skipped, indirect_list, ignore_dict,
-                              f5_object, user_ignore=None):
-    user_ignore = user_ignore if user_ignore else []
-    skipped = [attr for attr in skipped if attr not in user_ignore]
-    indirect_mappings = [attr for attr in indirect_list if attr in skipped]
-    skipped = [attr for attr in skipped if attr not in indirect_list]
-    for key in ignore_dict.keys():
-        if key in f5_object and key in skipped and \
-                        f5_object[key] == ignore_dict[key]:
-            skipped.remove(key)
-    return skipped, indirect_mappings
-
-
 def get_conv_status(skipped, indirect_list, ignore_dict, f5_object,
                     user_ignore=None, na_list=None):
+    """
+    Update skipped list for conversion status
+    :param skipped: All skipped attributes after conversion
+    :param indirect_list: List of attrs to be mapped as indirect mapping
+    :param ignore_dict: Dict of default values for column skipped for defaults
+    :param f5_object: Currant F5 object
+    :param user_ignore: List of attributes user wants not to be shown in skipped
+    :param na_list: List of attributes marked as not applicable
+    :return: Conversion status dict
+    """
     conv_status = dict()
     user_ignore = [] if not user_ignore else user_ignore
     na_list = [] if not na_list else na_list
@@ -82,6 +79,12 @@ def remove_dup_key(obj_list):
 
 
 def check_for_duplicates(src_obj, obj_list):
+    """
+    Checks for duplicate objects except name and description values
+    :param src_obj: Object to be checked for duplicate
+    :param obj_list: List of oll objects to search in
+    :return: Name of object for which given object is duplicate of
+    """
     for tmp_obj in obj_list:
         src_cp = copy.deepcopy(src_obj)
         tmp_cp = copy.deepcopy(tmp_obj)
@@ -117,6 +120,11 @@ def get_avi_pool_down_action(action):
 
 
 def get_cc_algo_val(cc_algo):
+    """
+    congestion-control algorithm conversion
+    :param cc_algo: F5 algorithm value
+    :return: Avi algorithm value
+    """
     avi_algo_val = "CC_ALGO_NEW_RENO"
     if cc_algo == "high-speed":
         avi_algo_val = "CC_ALGO_HTCP"
@@ -139,7 +147,7 @@ def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
         'F5 type': f5_type,
         'F5 SubType': f5_sub_type,
         'F5 ID': f5_id,
-        'Status': conv_status.get('status'),
+        'Status': conv_status.get('status', ''),
         'Skipped settings': str(conv_status.get('skipped', '')),
         'Skipped for defaults': str(conv_status.get('default_skip', '')),
         'Indirect mapping': str(conv_status.get('indirect', '')),
@@ -169,6 +177,10 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
 
 
 def add_csv_headers(csv_file):
+    """
+    Adds header line in conversion status file
+    :param csv_file: File to which header is to be added
+    """
     global csv_writer
     fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                   'Skipped settings', 'Indirect mapping', 'Not Applicable',
@@ -204,6 +216,14 @@ def get_port_by_protocol(protocol):
 
 
 def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
+    """
+    Merge duplicate profiles
+    :param obj: Source object to find duplicates for
+    :param obj_list: List of object to search duplicates in
+    :param obj_type: Type of object to add in converted_objs status
+    :param converted_objs: Converted avi object or merged object name
+    :return:
+    """
     dup_of = check_for_duplicates(obj, obj_list)
     if dup_of:
         converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
@@ -213,7 +233,13 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
         converted_objs.append({obj_type: obj})
 
 
-def get_containt_string_group(name, content_types):
+def get_content_string_group(name, content_types):
+    """
+    Creates Avi String group object
+    :param name: name of string group
+    :param content_types: list of content type
+    :return:
+    """
     sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
     kv = []
     for content_type in content_types:
@@ -485,6 +511,12 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
+    """
+    Update pool for fallback host config
+    :param host: Redirect url
+    :param avi_pool_list: List of all converted pools
+    :param pool_ref: Name of the pool for which config is to be added
+    """
     pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
     if pool_obj:
         pool_obj = pool_obj[0]
@@ -526,10 +558,10 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["NetworkProfile"])
     remove_dup_key(avi_config["SSLProfile"])
     avi_config.pop('hash_algorithm', [])
-    avi_config.pop('realm_dict', [])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
-
+        profile.pop('realm', [])
+        profile.pop('fallback_host', [])
 
 def create_hdr_erase_rule(name, hdr_name, rule_index):
     return create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",

@@ -62,7 +62,11 @@ class ProfileConfigConv(object):
                                               'error')
                 else:
                     conv_utils.add_status_row('profile', key, key, 'error')
-
+        count = len(avi_config["SSLProfile"])
+        count += len(avi_config["PKIProfile"])
+        count += len(avi_config["ApplicationProfile"])
+        count += len(avi_config["NetworkProfile"])
+        LOG.debug("Converted %s profiles" % count)
         f5_config.pop("profile")
 
     def update_with_default_profile(self, profile_type, profile,
@@ -225,10 +229,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if key_file and cert_file:
                 key_cert_obj = parent_cls.get_key_cert_obj(
                     name, key_file, cert_file, input_dir)
-
-                conv_utils.update_skip_duplicates(
-                    key_cert_obj, avi_config['SSLKeyAndCertificate'],
-                    'key_cert', converted_objs)
+                if key_cert_obj:
+                    conv_utils.update_skip_duplicates(
+                        key_cert_obj, avi_config['SSLKeyAndCertificate'],
+                        'key_cert', converted_objs)
             ciphers = profile.get('ciphers', 'DEFAULT')
             ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
             ciphers = ciphers.replace(":@SPEED", "")
@@ -347,12 +351,12 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 rule_index = 1
                 if header_erase:
                     if ':' in header_erase:
-                        header_erase = header_erase.split(':')[0]
+                        header_erase = header_erase.split(':', 1)[0]
                     rules.append(conv_utils.create_hdr_erase_rule(
                         'rule-header-erase', header_erase, rule_index))
                     rule_index += 1
                 if header_insert:
-                    header, val = header_insert.split(':')
+                    header, val = header_insert.split(':', 1)
                     rules.append(conv_utils.create_hdr_insert_rule(
                         'rule-header-insert', header, val, rule_index))
                 policy_name = name + '-HTTP-Policy-Set'
@@ -476,8 +480,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 content_type = [ct for ct in content_type
                                 if ct not in ct_exclude]
             if content_type:
-                sg_obj = conv_utils.get_containt_string_group(name,
-                                                              content_type)
+                sg_obj = conv_utils.get_content_string_group(name,
+                                                             content_type)
                 avi_config['StringGroup'].append(sg_obj)
                 converted_objs.append({'string_group': sg_obj})
                 compression_profile["compressible_content_ref"] = \
