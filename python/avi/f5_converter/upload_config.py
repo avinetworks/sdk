@@ -1,7 +1,7 @@
 from avi.sdk.avi_api import ApiSession
 import logging
 
-LOG = logging.getLogger("converter-log")
+LOG = logging.getLogger(__name__)
 
 
 def upload_config_to_controller(avi_config_dict, controller_ip,
