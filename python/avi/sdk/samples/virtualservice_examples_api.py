@@ -3,6 +3,7 @@ import argparse
 import json
 import logging
 import sys
+import random
 
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.utils.api_utils import ApiUtils
@@ -264,6 +265,105 @@ class VirtualServiceExample(object):
             print 'Error in creating pool :%s' % resp.text
             exit(0)
 
+    def update_password(self, resource_name, new_val):
+        obj = self.api.get_object_by_name('user', resource_name)
+        if not obj:
+            resp = self.api.get('user?username=%s' % resource_name)
+            if resp.status_code < 300:
+                resp_json = json.loads(resp.text)
+                if resp_json['count'] > 0:
+                    obj = json.loads(resp.text)['results'][0]
+        if not obj:
+            logger.error('User not found with user name : %s' % resource_name)
+            exit(0)
+        obj['password'] = new_val
+        resp = self.api.put('user/%s' % obj['uuid'], data=obj)
+        if resp.status_code in xrange(200, 299):
+            logger.debug('User %s updated successfully' % resource_name)
+        else:
+            logger.error('Error updating user : %s' % resp.text)
+
+    def add_security_policy(self, vs_name, ips):
+        """
+        Example to add network security rule to existing VS
+        """
+        ip_list = ips.split(',')
+        addrs = []
+        for ip in ip_list:
+            addrs.append({
+                 "type": "V4",
+                 "addr": ip
+            })
+        rand_int = random.randint(0, 100)
+        ipaddrgroup = {
+            "name": '%s-Rule-%s-grp' % (vs_name, rand_int),
+            "addrs":addrs
+        }
+        resp = self.api.post('ipaddrgroup', data=ipaddrgroup)
+        if resp.status_code > 300:
+            logger.error('Error creating ipaddrgroup : %s' % resp.text)
+            exit(0)
+        ip_grp_ref = self.api.get_obj_ref(resp)
+        policy_name = '%s-policy-%s' % (vs_name, rand_int)
+        policy = {
+            "name": policy_name,
+            "rules": [
+                {
+                    "name": '%s-Rule-%s' % (vs_name, rand_int),
+                    "index": rand_int,
+                    "enable": True,
+                    "action": "NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY",
+                    "match": {
+                        "client_ip": {
+                            "group_refs": [ip_grp_ref],
+                            "match_criteria": "IS_IN"
+                        }
+                    },
+                }
+            ]
+        }
+        resp = self.api.post('networksecuritypolicy', data=policy)
+        if resp.status_code > 300:
+            logger.error('Error creating networksecuritypolicy: %s' % resp.text)
+            exit(0)
+        policy_ref = self.api.get_obj_ref(resp)
+
+        obj = self.api.get_object_by_name('virtualservice', vs_name)
+        if not obj:
+            logger.error('VS not found with name : %s' % vs_name)
+            exit(0)
+        obj['network_security_policy_ref'] = policy_ref
+        resp = self.api.put('virtualservice/%s' % obj['uuid'], data=obj)
+        if resp.status_code > 300:
+            logger.error('Error updating vs for networksecuritypolicy: %s' %
+                         resp.text)
+            exit(0)
+        logger.debug("Network security policy %s added to VS %s" %
+                     (policy_name, vs_name))
+
+    def edit_ip_group(self, ip_grp_name, ips):
+        """
+        Example to edit ip-group with new set of ips
+        """
+        obj = self.api.get_object_by_name('ipaddrgroup', ip_grp_name)
+        if not obj:
+            logger.error('ip-group not found with name : %s' % vs_name)
+            exit(0)
+        ip_list = ips.split(',')
+        addrs = []
+        for ip in ip_list:
+            addrs.append({
+                 "type": "V4",
+                 "addr": ip
+            })
+        obj['addrs'] = addrs
+        resp = self.api.put('ipaddrgroup/%s' % obj['uuid'], data=obj)
+        if resp.status_code > 300:
+            logger.error('Error in updating ip-group : %s' % resp.text)
+        else:
+            logger.error('ip-group %s updated successfully' % ip_grp_name)
+
+
 
 if __name__ == '__main__':
 
@@ -271,11 +371,12 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--option',
                         choices=['create-basic-vs', 'create-ssl-vs',
                                  'create-custom-vs', 'create-policy-vs',
-                                 'show-vs-inventory',
-                                 'show-se-inventory', 'show-pool-inventory',
-                                 'delete-vs', 'delete-pool',
-                                 'show-vs-metric', 'get_se_metric',
-                                 'show-pool-metric'],
+                                 'show-vs-inventory', 'show-se-inventory',
+                                 'show-pool-inventory', 'delete-vs',
+                                 'delete-pool', 'show-vs-metric',
+                                 'get_se_metric', 'show-pool-metric',
+                                 'update-password', 'add-security-policy',
+                                 'edit-ip-group'],
                         help='',
                         default='create-basic-vs')
     parser.add_argument('-n', '--vs_name_suffix',
@@ -297,8 +398,12 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--vip', help='VIP address')
 
     parser.add_argument('-r', '--resource_name',
-                        help='Resource Name to be deleted',
+                        help='Resource Name to be updated/deleted',
                         default='basic-vs')
+    parser.add_argument('--new_val',
+                        help='New value for update')
+    parser.add_argument('--ips',
+                        help='Ip addresses to be denied in security rule')
     parser.add_argument('-m', '--metric_id',
                         help='Comma separated metric ids',
                         default='l4_client.avg_bandwidth')
@@ -348,3 +453,9 @@ if __name__ == '__main__':
     elif args.option == 'show-pool-metric':
         vse.get_metrics(args.resource_name, args.metric_id,
                         entity_type='pool')
+    elif args.option == 'update-password':
+        vse.update_password(args.resource_name, args.new_val)
+    elif args.option == 'add-security-policy':
+        vse.add_security_policy(args.resource_name, args.ips)
+    elif args.option == 'edit-ip-group':
+        vse.edit_ip_group(args.resource_name, args.ips)
