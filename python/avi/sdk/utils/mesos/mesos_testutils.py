@@ -378,6 +378,20 @@ class MesosTestUtils(object):
         print 'updated app', app_id, ' response ', rsp.text
         return app_obj
 
+    def restartApp(self, marathon_url, app_id,
+                   auth_type=None, auth_token=None, username=None, password=None):
+        marathon_uri = marathon_url + '/v2/apps/' + app_id + '/restart'
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.post(marathon_uri, auth=auth, headers=headers)
+        if rsp.status_code >= 300:
+            raise RuntimeError('failed to restart app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print 'restarted app', app_id, ' rsp ', rsp.text
+
     def deleteApp(self, marathon_url, app_name, num_apps,
                   auth_type=None, auth_token=None, username=None, password=None):
         app_ids = []
