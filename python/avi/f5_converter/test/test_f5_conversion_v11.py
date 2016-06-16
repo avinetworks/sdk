@@ -13,7 +13,8 @@ log = logging.getLogger(__name__)
 
 
 def setUpModule():
-    cfg_file = open('bigip_v11.conf', 'r')
+    dir_path = os.path.abspath(os.path.dirname(__file__))
+    cfg_file = open(dir_path+os.path.sep+'bigip_v11.conf', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = cfg
@@ -40,7 +41,7 @@ class Test(unittest.TestCase):
         dir_path = dir_path.rsplit(os.path.sep, 1)[0]
         f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, 11)
 
-        defaults_file = open(dir_path+"/f5_v11_defaults.conf", "r")
+        defaults_file = open(dir_path+os.path.sep+"f5_v11_defaults.conf", "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 11)
         f5_converter.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
@@ -54,7 +55,8 @@ class Test(unittest.TestCase):
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, dir_path+os.path.sep+"output", "disable",
             "certs", "api-upload", 11)
-        with open(dir_path+'/output/ConversionStatus.csv') as csvfile:
+        with open('%s%soutput%sConversionStatus.csv' %
+                          (dir_path, os.path.sep, os.path.sep)) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 assert row['Status'] != 'error'
