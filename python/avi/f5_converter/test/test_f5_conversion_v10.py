@@ -24,7 +24,9 @@ class Test(unittest.TestCase):
 
     LOG = logging.getLogger("converter-log")
     LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler(".." + os.path.sep + "output" + os.path.sep +
+    dir_path = os.path.abspath(os.path.dirname(__file__))
+    dir_path = dir_path.rsplit(os.path.sep, 1)[0]
+    fh = logging.FileHandler(dir_path + os.path.sep + "output" + os.path.sep +
                              "converter.log", mode='a', encoding=None,
                              delay=False)
     fh.setLevel(logging.DEBUG)
