@@ -6,7 +6,7 @@ import os
 
 from requests.packages import urllib3
 
-import scp_util
+import avi.f5_converter.scp_util as scp_util
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config
 
