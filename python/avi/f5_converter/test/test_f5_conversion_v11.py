@@ -27,9 +27,11 @@ class Test(unittest.TestCase):
     LOG.setLevel(logging.DEBUG)
     dir_path = os.path.abspath(os.path.dirname(__file__))
     dir_path = dir_path.rsplit(os.path.sep, 1)[0]
-    fh = logging.FileHandler(dir_path + os.path.sep + "output" + os.path.sep +
-                             "converter.log", mode='a', encoding=None,
-                             delay=False)
+    dir_path = dir_path + os.path.sep + "output"
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    fh = logging.FileHandler(dir_path + os.path.sep + "converter.log",
+                              mode='a', encoding=None, delay=False)
     fh.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')

@@ -15,6 +15,8 @@ LOG = logging.getLogger(__name__)
 
 
 def init_logger_path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
     LOG.setLevel(logging.DEBUG)
     formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(filename=os.path.join(path, 'converter.log'),
