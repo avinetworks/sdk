@@ -13,7 +13,8 @@ log = logging.getLogger(__name__)
 
 
 def setUpModule():
-    cfg_file = open('bigip_v10.conf', 'r')
+    dir_path = os.path.abspath(os.path.dirname(__file__))
+    cfg_file = open(dir_path+os.path.sep+'bigip_v10.conf', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = cfg
@@ -24,9 +25,13 @@ class Test(unittest.TestCase):
 
     LOG = logging.getLogger("converter-log")
     LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler(".." + os.path.sep + "output" + os.path.sep +
-                             "converter.log", mode='a', encoding=None,
-                             delay=False)
+    dir_path = os.path.abspath(os.path.dirname(__file__))
+    dir_path = dir_path.rsplit(os.path.sep, 1)[0]
+    dir_path = dir_path + os.path.sep + "output"
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    fh = logging.FileHandler(dir_path + os.path.sep + "converter.log",
+                              mode='a', encoding=None, delay=False)
     fh.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -34,8 +39,10 @@ class Test(unittest.TestCase):
     LOG.addHandler(fh)
 
     def test_config_conversion(self):
+        dir_path = os.path.abspath(os.path.dirname(__file__))
+        dir_path = dir_path.rsplit(os.path.sep, 1)[0]
         f5_config_dict = f5_parser.parse_config(gSAMPLE_CONFIG, 10)
-        defaults_file = open("../f5_v10_defaults.conf", "r")
+        defaults_file = open(dir_path+os.path.sep+"f5_v10_defaults.conf", "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), 10)
         f5_converter.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
@@ -48,10 +55,11 @@ class Test(unittest.TestCase):
 
         f5_config_test = copy.deepcopy(f5_config_dict)
         avi_config_dict = f5_config_converter.convert(
-            f5_config_dict, ".."+os.path.sep+"output", "disable", "certs",
+            f5_config_dict, dir_path+os.path.sep+"output", "disable", "certs",
             "api-upload", 10)
 
-        with open('../output/ConversionStatus.csv') as csvfile:
+        with open('%s%soutput%sConversionStatus.csv' %
+                          (dir_path, os.path.sep, os.path.sep)) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 assert row['Status'] != 'error'
