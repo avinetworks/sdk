@@ -1,49 +1,47 @@
 from pyparsing import *
-import ast
-
-
+ParserElement.enablePackrat()
+import logging
+LOG = logging.getLogger(__name__)
 def parse_config_file(filepath):
-    conf_file = open(filepath, "r")
-    file_str = conf_file.read()
     EOL = LineEnd().suppress()
     comment = Suppress("#") + Suppress(restOfLine) + EOL
     SOL = LineStart().suppress()
     blank_line = SOL + EOL
+    result = []
 
-    def parse_command(s, loc, tokens):
-        not_hyphen_sign = ''.join(c for c in printables if c != '-')
-        text = Word(not_hyphen_sign, printables)
-        qarg = quotedString.setParseAction(removeQuotes)
-        option = Literal("-").suppress() + Group(
-            text + Optional((text | qarg), default=None))
-        g = Group(OneOrMore(text) + ZeroOrMore(option))
-        g.ignore(comment)
-        # g = Combine(ZeroOrMore(text),adjacent=False, joinString=" ")
-        return g.parseString(tokens[0])
-
-    # line starts, anything follows until EOL, fails on blank lines,
-    conf_line = (LineStart() + SkipTo(LineEnd()) + EOL).setParseAction(
-        parse_command)
-    grammar = OneOrMore(conf_line)
-    grammar.ignore(comment | blank_line)
-    parsed_str = grammar.parseString(file_str)
-    return parsed_str
+    hyphen = Literal("-")
+    not_hyphen_sign = ''.join(c for c in printables if c != '-')
+    text = Word(not_hyphen_sign, printables)
+    kw_params = SkipTo(hyphen | lineEnd).setParseAction(
+        lambda t: t[0].strip())
+    option = hyphen.suppress() + Group(
+        text + Optional(kw_params, default=None))
+    command = Group(OneOrMore(text) + ZeroOrMore(option)).setDebug()
+    command.ignore(comment | blank_line)
+    with open(filepath) as infile:
+        for line in infile:
+            try:
+               tmp = command.parseString(line)
+               result += tmp.asList()
+            except:
+                LOG.error("Parsing error:"+line)
+        return result
 
 
 def get_command(line):
-    commands = ['add server', 'add service', 'add lb vserver', 'bind lb vserver']
+    commands = ['add server', 'add service', 'add lb vserver', 'bind lb vserver', 'add lb monitor']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
             return command, len(cmd_arr)
+        else:
+            LOG.debug("Command not supported : %s" % line)
     return None, None
 
 
-if __name__ == "__main__":
+def get_ns_conf_dict(filepath):
     netscaler_conf = dict()
-
-    # result = parse_config_file("D:\\avi\\NetscalerConverter\\qualcom\\ns.conf")
-    result = parse_config_file("D:\\avi\\NetscalerConverter\\test.conf")
+    result = parse_config_file(filepath)
     for line in result:
         cmd, offset = get_command(line)
         if cmd:
@@ -51,14 +49,25 @@ if __name__ == "__main__":
             attr_list = []
             key = line[offset]
             line = line[offset:]
-            print line
             for token in line:
-                if isinstance(token, ParseResults):
+                if isinstance(token, list):
                     cmd_dict.update({token[0]: token[1]})
                 else:
                     attr_list.append(token)
             cmd_dict.update({'attrs':attr_list})
             cmd_list = netscaler_conf.get(cmd, {})
-            cmd_list.update({key:cmd_dict})
+            obj = cmd_list.get(key, None)
+            if obj:
+                if isinstance(obj, list):
+                    obj.append(cmd_dict)
+                else:
+                    obj_list = [obj, cmd_dict]
+                    cmd_list.update({key: obj_list})
+            else:
+                cmd_list.update({key: cmd_dict})
             netscaler_conf.update({cmd: cmd_list})
-    print netscaler_conf
+    return netscaler_conf
+
+if __name__ == "__main__":
+    ns_conf = get_ns_conf_dict("D:\\avi\\NetscalerConverter\\test.conf")
+    print ns_conf
