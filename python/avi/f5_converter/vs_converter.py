@@ -48,6 +48,7 @@ class VSConfigConv(object):
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore):
+        tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
         skipped = [key for key in f5_vs.keys()
@@ -64,12 +65,24 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
+        tenant, destination = conv_utils.get_tenant_ref(destination)
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
+
+        if '%' in ip_addr:
+            ip_addr, vrf = ip_addr.split('%')
+            conv_utils.add_vrf(avi_config, vrf)
+        p_tenant = None
         pool_ref = f5_vs.get("pool", None)
         if pool_ref:
-            shared_vs = [obj for obj in avi_config['VirtualService']
-                         if obj.get("pool_ref", "") == pool_ref]
+            p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
+            if p_tenant:
+                shared_vs = [obj for obj in avi_config['VirtualService']
+                             if obj.get("pool_ref", "") == '%s:%s' % (
+                                 p_tenant, pool_ref)]
+            else:
+                shared_vs = [obj for obj in avi_config['VirtualService']
+                            if obj.get("pool_ref", "") == pool_ref]
             if shared_vs:
                 pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
                                                  avi_config['Pool'])
@@ -91,6 +104,8 @@ class VSConfigConv(object):
             if f_host:
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
+        if p_tenant:
+            pool_ref = '%s:%s' % (p_tenant, pool_ref)
         vs_obj = {
             'name': vs_name,
             'description': description,
