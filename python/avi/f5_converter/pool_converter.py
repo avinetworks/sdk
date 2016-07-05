@@ -200,9 +200,12 @@ class PoolConfigConvV11(PoolConfigConv):
             server = servers_config[server_name]
             parts = server_name.split(':')
             node = nodes.get(parts[0], None)
-            if node and '%' in node["address"]:
-                ip_addr, vrf = node["address"].split('%')
-                conv_utils.add_vrf(avi_config, vrf)
+            if node:
+                if '%' in node["address"]:
+                    ip_addr, vrf = node["address"].split('%')
+                    conv_utils.add_vrf(avi_config, vrf)
+                else:
+                    ip_addr = node["address"]
             else:
                 if '%' in parts[0]:
                     ip_addr, vrf = parts[0].split('%')

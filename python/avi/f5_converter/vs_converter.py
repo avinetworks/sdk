@@ -65,7 +65,7 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
-        tenant, destination = conv_utils.get_tenant_ref(destination)
+        d_tenant, destination = conv_utils.get_tenant_ref(destination)
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
 
@@ -119,6 +119,9 @@ class VSConfigConv(object):
             'application_profile_ref': app_prof[0],
             'pool_ref': pool_ref
         }
+
+        if tenant:
+            vs_obj['tenant_ref'] = tenant
 
         if realm:
             vs_obj['client_auth'] = realm
