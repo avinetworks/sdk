@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir -p dist
 cd avi/sdk/
 dpkg-buildpackage -b -us -uc
 mv ../python-avisdk_*.deb ../../dist/
