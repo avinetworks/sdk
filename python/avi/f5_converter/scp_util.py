@@ -1,6 +1,7 @@
 import paramiko
 import logging
 import os
+from stat import S_ISDIR
 
 LOG = logging.getLogger(__name__)
 
@@ -43,6 +44,37 @@ class SCPUtil(object):
                 self.get(remote_path+file, local_path+file)
             except IOError as e:
                 LOG.error(e)
+
+    def rexists(self, path):
+        """os.path.exists for paramiko's SCP object
+        """
+        try:
+            self.sftp.stat(path)
+        except IOError, e:
+            if 'No such file' in str(e):
+                return False
+            raise
+        else:
+            return True
+
+    def get_all_partition_config(self, partition_path, local_path):
+        files = self.get_all_file_names(partition_path)
+        for file in files:
+            remote_file = partition_path+file+'/bigip.conf'
+            if self.isdir(partition_path+file) and self.rexists(remote_file):
+                try:
+                    self.get(remote_file, local_path+file+'_bigip.conf')
+                except IOError as e:
+                    LOG.error(
+                        "conf file not found in partition dir : %s" % file)
+
+    def isdir(self, path):
+        self._openSFTPConnection()
+        try:
+            return S_ISDIR(self.sftp.stat(path).st_mode)
+        except IOError:
+            #Path does not exist, so by definition not a directory
+            return False
  
     def close(self):
         """
@@ -66,11 +98,13 @@ def get_files_from_f5(local_path, host, username, pw=None, key=None):
     scp.get('/config/profile_base.conf', local_path + 'profile_base.conf')
     scp.get('/usr/share/monitors/base_monitors.conf', local_path +
             'base_monitors.conf')
+    scp.get_all_partition_config('/config/partitions/', local_path)
     scp.close()
 
 if __name__ == "__main__":
-    input_folder_location = "D:/avi/test/"
-    host = "10.90.117.121"
+    input_folder_location = "D:\\avi\\test"
+    host = "10.90.117.120"
     username = "root"
     pw = "avi123"
     get_files_from_f5(input_folder_location, host, username, pw)
+
