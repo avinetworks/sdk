@@ -363,6 +363,49 @@ class VirtualServiceExample(object):
         else:
             logger.error('ip-group %s updated successfully' % ip_grp_name)
 
+    def clone_vs(self, vs_name, new_vip):
+        """
+        Clones the VS and pool and assigns it a new VIP. It only changes
+        the default pool and does not clone the pools referred in the rules.
+        :param vs_name: name of the vs
+        :param new_vip: new vip to be given to the vs
+        """
+        # get the VS object
+        v_obj = self.api.get_object_by_name('virtualservice', vs_name)
+        if not v_obj:
+            raise Exception('vs %s not found' % (vs_name))
+        # get the pool for this vs
+        p_path = v_obj['pool_ref'].split('/api/')[1]
+        # get the pool object
+        p_obj = self.api.get(p_path).json()
+        #create new pool
+        del p_obj['uuid']
+        del p_obj['url']
+        del p_obj['tenant_ref']
+        del p_obj['cloud_ref']
+        p_obj.pop('vrf_ref', None)
+        # change name
+        p_obj['name'] = p_obj['name'] + '-clone'
+        r = self.api.post('pool', p_obj)
+        if r.status_code < 300:
+            new_pool = r.json()
+            print 'new pool ', new_pool
+        else:
+            raise Exception('pool %s not created %d' % (p_obj['name'],
+                                                        r.status_code))
+        # create VS with this new pool
+        del v_obj['uuid']
+        del v_obj['url']
+        del v_obj['tenant_ref']
+        del v_obj['cloud_ref']
+        v_obj.pop('fqdn', None)
+        v_obj.pop('vrf_context_ref', None)
+        v_obj['name'] = v_obj['name'] + '-clone'
+        v_obj['pool_ref'] = new_pool['url']
+        v_obj['ip_address']['addr'] = new_vip
+        r = self.api.post('virtualservice', v_obj)
+        if r.status_code < 299:
+            print 'new_vs created ', r.json()
 
 
 if __name__ == '__main__':
@@ -376,8 +419,8 @@ if __name__ == '__main__':
                                  'delete-pool', 'show-vs-metric',
                                  'get_se_metric', 'show-pool-metric',
                                  'update-password', 'add-security-policy',
-                                 'edit-ip-group'],
-                        help='',
+                                 'edit-ip-group', 'clone-vs'],
+                        help='list of example operations',
                         default='create-basic-vs')
     parser.add_argument('-n', '--vs_name_suffix',
                         help='VirtualService Name Suffix',
@@ -459,3 +502,7 @@ if __name__ == '__main__':
         vse.add_security_policy(args.resource_name, args.ips)
     elif args.option == 'edit-ip-group':
         vse.edit_ip_group(args.resource_name, args.ips)
+    elif args.option == 'clone-vs':
+        if not args.vip:
+            raise ('New VIP is required')
+        vse.clone_vs(args.resource_name, args.vip)
