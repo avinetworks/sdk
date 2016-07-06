@@ -170,7 +170,7 @@ class MesosTestUtils(object):
                   auth_type=None, auth_token=None, username=None, password=None,
                   ns_service_port=None, ew_service_port_start_index=None,
                   num_service_ports=1, constraints=None,
-                  cpus=None, mem=None):
+                  cpus=None, mem=None, tenant=None):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
@@ -204,6 +204,8 @@ class MesosTestUtils(object):
             avi_proxy_json = app_obj['labels']['avi_proxy']
             print ' proxy json-', avi_proxy_json
             avi_proxy = json.loads(avi_proxy_json)
+            if tenant:
+                avi_proxy['tenant'] = tenant
             if virtualservice:
                 if 'virtualservice' not in avi_proxy:
                     avi_proxy['virtualservice'] = virtualservice
