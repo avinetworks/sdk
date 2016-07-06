@@ -22,6 +22,7 @@ cd python
 rm -rf dist/
 ./create_sdk_pip_packages.sh sdk
 ./create_sdk_pip_packages.sh f5_converter
+./create_sdk_pkgs.sh
 mv dist/avisdk-$BRANCH.tar.gz ../avisdk-$BRANCH.tar.gz
 mv dist/python-avisdk_*all.deb ../avisdk-$BRANCH.deb
 mv dist/avisdk-$BRANCH-1.noarch.rpm ../avisdk-$BRANCH.rpm
@@ -33,3 +34,5 @@ cd ../
 /usr/local/bin/hub release edit $assets -F ReleaseNote $REL
 rm avisdk-$BRANCH.tar.gz
 rm avif5converter-$BRANCH.tar.gz
+rm avisdk-$BRANCH.deb
+rm avisdk-$BRANCH.rpm
