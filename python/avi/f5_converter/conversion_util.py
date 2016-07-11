@@ -457,13 +457,14 @@ def get_service_obj(destination, vs_list, enable_ssl):
     return services_obj, ip_addr
 
 
-def clone_pool(pool_name, vs_name, avi_pool_list):
+def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
     """
     If pool is shared with other VS pool is cloned for other VS as Avi dose not
     support shared pools with new pool name as <pool_name>-<vs_name>
     :param pool_name: Name of the pool to be cloned
     :param vs_name: Name of the VS for pool to be cloned
     :param avi_pool_list: new pool to be added to this list
+    :param tenant: if pool is shared across partition then coned for tenant
     :return: new pool object
     """
     new_pool = None
@@ -473,6 +474,8 @@ def clone_pool(pool_name, vs_name, avi_pool_list):
             break
     if new_pool:
         new_pool["name"] = pool_name+"-"+vs_name
+        if tenant:
+            new_pool["tenant_ref"] = tenant
         # removing config added from VS config to pool
         new_pool["application_persistence_profile_ref"] = None
         new_pool["ssl_profile_ref"] = None
