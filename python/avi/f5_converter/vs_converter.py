@@ -82,7 +82,10 @@ class VSConfigConv(object):
                                  p_tenant, pool_ref)]
             else:
                 shared_vs = [obj for obj in avi_config['VirtualService']
-                            if obj.get("pool_ref", "") == pool_ref]
+                             if obj.get("pool_ref", "") == pool_ref]
+                if tenant:
+                    pool_ref = conv_utils.clone_pool(
+                        pool_ref, vs_name, avi_config['Pool'], tenant)
             if shared_vs:
                 pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
                                                  avi_config['Pool'])
