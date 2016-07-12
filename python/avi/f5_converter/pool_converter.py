@@ -22,6 +22,7 @@ class PoolConfigConv(object):
         pool_list = []
         pool_config = f5_config.get('pool', {})
         user_ignore = user_ignore.get('pool', {})
+        avi_config['VrfContext'] = []
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
@@ -52,10 +53,16 @@ class PoolConfigConv(object):
                         monitor.isdigit():
                     continue
                 monitor = monitor.strip()
+                tenant, monitor = conv_utils.get_tenant_ref(monitor)
                 monitor_obj = [obj for obj in monitor_config_list
                                if obj["name"] == monitor]
+
                 if monitor_obj:
-                    monitor_refs.append(monitor_obj[0]["name"])
+                    if tenant:
+                        monitor_refs.append('%s:%s' % (
+                            tenant, monitor_obj[0]["name"]))
+                    else:
+                        monitor_refs.append(monitor_obj[0]["name"])
                 else:
                     LOG.warning("Monitor not found: %s for pool %s" %
                                 (monitor, pool_name))
@@ -64,6 +71,7 @@ class PoolConfigConv(object):
 
     def create_pool_object(self, name, desc, servers, pd_action, algo,
                            ramp_time):
+        tenant, name = conv_utils.get_tenant_ref(name)
         pool_obj = \
             {
                 "name": name,
@@ -72,6 +80,8 @@ class PoolConfigConv(object):
                 "fail_action": pd_action,
                 "lb_algorithm": algo
             }
+        if tenant:
+            pool_obj['tenant_ref'] = tenant
         if ramp_time:
             pool_obj['connection_ramp_duration'] = ramp_time
         return pool_obj
@@ -129,7 +139,7 @@ class PoolConfigConvV11(PoolConfigConv):
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
         servers, member_skipped_config = self.convert_servers_config(
-            f5_pool.get("members", {}), nodes)
+            f5_pool.get("members", {}), nodes, avi_config)
         sd_action = f5_pool.get("service-down-action", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("load-balancing-mode", None)
@@ -176,7 +186,7 @@ class PoolConfigConvV11(PoolConfigConv):
             avi_algorithm = "LB_ALGORITHM_LEAST_LOAD"
         return avi_algorithm
 
-    def convert_servers_config(self, servers_config, nodes):
+    def convert_servers_config(self, servers_config, nodes, avi_config):
         """
         Converts the config of servers in the pool
         :param servers_config: F5 servers config for particular pool
@@ -189,7 +199,20 @@ class PoolConfigConvV11(PoolConfigConv):
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
-            ip_addr = nodes[parts[0]]["address"]
+            node = nodes.get(parts[0], None)
+            if node:
+                if '%' in node["address"]:
+                    ip_addr, vrf = node["address"].split('%')
+                    conv_utils.add_vrf(avi_config, vrf)
+                else:
+                    ip_addr = node["address"]
+            else:
+                if '%' in parts[0]:
+                    ip_addr, vrf = parts[0].split('%')
+                    conv_utils.add_vrf(avi_config, vrf)
+                else:
+                    ip_addr = parts[0]
+
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
             enabled = True
             state = server.get("state", 'enabled')
@@ -223,7 +246,7 @@ class PoolConfigConvV10(PoolConfigConv):
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
         servers, member_skipped_config = self.convert_servers_config(
-            f5_pool.get("members", {}), nodes)
+            f5_pool.get("members", {}), nodes, avi_config)
         sd_action = f5_pool.get("action on svcdown", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("lb method", None)
@@ -267,7 +290,7 @@ class PoolConfigConvV10(PoolConfigConv):
             avi_algorithm = "LB_ALGORITHM_LEAST_LOAD"
         return avi_algorithm
 
-    def convert_servers_config(self, servers_config, nodes):
+    def convert_servers_config(self, servers_config, nodes, avi_config):
         """
         Converts the config of servers in the pool
         :param servers_config: F5 servers config for particular pool
@@ -280,7 +303,16 @@ class PoolConfigConvV10(PoolConfigConv):
             skipped = None
             server = servers_config[server_name]
             parts = server_name.split(':')
-            ip_addr = parts[0]
+            node = nodes.get(parts[0], None)
+            if node and '%' in node["address"]:
+                ip_addr, vrf = node["address"].split('%')
+                conv_utils.add_vrf(avi_config, vrf)
+            else:
+                if '%' in parts[0]:
+                    ip_addr, vrf = parts[0].split('%')
+                    conv_utils.add_vrf(avi_config, vrf)
+                else:
+                    ip_addr = parts[0]
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
             if not port.isdigit():
                 port = conv_utils.get_port_by_protocol(port)
