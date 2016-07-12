@@ -233,7 +233,7 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
         converted_objs.append({obj_type: obj})
 
 
-def get_content_string_group(name, content_types):
+def get_content_string_group(name, content_types, tenant):
     """
     Creates Avi String group object
     :param name: name of string group
@@ -246,6 +246,8 @@ def get_content_string_group(name, content_types):
         uri = {"key": content_type}
         kv.append(uri)
     sg_obj["kv"] = kv
+    if tenant:
+        sg_obj['tenant_ref'] = tenant
     return sg_obj
 
 
@@ -264,7 +266,8 @@ def get_vs_ssl_profiles(profiles, avi_config):
     if isinstance(profiles, str):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
-    for name in profiles.keys():
+    for key in profiles.keys():
+        tenant, name = get_tenant_ref(key)
         ssl_profile_list = avi_config.get("SSLProfile", [])
         ssl_profiles = [obj for obj in ssl_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
@@ -273,19 +276,29 @@ def get_vs_ssl_profiles(profiles, avi_config):
             key_cert = [obj for obj in ssl_key_cert_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
             key_cert = key_cert[0]['name'] if key_cert else None
-            profile = profiles.get(name, None)
+            if key_cert and tenant:
+               key_cert = '%s:%s' % (tenant, key_cert)
+            profile = profiles.get(key, None)
             context = profile.get("context", None)
             pki_list = avi_config.get("PKIProfile", [])
             pki_profiles = [obj for obj in pki_list if (
                 obj['name'] == name or name in obj.get("dup_of", []))]
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
+            if pki_profile and tenant:
+               pki_profile = '%s:%s' % (tenant, pki_profile)
             if context == "clientside":
-                vs_ssl_profile_names.append({"profile": ssl_profiles[0]["name"],
+                ssl_prof_ref = ssl_profiles[0]["name"]
+                if tenant:
+                    ssl_prof_ref = '%s:%s' % (tenant, ssl_prof_ref)
+                vs_ssl_profile_names.append({"profile": ssl_prof_ref,
                                              "cert": key_cert,
                                              "pki": pki_profile})
             elif context == "serverside":
+                ssl_prof_ref = ssl_profiles[0]["name"]
+                if tenant:
+                    ssl_prof_ref = '%s:%s' % (tenant, ssl_prof_ref)
                 pool_ssl_profile_names.append(
-                    {"profile": ssl_profiles[0]["name"], "cert": key_cert,
+                    {"profile": ssl_prof_ref, "cert": key_cert,
                      "pki": pki_profile})
     return vs_ssl_profile_names, pool_ssl_profile_names
 
@@ -309,11 +322,16 @@ def get_vs_app_profiles(profiles, avi_config):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
     for name in profiles.keys():
+        tenant, name = get_tenant_ref(name)
         app_profile_list = avi_config.get("ApplicationProfile", [])
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
-            app_profile_names.append(app_profiles[0]['name'])
+            if tenant:
+                app_prof_name = '%s:%s' % (tenant, app_profiles[0]['name'])
+            else:
+                app_prof_name = app_profiles[0]['name']
+            app_profile_names.append(app_prof_name)
             if app_profiles[0].get('HTTPPolicySet', None):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
                 policy_set.append({"index": 12,
@@ -346,12 +364,17 @@ def get_vs_ntwk_profiles(profiles, avi_config):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
     for name in profiles.keys():
+        tenant, name = get_tenant_ref(name)
         ntwk_prof_lst = avi_config.get("NetworkProfile")
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
         if network_profiles:
+            if tenant:
+                network_profile_ref = '%s:%s' % (
+                    tenant, network_profiles[0]['name'])
+            else:
+                network_profile_ref = network_profiles[0]['name']
             network_profile_names.append(network_profiles[0]['name'])
-
     return network_profile_names
 
 
@@ -434,13 +457,14 @@ def get_service_obj(destination, vs_list, enable_ssl):
     return services_obj, ip_addr
 
 
-def clone_pool(pool_name, vs_name, avi_pool_list):
+def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
     """
     If pool is shared with other VS pool is cloned for other VS as Avi dose not
     support shared pools with new pool name as <pool_name>-<vs_name>
     :param pool_name: Name of the pool to be cloned
     :param vs_name: Name of the VS for pool to be cloned
     :param avi_pool_list: new pool to be added to this list
+    :param tenant: if pool is shared across partition then coned for tenant
     :return: new pool object
     """
     new_pool = None
@@ -450,6 +474,8 @@ def clone_pool(pool_name, vs_name, avi_pool_list):
             break
     if new_pool:
         new_pool["name"] = pool_name+"-"+vs_name
+        if tenant:
+            new_pool["tenant_ref"] = tenant
         # removing config added from VS config to pool
         new_pool["application_persistence_profile_ref"] = None
         new_pool["ssl_profile_ref"] = None
@@ -598,3 +624,27 @@ def create_header_rule(name, hdr_name, match, action, val, rule_index):
         ]
     }
     return rule
+
+
+def add_vrf(avi_config, vrf):
+    vrf_name = 'vrf-%s' % vrf
+    vrf_list = avi_config['VrfContext']
+    vrf_obj = [obj for obj in vrf_list if obj['name'] == vrf_name]
+    if not vrf_obj:
+        vrf_obj = {
+            "name": vrf_name,
+            "system_default": False
+        }
+        vrf_list.append(vrf_obj)
+
+
+def get_tenant_ref(name):
+    tenant = None
+    if name.startswith('/'):
+        parts = name.split('/', 2)
+        tenant = parts[1]
+        name = parts[2]
+    return tenant, name
+
+
+

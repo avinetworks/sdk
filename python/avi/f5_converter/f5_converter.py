@@ -95,6 +95,8 @@ if __name__ == "__main__":
                         help='Target Avi controller version', default='16.2')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
+    parser.add_argument('--partition_config',
+                        help='comma separated partition config files')
 
     args = parser.parse_args()
     init_logger_path(args.output_file_path)
@@ -119,23 +121,44 @@ if __name__ == "__main__":
         ignore_conf_str = ignore_conf_file.read()
         user_ignore = json.loads(ignore_conf_str)
 
+    partitions = []
+    if args.partition_config:
+        partitions = args.partition_config.split(',')
+
     if is_download_from_host:
         LOG.debug("Copying files from host")
         scp_util.get_files_from_f5(input_dir, args.f5_host_ip,
                                    args.f5_ssh_user, args.f5_ssh_password)
         LOG.debug("Copied input files")
         source_file = open(input_dir + os.path.sep + "bigip.conf", "r")
+        files = os.listdir(input_dir)
+        for f in files:
+            if f.endswith('_bigip.conf'):
+                partitions.append(input_dir + os.path.sep + f)
     else:
         source_file = open(args.bigip_config_file, "r")
     source_str = source_file.read()
     LOG.debug('Parsing config file:'+source_file.name)
     f5_config_dict = f5_parser.parse_config(source_str, args.f5_config_version)
-    LOG.debug('Config file parsed successfully')
+    LOG.debug('Config file %s parsed successfully' % source_file.name)
     avi_config_dict = None
     LOG.debug('Parsing defaults files')
     f5_defaults_dict = get_default_config(args.f5_config_version,
                                           is_download_from_host,
                                           input_dir)
+    if partitions:
+        partition_conf = {}
+        for partition in partitions:
+            p_source_file = open(partition, "r")
+            p_src_str = p_source_file.read()
+            LOG.debug('Parsing partition config file:'+p_source_file.name)
+            partition_dict = f5_parser.parse_config(
+                p_src_str, args.f5_config_version)
+            LOG.debug('Config file %s parsed successfully' % p_source_file.name)
+            dict_merge(partition_conf, partition_dict)
+        dict_merge(partition_conf, f5_config_dict)
+        f5_config_dict = partition_conf
+
     LOG.debug('Defaults files parsed successfully')
     LOG.debug('Conversion started')
     dict_merge(f5_defaults_dict, f5_config_dict)
