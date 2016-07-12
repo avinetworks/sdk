@@ -6,7 +6,7 @@ import os
 
 from requests.packages import urllib3
 
-import scp_util
+import avi.f5_converter.scp_util as scp_util
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config
 
@@ -15,6 +15,8 @@ LOG = logging.getLogger(__name__)
 
 
 def init_logger_path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
     LOG.setLevel(logging.DEBUG)
     formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(filename=os.path.join(path, 'converter.log'),
