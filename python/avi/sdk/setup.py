@@ -18,7 +18,7 @@ setup(
     url='http://avinetworks.com/',
     author='Avi Networks',
     author_email='support@avinetworks.com',
-    scripts=['samples/virtualservice_examples_api.py'],
+    scripts=['avi/sdk/samples/virtualservice_examples_api.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
