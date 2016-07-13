@@ -22,14 +22,15 @@ cd python
 rm -rf dist/
 ./create_sdk_pip_packages.sh sdk
 ./create_sdk_pip_packages.sh f5_converter
-./create_sdk_pkgs.sh
+#./create_sdk_pkgs.sh
 mv dist/avisdk-$BRANCH.tar.gz ../avisdk-$BRANCH.tar.gz
-mv dist/python-avisdk_*all.deb ../avisdk-$BRANCH.deb
-mv dist/avisdk-$BRANCH-1.noarch.rpm ../avisdk-$BRANCH.rpm
+#mv dist/python-avisdk_*all.deb ../avisdk-$BRANCH.deb
+#mv dist/avisdk-$BRANCH-1.noarch.rpm ../avisdk-$BRANCH.rpm
 mv dist/avif5converter-$BRANCH.tar.gz ../avif5converter-$BRANCH.tar.gz
 rm -rf dist
 rm -rf avisdk.egg-info
-assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH -a avisdk-$BRANCH.deb#debian-package-avisdk-$BRANCH -a avisdk-$BRANCH.rpm#rpm--package-avisdk-$BRANCH"
+#assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH -a avisdk-$BRANCH.deb#debian-package-avisdk-$BRANCH -a avisdk-$BRANCH.rpm#rpm--package-avisdk-$BRANCH"
+assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH"
 cd ../
 /usr/local/bin/hub release edit $assets -F ReleaseNote $REL
 rm avisdk-$BRANCH.tar.gz
