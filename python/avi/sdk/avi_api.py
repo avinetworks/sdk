@@ -1,8 +1,7 @@
+import os
 import copy
 import json
-import os
 import logging
-import os
 from datetime import datetime, timedelta
 from requests import Response
 from requests.sessions import Session
@@ -130,7 +129,7 @@ class ApiSession(Session):
                        else "https://%s" % controller_ip)
         self.verify = verify
         self.port = port
-        self.key = controller_ip + username
+        self.key = controller_ip + ":" +  username
 
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
@@ -166,7 +165,7 @@ class ApiSession(Session):
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param port: Rest-API may use a different port other than 443
         """
-        key = controller_ip + username
+        key = controller_ip + ":" + username
         try:
             user_session = ApiSession.sessionDict[key]["api"]
             if user_session.password != password:
@@ -223,7 +222,7 @@ class ApiSession(Session):
             self.headers.update({"X-CSRFToken": csrftoken})
             if self.key in ApiSession.sessionDict:
                 cached_api = \
-                    ApiSession.sessionDict[key]['api']
+                    ApiSession.sessionDict[self.key]['api']
                 cached_api.headers.update({"X-CSRFToken": csrftoken})
         logger.debug("authentication success for user %s with headers: %s",
                      self.username, self.headers)
@@ -562,7 +561,7 @@ class ApiSession(Session):
         """ Removes the session for cleanup"""
         logger.debug("Removed session for : %s", self.key)
         try:
-            ApiSession.sessionDict[self.key]
+            ApiSession.sessionDict.pop(self.key)
         except KeyError:
             logger.debug("Key not present: %s", self.key)
         return
