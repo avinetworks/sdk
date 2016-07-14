@@ -182,7 +182,7 @@ class ApiSession(Session):
                                       token=token, tenant=tenant,
                                       tenant_uuid=tenant_uuid, verify=verify,
                                       port=port)
-            ApiSession.sessionDict[self.key] = \
+            ApiSession.sessionDict[key] = \
                 {"api": user_session, "last_used": datetime.utcnow()}
         ApiSession._clean_inactive_sessions()
         return user_session
