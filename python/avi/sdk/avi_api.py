@@ -560,9 +560,6 @@ class ApiSession(Session):
     def delete_session(self):
         """ Removes the session for cleanup"""
         logger.debug("Removed session for : %s", self.key)
-        try:
-            ApiSession.sessionDict.pop(self.key)
-        except KeyError:
-            logger.debug("Key not present: %s", self.key)
+        ApiSession.sessionDict.pop(self.key, None)
         return
 # End of file
