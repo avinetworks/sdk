@@ -121,6 +121,10 @@ class MonitorConfigConv(object):
 
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
+        tenant, name = conv_utils.get_tenant_ref(name)
+        if tenant:
+            monitor_dict['tenant_ref'] = tenant
+
         monitor_dict["name"] = name
         monitor_dict["receive_timeout"] = interval-1
         monitor_dict["failed_checks"] = failed_checks

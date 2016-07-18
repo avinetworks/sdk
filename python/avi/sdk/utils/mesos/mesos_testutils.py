@@ -170,7 +170,7 @@ class MesosTestUtils(object):
                   auth_type=None, auth_token=None, username=None, password=None,
                   ns_service_port=None, ew_service_port_start_index=None,
                   num_service_ports=1, constraints=None,
-                  cpus=None, mem=None):
+                  cpus=None, mem=None, tenant=None):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
@@ -204,6 +204,8 @@ class MesosTestUtils(object):
             avi_proxy_json = app_obj['labels']['avi_proxy']
             print ' proxy json-', avi_proxy_json
             avi_proxy = json.loads(avi_proxy_json)
+            if tenant:
+                avi_proxy['tenant'] = tenant
             if virtualservice:
                 if 'virtualservice' not in avi_proxy:
                     avi_proxy['virtualservice'] = virtualservice
@@ -377,6 +379,20 @@ class MesosTestUtils(object):
             raise RuntimeError('failed to update app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
         print 'updated app', app_id, ' response ', rsp.text
         return app_obj
+
+    def restartApp(self, marathon_url, app_id,
+                   auth_type=None, auth_token=None, username=None, password=None):
+        marathon_uri = marathon_url + '/v2/apps/' + app_id + '/restart'
+        headers = self.MARATHON_HDRS
+        auth = None
+        if auth_type == 'token':
+            headers.update({'Authorization': 'token=%s'%str(auth_token)})
+        elif auth_type == 'basic':
+            auth=HTTPBasicAuth(username, password)
+        rsp = requests.post(marathon_uri, auth=auth, headers=headers)
+        if rsp.status_code >= 300:
+            raise RuntimeError('failed to restart app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+        print 'restarted app', app_id, ' rsp ', rsp.text
 
     def deleteApp(self, marathon_url, app_name, num_apps,
                   auth_type=None, auth_token=None, username=None, password=None):

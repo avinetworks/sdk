@@ -1,8 +1,7 @@
+import os
 import copy
 import json
-import os
 import logging
-import os
 from datetime import datetime, timedelta
 from requests import Response
 from requests.sessions import Session
@@ -112,7 +111,7 @@ class ApiSession(Session):
     SESSION_CACHE_EXPIRY = 20*60
 
     def __init__(self, controller_ip, username, password=None, token=None,
-                 tenant=None, tenant_uuid=None, verify=False):
+                 tenant=None, tenant_uuid=None, verify=False, port=None):
         """
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
@@ -129,14 +128,16 @@ class ApiSession(Session):
         self.prefix = (controller_ip if controller_ip.startswith('http')
                        else "https://%s" % controller_ip)
         self.verify = verify
+        self.port = port
+        self.key = controller_ip + ":" +  username
 
         try:
-            user_session = ApiSession.sessionDict[username]["api"]
+            user_session = ApiSession.sessionDict[self.key]["api"]
         except KeyError:
-            logger.debug("Session does not exist creating new session for %s",
-                         username)
+            logger.debug("Session does not exist; Creating new session for %s",
+                         self.key)
             self.authenticate_session()
-            ApiSession.sessionDict[username] = \
+            ApiSession.sessionDict[self.key] = \
                 {"api": self, "last_used": datetime.utcnow()}
             user_session = self
         self.headers = copy.deepcopy(user_session.headers)
@@ -152,7 +153,7 @@ class ApiSession(Session):
 
     @staticmethod
     def get_session(controller_ip, username, password=None, token=None,
-                    tenant=None, tenant_uuid=None, verify=False):
+                    tenant=None, tenant_uuid=None, verify=False, port=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -162,20 +163,30 @@ class ApiSession(Session):
         :param token: Token to use; example, a valid keystone token
         :param tenant: Name of the tenant on Avi Controller
         :param tenant_uuid: Don't specify tenant when using tenant_id
+        :param port: Rest-API may use a different port other than 443
         """
+        key = controller_ip + ":" + username
         try:
-            user_session = ApiSession.sessionDict[username]["api"]
-            if user_session.password != password:
-                raise APIError("Authentication Failed")
-            if user_session.tenant != tenant:
-                raise APIError("Tenant doesn't match; use ApiSessionAdapter")
+            user_session = ApiSession.sessionDict[key]["api"]
+            tenant = tenant if tenant else 'admin'
+            if (user_session.password != password or
+                user_session.keystone_token != token or
+                user_session.tenant != tenant or
+                user_session.tenant_uuid != tenant_uuid):
+                logger.debug('Api Session auth credential mismatch %s', key)
+                del ApiSession.sessionDict[key]
+                user_session = None
         except KeyError:
-            logger.debug("Session does not exist creating new session for %s",
-                         username)
+            logger.debug("Session does not exist; Creating new session for %s",
+                         key)
+            user_session = None
+
+        if not user_session:
             user_session = ApiSession(controller_ip, username, password,
                                       token=token, tenant=tenant,
-                                      tenant_uuid=tenant_uuid, verify=verify)
-            ApiSession.sessionDict[user_session.username] = \
+                                      tenant_uuid=tenant_uuid, verify=verify,
+                                      port=port)
+            ApiSession.sessionDict[key] = \
                 {"api": user_session, "last_used": datetime.utcnow()}
         ApiSession._clean_inactive_sessions()
         return user_session
@@ -185,7 +196,7 @@ class ApiSession(Session):
         resets and re-authenticates the current session.
         :param api: ApiSession object
         """
-        logger.info('resetting session for %s', self.username)
+        logger.info('resetting session for %s', self.key)
         self.headers = {}
         self.authenticate_session()
 
@@ -214,9 +225,9 @@ class ApiSession(Session):
         if rsp.cookies and 'csrftoken' in rsp.cookies:
             csrftoken = rsp.cookies['csrftoken']
             self.headers.update({"X-CSRFToken": csrftoken})
-            if self.username in ApiSession.sessionDict:
+            if self.key in ApiSession.sessionDict:
                 cached_api = \
-                    ApiSession.sessionDict[self.username]['api']
+                    ApiSession.sessionDict[self.key]['api']
                 cached_api.headers.update({"X-CSRFToken": csrftoken})
         logger.debug("authentication success for user %s with headers: %s",
                      self.username, self.headers)
@@ -508,11 +519,20 @@ class ApiSession(Session):
             return None
 
     def _get_api_path(self, path, uuid=None):
-        """returns the full url from relative path and uuid"""
-        if uuid:
-            return self.prefix+'/api/'+path+'/'+uuid
+        """
+        This function returns the full url from relative path and uuid.
+        If there is a configured port (ex: Rest API port may be something
+        other than 443), then it is included in the path.
+        """
+        if self.port is not None:
+            prefix = '{x}:{y}'.format(x=self.prefix, y=self.port)
         else:
-            return self.prefix+'/api/'+path
+            prefix = self.prefix
+
+        if uuid:
+            return prefix+'/api/'+path+'/'+uuid
+        else:
+            return prefix+'/api/'+path
 
     def _get_uuid_by_name(self, path, name, tenant, tenant_uuid):
         """gets object by name and service path and returns uuid"""
@@ -522,11 +542,11 @@ class ApiSession(Session):
         return self.get_obj_uuid(resp)
 
     def _update_session_last_used(self):
-        if self.username in ApiSession.sessionDict:
-            ApiSession.sessionDict[self.username]["last_used"] = \
+        if self.key in ApiSession.sessionDict:
+            ApiSession.sessionDict[self.key]["last_used"] = \
                 datetime.utcnow()
         else:
-            ApiSession.sessionDict[self.username] = \
+            ApiSession.sessionDict[self.key] = \
                 {'api': self, 'last_used': datetime.utcnow()}
 
     @staticmethod
@@ -535,9 +555,16 @@ class ApiSession(Session):
         session_cache = ApiSession.sessionDict
         logger.debug("cleaning inactive sessions in pid %d num elem %d",
                      os.getpid(), len(session_cache))
-        for user, session in session_cache.iteritems():
+        for key, session in session_cache.iteritems():
             tdiff = avi_timedelta(session["last_used"] - datetime.utcnow())
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue
-            logger.debug("Removed session for : %s", user)
-            del session_cache[user]
+            logger.debug("Removed session for : %s", key)
+            del session_cache[key]
+
+    def delete_session(self):
+        """ Removes the session for cleanup"""
+        logger.debug("Removed session for : %s", self.key)
+        ApiSession.sessionDict.pop(self.key, None)
+        return
+# End of file
