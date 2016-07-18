@@ -80,6 +80,8 @@ def gcp_program_route(gcp, event_id, project, zones, network, inst_ip, vip):
     if not inst:
         print('WARNING: Instance not found for project %s zones %s IP %s' % 
                   (project, str(zones), inst_ip))
+        return
+
     inst_pfx_list = inst.split('/projects/')
     net_url = '%s/%s' % (inst_pfx_list[0], net_sfx)
 
