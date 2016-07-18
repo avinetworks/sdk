@@ -44,11 +44,13 @@ def create_sessions(args):
     login_info, num_sessions = args
     log.info('pid %d num_sessions %d', os.getpid(), num_sessions)
     user = login_info.get("username", "admin")
+    cip = login_info.get("controller_ip")
+    key = cip + ":" + user
     for _ in xrange(num_sessions):
         api = ApiSession(login_info["controller_ip"],
                          login_info.get("username", "admin"),
                          login_info.get("password", "avi123"))
-    return 1 if user in ApiSession.sessionDict else 0
+    return 1 if key in ApiSession.sessionDict else 0
 
 
 def shared_session_check(index):
@@ -245,9 +247,9 @@ class Test(unittest.TestCase):
     def test_cleanup_sessions(self):
         ApiSession.sessionDict = {}
         api._update_session_last_used()
-        assert api.username in ApiSession.sessionDict
-        assert 'api' in ApiSession.sessionDict[api.username]
-        assert 'last_used' in ApiSession.sessionDict[api.username]
+        assert api.key in ApiSession.sessionDict
+        assert 'api' in ApiSession.sessionDict[api.key]
+        assert 'last_used' in ApiSession.sessionDict[api.key]
 
     
     def test_avi_timedelta(self):
