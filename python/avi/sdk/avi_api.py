@@ -168,15 +168,20 @@ class ApiSession(Session):
         key = controller_ip + ":" + username
         try:
             user_session = ApiSession.sessionDict[key]["api"]
-            if user_session.password != password:
-                logger.debug('Password mismatch; Clean cached session %s', key)
+            tenant = tenant if tenant else 'admin'
+            if (user_session.password != password or
+                user_session.keystone_token != token or
+                user_session.tenant != tenant or
+                user_session.tenant_uuid != tenant_uuid):
+                logger.debug('Api Session auth credential mismatch %s', key)
                 del ApiSession.sessionDict[key]
-                raise APIError("Authentication Failed")
-            if user_session.tenant != tenant:
-                raise APIError("Tenant doesn't match; use ApiSessionAdapter")
+                user_session = None
         except KeyError:
             logger.debug("Session does not exist; Creating new session for %s",
                          key)
+            user_session = None
+
+        if not user_session:
             user_session = ApiSession(controller_ip, username, password,
                                       token=token, tenant=tenant,
                                       tenant_uuid=tenant_uuid, verify=verify,
