@@ -70,7 +70,6 @@
  </code></pre>
 </div>
 
-
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=Pool
@@ -91,8 +90,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#NetworkFilter>NetworkFilter</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter.</dd></dl><p><strong>placement_networks</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PlacementNetwork>PlacementNetwork</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax: 10.1.1.0/24</dd></dl><p><strong>application_persistence_profile_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=applicationpersistenceprofile.html#ApplicationPersistenceProfile>Reference to ApplicationPersistenceProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Persistence will ensure the same user sticks to the same server for a desired duration of time.</dd></dl><p><strong>ssl_profile_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslprofile.html#SSLProfile>Reference to SSLProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported.</dd></dl><p><strong>x509_cert</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolX509Certificate>PoolX509Certificate</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>PEM (Privacy-enhanced Mail) encoded public certificate of the backend server.  This optional feature will verify the  certificate presented by the server.</dd></dl><p><strong>inline_health_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslprofile.html#SSLProfile>Reference to SSLProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported.</dd></dl><p><strong>inline_health_monitor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>use_service_port</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Do not translate the client's destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring.  This feature is only applicable for a Virtual Service configured with the application type set to L4.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>fail_action</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#FailAction>FailAction</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable an action - Close Connection, HTTP Redirect, Local HTTP Response, or Backup Pool - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.</dd></dl><p><strong>capacity_estimation</strong><br></p>
@@ -115,8 +113,15 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl><p><strong>cloud_config_cksum</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Checksum of cloud configuration for Pool. Internally set by cloud connector</dd></dl><p><strong>request_queue_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable request queue when pool is full</dd><dt>Default</dt><dd>False</dd></dl><p><strong>request_queue_depth</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of requests to be queued when pool is full.</dd><dt>Default</dt><dd>16</dd></dl><p><strong>ab_pool</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AbPool>AbPool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A/B pool configuration.</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Minimum number of requests to be queued when pool is full.</dd><dt>Default</dt><dd>128</dd></dl><p><strong>ab_pool</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AbPool>AbPool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A/B pool configuration.</dd></dl><p><strong>server_reselect</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPServerReselect>HTTPServerReselect</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Server reselect configuration for HTTP requests.</dd></dl><p><strong>a_pool</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app</dd></dl><p><strong>ab_priority</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Priority of this pool in a A-B pool pair. Internally used</dd></dl><p><strong>host_check_enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable host header name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>domain_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates if host header check is enabled.</dd></dl><p><strong>sni_enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>server_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the pool name instead.</dd></dl><p><strong>description</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A description of the pool.</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
@@ -166,11 +171,6 @@
 <p><strong>network_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=network.html#Network>Reference to Network</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>subnet</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=PoolX509Certificate
-<p><h3 class='text-success'>PoolX509Certificate<br></h3></p>
-<p><strong>pem_cert</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>PEM (Privacy-enhanced Mail) encoded certificate of the backend server.</dd></dl><p><strong>is_ca</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Flag to indicate if the certificate is a Certificate Authority. This field is deprecated and CA certificates should now be configured through PKI Profile.</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=FailAction
 <p><h3 class='text-success'>FailAction<br></h3></p>
 <p><strong>type</strong><br></p>
@@ -221,7 +221,7 @@
 <p><strong>protocol</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Protocol type</dd><dt>Choices</dt><dd>HTTP, HTTPS</dd></dl><p><strong>host</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host config</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Path config</dd></dl><p><strong>keep_query</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Keep or drop the query of the incoming request URI in the redirected URI</dd><dt>Default</dt><dd>True</dd></dl><p><strong>status_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP redirect status code</dd><dt>Default</dt><dd>HTTP_REDIRECT_STATUS_CODE_302</dd><dt>Choices</dt><dd>HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_307</dd></dl></div>
@@ -237,15 +237,29 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Index of the starting token in the incoming URI</dd></dl><p><strong>end_index</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Index of the ending token in the incoming URI</dd></dl><p><strong>str_value</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Constant string to use as a token</dd></dl></div>
-<div class='container'id=Port
-<p><h3 class='text-success'>Port<br></h3></p>
-<p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port number.</dd></dl></div>
 <div class='container'id=AbPool
 <p><h3 class='text-success'>AbPool<br></h3></p>
 <p><strong>pool_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Pool configured as B pool for A/B testing</dd></dl><p><strong>ratio</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Ratio of traffic diverted to the B pool, for A/B testing</dd><dt>Default</dt><dd>0</dd></dl></div>
+<div class='container'id=HTTPServerReselect
+<p><h3 class='text-success'>HTTPServerReselect<br></h3></p>
+<p><strong>enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Enable HTTP request reselect when server responds with specific response codes.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>svr_resp_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPReselectRespCode>HTTPReselectRespCode</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Server response codes which will trigger an HTTP request retry.</dd></dl><p><strong>num_retries</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of times to retry an HTTP request when server responds with configured status codes.</dd><dt>Default</dt><dd>4</dd></dl><p><strong>retry_nonidempotent</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allow retry of non-idempotent HTTP requests.</dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=HTTPReselectRespCode
+<p><h3 class='text-success'>HTTPReselectRespCode<br></h3></p>
+<p><strong>codes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP response code to be matched.</dd></dl><p><strong>ranges</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPStatusRange>HTTPStatusRange</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP response code ranges to match.</dd></dl><p><strong>resp_code_block</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Block of HTTP response codes to match for server reselect.</dd><dt>Choices</dt><dd>HTTP_RSP_5XX, HTTP_RSP_4XX</dd></dl></div>
+<div class='container'id=HTTPStatusRange
+<p><h3 class='text-success'>HTTPStatusRange<br></h3></p>
+<p><strong>begin</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Starting HTTP response status code</dd></dl><p><strong>end</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Ending HTTP response status code</dd></dl></div>
 
 </div>
 
@@ -319,17 +333,17 @@
 <p><h3 class='text-success'>HealthMonitorTcp<br></h3></p>
 <p><strong>tcp_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Request data to send after completing the TCP handshake.</dd></dl><p><strong>tcp_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for the desired keyword in the first 2Kb of the server's UDP response. If this field is left blank, no server response is required.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for the desired keyword in the first 2Kb of the server's TCP response. If this field is left blank, no server response is required.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>tcp_half_open</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Configure TCP health monitor to use half-open TCP connections to monitor the health of backend servers thereby avoiding consumption of a full fledged server side connection and the overhead and logs associated with it.  This method is light-weight as it makes use of listener in server's kernel layer to measure the health and a child socket or user thread is not created on the server side.</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=HealthMonitorHttp
 <p><h3 class='text-success'>HealthMonitorHttp<br></h3></p>
 <p><strong>http_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host: www.site.com Connection: Close</dd><dt>Default</dt><dd>GET / HTTP/1.0</dd></dl><p><strong>http_response_code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableHttpResponse>RepeatableHttpResponse</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of HTTP response codes to match as successful.  Default is 2xx.</dd></dl><p><strong>http_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for a keyword in the first 2Kb of the server header and body response.</dd></dl></div>
-<div class='container'id=RepeatableHttpResponse
-<p><h3 class='text-success'>RepeatableHttpResponse<br></h3></p>
-<p><strong>code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP response codes to match.</dd><dt>Default</dt><dd>HTTP_2XX</dd><dt>Choices</dt><dd>HTTP_5XX, HTTP_4XX, HTTP_2XX, HTTP_3XX, HTTP_ANY</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of HTTP response codes to match as successful.  Default is 2xx.</dd><dt>Choices</dt><dd>HTTP_1XX, HTTP_3XX, HTTP_2XX, HTTP_5XX, HTTP_4XX, HTTP_ANY</dd></dl><p><strong>http_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for a keyword in the first 2Kb of the server header and body response.</dd></dl><p><strong>maintenance_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
 <div class='container'id=HealthMonitorExternal
 <p><h3 class='text-success'>HealthMonitorExternal<br></h3></p>
 <p><strong>command_path</strong><br></p>
@@ -341,7 +355,8 @@
 <p><h3 class='text-success'>HealthMonitorUdp<br></h3></p>
 <p><strong>udp_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send UDP request.</dd></dl><p><strong>udp_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for keyword in the UDP response.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for keyword in the UDP response.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
 <div class='container'id=HealthMonitorDNS
 <p><h3 class='text-success'>HealthMonitorDNS<br></h3></p>
 <p><strong>query_name</strong><br></p>
@@ -349,93 +364,6 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>  Query_Type: Response has atleast one answer of which      the resource record type matches the query type   Any_Type: Response should contain atleast one answer  AnyThing: An empty answer is enough</dd><dt>Default</dt><dd>DNS_QUERY_TYPE</dd><dt>Choices</dt><dd>DNS_ANY_TYPE, DNS_ANY_THING, DNS_QUERY_TYPE</dd></dl><p><strong>rcode</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses.</dd><dt>Default</dt><dd>RCODE_NO_ERROR</dd><dt>Choices</dt><dd>RCODE_NO_ERROR, RCODE_ANYTHING</dd></dl><p><strong>response_string</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The resource record of the queried DNS server's response for the Request Name must include the IP address defined in this field. </dd></dl></div>
-
-</div>
-
-
-
-<h2 class='text-primary'>ServerStateDBCacheSummary </h2>
-
-<h3 class='text-primary'>API</h3>
-<div class="container">
-<pre><code>
-    GET /api/pool/&ltkey&gt/runtime/server/cache/&ltkey&gt
-</code></pre>
-</div>
-
-<h3 class='text-primary'>CLI</h3>
-<div class="container">
-<pre><code>
-    show pool &ltkey&gt server cache
-</code></pre>
-</div>
-
-<h3 class='text-primary'>Data</h3>
-<div class="container">
-<div class='container'id=ServerStateDBCacheSummary
-<p><h3 class='text-success'>ServerStateDBCacheSummary<br></h3></p>
-<p><strong>pool_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>last_updated_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>config</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServerConfig>ServerConfig</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>summary</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServerRuntimeSummary>ServerRuntimeSummary</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>se</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SeServerRuntimeSummary>SeServerRuntimeSummary</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>is_invalid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>num_events</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>0</dd></dl><p><strong>num_old_events</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>0</dd></dl><p><strong>num_se_requested</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=ServerConfig
-<p><h3 class='text-success'>ServerConfig<br></h3></p>
-<p><strong>ip_addr</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>is_enabled</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>def_port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>oper_status</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_UP, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>timer_exists</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl></div>
-<div class='container'id=OperationalStatus
-<p><h3 class='text-success'>OperationalStatus<br></h3></p>
-<p><strong>state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_UP, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>reason</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_changed_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code_string</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=TimeStamp
-<p><h3 class='text-success'>TimeStamp<br></h3></p>
-<p><strong>secs</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>usecs</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=ServerRuntimeSummary
-<p><h3 class='text-success'>ServerRuntimeSummary<br></h3></p>
-<p><strong>ip_addr</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>hostname</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>oper_status</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>se_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>health_monitor_list</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SHMSummary>SHMSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health monitor name, state and reason if down</dd></dl></div>
-<div class='container'id=SHMSummary
-<p><h3 class='text-success'>SHMSummary<br></h3></p>
-<p><strong>health_monitor</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServerHealthMonitor>ServerHealthMonitor</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=ServerHealthMonitor
-<p><h3 class='text-success'>ServerHealthMonitor<br></h3></p>
-<p><strong>name</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_UP, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>recent_response_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average health monitor response time from server in milli-seconds in the last few health monitor instances</dd></dl><p><strong>avg_response_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average health monitor response time from server in milli-seconds</dd></dl><p><strong>failure_code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CONNECTION_RESET, NO_RESOURCES, OTHER_ERROR, PORT_UNREACHABLE, HOST_ERROR, SSL_ERROR, NO_RESPONSE, SSL_CERT_ERROR, CONNECTION_ERROR, NO_PORT, PAYLOAD_CONTENT_MISMATCH, RESPONSE_CODE_MISMATCH, REMOTE_STATE, CONNECTION_REFUSED, SERVER_UNREACHABLE, ARP_UNRESOLVED, CONNECTION_TIMEOUT, SERVER_DISABLED, SCRIPT_ERROR, ADDRESS_ERROR, PAYLOAD_TIMEOUT</dd></dl><p><strong>reason</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=SeServerRuntimeSummary
-<p><h3 class='text-success'>SeServerRuntimeSummary<br></h3></p>
-<p><strong>se_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>servers</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServerRuntimeSummary>ServerRuntimeSummary</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>last_ctrl_event_timestamp</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_se_event_timestamp</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -476,6 +404,19 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>capest_scale_hist</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>float</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>capest_rand_max_conn_hist</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=OperationalStatus
+<p><h3 class='text-success'>OperationalStatus<br></h3></p>
+<p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_FAILED, OPER_UP, OPER_DISABLING, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code_string</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=TimeStamp
+<p><h3 class='text-success'>TimeStamp<br></h3></p>
+<p><strong>secs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>usecs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=ServerL4Stats
 <p><h3 class='text-success'>ServerL4Stats<br></h3></p>
 <p><strong>node_obj_id</strong><br></p>
@@ -784,7 +725,7 @@
 <div class='container'id=ServerHealthMonitorCounter
 <p><h3 class='text-success'>ServerHealthMonitorCounter<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CONNECTION_RESET, NO_RESOURCES, OTHER_ERROR, PORT_UNREACHABLE, HOST_ERROR, SSL_ERROR, NO_RESPONSE, SSL_CERT_ERROR, CONNECTION_ERROR, NO_PORT, PAYLOAD_CONTENT_MISMATCH, RESPONSE_CODE_MISMATCH, REMOTE_STATE, CONNECTION_REFUSED, SERVER_UNREACHABLE, ARP_UNRESOLVED, CONNECTION_TIMEOUT, SERVER_DISABLED, SCRIPT_ERROR, ADDRESS_ERROR, PAYLOAD_TIMEOUT</dd></dl><p><strong>count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OTHER_ERROR, HOST_ERROR, NO_RESOURCES, NO_RESPONSE, PAYLOAD_CONTENT_MISMATCH, CONNECTION_RESET, SERVER_UNREACHABLE, SCRIPT_ERROR, SSL_ERROR, SERVER_DISABLED, CONNECTION_TIMEOUT, PAYLOAD_TIMEOUT, CHUNKED_RESPONSE_PAYLOAD_NOT_FOUND, CONNECTION_ERROR, PORT_UNREACHABLE, MAINTENANCE_PAYLOAD_CONTENT_MATCH, REMOTE_STATE, MAINTENANCE_RESPONSE_CODE_MATCH, NO_PORT, RESPONSE_CODE_MISMATCH, CONNECTION_REFUSED, ARP_UNRESOLVED, SSL_CERT_ERROR, ADDRESS_ERROR</dd></dl><p><strong>count</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
@@ -832,15 +773,11 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>max_cache_size</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>query_cacheable</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>mime_types_list</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>mime_types_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>mime_types_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>aggressive</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/disable caching objects without Cache-Control headers</dd><dt>Default</dt><dd>False</dd></dl><p><strong>mime_types_black_list</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist of non-cacheable mime types</dd></dl><p><strong>mime_types_black_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist of non-cacheable mime types</dd></dl><p><strong>mime_types_black_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist string group of non-cacheable mime types</dd></dl></div>
-<div class='container'id=RepeatableString
-<p><h3 class='text-success'>RepeatableString<br></h3></p>
-<p><strong>str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=HttpCacheObj
 <p><h3 class='text-success'>HttpCacheObj<br></h3></p>
 <p><strong>proc_id</strong><br></p>
@@ -969,7 +906,10 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_flushes</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_dispatched</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_full</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_evicted</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>request_queue_num_freed_requests</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>lb_fail_get_next</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -994,6 +934,29 @@
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
+<div class='container'id=ServerRuntimeSummary
+<p><h3 class='text-success'>ServerRuntimeSummary<br></h3></p>
+<p><strong>ip_addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>hostname</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>oper_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>se_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>health_monitor_list</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SHMSummary>SHMSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health monitor name, state and reason if down</dd></dl><p><strong>is_standby</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=SHMSummary
+<p><h3 class='text-success'>SHMSummary<br></h3></p>
+<p><strong>health_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServerHealthMonitor>ServerHealthMonitor</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=ServerHealthMonitor
+<p><h3 class='text-success'>ServerHealthMonitor<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_FAILED, OPER_UP, OPER_DISABLING, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>recent_response_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average health monitor response time from server in milli-seconds in the last few health monitor instances</dd></dl><p><strong>avg_response_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average health monitor response time from server in milli-seconds</dd></dl><p><strong>failure_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OTHER_ERROR, HOST_ERROR, NO_RESOURCES, NO_RESPONSE, PAYLOAD_CONTENT_MISMATCH, CONNECTION_RESET, SERVER_UNREACHABLE, SCRIPT_ERROR, SSL_ERROR, SERVER_DISABLED, CONNECTION_TIMEOUT, PAYLOAD_TIMEOUT, CHUNKED_RESPONSE_PAYLOAD_NOT_FOUND, CONNECTION_ERROR, PORT_UNREACHABLE, MAINTENANCE_PAYLOAD_CONTENT_MATCH, REMOTE_STATE, MAINTENANCE_RESPONSE_CODE_MATCH, NO_PORT, RESPONSE_CODE_MISMATCH, CONNECTION_REFUSED, ARP_UNRESOLVED, SSL_CERT_ERROR, ADDRESS_ERROR</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -1041,6 +1004,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>server_auto_scale</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>prst_hdr_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fewest_tasks_feedback_delay</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_hms_deduped</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=PoolLbState
 <p><h3 class='text-success'>PoolLbState<br></h3></p>
@@ -1157,6 +1121,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>rl_good_fb</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>rl_bad_fb</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>capest_rand_max_conn_skipped</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>skipped_get_next_count</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=ServerSlowStart
 <p><h3 class='text-success'>ServerSlowStart<br></h3></p>
@@ -1247,6 +1212,48 @@
 
 
 
+<h2 class='text-primary'>RequestQueueRuntime </h2>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=RequestQueueRuntime
+<p><h3 class='text-success'>RequestQueueRuntime<br></h3></p>
+<p><strong>num_requests</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+<h3 class='text-primary'>Actions</h3>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/pool/&ltkey&gt/request_queue/clear
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    clear pool &ltkey&gt request_queue
+</code></pre>
+</div>
+
+
+
+
 <h2 class='text-primary'>PoolRuntimeSummary </h2>
 
 <h3 class='text-primary'>API</h3>
@@ -1298,49 +1305,6 @@
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
-
-</div>
-
-
-
-<h2 class='text-primary'>PoolStateDBCacheSummary </h2>
-
-<h3 class='text-primary'>API</h3>
-<div class="container">
-<pre><code>
-    GET /api/pool/&ltkey&gt/runtime/cache/&ltkey&gt
-</code></pre>
-</div>
-
-<h3 class='text-primary'>CLI</h3>
-<div class="container">
-<pre><code>
-    show pool &ltkey&gt cache
-</code></pre>
-</div>
-
-<h3 class='text-primary'>Data</h3>
-<div class="container">
-<div class='container'id=PoolStateDBCacheSummary
-<p><h3 class='text-success'>PoolStateDBCacheSummary<br></h3></p>
-<p><strong>pool_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>last_updated_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>summary</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolRuntimeSummary>PoolRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>se</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SePoolRuntimeSummary>SePoolRuntimeSummary</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>last_state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>OPER_DISABLED</dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_UP, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>is_invalid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>is_init</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>num_events</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>0</dd></dl><p><strong>num_old_events</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>0</dd></dl><p><strong>num_se_requested</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=SePoolRuntimeSummary
-<p><h3 class='text-success'>SePoolRuntimeSummary<br></h3></p>
-<p><strong>se_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>summary</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolRuntimeSummary>PoolRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_ctrl_event_timestamp</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_se_event_timestamp</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 

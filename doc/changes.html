@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>  </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+
+<h1 class='text-primary'>Changes from previous release</h1>
+<div class="container">
+
+<h3><a href="pool.html">Pool</a></h3>
+<pre><code> 
+    .max_conn_rate_per_server.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+     </code></pre>
+<h3><a href="virtualservice.html">VirtualService</a></h3>
+<pre><code> 
+    .analytics_policy.client_log_filters.uri.match_str
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .connections_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .service_pool_select.service_port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .address
+        Renamed from address to fqdn
+        Example:
+            From : address
+            To: fqdn
+
+     </code></pre>
+<h3><a href="serviceenginegroup.html">ServiceEngineGroup</a></h3>
+<pre><code> 
+    .ha_mode
+        Updated ha_mode to HA_MODE_SHARED from HA_MODE_BEST_EFFORT
+        Best effort HA mode enum has been deprecated.
+
+     </code></pre>
+<h3><a href="applicationprofile.html">ApplicationProfile</a></h3>
+<pre><code> 
+    .http_profile.compression_profile.filter.user_agent
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .http_profile.cache_config.mime_types_list
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .http_profile.cache_config.mime_types_black_list
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .dos_rl_profile.rl_profile.uri_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.client_ip_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.client_ip_to_uri_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.client_ip_failed_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.uri_failed_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.client_ip_to_uri_failed_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.client_ip_scanners_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .dos_rl_profile.rl_profile.uri_scanners_requests_rate_limit.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+<h3><a href="pkiprofile.html">PKIProfile</a></h3>
+<pre><code> 
+    Added PKIProfile host check value
+
+     </code></pre>
+<h3><a href="httppolicyset.html">HTTPPolicySet</a></h3>
+<pre><code> 
+    .http_response_policy.rules.match.method.methods
+        Changed from RepeatableHTTPMethod to HTTPMethod
+        Example:
+            From : [
+                    {
+                            'method' : 'HTTP_METHOD_GET'
+                    },
+                    {
+                            'method' : 'HTTP_METHOD_HEAD'
+                    }
+                ]
+            To: ['HTTP_METHOD_GET', 'HTTP_METHOD_HEAD']
+
+    .http_response_policy.rules.match.version.versions
+        Changed from RepeatableHttpVersion to HttpVersion
+        Example:
+            From : [
+                    {
+                            'version' : 'ONE_ZERO'
+                    },
+                    {
+                            'version' : 'ONE_ONE'
+                    }
+                ]
+            To: ['ONE_ZERO', 'ONE_ONE']
+
+    .http_response_policy.rules.match.path.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.query.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.hdrs.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.host_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.loc_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.rsp_hdrs.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.status.status_codes
+        Changed from RepeatableHttpStatusCode to int32
+        Example:
+            From : [
+                    {
+                            'status' : 'value1'
+                    },
+                    {
+                            'status' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_response_policy.rules.match.vs_port.ports
+        Changed from RepeatablePort to uint32
+        Example:
+            From : [
+                    {
+                            'port' : 'value1'
+                    },
+                    {
+                            'port' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+
+    .http_response_policy.rules.loc_hdr_action.port
+        Changed from dict(Port Object) to uint32
+        Example:
+            From: { 'port': 80 }
+            To: 80
+
+    .http_request_policy.rules.match.method.methods
+        Changed from RepeatableHTTPMethod to HTTPMethod
+        Example:
+            From : [
+                    {
+                            'method' : 'HTTP_METHOD_GET'
+                    },
+                    {
+                            'method' : 'HTTP_METHOD_HEAD'
+                    }
+                ]
+            To: ['HTTP_METHOD_GET', 'HTTP_METHOD_HEAD']
+
+    .http_request_policy.rules.match.version.versions
+        Changed from RepeatableHttpVersion to HttpVersion
+        Example:
+            From : [
+                    {
+                            'version' : 'ONE_ZERO'
+                    },
+                    {
+                            'version' : 'ONE_ONE'
+                    }
+                ]
+            To: ['ONE_ZERO', 'ONE_ONE']
+
+    .http_request_policy.rules.match.path.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.query.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.hdrs.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.host_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.loc_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.status.status_codes
+        Changed from RepeatableHttpStatusCode to int32
+        Example:
+            From : [
+                    {
+                            'status' : 'value1'
+                    },
+                    {
+                            'status' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.match.vs_port.ports
+        Changed from RepeatablePort to uint32
+        Example:
+            From : [
+                    {
+                            'port' : 'value1'
+                    },
+                    {
+                            'port' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_request_policy.rules.switching_action.server.port
+        Changed from dict(Port Object) to uint32
+        Example:
+            From: { 'port': 80 }
+            To: 80
+
+    .http_request_policy.rules.redirect_action.port
+        Changed from dict(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .http_security_policy.rules.match.method.methods
+        Changed from RepeatableHTTPMethod to HTTPMethod
+        Example:
+            From : [
+                    {
+                            'method' : 'HTTP_METHOD_GET'
+                    },
+                    {
+                            'method' : 'HTTP_METHOD_HEAD'
+                    }
+                ]
+            To: ['HTTP_METHOD_GET', 'HTTP_METHOD_HEAD']
+
+    .http_security_policy.rules.match.version.versions
+        Changed from RepeatableHttpVersion to HttpVersion
+        Example:
+            From : [
+                    {
+                            'version' : 'ONE_ZERO'
+                    },
+                    {
+                            'version' : 'ONE_ONE'
+                    }
+                ]
+            To: ['ONE_ZERO', 'ONE_ONE']
+
+    .http_security_policy.rules.match.path.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.query.match_str
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.hdrs.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.host_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.loc_hdr.value
+        Changed from RepeatableString to string
+        Example:
+            From : [
+                    {
+                            'str' : 'value1'
+                    },
+                    {
+                            'str' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.status.status_codes
+        Changed from RepeatableHttpStatusCode to int32
+        Example:
+            From : [
+                    {
+                            'status' : 'value1'
+                    },
+                    {
+                            'status' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.match.vs_port.ports
+        Changed from RepeatablePort to uint32
+        Example:
+            From : [
+                    {
+                            'port' : 'value1'
+                    },
+                    {
+                            'port' : 'value2'
+                    }
+                ]
+            To: ['value1', 'value2']
+
+    .http_security_policy.rules.action.https_port
+        Changed from dict(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+<h3><a href="networksecuritypolicy.html">NetworkSecurityPolicy</a></h3>
+<pre><code> 
+    .rules.match.vs_port.ports
+        Changed from RepeatableDict to uint32
+        Example:
+            From: [
+                    { 'port': 443 },
+                    { 'port': 80 }
+                ]
+            To: [443, 80]
+
+     </code></pre>
+<h3><a href="role.html">Role</a></h3>
+<pre><code> 
+    .privileges
+        Added PERMISSION_CERTIFICATEMANAGEMENTPROFILE to the list of permissions across the default roles
+        Renamed PERMISSION_IPAMPROFILE to PERMISSION_IPAMDNSPROVIDERPROFILE
+     </code></pre>
+
+<h3><a href="systemconfiguration.html">SystemConfiguration</a></h3>
+<pre><code> 
+    .admin_auth_configuration.mapping_rules
+        Changed Admin auth configuration to new Auth rules.
+        Example:
+            From : {
+                'use_group_membership_for_tenant' : 'True',
+                'attribute_for_roles' : 'aviRole',
+                'default_tenant_ref' : 'def_tenant',
+                'default_role_name' : 'Read-Only-Role'
+            },
+            To: [ {
+                'assign_tenant' : 'ASSIGN_MATCHING_GROUP_NAME',
+                'assign_role' : 'ASSIGN_MATCHING_ATTRIBUTE_VALUE',
+                'role_attribute_name' : 'aviRole',
+                },
+                {
+               'assign_tenant' : 'ASSIGN_FROM_SELECT_LIST',
+               'tenant' : 'def_tenant',
+               'assign_role' : 'ASSIGN_FROM_SELECT_LIST',
+               'role' : 'Read-Only-Role'
+               }
+            ]
+     </code></pre>
+<h3><a href="ipamprofile.html">IpamProfile</a></h3>
+<pre><code> 
+    "IPAMProfile" object and API endpoints are changed to "IpamDnsProviderProfile" thereby
+      bringing IPAM and DNS capabilities under a single umbrella.
+      * Infoblox & Avi Internal IPAM & DNS solutions are still supported with existing
+          capabilities and minor re-ordering of configuration fields.
+      * NEW IPAM providers, namely AWS & OpenStack, are available now for certain clouds
+          including Container eco-systems.
+     </code></pre>
+<h3><a href="jobentry.html">JobEntry</a></h3>
+<pre><code> 
+    Added expiry if owner is JOB_OWNER_PKI_PROFILE.
+     </code></pre>
+<h3><a href="authprofile.html">AuthProfile</a></h3>
+<pre><code> 
+    .http.require_user_groups
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+     </code></pre>
+<h3><a href="alert.html">Alert</a></h3>
+<pre><code> 
+    .events.event_id
+        Updated event id
+            From: LICENSE_EXPIRY_NOTIF To: LICENSE_EXPIRY
+            From: LICENSE_USAGE_SERVERS To: LICENSE_LIMIT_SERVERS
+            From: LICENSE_USAGE_CORES To: LICENSE_LIMIT_SE_VCPUS
+            From: LICENSE_USAGE_THROUGHPUT To: LICENSE_LIMIT_THROUGHPUT
+            From: LICENSE_USAGE_VS To: LICENSE_LIMIT_VS
+
+     </code></pre>
+<h3><a href="vimgrvcenterruntime.html">VIMgrVcenterRuntime</a></h3>
+<pre><code> 
+    .discovered_datacenter
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+     </code></pre>
+<h3><a href="encryption.html">encryption</a></h3>
+<pre><code> 
+    .encrypted_sensitive_fields
+        Removed field encrypted_sensitive_fields
+     </code></pre>
+<h3><a href="analyticsprofile.html">AnalyticsProfile</a></h3>
+<pre><code> 
+    .exclude_http_error_codes
+        Changed from RepeatedHTTPStatusCode to int32
+        Example:
+            From:  [
+                {
+                    "status": 475
+                },
+                {
+                    "status": 480
+                }
+            ]
+            To: [475, 480]
+
+     </code></pre>
+<h3><a href="seproperties.html">SeProperties</a></h3>
+<pre><code> 
+    .se_runtime_properties.se_dp_compression.mobile_str
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .service_port_ranges.start
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .service_port_ranges.end
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+<h3><a href="systemdefaultobject.html">SystemDefaultObject</a></h3>
+<pre><code> 
+    .ipamprofile
+        Renamed from ipamprofile to ipamdnsproviderprofile
+     </code></pre>
+<h3><a href="hardwaresecuritymodulegroup.html">HardwareSecurityModuleGroup</a></h3>
+<pre><code> 
+    .hsm.rfs.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .nethsm.rfs.remote_port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+<h3><a href="robot.html">Robot</a></h3>
+<pre><code> 
+    .max_conn_rate_per_server.action.redirect.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+<h3><a href="alertconfig.html">AlertConfig</a></h3>
+<pre><code> 
+    Updated Alert Config Groups.
+     </code></pre>
+<h3><a href="stringgroup.html">StringGroup</a></h3>
+<pre><code> 
+    .uris
+        Changed from a RepeatableString to String.
+        Example:
+            From : [
+                {
+                    'str' : 'value1'
+                },
+                {
+                    'str' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+     </code></pre>
+<h3><a href="ipaddrgroup.html">IpAddrGroup</a></h3>
+<pre><code> 
+    .ip_ports.port
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+     </code></pre>
+<h3><a href="healthmonitor.html">HealthMonitor</a></h3>
+<pre><code> 
+    .http_monitor.http_response_code
+        Changed from a RepeatableHTTPResponseCode to HTTPResponseCode.
+        Example:
+            From : [
+                {
+                    'code' : 'value1'
+                },
+                {
+                    'code' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+    .https_monitor.http_response_code
+        Changed from a RepeatableHTTPResponseCode to HTTPResponseCode.
+        Example:
+            From : [
+                {
+                    'code' : 'value1'
+                },
+                {
+                    'code' : 'value2'
+                }
+            ]
+            To: [ 'value1', 'value2' ]
+
+     </code></pre>
+<h3><a href="cloud.html">Cloud</a></h3>
+<pre><code> 
+    .mesos_configuration.marathon_configurations.public_port_range.start
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .mesos_configuration.marathon_configurations.public_port_range.end
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .mesos_configuration.marathon_configurations.private_port_range.start
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+    .mesos_configuration.marathon_configurations.private_port_range.end
+        Changed from dictionary(Port Object) to uint32
+        Example:
+            From: { 'port': 443 }
+            To: 443
+
+     </code></pre>
+</div>
+</body>
+</html>

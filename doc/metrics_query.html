@@ -417,6 +417,13 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l4_server.avg_pool_open_conns </td>
+<td> Average per server open connections in the pool </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l4_server.avg_rx_bytes </td>
 <td> Average rate of bytes received per second </td>
 <td> BYTES_PER_SECOND </td>
@@ -5484,6 +5491,20 @@ Controller Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> controller_stats.avg_num_ses </td>
+<td> Current number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.avg_num_sockets </td>
+<td> Average number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> controller_stats.avg_total_se_throughput </td>
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
@@ -5522,6 +5543,34 @@ Controller Metrics
 <td> controller_stats.max_num_se_cores </td>
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_ses </td>
+<td> Max number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_ses_lic_usage </td>
+<td> Maximum number of SEs usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_sockets </td>
+<td> Max number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_sockets_lic_usage </td>
+<td> Maximum number of SE sockets usage fraction </td>
+<td> PERCENT </td>
 <td> False </td>
 <td> True </td>
 </tr>
@@ -6786,6 +6835,20 @@ Tenant Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> tenant_stats.avg_num_ses </td>
+<td> Current number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.avg_num_sockets </td>
+<td> Average number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> tenant_stats.avg_total_se_throughput </td>
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
@@ -6824,6 +6887,34 @@ Tenant Metrics
 <td> tenant_stats.max_num_se_cores </td>
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_ses </td>
+<td> Max number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_ses_lic_usage </td>
+<td> Maximum number of SEs usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_sockets </td>
+<td> Max number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_sockets_lic_usage </td>
+<td> Maximum number of SE sockets usage fraction </td>
+<td> PERCENT </td>
 <td> False </td>
 <td> True </td>
 </tr>
