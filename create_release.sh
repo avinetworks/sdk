@@ -13,9 +13,12 @@ if [ -z $REL ]; then
     exit 1
 fi
 
-git tag -d $REL
-git tag $REL
-git push -f origin $REL
+export PYTHONPATH=`pwd`/python:$PYTHONPATH
+
+REL_TAG=$REL
+git tag -d $REL_TAG
+git tag $REL_TAG
+git push -f origin $REL_TAG
 set -e
 git checkout -B $BRANCH
 cd python
@@ -56,7 +59,18 @@ rm -rf dist
 rm -rf avisdk.egg-info
 assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH -a avisdk-$BRANCH.deb#debian-package-avisdk-$BRANCH -a avisdk-$BRANCH.rpm#rpm--package-avisdk-$BRANCH"
 cd ../
-/usr/local/bin/hub release edit $assets -F ReleaseNote $REL
+
+releases=`/usr/local/bin/hub release`
+hub_op="create"
+for r in $releases
+do
+    if [ "$r" = "$REL_TAG" ]; then
+        hub_op="edit"
+        break
+    fi
+done
+
+/usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
 rm -rf avisdk-$BRANCH.tar.gz
 rm -rf avif5converter-$BRANCH.tar.gz
 rm -rf avisdk-$BRANCH.deb
