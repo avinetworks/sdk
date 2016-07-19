@@ -59,7 +59,18 @@ rm -rf dist
 rm -rf avisdk.egg-info
 assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH -a avisdk-$BRANCH.deb#debian-package-avisdk-$BRANCH -a avisdk-$BRANCH.rpm#rpm--package-avisdk-$BRANCH"
 cd ../
-/usr/local/bin/hub release edit $assets -F ReleaseNote $REL_TAG
+
+releases=`/usr/local/bin/hub release`
+hub_op="create"
+for r in $releases
+do
+    if [ "$r" = "$REL_TAG" ]; then
+        hub_op="edit"
+        break
+    fi
+done
+
+/usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
 rm -rf avisdk-$BRANCH.tar.gz
 rm -rf avif5converter-$BRANCH.tar.gz
 rm -rf avisdk-$BRANCH.deb
