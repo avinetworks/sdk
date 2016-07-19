@@ -1,8 +1,6 @@
-from avi.version import AVI_VERSION
 import re
 import os
 if __name__ == '__main__':
-    #version = '0' if AVI_VERSION[0].isalpha() else AVI_VERSION
     version = '0'
     regex = '\(.*?\)'
     dir_path = os.path.abspath(os.path.dirname(__file__))
