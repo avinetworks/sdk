@@ -156,7 +156,7 @@ def handle_cc_alert(session, gcp, script_parms):
             return
         inst_ip = next((v['ip']['ip_addr']['addr'] for v in 
                 se['results'][0]['mgmt_vnic']['vnic_networks'] 
-                if v['ip']['mask'] == 32), '')
+                if v['ip']['mask'] == 32 and v['mode'] != 'VIP'), '')
         if not inst_ip:
             print('WARNING: Unable to find IP with mask 32 SE %s' % str(se['results'][0]))
             return
