@@ -1,10 +1,11 @@
 import argparse
 import logging
 import os
+import json
 
 import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
-
+from avi.netscaler_converter import upload_config
 
 LOG = logging.getLogger(__name__)
 
@@ -51,4 +52,15 @@ if __name__ == "__main__":
     output_dir = os.path.normpath(args.output_file_path)
     ns_config = ns_parser.get_ns_conf_dict(args.ns_config_file)
     avi_config = ns_conf_converter.convert(ns_config, args.tenant,
-                                           args.controller_version)
+                                           args.controller_version, output_dir)
+
+    if args.option == "cli-upload":
+        text_file = open(output_dir + os.path.sep + "Output.json", "w")
+        json.dump(avi_config, text_file, indent=4)
+        text_file.close()
+        LOG.info('written avi config file ' +
+                 output_dir + os.path.sep + "Output.json")
+    else:
+        upload_config.upload_config_to_controller(
+            avi_config, args.controller_ip,
+            args.user, args.password, args.tenant)
