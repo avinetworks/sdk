@@ -132,7 +132,8 @@ class PoolConfigConv(object):
 
 class PoolConfigConvV11(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'service-down-action',
-                      'load-balancing-mode', 'description', 'slow-ramp-time']
+                      'load-balancing-mode', 'description', 'slow-ramp-time',
+                      'reselect-tries']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
         nodes = f5_config.get("node", {})
@@ -148,6 +149,17 @@ class PoolConfigConvV11(PoolConfigConv):
         ramp_time = f5_pool.get('slow-ramp-time', None)
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time)
+        num_retries = f5_pool.get('reselect-tries', None)
+        if num_retries:
+            server_reselect = {
+                "retry_nonidempotent": False,
+                "svr_resp_code": {
+                    "resp_code_block": ["HTTP_RSP_4XX", "HTTP_RSP_5XX"]
+                },
+                "num_retries": num_retries,
+                "enabled": True
+              }
+            pool_obj['server_reselect'] = server_reselect
         monitor_names = f5_pool.get("monitor", None)
         skipped_monitors = []
         if monitor_names:
@@ -239,7 +251,7 @@ class PoolConfigConvV11(PoolConfigConv):
 
 class PoolConfigConvV10(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method',
-                      'description', 'slow ramp time']
+                      'description', 'slow ramp time', 'reselect tries']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
         nodes = f5_config.pop("node", {})
@@ -262,6 +274,19 @@ class PoolConfigConvV10(PoolConfigConv):
                 PoolConfigConvV10, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name)
             pool_obj["health_monitor_refs"] = monitor_refs
+
+        num_retries = f5_pool.get('reselect tries', None)
+        if num_retries:
+            server_reselect = {
+                "retry_nonidempotent": False,
+                "svr_resp_code": {
+                    "resp_code_block": ["HTTP_RSP_4XX", "HTTP_RSP_5XX"]
+                },
+                "num_retries": num_retries,
+                "enabled": True
+              }
+            pool_obj['server_reselect'] = server_reselect
+
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
         super(PoolConfigConvV10, self).add_status(

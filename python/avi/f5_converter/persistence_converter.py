@@ -122,7 +122,13 @@ class PersistenceConfigConv(object):
 class PersistenceConfigConvV11(PersistenceConfigConv):
 
     def convert_cookie(self, name, profile, skipped, tenant):
-        supported_attr = ["cookie-name", "defaults-from", "expiration"]
+        method = profile.get('method', 'insert')
+        if not method == 'insert':
+            LOG.warn("Skipped cookie method not supported for profile '%s' "
+                     % name)
+            conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
+        supported_attr = ["cookie-name", "defaults-from", "expiration",
+                          "method"]
         ignore_lst = ['always-send']
         parent_obj = super(PersistenceConfigConvV11, self)
         supported_attr += ignore_lst
