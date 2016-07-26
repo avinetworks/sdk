@@ -163,10 +163,11 @@ class MonitorConfigConv(object):
             u_ignore = user_ignore.get("dns", [])
             skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
             ignore_for_defaults.update({'qtype': 'a'})
-        elif monitor_type == "tcp":
+        elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
             u_ignore = user_ignore.get("tcp", [])
-            skipped = self.convert_tcp(monitor_dict, f5_monitor, skipped)
+            skipped = self.convert_tcp(monitor_dict, f5_monitor, skipped,
+                                       monitor_type)
         elif monitor_type == "udp":
             na_list = self.na_udp
             u_ignore = user_ignore.get("udp", [])
@@ -194,7 +195,7 @@ class MonitorConfigConv(object):
 
 class MonitorConfigConvV11(MonitorConfigConv):
     supported_types = ["http", "https", "dns", "external", "tcp", "udp",
-                       "gateway-icmp", "icmp"]
+                       "gateway-icmp", "icmp", "tcp-half-open"]
     supported_attributes = ["timeout", "interval", "time-until-up",
                             "description", "defaults-from"]
     indirect_mappings = ["up-interval", "debug", "ip-dscp"]
@@ -310,7 +311,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 maintenance_response
         return skipped
 
-    def convert_tcp(self, monitor_dict, f5_monitor, skipped):
+    def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
         tcp_attr = ["recv-disable", "reverse", "destination", "send", "recv"]
         skipped = [key for key in skipped if key not in tcp_attr]
         destination = f5_monitor.get("destination", "*:*")
@@ -337,6 +338,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
             else:
                 tcp_monitor = {"maintenance_response": maintenance_response}
                 monitor_dict["tcp_monitor"] = tcp_monitor
+        if type == 'tcp-half-open':
+            if tcp_monitor:
+                tcp_monitor["tcp_half_open"] = True
+            else:
+                tcp_monitor = {"tcp_half_open": True}
+                monitor_dict["tcp_monitor"] = tcp_monitor
+
         return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
@@ -407,7 +415,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
 class MonitorConfigConvV10(MonitorConfigConv):
     tup = "time until up"
     supported_types = ["http", "https", "dns", "external", "tcp", "udp",
-                       "gateway_icmp", "icmp"]
+                       "gateway_icmp", "icmp", "tcp_half_open"]
     supported_attributes = ["timeout", "interval", "time until up",
                             "description", "type", "defaults from"]
     indirect_mappings = ['up interval', 'debug', 'ip dscp', 'timeoutpackets',
@@ -489,7 +497,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 maintenance_response
         return skipped
 
-    def convert_tcp(self, monitor_dict, f5_monitor, skipped):
+    def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
         tcp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
         skipped = [key for key in skipped if key not in tcp_attr]
         destination = f5_monitor.get("dest", "*:*")
@@ -517,6 +525,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 tcp_monitor["maintenance_response"] = maintenance_response
             else:
                 tcp_monitor = {"maintenance_response": maintenance_response}
+                monitor_dict["tcp_monitor"] = tcp_monitor
+        if type == 'tcp_half_open':
+            if tcp_monitor:
+                tcp_monitor["tcp_half_open"] = True
+            else:
+                tcp_monitor = {"tcp_half_open": True}
                 monitor_dict["tcp_monitor"] = tcp_monitor
         return skipped
 

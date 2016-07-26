@@ -20,8 +20,8 @@ class ProfileConfigConv(object):
     ignore_for_defaults = None
     default_key = None
 
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
-                        user_ignore):
+    def convert_profile(self, profile, key, f5_config, profile_config,
+                        avi_config, input_dir, user_ignore):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore):
@@ -53,8 +53,8 @@ class ProfileConfigConv(object):
                 profile = self.update_with_default_profile(
                     profile_type, profile, profile_config, name)
                 u_ignore = user_ignore.get('profile', {})
-                self.convert_profile(profile, key, f5_config, avi_config,
-                                     input_dir, u_ignore)
+                self.convert_profile(profile, key, f5_config, profile_config,
+                                     avi_config, input_dir, u_ignore)
                 LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
@@ -168,7 +168,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
     indirect_wa = ["cache-size", "cache-aging-rate"]
 
     supported_l4 = ["description", "explicit-flow-migration", "idle-timeout",
-                    "software-syn-cookie", "pva-acceleration", "defaults-from"]
+                    "software-syn-cookie", "pva-acceleration", "defaults-from",
+                    "hardware-syn-cookie"]
     indirect_l4 = ['reset-on-timeout', 'ip-tos-to-server', 'timeout-recovery',
                    'pva-offload-dynamic', 'tcp-handshake-timeout',
                    'pva-dynamic-server-packets', 'pva-dynamic-client-packets',
@@ -193,14 +194,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
                     'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
                     'mptcp-makeafterbreak', 'mptcp-nojoindssack',
-                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout']
+                    'hardware-syn-cookie', 'mptcp-rtomax', 'mptcp-subflowmax',
+                    'mptcp-timeout']
     supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
                      "defaults-from"]
     indirect_udp = ['link-qos-to-client', 'proxy-mss', 'ip-tos-to-client',
                     'allow-no-payload']
 
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
-                        user_ignore):
+    def convert_profile(self, profile, key, f5_config, profile_config,
+                        avi_config, input_dir, user_ignore):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -221,6 +223,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
             default_ignore.update(self.ignore_for_defaults)
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
+            original_prof = profile_config.get('%s %s' % (profile_type, name),
+                                               None)
+            inherit_key = original_prof.get('inherit-certkeychain', 'true')
+            if inherit_key == 'false':
+                profile['cert-key-chain'] = original_prof.get(
+                    "cert-key-chain", None)
+                profile['key'] = original_prof.get("key", None)
+                profile['cert'] = original_prof.get("cert", None)
+
             cert_obj = profile.get("cert-key-chain", None)
             if cert_obj and cert_obj.keys():
                 cert_obj_key = cert_obj.keys()[0]
@@ -520,8 +531,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             default_ignore = f5_config['profile'].get('fastl4 fastl4', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
-            syn_protection = (profile.get("software-syn-cookie",
-                                          None) == 'enabled')
+            hw_syn_protection = (profile.get("hardware-syn-cookie",
+                                             None) == 'enabled')
+            sw_syn_protection = (profile.get("software-syn-cookie",
+                                             None) == 'enabled')
+            syn_protection = (hw_syn_protection or sw_syn_protection)
             timeout = profile.get("idle-timeout", final.MIN_SESSION_TIMEOUT)
             if timeout < 60:
                 timeout = final.MIN_SESSION_TIMEOUT
@@ -662,7 +676,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
         elif profile_type == 'udp':
-            supported_attr = self.supported_tcp
+            supported_attr = self.supported_udp
             indirect = self.indirect_udp
             u_ignore = user_ignore.get('udp', [])
             default_ignore = f5_config['profile'].get('udp udp', {})
@@ -699,6 +713,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
                      "ca file", "defaults from", "options"]
+    na_ssl = ['inherit-certkeychain', 'renegotiation']
 
     na_http = ['lws width']
     supported_http = ["insert xforwarded for", "xff alternative names",
@@ -735,8 +750,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
     supported_udp = ["idle timeout", "datagram lb", "defaults from"]
     indirect_udp = []
 
-    def convert_profile(self, profile, key, f5_config, avi_config, input_dir,
-                        user_ignore):
+    def convert_profile(self, profile, key, f5_config, profile_config,
+                        avi_config, input_dir, user_ignore):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -755,6 +770,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
             default_profile_name = '%s %s' % (profile_type, profile_type)
             default_ignore = f5_config['profile'].get(default_profile_name, {})
             key_cert_obj = None
+            original_prof = profile_config.get(name)
+            inherit_key = original_prof.get('inherit-certkeychain', 'true')
+            if inherit_key == 'false':
+                profile['key'] = original_prof.get("key", None)
+                profile['cert'] = original_prof.get("cert", None)
             cert_file = profile.get("cert", None)
             key_file = profile.get("key", None)
             key_file = None if key_file == 'none' else key_file
@@ -869,8 +889,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             u_ignore = user_ignore.get('fastL4', [])
+            hw_syn_protection = (profile.get("hardware syncookie",
+                                             None) == 'enabled')
+            sw_syn_protection = (profile.get("software syncookie",
+                                             None) == 'enabled')
+
             syn_protection = (profile.get("software syncookie", None) ==
                               'enabled')
+
             description = profile.get('description', None)
             timeout = profile.get("idle timeout", final.MIN_SESSION_TIMEOUT)
             if timeout < 60:

@@ -165,10 +165,10 @@ class VSConfigConv(object):
                                       if val in user_ignore]
         skipped = [attr for attr in skipped if attr not in user_ignore]
         conv_status['skipped'] = skipped
-        ststus = 'successful'
+        status = 'successful'
         if skipped:
-            ststus = 'partial'
-        conv_status['ststus'] = ststus
+            status = 'partial'
+        conv_status['status'] = status
         conv_utils.add_conv_status('virtual', None, vs_name,
                                    conv_status, vs_obj)
 
