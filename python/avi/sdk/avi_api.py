@@ -494,6 +494,8 @@ class ApiSession(Session):
 
     def get_obj_ref(self, obj):
         """returns reference url from dict object"""
+        if not obj:
+            return None
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
@@ -507,6 +509,8 @@ class ApiSession(Session):
 
     def get_obj_uuid(self, obj):
         """returns uuid from dict object"""
+        if not obj:
+           return None
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
