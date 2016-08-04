@@ -1,5 +1,6 @@
 import csv
 import logging
+import os
 
 LOG = logging.getLogger(__name__)
 
@@ -126,3 +127,19 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list):
         'status': status
     }
     return conv_status
+
+
+def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
+        folder_path = input_dir+os.path.sep
+        key = upload_file(folder_path + key_file_name)
+        cert = upload_file(folder_path + cert_file_name)
+        ssl_kc_obj = None
+        if key and cert:
+            cert = {"certificate": cert}
+            ssl_kc_obj = {
+                    'name': name,
+                    'key': key,
+                    'certificate': cert,
+                    'key_passphrase': ''
+                }
+        return ssl_kc_obj

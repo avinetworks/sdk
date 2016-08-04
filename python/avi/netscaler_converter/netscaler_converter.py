@@ -49,10 +49,12 @@ if __name__ == "__main__":
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     init_logger_path(args.output_file_path)
+    input_dir = os.path.normpath(args.input_folder_location)
     output_dir = os.path.normpath(args.output_file_path)
     ns_config = ns_parser.get_ns_conf_dict(args.ns_config_file)
     avi_config = ns_conf_converter.convert(ns_config, args.tenant,
-                                           args.controller_version, output_dir)
+                                           args.controller_version, output_dir,
+                                           input_dir)
 
     if args.option == "cli-upload":
         text_file = open(output_dir + os.path.sep + "Output.json", "w")

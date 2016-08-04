@@ -19,7 +19,7 @@ class ServiceConverter(object):
 
     def convert(self, ns_config, avi_config):
         """
-        Converts service or service groups bound to VS
+        Converts service or service groups bound to VS to avi Pool entity
         :param ns_config: Netscaler parsed config
         :param avi_config: Avi converted config
         :return:
@@ -41,18 +41,18 @@ class ServiceConverter(object):
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pool_obj = \
-                {
-                    "name": name,
-                    "servers": servers,
-                    "lb_algorithm": algo
-                }
+                    {
+                        "name": name,
+                        "servers": servers,
+                        "lb_algorithm": algo
+                    }
                 monitor_names = self.get_monitors(ns_config, group)
                 avi_monitors = avi_config["HealthMonitor"]
                 monitor_refs = []
                 for ref in monitor_names:
                     refs = [mon for mon in avi_monitors
                             if mon['name'] == ref]
-                    if ref:
+                    if refs:
                         monitor_refs.append(ref)
                     else:
                         LOG.warn('Health monitor %s not found in avi config'
@@ -148,7 +148,11 @@ class ServiceConverter(object):
     def convert_ns_service_group(self, ns_service_group, ns_servers,
                                  conv_status):
         servers = []
+        if isinstance(ns_service_group, dict):
+            ns_service_group = [ns_service_group]
+
         for server_binding in ns_service_group:
+            LOG.debug(server_binding)
             if server_binding.get('monitorName', None):
                 continue
             attrs = server_binding.get('attrs')
