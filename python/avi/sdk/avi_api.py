@@ -494,6 +494,8 @@ class ApiSession(Session):
 
     def get_obj_ref(self, obj):
         """returns reference url from dict object"""
+        if not obj:
+            return None
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
@@ -507,6 +509,8 @@ class ApiSession(Session):
 
     def get_obj_uuid(self, obj):
         """returns uuid from dict object"""
+        if not obj:
+           return None
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
@@ -555,12 +559,15 @@ class ApiSession(Session):
         session_cache = ApiSession.sessionDict
         logger.debug("cleaning inactive sessions in pid %d num elem %d",
                      os.getpid(), len(session_cache))
+        keys_to_delete = []
         for key, session in session_cache.iteritems():
             tdiff = avi_timedelta(session["last_used"] - datetime.utcnow())
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue
-            logger.debug("Removed session for : %s", key)
+            keys_to_delete.append(key)
+        for key in keys_to_delete:
             del session_cache[key]
+            logger.debug("Removed session for : %s", key)
 
     def delete_session(self):
         """ Removes the session for cleanup"""
