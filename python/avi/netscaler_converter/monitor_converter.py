@@ -31,9 +31,8 @@ class MonitorConverter(object):
                 'hostIPAddress']
     indirect_list = []
 
-    def convert(self, ns_config, avi_config):
+    def convert(self, ns_config, avi_config, input_dir):
         LOG.debug("Conversion started for Health Monitors")
-        input_dir = ''
         ns_monitors = ns_config.get('add lb monitor', {})
         supported_types = ['PING', 'TCP', 'HTTP', 'DNS', 'USER']
         avi_config['HealthMonitor'] = []

@@ -41,6 +41,11 @@ class LbvsConverter(object):
                 ip_addr = lb_vs['attrs'][2]
                 port = lb_vs['attrs'][3]
 
+                state = lb_vs.get('state', 'ENABLED')
+                enabled = True
+                if state == 'DISABLED':
+                    enabled = False
+
                 pool_name = '%s-pool' % vs_name
                 pool_ref = None
                 pool_obj = [pool for pool in avi_config.get("Pool",[])
@@ -50,6 +55,24 @@ class LbvsConverter(object):
                 else:
                     LOG.warn('Pool not found in avi config for LB VS %s' % key)
 
+                redirect_url = lb_vs.get('redirectURL', None)
+                if redirect_url:
+                    fail_action = {
+                        "redirect":
+                        {
+                          "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+                          "host": redirect_url,
+                          "protocol": "HTTP"
+                        },
+                        "type": "FAIL_ACTION_HTTP_REDIRECT"
+                    }
+                    pool_obj[0]["fail_action"] = fail_action
+
+                app_profile = 'System-HTTP'
+                http_prof = lb_vs.get('httpProfileName', None)
+                if http_prof:
+                    app_profile = http_prof
+
                 vs_obj = {
                     'name': vs_name,
                     'type': 'VS_TYPE_NORMAL',
@@ -57,15 +80,35 @@ class LbvsConverter(object):
                         'addr': ip_addr,
                         'type': 'V4'
                     },
-                    'enabled': True,
+                    'enabled': enabled,
                     'services': [{'port': port, 'enable_ssl': enable_ssl}],
-                    'application_profile_ref': 'System-HTTP',
+                    'application_profile_ref': app_profile,
                     'pool_ref': pool_ref
                     }
+
+                ntwk_prof = lb_vs.get('tcpProfileName', None)
+                if ntwk_prof:
+                    vs_obj['network_profile_ref'] = ntwk_prof
                 avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
                     lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list)
                 ns_util.add_conv_status(cmd, conv_status, vs_obj)
+
+                if enable_ssl:
+                    ssl_mappings = ns_config.get('bind ssl vserver', {})
+                    for mapping in ssl_mappings.get(key, []):
+                        if 'CA' in mapping.keys():
+                            #TODO add ref of pki prof in app profile
+                            pass
+                        elif 'certkeyName' in mapping.keys():
+                            avi_ssl_ref = 'ssl_key_and_certificate_refs'
+                            vs_obj[avi_ssl_ref] = mapping['certkeyName']
+                    ssl_vs_mapping = ns_config.get('set ssl vserver', {})
+                    mapping = ssl_vs_mapping.get(key)
+                    vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
+
+
+
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
                 LOG.error('Error in lb vs conversion for: %s' %
