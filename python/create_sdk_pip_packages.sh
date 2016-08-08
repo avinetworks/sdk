@@ -13,7 +13,7 @@ python setup.py sdist
 echo "cleanup"
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
-elif [$1 == "f5_converter"]; then
+elif [ $1 == "f5_converter" ]; then
     rm -rf avif5converter.egg-info
 else
     rm -rf avinetscalerconverter.egg-info
