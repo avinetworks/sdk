@@ -97,7 +97,7 @@ class LbvsConverter(object):
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
                     for mapping in ssl_mappings.get(key, []):
-                        if 'CA' in mapping.keys():
+                        if 'CA' in mapping:
                             #TODO add ref of pki prof in app profile
                             pass
                         elif 'certkeyName' in mapping.keys():

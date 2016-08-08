@@ -7,15 +7,19 @@ from avi.netscaler_converter.profile_converter import ProfileConverter
 import avi.netscaler_converter.ns_util as ns_util
 
 gSAMPLE_CONFIG = None
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def setUpModule():
+    LOG.setLevel(logging.DEBUG)
+    formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    path = "test_output"
+    logging.basicConfig(filename=os.path.join(path, 'test.log'),
+                        level=logging.DEBUG, format=formatter)
     cfg_file = open('test_profile_converter.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = json.loads(cfg)
-    log.debug(' read cofig %s', gSAMPLE_CONFIG)
     status_file = "./test_output" + os.path.sep + "ConversionStatus.csv"
     csv_file = open(status_file, 'w')
     ns_util.add_csv_headers(csv_file)
@@ -23,20 +27,10 @@ def setUpModule():
 
 class Test(unittest.TestCase):
 
-    LOG = logging.getLogger("converter-log")
-    LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler("test_output" + os.path.sep + "test.log",
-                              mode='a', encoding=None, delay=False)
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    LOG.addHandler(fh)
-
     def test_ssl_conversion(self):
         profile_converter = ProfileConverter()
         avi_config = dict()
-        ns_config_dict = gSAMPLE_CONFIG["ns_config_dict"]
+        ns_config_dict = gSAMPLE_CONFIG["ssl_profile_config"]
         profile_converter.convert(ns_config_dict, avi_config, "./input_files")
         ssl_profile = avi_config.get('SSLProfile', None)
         ssl_certs = avi_config.get('SSLKeyAndCertificate', None)
@@ -44,3 +38,21 @@ class Test(unittest.TestCase):
         assert ssl_profile
         assert ssl_certs
         assert pki_profile
+
+    def test_http_conversion(self):
+        profile_converter = ProfileConverter()
+        avi_config = dict()
+        ns_config_dict = gSAMPLE_CONFIG["http_profile_config"]
+        profile_converter.convert(ns_config_dict, avi_config, "./input_files")
+        http_profiles = avi_config.get('ApplicationProfile', None)
+        assert http_profiles[0]
+        assert http_profiles[0]['type'] == 'APPLICATION_PROFILE_TYPE_HTTP'
+
+    def test_tcp_conversion(self):
+        profile_converter = ProfileConverter()
+        avi_config = dict()
+        ns_config_dict = gSAMPLE_CONFIG["tcp_profile_config"]
+        profile_converter.convert(ns_config_dict, avi_config, "./input_files")
+        tcp_profiles = avi_config.get('NetworkProfile', None)
+        assert tcp_profiles[0]
+        assert tcp_profiles[0]['profile']['type'] == 'PROTOCOL_TYPE_TCP_PROXY'
