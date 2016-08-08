@@ -9,7 +9,7 @@ setup(
     name='avinetscalerconverter',
     version=AVI_VERSION,
     #package_dir={'': 'avi/f5_converter'},
-    packages=find_packages(exclude=['*sdk*']),
+    packages=find_packages(exclude=['*sdk*', '*f5_converter*']),
     description='Avi Netscaler Converter.',
     url='http://avinetworks.com/',
     author='Avi Networks',

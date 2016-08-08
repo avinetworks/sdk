@@ -12,7 +12,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='avisdk',
     version=AVI_VERSION,
-    packages=find_packages(exclude=['*f5_converter*',
+    packages=find_packages(exclude=['*f5_converter*', 'netscaler_converter',
                                     '*sdk.samples.autoscale*']),
     description='Avi python sdk.',
     url='http://avinetworks.com/',

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! "$1" ]; then
-    echo "package name {sdk|f5_converter} not provided"
+    echo "package name {sdk|f5_converter|netscaler_converter} not provided"
     exit
 fi
 
@@ -13,8 +13,10 @@ python setup.py sdist
 echo "cleanup"
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
-else
+elif [$1 == "f5_converter"]; then
     rm -rf avif5converter.egg-info
+else
+    rm -rf avinetscalerconverter.egg-info
 fi
 rm -f setup.py
 rm -f MANIFEST.in
