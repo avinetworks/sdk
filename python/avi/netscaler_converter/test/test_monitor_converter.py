@@ -7,31 +7,26 @@ from avi.netscaler_converter.monitor_converter import MonitorConverter
 import avi.netscaler_converter.ns_util as ns_util
 
 gSAMPLE_CONFIG = None
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def setUpModule():
+    LOG.setLevel(logging.DEBUG)
+    formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    path = "test_output"
+    logging.basicConfig(filename=os.path.join(path, 'test.log'),
+                        level=logging.DEBUG, format=formatter)
     cfg_file = open('test_monitor_converter.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = json.loads(cfg)
-    log.debug(' read cofig %s', gSAMPLE_CONFIG)
+    LOG.debug(' read cofig %s', gSAMPLE_CONFIG)
     status_file = "./test_output" + os.path.sep + "ConversionStatus.csv"
     csv_file = open(status_file, 'w')
     ns_util.add_csv_headers(csv_file)
 
 
 class Test(unittest.TestCase):
-
-    LOG = logging.getLogger("converter-log")
-    LOG.setLevel(logging.DEBUG)
-    fh = logging.FileHandler("test_output" + os.path.sep + "test.log",
-                             mode='a', encoding=None, delay=False)
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    LOG.addHandler(fh)
     monitor_converter = MonitorConverter()
 
     def test_ping_monitor_conversion(self):
