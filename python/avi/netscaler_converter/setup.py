@@ -8,7 +8,6 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='avinetscalerconverter',
     version=AVI_VERSION,
-    #package_dir={'': 'avi/f5_converter'},
     packages=find_packages(exclude=['*sdk*', '*f5_converter*']),
     description='Avi Netscaler Converter.',
     url='http://avinetworks.com/',
