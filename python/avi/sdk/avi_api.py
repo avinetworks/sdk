@@ -281,7 +281,8 @@ class ApiSession(Session):
         api_hdrs = \
             self._get_api_headers(tenant, tenant_uuid, timeout, headers)
         if (data is not None) and (type(data) == dict):
-            resp = fn(fullpath, json=data, headers=api_hdrs, **kwargs)
+            resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
+                      **kwargs)
         else:
             resp = fn(fullpath, data=data, headers=api_hdrs, **kwargs)
         logger.debug('kwargs: %s rsp %s', kwargs, resp.text)
