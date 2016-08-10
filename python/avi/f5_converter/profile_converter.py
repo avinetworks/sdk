@@ -13,7 +13,7 @@ class ProfileConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return ProfileConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return ProfileConfigConvV11()
 
     supported_types = None
@@ -722,7 +722,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                       "ramcache insert age header", "oneconnect transformations"
                       "compress keep accept encoding", "ramcache uri exclude",
                       "compress content type include", "ramcache uri include",
-                      "ramcache size", "encrypt cookies", "fallback"]
+                      "ramcache size", "encrypt cookies", "fallback",
+                      "defaults from"]
     indirect_http = ["lws separator", "max requests", "compress uri include",
                      "compress browser workarounds", "cache size",
                      "ramcache aging rate", "compress gzip window size",
@@ -770,7 +771,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
             default_profile_name = '%s %s' % (profile_type, profile_type)
             default_ignore = f5_config['profile'].get(default_profile_name, {})
             key_cert_obj = None
-            original_prof = profile_config.get(name)
+            original_prof = profile_config.get('%s %s' % (profile_type, name),
+                                               None)
             inherit_key = original_prof.get('inherit-certkeychain', 'true')
             if inherit_key == 'false':
                 profile['key'] = original_prof.get("key", None)
@@ -1048,6 +1050,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'persist':
             mode = profile.get("mode").replace(' ', '-')
             f5_config["persistence"]['%s %s' % (mode, name)] = profile
+            return
 
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
@@ -1140,8 +1143,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 content_type = [ct for ct in content_type
                                 if ct not in content_type_exclude]
             if content_type:
-                sg_obj = conv_utils.get_containt_string_group(
-                    name, content_type)
+                sg_obj = conv_utils.get_content_string_group(
+                    name, content_type, tenant)
                 compression_profile["compressible_content_ref"] = \
                     name + "-content_type"
                 http_profile = dict()
@@ -1163,15 +1166,18 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
         if header_erase or header_insert:
             rules = []
+            rule_index = 1
             if header_erase:
                 if ':' in header_erase:
                     header_erase = header_erase.split(':')[0]
                 rules.append(conv_utils.create_hdr_erase_rule(
-                    'rule-header-erase', header_erase))
+                    'rule-header-erase', header_erase, rule_index))
+                rule_index += 1
             if header_insert:
                 header, val = header_insert.split(':')
                 rules.append(conv_utils.create_hdr_insert_rule(
-                    'rule-header-insert', header, val))
+                    'rule-header-insert', header, val, rule_index))
+                rule_index += 1
             policy_name = name + '-HTTP-Policy-Set'
             policy = {
                 "name": policy_name,
