@@ -7,9 +7,10 @@ from avi.netscaler_converter.ns_service_converter import ServiceConverter
 from avi.netscaler_converter.monitor_converter import MonitorConverter
 from avi.netscaler_converter.lbvs_converter import LbvsConverter
 from avi.netscaler_converter import ns_util
+from avi.netscaler_converter.profile_converter import ProfileConverter
 
 
-def convert(ns_config_dict, tenant, version, output_dir):
+def convert(ns_config_dict, tenant, version, output_dir, input_dir):
 
     status_file = output_dir + os.path.sep + "ConversionStatus.csv"
     csv_file = open(status_file, 'w')
@@ -41,7 +42,10 @@ def convert(ns_config_dict, tenant, version, output_dir):
         }
 
         monitor_converter = MonitorConverter()
-        monitor_converter.convert(ns_config_dict, avi_config)
+        monitor_converter.convert(ns_config_dict, avi_config, input_dir)
+
+        profile_converter = ProfileConverter()
+        profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
         service_converter = ServiceConverter()
         service_converter.convert(ns_config_dict, avi_config)
@@ -51,7 +55,7 @@ def convert(ns_config_dict, tenant, version, output_dir):
         LOG.debug('Conversion completed successfully')
 
     except:
-        LOG.error('Error in config conversion', exec_info=True)
+        LOG.error('Error in config conversion', exc_info=True)
 
     csv_file.close()
     return avi_config

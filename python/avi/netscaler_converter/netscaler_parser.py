@@ -33,7 +33,9 @@ def parse_config_file(filepath):
 def get_command(line):
     commands = ['add server', 'add service', 'add lb vserver',
                 'bind lb vserver', 'add lb monitor', 'bind service',
-                'bind serviceGroup', 'add serviceGroup']
+                'bind serviceGroup', 'add serviceGroup', 'add ns tcpProfile',
+                'add ns httpProfile', 'bind ssl vserver', 'add ssl certKey',
+                'set ssl vserver', 'add ssl profile']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
@@ -78,6 +80,6 @@ def get_ns_conf_dict(filepath):
 
     return netscaler_conf
 
-# if __name__ == "__main__":
-#     ns_conf = get_ns_conf_dict("D:\\avi\\NetscalerConverter\\test.conf")
-#     print ns_conf
+if __name__ == "__main__":
+    ns_conf = get_ns_conf_dict("D:\\avi\\NetscalerConverter\\test.conf")
+    print ns_conf

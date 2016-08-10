@@ -1,0 +1,3 @@
+Netscaler Command,Status,Skipped settings,Indirect mapping,Not Applicable,User Ignored,Avi Object
+add lb vserver vs_ns_conversion,successful,[],[],[],,"{'network_profile_ref': u'test_tcp', 'name': u'vs_ns_conversion', 'type': 'VS_TYPE_NORMAL', 'enabled': True, 'application_profile_ref': u'test_http', 'pool_ref': u'vs_ns_conversion-pool', 'services': [{'enable_ssl': False, 'port': u'80'}], 'ip_address': {'type': 'V4', 'addr': u'22.33.44.55'}}"
+add lb vserver testssl,successful,[],[],[],,"{'name': u'testssl', 'type': 'VS_TYPE_NORMAL', 'enabled': True, 'application_profile_ref': 'System-HTTP', 'pool_ref': u'testssl-pool', 'services': [{'enable_ssl': True, 'port': u'443'}], 'ip_address': {'type': 'V4', 'addr': u'10.90.191.101'}}"

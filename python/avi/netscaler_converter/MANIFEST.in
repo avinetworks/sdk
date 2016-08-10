@@ -1,0 +1,9 @@
+recursive-include avi/netscaler_converter *.cfg
+recursive-include avi/netscaler_converter *.conf
+recursive-include avi/netscaler_converter *.crt
+recursive-include avi/netscaler_converter *.json
+recursive-include avi/netscaler_converter *.key
+recursive-include avi/netscaler_converter *.pem
+recursive-include avi/netscaler_converter *.xml
+recursive-include avi/netscaler_converter *.yaml
+

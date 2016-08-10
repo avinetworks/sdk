@@ -1,24 +1,19 @@
 import os
 from setuptools import setup, find_packages
 from avi.version import AVI_VERSION
-"""
-This setup needs to be copied to the top level python directory and then
-create the package.
-"""
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='avisdk',
+    name='avinetscalerconverter',
     version=AVI_VERSION,
-    packages=find_packages(exclude=['*f5_converter*', '*netscaler_converter*',
-                                    '*sdk.samples.autoscale*']),
-    description='Avi python sdk.',
+    packages=find_packages(exclude=['*sdk*', '*f5_converter*']),
+    description='Avi Netscaler Converter.',
     url='http://avinetworks.com/',
     author='Avi Networks',
     author_email='support@avinetworks.com',
-    scripts=['avi/sdk/samples/virtualservice_examples_api.py'],
+    scripts=['avi/netscaler_converter/netscaler_converter.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -27,7 +22,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     include_package_data=True,
-    install_requires=['pyyaml', 'requests'],
+    install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
+                      'pycrypto', 'ecdsa'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )
