@@ -12,7 +12,7 @@ class PersistenceConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return PersistenceConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return PersistenceConfigConvV11()
 
     supported_types = None

@@ -10,7 +10,7 @@ class VSConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return VSConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return VSConfigConvV11()
 
     def get_persist_ref(self, f5_vs):
