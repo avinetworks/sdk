@@ -141,7 +141,7 @@ def get_grammar_by_version(version):
     grammar = None
     if int(version) == 10:
         grammar = generate_grammar_v10()
-    elif int(version) == 11:
+    elif int(version) in [11, 12]:
         grammar = generate_grammar_v11()
     return grammar
 

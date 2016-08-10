@@ -14,7 +14,7 @@ class MonitorConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return MonitorConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return MonitorConfigConvV11()
 
     supported_attributes = None

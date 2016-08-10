@@ -13,7 +13,7 @@ class ProfileConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return ProfileConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return ProfileConfigConvV11()
 
     supported_types = None

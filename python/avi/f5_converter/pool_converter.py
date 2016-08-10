@@ -11,7 +11,7 @@ class PoolConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return PoolConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return PoolConfigConvV11()
     supported_attr = None
 
