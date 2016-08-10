@@ -589,6 +589,7 @@ def cleanup_config(avi_config):
         profile.pop('realm', [])
         profile.pop('fallback_host', [])
 
+
 def create_hdr_erase_rule(name, hdr_name, rule_index):
     return create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",
                               "HTTP_REPLACE_HDR", "000000", rule_index)
