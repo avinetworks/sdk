@@ -17,6 +17,7 @@ class PersistenceConfigConv(object):
 
     supported_types = None
     ignore_for_defaults = None
+    indirect = None
 
     def convert_cookie_persistence(self, name, profile):
         pass
@@ -40,9 +41,6 @@ class PersistenceConfigConv(object):
     def update_conv_status_for_skip(self, persist_mode, name):
         pass
 
-    indirect = ["hash-length", "hash-offset", "mirror", "method",
-                            "cookie-encryption", 'override-connection-limit']
-
     def convert(self, f5_config, avi_config, user_ignore):
         avi_config['hash_algorithm'] = []
         avi_config["ApplicationPersistenceProfile"] = []
@@ -63,6 +61,8 @@ class PersistenceConfigConv(object):
                 if persist_mode == "cookie":
                     persist_profile = self.convert_cookie(name, profile,
                                                           skipped, tenant)
+                    if not persist_profile:
+                        continue
                     u_ignore = user_ignore.get('cookie', [])
                 elif persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
@@ -127,12 +127,16 @@ class PersistenceConfigConv(object):
 
 class PersistenceConfigConvV11(PersistenceConfigConv):
 
+    indirect = ["hash-length", "hash-offset", "mirror", "method",
+                            "cookie-encryption", 'override-connection-limit']
+
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('method', 'insert')
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
                      % name)
             conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
+            return None
         supported_attr = ["cookie-name", "defaults-from", "expiration",
                           "method"]
         ignore_lst = ['always-send']
@@ -212,8 +216,17 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
 
 class PersistenceConfigConvV10(PersistenceConfigConv):
 
+    indirect = ["cookie hash length", "cookie hash offset", "mirror",
+                'override connection limit']
+
     def convert_cookie(self, name, profile, skipped, tenant):
-        supported_attr = ["cookie name", "mode", "defaults from", "mirror",
+        method = profile.get('cookie mode', 'insert')
+        if not method == 'insert':
+            LOG.warn("Skipped cookie method not supported for profile '%s' "
+                     % name)
+            conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
+            return None
+        supported_attr = ["cookie name", "mode", "defaults from", "cookie mode",
                           "cookie hash offset", "cookie hash length"]
         skipped += [attr for attr in profile.keys()
                    if attr not in supported_attr]
@@ -240,7 +253,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect, tenant):
-        supported_attr = ["mode", "defaults from", "mirror"]
+        supported_attr = ["mode", "defaults from"]
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
         indirect.append("timeout")

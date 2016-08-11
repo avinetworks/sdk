@@ -142,6 +142,8 @@ class VSConfigConv(object):
         if snat_pool:
             snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
             vs_obj["snat_ip"] = snat_list
+            conv_utils.add_status_row('snatpool', '', snat_pool_name,
+                                      'indirect-mapping')
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:

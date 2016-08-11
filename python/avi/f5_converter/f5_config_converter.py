@@ -13,7 +13,7 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            user_ignore=None):
+            user_ignore={}):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
