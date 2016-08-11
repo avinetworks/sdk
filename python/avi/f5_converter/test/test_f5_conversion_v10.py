@@ -9,34 +9,25 @@ import avi.f5_converter.f5_parser as f5_parser
 import avi.f5_converter.f5_converter as f5_converter
 
 gSAMPLE_CONFIG = None
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def setUpModule():
+    LOG.setLevel(logging.DEBUG)
+    formatter = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    dir_path = os.path.abspath(os.path.dirname(__file__))
+    dir_path = dir_path.rsplit(os.path.sep, 1)[0]
+    dir_path = dir_path + os.path.sep + "output"
+    logging.basicConfig(filename=os.path.join(dir_path, 'converter.log'),
+                        level=logging.DEBUG, format=formatter)
     dir_path = os.path.abspath(os.path.dirname(__file__))
     cfg_file = open(dir_path+os.path.sep+'bigip_v10.conf', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = cfg
-    log.debug(' read cofig %s', gSAMPLE_CONFIG)
 
 
 class Test(unittest.TestCase):
-
-    LOG = logging.getLogger("converter-log")
-    LOG.setLevel(logging.DEBUG)
-    dir_path = os.path.abspath(os.path.dirname(__file__))
-    dir_path = dir_path.rsplit(os.path.sep, 1)[0]
-    dir_path = dir_path + os.path.sep + "output"
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-    fh = logging.FileHandler(dir_path + os.path.sep + "converter.log",
-                              mode='a', encoding=None, delay=False)
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    LOG.addHandler(fh)
 
     def test_config_conversion(self):
         dir_path = os.path.abspath(os.path.dirname(__file__))
@@ -53,10 +44,11 @@ class Test(unittest.TestCase):
         assert f5_config_dict.get("profile", False)
         assert f5_config_dict.get("node", False)
 
-        f5_config_test = copy.deepcopy(f5_config_dict)
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, dir_path+os.path.sep+"output", "disable", "certs",
-            "api-upload", 10)
+            '10')
+
+        assert avi_config_dict
 
         with open('%s%soutput%sConversionStatus.csv' %
                           (dir_path, os.path.sep, os.path.sep)) as csvfile:

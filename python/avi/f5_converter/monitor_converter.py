@@ -592,7 +592,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name, "skipped")
-            return None, None, None
+            monitor_dict['error'] = True
+            return None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
             "command_code": cmd_code,
