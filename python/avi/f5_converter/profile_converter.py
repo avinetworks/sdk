@@ -33,6 +33,7 @@ class ProfileConfigConv(object):
         avi_config["NetworkProfile"] = []
         avi_config["StringGroup"] = []
         avi_config['HTTPPolicySet'] = []
+        avi_config['OneConnect'] = []
         persistence = f5_config.get("persistence", None)
         if not persistence:
             f5_config['persistence'] = {}
@@ -126,7 +127,7 @@ class ProfileConfigConv(object):
 class ProfileConfigConvV11(ProfileConfigConv):
     supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
                        "web-acceleration", "http-compression", "fastl4", "tcp",
-                       "udp"]
+                       "udp", "one-connect"]
     ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
     default_key = "defaults-from"
 
@@ -201,26 +202,28 @@ class ProfileConfigConvV11(ProfileConfigConv):
     indirect_udp = ['link-qos-to-client', 'proxy-mss', 'ip-tos-to-client',
                     'allow-no-payload']
 
+    supported_oc = ['defaults-from', 'source-mask']
+
+
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
-        default_ignore = {}
         na_list = []
         u_ignore = []
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
         tenant, name = conv_utils.get_tenant_ref(name)
+        default_profile_name = '%s %s' % (profile_type,
+                                          profile_type.replace('-', ''))
+        default_ignore = f5_config['profile'].get(default_profile_name, {})
+        default_ignore.update(self.ignore_for_defaults)
         if profile_type in ('client-ssl', 'server-ssl'):
             supported_attr = self.supported_ssl
             na_list = self.na_ssl
             u_ignore = user_ignore.get('client-ssl', [])
             u_ignore += user_ignore.get('server-ssl', [])
-            default_profile_name = '%s %s' % (profile_type,
-                                              profile_type.replace('-', ''))
-            default_ignore = f5_config['profile'].get(default_profile_name, {})
-            default_ignore.update(self.ignore_for_defaults)
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             original_prof = profile_config.get('%s %s' % (profile_type, name),
@@ -320,8 +323,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             supported_attr = self.supported_http
             na_list = self.na_http
             u_ignore = user_ignore.get('http', [])
-            default_ignore = f5_config['profile'].get('http http', {})
-            default_ignore.update(self.ignore_for_defaults)
             indirect = self.indirect_http
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -411,7 +412,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             supported_attr = self.supported_dns
             na_list = self.na_dns
             u_ignore = user_ignore.get('dns', [])
-            default_ignore = f5_config['profile'].get('dns dns', {})
             indirect = self.indirect_dns
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -428,8 +428,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             supported_attr = self.supported_wa
             indirect = self.indirect_wa
             u_ignore = user_ignore.get('web-acceleration', [])
-            default_profile_name = 'web-acceleration web-acceleration'
-            default_ignore = f5_config['profile'].get(default_profile_name, {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -478,8 +476,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             u_ignore = user_ignore.get('http-compression', [])
             na_list = self.na_hc
             indirect = self.indirect_hc
-            default_profile_name = 'http-compression http-compression'
-            default_ignore = f5_config['profile'].get(default_profile_name, {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             app_profile = dict()
@@ -528,7 +524,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
             u_ignore = user_ignore.get('fastl4', [])
-            default_ignore = f5_config['profile'].get('fastl4 fastl4', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             hw_syn_protection = (profile.get("hardware-syn-cookie",
@@ -581,8 +576,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             indirect = self.indirect_fh
-            default_ignore = f5_config['profile'].get('fasthttp fasthttp', {})
-
             u_ignore = user_ignore.get('fasthttp', [])
             skipped = [attr for attr in f5_config['profile'][key].keys()
                        if attr not in supported_attr]
@@ -624,11 +617,26 @@ class ProfileConfigConvV11(ProfileConfigConv):
             conv_utils.update_skip_duplicates(
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
+        elif profile_type == 'one-connect':
+            supported_attr = self.supported_oc
+            indirect = []
+            u_ignore = user_ignore.get('one-connect', [])
+            skipped = [attr for attr in profile.keys()
+                       if attr not in supported_attr]
+            mask = profile.get('source-mask', 'any')
+            if not mask == 'any':
+                skipped.append('source-mask')
+            converted_objs = \
+                'Maps Indirectly to : HTTP Profile -> Connection Multiplex'
+            LOG.warn('one-connect profile %s will be mapped indirectly to HTTP '
+                     'Profile -> Connection Multiplex of the same VS if '
+                     'oneconnect-transformations is enabled' % name)
+            avi_config['OneConnect'].append(name)
+
         elif profile_type == 'tcp':
             supported_attr = self.supported_tcp
             indirect = self.indirect_tcp
             u_ignore = user_ignore.get('tcp', [])
-            default_ignore = f5_config['profile'].get('tcp tcp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             timeout = profile.get("idle-timeout", 0)
@@ -679,7 +687,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             supported_attr = self.supported_udp
             indirect = self.indirect_udp
             u_ignore = user_ignore.get('udp', [])
-            default_ignore = f5_config['profile'].get('udp udp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram-load-balancing", 'disabled')
@@ -708,7 +715,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 class ProfileConfigConvV10(ProfileConfigConv):
     supported_types = ["clientssl", "serverssl", "http", "dns", "persist",
-                       "fastL4", "fasthttp", "tcp", "udp"]
+                       "fastL4", "fasthttp", "tcp", "udp", "oneconnect"]
     default_key = "defaults from"
 
     supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
@@ -750,6 +757,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     supported_udp = ["idle timeout", "datagram lb", "defaults from"]
     indirect_udp = []
+    supported_oc = ['defaults from', 'source mask']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore):
@@ -761,6 +769,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
         na_list = []
         parent_cls = super(ProfileConfigConvV10, self)
         profile_type, name = key.split(" ")
+        default_profile_name = '%s %s' % (profile_type, profile_type)
+        default_ignore = f5_config['profile'].get(default_profile_name, {})
         tenant, name = conv_utils.get_tenant_ref(name)
         if profile_type in ("clientssl", "serverssl"):
             supported_attr = self.supported_ssl
@@ -768,8 +778,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
                        if attr not in supported_attr]
             u_ignore = user_ignore.get('clientssl', [])
             u_ignore += user_ignore.get('serverssl', [])
-            default_profile_name = '%s %s' % (profile_type, profile_type)
-            default_ignore = f5_config['profile'].get(default_profile_name, {})
             key_cert_obj = None
             original_prof = profile_config.get('%s %s' % (profile_type, name),
                                                None)
@@ -864,7 +872,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 self.convert_http_profile(
                     profile, name, avi_config, converted_objs, tenant)
             u_ignore = user_ignore.get('http', [])
-            default_ignore = f5_config['profile'].get('http http', {})
             na_list = self.na_http
             indirect = self.indirect_http
             conv_utils.update_skip_duplicates(
@@ -874,7 +881,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
             supported_attr = self.supported_dns
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
-            default_ignore = f5_config['profile'].get('dns dns', {})
             u_ignore = user_ignore.get('dns', [])
             app_profile = dict()
             app_profile['name'] = name
@@ -887,7 +893,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'fastL4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
-            default_ignore = f5_config['profile'].get('fastL4 fastL4', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             u_ignore = user_ignore.get('fastL4', [])
@@ -937,7 +942,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             u_ignore = user_ignore.get('fasthttp', [])
-            default_ignore = f5_config['profile'].get('fasthttp fasthttp', {})
             indirect = self.indirect_fh
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -973,11 +977,26 @@ class ProfileConfigConvV10(ProfileConfigConv):
             conv_utils.update_skip_duplicates(
                 ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
                 converted_objs)
+
+        elif profile_type == 'oneconnect':
+            supported_attr = self.supported_oc
+            indirect = []
+            u_ignore = user_ignore.get('oneconnect', [])
+            skipped = [attr for attr in profile.keys()
+                       if attr not in supported_attr]
+            mask = profile.get('source mask', '0.0.0.0')
+            if not mask == '0.0.0.0':
+                skipped.append('source-mask')
+            converted_objs = \
+                'Maps Indirectly to : HTTP Profile -> Connection Multiplex'
+            LOG.warn('oneconnect profile %s will be mapped indirectly to HTTP '
+                     'Profile -> Connection Multiplex of the same VS if '
+                     'oneconnect-transformations is enabled' % name)
+            avi_config['OneConnect'].append(name)
         elif profile_type == 'tcp':
             u_ignore = user_ignore.get('tcp', [])
             supported_attr = self.supported_tcp
             indirect = self.indirect_tcp
-            default_ignore = f5_config['profile'].get('tcp tcp', {})
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             timeout = profile.get("idle timeout", 0)
@@ -1029,7 +1048,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
             supported_attr = self.supported_udp
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
-            default_ignore = f5_config['profile'].get('udp udp', {})
             per_pkt = profile.get("datagram lb", 'disable')
             timeout = profile.get("idle timeout", 0)
             ntwk_profile = {

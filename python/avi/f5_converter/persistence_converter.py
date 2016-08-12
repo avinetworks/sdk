@@ -74,8 +74,17 @@ class PersistenceConfigConv(object):
                     u_ignore = user_ignore.get('source-addr', [])
                 elif persist_mode == "hash":
                     avi_config['hash_algorithm'].append(name)
-                    conv_utils.add_status_row(
-                        'profile', "hash-persistence", name, 'indirect-mapping')
+                    skipped = profile.keys()
+                    LOG.warn('hash-persistence profile %s will be mapped '
+                             'indirectly to Pool -> Load Balance  Algorithm'
+                             % name)
+                    conv_status = {
+                        'status' : 'partial',
+                        'skipped': skipped
+                    }
+                    msg = 'Indirectly mapped to Pool -> Load Balance Algorithm'
+                    conv_utils.add_conv_status(
+                        'profile', "hash-persistence", name, conv_status, msg)
                     continue
                 else:
                     LOG.error(
