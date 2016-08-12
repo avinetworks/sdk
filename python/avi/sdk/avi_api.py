@@ -452,7 +452,7 @@ class ApiSession(Session):
                         params=params, **kwargs)
 
     def delete(self, path, tenant='', tenant_uuid='', timeout=60, params=None,
-               **kwargs):
+               data=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -467,7 +467,7 @@ class ApiSession(Session):
             parameters
         returns session's response object
         """
-        return self._api('delete', path, tenant, tenant_uuid, data=None,
+        return self._api('delete', path, tenant, tenant_uuid, data=data,
                          timeout=timeout, params=params, **kwargs)
 
     def delete_by_name(self, path, name, tenant='', tenant_uuid='', timeout=60,
