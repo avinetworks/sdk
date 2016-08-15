@@ -129,7 +129,7 @@ class ApiSession(Session):
                        else "https://%s" % controller_ip)
         self.verify = verify
         self.port = port
-        self.key = controller_ip + ":" +  username
+        self.key = controller_ip + ":" + username
 
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
@@ -238,7 +238,7 @@ class ApiSession(Session):
         returns the headers that are passed to the requests.Session api calls.
         """
         api_hdrs = copy.deepcopy(self.headers)
-        api_hdrs['timeout'] = timeout
+        api_hdrs['timeout'] = str(timeout)
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -258,7 +258,7 @@ class ApiSession(Session):
         return api_hdrs
 
     def _api(self, api_name, path, tenant, tenant_uuid, data=None,
-             timeout=60, headers=None, **kwargs):
+             headers=None, timeout=60, **kwargs):
         """
         It calls the requests.Session APIs and handles session expiry
         and other situations where session needs to be reset.
@@ -465,6 +465,8 @@ class ApiSession(Session):
         :param timeout: timeout for API calls
         :param params: dictionary of key value pairs to be sent as query
             parameters
+        :param data: dictionary of the data. Support for json string
+            is deprecated
         returns session's response object
         """
         return self._api('delete', path, tenant, tenant_uuid, data=data,
