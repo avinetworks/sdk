@@ -1,6 +1,10 @@
 
-This directory contains all the custom scripts that can be used by the
-customer.
+This directory contains the control scripts samples for Avi
 
 1. server_down_script.py  : This file contains the script which can be invoked
    via the alert action when a SERVER_DOWN Alert is generated.
+
+2. control_script_se_route_update.py : This ControlScript is executed on the 
+   Avi Controller every time there is a CC_IP_ATTACHED or a CC_IP_DETACHED event.
+
+3. 
