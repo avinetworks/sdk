@@ -66,7 +66,8 @@ class LbvsConverter(object):
                         },
                         "type": "FAIL_ACTION_HTTP_REDIRECT"
                     }
-                    pool_obj[0]["fail_action"] = fail_action
+                    if pool_obj:
+                        pool_obj[0]["fail_action"] = fail_action
 
                 app_profile = 'System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
@@ -96,18 +97,20 @@ class LbvsConverter(object):
 
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
-                    for mapping in ssl_mappings.get(key, []):
+                    ssl_bindings = ssl_mappings.get(key, [])
+                    if isinstance(ssl_bindings, dict):
+                        ssl_bindings = [ssl_bindings]
+                    for mapping in ssl_bindings:
                         if 'CA' in mapping:
                             #TODO add ref of pki prof in app profile
                             pass
-                        elif 'certkeyName' in mapping.keys():
+                        elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
                             vs_obj[avi_ssl_ref] = mapping['certkeyName']
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
-                    mapping = ssl_vs_mapping.get(key)
-                    vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
-
-
+                    mapping = ssl_vs_mapping.get(key, None)
+                    if mapping and 'sslProfile' in mapping:
+                        vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
 
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
