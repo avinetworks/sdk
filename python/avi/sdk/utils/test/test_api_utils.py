@@ -92,6 +92,16 @@ class Test(unittest.TestCase):
                'server_count': 0}
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
+        obj = {'name': 'testpool#asdfasf',
+               'health_monitor_refs': ['api/healthmonitor?name=System-HTTP'],
+               'server_count': 0}
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
+        obj = {'name': 'testpool',
+               'health_monitor_refs': ['/api/healthmonitor?name=System-HTTP#'],
+               'server_count': 0}
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
 
 
 if __name__ == "__main__":
