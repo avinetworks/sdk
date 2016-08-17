@@ -111,7 +111,8 @@ def get_avi_resp_code(respCode):
     return list(set(avi_resp_codes))
 
 
-def get_conv_status(ns_object, skipped_list, na_list, indirect_list):
+def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
+                    ignore_for_val=None):
     skipped = [attr for attr in ns_object.keys() if attr in skipped_list]
     na = [attr for attr in ns_object.keys() if attr in na_list]
     indirect = [attr for attr in ns_object.keys() if attr in indirect_list]
@@ -119,6 +120,13 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list):
         status = 'partial'
     else:
         status = 'successful'
+    if ignore_for_val:
+        for key in ignore_for_val.keys():
+            ns_val = ns_object.get(key)
+            ignore_val = ignore_for_val.get(key)
+            if key in skipped and ns_val == ignore_val:
+                skipped.remove(key)
+
 
     conv_status = {
         'skipped': skipped,
