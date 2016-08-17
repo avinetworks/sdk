@@ -43,7 +43,8 @@ class Test(unittest.TestCase):
 
     def test_avi_obj_cmp_w_refs(self):
         obj = {'name': 'testpool',
-               'health_monitor_refs': ['/api/healthmonitor?name=System-HTTP']}
+               'health_monitor_refs': ['/api/healthmonitor?name=System-HTTP'],
+               'enabled': True}
         existing_obj = {
             'lb_algorithm': 'LB_ALGORITHM_LEAST_CONNECTIONS',
             'use_service_port': False,
@@ -75,8 +76,22 @@ class Test(unittest.TestCase):
 
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
-        x = not diff
-        assert not x
+        obj = {'name': 'testpool',
+               'health_monitor_refs': ['/api/healthmonitor?name=System-HTTP'],
+               'server_count': 1}
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
+
+        obj = {'name': 'testpool',
+               'health_monitor_refs': ['api/healthmonitor?name=System-HTTP'],
+               'server_count': 0}
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
+        obj = {'name': 'testpool',
+               'health_monitor_refs': ['healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9'],
+               'server_count': 0}
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
 
 
 if __name__ == "__main__":
