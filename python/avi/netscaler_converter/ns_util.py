@@ -151,3 +151,20 @@ def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
                     'key_passphrase': ''
                 }
         return ssl_kc_obj
+
+
+def get_command_from_line(line):
+    cmd = ''
+    for member in line:
+        if isinstance(member, str):
+            cmd += ' %s' % member
+        else:
+            cmd += ' -%s' % ' '.join(member)
+    return cmd
+
+
+def update_status_for_skipped(skipped_cmds):
+    if not skipped_cmds:
+        return
+    for cmd in skipped_cmds:
+        add_status_row(cmd, 'skipped')
