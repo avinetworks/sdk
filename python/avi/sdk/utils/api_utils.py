@@ -78,6 +78,10 @@ def avi_obj_cmp(x, y):
                 # not need to continue
                 return False
     if type(x) == dict:
+        d_xks = [k for k, v in x.iteritems() if
+                 not v and (type(v) in (list, dict))]
+        for k in d_xks:
+            x.pop(k)
         x_keys = set(x.keys())
         y_keys = set(y.keys())
         if not x_keys.issubset(y_keys):
