@@ -109,6 +109,7 @@ class ApiSession(Session):
     # a new cache for that process.
     AVI_SLUG = 'Slug'
     SESSION_CACHE_EXPIRY = 20*60
+    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id']
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None):
@@ -140,11 +141,11 @@ class ApiSession(Session):
             ApiSession.sessionDict[self.key] = \
                 {"api": self, "last_used": datetime.utcnow()}
             user_session = self
-        self.headers = copy.deepcopy(user_session.headers)
-        # don't save the tenant headers as it would interfer with the
+        # don't save the tenant headers as it would interfere with the
         # individual method tenant overrides
-        self.headers.pop("X-Avi-Tenant-UUID", None)
-        self.headers.pop("X-Avi-Tenant", None)
+        for hdr in self.SHARED_USER_HDRS:
+            if hdr in user_session.headers:
+                self.headers[hdr] = user_session.headers[hdr]
         self.cookies = user_session.cookies
         self.num_session_retries = 0
         self.pid = os.getpid()
@@ -170,9 +171,9 @@ class ApiSession(Session):
             user_session = ApiSession.sessionDict[key]["api"]
             tenant = tenant if tenant else 'admin'
             if (user_session.password != password or
-                user_session.keystone_token != token or
-                user_session.tenant != tenant or
-                user_session.tenant_uuid != tenant_uuid):
+                    user_session.keystone_token != token or
+                    user_session.tenant != tenant or
+                    user_session.tenant_uuid != tenant_uuid):
                 logger.debug('Api Session auth credential mismatch %s', key)
                 del ApiSession.sessionDict[key]
                 user_session = None
