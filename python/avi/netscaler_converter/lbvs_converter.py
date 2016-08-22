@@ -20,9 +20,12 @@ class LbvsConverter(object):
                 'macmodeRetainvlan', 'dbsLb', 'dns64', 'RecursionAvailable']
     indirect_list = ['hashLength']
 
+    supported_persist_types = ['SOURCEIP', 'COOKIEINSERT', 'SSLSESSION']
+
     def convert(self, ns_config, avi_config):
         lb_vs_conf = ns_config.get('add lb vserver', {})
-        avi_config['VirtualService']=[]
+        avi_config['VirtualService'] = []
+        avi_config['ApplicationPersistenceProfile'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP']
         for key in lb_vs_conf.keys():
             try:
@@ -66,7 +69,8 @@ class LbvsConverter(object):
                         },
                         "type": "FAIL_ACTION_HTTP_REDIRECT"
                     }
-                    pool_obj[0]["fail_action"] = fail_action
+                    if pool_obj:
+                        pool_obj[0]["fail_action"] = fail_action
 
                 app_profile = 'System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
@@ -86,6 +90,21 @@ class LbvsConverter(object):
                     'pool_ref': pool_ref
                     }
 
+                persistenceType = lb_vs.get('persistenceType','')
+                persist_profile = None
+
+                if pool_ref and persistenceType in self.supported_persist_types:
+                    timeout = lb_vs.get('timeout', 2)
+                    profile_name = '%s-persistance-profile' % vs_name
+                    persist_profile = self.convert_persistance_prof(
+                        persistenceType, timeout, profile_name)
+                    avi_config['ApplicationPersistenceProfile'].append(
+                        persist_profile)
+                    self.update_pool_for_persist(avi_config, pool_ref,
+                                                 profile_name)
+                elif not persistenceType == 'NONE':
+                    LOG.warn('Persistance type %s not supported by Avi' %
+                             persistenceType)
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     vs_obj['network_profile_ref'] = ntwk_prof
@@ -96,20 +115,61 @@ class LbvsConverter(object):
 
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
-                    for mapping in ssl_mappings.get(key, []):
+                    ssl_bindings = ssl_mappings.get(key, [])
+                    if isinstance(ssl_bindings, dict):
+                        ssl_bindings = [ssl_bindings]
+                    for mapping in ssl_bindings:
                         if 'CA' in mapping:
                             #TODO add ref of pki prof in app profile
                             pass
-                        elif 'certkeyName' in mapping.keys():
+                        elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
                             vs_obj[avi_ssl_ref] = mapping['certkeyName']
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
-                    mapping = ssl_vs_mapping.get(key)
-                    vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
-
-
+                    mapping = ssl_vs_mapping.get(key, None)
+                    if mapping and 'sslProfile' in mapping:
+                        vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
 
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
                 LOG.error('Error in lb vs conversion for: %s' %
                           key, exc_info=True)
+
+    def convert_persistance_prof(self, persistenceType, timeout, name):
+        profile = None
+        if persistenceType == 'COOKIEINSERT':
+            profile = {
+                "http_cookie_persistence_profile": {
+                    "always_send_cookie": False,
+                    "timeout": timeout
+                },
+                "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
+                "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                "name": name
+            }
+        elif persistenceType == 'SOURCEIP':
+            profile = {
+              "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+              "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+              "ip_persistence_profile": {
+                "ip_persistent_timeout": timeout
+              },
+              "name": name
+            }
+        elif persistenceType == 'SSLSESSION':
+            profile = {
+                "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                "persistence_type": "PERSISTENCE_TYPE_TLS",
+                "name": name
+            }
+        return profile
+
+    def update_pool_for_persist(self, avi_config, pool_ref, profile_name):
+        pool_obj = [pool for pool in avi_config['Pool']
+                    if pool["name"] == pool_ref]
+        if not pool_obj:
+            LOG.error("Pool %s not found to add profile %s" %
+                      (pool_ref, profile_name))
+        pool_obj = pool_obj[0]
+        persist_ref_key = "application_persistence_profile_ref"
+        pool_obj[persist_ref_key] = profile_name

@@ -10,7 +10,7 @@ class MonitorConverter(object):
     skip_attrs = ['action', 'respCode', 'rtspRequest', 'customHeaders',
                   'dispatcherIP', 'dispatcherPort', 'LRTM', 'deviation',
                   'resptimeoutThresh', 'retries', 'alertRetries', 'downTime',
-                  'destIP', 'state', 'reverse', 'transparent', 'ipTunnel',
+                  'state', 'reverse', 'transparent', 'ipTunnel',
                   'tos', 'tosId', 'secure', 'IPAddress', 'group', 'metricTable',
                   'netProfile', 'vendorSpecificVendorId',
                   'vendorSpecificAuthApplicationIds',
@@ -29,7 +29,7 @@ class MonitorConverter(object):
                 'secondaryPassword', 'logonpointName', 'lasVersion', 'domain',
                 'application', 'sitePath', 'storename', 'storefrontacctservice',
                 'hostIPAddress']
-    indirect_list = []
+    indirect_list = ['destIP']
 
     def convert(self, ns_config, avi_config, input_dir):
         LOG.debug("Conversion started for Health Monitors")
