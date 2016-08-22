@@ -17,6 +17,8 @@ class ServiceConverter(object):
 
     server_skip = ['comment', 'td']
 
+    skip_for_val = {'useproxyport': 'YES', 'maxReq': '0'}
+
     def convert(self, ns_config, avi_config):
         """
         Converts service or service groups bound to VS to avi Pool entity
@@ -80,7 +82,7 @@ class ServiceConverter(object):
             ns_service = None
             if len(member.get('attrs', [])) > 1:
                 ns_service = ns_services.get(member['attrs'][1], None)
-            if not ns_service:
+            if not ns_service and len(member['attrs']) > 1:
                 ns_sg = ns_service_group.get(member['attrs'][1], None)
             if not ns_sg and not ns_service:
                 continue
@@ -122,7 +124,7 @@ class ServiceConverter(object):
         attrs = ns_service.get('attrs')
         cmd = 'add service %s' % attrs[0]
         status = ns_util.get_conv_status(ns_service, self.service_skip,
-                                         self.service_na, [])
+                                         self.service_na, [], self.skip_for_val)
         conv_status.append({'cmd': cmd, 'status': status})
         server = ns_servers.get(attrs[1])
         cmd = 'add server %s' % server['attrs'][0]

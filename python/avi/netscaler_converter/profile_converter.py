@@ -81,9 +81,12 @@ class ProfileConverter(object):
         LOG.debug("Conversion started for SSL profiles")
         for key in ssl_vs_mapping.keys():
             mapping = ssl_vs_mapping[key]
+            if not 'sslProfile' in mapping:
+                continue
             ssl_profile_name = mapping.get('sslProfile')
-            avi_ssl_prof = self.convert_ssl_profile(
-                ssl_profiles.get(ssl_profile_name))
+            ssl_profile = ssl_profiles.get(ssl_profile_name, None)
+            if ssl_profile:
+                avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
             obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
                                     input_dir, avi_ssl_prof)
             avi_config["SSLProfile"].append(avi_ssl_prof)
