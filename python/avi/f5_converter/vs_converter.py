@@ -10,7 +10,7 @@ class VSConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return VSConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return VSConfigConvV11()
 
     def get_persist_ref(self, f5_vs):
@@ -56,11 +56,18 @@ class VSConfigConv(object):
         enabled = (vs_state == 'enable')
         if enabled:
             enabled = False if "disabled" in f5_vs.keys() else True
-        profiles = f5_vs.get("profiles", None)
+        profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
             profiles, avi_config)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
+
+        if app_prof[0].get('connection_multiplexing_enabled',False):
+            one_connect = avi_config.get('OneConnect', [])
+            for oc_prof in one_connect:
+                if not oc_prof in profiles:
+                    app_prof[0]['connection_multiplexing_enabled'] = False
+
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
@@ -142,6 +149,10 @@ class VSConfigConv(object):
         if snat_pool:
             snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
             vs_obj["snat_ip"] = snat_list
+            conv_status = {'status': 'successful'}
+            message = 'Mapped indirectly to VS -> SNAT IP Address'
+            conv_utils.add_conv_status('snatpool', '', snat_pool_name,
+                                      conv_status, message)
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:

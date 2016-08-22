@@ -48,6 +48,8 @@ def get_default_config(version, is_download, path):
         profile_dict.update(monitor_dict)
         f5_defaults_dict = profile_dict
     else:
+        if version == '12':
+            version = '11'
         dir_path = os.path.abspath(os.path.dirname(__file__))
         defaults_file = open(dir_path+os.path.sep+"f5_v%s_defaults.conf" %
                              version, "r")

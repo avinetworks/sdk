@@ -63,6 +63,7 @@ def generate_grammar_v10():
     sys = Keyword("sys")
     opt_kw = Keyword("options")
     monitor_kw = Keyword("monitor")
+    members_kw = Keyword("members")
     profiles_kw = Keyword("profiles")
     session_kw = Keyword("session")
     mode_kw = Keyword("mode")
@@ -70,6 +71,7 @@ def generate_grammar_v10():
     v_addr_kw = Keyword("virtual address")
     ip_forward_kw = Keyword("ip forward")
     l2_forward_kw = Keyword("l2 forward")
+    cookie_mode_kw = Keyword("cookie mode")
     ct_include_kw = Keyword("compress content type include")
     ct_exclude_kw = Keyword("compress content type exclude")
     empty_object = Keyword("{ }")
@@ -90,7 +92,8 @@ def generate_grammar_v10():
 
     key_exceptions = (opt_kw | profiles_kw | monitor_kw | session_kw | mode_kw |
                       lb_method_kw | ip_forward_kw | l2_forward_kw |
-                      ct_include_kw | ct_exclude_kw)
+                      ct_include_kw | ct_exclude_kw | members_kw |
+                      cookie_mode_kw)
 
     # define structures
     value = Forward()
@@ -141,7 +144,7 @@ def get_grammar_by_version(version):
     grammar = None
     if int(version) == 10:
         grammar = generate_grammar_v10()
-    elif int(version) == 11:
+    elif int(version) in [11, 12]:
         grammar = generate_grammar_v11()
     return grammar
 
