@@ -11,7 +11,7 @@ class PoolConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return PoolConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return PoolConfigConvV11()
     supported_attr = None
 
@@ -323,13 +323,15 @@ class PoolConfigConvV10(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
+        if isinstance(servers_config, str):
+            servers_config = {servers_config.split(' ')[0]: None}
         supported_attributes = ['session', 'ratio']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]
             parts = server_name.split(':')
             node = nodes.get(parts[0], None)
-            if node and '%' in node["address"]:
+            if node and '%' in node.get("address", ''):
                 ip_addr, vrf = node["address"].split('%')
                 conv_utils.add_vrf(avi_config, vrf)
             else:

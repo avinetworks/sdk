@@ -14,7 +14,7 @@ class MonitorConfigConv(object):
     def get_instance(cls, version):
         if version == '10':
             return MonitorConfigConvV10()
-        if version == '11':
+        if version in ['11', '12']:
             return MonitorConfigConvV11()
 
     supported_attributes = None
@@ -49,7 +49,7 @@ class MonitorConfigConv(object):
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
         pass
 
-    def convert_tcp(self, monitor_dict, f5_monitor, skipped):
+    def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
         pass
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
@@ -181,7 +181,7 @@ class MonitorConfigConv(object):
             na_list = self.na_external
             u_ignore = user_ignore.get("external", [])
             skipped = self.convert_external(monitor_dict, f5_monitor, skipped,
-                                  input_dir, name)
+                                            input_dir, name)
         if monitor_dict.get('error', False):
             return []
         conv_status = conv_utils.get_conv_status(
@@ -224,9 +224,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             parent_monitor = monitor_config.get(key, None)
             if parent_monitor:
                 parent_monitor = self.get_defaults(monitor_config, key)
-                copy_P_mon = copy.deepcopy(parent_monitor)
-                copy_P_mon.update(f5_monitor)
-                f5_monitor = copy_P_mon
+                copy_p_mon = copy.deepcopy(parent_monitor)
+                copy_p_mon.update(f5_monitor)
+                f5_monitor = copy_p_mon
         return f5_monitor
 
     def get_name_type(self, f5_monitor, key):
@@ -518,7 +518,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
             maintenance_response = f5_monitor.get("recv", None)
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", None)
-        if maintenance_response.replace('\"', '').strip():
+        if maintenance_response and maintenance_response.replace(
+                '\"', '').strip():
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
             if tcp_monitor:
@@ -591,7 +592,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name, "skipped")
-            return None, None, None
+            monitor_dict['error'] = True
+            return None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         ext_monitor = {
             "command_code": cmd_code,

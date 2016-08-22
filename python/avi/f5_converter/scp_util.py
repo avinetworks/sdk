@@ -58,6 +58,8 @@ class SCPUtil(object):
             return True
 
     def get_all_partition_config(self, partition_path, local_path):
+        if not self.rexists(partition_path):
+            return
         files = self.get_all_file_names(partition_path)
         for file in files:
             remote_file = partition_path+file+'/bigip.conf'

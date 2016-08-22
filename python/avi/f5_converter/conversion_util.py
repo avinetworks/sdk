@@ -584,10 +584,12 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["NetworkProfile"])
     remove_dup_key(avi_config["SSLProfile"])
     avi_config.pop('hash_algorithm', [])
+    avi_config.pop('OneConnect', [])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
         profile.pop('fallback_host', [])
+
 
 def create_hdr_erase_rule(name, hdr_name, rule_index):
     return create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",

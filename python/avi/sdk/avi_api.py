@@ -109,6 +109,7 @@ class ApiSession(Session):
     # a new cache for that process.
     AVI_SLUG = 'Slug'
     SESSION_CACHE_EXPIRY = 20*60
+    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id']
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None):
@@ -129,7 +130,7 @@ class ApiSession(Session):
                        else "https://%s" % controller_ip)
         self.verify = verify
         self.port = port
-        self.key = controller_ip + ":" +  username
+        self.key = controller_ip + ":" + username
 
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
@@ -140,11 +141,11 @@ class ApiSession(Session):
             ApiSession.sessionDict[self.key] = \
                 {"api": self, "last_used": datetime.utcnow()}
             user_session = self
-        self.headers = copy.deepcopy(user_session.headers)
-        # don't save the tenant headers as it would interfer with the
+        # don't save the tenant headers as it would interfere with the
         # individual method tenant overrides
-        self.headers.pop("X-Avi-Tenant-UUID", None)
-        self.headers.pop("X-Avi-Tenant", None)
+        for hdr in self.SHARED_USER_HDRS:
+            if hdr in user_session.headers:
+                self.headers[hdr] = user_session.headers[hdr]
         self.cookies = user_session.cookies
         self.num_session_retries = 0
         self.pid = os.getpid()
@@ -170,9 +171,9 @@ class ApiSession(Session):
             user_session = ApiSession.sessionDict[key]["api"]
             tenant = tenant if tenant else 'admin'
             if (user_session.password != password or
-                user_session.keystone_token != token or
-                user_session.tenant != tenant or
-                user_session.tenant_uuid != tenant_uuid):
+                    user_session.keystone_token != token or
+                    user_session.tenant != tenant or
+                    user_session.tenant_uuid != tenant_uuid):
                 logger.debug('Api Session auth credential mismatch %s', key)
                 del ApiSession.sessionDict[key]
                 user_session = None
@@ -238,7 +239,7 @@ class ApiSession(Session):
         returns the headers that are passed to the requests.Session api calls.
         """
         api_hdrs = copy.deepcopy(self.headers)
-        api_hdrs['timeout'] = timeout
+        api_hdrs['timeout'] = str(timeout)
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -258,7 +259,7 @@ class ApiSession(Session):
         return api_hdrs
 
     def _api(self, api_name, path, tenant, tenant_uuid, data=None,
-             timeout=60, headers=None, **kwargs):
+             headers=None, timeout=60, **kwargs):
         """
         It calls the requests.Session APIs and handles session expiry
         and other situations where session needs to be reset.
@@ -281,7 +282,8 @@ class ApiSession(Session):
         api_hdrs = \
             self._get_api_headers(tenant, tenant_uuid, timeout, headers)
         if (data is not None) and (type(data) == dict):
-            resp = fn(fullpath, json=data, headers=api_hdrs, **kwargs)
+            resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
+                      **kwargs)
         else:
             resp = fn(fullpath, data=data, headers=api_hdrs, **kwargs)
         logger.debug('kwargs: %s rsp %s', kwargs, resp.text)
@@ -451,7 +453,7 @@ class ApiSession(Session):
                         params=params, **kwargs)
 
     def delete(self, path, tenant='', tenant_uuid='', timeout=60, params=None,
-               **kwargs):
+               data=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -464,9 +466,11 @@ class ApiSession(Session):
         :param timeout: timeout for API calls
         :param params: dictionary of key value pairs to be sent as query
             parameters
+        :param data: dictionary of the data. Support for json string
+            is deprecated
         returns session's response object
         """
-        return self._api('delete', path, tenant, tenant_uuid, data=None,
+        return self._api('delete', path, tenant, tenant_uuid, data=data,
                          timeout=timeout, params=params, **kwargs)
 
     def delete_by_name(self, path, name, tenant='', tenant_uuid='', timeout=60,
