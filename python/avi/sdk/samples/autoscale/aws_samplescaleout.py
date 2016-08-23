@@ -18,10 +18,15 @@ Step 2: Register the scaleout and scalein hooks as alertactionscript
     from avi.sdk.samples.autoscale.aws_samplescaleout import scalein
 
     aws_setting = {
-        'aws_access_key_id': 'AKIkkkkkkkkkkkkkkk',
-        'aws_secret_access_key': 'XUsxkkkkkkkkkkkkkkkkkkkk',
-        'image_id': 'ami-kkkkkkk',
-        'security_group_ids': ['sg-ca68xxx']
+        'ec2_region': 'us-west-2',
+        'tenant': 'Demo',
+        'aws_access_key_id': 'xxxxx',
+        'aws_secret_access_key': 'xxxxx',
+        'image_id': 'ami-xxxxx',
+        'security_group_ids': ['sg-xxxxx'],
+        'subnet_id': 'subnet-xxxxx',
+        'tag': 'avidemo',
+        'key_name': None
     }
     scalein(aws_setting, *sys.argv)
 
@@ -31,10 +36,15 @@ Step 2: Register the scaleout and scalein hooks as alertactionscript
     from avi.sdk.samples.autoscale.aws_samplescaleout import scaleout
 
     aws_setting = {
-        'aws_access_key_id': 'AKIkkkkkkkkkkkkkkk',
-        'aws_secret_access_key': 'XUsxkkkkkkkkkkkkkkkkkkkk',
-        'image_id': 'ami-kkkkkkk',
-        'security_group_ids': ['sg-ca68xxx']
+        'ec2_region': 'us-west-2',
+        'tenant': 'Demo',
+        'aws_access_key_id': 'xxxxx',
+        'aws_secret_access_key': 'xxxxx',
+        'image_id': 'ami-xxxxx',
+        'security_group_ids': ['sg-xxxxx'],
+        'subnet_id': 'subnet-xxxxx',
+        'tag': 'avidemo',
+        'key_name': None
     }
     scaleout(aws_setting, *sys.argv)
 
@@ -49,19 +59,24 @@ import time
 import boto.ec2
 from avi.sdk.samples.autoscale.samplescaleout import scaleout_params, \
     autoscale_dump
+import os
+from collections import namedtuple
 
-API = None
+
+AviInstanceInfo = namedtuple(
+    'AviInstanceInfo', ['instance_id', 'ip_address', 'hostname'])
 
 
-def getAviApiSession():
+def getAviApiSession(tenant='admin'):
     """
     create session to avi controller
     """
-    global API
-    if not API:
-        API = ApiSession.get_session(
-                '127.0.0.1', 'admin', 'avi123', tenant='admin')
-    return API
+    token = os.environ.get('API_TOKEN')
+    user = os.environ.get('USER')
+    # tenant=os.environ.get('TENANT')
+    api = ApiSession.get_session("localhost", user, token=token,
+                                 tenant=tenant)
+    return api
 
 
 def create_aws_connection(aws_settings):
@@ -94,28 +109,57 @@ def create_aws_instance(aws_settings):
     instance_type = aws_settings.get('instance_type', 't2.micro')
     conn = create_aws_connection(aws_settings)
 
-    interface = boto.ec2.networkinterface.NetworkInterfaceSpecification(
-        groups=security_groups, associate_public_ip_address=True)
-    interfaces = \
-        boto.ec2.networkinterface.NetworkInterfaceCollection(interface)
-    print ami_id, interfaces
-    reservations = conn.run_instances(
-        ami_id, instance_type=instance_type, network_interfaces=interfaces)
+    pub_ip = aws_settings.get('associate_public_ip_address', False)
+    key_name = aws_settings.get('key_name', None)
+    if pub_ip:
+        interface = boto.ec2.networkinterface.NetworkInterfaceSpecification(
+            groups=security_groups, associate_public_ip_address=True)
+        interfaces = \
+            boto.ec2.networkinterface.NetworkInterfaceCollection(interface)
+        reservations = conn.run_instances(
+            ami_id, key_name=key_name,
+            instance_type=instance_type, network_interfaces=interfaces)
+    else:
+        reservations = conn.run_instances(ami_id, key_name=key_name,
+                                          instance_type=instance_type,
+                                          subnet_id=aws_settings['subnet_id'])
     if not reservations.instances:
-        return '', '', ''
+        print 'Did not get AMI'
+        raise Exception('Instance creation failed AMI %s %s' %
+                        ami_id, instance_type)
     instance = reservations.instances[0]
     # Wait for the instance to enter the running state
     # check for instance is running
+    rc = ''
     for _ in xrange(25):
         # try for 2mins
+        time.sleep(5)
         rc = instance.update()
         if rc == 'running':
             break
         time.sleep(5)
     if rc != 'running':
         print 'instance', instance.id, ' is still not running', rc
-    print 'created', instance.id, instance.ip_address, instance.public_dns_name
-    return instance.id, instance.ip_address, instance.public_dns_name
+
+    tag = '-'.join([aws_settings.get('tag', 'avidemo'),
+                    instance.id])
+    instance.add_tag("Name", tag)
+    if pub_ip:
+        result = AviInstanceInfo(instance_id=instance.id,
+                                 ip_address=instance.ip_address,
+                                 hostname=tag)
+    else:
+        result = AviInstanceInfo(instance_id=instance.id,
+                                 ip_address=instance.private_ip_address,
+                                 hostname=tag)
+    print 'created instance', result
+    if not result.ip_address:
+        instance_ids = [instance.id]
+        delete_aws_instance(aws_settings, instance_ids)
+        raise Exception('instance %s rc %s did not get ip %s cleaning it up' %
+                        (result.instance_id, rc, instance))
+
+    return result
 
 
 def delete_aws_instance(aws_settings, instance_ids):
@@ -145,26 +189,31 @@ def scaleout(aws_settings, *args):
     :param args: The args passed down as part of the alert.
     """
     # print all the args passed down
+    tenant = aws_settings.get('tenant', 'admin')
+    api = getAviApiSession(tenant)
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_scaleout = \
-        scaleout_params('scaleout', alert_info)
+        scaleout_params('scaleout', alert_info, api=api, tenant=tenant)
     # create AWS instance using these two ids.
     print pool_name, 'scaleout', num_scaleout
     insid, ip_addr, hostname = create_aws_instance(aws_settings)
+
     new_server = {
         'ip': {'addr': ip_addr, 'type': 'V4'},
         'port': 0,
         'hostname': hostname,
-        'external_uuid': insid
+        'external_uuid': insid,
+        'vm_uuid': insid,
     }
     # add new server to the pool
     pool_obj['servers'].append(new_server)
     # call controller API to update the pool
     print 'new pool obj', pool_obj
     api = getAviApiSession()
-    resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
+    resp = api.put('pool/%s' % pool_uuid, tenant=tenant,
+                   data=json.dumps(pool_obj))
     print 'updated pool', pool_obj['name'], resp.status_code
 
 
@@ -176,19 +225,28 @@ def scalein(aws_settings, *args):
     image_id]
     :param args: The args passed down as part of the alert.
     """
+    tenant = aws_settings.get('tenant', 'admin')
+    api = getAviApiSession(tenant)
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
-        scaleout_params('scalein', alert_info)
+        scaleout_params('scalein', alert_info, api=api, tenant=tenant)
     print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
     scalein_server = pool_obj['servers'][-1]
-    instance_ids = [scalein_server['external_uuid']]
+    try:
+        instance_ids = [scalein_server['external_uuid']]
+    except KeyError:
+        vm_ref = scalein_server['vm_ref']
+        # https://10.130.129.34/api/vimgrvmruntime/i-08ddf0d2
+        vm_uuid = vm_ref.split('/api/vimgrvmruntime/')[1].split('#')[0]
+        instance_ids = [vm_uuid]
     pool_obj['servers'] = pool_obj['servers'][:-1]
     # call controller API to update the pool
-    print 'new pool obj', pool_obj
+    print 'pool %s scalein server %s' % (pool_name, scalein_server)
     api = getAviApiSession()
-    resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
+    resp = api.put('pool/%s' % pool_uuid,
+                   tenant=tenant, data=json.dumps(pool_obj))
     print 'updated pool', pool_obj['name'], resp.status_code
     if resp.status_code in (200, 201, 204):
         print 'deleting the instance from the aws - ', instance_ids
