@@ -6,7 +6,8 @@ It implements scaleout and scalein hooks that can be used for implementing
 scaleout and scalein workflow in VMware environment
 
 Usage:
-Step 1: Create Alert with filter string to match on event SERVER_AUTOSCALE_IN or SERVER_AUTOSCALE_OUT as:
+Step 1: Create Alert with filter string to match on event SERVER_AUTOSCALE_IN 
+    or SERVER_AUTOSCALE_OUT as:
     filter_string: "filter=eq(event_id,SERVER_AUTOSCALE_IN)"
     filter_string: "filter=eq(event_id,SERVER_AUTOSCALE_OUT)"
 Step 2: Register the scaleout and scalein hooks as alertactionscript
@@ -77,6 +78,7 @@ def create_vmware_connection(vmware_settings):
         raise
     return server
 
+
 def create_vmware_instance(vmware_settings, pool_name):
     """
     Create vmware instance with public IP address.
@@ -111,7 +113,6 @@ def create_vmware_instance(vmware_settings, pool_name):
     return new_vm_name, ip_address
 
 
-
 def delete_vmware_instance(vmware_settings, instance_ids):
     """
     deletes an istance from the vmware
@@ -138,9 +139,9 @@ def scaleout(vmware_settings, *args):
     """
     1. Creates an instance in vmware
     2. Registers that instance as a Pool Member
-    :param vmware_settings: dictionary of vmware settings keys [vmware_access_key_id,
-    vmware_secret_access_key, ec2_region, security_group_ids, instance_type,
-    image_id]
+    :param vmware_settings: dictionary of vmware settings keys 
+        [vmware_access_key_id, vmware_secret_access_key, ec2_region, 
+        security_group_ids, instance_type, image_id]
     :param args: The args passed down as part of the alert.
     """
     # print all the args passed down
@@ -148,7 +149,7 @@ def scaleout(vmware_settings, *args):
     alert_info = json.loads(args[1])
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_scaleout = \
-        scaleout_params('scaleout', alert_info)
+        scaleout_params('scaleout', alert_info, api=API)
     # create vmware instance using these two ids.
     print pool_name, 'scaleout', num_scaleout
     hostname, ip_addr = create_vmware_instance(vmware_settings, pool_name)
@@ -180,7 +181,7 @@ def scalein(vmware_settings, *args):
     alert_info = json.loads(args[1])
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
-        scaleout_params('scalein', alert_info)
+        scaleout_params('scalein', alert_info, api=API)
     print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
     scalein_server = pool_obj['servers'][-1]
     instance_ids = [scalein_server['hostname']]
@@ -196,4 +197,3 @@ def scalein(vmware_settings, *args):
 
 if __name__ == '__main__':
     scaleout(*sys.argv)
-
