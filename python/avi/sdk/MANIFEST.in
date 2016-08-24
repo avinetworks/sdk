@@ -6,4 +6,4 @@ recursive-include avi/sdk *.key
 recursive-include avi/sdk *.pem
 recursive-include avi/sdk *.xml
 recursive-include avi/sdk *.yaml
-
+recursive-include avi/sdk *.rst
