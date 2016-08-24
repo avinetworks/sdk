@@ -4,4 +4,6 @@ Created on Apr 22, 2016
 @author: grastogi
 '''
 
-AVI_VERSION = 'master'
+AVI_VERSION = '16.3'
+AVI_PIP_VERSION = (AVI_VERSION if len(AVI_VERSION.split('.')) > 1
+                   else AVI_VERSION + '.0')
