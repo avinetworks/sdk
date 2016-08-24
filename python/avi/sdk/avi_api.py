@@ -491,7 +491,7 @@ class ApiSession(Session):
         """
         uuid = self._get_uuid_by_name(path, name, tenant, tenant_uuid)
         if not uuid:
-            raise ObjectNotFound
+            raise ObjectNotFound("%s/?name=%s" % (path,name))
         path = '%s/%s' % (path, uuid)
         return self.delete(path, tenant, tenant_uuid, timeout=timeout,
                            params=params, **kwargs)
@@ -514,7 +514,7 @@ class ApiSession(Session):
     def get_obj_uuid(self, obj):
         """returns uuid from dict object"""
         if not obj:
-           return None
+            raise ObjectNotFound()
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
