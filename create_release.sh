@@ -21,45 +21,10 @@ git tag $REL_TAG
 git push -f origin $REL_TAG
 set -e
 git checkout -B $BRANCH
+AVI_VERSION=`python ./python/avi/version.py`
+
 cd python
 rm -rf dist/
-./create_sdk_pip_packages.sh sdk
-./create_sdk_pip_packages.sh f5_converter
-./create_sdk_pkgs.sh
-
-if [ -e dist/avisdk-$BRANCH.tar.gz ]; then
-    mv dist/avisdk-$BRANCH.tar.gz ../avisdk-$BRANCH.tar.gz
-else
-    echo "Avi API SDK PIP package not found. Aborting."
-    exit 1
-fi
-
-if [ -e dist/python-avisdk_0_all.deb ]; then
-    mv dist/python-avisdk_0_all.deb ../avisdk-$BRANCH.deb
-else
-    echo "Avi API SDK Debian package not found. Aborting"
-    exit 1
-fi
-
-if [ -e dist/avisdk-$BRANCH-1.noarch.rpm ]; then
-    mv dist/avisdk-$BRANCH-1.noarch.rpm ../avisdk-$BRANCH.rpm
-else
-    echo "Avi API SDK RPM package not found. Aborting"
-    exit 1
-fi
-
-if [ -e dist/avif5converter-$BRANCH.tar.gz ]; then
-    mv dist/avif5converter-$BRANCH.tar.gz ../avif5converter-$BRANCH.tar.gz
-else
-    echo "Avi F5 converter package not found. Aborting"
-    exit 1
-fi
-
-rm -rf dist
-rm -rf avisdk.egg-info
-assets="$assets -a avisdk-$BRANCH.tar.gz#pip-package-avisdk-$BRANCH -a avif5converter-$BRANCH.tar.gz#pip-package-avif5converter-$BRANCH -a avisdk-$BRANCH.deb#debian-package-avisdk-$BRANCH -a avisdk-$BRANCH.rpm#rpm--package-avisdk-$BRANCH"
-cd ../
-
 releases=`/usr/local/bin/hub release`
 hub_op="create"
 for r in $releases
@@ -70,9 +35,42 @@ do
     fi
 done
 
+./create_sdk_pip_packages.sh sdk
+./create_sdk_pip_packages.sh f5_converter
+./create_sdk_pkgs.sh
+#./create_sdk_pypi.sh sdk
+
+mv dist/avisdk-$AVI_VERSION.tar.gz ../avisdk-$AVI_VERSION.tar.gz
+
+if [ -e dist/python-avisdk_0_all.deb ]; then
+    mv dist/python-avisdk_0_all.deb ../avisdk-$AVI_VERSION.deb
+else
+    echo "Avi API SDK Debian package not found. Aborting"
+    exit 1
+fi
+
+if [ -e dist/avisdk-$AVI_VERSION-1.noarch.rpm ]; then
+    mv dist/avisdk-$AVI_VERSION-1.noarch.rpm ../avisdk-$AVI_VERSION.rpm
+else
+    echo "Avi API SDK RPM package not found. Aborting"
+    exit 1
+fi
+
+if [ -e dist/avif5converter-$AVI_VERSION.tar.gz ]; then
+    mv dist/avif5converter-$AVI_VERSION.tar.gz ../avif5converter-$AVI_VERSION.tar.gz
+else
+    echo "Avi F5 converter package not found. Aborting"
+    exit 1
+fi
+
+rm -rf dist
+rm -rf avisdk.egg-info
+assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avif5converter-$AVI_VERSION.tar.gz#pip-package-avif5converter-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION"
+cd ../
+
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
-rm -rf avisdk-$BRANCH.tar.gz
-rm -rf avif5converter-$BRANCH.tar.gz
-rm -rf avisdk-$BRANCH.deb
-rm -rf avisdk-$BRANCH.rpm
+rm -rf avisdk-$AVI_VERSION.tar.gz
+rm -rf avif5converter-$AVI_VERSION.tar.gz
+rm -rf avisdk-$AVI_VERSION.deb
+rm -rf avisdk-$AVI_VERSION.rpm
 
