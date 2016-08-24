@@ -21,8 +21,8 @@ setup(
     author_email='avisdk@avinetworks.com',
     scripts=['avi/sdk/samples/virtualservice_examples_api.py'],
     classifiers=[
-        'Development Status :: 5 - Production/Stable'
-        'Intended Audience :: DevOps',
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
