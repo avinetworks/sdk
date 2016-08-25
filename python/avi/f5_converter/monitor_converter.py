@@ -236,6 +236,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         http_attr = ["recv", "recv-disable", "reverse", "send"]
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
+        send = send.replace('\\\\', '\\')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
@@ -252,12 +253,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 maintenance_response.replace('\"', '').strip()
             monitor_dict["http_monitor"]["maintenance_response"] = \
                 maintenance_response
+
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
         https_attr = ["recv", "recv-disable", "reverse", "send"]
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
+        send = send.replace('\\\\', '\\')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": send,
@@ -457,16 +460,17 @@ class MonitorConfigConvV10(MonitorConfigConv):
         http_attr = http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
+        send = send.replace('\\\\', '\\')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
-        maintenance_response = None
+        maintenance_response = ''
         if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
+            maintenance_response = f5_monitor.get("recv", '')
         elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", None)
+            maintenance_response = f5_monitor.get("recv disable", '')
         if maintenance_response.replace('\"', '').strip():
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
@@ -480,16 +484,17 @@ class MonitorConfigConvV10(MonitorConfigConv):
         https_attr = ignore_list + https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
+        send = send.replace('\\\\', '\\')
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
-        maintenance_response = None
+        maintenance_response = ''
         if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
+            maintenance_response = f5_monitor.get("recv", '')
         elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", None)
+            maintenance_response = f5_monitor.get("recv disable", '')
         if maintenance_response.replace('\"', '').strip():
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
@@ -551,11 +556,11 @@ class MonitorConfigConvV10(MonitorConfigConv):
             response = response.replace('\"', '') if response else None
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
-        maintenance_response = None
+        maintenance_response = ''
         if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
+            maintenance_response = f5_monitor.get("recv", '')
         elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", None)
+            maintenance_response = f5_monitor.get("recv disable", '')
         if maintenance_response.replace('\"', '').strip():
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()

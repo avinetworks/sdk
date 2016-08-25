@@ -207,7 +207,7 @@ class PoolConfigConvV11(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
-        supported_attributes = ['address', 'state', 'ratio']
+        supported_attributes = ['address', 'state', 'ratio', 'description']
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -224,7 +224,7 @@ class PoolConfigConvV11(PoolConfigConv):
                     conv_utils.add_vrf(avi_config, vrf)
                 else:
                     ip_addr = parts[0]
-
+            description = server.get('description', '')
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
             enabled = True
             state = server.get("state", 'enabled')
@@ -236,7 +236,8 @@ class PoolConfigConvV11(PoolConfigConv):
                     'type': 'V4'
                 },
                 'port': port,
-                'enabled': enabled
+                'enabled': enabled,
+                'description': description
             }
             ratio = server.get("ratio", None)
             if ratio:
@@ -325,7 +326,7 @@ class PoolConfigConvV10(PoolConfigConv):
         skipped_list = []
         if isinstance(servers_config, str):
             servers_config = {servers_config.split(' ')[0]: None}
-        supported_attributes = ['session', 'ratio']
+        supported_attributes = ['session', 'ratio', 'description']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]
@@ -346,11 +347,13 @@ class PoolConfigConvV10(PoolConfigConv):
             enabled = True
             state = 'enabled'
             ratio = None
+            description = None
             if server:
                 state = server.get("session", 'enabled')
                 skipped = [key for key in server.keys()
                            if key not in supported_attributes]
                 ratio = server.get("ratio", None)
+                description = server.get('description', None)
             if state == "user disabled":
                 enabled = False
             server_obj = {
@@ -359,7 +362,8 @@ class PoolConfigConvV10(PoolConfigConv):
                     'type': 'V4'
                 },
                 'port': port,
-                'enabled': enabled
+                'enabled': enabled,
+                'description': description
             }
             if ratio:
                 server_obj["ratio"] = ratio
