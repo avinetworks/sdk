@@ -212,6 +212,14 @@ def get_port_by_protocol(protocol):
         port = conv_const.SNMP_TRAP_PORT
     elif protocol == "ssh":
         port = conv_const.SSH_PORT
+    elif protocol == "xfer":
+        port = conv_const.XFER_PORT
+    elif protocol == "pcsync-https":
+        port = conv_const.PCSYNC_HTTPS_PORT
+    elif protocol == "macromedia-fcs":
+        port = conv_const.MACROMEDIA_FCS_PORT
+    elif protocol == "any":
+        port = None
     return port
 
 
@@ -262,7 +270,7 @@ def get_vs_ssl_profiles(profiles, avi_config):
     vs_ssl_profile_names = []
     pool_ssl_profile_names = []
     if not profiles:
-        return []
+        return vs_ssl_profile_names, pool_ssl_profile_names
     if isinstance(profiles, str):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
@@ -317,7 +325,8 @@ def get_vs_app_profiles(profiles, avi_config):
     realm = None
 
     if not profiles:
-        return []
+        app_profile_names.append("http")
+        return app_profile_names, f_host, realm,  policy_set
     if isinstance(profiles, str):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
@@ -566,7 +575,11 @@ def get_snat_list_for_vs(snat_pool):
     """
     snat_list = []
     members = snat_pool.get("members")
-    ips = members.keys()+members.values()
+    ips = []
+    if isinstance(members, dict):
+        ips = members.keys()+members.values()
+    elif isinstance(members, str):
+        ips = [members]
     if None in ips:
         ips.remove(None)
     for ip in ips:
@@ -628,6 +641,36 @@ def create_header_rule(name, hdr_name, match, action, val, rule_index):
     return rule
 
 
+def create_network_security_rule(name, ip, mask):
+    rule = {
+      "name": name,
+      "rules": [
+        {
+          "index": 1,
+          "enable": True,
+          "name": "Rule 1",
+          "age": 0,
+          "action": "NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY",
+          "match": {
+            "client_ip": {
+              "prefixes": [
+                {
+                  "ip_addr": {
+                    "type": "V4",
+                    "addr": ip
+                  },
+                  "mask": mask
+                }
+              ],
+              "match_criteria": "IS_NOT_IN"
+            }
+          },
+          "log": False
+        }
+      ]
+    }
+    return rule
+
 def add_vrf(avi_config, vrf):
     vrf_name = 'vrf-%s' % vrf
     vrf_list = avi_config['VrfContext']
@@ -647,6 +690,21 @@ def get_tenant_ref(name):
         tenant = parts[1]
         name = parts[2]
     return tenant, name
+
+
+def get_app_profile_type(profile_name, avi_config):
+    profiles = avi_config.get('ApplicationProfile', [])
+    profile = [obj for obj in profiles if obj['name'] == profile_name]
+    if profile:
+        return profile[0]['type']
+    else:
+        return 'APPLICATION_PROFILE_TYPE_HTTP'
+
+
+def update_pool_for_service_port(pool_list, pool_name):
+    pool = [obj for obj in pool_list if obj['name'] == pool_name]
+    pool[0]['use_service_port'] = True
+
 
 
 

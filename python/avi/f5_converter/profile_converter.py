@@ -170,7 +170,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
     supported_l4 = ["description", "explicit-flow-migration", "idle-timeout",
                     "software-syn-cookie", "pva-acceleration", "defaults-from",
-                    "hardware-syn-cookie"]
+                    "hardware-syn-cookie", "hardware-syn-cookie"]
     indirect_l4 = ['reset-on-timeout', 'ip-tos-to-server', 'timeout-recovery',
                    'pva-offload-dynamic', 'tcp-handshake-timeout',
                    'pva-dynamic-server-packets', 'pva-dynamic-client-packets',

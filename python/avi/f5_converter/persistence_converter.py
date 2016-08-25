@@ -144,7 +144,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
                      % name)
-            conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
+            conv_utils.add_status_row('persistence', 'cookie', name, 'skipped')
             return None
         supported_attr = ["cookie-name", "defaults-from", "expiration",
                           "method"]
@@ -236,7 +236,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
             return None
         supported_attr = ["cookie name", "mode", "defaults from", "cookie mode",
-                          "cookie hash offset", "cookie hash length"]
+                          "cookie hash offset", "cookie hash length",
+                          "cookie expiration"]
         skipped += [attr for attr in profile.keys()
                    if attr not in supported_attr]
         cookie_name = profile.get("cookie name", None)
@@ -245,8 +246,14 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             conv_utils.add_status_row('profile', 'persist-cookie', name,
                                       'skipped')
             return None
-        timeout = profile.get("expiration", '1')
+        timeout = profile.get("cookie expiration", '1')
+        if timeout == 'immediate':
+            timeout = '0'
         parent_obj = super(PersistenceConfigConvV10, self)
+        if 'd ' in timeout:
+            timeout = timeout.replace('d ', ':')
+        elif 'd' in timeout:
+            timeout = timeout.replace('d', '')
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
             "name": name,

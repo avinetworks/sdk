@@ -16,12 +16,18 @@ class VSConfigConv(object):
     def get_persist_ref(self, f5_vs):
         pass
 
+    def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
+                               skipped):
+        pass
+
     supported_attr = None
+    ignore_for_value = None
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
+        avi_config['NetworkSecurityPolicy'] = []
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
         for vs_name in vs_config.keys():
@@ -62,16 +68,18 @@ class VSConfigConv(object):
             profiles, avi_config)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
 
-        if app_prof[0].get('connection_multiplexing_enabled',False):
-            one_connect = avi_config.get('OneConnect', [])
-            for oc_prof in one_connect:
-                if not oc_prof in profiles:
-                    app_prof[0]['connection_multiplexing_enabled'] = False
+        # if app_prof[0].get('connection_multiplexing_enabled', False):
+        #     one_connect = avi_config.get('OneConnect', [])
+        #     for oc_prof in one_connect:
+        #         if not oc_prof in profiles:
+        #             app_prof[0]['connection_multiplexing_enabled'] = False
 
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
+        if not destination:
+            print f5_vs
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
@@ -114,6 +122,8 @@ class VSConfigConv(object):
             if f_host:
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
+
+
         if p_tenant:
             pool_ref = '%s:%s' % (p_tenant, pool_ref)
         vs_obj = {
@@ -130,6 +140,9 @@ class VSConfigConv(object):
             'pool_ref': pool_ref
         }
 
+        self.convert_translate_port(avi_config, f5_vs,app_prof[0], pool_ref,
+                                    skipped)
+
         if tenant:
             vs_obj['tenant_ref'] = tenant
 
@@ -138,6 +151,18 @@ class VSConfigConv(object):
 
         if policy_set:
             vs_obj['http_policies'] = policy_set
+
+        source = f5_vs.get('source', '0.0.0.0/0')
+        if not source == '0.0.0.0/0':
+            parts = source.split['/']
+            mask = 24
+            if len(parts) > 1:
+                mask = parts[1]
+            policy_name = ('vs-%s-ns' % vs_name)
+            policy = conv_utils.create_network_security_rule(
+                policy_name, parts[0], mask)
+            avi_config['NetworkSecurityPolicy'].append(policy)
+            vs_obj['network_security_policy_ref'] = policy_name
 
         snat = f5_vs.get("source-address-translation", {})
         snat_pool_name = snat.get("pool", None)
@@ -171,6 +196,16 @@ class VSConfigConv(object):
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
                         ssl_vs[0]["pki"][0]["name"]
 
+        for attr in self.ignore_for_value:
+            ignore_val = self.ignore_for_value[attr]
+            actual_val = f5_vs.get(attr, None)
+            if not actual_val:
+                continue
+            if isinstance(ignore_val, str) and actual_val == ignore_val:
+                skipped.remove(attr)
+            elif isinstance(ignore_val, list) and actual_val in ignore_val:
+                skipped.remove(attr)
+
         conv_status = dict()
         conv_status['user_ignore'] = [val for val in skipped
                                       if val in user_ignore]
@@ -187,8 +222,12 @@ class VSConfigConv(object):
 
 
 class VSConfigConvV11(VSConfigConv):
-    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'snatpool',
-                      'source-address-translation', 'description', 'disabled']
+    supported_attr = ['profiles', 'destination', 'pool', 'persist',
+                      'source-address-translation', 'description', 'disabled',
+                      'translate-port', 'source']
+    ignore_for_value = {'ip-protocol': 'tcp', 'translate-address': 'enabled',
+                        'mask': ['255.255.255.255', 'any']
+                        }
     unsupported_types = ["l2-forward", "ip-forward", "stateless", "dhcp-relay",
                          "internal", "reject"]
 
@@ -198,12 +237,42 @@ class VSConfigConvV11(VSConfigConv):
             persist_ref = persist_ref.keys()[0]
         return persist_ref
 
+    def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
+                               skipped):
+        port_translate = f5_vs.get('translate-port', None)
+        if port_translate:
+            vs_type = conv_utils.get_app_profile_type(app_prof, avi_config)
+            l4_type = 'APPLICATION_PROFILE_TYPE_L4'
+            if port_translate == 'disabled' and vs_type == l4_type:
+                conv_utils.update_pool_for_service_port(avi_config['Pool'],
+                                                        pool_ref)
+            elif port_translate == 'enabled':
+                return
+            else:
+                skipped.append('translate-port')
+
 
 class VSConfigConvV10(VSConfigConv):
     supported_attr = ['profiles', 'destination', 'pool', 'persist', 'disabled',
-                      'description']
+                      'description', 'snatpool', 'translate service', 'source']
+    ignore_for_value = {'ip protocol': 'tcp', 'translate address': 'enabled',
+                        'mask': ['255.255.255.255', 'any']}
     unsupported_types = ["l2 forward", "ip forward", "stateless", "reject"]
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
         return persist_ref
+
+    def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
+                               skipped):
+        port_translate = f5_vs.get('translate service', None)
+        if port_translate:
+            vs_type = conv_utils.get_app_profile_type(app_prof, avi_config)
+            l4_type = 'APPLICATION_PROFILE_TYPE_L4'
+            if port_translate == 'disabled' and vs_type == l4_type:
+                conv_utils.update_pool_for_service_port(avi_config['Pool'],
+                                                        pool_ref)
+            elif port_translate == 'enabled':
+                return
+            else:
+                skipped.append('translate service')
