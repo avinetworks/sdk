@@ -35,6 +35,9 @@ class ApiUtils(object):
 
 RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
 
+# if HTTP ref match then strip out the #name
+HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/[\w/\?.#&-]*$')
+
 
 def ref_n_str_cmp(x, y):
     """
@@ -42,22 +45,37 @@ def ref_n_str_cmp(x, y):
     1. check for exact reference
     2. check for obj_type/uuid
     3. check for name
+
+    if x is ref=name then extract uuid and name from y and use it.
+    if x is http_ref then
+        strip x and y
+        compare them.
+
+    if x and y are urls then match with split on #
+    if x is a RE_REF_MATCH then extract name
+    if y is a REF_MATCH then extract name
+
     """
     if (not isinstance(x, basestring)) or (not isinstance(y, basestring)):
         return False
+
     y_uuid = y_name = y
-    if RE_REF_MATCH.match(y):
-        y_uuid = ''
-        y_name = y.split('name=')[1]
-    elif (y.find('api/') != -1):
-        path = y.split('api/')[1]
-        _, uuid_or_name = path.split('/')
-        parts = uuid_or_name.split('#')
-        y_uuid = parts[0]
-        y_name = parts[1] if len(parts) > 1 else ''
     if RE_REF_MATCH.match(x):
         x = x.split('name=')[1]
-    return (x == y_uuid) or (x == y_name)
+    elif HTTP_REF_MATCH.match(x):
+        x = x.rsplit('#', 1)[0]
+        y = y.rsplit('#', 1)[0]
+    elif RE_REF_MATCH.match(y):
+        y = y.split('name=')[1]
+
+    if HTTP_REF_MATCH.match(y):
+        path = y.split('api/', 1)[1]
+        _, uuid_or_name = path.split('/')
+        parts = uuid_or_name.rsplit('#', 1)
+        y_uuid = parts[0]
+        y_name = parts[1] if len(parts) > 1 else ''
+        # is just string but y is a url so match either uuid or name
+    return (x in (y, y_name, y_uuid))
 
 
 def avi_obj_cmp(x, y):
