@@ -4,8 +4,7 @@ Created on Aug 16, 2016
 @author: grastogi
 '''
 import unittest
-from avi.sdk.utils.api_utils import avi_obj_cmp
-from avi.sdk.utils.ansible_utils import cleanup_absent_fields
+from avi.sdk.utils.ansible_utils import cleanup_absent_fields, avi_obj_cmp
 
 
 class Test(unittest.TestCase):
