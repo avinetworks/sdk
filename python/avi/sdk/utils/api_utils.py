@@ -88,17 +88,29 @@ def avi_obj_cmp(x, y):
         return x == y
     if type(x) == list:
         # should compare each item in the list and that should match
-        zipped = zip(x, y)
-        if len(x) > len(zipped):
+        if len(x) != len(y):
             return False
         for i in zip(x, y):
             if not avi_obj_cmp(i[0], i[1]):
                 # not need to continue
                 return False
     if type(x) == dict:
-        d_xks = [k for k, v in x.iteritems() if
-                 not v and (type(v) in (list, dict))]
+        d_xks = [k for k, v in x.iteritems() if not v and
+                 (type(v) in (list, dict))]
         for k in d_xks:
+            x.pop(k)
+
+        # pop the keys that are marked deleted but not present in y
+        # return false if item is marked absent and is present in y
+        d_x_absent_ks = []
+        for k, v in x.iteritems():
+            if ((type(v) == dict) and ('state' in v) and
+                    (v['state'] == 'absent')):
+                if type(y) == dict and k not in y:
+                    d_x_absent_ks.append(k)
+                else:
+                    return False
+        for k in d_x_absent_ks:
             x.pop(k)
         x_keys = set(x.keys())
         y_keys = set(y.keys())
