@@ -39,3 +39,25 @@ def purge_optional_fields(obj, module):
     for param in purge_fields:
         obj.pop(param, None)
     return obj
+
+
+def cleanup_absent_fields(obj):
+    """
+    cleans up any field that is marked as state: absent. It needs to be removed
+    from the object if it is present.
+    """
+    if type(obj) != dict:
+        return obj
+    cleanup_keys = []
+    for k, v in obj.iteritems():
+        if type(v) == dict:
+            if 'state' in v and v['state'] == 'absent':
+                cleanup_keys.append(k)
+            else:
+                cleanup_absent_fields(v)
+        if type(v) == list:
+            for x in v:
+                cleanup_absent_fields(x)
+    for k in cleanup_keys:
+        del obj[k]
+    return obj
