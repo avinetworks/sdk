@@ -5,6 +5,7 @@ Created on Aug 16, 2016
 '''
 import unittest
 from avi.sdk.utils.api_utils import avi_obj_cmp
+from avi.sdk.utils.ansible_utils import cleanup_absent_fields
 
 
 class Test(unittest.TestCase):
@@ -180,6 +181,66 @@ class Test(unittest.TestCase):
 
         existing_obj['health_monitor_refs'][0] = \
             "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9"
+
+    def test_avi_list_update(self):
+        existing_obj = {
+            'services': [
+                {
+                    "enable_ssl": False,
+                    "port_range_end": 80,
+                    "port": 80
+                },
+                {
+                    "enable_ssl": False,
+                    "port_range_end": 443,
+                    "port": 443
+                }
+            ],
+            "name": "vs-health-test",
+            "url": "https://10.10.25.42/api/virtualservice/virtualservice-526c55c2-df89-40b9-9de6-e45a472290aa",
+        }
+
+        obj = {
+            'services': [
+                {
+                    "enable_ssl": False,
+                    "port_range_end": 80,
+                    "port": 80
+                }
+            ]
+        }
+
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
+
+        obj = {
+            'services': [
+                {
+                    "enable_ssl": False,
+                    "port_range_end": 80,
+                    "port": 80
+                },
+                {
+                    "enable_ssl": False,
+                    "port_range_end": 443,
+                    "port": None
+                }
+            ],
+            "name": "vs-health-test",
+            "url": "https://10.10.25.42/api/virtualservice/virtualservice-526c55c2-df89-40b9-9de6-e45a472290aa",
+        }
+
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert not diff
+
+    def test_cleanup_abset(self):
+        obj = {'x': 10, 'y': {'state': 'absent'},
+               'z': {'a': {'state': 'absent'}}}
+        cleanup_absent_fields(obj)
+
+        assert 'y' not in obj
+        assert 'a' not in obj['z']
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
