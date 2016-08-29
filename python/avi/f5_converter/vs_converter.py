@@ -1,6 +1,8 @@
 import logging
+import copy
 
 import avi.f5_converter.conversion_util as conv_utils
+
 
 LOG = logging.getLogger(__name__)
 
@@ -22,6 +24,7 @@ class VSConfigConv(object):
 
     supported_attr = None
     ignore_for_value = None
+    connection_limit = None
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore):
         f5_snat_pools = f5_config.get("snatpool", {})
@@ -68,11 +71,37 @@ class VSConfigConv(object):
             profiles, avi_config)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
 
-        # if app_prof[0].get('connection_multiplexing_enabled', False):
-        #     one_connect = avi_config.get('OneConnect', [])
-        #     for oc_prof in one_connect:
-        #         if not oc_prof in profiles:
-        #             app_prof[0]['connection_multiplexing_enabled'] = False
+        oc_prof = False
+        for prof in profiles:
+            if prof in avi_config.get('OneConnect', []):
+                oc_prof = True
+
+        # If one connect profile is not assigned to f5 VS and avi app profile
+        # assigned to VS has connection_multiplexing_enabled value True then
+        # clone profile and make connection_multiplexing_enabled as False
+
+        app_prof_obj = [obj for obj in avi_config['ApplicationProfile']
+                        if obj['name'] == app_prof[0]]
+        cme = True
+        app_prof_type = None
+        if app_prof_obj:
+            app_prof_type = app_prof_obj[0].get('type')
+        if app_prof_type == 'APPLICATION_PROFILE_TYPE_HTTP':
+            cme = app_prof_obj[0]['http_profile'].get(
+                'connection_multiplexing_enabled', False)
+
+        if not (cme or oc_prof):
+            # Check if already cloned profile present
+            app_prof_cmd = [obj for obj in avi_config['ApplicationProfile']
+                            if obj['name'] == '%s-cmd' % app_prof[0]]
+            if app_prof_cmd:
+                app_prof[0] = app_prof_cmd[0]['name']
+            else:
+                app_prof_cmd = copy.deepcopy(app_prof_obj[0])
+                app_prof_cmd['name'] = '%s-cmd' % app_prof_cmd['name']
+                app_prof_cmd['connection_multiplexing_enabled'] = False
+                avi_config['ApplicationProfile'].append(app_prof_cmd)
+                app_prof[0] = app_prof_cmd['name']
 
         enable_ssl = False
         if ssl_vs:
@@ -123,7 +152,6 @@ class VSConfigConv(object):
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
 
-
         if p_tenant:
             pool_ref = '%s:%s' % (p_tenant, pool_ref)
         vs_obj = {
@@ -140,9 +168,18 @@ class VSConfigConv(object):
             'pool_ref': pool_ref
         }
 
-        self.convert_translate_port(avi_config, f5_vs,app_prof[0], pool_ref,
+        self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
-
+        conn_limit = int(f5_vs.get(self.connection_limit, '0'))
+        if conn_limit > 0:
+            vs_obj["performance_limits"] = {
+                "max_concurrent_connections": conn_limit
+            }
+        rate_limit = int(f5_vs.get('rate-limit', '0'))
+        if rate_limit > 0:
+            vs_obj["connections_rate_limit"] = {
+                "count": rate_limit
+            }
         if tenant:
             vs_obj['tenant_ref'] = tenant
 
@@ -177,7 +214,7 @@ class VSConfigConv(object):
             conv_status = {'status': 'successful'}
             message = 'Mapped indirectly to VS -> SNAT IP Address'
             conv_utils.add_conv_status('snatpool', '', snat_pool_name,
-                                      conv_status, message)
+                                       conv_status, message)
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -224,12 +261,14 @@ class VSConfigConv(object):
 class VSConfigConvV11(VSConfigConv):
     supported_attr = ['profiles', 'destination', 'pool', 'persist',
                       'source-address-translation', 'description', 'disabled',
-                      'translate-port', 'source']
+                      'translate-port', 'source', 'rate-limit',
+                      'connection-limit']
     ignore_for_value = {'ip-protocol': 'tcp', 'translate-address': 'enabled',
                         'mask': ['255.255.255.255', 'any']
                         }
     unsupported_types = ["l2-forward", "ip-forward", "stateless", "dhcp-relay",
                          "internal", "reject"]
+    connection_limit = 'connection-limit'
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
@@ -254,11 +293,12 @@ class VSConfigConvV11(VSConfigConv):
 
 class VSConfigConvV10(VSConfigConv):
     supported_attr = ['profiles', 'destination', 'pool', 'persist', 'disabled',
-                      'description', 'snatpool', 'translate service', 'source']
+                      'description', 'snatpool', 'translate service', 'source',
+                      'limit']
     ignore_for_value = {'ip protocol': 'tcp', 'translate address': 'enabled',
                         'mask': ['255.255.255.255', 'any']}
     unsupported_types = ["l2 forward", "ip forward", "stateless", "reject"]
-
+    connection_limit = 'limit'
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
         return persist_ref

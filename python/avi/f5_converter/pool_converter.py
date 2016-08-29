@@ -70,7 +70,7 @@ class PoolConfigConv(object):
             return skipped_monitors, monitor_refs
 
     def create_pool_object(self, name, desc, servers, pd_action, algo,
-                           ramp_time):
+                           ramp_time, limits):
         tenant, name = conv_utils.get_tenant_ref(name)
         pool_obj = \
             {
@@ -84,6 +84,14 @@ class PoolConfigConv(object):
             pool_obj['tenant_ref'] = tenant
         if ramp_time:
             pool_obj['connection_ramp_duration'] = ramp_time
+        if limits.get('connection_limit', 0) > 0:
+            pool_obj['max_concurrent_connections_per_server'] = \
+                limits['connection_limit']
+        if limits.get('rate_limit', 0) > 0:
+            pool_obj['max_conn_rate_per_server'] = {
+                'count': limits['rate_limit']
+            }
+
         return pool_obj
 
     def add_status(self, name, skipped_attr, member_skipped,
@@ -139,7 +147,7 @@ class PoolConfigConvV11(PoolConfigConv):
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
-        servers, member_skipped_config = self.convert_servers_config(
+        servers, member_skipped_config, limits = self.convert_servers_config(
             f5_pool.get("members", {}), nodes, avi_config)
         sd_action = f5_pool.get("service-down-action", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
@@ -148,7 +156,8 @@ class PoolConfigConvV11(PoolConfigConv):
         desc = f5_pool.get('description', None)
         ramp_time = f5_pool.get('slow-ramp-time', None)
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
-            pool_name, desc, servers, pd_action, lb_algorithm, ramp_time)
+            pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
+            limits)
         num_retries = f5_pool.get('reselect-tries', None)
         if num_retries:
             server_reselect = {
@@ -207,7 +216,10 @@ class PoolConfigConvV11(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
-        supported_attributes = ['address', 'state', 'ratio', 'description']
+        rate_limit = []
+        connection_limit = []
+        supported_attributes = ['address', 'state', 'session' 'ratio',
+                                'description', 'connection-limit', 'rate-limit']
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -228,7 +240,8 @@ class PoolConfigConvV11(PoolConfigConv):
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
             enabled = True
             state = server.get("state", 'enabled')
-            if state == "user-down":
+            session = server.get("session", 'enabled')
+            if state == "user-down" or session == 'user-disabled':
                 enabled = False
             server_obj = {
                 'ip': {
@@ -242,12 +255,23 @@ class PoolConfigConvV11(PoolConfigConv):
             ratio = server.get("ratio", None)
             if ratio:
                 server_obj["ratio"] = ratio
+            r_lim = int(server.get("rate-limit", '0'))
+            if r_lim > 0:
+                rate_limit.append(r_lim)
+            c_lim = int(server.get("connection-limit", '0'))
+            if c_lim > 0:
+                connection_limit.append(c_lim)
             server_list.append(server_obj)
             skipped = [key for key in server.keys()
                        if key not in supported_attributes]
             if skipped:
                 skipped_list.append({server_name: skipped})
-        return server_list, skipped_list
+        limits = dict()
+        if rate_limit:
+            limits['rate_limit'] = min(rate_limit)
+        if connection_limit:
+            limits['connection_limit'] = min(connection_limit)
+        return server_list, skipped_list, limits
 
 
 class PoolConfigConvV10(PoolConfigConv):
@@ -258,7 +282,7 @@ class PoolConfigConvV10(PoolConfigConv):
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
-        servers, member_skipped_config = self.convert_servers_config(
+        servers, member_skipped_config, limits = self.convert_servers_config(
             f5_pool.get("members", {}), nodes, avi_config)
         sd_action = f5_pool.get("action on svcdown", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
@@ -267,7 +291,8 @@ class PoolConfigConvV10(PoolConfigConv):
         desc = f5_pool.get('description', None)
         ramp_time = f5_pool.get('slow ramp time', None)
         pool_obj = super(PoolConfigConvV10, self).create_pool_object(
-            pool_name, desc, servers, pd_action, lb_algorithm, ramp_time)
+            pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
+            limits)
         monitor_names = f5_pool.get("monitor", None)
         skipped_monitors = []
         if monitor_names:
@@ -324,9 +349,11 @@ class PoolConfigConvV10(PoolConfigConv):
         """
         server_list = []
         skipped_list = []
+        connection_limit = []
         if isinstance(servers_config, str):
             servers_config = {servers_config.split(' ')[0]: None}
-        supported_attributes = ['session', 'ratio', 'description']
+        supported_attributes = ['session', 'ratio', 'description', 'down',
+                                'limit']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]
@@ -354,7 +381,7 @@ class PoolConfigConvV10(PoolConfigConv):
                            if key not in supported_attributes]
                 ratio = server.get("ratio", None)
                 description = server.get('description', None)
-            if state == "user disabled":
+            if state == "user disabled" or 'down' in server.keys():
                 enabled = False
             server_obj = {
                 'ip': {
@@ -367,7 +394,13 @@ class PoolConfigConvV10(PoolConfigConv):
             }
             if ratio:
                 server_obj["ratio"] = ratio
+            c_lim = int(server.get("limit", '0'))
+            if c_lim > 0:
+                connection_limit.append(c_lim)
             server_list.append(server_obj)
             if skipped:
                 skipped_list.append({server_name: skipped})
-        return server_list, skipped_list
+            limits = dict()
+        if connection_limit:
+            limits['connection_limit'] = min(connection_limit)
+        return server_list, skipped_list, limits
