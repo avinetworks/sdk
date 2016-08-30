@@ -1162,6 +1162,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 content_type = content_type.split(" ")
             elif content_type and isinstance(content_type, dict):
                 content_type = content_type.keys()+content_type.values()
+                content_type = list(set(content_type))
+                content_type.remove(None)
             elif content_type_exclude:
                 content_type = final.DEFAULT_CONTENT_TYPE
             if content_type_exclude:
