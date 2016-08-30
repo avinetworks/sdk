@@ -223,16 +223,22 @@ def get_port_by_protocol(protocol):
     return port
 
 
-def update_skip_duplicates(obj, obj_list, obj_type, converted_objs):
+def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
+                           default_profile_name):
     """
     Merge duplicate profiles
     :param obj: Source object to find duplicates for
     :param obj_list: List of object to search duplicates in
     :param obj_type: Type of object to add in converted_objs status
     :param converted_objs: Converted avi object or merged object name
+    :param name: Name of the object
+    :param default_profile_name : Name of root parent default profile
     :return:
     """
-    dup_of = check_for_duplicates(obj, obj_list)
+    dup_of = None
+    # root default profiles are skipped for merging
+    if not name == default_profile_name:
+        dup_of = check_for_duplicates(obj, obj_list)
     if dup_of:
         converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
         LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
@@ -246,6 +252,7 @@ def get_content_string_group(name, content_types, tenant):
     Creates Avi String group object
     :param name: name of string group
     :param content_types: list of content type
+    :param tenant: tenant name to add tenant reference
     :return:
     """
     sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
@@ -288,6 +295,11 @@ def get_vs_ssl_profiles(profiles, avi_config):
                key_cert = '%s:%s' % (tenant, key_cert)
             profile = profiles.get(key, None)
             context = profile.get("context", None)
+            if (not context) and isinstance(profile, dict):
+                if 'serverside' in profile:
+                    context = 'serverside'
+                elif 'clientside' in profile:
+                    context = 'clientside'
             pki_list = avi_config.get("PKIProfile", [])
             pki_profiles = [obj for obj in pki_list if (
                 obj['name'] == name or name in obj.get("dup_of", []))]
@@ -476,6 +488,7 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
     :param tenant: if pool is shared across partition then coned for tenant
     :return: new pool object
     """
+    pool_ref = None
     new_pool = None
     for pool in avi_pool_list:
         if pool["name"] == pool_name:
@@ -491,7 +504,10 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
         new_pool["ssl_key_and_certificate_ref"] = None
         new_pool["pki_profile_ref"] = None
         avi_pool_list.append(new_pool)
-        return new_pool["name"]
+        pool_ref = new_pool["name"]
+        if tenant:
+            pool_ref = '%s:%s' % (tenant, pool_ref)
+        return pool_ref
 
 
 def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
@@ -642,6 +658,8 @@ def create_header_rule(name, hdr_name, match, action, val, rule_index):
 
 
 def create_network_security_rule(name, ip, mask):
+    if '%' in ip:
+        ip = ip.split('%')[0]
     rule = {
       "name": name,
       "rules": [

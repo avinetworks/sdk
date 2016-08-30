@@ -104,7 +104,7 @@ def generate_grammar_v10():
     value = Forward()
     value_object = Forward()
     multi_word_key = originalTextFor(OneOrMore((~key_exceptions)+data+(~EOL)))
-    property_name = (multi_word_key | data+(~EOL) | key_exceptions)
+    property_name = (multi_word_key | key_exceptions | data+(~EOL))
     dict_kv = (property_name + Optional(value, default=None))
     dict_sv = (data+EOL + Empty())
     f5_property = Dict(ZeroOrMore(Group(dict_kv | dict_sv)))

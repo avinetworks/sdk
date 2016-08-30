@@ -191,13 +191,13 @@ if __name__ == "__main__":
         "use_tenant": args.tenant
     }
 
-    if args.option == "cli-upload":
-        text_file = open(output_dir + os.path.sep + "Output.json", "w")
-        json.dump(avi_config_dict, text_file, indent=4)
-        text_file.close()
-        LOG.info('written avi config file ' +
-                 output_dir + os.path.sep + "Output.json")
-    else:
+    text_file = open(output_dir + os.path.sep + "Output.json", "w")
+    json.dump(avi_config_dict, text_file, indent=4)
+    text_file.close()
+    LOG.info('written avi config file ' + output_dir + os.path.sep +
+             "Output.json")
+
+    if args.option == "auto-upload":
         upload_config.upload_config_to_controller(
             avi_config_dict, args.controller_ip,
             args.user, args.password, args.tenant)
