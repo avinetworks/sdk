@@ -381,8 +381,12 @@ class PoolConfigConvV10(PoolConfigConv):
                            if key not in supported_attributes]
                 ratio = server.get("ratio", None)
                 description = server.get('description', None)
-            if state == "user disabled" or 'down' in server.keys():
-                enabled = False
+                if state == "user disabled" or 'down' in server.keys():
+                    enabled = False
+                c_lim = int(server.get("limit", '0'))
+                if c_lim > 0:
+                    connection_limit.append(c_lim)
+
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -394,9 +398,6 @@ class PoolConfigConvV10(PoolConfigConv):
             }
             if ratio:
                 server_obj["ratio"] = ratio
-            c_lim = int(server.get("limit", '0'))
-            if c_lim > 0:
-                connection_limit.append(c_lim)
             server_list.append(server_obj)
             if skipped:
                 skipped_list.append({server_name: skipped})

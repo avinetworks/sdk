@@ -172,10 +172,11 @@ class MonitorConfigConv(object):
             na_list = self.na_udp
             u_ignore = user_ignore.get("udp", [])
             skipped = self.convert_udp(monitor_dict, f5_monitor, skipped)
-        elif monitor_type == "icmp" or monitor_type == "gateway-icmp":
+        elif monitor_type in ["icmp", "gateway-icmp", "gateway_icmp"]:
             na_list = self.na_icmp
             u_ignore = user_ignore.get("icmp", [])
             u_ignore += user_ignore.get("gateway-icmp", [])
+            u_ignore += user_ignore.get("gateway_icmp", [])
             skipped = self.convert_icmp(monitor_dict, f5_monitor, skipped)
         elif monitor_type == "external":
             na_list = self.na_external
