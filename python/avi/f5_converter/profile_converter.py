@@ -219,6 +219,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                           profile_type.replace('-', ''))
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
+        default_profile_name = profile_type.replace('-', '')
         if profile_type in ('client-ssl', 'server-ssl'):
             supported_attr = self.supported_ssl
             na_list = self.na_ssl
@@ -249,10 +250,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_cert_obj = parent_cls.get_key_cert_obj(
                     name, key_file, cert_file, input_dir, tenant)
                 if key_cert_obj:
-                    if not name == default_profile_name:
-                        conv_utils.update_skip_duplicates(
-                            key_cert_obj, avi_config['SSLKeyAndCertificate'],
-                            'key_cert', converted_objs)
+                    conv_utils.update_skip_duplicates(
+                        key_cert_obj, avi_config['SSLKeyAndCertificate'],
+                        'key_cert', converted_objs, name, default_profile_name)
+
             ciphers = profile.get('ciphers', 'DEFAULT')
             ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
             ciphers = ciphers.replace(":@SPEED", "")
@@ -279,10 +280,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
             if accepted_versions:
                 ssl_profile["accepted_versions"] = accepted_versions
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    converted_objs)
+
+            conv_utils.update_skip_duplicates(
+                ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
+                converted_objs, name, default_profile_name)
 
             crl_file_name = profile.get('crl-file', None)
             ca_file_name = profile.get('ca-file', None)
@@ -317,10 +318,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 else:
                     pki_profile['crl_check'] = False
                 if not error:
-                    if not name == default_profile_name:
-                        conv_utils.update_skip_duplicates(
-                            pki_profile, avi_config['PKIProfile'],
-                            'pki_profile', converted_objs)
+                    conv_utils.update_skip_duplicates(
+                        pki_profile, avi_config['PKIProfile'], 'pki_profile',
+                        converted_objs, name, default_profile_name)
         elif profile_type == 'http':
             supported_attr = self.supported_http
             na_list = self.na_http
@@ -406,10 +406,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 host = None if host == 'none' else host
                 if host:
                     app_profile['fallback_host'] = host
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'],
+                'app_profile', converted_objs, name, default_profile_name)
+
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
             na_list = self.na_dns
@@ -423,10 +424,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 app_profile['tenant_ref'] = tenant
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             app_profile['description'] = profile.get('description', None)
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'web-acceleration':
             supported_attr = self.supported_wa
             indirect = self.indirect_wa
@@ -471,10 +471,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile = dict()
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
+
         elif profile_type == 'http-compression':
             supported_attr = self.supported_hc
             u_ignore = user_ignore.get('http-compression', [])
@@ -519,12 +520,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     cc_ref = '%s:%s' % (tenant, cc_ref)
                 compression_profile["compressible_content_ref"] = cc_ref
 
-                http_profile["compression_profile"] = compression_profile
+            http_profile["compression_profile"] = compression_profile
             app_profile["http_profile"] = http_profile
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'fastl4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
@@ -571,13 +571,13 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 }}
             }
             app_profile['dos_rl_profile'] = l4_profile
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
+
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             indirect = self.indirect_fh
@@ -597,10 +597,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile['client_max_header_size'] = \
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
             receive_window = profile.get("receive-window-size",
                                          final.DEFAULT_RECV_WIN)
             if not (final.MIN_RECV_WIN <= int(receive_window) <=
@@ -620,10 +619,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if tenant:
                 app_profile['tenant_ref'] = tenant
                 ntwk_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'one-connect':
             supported_attr = self.supported_oc
             indirect = []
@@ -687,10 +685,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             }
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'udp':
             supported_attr = self.supported_udp
             indirect = self.indirect_udp
@@ -711,10 +708,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             }
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
 
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
@@ -782,6 +778,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         tenant, name = conv_utils.get_tenant_ref(name)
+        default_profile_name = profile_type
         if profile_type in ("clientssl", "serverssl"):
             supported_attr = self.supported_ssl
             skipped = [attr for attr in profile.keys()
@@ -805,10 +802,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 key_cert_obj = parent_cls.get_key_cert_obj(
                     name, key_file, cert_file, input_dir, tenant)
             if key_cert_obj:
-                if not name == default_profile_name:
-                    conv_utils.update_skip_duplicates(
-                        key_cert_obj, avi_config['SSLKeyAndCertificate'],
-                        'key_cert', converted_objs)
+                conv_utils.update_skip_duplicates(
+                    key_cert_obj, avi_config['SSLKeyAndCertificate'],
+                    'key_cert', converted_objs, name, default_profile_name)
             ciphers = profile.get('ciphers', 'DEFAULT')
             ciphers = ciphers.replace('\"', '')
             ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
@@ -824,10 +820,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ssl_profile['send_close_notify'] = True
             else:
                 ssl_profile['send_close_notify'] = False
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    converted_objs)
+            conv_utils.update_skip_duplicates(
+                ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
+                converted_objs, name, default_profile_name)
             options = profile.get("options", "")
             if isinstance(options, dict):
                 opt = []
@@ -873,10 +868,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 else:
                     error = True
                 if not error:
-                    if not name == default_profile_name:
-                        conv_utils.update_skip_duplicates(
-                            pki_profile, avi_config['PKIProfile'],
-                            'pki_profile', converted_objs)
+                    conv_utils.update_skip_duplicates(
+                        pki_profile, avi_config['PKIProfile'], 'pki_profile',
+                        converted_objs, name, default_profile_name)
             elif ca_file_name:
                 LOG.warn("crl-file missing hence skipped ca-file")
                 skipped.append("ca-file")
@@ -887,10 +881,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             u_ignore = user_ignore.get('http', [])
             na_list = self.na_http
             indirect = self.indirect_http
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
             skipped = [attr for attr in profile.keys()
@@ -901,10 +894,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if tenant:
                 app_profile['tenant_ref'] = tenant
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'fastL4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
@@ -948,13 +940,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
                 app_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
+
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             u_ignore = user_ignore.get('fasthttp', [])
@@ -974,10 +967,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             http_profile['client_max_header_size'] = \
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                app_profile, avi_config['ApplicationProfile'], 'app_profile',
+                converted_objs, name, default_profile_name)
             timeout = profile.get("idle-timeout", 0)
             ntwk_profile = {
                 "profile": {
@@ -991,10 +983,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
                 app_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
 
         elif profile_type == 'oneconnect':
             supported_attr = self.supported_oc
@@ -1058,10 +1050,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             }
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'udp':
             u_ignore = user_ignore.get('udp', [])
             supported_attr = self.supported_udp
@@ -1081,10 +1072,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             }
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
-            if not name == default_profile_name:
-                conv_utils.update_skip_duplicates(
-                    ntwk_profile, avi_config['NetworkProfile'],
-                    'network_profile', converted_objs)
+            conv_utils.update_skip_duplicates(
+                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
+                converted_objs, name, default_profile_name)
         elif profile_type == 'persist':
             mode = profile.get("mode").replace(' ', '-')
             f5_config["persistence"]['%s %s' % (mode, name)] = profile
@@ -1100,7 +1090,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         supported_attr = self.supported_http
         skipped = [key for key in profile.keys() if key not in supported_attr]
         app_profile = dict()
-        sg_obj = None
         app_profile['name'] = name
         if tenant:
                  app_profile['tenant_ref'] = tenant
@@ -1183,13 +1172,12 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if content_type:
                 sg_obj = conv_utils.get_content_string_group(
                     name, content_type, tenant)
-                compression_profile["compressible_content_ref"] = \
-                    name + "-content_type"
-                http_profile = dict()
-                http_profile["compression_profile"] = compression_profile
-
-            compression_profile["compressible_content_ref"] = \
-                name + "-content_type"
+                avi_config['StringGroup'].append(sg_obj)
+                converted_objs.append({'string_group': sg_obj})
+                cc_ref = name + "-content_type"
+                if tenant:
+                    cc_ref = '%s:%s' % (tenant, cc_ref)
+                compression_profile["compressible_content_ref"] = cc_ref
             http_profile["compression_profile"] = compression_profile
         app_profile["http_profile"] = http_profile
         header_erase = profile.get('header-erase', None)
@@ -1229,7 +1217,4 @@ class ProfileConfigConvV10(ProfileConfigConv):
             avi_config['HTTPPolicySet'].append(policy)
             app_profile["HTTPPolicySet"] = policy_name
             converted_objs.append({'policy_set': policy})
-            if sg_obj:
-                avi_config['StringGroup'].append(sg_obj)
-                converted_objs.append({'string_group': sg_obj})
         return app_profile, skipped

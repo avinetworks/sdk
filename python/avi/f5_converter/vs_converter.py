@@ -191,7 +191,7 @@ class VSConfigConv(object):
 
         source = f5_vs.get('source', '0.0.0.0/0')
         if not source == '0.0.0.0/0':
-            parts = source.split['/']
+            parts = source.split('/')
             mask = 24
             if len(parts) > 1:
                 mask = parts[1]
