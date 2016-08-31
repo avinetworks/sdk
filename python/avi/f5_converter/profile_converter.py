@@ -135,8 +135,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
     na_ssl = ['chain', 'secure-renegotiation', 'cache-size', 'cache-timeout',
               'renegotiate-size', 'renegotiate-max-record-delay',
               'strict-resume', 'renegotiate-period']
+    indirect_ssl =['renegotiate', 'session-mirroring']
     supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
-                     'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from']
+                     'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from',
+                     'peer-cert-mode']
 
     na_http = ['lws-width', 'lws-separator ']
     supported_http = ["description", "insert-xforwarded-for", "enforcement",
@@ -170,8 +172,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
     indirect_wa = ["cache-size", "cache-aging-rate"]
 
     supported_l4 = ["description", "explicit-flow-migration", "idle-timeout",
-                    "software-syn-cookie", "pva-acceleration", "defaults-from",
-                    "hardware-syn-cookie", "hardware-syn-cookie"]
+                    "software-syn-cookie", "pva-acceleration", "defaults-from"]
+    na_l4 = ["hardware-syn-cookie"]
     indirect_l4 = ['reset-on-timeout', 'ip-tos-to-server', 'timeout-recovery',
                    'pva-offload-dynamic', 'tcp-handshake-timeout',
                    'pva-dynamic-server-packets', 'pva-dynamic-client-packets',
@@ -185,7 +187,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     "defaults-from", 'max-header-size', 'insert-xforwarded-for']
     indirect_fh = ['reset-on-timeout',  'unclean-shutdown', 'server-timestamp',
                    'http-11-close-workarounds', 'force-http-10-response',
-                   'hardware-syn-cookie', 'connpool-replenish', 'server-sack']
+                   'connpool-replenish', 'server-sack']
+    na_fh = ['hardware-syn-cookie']
 
     supported_tcp = ["description", "idle-timeout", "max-retrans", "nagle",
                      "syn-max-retrans", "time-wait-recycle", "defaults-from",
@@ -196,8 +199,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
                     'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
                     'mptcp-makeafterbreak', 'mptcp-nojoindssack',
-                    'hardware-syn-cookie', 'mptcp-rtomax', 'mptcp-subflowmax',
-                    'mptcp-timeout']
+                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout']
+    na_tcp = ['hardware-syn-cookie']
     supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
                      "defaults-from"]
     indirect_udp = ['link-qos-to-client', 'proxy-mss', 'ip-tos-to-client',
@@ -223,6 +226,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         if profile_type in ('client-ssl', 'server-ssl'):
             supported_attr = self.supported_ssl
             na_list = self.na_ssl
+            indirect = self.indirect_ssl
             u_ignore = user_ignore.get('client-ssl', [])
             u_ignore += user_ignore.get('server-ssl', [])
             skipped = [attr for attr in profile.keys()
@@ -300,6 +304,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 pki_profile = dict()
                 file_path = input_dir+os.path.sep+ca_file_name
                 pki_profile["name"] = name
+                pc_mode = profile.get('peer-cert-mode', 'ignore')
+                if pc_mode == 'ignore':
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_NONE'
+                elif pc_mode == 'request':
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_REQUEST'
+                elif pc_mode == 'require':
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_REQUIRE'
+                pki_profile['mode'] = pc_mode
                 if tenant:
                     pki_profile['tenant_ref'] = tenant
                 error = False
@@ -528,6 +540,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         elif profile_type == 'fastl4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
+            na_list = self.na_l4
             u_ignore = user_ignore.get('fastl4', [])
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -581,6 +594,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             indirect = self.indirect_fh
+            na_list = self.na_fh
             u_ignore = user_ignore.get('fasthttp', [])
             skipped = [attr for attr in f5_config['profile'][key].keys()
                        if attr not in supported_attr]
@@ -641,6 +655,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         elif profile_type == 'tcp':
             supported_attr = self.supported_tcp
             indirect = self.indirect_tcp
+            na_list = self.na_tcp
             u_ignore = user_ignore.get('tcp', [])
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
@@ -724,7 +739,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
     default_key = "defaults from"
 
     supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
-                     "ca file", "defaults from", "options"]
+                     "ca file", "defaults from", "options", "peer cert mode"]
     na_ssl = ['inherit-certkeychain', 'renegotiation']
     ignore_for_defaults = {'app service': 'none', 'uri exclude': 'none'}
     na_http = ['lws width']
@@ -849,10 +864,18 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ca_file_name = ca_file_name.replace('\"', '').strip()
             else:
                 ca_file_name = None
-            if ca_file_name and crl_file_name:
+            if ca_file_name:
                 pki_profile = dict()
                 file_path = input_dir+os.path.sep+ca_file_name
                 pki_profile["name"] = name
+                pc_mode = profile.get('peer-cert-mode', 'ignore')
+                if pc_mode == 'ignore':
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_NONE'
+                elif pc_mode == 'request':
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_REQUEST'
+                else:
+                    pc_mode = 'SSL_CLIENT_CERTIFICATE_REQUIRE'
+                pki_profile['mode'] = pc_mode
                 if tenant:
                  pki_profile['tenant_ref'] = tenant
                 error = False
@@ -861,19 +884,19 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     pki_profile["ca_certs"] = [{'certificate': ca}]
                 else:
                     error = True
-                file_path = input_dir+os.path.sep+crl_file_name
-                crl = conv_utils.upload_file(file_path)
-                if crl:
-                    pki_profile["crls"] = [{'body': crl}]
+                if crl_file_name:
+                    file_path = input_dir+os.path.sep+crl_file_name
+                    crl = conv_utils.upload_file(file_path)
+                    if crl:
+                        pki_profile["crls"] = [{'body': crl}]
+                    else:
+                        error = True
                 else:
-                    error = True
+                    pki_profile['crl_check'] = False
                 if not error:
                     conv_utils.update_skip_duplicates(
                         pki_profile, avi_config['PKIProfile'], 'pki_profile',
                         converted_objs, name, default_profile_name)
-            elif ca_file_name:
-                LOG.warn("crl-file missing hence skipped ca-file")
-                skipped.append("ca-file")
         elif profile_type == 'http':
             app_profile, skipped = \
                 self.convert_http_profile(

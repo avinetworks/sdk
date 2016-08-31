@@ -304,22 +304,26 @@ def get_vs_ssl_profiles(profiles, avi_config):
             pki_profiles = [obj for obj in pki_list if (
                 obj['name'] == name or name in obj.get("dup_of", []))]
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
-            if pki_profile and tenant:
-               pki_profile = '%s:%s' % (tenant, pki_profile)
+            mode = None
+            if pki_profile:
+                mode = pki_profiles[0].pop('mode')
+                if tenant:
+                    pki_profile = '%s:%s' % (tenant, pki_profile)
             if context == "clientside":
                 ssl_prof_ref = ssl_profiles[0]["name"]
                 if tenant:
                     ssl_prof_ref = '%s:%s' % (tenant, ssl_prof_ref)
                 vs_ssl_profile_names.append({"profile": ssl_prof_ref,
                                              "cert": key_cert,
-                                             "pki": pki_profile})
+                                             "pki": pki_profile,
+                                             'mode': mode})
             elif context == "serverside":
                 ssl_prof_ref = ssl_profiles[0]["name"]
                 if tenant:
                     ssl_prof_ref = '%s:%s' % (tenant, ssl_prof_ref)
                 pool_ssl_profile_names.append(
                     {"profile": ssl_prof_ref, "cert": key_cert,
-                     "pki": pki_profile})
+                     "pki": pki_profile, 'mode': mode})
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
@@ -618,6 +622,8 @@ def cleanup_config(avi_config):
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
         profile.pop('fallback_host', [])
+    for profile in avi_config.get('PKIProfile', []):
+        profile.pop('mode', None)
 
 
 def create_hdr_erase_rule(name, hdr_name, rule_index):
