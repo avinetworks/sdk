@@ -228,10 +228,9 @@ class VSConfigConv(object):
                 if app_profiles[0]["type"] == \
                         'APPLICATION_PROFILE_TYPE_HTTP':
                     app_profiles[0]["http_profile"][
-                        "ssl_client_certificate_mode"] = \
-                        "SSL_CLIENT_CERTIFICATE_REQUEST"
+                        "ssl_client_certificate_mode"] = ssl_vs[0]["mode"]
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
-                        ssl_vs[0]["pki"][0]["name"]
+                        ssl_vs[0]["pki"]
 
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]
