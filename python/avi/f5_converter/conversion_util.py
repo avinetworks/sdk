@@ -622,6 +622,8 @@ def cleanup_config(avi_config):
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
         profile.pop('fallback_host', [])
+    for profile in avi_config.get('PKIProfile', []):
+        profile.pop('mode', None)
 
 
 def create_hdr_erase_rule(name, hdr_name, rule_index):
