@@ -391,9 +391,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
             maintenance_response = f5_monitor.get("recv", '')
         elif "recv-disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv-disable", '')
-        if maintenance_response and maintenance_response.replace('\"', ''):
+        if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
+        if maintenance_response == 'none':
+            maintenance_response = ''
         return maintenance_response
 
 
@@ -572,7 +574,11 @@ class MonitorConfigConvV10(MonitorConfigConv):
             maintenance_response = f5_monitor.get("recv", '')
         elif "recv disable" in f5_monitor.keys():
             maintenance_response = f5_monitor.get("recv disable", '')
-        if maintenance_response.replace('\"', '').strip():
+        if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
+        if maintenance_response == 'none':
+            maintenance_response = ''
         return maintenance_response
+
+
