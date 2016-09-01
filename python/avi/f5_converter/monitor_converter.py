@@ -238,22 +238,16 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
+        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv-disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv-disable", None)
-        if maintenance_response and maintenance_response.replace('\"', ''):
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            monitor_dict["http_monitor"]["maintenance_response"] = \
-                maintenance_response
+
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
 
         return skipped
 
@@ -262,22 +256,15 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
+        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": send,
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv-disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv-disable", None)
-        if maintenance_response and maintenance_response.replace('\"', ''):
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            monitor_dict["https_monitor"]["maintenance_response"] = \
-                maintenance_response
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
@@ -303,16 +290,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         dns_monitor["rcode"] = rcode
         dns_monitor["query_name"] = f5_monitor.get("qname", None)
         monitor_dict["dns_monitor"] = dns_monitor
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv-disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv-disable", None)
-        if maintenance_response and maintenance_response.replace('\"', ''):
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            monitor_dict["dns_monitor"]["maintenance_response"] = \
-                maintenance_response
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        monitor_dict["dns_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
@@ -324,24 +303,20 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
+        request = request.replace('\\\\', '\\')
+        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv-disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv-disable", None)
-        if maintenance_response and maintenance_response.replace('\"', ''):
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            if tcp_monitor:
-                tcp_monitor["maintenance_response"] = maintenance_response
-            else:
-                tcp_monitor = {"maintenance_response": maintenance_response}
-                monitor_dict["tcp_monitor"] = tcp_monitor
+
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        if tcp_monitor:
+            tcp_monitor["maintenance_response"] = maintenance_resp
+        else:
+            tcp_monitor = {"maintenance_response": maintenance_resp}
+            monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp-half-open':
             if tcp_monitor:
                 tcp_monitor["tcp_half_open"] = True
@@ -360,24 +335,19 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
+        request = request.replace('\\\\', '\\')
+        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         udp_monitor = None
         if request or response:
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv-disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv-disable", None)
-        if maintenance_response and maintenance_response.replace('\"', ''):
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            if udp_monitor:
-                udp_monitor["maintenance_response"] = maintenance_response
-            else:
-                udp_monitor = {"maintenance_response": maintenance_response}
-                monitor_dict["udp_monitor"] = udp_monitor
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        if udp_monitor:
+            udp_monitor["maintenance_response"] = maintenance_resp
+        else:
+            udp_monitor = {"maintenance_response": maintenance_resp}
+            monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
@@ -414,6 +384,17 @@ class MonitorConfigConvV11(MonitorConfigConv):
         }
         monitor_dict["external_monitor"] = ext_monitor
         return skipped
+
+    def get_maintenance_response(self, f5_monitor):
+        maintenance_response = ''
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", '')
+        elif "recv-disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv-disable", '')
+        if maintenance_response and maintenance_response.replace('\"', ''):
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+        return maintenance_response
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
@@ -462,21 +443,15 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
+        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
-        maintenance_response = ''
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", '')
-        elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", '')
-        if maintenance_response.replace('\"', '').strip():
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            monitor_dict["http_monitor"]["maintenance_response"] = \
-                maintenance_response
+
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
@@ -486,21 +461,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
+        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
-        maintenance_response = ''
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", '')
-        elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", '')
-        if maintenance_response.replace('\"', '').strip():
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            monitor_dict["https_monitor"]["maintenance_response"] = \
-                maintenance_response
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
@@ -512,6 +480,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
+        request = request.replace('\\\\', '\\')
+        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
@@ -519,20 +489,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
             response = response.replace('\"', '') if response else None
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-        maintenance_response = None
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", None)
-        elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", None)
-        if maintenance_response and maintenance_response.replace(
-                '\"', '').strip():
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            if tcp_monitor:
-                tcp_monitor["maintenance_response"] = maintenance_response
-            else:
-                tcp_monitor = {"maintenance_response": maintenance_response}
-                monitor_dict["tcp_monitor"] = tcp_monitor
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        if tcp_monitor:
+            tcp_monitor["maintenance_response"] = maintenance_resp
+        else:
+            tcp_monitor = {"maintenance_response": maintenance_resp}
+            monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp_half_open':
             if tcp_monitor:
                 tcp_monitor["tcp_half_open"] = True
@@ -550,6 +512,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
+        request = request.replace('\\\\', '\\')
+        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         udp_monitor = None
         if request or response:
@@ -557,19 +521,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
             response = response.replace('\"', '') if response else None
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
-        maintenance_response = ''
-        if "reverse" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv", '')
-        elif "recv disable" in f5_monitor.keys():
-            maintenance_response = f5_monitor.get("recv disable", '')
-        if maintenance_response.replace('\"', '').strip():
-            maintenance_response = \
-                maintenance_response.replace('\"', '').strip()
-            if udp_monitor:
-                udp_monitor["maintenance_response"] = maintenance_response
-            else:
-                udp_monitor = {"maintenance_response": maintenance_response}
-                monitor_dict["udp_monitor"] = udp_monitor
+        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        if udp_monitor:
+            udp_monitor["maintenance_response"] = maintenance_resp
+        else:
+            udp_monitor = {"maintenance_response": maintenance_resp}
+            monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
@@ -608,3 +565,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
         }
         monitor_dict["external_monitor"] = ext_monitor
         return skipped
+
+    def get_maintenance_response(self, f5_monitor):
+        maintenance_response = ''
+        if "reverse" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv", '')
+        elif "recv disable" in f5_monitor.keys():
+            maintenance_response = f5_monitor.get("recv disable", '')
+        if maintenance_response.replace('\"', '').strip():
+            maintenance_response = \
+                maintenance_response.replace('\"', '').strip()
+        return maintenance_response
