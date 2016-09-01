@@ -730,5 +730,11 @@ def update_pool_for_service_port(pool_list, pool_name):
     pool[0]['use_service_port'] = True
 
 
+def rreplace(s, old, new, occurrence):
+    li = s.rsplit(old, occurrence)
+    return new.join(li)
+
+
+
 
 

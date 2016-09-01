@@ -132,10 +132,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
     ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
     default_key = "defaults-from"
 
-    na_ssl = ['chain', 'secure-renegotiation', 'cache-size', 'cache-timeout',
+    na_ssl = ['secure-renegotiation', 'cache-size', 'cache-timeout',
               'renegotiate-size', 'renegotiate-max-record-delay',
               'strict-resume', 'renegotiate-period']
-    indirect_ssl =['renegotiate', 'session-mirroring']
+    indirect_ssl =['renegotiate', 'session-mirroring', 'chain']
     supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
                      'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from',
                      'peer-cert-mode']
@@ -740,7 +740,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
                      "ca file", "defaults from", "options", "peer cert mode"]
-    na_ssl = ['inherit-certkeychain', 'renegotiation']
+    na_ssl = ['secure renegotiation', 'cache size', 'cache timeout',
+              'renegotiate size', 'renegotiate max record delay',
+              'strict resume', 'renegotiate period']
+    indirect_ssl =['renegotiate', 'session mirroring', 'chain']
     ignore_for_defaults = {'app service': 'none', 'uri exclude': 'none'}
     na_http = ['lws width']
     supported_http = ["insert xforwarded for", "xff alternative names",
@@ -784,7 +787,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
-        default_ignore = {}
         u_ignore = []
         na_list = []
         parent_cls = super(ProfileConfigConvV10, self)
@@ -800,6 +802,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                        if attr not in supported_attr]
             u_ignore = user_ignore.get('clientssl', [])
             u_ignore += user_ignore.get('serverssl', [])
+            na_list = self.na_ssl
+            indirect = self.indirect_ssl
             key_cert_obj = None
             original_prof = profile_config.get('%s %s' % (profile_type, name),
                                                None)
