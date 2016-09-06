@@ -18,6 +18,7 @@ root_logger.addHandler(ch)
 
 urllib3.disable_warnings()
 
+
 class VirtualServiceExample(object):
     '''
     Provides example of following operations

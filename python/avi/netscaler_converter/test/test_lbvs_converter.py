@@ -34,3 +34,7 @@ class Test(unittest.TestCase):
         assert avi_config['VirtualService']
         assert len(avi_config['VirtualService']) == len(
             ns_config_dict['add lb vserver'])
+        assert avi_config['ApplicationPersistenceProfile']
+        pool_obj = [pool for pool in avi_config['Pool']
+                    if pool["name"] == 'testpersist-pool']
+        assert pool_obj[0]['application_persistence_profile_ref']

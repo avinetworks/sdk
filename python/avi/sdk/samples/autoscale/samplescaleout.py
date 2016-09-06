@@ -37,6 +37,7 @@ from avi.protobuf.common_pb2 import SCALEIN, SCALEOUT
 from avi.protobuf.options_pb2 import V4
 from avi.infrastructure.rpc_channel import RpcChannel
 import time
+import os
 
 
 def get_ssl_params_from_path(folder_path=''):
@@ -53,21 +54,12 @@ def get_ssl_params_from_path(folder_path=''):
 
 SDK_PATH = '/opt/avi/python/lib/avi/sdk/'
 server_cert, server_key, ca_key, ca_cert = get_ssl_params_from_path(SDK_PATH)
-API = None
 
 HEAT_KWARGS = {'image': 'cirros', 'flavor': 'm1.tiny',
                'networks': 'avi-mgmt', 'passwd': 'blah', 'key': 'heat_key',
                'init': 1, 'sgrps': '844f5b1b-55c1-46ed-bab5-21e527da82e2',
-               'metadata': {'name': 'siva','test':'heat trials'},
+               'metadata': {'name': 'siva', 'test': 'heat trials'},
                'userdata': 'user=root;data=blah'}
-
-
-def setup():
-    global API
-    API = ApiSession.get_session('127.0.0.1', 'admin', 'avi123', tenant='admin')
-    ApiUtils(API).import_ssl_certificate('MyCert', server_key, server_cert)
-
-setup()
 
 
 def autoscale_dump(*args):
@@ -99,10 +91,10 @@ def autoscale_dump(*args):
     f.close()
 
 
-def scaleout_params(scaleout_type, alert_info):
+def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
     pool_name = alert_info.get('obj_name')
     print ' get pool obj for ', pool_name
-    pool_obj = API.get_object_by_name('pool', pool_name)
+    pool_obj = api.get_object_by_name('pool', pool_name, tenant=tenant)
     print 'returned pool obj', pool_obj
     pool_uuid = pool_obj['uuid']
     num_autoscale = 0
@@ -136,12 +128,25 @@ def server_autoscale(api, pool_uuid, pool_obj, num_autoscale, action):
     api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
 
 
+def getAviApiSession(tenant='admin'):
+    """
+    create session to avi controller
+    """
+    token = os.environ.get('API_TOKEN')
+    user = os.environ.get('USER')
+    # tenant=os.environ.get('TENANT')
+    return ApiSession.get_session("localhost", user, token=token,
+                                  tenant=tenant)
+
+
 def scaleout(*args):
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
+    tenant = 'admin'
+    api = getAviApiSession(tenant=tenant)
     pool_name, pool_uuid, pool_obj, num_autoscale = \
-        scaleout_params('scaleout', alert_info)
+        scaleout_params('scaleout', alert_info, api=api, tenant=tenant)
     if pool_name.find('heat') != -1:
         hkwargs = copy.deepcopy(HEAT_KWARGS)
         hkwargs['lbpool'] = pool_uuid.split('pool-')[1]
@@ -150,7 +155,7 @@ def scaleout(*args):
         heat_stack_scale(up=True, **hkwargs)
     elif pool_name.find('autoscale-alertscript') != -1:
         print pool_name, 'enabling disabled pool members'
-        server_autoscale(API, pool_uuid, pool_obj, num_autoscale,
+        server_autoscale(api, pool_uuid, pool_obj, num_autoscale,
                          'scaleout')
     elif pool_name.find('launch') != -1:
         # Send the launch complete notification
@@ -172,8 +177,10 @@ def scalein(*args):
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
+    tenant = 'admin'
+    api = getAviApiSession(tenant=tenant)
     pool_name, pool_uuid, pool_obj, num_autoscale = \
-        scaleout_params('scalein', alert_info)
+        scaleout_params('scalein', alert_info, api=api, tenant=tenant)
 
     print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
     if pool_name.find('heat') != -1:
@@ -184,7 +191,7 @@ def scalein(*args):
         heat_stack_scale(up=False, **hkwargs)
     elif pool_name.find('autoscale-alertscript') != -1:
         print pool_name, 'disabling enabled pool members'
-        server_autoscale(API, pool_uuid, pool_obj, num_autoscale,
+        server_autoscale(api, pool_uuid, pool_obj, num_autoscale,
                          'scalein')
     elif pool_name.find('launch') != -1:
         # Send the launch complete notification
