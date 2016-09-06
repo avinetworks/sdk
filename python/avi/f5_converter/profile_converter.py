@@ -20,6 +20,12 @@ class ProfileConfigConv(object):
     ignore_for_defaults = None
     default_key = None
 
+    ciphers = 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-' \
+              'ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-' \
+              'AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:' \
+              'AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:' \
+              'AES256-SHA:DES-CBC3-SHA'
+
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore):
         pass
@@ -258,14 +264,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         key_cert_obj, avi_config['SSLKeyAndCertificate'],
                         'key_cert', converted_objs, name, default_profile_name)
 
-            ciphers = profile.get('ciphers', 'DEFAULT')
-            ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
-            ciphers = ciphers.replace(":@SPEED", "")
+            # ciphers = profile.get('ciphers', 'DEFAULT')
+            # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
+            # ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             if tenant:
                 ssl_profile['tenant_ref'] = tenant
-            ssl_profile['accepted_ciphers'] = ciphers
+            ssl_profile['accepted_ciphers'] = self.ciphers
             close_notify = profile.get('unclean-shutdown', None)
             if close_notify and close_notify == 'enabled':
                 ssl_profile['send_close_notify'] = True
@@ -824,16 +830,15 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     key_cert_obj, avi_config['SSLKeyAndCertificate'],
                     'key_cert', converted_objs, name, default_profile_name)
-            ciphers = profile.get('ciphers', 'DEFAULT')
-            ciphers = ciphers.replace('\"', '')
-            ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
-                                                    'NATIVE'] else ciphers
-            ciphers = ciphers.replace(":@SPEED", "")
+            # ciphers = ciphers.replace('\"', '')
+            # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
+            #                                         'NATIVE'] else ciphers
+            # ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             if tenant:
                  ssl_profile['tenant_ref'] = tenant
-            ssl_profile['accepted_ciphers'] = ciphers
+            ssl_profile['accepted_ciphers'] = self.ciphers
             close_notify = profile.get('unclean shutdown', None)
             if close_notify and close_notify == 'enabled':
                 ssl_profile['send_close_notify'] = True
