@@ -2,6 +2,7 @@ from pyparsing import *
 ParserElement.enablePackrat()
 import logging
 LOG = logging.getLogger(__name__)
+import avi.netscaler_converter.ns_util as ns_util
 
 
 def parse_config_file(filepath):
@@ -40,19 +41,20 @@ def get_command(line):
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
             return command, len(cmd_arr)
-        else:
-            LOG.debug("Command not supported : %s" % line)
-    return None, None
+    cmd = ns_util.get_command_from_line(line)
+    LOG.debug("Command not supported : %s" % cmd)
+    return cmd, None
 
 
 def get_ns_conf_dict(filepath):
     LOG.debug('Started parsing netscaler config file')
+    netscaler_conf = dict()
+    skipped_cmds = []
     try:
-        netscaler_conf = dict()
         result = parse_config_file(filepath)
         for line in result:
             cmd, offset = get_command(line)
-            if cmd:
+            if offset:
                 cmd_dict = dict()
                 attr_list = []
                 key = line[offset]
@@ -74,12 +76,15 @@ def get_ns_conf_dict(filepath):
                 else:
                     cmd_list.update({key: cmd_dict})
                 netscaler_conf.update({cmd: cmd_list})
+            else:
+                skipped_cmds.append(cmd)
         LOG.debug('File parsed successfully')
     except:
-        LOG.error('Error in parsing the file', exec_info=True)
+        LOG.error('Error in parsing the file', exc_info=True)
 
-    return netscaler_conf
+    return netscaler_conf, skipped_cmds
 
-if __name__ == "__main__":
-    ns_conf = get_ns_conf_dict("D:\\avi\\NetscalerConverter\\test.conf")
-    print ns_conf
+# if __name__ == "__main__":
+#     ns_conf, skipped_cmds = get_ns_conf_dict(
+#         "D:\\avi\\NetscalerConverter\\test.conf")
+#     print ns_conf

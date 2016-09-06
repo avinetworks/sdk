@@ -27,11 +27,11 @@ Here are list of important SDK directories
 Pip packages are hosted on GitHub. They can be installed simply as:
 ### Avi SDK Install  
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-master.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b2.tar.gz
 ```
 ### Avi F5 Converter Install  
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-master.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b2.tar.gz
 ```
 
 ### Python Virtual Environment based installation  
@@ -43,8 +43,8 @@ $ apt-get install python-dev python-pip python-virtualenv
 $ virtualenv avi
 $ cd avi
 $ source bin/activate
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-master.tar.gz
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-master.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b2.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b2.tar.gz
 $ f5_converter.py -h
 $ deactivate
 ```

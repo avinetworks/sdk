@@ -4,7 +4,9 @@ Created on Feb 10, 2016
 @author: grastogi
 '''
 import json
-import re
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class ApiUtils(object):
@@ -14,8 +16,9 @@ class ApiUtils(object):
     def __init__(self, api_session):
         '''
         Constructor
+        :param api_session: ApiSession
         '''
-        self.api_session = api_session
+        self.api = api_session
 
     def import_ssl_certificate(self, name, key, cert, key_passphrase='',
                                tenant='', tenant_uuid=''):
@@ -27,68 +30,95 @@ class ApiUtils(object):
             'certificate': cert,
             'key_passphrase': key_passphrase
         }
-        resp = self.api_session.post(
+        resp = self.api.post(
                 path='sslkeyandcertificate/importkeyandcertificate',
                 data=json.dumps(ssl_kc_obj),
                 tenant=tenant, tenant_uuid=tenant_uuid)
         return resp
 
-RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
+    def get_metrics(
+            self, entity_type, entity_name, entity_uuid='', metric_ids='',
+            step=300, limit=1, start='', stop='', tenant='admin',
+            tenant_uuid='', **query_options):
+        """
+        This is utility method to fetch metrics from the controller.
+        Eg.
+        1. api_utils.get_metrics('virtualservice', 'vs1',
+            metric_id='l4_client.avg_bandwidth')
+            This gets 1 vs1's network bandwidth metrics.
+        2.
+        :param entity_type: 'virtualservice, serviceengine, pool, tenant'
+        :param entity_name: string corresponding to the object
+        :param entity_uuid: uuid of the entity. If entity_uuid and entity_name
+            are blank then it is treated as collection API where metrics
+            for all the objects in the tenant would be fetched
+        :param metric_ids: comma separated string of metrics or list of
+            metric_ids
+        :param step: granularity of the metrics
+        :param limit: number of data points for the metrics
+        :param start: ISO8901 compatible start time for the metrics. Controller
+            will adjust the start time based on the Stop time if not provided
+        :param stop: ISO8901 compatible start time for the metrics. Controller
+            sets stop as utc.now if not provided in the API
+        :tenant: name of the tenant
+        :tenant_uuid: uuid of the tenant
+        :query_options: All the query_options are sent as the query parameters
+            for the API call as per the Avi API Guide.
+        """
+        if entity_name and not entity_uuid:
+            resp = self.api.get_object_by_name(entity_type, entity_name)
+            entity_uuid = self.api.get_obj_uuid(resp)
+        path = 'analytics/metrics/%s/%s' % (entity_type, entity_uuid)
+        if type(metric_ids) == list:
+            metric_ids = ','.join(metric_ids)
+        if metric_ids:
+            query_options['metric_ids'] = metric_ids
+        query_options['step'] = step
+        query_options['limit'] = limit
+        if start:
+            query_options['start'] = start
+        if stop:
+            query_options['stop'] = stop
+        rsp = self.api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+                           params=query_options)
+        return rsp.json()
 
-
-def ref_n_str_cmp(x, y):
-    """
-    compares two references
-    1. check for exact reference
-    2. check for obj_type/uuid
-    3. check for name
-    """
-    if (not isinstance(x, basestring)) or (not isinstance(y, basestring)):
-        return False
-    y_uuid = y_name = y
-    if RE_REF_MATCH.match(y):
-        y_uuid = ''
-        y_name = y.split('name=')[1]
-    elif (y.find('api/') != -1):
-        path = y.split('api/')[1]
-        _, uuid_or_name = path.split('/')
-        parts = uuid_or_name.split('#')
-        y_uuid = parts[0]
-        y_name = parts[1] if len(parts) > 1 else ''
-    if RE_REF_MATCH.match(x):
-        x = x.split('name=')[1]
-    return (x == y_uuid) or (x == y_name)
-
-
-def avi_obj_cmp(x, y):
-    """
-    compares whether x is fully contained in y
-    """
-    if isinstance(x, str):
-        return ref_n_str_cmp(x, y)
-    if type(x) not in [list, dict]:
-        return x == y
-    if type(x) == list:
-        # should compare each item in the list and that should match
-        zipped = zip(x, y)
-        if len(x) > len(zipped):
-            return False
-        for i in zip(x, y):
-            if not avi_obj_cmp(i[0], i[1]):
-                # not need to continue
-                return False
-    if type(x) == dict:
-        d_xks = [k for k, v in x.iteritems() if
-                 not v and (type(v) in (list, dict))]
-        for k in d_xks:
-            x.pop(k)
-        x_keys = set(x.keys())
-        y_keys = set(y.keys())
-        if not x_keys.issubset(y_keys):
-            return False
-        for k, v in x.iteritems():
-            if k not in y:
-                return False
-            if not avi_obj_cmp(v, y[k]):
-                return False
-    return True
+    def get_healthscore(
+            self, entity_type, entity_name, entity_uuid='',
+            step=300, limit=1, start='', stop='', tenant='admin',
+            tenant_uuid='', **query_options):
+        """
+        This is utility method to fetch healthscore from the controller.
+        Eg.
+        1. api_utils.get_metrics('virtualservice', 'vs1',
+            metric_id='l4_client.avg_bandwidth')
+            This gets 1 vs1's network bandwidth metrics.
+        :param entity_type: 'virtualservice, serviceengine, pool, tenant'
+        :param entity_name: string corresponding to the object
+        :param entity_uuid: uuid of the entity. If entity_uuid and entity_name
+            are blank then it is treated as collection API where metrics
+            for all the objects in the tenant would be fetched
+        :param step: granularity of the metrics
+        :param limit: number of data points for the metrics
+        :param start: ISO8901 compatible start time for the metrics. Controller
+            will adjust the start time based on the Stop time if not provided
+        :param stop: ISO8901 compatible start time for the metrics. Controller
+            sets stop as utc.now if not provided in the API
+        :tenant: name of the tenant
+        :tenant_uuid: uuid of the tenant
+        :query_options: All the query_options are sent as the query parameters
+            for the API call as per the Avi API Guide.
+        """
+        if entity_name and not entity_uuid:
+            resp = self.api.get_object_by_name(entity_type, entity_name)
+            entity_uuid = self.api.get_obj_uuid(resp)
+        path = 'analytics/metrics/%s/%s' % (entity_type, entity_uuid)
+        query_options['step'] = step
+        query_options['limit'] = limit
+        if start:
+            query_options['start'] = start
+        if stop:
+            query_options['stop'] = stop
+        rsp = self.api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
+                           params=query_options)
+        return rsp.json()
