@@ -49,7 +49,13 @@ def get_default_config(version, is_download, path):
     else:
         if version == '12':
             version = '11'
-        dir_path = conversion_util.get_project_path()
+        if getattr(sys, 'frozen', False):
+            # running in a exe bundle
+            dir_path = os.path.abspath(os.path.dirname(__file__))
+        else:
+            # running from source
+            dir_path = conversion_util.get_project_path()
+
         defaults_file = open(dir_path+os.path.sep+"f5_v%s_defaults.conf" %
                              version, "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
