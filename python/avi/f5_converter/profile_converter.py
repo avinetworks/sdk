@@ -20,6 +20,12 @@ class ProfileConfigConv(object):
     ignore_for_defaults = None
     default_key = None
 
+    ciphers = 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-' \
+              'ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-' \
+              'AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:' \
+              'AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:' \
+              'AES256-SHA:DES-CBC3-SHA'
+
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore):
         pass
@@ -132,10 +138,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
     ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
     default_key = "defaults-from"
 
-    na_ssl = ['chain', 'secure-renegotiation', 'cache-size', 'cache-timeout',
+    na_ssl = ['secure-renegotiation', 'cache-size', 'cache-timeout',
               'renegotiate-size', 'renegotiate-max-record-delay',
               'strict-resume', 'renegotiate-period']
-    indirect_ssl =['renegotiate', 'session-mirroring']
+    indirect_ssl =['renegotiate', 'session-mirroring', 'chain']
     supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
                      'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from',
                      'peer-cert-mode']
@@ -258,14 +264,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         key_cert_obj, avi_config['SSLKeyAndCertificate'],
                         'key_cert', converted_objs, name, default_profile_name)
 
-            ciphers = profile.get('ciphers', 'DEFAULT')
-            ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
-            ciphers = ciphers.replace(":@SPEED", "")
+            # ciphers = profile.get('ciphers', 'DEFAULT')
+            # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
+            # ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             if tenant:
                 ssl_profile['tenant_ref'] = tenant
-            ssl_profile['accepted_ciphers'] = ciphers
+            ssl_profile['accepted_ciphers'] = self.ciphers
             close_notify = profile.get('unclean-shutdown', None)
             if close_notify and close_notify == 'enabled':
                 ssl_profile['send_close_notify'] = True
@@ -740,7 +746,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
                      "ca file", "defaults from", "options", "peer cert mode"]
-    na_ssl = ['inherit-certkeychain', 'renegotiation']
+    na_ssl = ['secure renegotiation', 'cache size', 'cache timeout',
+              'renegotiate size', 'renegotiate max record delay',
+              'strict resume', 'renegotiate period']
+    indirect_ssl =['renegotiate', 'session mirroring', 'chain']
     ignore_for_defaults = {'app service': 'none', 'uri exclude': 'none'}
     na_http = ['lws width']
     supported_http = ["insert xforwarded for", "xff alternative names",
@@ -784,7 +793,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
-        default_ignore = {}
         u_ignore = []
         na_list = []
         parent_cls = super(ProfileConfigConvV10, self)
@@ -800,6 +808,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                        if attr not in supported_attr]
             u_ignore = user_ignore.get('clientssl', [])
             u_ignore += user_ignore.get('serverssl', [])
+            na_list = self.na_ssl
+            indirect = self.indirect_ssl
             key_cert_obj = None
             original_prof = profile_config.get('%s %s' % (profile_type, name),
                                                None)
@@ -820,16 +830,15 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     key_cert_obj, avi_config['SSLKeyAndCertificate'],
                     'key_cert', converted_objs, name, default_profile_name)
-            ciphers = profile.get('ciphers', 'DEFAULT')
-            ciphers = ciphers.replace('\"', '')
-            ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
-                                                    'NATIVE'] else ciphers
-            ciphers = ciphers.replace(":@SPEED", "")
+            # ciphers = ciphers.replace('\"', '')
+            # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
+            #                                         'NATIVE'] else ciphers
+            # ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             if tenant:
                  ssl_profile['tenant_ref'] = tenant
-            ssl_profile['accepted_ciphers'] = ciphers
+            ssl_profile['accepted_ciphers'] = self.ciphers
             close_notify = profile.get('unclean shutdown', None)
             if close_notify and close_notify == 'enabled':
                 ssl_profile['send_close_notify'] = True

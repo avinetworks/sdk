@@ -1,6 +1,7 @@
 import copy
 import csv
 import logging
+import os
 
 import converter_constants as conv_const
 
@@ -728,6 +729,16 @@ def get_app_profile_type(profile_name, avi_config):
 def update_pool_for_service_port(pool_list, pool_name):
     pool = [obj for obj in pool_list if obj['name'] == pool_name]
     pool[0]['use_service_port'] = True
+
+
+def rreplace(s, old, new, occurrence):
+    li = s.rsplit(old, occurrence)
+    return new.join(li)
+
+
+def get_project_path():
+    return os.path.abspath(os.path.dirname(__file__))
+
 
 
 
