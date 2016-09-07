@@ -1,6 +1,7 @@
 import copy
 import csv
 import logging
+import os
 
 import converter_constants as conv_const
 
@@ -733,6 +734,10 @@ def update_pool_for_service_port(pool_list, pool_name):
 def rreplace(s, old, new, occurrence):
     li = s.rsplit(old, occurrence)
     return new.join(li)
+
+
+def get_project_path():
+    return os.path.abspath(os.path.dirname(__file__))
 
 
 
