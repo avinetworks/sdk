@@ -6,9 +6,8 @@ import os
 
 from requests.packages import urllib3
 
-import avi.f5_converter.scp_util as scp_util
 from avi.f5_converter import f5_config_converter, \
-    f5_parser, upload_config
+    f5_parser, upload_config, scp_util, conversion_util
 
 urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -50,7 +49,7 @@ def get_default_config(version, is_download, path):
     else:
         if version == '12':
             version = '11'
-        dir_path = os.path.abspath(os.path.dirname(__file__))
+        dir_path = conversion_util.get_project_path()
         defaults_file = open(dir_path+os.path.sep+"f5_v%s_defaults.conf" %
                              version, "r")
         f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
