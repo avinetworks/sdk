@@ -386,6 +386,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def get_maintenance_response(self, f5_monitor):
+        """
+        Returns avi maintenance response value from F5 monitor object
+        :param f5_monitor: F5 monitor object
+        :return: Avi monitor maintenance response value
+        """
         maintenance_response = ''
         if "reverse" in f5_monitor:
             maintenance_response = f5_monitor.get("recv", '')
@@ -569,6 +574,11 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def get_maintenance_response(self, f5_monitor):
+        """
+        Returns avi maintenance response value from F5 monitor object
+        :param f5_monitor: F5 monitor object
+        :return: Avi monitor maintenance response value
+        """
         maintenance_response = ''
         if "reverse" in f5_monitor:
             maintenance_response = f5_monitor.get("recv", '')
