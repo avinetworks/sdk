@@ -162,24 +162,35 @@ class Test(unittest.TestCase):
             'uuid': u'pool-20084ee1-872e-4103-98e1-899103e2242a',
             'connection_ramp_duration': 10,
             'health_monitor_refs': [
-                "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP"
+                "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP",
+                "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc8",
                 ],
             }
 
         obj = {'name': 'testpool',
-               'health_monitor_refs': ['https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9'],
+               'health_monitor_refs': ['https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9',
+                                       "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc8"],
                'server_count': 0}
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
 
         obj = {'name': 'testpool',
-               'health_monitor_refs': ['https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP'],
+               'health_monitor_refs': [
+                   'https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP',
+                   "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc8"],
                'server_count': 0}
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
 
-        existing_obj['health_monitor_refs'][0] = \
-            "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9"
+        obj = {'name': 'testpool',
+               'health_monitor_refs': [
+                   'https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP',
+                   "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc8#System-HTTP2"],
+               'server_count': 0,
+               'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9#Default-Cloud',
+               }
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
 
     def test_avi_list_update(self):
         existing_obj = {
@@ -240,6 +251,48 @@ class Test(unittest.TestCase):
         assert 'y' not in obj
         assert 'a' not in obj['z']
 
+    def test_complex_obj(self):
+
+        obj = {
+            u'lb_algorithm': u'LB_ALGORITHM_ROUND_ROBIN',
+            u'use_service_port': False, u'server_auto_scale': False,
+            u'host_check_enabled': False,
+            u'tenant_ref': u'https://10.10.25.42/api/tenant/admin#admin',
+            u'capacity_estimation': False,
+            u'servers': [
+                {u'hostname': u'grastogi-server6', u'ratio': 1,
+                 u'ip': {u'type': u'V4', u'addr': u'10.90.64.62'},
+                 u'discovered_networks': [
+                     {u'subnet': [
+                         {u'ip_addr': {
+                             u'type': u'V4', u'addr': u'10.90.64.0'},
+                          u'mask': 24}],
+                      u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}],
+                 u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.61'}, u'discovered_networks': [{u'subnet': [{u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}, u'mask': 24}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.65'}, u'discovered_networks': [{u'subnet': [{u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}, u'mask': 24}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], u'enabled': True, u'verify_network': False, u'static': False, u'resolve_server_by_dns': False}], u'fewest_tasks_feedback_delay': 10, u'_last_modified': u'1473292763246107', u'cloud_ref': u'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489#Default-Cloud', u'vrf_ref': u'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d#global', u'inline_health_monitor': True, u'default_server_port': 8000, u'request_queue_depth': 128, u'graceful_disable_timeout': 1, u'sni_enabled': True, u'server_count': 3, u'uuid': u'pool-09201181-747e-41ea-872d-e9a7df71b726', u'request_queue_enabled': False, u'name': u'p1', u'max_concurrent_connections_per_server': 0, u'url': u'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726#p1',
+            u'enabled': True,
+            u'connection_ramp_duration': 10}
+
+        existing_obj = {
+            u'lb_algorithm': u'LB_ALGORITHM_ROUND_ROBIN',
+            u'use_service_port': False,
+            u'server_auto_scale': False,
+            u'host_check_enabled': False,
+            u'tenant_ref': u'https://10.10.25.42/api/tenant/admin',
+            u'capacity_estimation': False,
+            u'servers': [
+                {u'hostname': u'grastogi-server6', u'ratio': 1,
+                 u'ip': {u'type': u'V4', u'addr': u'10.90.64.62'},
+                 u'discovered_networks': [
+                     {u'subnet': [
+                         {u'mask': 24,
+                          u'ip_addr': {
+                              u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.61'}, u'discovered_networks': [{u'subnet': [{u'mask': 24, u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.65'}, u'discovered_networks': [{u'subnet': [{u'mask': 24, u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}], u'fewest_tasks_feedback_delay': 10, u'cloud_ref': u'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489', u'vrf_ref': u'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d', u'inline_health_monitor': True, u'default_server_port': 8000, u'request_queue_depth': 128, u'graceful_disable_timeout': 1, u'sni_enabled': True, u'server_count': 3, u'uuid': u'pool-09201181-747e-41ea-872d-e9a7df71b726', u'request_queue_enabled': False, u'name': u'p1', u'max_concurrent_connections_per_server': 0,
+                        u'url': u'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726',
+                        u'enabled': True,
+                        u'connection_ramp_duration': 10}
+
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
