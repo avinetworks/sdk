@@ -4,6 +4,8 @@ Created on Aug 16, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
 import re
+import logging
+log = logging.getLogger(__name__)
 
 
 def ansible_return(module, rsp, changed):
@@ -90,7 +92,8 @@ def ref_n_str_cmp(x, y):
     Returns
         True if they are equivalent else False
     """
-    if (not isinstance(x, basestring)) or (not isinstance(y, basestring)):
+    if not ((isinstance(x, basestring) or isinstance(x, unicode)) and
+            (isinstance(y, basestring) or isinstance(y, unicode))):
         return False
 
     y_uuid = y_name = y
@@ -109,7 +112,8 @@ def ref_n_str_cmp(x, y):
         y_uuid = parts[0]
         y_name = parts[1] if len(parts) > 1 else ''
         # is just string but y is a url so match either uuid or name
-    return (x in (y, y_name, y_uuid))
+    result = (x in (y, y_name, y_uuid))
+    return result
 
 
 def avi_obj_cmp(x, y):
@@ -146,7 +150,7 @@ def avi_obj_cmp(x, y):
     Returns:
         True if x is subset of y else False
     """
-    if isinstance(x, str):
+    if isinstance(x, basestring) or isinstance(x, unicode):
         # Special handling for strings as they can be references.
         return ref_n_str_cmp(x, y)
     if type(x) not in [list, dict]:
@@ -161,6 +165,8 @@ def avi_obj_cmp(x, y):
                 # no need to continue
                 return False
     if type(x) == dict:
+        x.pop('_last_modified', None)
+        y.pop('_last_modified', None)
         d_xks = [k for k, v in x.iteritems() if not v and
                  (type(v) in (list, dict))]
         for k in d_xks:
