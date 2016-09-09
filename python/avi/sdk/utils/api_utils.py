@@ -37,7 +37,7 @@ class ApiUtils(object):
         return resp
 
     def get_metrics(
-            self, entity_type, entity_name, entity_uuid='', metric_ids='',
+            self, entity_type, entity_name, entity_uuid='', metric_id='',
             step=300, limit=1, start='', stop='', tenant='admin',
             tenant_uuid='', **query_options):
         """
@@ -52,7 +52,7 @@ class ApiUtils(object):
         :param entity_uuid: uuid of the entity. If entity_uuid and entity_name
             are blank then it is treated as collection API where metrics
             for all the objects in the tenant would be fetched
-        :param metric_ids: comma separated string of metrics or list of
+        :param metric_id: comma separated string of metrics or list of
             metric_ids
         :param step: granularity of the metrics
         :param limit: number of data points for the metrics
@@ -69,10 +69,10 @@ class ApiUtils(object):
             resp = self.api.get_object_by_name(entity_type, entity_name)
             entity_uuid = self.api.get_obj_uuid(resp)
         path = 'analytics/metrics/%s/%s' % (entity_type, entity_uuid)
-        if type(metric_ids) == list:
-            metric_ids = ','.join(metric_ids)
-        if metric_ids:
-            query_options['metric_ids'] = metric_ids
+        if type(metric_id) == list:
+            metric_id = ','.join(metric_id)
+        if metric_id:
+            query_options['metric_id'] = metric_id
         query_options['step'] = step
         query_options['limit'] = limit
         if start:
