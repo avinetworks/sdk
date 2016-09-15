@@ -11,7 +11,7 @@ def backup_configuration(api, args):
     data = {'passphrase': args.passphrase} if args.passphrase else {}
     params = {'full_system': True}
     filename = "%s_%s.%s" % (args.filename, args.controller, time.strftime("%Y%m%d_%H%M%S"))
-    rsp = api.post('configuration/export', params=params, data = json.dumps(data))
+    rsp = api.post('configuration/export', params=params, data=json.dumps(data))
     with open(filename, 'w') as f:
         f.write(rsp.text)
     print 'Configuration successfully saved in %s' % filename
