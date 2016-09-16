@@ -6,6 +6,7 @@ LOG = logging.getLogger(__name__)
 from avi.netscaler_converter.ns_service_converter import ServiceConverter
 from avi.netscaler_converter.monitor_converter import MonitorConverter
 from avi.netscaler_converter.lbvs_converter import LbvsConverter
+from avi.netscaler_converter.csvs_converter import CsvsConverter
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.profile_converter import ProfileConverter
 
@@ -53,6 +54,9 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
 
         lbvs_converter = LbvsConverter()
         lbvs_converter.convert(ns_config_dict, avi_config)
+
+        csvs_converter = CsvsConverter()
+        csvs_converter.convert(ns_config_dict, avi_config)
 
         ns_util.update_status_for_skipped(skipped_cmds)
         LOG.debug('Conversion completed successfully')
