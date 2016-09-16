@@ -1,41 +1,46 @@
-# Avi SDK and Utilities 
+# Avi SDK and Utilities
 
-This repository includes API documentation, SDK and sample source to integrate 
+This repository includes API documentation, SDK and sample source to integrate
 into Avi Solution. Here is brief description of the contents
 
-- **doc**: Avi API documentation. It includes documentation for the load balancer 
+- **doc**: Avi API documentation. It includes documentation for the load balancer
 objects, Analytics Metrics, and Log Analytics APIs.
 - **python**: Source for the python SDK. The pip package can be downloaded from
-[Releases](https://github.com/avinetworks/sdk/releases "Avi SDK Releases"). 
-Here are list of important SDK directories 
+[Releases](https://github.com/avinetworks/sdk/releases "Avi SDK Releases").
+Here are list of important SDK directories
     - **samples**: Python samples are in directory python/avi/sdk/samples.
-        - **autoscale**: Gives examples of creating control scripts for 
+        - **autoscale**: Gives examples of creating control scripts for
         server autoscale
         - **heat**: Provides a heat example for pool servers that can be used
         with server autoscale feature and control scripts
         - **virtualservice_examples_api**: provides examples of programmatically
         creating most common VirtuaServices like basic VS, SSL VS, analytics
         APIs, tenant based APIs etc.
-    - **utils**: Useful utilities for devops automation. 
-        - **f5_converter**: It is utility for converting F5 configuration into 
+    - **utils**: Useful utilities for devops automation.
+        - **f5_converter**: It is utility for converting F5 configuration into
         AVI configuration
-        - **httppolicyset_templates**: Provides easy to use templates for 
+        - **httppolicyset_templates**: Provides easy to use templates for
         creating HTTP request and redirect policies for most common use cases
         - **Mesos**: Provides CRUD apis to create Marathon App with AVI labels
 
-# Installation  
+# Installation
 Pip packages are hosted on GitHub. They can be installed simply as:
-### Avi SDK Install  
+### Avi SDK Install
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b2.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b4.tar.gz
 ```
-### Avi F5 Converter Install  
+### Avi F5 Converter Install
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b2.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b4.tar.gz
 ```
 
-### Python Virtual Environment based installation  
-It is recommended to use virtual env based installation if you are just 
+### Avi Netscaler Converter Install
+```sh
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avinetscalerconverter-16.3b4.tar.gz
+```
+
+### Python Virtual Environment based installation
+It is recommended to use virtual env based installation if you are just
 experimenting with the SDK or F5 converter.
 
 ```sh
@@ -43,14 +48,16 @@ $ apt-get install python-dev python-pip python-virtualenv
 $ virtualenv avi
 $ cd avi
 $ source bin/activate
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b2.tar.gz
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b2.tar.gz
+$ pip install avisdk
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b4.tar.gz
+$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avinetscalerconverter-16.3b4.tar.gz
 $ f5_converter.py -h
+$ netscaler_converter.py -h
 $ deactivate
 ```
 
-# Usage  
-## ApiSession Usage  
+# Usage
+## ApiSession Usage
 
 ```python
 from avi.sdk.avi_api import ApiSession
@@ -65,7 +72,7 @@ vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4
          'services': services_obj, 'pool_ref': pool_ref}
 resp = api.post('virtualservice', data=vs_obj)
 
-# print list of all virtualservices 
+# print list of all virtualservices
 resp = api.get('virtualservice')
 for vs in resp.json()['results']:
     print vs['name']
@@ -75,7 +82,7 @@ resp = api.delete('virtualservice', 'sample_vs')
 ```
 
 If ApiSession is invoked in the context of a control script, then token can be used for authentication.
-Along with that, information regarding username and tenant information can also be retrieved as follows: 
+Along with that, information regarding username and tenant information can also be retrieved as follows:
 ```python
 token=os.environ.get('API_TOKEN')
 user=os.environ.get('USER')
@@ -90,9 +97,21 @@ f5_converter.py -h
 ```
 Convert bigip.conf into Avi configuration. Output is in output directory
 ```sh
-f5_converter.py -f bigip.conf 
+f5_converter.py -f bigip.conf
 ls output
 ```
+
+#### Netscaler Converter Usage
+See all the Netscaler converter options
+```sh
+netscaler_converter.py -h
+```
+Convert ns.conf into Avi configuration. Output is in output directory
+```sh
+netscaler_converter.py -f ns.conf
+ls output
+```
+
 #### virtualservice_examples_api Usage
 Create a basic virtualservice named basic-vs
 ```sh
