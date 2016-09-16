@@ -34,7 +34,7 @@ class LbvsConverter(object):
                 type = lb_vs['attrs'][1]
                 cmd = 'add lb vserver %s' % key
                 if type not in supported_types:
-                    LOG.warn('Unsupported type %s of VS: %s' % (type, key))
+                    LOG.warn('Unsupported type %s of LB VS: %s' % (type, key))
                     ns_util.add_status_row(cmd, 'skipped')
                     continue
                 enable_ssl = False
@@ -91,8 +91,6 @@ class LbvsConverter(object):
                     }
 
                 persistenceType = lb_vs.get('persistenceType','')
-                persist_profile = None
-
                 if pool_ref and persistenceType in self.supported_persist_types:
                     timeout = lb_vs.get('timeout', 2)
                     profile_name = '%s-persistance-profile' % vs_name
