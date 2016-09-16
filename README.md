@@ -45,7 +45,7 @@ It is recommended to use virtual env based installation if you are just
 experimenting with the SDK or F5 converter.
 
 ```sh
-$ apt-get install python-dev python-pip python-virtualenv
+$ apt-get install python-dev python-pip python-virtualenv python-cffi
 $ virtualenv avi
 $ cd avi
 $ source bin/activate
