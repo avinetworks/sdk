@@ -116,6 +116,8 @@ class ServiceConverter(object):
 
     def get_monitor_names(self, bindings, mon_ref, member):
         for binding in bindings:
+            if len(member['attrs']) < 2:
+                continue
             if binding.get('monitorName', None) and \
                             member['attrs'][1] == binding['attrs'][0]:
                     mon_ref.append(binding.get('monitorName'))
