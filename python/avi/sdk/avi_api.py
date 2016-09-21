@@ -117,6 +117,16 @@ class ApiSession(Session):
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
         for more than 20 mins.
+
+        Notes:
+        01. If mode is https and port is none or 443, we don't embed the
+            port in the prefix. The prefix would be 'https://ip'. If port
+            is a non-default value then we concatenate https://ip:port
+            in the prefix.
+        02. If mode is http and the port is none or 80, we don't embed the
+            port in the prefix. The prefix would be 'http://ip'. If port is
+            a non-default value, then we concatenate http://ip:port in
+            the prefix.
         """
         super(ApiSession, self).__init__()
         self.controller_ip = controller_ip
@@ -126,12 +136,21 @@ class ApiSession(Session):
         self.tenant_uuid = tenant_uuid
         self.tenant = tenant if tenant else "admin"
         self.headers = {}
-        self.prefix = (controller_ip if controller_ip.startswith('http')
-                       else "https://%s" % controller_ip)
         self.verify = verify
         self.port = port
         self.key = controller_ip + ":" + username
 
+        # Refer Notes 01 and 02
+        if controller_ip.startswith('http'):
+            if port is None or port == 80:
+                self.prefix = controller_ip
+            else:
+                self.prefix = '{x}:{y}'.format(x=controller_ip, y=port)
+        else:
+            if port is None or port == 443:
+                self.prefix = 'https://{x}'.format(x=controller_ip)
+            else:
+                self.prefix = 'https://{x}:{y}'.format(x=controller_ip, y=port)
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
         except KeyError:
@@ -529,18 +548,11 @@ class ApiSession(Session):
     def _get_api_path(self, path, uuid=None):
         """
         This function returns the full url from relative path and uuid.
-        If there is a configured port (ex: Rest API port may be something
-        other than 443), then it is included in the path.
         """
-        if self.port is not None:
-            prefix = '{x}:{y}'.format(x=self.prefix, y=self.port)
-        else:
-            prefix = self.prefix
-
         if uuid:
-            return prefix+'/api/'+path+'/'+uuid
+            return self.prefix+'/api/'+path+'/'+uuid
         else:
-            return prefix+'/api/'+path
+            return self.prefix+'/api/'+path
 
     def _get_uuid_by_name(self, path, name, tenant, tenant_uuid):
         """gets object by name and service path and returns uuid"""
