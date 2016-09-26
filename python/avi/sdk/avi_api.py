@@ -235,8 +235,9 @@ class ApiSession(Session):
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=60)
         if rsp.status_code != 200:
-            raise Exception("Authentication failed: code %d: msg: %s",
-                            rsp.status_code, rsp.text)
+            raise Exception(
+                "Authentication failed with code %d reason msg: %s" %
+                (rsp.status_code, rsp.text))
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
             "Referer": self.prefix,
