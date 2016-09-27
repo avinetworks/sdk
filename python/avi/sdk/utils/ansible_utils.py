@@ -116,7 +116,7 @@ def ref_n_str_cmp(x, y):
     return result
 
 
-def avi_obj_cmp(x, y):
+def avi_obj_cmp(x, y, sensitive_fields=None):
     """
     compares whether x is fully contained in y. The comparision is different
     from a simple dictionary compare for following reasons
@@ -150,6 +150,8 @@ def avi_obj_cmp(x, y):
     Returns:
         True if x is subset of y else False
     """
+    if not sensitive_fields:
+        sensitive_fields = set()
     if isinstance(x, basestring) or isinstance(x, unicode):
         # Special handling for strings as they can be references.
         return ref_n_str_cmp(x, y)
@@ -161,17 +163,19 @@ def avi_obj_cmp(x, y):
         if len(x) != len(y):
             return False
         for i in zip(x, y):
-            if not avi_obj_cmp(i[0], i[1]):
+            if not avi_obj_cmp(i[0], i[1], sensitive_fields=sensitive_fields):
                 # no need to continue
                 return False
     if type(x) == dict:
         x.pop('_last_modified', None)
         y.pop('_last_modified', None)
-        d_xks = [k for k, v in x.iteritems() if not v and
-                 (type(v) in (list, dict))]
+        d_xks = []
+        for k, v in x.iteritems():
+            if ((k in sensitive_fields) or
+                    ((not v) and (type(v) in (list, dict)))):
+                d_xks.append(k)
         for k in d_xks:
             x.pop(k)
-
         # pop the keys that are marked deleted but not present in y
         # return false if item is marked absent and is present in y
         d_x_absent_ks = []
@@ -191,6 +195,6 @@ def avi_obj_cmp(x, y):
         for k, v in x.iteritems():
             if k not in y:
                 return False
-            if not avi_obj_cmp(v, y[k]):
+            if not avi_obj_cmp(v, y[k], sensitive_fields=sensitive_fields):
                 return False
     return True
