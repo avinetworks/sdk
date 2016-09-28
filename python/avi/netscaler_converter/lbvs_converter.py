@@ -22,7 +22,7 @@ class LbvsConverter(object):
 
     supported_persist_types = ['SOURCEIP', 'COOKIEINSERT', 'SSLSESSION']
 
-    def convert(self, ns_config, avi_config):
+    def convert(self, ns_config, avi_config, vs_state):
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
@@ -44,9 +44,12 @@ class LbvsConverter(object):
                 ip_addr = lb_vs['attrs'][2]
                 port = lb_vs['attrs'][3]
 
-                state = lb_vs.get('state', 'ENABLED')
-                enabled = True
-                if state == 'DISABLED':
+                if vs_state == 'enable':
+                    state = lb_vs.get('state', 'ENABLED')
+                    enabled = True
+                    if state == 'DISABLED':
+                        enabled = False
+                else:
                     enabled = False
 
                 pool_name = '%s-pool' % vs_name
