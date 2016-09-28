@@ -12,7 +12,7 @@ from avi.netscaler_converter.profile_converter import ProfileConverter
 
 
 def convert(ns_config_dict, tenant, version, output_dir, input_dir,
-            skipped_cmds):
+            skipped_cmds, vs_state):
 
     status_file = output_dir + os.path.sep + "ConversionStatus.csv"
     csv_file = open(status_file, 'w')
@@ -53,10 +53,10 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
         service_converter.convert(ns_config_dict, avi_config)
 
         lbvs_converter = LbvsConverter()
-        lbvs_converter.convert(ns_config_dict, avi_config)
+        lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         csvs_converter = CsvsConverter()
-        csvs_converter.convert(ns_config_dict, avi_config)
+        csvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         ns_util.update_status_for_skipped(skipped_cmds)
         LOG.debug('Conversion completed successfully')
