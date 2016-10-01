@@ -20,18 +20,26 @@ class ApiUtils(object):
         '''
         self.api = api_session
 
-    def import_ssl_certificate(self, name, key, cert, key_passphrase='',
+    def import_ssl_certificate(self, name, key, cert, cert_type='', key_passphrase='',
                                tenant='', tenant_uuid=''):
-        """import_ssl_certificate takes cert name server key, cert, passphrase
-        returns session's response object"""
+        """import_ssl_certificate takes cert name server key, cert, cert_type, passphrase
+        returns session's response object
+        
+        Starting from 16.3, cert_type is required.
+        API defaults to SSL_CERTIFICATE_TYPE_VIRTUALSERVICE if not provided"""
+        if not cert_type:
+            cert_type = 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
         ssl_kc_obj = {
             'name': name,
             'key': key,
-            'certificate': cert,
+            'type': cert_type,
+            'certificate': {
+                'certificate': cert
+                },
             'key_passphrase': key_passphrase
         }
         resp = self.api.post(
-                path='sslkeyandcertificate/importkeyandcertificate',
+                path='sslkeyandcertificate',
                 data=json.dumps(ssl_kc_obj),
                 tenant=tenant, tenant_uuid=tenant_uuid)
         return resp
