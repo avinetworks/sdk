@@ -55,8 +55,7 @@ class CsvsConverter(object):
             enable_ssl = False
 
             if vs_state == 'enable':
-                enabled = cs_vs.get('state', 'ENABLED')
-                enabled = True if enabled == 'ENABLED' else False
+                enabled = (lb_vs.get('state', 'ENABLED') == 'ENABLED')
             else:
                 enabled = False
 
