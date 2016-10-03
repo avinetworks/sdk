@@ -45,10 +45,7 @@ class LbvsConverter(object):
                 port = lb_vs['attrs'][3]
 
                 if vs_state == 'enable':
-                    state = lb_vs.get('state', 'ENABLED')
-                    enabled = True
-                    if state == 'DISABLED':
-                        enabled = False
+                    enabled = (lb_vs.get('state', 'ENABLED') == 'ENABLED')
                 else:
                     enabled = False
 
