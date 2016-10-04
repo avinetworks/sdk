@@ -86,7 +86,7 @@ if __name__ == "__main__":
     ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
     avi_config = ns_conf_converter.convert(ns_config, args.tenant,
                                            args.controller_version, output_dir,
-                                           input_dir, skipped_cmds)
+                                           input_dir, skipped_cmds, args.vs_state)
 
     if args.option == "cli-upload":
         text_file = open(output_dir + os.path.sep + "Output.json", "w")

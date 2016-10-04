@@ -27,7 +27,7 @@ class CsvsConverter(object):
 
     supported_types = ['HTTP', 'SSL', 'TCP']
 
-    def convert(self, ns_config, avi_config):
+    def convert(self, ns_config, avi_config, vs_state):
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         policy_lables = ns_config.get('bind cs policylabel', {})
@@ -53,8 +53,12 @@ class CsvsConverter(object):
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
             enable_ssl = False
-            enabled = cs_vs.get('state', 'ENABLED')
-            enabled = True if enabled == 'ENABLED' else False
+
+            if vs_state == 'enable':
+                enabled = (lb_vs.get('state', 'ENABLED') == 'ENABLED')
+            else:
+                enabled = False
+
             if cs_vs['attrs'][1] == 'SSL':
                 enable_ssl = True
             vs_obj = {
