@@ -1,5 +1,5 @@
 import logging
-
+import copy
 import avi.f5_converter.conversion_util as conv_utils
 import avi.f5_converter.converter_constants as conv_const
 
@@ -23,6 +23,8 @@ class PoolConfigConv(object):
         pool_config = f5_config.get('pool', {})
         user_ignore = user_ignore.get('pool', {})
         avi_config['VrfContext'] = []
+        avi_config['PoolGroup'] = []
+        avi_config['PriorityLabels'] = []
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
@@ -31,14 +33,32 @@ class PoolConfigConv(object):
                 conv_utils.add_status_row('pool', None, pool_name, 'skipped')
                 continue
             try:
-                pool_obj = self.convert_pool(pool_name, f5_config, avi_config,
-                                             user_ignore)
-                pool_list.append(pool_obj)
+                converted_objs = self.convert_pool(pool_name, f5_config,
+                                                   avi_config, user_ignore)
+                pool_list += converted_objs['pools']
+                if 'pg_obj' in converted_objs:
+                    avi_config['PoolGroup'].append(converted_objs['pg_obj'])
                 LOG.debug("Conversion successful for Pool: %s" % pool_name)
             except:
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name, 'Error')
+        labels = avi_config.pop('PriorityLabels', None)
+        if labels:
+            labels = list(set(labels))
+            labels = map(int, labels)
+            labels.sort(reverse=True)
+            labels = map(str, labels)
+            priority_labels = {
+                "name": "numeric_priority_labels",
+                "equivalent_labels": [
+                    {
+                        "labels": labels
+                    }
+                ],
+            }
+            avi_config['PriorityLabels'] = [priority_labels]
+
         avi_config['Pool'] = pool_list
         LOG.debug("Converted %s pools" % len(pool_list))
         f5_config.pop('pool', {})
@@ -91,11 +111,30 @@ class PoolConfigConv(object):
             pool_obj['max_conn_rate_per_server'] = {
                 'count': limits['rate_limit']
             }
-
         return pool_obj
 
+    def check_for_pool_group(self, servers):
+        is_pool_group = False
+        for server in servers:
+            if 'priority' in server:
+                is_pool_group = True
+                break
+        if not is_pool_group:
+            return is_pool_group, None
+        pg_dict = dict()
+        for server in servers:
+            priority = server.get('priority', None)
+            if not priority:
+                priority = '0'
+            else:
+                del server['priority']
+            priority_list = pg_dict.get(priority, [])
+            priority_list.append(server)
+            pg_dict[priority] = priority_list
+        return is_pool_group, pg_dict
+
     def add_status(self, name, skipped_attr, member_skipped,
-                   skipped_monitors, pool_obj, user_ignore):
+                   skipped_monitors, converted_objs, user_ignore):
         skipped = []
         conv_status = dict()
         conv_status['user_ignore'] = []
@@ -135,7 +174,36 @@ class PoolConfigConv(object):
         if skipped:
             status = 'partial'
         conv_status['status'] = status
-        conv_utils.add_conv_status('pool', None, name, conv_status, pool_obj)
+        conv_utils.add_conv_status('pool', None, name, conv_status,
+                                   converted_objs)
+
+    def convert_for_pg(self, pg_dict, pool_obj, name, tenant, avi_config):
+        pg_members = []
+        pools = []
+        for priority in pg_dict:
+            priority_pool = copy.deepcopy(pool_obj)
+            priority_pool['servers'] = pg_dict[priority]
+            priority_pool_ref = '%s-%s' % (name, priority)
+            priority_pool['name'] = priority_pool_ref
+            pools.append(priority_pool)
+            member = {
+                'priority_label': priority,
+                'pool_ref': priority_pool_ref
+            }
+            avi_config['PriorityLabels'].append(priority)
+            pg_members.append(member)
+        pg_obj = {
+            'name': name,
+            'priority_labels_ref': 'numeric_priority_labels',
+            'members': pg_members
+        }
+        if  tenant:
+            pg_obj['tenant_ref'] = tenant
+        converted_objs = {
+            'pools': pools,
+            'pg_obj': pg_obj
+        }
+        return converted_objs
 
 
 class PoolConfigConvV11(PoolConfigConv):
@@ -144,6 +212,7 @@ class PoolConfigConvV11(PoolConfigConv):
                       'reselect-tries']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
+        converted_objs = {}
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
@@ -158,6 +227,7 @@ class PoolConfigConvV11(PoolConfigConv):
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
             limits)
+        tenant, name = conv_utils.get_tenant_ref(pool_name)
         num_retries = f5_pool.get('reselect-tries', None)
         if num_retries:
             server_reselect = {
@@ -178,10 +248,19 @@ class PoolConfigConvV11(PoolConfigConv):
             pool_obj["health_monitor_refs"] = monitor_refs
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
+
+        is_pg, pg_dict = self.check_for_pool_group(servers)
+        if is_pg:
+            converted_objs = self.convert_for_pg(
+                pg_dict, pool_obj, name, tenant, avi_config)
+        else:
+            converted_objs['pools'] = [pool_obj]
+
         super(PoolConfigConvV11, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            pool_obj, user_ignore)
-        return pool_obj
+            converted_objs, user_ignore)
+
+        return converted_objs
 
     def get_avi_lb_algorithm(self, f5_algorithm):
         """
@@ -219,7 +298,8 @@ class PoolConfigConvV11(PoolConfigConv):
         rate_limit = []
         connection_limit = []
         supported_attributes = ['address', 'state', 'session' 'ratio',
-                                'description', 'connection-limit', 'rate-limit']
+                                'description', 'connection-limit', 'rate-limit',
+                                'priority-group']
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -243,6 +323,7 @@ class PoolConfigConvV11(PoolConfigConv):
             session = server.get("session", 'enabled')
             if state == "user-down" or session == 'user-disabled':
                 enabled = False
+            priority = server.get('priority-group', None)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -250,8 +331,10 @@ class PoolConfigConvV11(PoolConfigConv):
                 },
                 'port': port,
                 'enabled': enabled,
-                'description': description
+                'description': description,
             }
+            if priority:
+                server_obj['priority'] = priority
             ratio = server.get("ratio", None)
             if ratio:
                 server_obj["ratio"] = ratio
@@ -315,10 +398,19 @@ class PoolConfigConvV10(PoolConfigConv):
 
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
+
+        is_pg, pg_dict = self.check_for_pool_group(servers)
+        converted_objs = dict()
+        if is_pg:
+            converted_objs = self.convert_for_pg(
+                pg_dict, pool_obj, name, tenant, avi_config)
+        else:
+            converted_objs['pools'] = [pool_obj]
+
         super(PoolConfigConvV10, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            pool_obj, user_ignore)
-        return pool_obj
+            converted_objs, user_ignore)
+        return converted_objs
 
     def get_avi_lb_algorithm(self, f5_algorithm):
         """
@@ -353,7 +445,7 @@ class PoolConfigConvV10(PoolConfigConv):
         if isinstance(servers_config, str):
             servers_config = {servers_config.split(' ')[0]: None}
         supported_attributes = ['session', 'ratio', 'description', 'down',
-                                'limit']
+                                'limit', 'priority']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]
@@ -386,7 +478,7 @@ class PoolConfigConvV10(PoolConfigConv):
                 c_lim = int(server.get("limit", '0'))
                 if c_lim > 0:
                     connection_limit.append(c_lim)
-
+            priority = server.get('priority', None)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -394,14 +486,16 @@ class PoolConfigConvV10(PoolConfigConv):
                 },
                 'port': port,
                 'enabled': enabled,
-                'description': description
+                'description': description,
             }
+            if priority:
+                server_obj['priority'] = priority
             if ratio:
                 server_obj["ratio"] = ratio
             server_list.append(server_obj)
             if skipped:
                 skipped_list.append({server_name: skipped})
-            limits = dict()
+        limits = dict()
         if connection_limit:
             limits['connection_limit'] = min(connection_limit)
         return server_list, skipped_list, limits

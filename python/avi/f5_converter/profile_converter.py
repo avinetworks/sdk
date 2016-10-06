@@ -124,6 +124,7 @@ class ProfileConfigConv(object):
                     'name': name,
                     'key': key,
                     'certificate': cert,
+                    'type' : 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE',
                     'key_passphrase': ''
                 }
             if tenant:

@@ -533,6 +533,14 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
                 pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles["cert"]
 
 
+def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool):
+    pool_group = [obj for obj in avi_config['PoolGroup']
+                          if obj['name'] == pool_group_ref]
+    if pool_group:
+        pool_group = pool_group[0]
+        for member in pool_group['members']:
+            add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool)
+
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                             hash_profiles, persist_config):
     """
@@ -565,6 +573,30 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
         pool_updated = False
     return pool_updated
 
+<<<<<<< HEAD
+def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
+                            hash_profiles, persist_config):
+
+    pool_group = [obj for obj in avi_config['PoolGroup']
+                  if obj['name'] == pool_ref]
+    if pool_group:
+        pool_group = pool_group[0]
+        for member in pool_group['members']:
+            update_pool_for_persist(avi_config['Pool'], member['pool_ref'],
+                                    persist_profile, hash_profiles,
+                                    persist_config)
+=======
+def update_pool_group_for_persist(avi_config, pool_group_ref, persist_ref, hash_profiles,
+                        avi_persistence):
+    pool_group = [obj for obj in avi_config['PoolGroup']
+                  if obj["name"] == pool_group_ref]
+    if pool_group:
+        pool_group = pool_group[0]
+        for member in pool_group['members']:
+            update_pool_for_persist(avi_config['Pool'], member['pool_ref'], persist_ref, hash_profiles,
+                        avi_persistence)
+
+>>>>>>> 64552a5... Added code to update pool group for ssl and persistance profile
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
     """
@@ -740,6 +772,79 @@ def get_project_path():
     return os.path.abspath(os.path.dirname(__file__))
 
 
+def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
+    """
+    clones pool or pool group if its shard between multiple VS or partitions
+    in F5
+    :param ref: reference of pool or pool group
+    :param avi_config: Avi configuration cloned pool or pool groups to be added
+    :param vs_name: Name of the vs to be added
+    :param tenant: tenant name of vs
+    :param p_tenant: tenant name of pool
+    :return:
+    """
+    is_pool_group = False
+    pool_group_obj = None
+    pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref]
+    if not pool_obj:
+        pool_group_obj = [pool for pool in avi_config['PoolGroup']
+                          if pool['name'] == ref]
+    if pool_group_obj:
+        is_pool_group = True
+    if p_tenant:
+        shared_vs = [obj for obj in avi_config['VirtualService']
+                     if obj.get("pool_ref", "") == '%s:%s' % (
+                         p_tenant, ref)]
+        if not shared_vs:
+            shared_vs = [obj for obj in avi_config['VirtualService']
+                         if obj.get("pool_group_ref", "") == '%s:%s' % (
+                             p_tenant, ref)]
+    else:
+        shared_vs = [obj for obj in avi_config['VirtualService']
+                     if obj.get("pool_ref", "") == ref]
+        if not shared_vs:
+            shared_vs = [obj for obj in avi_config['VirtualService']
+                         if obj.get("pool_group_ref", "") == ref]
+        if tenant:
+            if is_pool_group:
+                ref = clone_pool_group(ref, vs_name, avi_config, tenant)
+            else:
+                ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+    if shared_vs:
+        if is_pool_group:
+            ref = clone_pool_group(ref, vs_name, avi_config)
+        else:
+            ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+
+    return ref, is_pool_group
 
 
+def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
+    """
+    If pool is shared with other VS pool is cloned for other VS as Avi dose not
+    support shared pools with new pool name as <pool_name>-<vs_name>
+    :param pool_group_name: Name of the pool group to be cloned
+    :param vs_name: Name of the VS for pool group to be cloned
+    :param avi_config: new pool to be added to avi config
+    :param tenant: if f5 pool is shared across partition then coned for tenant
+    :return: new pool group name
+    """
+    pg_ref = None
+    new_pool_group = None
+    for pool_group in avi_config['PoolGroup']:
+        if pool_group["name"] == pool_group_name:
+            new_pool_group = copy.deepcopy(pool_group)
+            break
+    if new_pool_group:
+        new_pool_group["name"] = pool_group_name+"-"+vs_name
+        pg_ref = new_pool_group["name"]
+        if tenant:
+            new_pool_group["tenant_ref"] = tenant
+        avi_config['PoolGroup'].append(new_pool_group)
+        for member in new_pool_group['members']:
+            member['pool_ref'] = clone_pool(member['pool_ref'], vs_name,
+                                            avi_config['Pool'], tenant)
+        if tenant:
+            pg_ref = '%s:%s' % (tenant, pg_ref)
+    return pg_ref
 
