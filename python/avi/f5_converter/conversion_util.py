@@ -573,7 +573,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
         pool_updated = False
     return pool_updated
 
-<<<<<<< HEAD
+
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
                             hash_profiles, persist_config):
 
@@ -585,18 +585,7 @@ def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
             update_pool_for_persist(avi_config['Pool'], member['pool_ref'],
                                     persist_profile, hash_profiles,
                                     persist_config)
-=======
-def update_pool_group_for_persist(avi_config, pool_group_ref, persist_ref, hash_profiles,
-                        avi_persistence):
-    pool_group = [obj for obj in avi_config['PoolGroup']
-                  if obj["name"] == pool_group_ref]
-    if pool_group:
-        pool_group = pool_group[0]
-        for member in pool_group['members']:
-            update_pool_for_persist(avi_config['Pool'], member['pool_ref'], persist_ref, hash_profiles,
-                        avi_persistence)
 
->>>>>>> 64552a5... Added code to update pool group for ssl and persistance profile
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
     """
