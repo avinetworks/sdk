@@ -197,7 +197,7 @@ class PoolConfigConv(object):
             'priority_labels_ref': 'numeric_priority_labels',
             'members': pg_members
         }
-        if  tenant:
+        if tenant:
             pg_obj['tenant_ref'] = tenant
         converted_objs = {
             'pools': pools,
@@ -401,6 +401,7 @@ class PoolConfigConvV10(PoolConfigConv):
 
         is_pg, pg_dict = self.check_for_pool_group(servers)
         converted_objs = dict()
+        tenant, name = conv_utils.get_tenant_ref(pool_name)
         if is_pg:
             converted_objs = self.convert_for_pg(
                 pg_dict, pool_obj, name, tenant, avi_config)
