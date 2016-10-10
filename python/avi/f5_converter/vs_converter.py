@@ -118,31 +118,35 @@ class VSConfigConv(object):
             conv_utils.add_vrf(avi_config, vrf)
         p_tenant = None
         pool_ref = f5_vs.get("pool", None)
+        is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
-            if p_tenant:
-                shared_vs = [obj for obj in avi_config['VirtualService']
-                             if obj.get("pool_ref", "") == '%s:%s' % (
-                                 p_tenant, pool_ref)]
-            else:
-                shared_vs = [obj for obj in avi_config['VirtualService']
-                             if obj.get("pool_ref", "") == pool_ref]
-                if tenant:
-                    pool_ref = conv_utils.clone_pool(
-                        pool_ref, vs_name, avi_config['Pool'], tenant)
-            if shared_vs:
-                pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
-                                                 avi_config['Pool'])
+            # TODO: need to revisit after shared pool support implemented
+            pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
+                pool_ref, avi_config, vs_name, tenant, p_tenant)
+
             if ssl_pool:
-                conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
-                                           ssl_pool[0])
+                if is_pool_group:
+                    conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
+                                               ssl_pool[0])
+                else:
+                    conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
+                                               ssl_pool[0])
+
             persist_ref = self.get_persist_ref(f5_vs)
             if persist_ref:
                 avi_persistence = avi_config.get(
                     'ApplicationPersistenceProfile', [])
-                pool_updated = conv_utils.update_pool_for_persist(
-                    avi_config['Pool'], pool_ref, persist_ref, hash_profiles,
-                    avi_persistence)
+
+                if is_pool_group:
+                    pool_updated = conv_utils.update_pool_group_for_persist(
+                        avi_config, pool_ref, persist_ref, hash_profiles,
+                        avi_persistence)
+                else:
+                    pool_updated = conv_utils.update_pool_for_persist(
+                        avi_config['Pool'], pool_ref, persist_ref, hash_profiles,
+                        avi_persistence)
+
                 if not pool_updated:
                     skipped.append("persist")
                     LOG.warning(
@@ -165,8 +169,12 @@ class VSConfigConv(object):
             'enabled': enabled,
             'services': services_obj,
             'application_profile_ref': app_prof[0],
-            'pool_ref': pool_ref
         }
+
+        if is_pool_group:
+            vs_obj['pool_group_ref'] = pool_ref
+        else:
+            vs_obj['pool_ref'] = pool_ref
 
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
