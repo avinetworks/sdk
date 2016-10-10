@@ -124,7 +124,8 @@ class ProfileConfigConv(object):
                     'name': name,
                     'key': key,
                     'certificate': cert,
-                    'key_passphrase': ''
+                    'key_passphrase': '',
+                    'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
                 }
             if tenant:
                 ssl_kc_obj['tenant_ref'] = tenant
@@ -199,13 +200,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
     supported_tcp = ["description", "idle-timeout", "max-retrans", "nagle",
                      "syn-max-retrans", "time-wait-recycle", "defaults-from",
                      "time-wait-timeout", "congestion-control",
-                     "receive-window-size"]
+                     "receive-window-size", "ip-tos-to-client"]
     indirect_tcp = ['reset-on-timeout', 'slow-start', 'minimum-rto', 'mptcp',
                     'syn-cookie-whitelist', 'max-segment-size',  'mptcp-csum',
                     'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
                     'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
                     'mptcp-makeafterbreak', 'mptcp-nojoindssack',
-                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout']
+                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout', 'send-buffer-size',
+                    'proxy-buffer-high', 'proxy-buffer-low', 'dsack',
+                    'delayed-acks', 'selective-nack', 'early-retransmit']
     na_tcp = ['hardware-syn-cookie']
     supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
                      "defaults-from"]
@@ -688,6 +691,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             window = int(int(window)/final.BYTES_IN_KB)
             cc_algo = profile.get("congestion-control", "")
             cc_algo = conv_utils.get_cc_algo_val(cc_algo)
+            ip_dscp = profile.get("ip-tos-to-client", None)
             ntwk_profile = {
                 "profile": {
                     "tcp_proxy_profile": {
@@ -704,6 +708,17 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 },
                 "name": name
             }
+            if ip_dscp:
+                is_ip_dscp = True
+                if ip_dscp == 'pass-through':
+                    ip_dscp = 2147483647
+                elif ip_dscp == 'mimic':
+                    is_ip_dscp = False
+                    skipped.append('ip-tos-to-client')
+                if is_ip_dscp:
+                    ntwk_profile["profile"]["tcp_proxy_profile"]["ip_dscp"] = \
+                        ip_dscp
+
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
             conv_utils.update_skip_duplicates(
@@ -782,7 +797,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
     supported_tcp = ["description", "idle timeout", "nagle", "max retrans syn",
                      "time wait recycle", "time wait", "congestion control",
                      "recv window", "max retrans", "defaults from"]
-    indirect_tcp = ["reset on timeout", "slow start"]
+    indirect_tcp = ["reset on timeout", "slow start", "send buffer",
+                    "proxy buffer high" , "proxy buffer low" , "dsack",
+                    "delayed acks", "selective acks"]
 
     supported_udp = ["idle timeout", "datagram lb", "defaults from"]
     indirect_udp = []
@@ -1064,6 +1081,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             window = int(int(window)/final.BYTES_IN_KB)
             cc_algo = profile.get("congestion-control", "")
             cc_algo = conv_utils.get_cc_algo_val(cc_algo)
+            ip_dscp = profile.get("ip tos", None)
             ntwk_profile = {
                 "profile": {
                     "tcp_proxy_profile": {
@@ -1080,6 +1098,16 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 },
                 "name": name
             }
+            if ip_dscp:
+                is_ip_dscp = True
+                if ip_dscp == 'pass':
+                    ip_dscp = 2147483647
+                elif ip_dscp == 'mimic':
+                    is_ip_dscp = False
+                    skipped.append('ip tos')
+                if is_ip_dscp:
+                    ntwk_profile["profile"]["tcp_proxy_profile"]["ip_dscp"] = \
+                        ip_dscp
             if tenant:
                 ntwk_profile['tenant_ref'] = tenant
             conv_utils.update_skip_duplicates(
