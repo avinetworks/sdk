@@ -37,8 +37,19 @@ class Test(unittest.TestCase):
         avi_config = gSAMPLE_CONFIG["avi_config"]
         f5_config_dict = gSAMPLE_CONFIG["pool_config_v11"]
         f5_config_dict_cp = copy.deepcopy(f5_config_dict)
+        pool_config = f5_config_dict_cp['pool']
+        priorities = list()
+        for key in pool_config:
+            pool = pool_config[key]
+            for server in pool['members']:
+                server = pool['members'][server]
+                priorities.append(server.get('priority-group', '0'))
         pool_converter.convert(f5_config_dict, avi_config, {})
         assert avi_config.get('PoolGroup', None)
+        pg_members = 0
+        for group in avi_config['PoolGroup']:
+            pg_members += len(group.get('members', []))
+        assert pg_members == len(list(set(priorities)))
         assert avi_config.get('PriorityLabels', None)
 
     def test_pool_group_conversion_v10(self):
@@ -46,9 +57,19 @@ class Test(unittest.TestCase):
         avi_config = gSAMPLE_CONFIG["avi_config"]
         f5_config_dict = gSAMPLE_CONFIG["pool_config_v10"]
         f5_config_dict_cp = copy.deepcopy(f5_config_dict)
+        pool_config = f5_config_dict_cp['pool']
+        priorities = list()
+        for key in pool_config:
+            pool = pool_config[key]
+            for server in pool['members']:
+                server = pool['members'][server]
+                priorities.append(server.get('priority', '0'))
         pool_converter.convert(f5_config_dict, avi_config, {})
-        pool_groups = avi_config.get('PoolGroup', None)
         assert avi_config.get('PoolGroup', None)
+        pg_members = 0
+        for group in avi_config['PoolGroup']:
+            pg_members += len(group.get('members', []))
+        assert pg_members == len(list(set(priorities)))
         assert avi_config.get('PriorityLabels', None)
 
 

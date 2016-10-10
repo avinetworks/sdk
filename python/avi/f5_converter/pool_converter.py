@@ -114,6 +114,12 @@ class PoolConfigConv(object):
         return pool_obj
 
     def check_for_pool_group(self, servers):
+        """
+        Check if the priority group for the server exist
+        :param servers: List of servers to check server priority
+        :return: if priority exist returns true and priority wise
+        dict of servers
+        """
         is_pool_group = False
         for server in servers:
             if 'priority' in server:
@@ -178,6 +184,15 @@ class PoolConfigConv(object):
                                    converted_objs)
 
     def convert_for_pg(self, pg_dict, pool_obj, name, tenant, avi_config):
+        """
+        Creates a pool group object
+        :param pg_dict: priority wise sorted dict of pools
+        :param pool_obj: Converted f5 pool object
+        :param name: name of the pool
+        :param tenant: tenant name for tenant reference
+        :param avi_config: Avi config to add temporary labels
+        :return:
+        """
         pg_members = []
         pools = []
         for priority in pg_dict:
