@@ -297,7 +297,7 @@ class PoolConfigConvV11(PoolConfigConv):
         skipped_list = []
         rate_limit = []
         connection_limit = []
-        supported_attributes = ['address', 'state', 'session' 'ratio',
+        supported_attributes = ['address', 'state', 'session', 'ratio',
                                 'description', 'connection-limit', 'rate-limit',
                                 'priority-group']
         for server_name in servers_config.keys():
