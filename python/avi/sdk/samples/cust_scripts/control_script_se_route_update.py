@@ -14,7 +14,7 @@ CC_IP_DETACHED: Event is triggered when a VIP is detached from a SE, usually
 when a SE goes down or a scale in occurs
 
 The goal of this script is to add a route to GCP with the destination as the 
-VIP and nextHop as the GCP instance on which the Avi SE is running after a 
+VIP and nextHopIp as the GCP instance IP on which the Avi SE is running after a 
 CC_IP_ATTACHED event. After a CC_IP_DETACHED event, the goal of the script is 
 to remove the corresponding route.
 
@@ -31,18 +31,15 @@ Event details contain the Avi SE UUID and the VIP.
 the same as the GCP instance IP address) and Avi Service Engine Group link
 
 2) GET Avi Service Engine Group object. The 'description' field in the
-Service Engine Group is a JSON encoded string containing GCP project, zone and
-network. Extract project, zone and network from the 'description' field
+Service Engine Group is a JSON encoded string containing GCP project and
+network URL. Extract project and network from the 'description' field
 
-3) GET all GCP instances and filter out the instance matching the 
-instance IP and network; extract its selfLink
+3) Extract all routes matching destRange as VIP from GCP
 
-4) Extract all routes matching destRange as VIP from GCP
-
-5) If event is CC_IP_DETACHED, remove matching route with 
-destRange as vip and nextHopInstance as instance in the appr network
+4) If event is CC_IP_DETACHED, remove matching route with 
+destRange as vip and nextHopIp as instance IP in the appr network
 If event is CC_IP_ATTACHED and no matching route exists already, add a new
-route with destRange as vip and nextHopInstance as instance in appr network
+route with destRange as vip and nextHopIp as instance IP in appr network
 '''
 
 def parse_avi_params(argv):
@@ -62,29 +59,7 @@ def google_compute():
     credentials = GoogleCredentials.get_application_default()
     return discovery.build('compute', 'v1', credentials=credentials)
 
-def gcp_program_route(gcp, event_id, project, zones, network, inst_ip, vip):
-    # net url e.g. https://www.googleapis.com/compute/v1/projects/astral-chassis-136417/global/networks/net1
-    net_sfx = 'projects/%s/global/networks/%s' % (project, network)
-    # First extract selfLink of GCP instance where SE is running
-    inst = ''
-    for zone in zones:
-        result = gcp.instances().list(project=project, zone=zone).execute()
-        if 'items' in result and len(result['items']) > 0:
-            # selfLink e.g. https://www.googleapis.com/compute/v1/projects/astral-chassis-136417/zones/us-central1-b/instances/instance-2
-            inst = next((s['selfLink'] for s in result['items']
-                for n in s['networkInterfaces'] if n['networkIP'] == inst_ip 
-                and net_sfx in n['network']), '')
-            if inst:
-                break
-
-    if not inst:
-        print('WARNING: Instance not found for project %s zones %s IP %s' % 
-                  (project, str(zones), inst_ip))
-        return
-
-    inst_pfx_list = inst.split('/projects/')
-    net_url = '%s/%s' % (inst_pfx_list[0], net_sfx)
-
+def gcp_program_route(gcp, event_id, project, network, inst_ip, vip):
     # List all routes for vip
     result = gcp.routes().list(project=project, 
                                    filter='destRange eq %s' % vip).execute()
@@ -97,8 +72,8 @@ def gcp_program_route(gcp, event_id, project, zones, network, inst_ip, vip):
     if event_id == 'CC_IP_DETACHED':
         # Remove route for vip nextHop instance
         for r in result['items']:
-            if (r['network'] == net_url and r['destRange'] == vip and 
-                r['nextHopInstance'] == inst):
+            if (r['network'] == network and r['destRange'] == vip and 
+                r['nextHopIp'] == inst_ip):
                 result = gcp.routes().delete(project=project, 
                                              route=r['name']).execute()
                 print('Route %s delete result %s' % (r['name'], str(result)))
@@ -131,12 +106,12 @@ def gcp_program_route(gcp, event_id, project, zones, network, inst_ip, vip):
         # Route names can just have - and alphanumeric chars
         rt_name = re.sub('[./]+', '-', 'route-%s-%s' % (inst_ip, vip))
         route = {'name': rt_name,
-            'destRange': vip, 'network': net_url,
-            'nextHopInstance': inst}
+            'destRange': vip, 'network': network,
+            'nextHopIp': inst_ip}
         result = gcp.routes().insert(project=project,
                                          body=route).execute()
-        print('Route VIP %s inst %s insert result %s' % 
-                (vip, inst, str(result)))
+        print('Route VIP %s insert result %s' % 
+                (vip, str(result)))
         
 def handle_cc_alert(session, gcp, script_parms):
     se_name = script_parms['obj_name']
@@ -170,14 +145,13 @@ def handle_cc_alert(session, gcp, script_parms):
             seg = json.loads(seg_rsp.text)
             descr = json.loads(seg.get('description', '{}'))
             project = descr.get('project', '')
-            zones = descr.get('zones', [])
             network = descr.get('network', '')
-            if not project or not zones or not network:
-                print('WARNING: Project, Zone, Network is required descr %s' %
+            if not project or not network:
+                print('WARNING: Project, Network is required descr %s' %
                       str(descr))
                 return
             gcp_program_route(gcp, script_parms['events'][0]['event_id'],
-                              project, zones, network, inst_ip, vip)
+                              project, network, inst_ip, vip)
         else:
             print('WARNING: Unable to retrieve SE Group %s status %d' % 
                   (se['results'][0]['se_group_ref'], seg_rsp.status_code))
