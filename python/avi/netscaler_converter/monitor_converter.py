@@ -16,7 +16,7 @@ class MonitorConverter(object):
                   'vendorSpecificAuthApplicationIds',
                   'vendorSpecificAcctApplicationIds',
                   'storefrontcheckbackendservices']
-    na_attrs = ['send', 'recv', 'userName', 'password', 'radKey', 'radNASid',
+    na_attrs = ['userName', 'password', 'radKey', 'radNASid',
                 'radNASip', 'radAccountType', 'radFramedIP', 'radAPN',
                 'radMSISDN', 'radAccountSession', 'validateCred', 'fileName',
                 'baseDN', 'bindDN', 'filter', 'attribute', 'database',
@@ -34,7 +34,7 @@ class MonitorConverter(object):
     def convert(self, ns_config, avi_config, input_dir):
         LOG.debug("Conversion started for Health Monitors")
         ns_monitors = ns_config.get('add lb monitor', {})
-        supported_types = ['PING', 'TCP', 'HTTP', 'DNS', 'USER']
+        supported_types = ['PING', 'TCP', 'HTTP', 'DNS', 'USER', 'HTTP-ECV']
         avi_config['HealthMonitor'] = []
         for name in ns_monitors.keys():
             cmd = 'add lb monitor %s' % name
@@ -81,6 +81,15 @@ class MonitorConverter(object):
                 avi_monitor["http_monitor"] = {
                     "http_request": send,
                     "http_response_code": respCode
+                }
+            elif mon_type == 'HTTP-ECV':
+                avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
+                send = ns_monitor.get("send", None)
+                response = ns_monitor.get('recv', None)
+                avi_monitor["http_monitor"] = {
+                    "http_request": send,
+                    "http_response_code": ["HTTP_ANY"],
+                    "http_response": response
                 }
             elif mon_type == 'DNS':
                 avi_monitor["type"] = "HEALTH_MONITOR_DNS"
