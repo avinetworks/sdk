@@ -100,6 +100,7 @@ def get_files_from_f5(local_path, host, username, pw=None, key=None):
     scp.get('/config/profile_base.conf', local_path + 'profile_base.conf')
     scp.get('/usr/share/monitors/base_monitors.conf', local_path +
             'base_monitors.conf')
+    scp.get('/config/bigip_gtm.conf', local_path + 'bigip_gtm.conf')
     scp.get_all_partition_config('/config/partitions/', local_path)
     scp.close()
 
