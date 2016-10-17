@@ -131,7 +131,8 @@ class PoolConfigConv(object):
         for server in servers:
             priority = server.get('priority', None)
             if not priority:
-                priority = '0'
+                is_pool_group = False
+                break
             else:
                 del server['priority']
             priority_list = pg_dict.get(priority, [])
