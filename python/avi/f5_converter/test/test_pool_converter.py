@@ -72,5 +72,26 @@ class Test(unittest.TestCase):
         assert pg_members == len(list(set(priorities)))
         assert avi_config.get('PriorityLabels', None)
 
+    def test_check_for_pool_group_v11(self):
+        pool_converter = PoolConfigConv.get_instance('11')
+        avi_config = gSAMPLE_CONFIG["avi_config"]
+        f5_config_dict = gSAMPLE_CONFIG["pool_check_config_v11"]
+        pool_config = f5_config_dict['pool']
+        for key in pool_config:
+            pool = pool_config[key]
+            for server in pool['members']:
+                server = pool['members'][server]
+        pool_converter.convert(f5_config_dict, avi_config, {})
+        assert avi_config['Pool']
 
-
+    def test_check_for_pool_group_v10(self):
+        pool_converter = PoolConfigConv.get_instance('10')
+        avi_config = gSAMPLE_CONFIG["avi_config"]
+        f5_config_dict = gSAMPLE_CONFIG["pool_check_config_v10"]
+        pool_config = f5_config_dict['pool']
+        for key in pool_config:
+            pool = pool_config[key]
+            for server in pool['members']:
+                server = pool['members'][server]
+        pool_converter.convert(f5_config_dict, avi_config, {})
+        assert avi_config['Pool']
