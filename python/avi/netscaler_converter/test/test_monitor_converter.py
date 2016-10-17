@@ -60,7 +60,7 @@ class Test(unittest.TestCase):
         assert monitor['type'] == 'HEALTH_MONITOR_HTTP'
         assert monitor['http_monitor']
 
-    def test_dns_monitoer_conversion(self):
+    def test_dns_monitor_conversion(self):
         avi_config = dict()
         self.monitor_converter.convert(gSAMPLE_CONFIG['dns_mon_config'],
                                        avi_config, '')
@@ -80,3 +80,18 @@ class Test(unittest.TestCase):
         monitor = monitors[0]
         assert monitor['type'] == 'HEALTH_MONITOR_EXTERNAL'
         assert monitor['external_monitor'].get('command_code')
+
+    def test_http_ecv_monitor_conversion(self):
+        avi_config = dict()
+        input = gSAMPLE_CONFIG['http-ecv_mon_config']
+        self.monitor_converter.convert(input, avi_config, '')
+        assert avi_config
+        monitors = avi_config.get('HealthMonitor', [])
+        assert len(monitors) > 0
+        monitor = monitors[0]
+        assert monitor['type'] == 'HEALTH_MONITOR_HTTP'
+        assert monitor['http_monitor']
+        input = input['add lb monitor']
+        ns_monitor = input[input.keys()[0]]
+        assert ns_monitor['recv'] == monitor['http_monitor']['http_response']
+        assert ns_monitor['send'] == monitor['http_monitor']['http_request']
