@@ -231,8 +231,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     purge_optional_fields(obj, module)
     if state == 'absent':
         try:
-            rsp = api.delete_by_name(obj_type, name,
-                tenant=tenant, tenant_uuid=tenant_uuid)
+            rsp = api.delete_by_name(
+                obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid)
         except ObjectNotFound:
             return module.exit_json(changed=False)
         if rsp.status_code == 204:
@@ -250,8 +250,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         cleanup_absent_fields(obj)
         if changed:
             obj_uuid = existing_obj['uuid']
-            rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=obj,
-                tenant=tenant, tenant_uuid=tenant_uuid)
+            existing_obj.update(obj)
+            rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=existing_obj,
+                          tenant=tenant, tenant_uuid=tenant_uuid)
     else:
         changed = True
         rsp = api.post(obj_type, data=obj,
@@ -260,4 +261,3 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         return module.exit_json(changed=changed, obj=existing_obj)
     else:
         return ansible_return(module, rsp, changed)
-
