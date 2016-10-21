@@ -24,7 +24,7 @@ class ApiUtils(object):
                                tenant='', tenant_uuid=''):
         """import_ssl_certificate takes cert name server key, cert, cert_type, passphrase
         returns session's response object
-        
+
         Starting from 16.3, cert_type is required.
         API defaults to SSL_CERTIFICATE_TYPE_VIRTUALSERVICE if not provided"""
         if not cert_type:
@@ -129,4 +129,34 @@ class ApiUtils(object):
             query_options['stop'] = stop
         rsp = self.api.get(path, tenant=tenant, tenant_uuid=tenant_uuid,
                            params=query_options)
+        return rsp.json()
+
+    def get_metrics_collection(
+            self, tenant='admin', tenant_uuid='', metric_requests=None,
+            **query_options):
+        """
+        This is utility method to fetch metrics from the controller.
+        Eg.
+            {"metric_requests":[
+                {"step":300,"limit":72,"id":"end_to_end",
+                "entity_uuid":"virtualservice-76146076-be4f-4ccd-8253-68f2fb83f498",
+                "metric_id":"l4_client.avg_total_rtt,l4_server.avg_total_rtt},
+                {"step":300,"limit":72,"id":"l4_client.avg_bandwidth",
+                "entity_uuid":"virtualservice-76146076-be4f-4ccd-8253-68f2fb83f498",
+                "metric_id":"l4_client.avg_bandwidth"}
+                ]
+            }
+        :param metric_requests: Array of metric_requests
+        :tenant: name of the tenant
+        :tenant_uuid: uuid of the tenant
+        :query_options: All the query_options are sent as the query parameters
+            for the API call as per the Avi API Guide.
+        """
+        if not metric_requests or type(metric_requests) != list:
+            raise Exception(
+                'No queries passed or invalid reqs %s' % metric_requests)
+        data = {'metric_requests': metric_requests}
+        path = 'analytics/metrics/collection'
+        rsp = self.api.post(path, data=data, tenant=tenant,
+                            tenant_uuid=tenant_uuid, params=query_options)
         return rsp.json()
