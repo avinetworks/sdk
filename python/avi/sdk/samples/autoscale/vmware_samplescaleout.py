@@ -2,11 +2,11 @@
 Created on May 2, 2016
 
 @author: grastogi
-It implements scaleout and scalein hooks that can be used for implementing 
+It implements scaleout and scalein hooks that can be used for implementing
 scaleout and scalein workflow in VMware environment
 
 Usage:
-Step 1: Create Alert with filter string to match on event SERVER_AUTOSCALE_IN 
+Step 1: Create Alert with filter string to match on event SERVER_AUTOSCALE_IN
     or SERVER_AUTOSCALE_OUT as:
     filter_string: "filter=eq(event_id,SERVER_AUTOSCALE_IN)"
     filter_string: "filter=eq(event_id,SERVER_AUTOSCALE_OUT)"
@@ -20,7 +20,11 @@ Step 2: Register the scaleout and scalein hooks as alertactionscript
         'host': '10.10.2.10',
         'user': 'root',
         'password': 'something',
-        'port_group': 'PG-964'}
+        'port_group': 'PG-964',
+        'folder': None
+        'resourcepool': None,
+        'datastore': None
+        }
 
     scalein(vmware_settings, *sys.argv)
 
@@ -51,20 +55,19 @@ from avi.sdk.samples.autoscale.samplescaleout import scaleout_params, \
 from pysphere import VIServer
 import traceback
 import uuid
+import os
 
 
-API = None
-
-
-def getAviApiSession():
+def getAviApiSession(tenant='admin'):
     """
     create session to avi controller
     """
-    global API
-    if not API:
-        API = ApiSession.get_session(
-                '127.0.0.1', 'admin', 'avi123', tenant='admin')
-    return API
+    token = os.environ.get('API_TOKEN')
+    user = os.environ.get('USER')
+    # tenant=os.environ.get('TENANT')
+    api = ApiSession.get_session("localhost", user, token=token,
+                                 tenant=tenant)
+    return api
 
 
 def create_vmware_connection(vmware_settings):
@@ -90,7 +93,10 @@ def create_vmware_instance(vmware_settings, pool_name):
     vm_name = vmware_settings['vm_template']
     new_vm_name = pool_name + '-' + str(uuid.uuid4())
     vm = conn.get_vm_by_name(vm_name)
-    new_vm = vm.clone(new_vm_name)
+    new_vm = vm.clone(new_vm_name,
+                      folder=vmware_settings.get('folder', None),
+                      resourcepool=vmware_settings.get('resourcepool', None),
+                      datastore=vmware_settings.get('datastore', None))
     ip_address = ''
     for _ in xrange(20):
         # try for 5mins
@@ -139,8 +145,8 @@ def scaleout(vmware_settings, *args):
     """
     1. Creates an instance in vmware
     2. Registers that instance as a Pool Member
-    :param vmware_settings: dictionary of vmware settings keys 
-        [vmware_access_key_id, vmware_secret_access_key, ec2_region, 
+    :param vmware_settings: dictionary of vmware settings keys
+        [vmware_access_key_id, vmware_secret_access_key, ec2_region,
         security_group_ids, instance_type, image_id]
     :param args: The args passed down as part of the alert.
     """
@@ -148,8 +154,9 @@ def scaleout(vmware_settings, *args):
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
+    api = getAviApiSession()
     pool_name, pool_uuid, pool_obj, num_scaleout = \
-        scaleout_params('scaleout', alert_info, api=API)
+        scaleout_params('scaleout', alert_info, api=api)
     # create vmware instance using these two ids.
     print pool_name, 'scaleout', num_scaleout
     hostname, ip_addr = create_vmware_instance(vmware_settings, pool_name)
@@ -164,7 +171,6 @@ def scaleout(vmware_settings, *args):
     pool_obj['servers'].append(new_server)
     # call controller API to update the pool
     print 'new pool obj', pool_obj
-    api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
     print 'updated pool', pool_obj['name'], resp.status_code
 
@@ -177,18 +183,18 @@ def scalein(vmware_settings, *args):
     image_id]
     :param args: The args passed down as part of the alert.
     """
+    api = getAviApiSession()
     autoscale_dump(*args)
     alert_info = json.loads(args[1])
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
-        scaleout_params('scalein', alert_info, api=API)
+        scaleout_params('scalein', alert_info, api=api)
     print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
     scalein_server = pool_obj['servers'][-1]
     instance_ids = [scalein_server['hostname']]
     pool_obj['servers'] = pool_obj['servers'][:-1]
     # call controller API to update the pool
     print 'new pool obj', pool_obj
-    api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
     print 'updated pool', pool_obj['name'], resp.status_code
     if resp.status_code in (200, 201, 204):
