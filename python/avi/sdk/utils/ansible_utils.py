@@ -10,7 +10,7 @@ from avi.sdk.avi_api import ApiSession, ObjectNotFound
 log = logging.getLogger(__name__)
 
 
-def ansible_return(module, rsp, changed):
+def ansible_return(module, rsp, changed, req=None):
     """
     :param module: AnsibleModule
     :param rsp: ApiResponse from avi_api
@@ -21,8 +21,8 @@ def ansible_return(module, rsp, changed):
     Returns: specific ansible module exit function
     """
     if rsp.status_code > 299:
-        return module.fail_json(msg='Error %d Msg %s' % (
-            rsp.status_code, rsp.text))
+        return module.fail_json(msg='Error %d Msg %s req: %s' % (
+            rsp.status_code, rsp.text, req))
     return module.exit_json(changed=changed, obj=rsp.json())
 
 
@@ -227,7 +227,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj.pop('password', None)
     tenant = obj.pop('tenant', '')
     tenant_uuid = obj.pop('tenant_uuid', '')
-    obj.pop('cloud_ref', None)
+    # obj.pop('cloud_ref', None)
     purge_optional_fields(obj, module)
     if state == 'absent':
         try:
@@ -243,6 +243,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         params={'include_refs': '', 'include_name': ''})
     changed = False
     rsp = None
+    req = None
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
@@ -251,13 +252,15 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         if changed:
             obj_uuid = existing_obj['uuid']
             existing_obj.update(obj)
+            req = existing_obj
             rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=existing_obj,
                           tenant=tenant, tenant_uuid=tenant_uuid)
     else:
         changed = True
+        req = obj
         rsp = api.post(obj_type, data=obj,
                        tenant=tenant, tenant_uuid=tenant_uuid)
     if rsp is None:
         return module.exit_json(changed=changed, obj=existing_obj)
     else:
-        return ansible_return(module, rsp, changed)
+        return ansible_return(module, rsp, changed, req)
