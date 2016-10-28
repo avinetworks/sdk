@@ -227,7 +227,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj.pop('password', None)
     tenant = obj.pop('tenant', '')
     tenant_uuid = obj.pop('tenant_uuid', '')
-    obj.pop('cloud_ref', None)
+    # obj.pop('cloud_ref', None)
     purge_optional_fields(obj, module)
     if state == 'absent':
         try:
