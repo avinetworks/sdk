@@ -70,7 +70,8 @@ def cleanup_absent_fields(obj):
 RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
 
 # if HTTP ref match then strip out the #name
-HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/[\w/\?.#&-]*$')
+# HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/[\w/\?.#&-]*$')
+HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/.*#.+')
 
 
 def ref_n_str_cmp(x, y):
