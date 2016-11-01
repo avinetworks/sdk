@@ -294,6 +294,21 @@ class Test(unittest.TestCase):
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
 
+    def testAWSVs(self):
+        existing_obj = {u'network_profile_ref': u'https://12.97.16.202/api/networkprofile/networkprofile-9a0a9896-6876-44c8-a3ee-512a968905f2#System-TCP-Proxy', u'port_uuid': u'eni-4144e73c', u'weight': 1, u'availability_zone': u'us-west-2a', u'enabled': True, u'flow_dist': u'LOAD_AWARE', u'subnet_uuid': u'subnet-91f0b6f4', u'delay_fairness': False, u'avi_allocated_vip': True,
+                        u'vrf_context_ref': u'https://12.97.16.202/api/vrfcontext/vrfcontext-722b280d-b555-4d82-9b35-af9442c0cb86#global',
+                        u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.144.0.0'}, u'mask': 24},
+                        u'cloud_type': u'CLOUD_AWS', u'uuid': u'virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e',
+                        u'network_ref': u'https://12.97.16.202/api/network/subnet-91f0b6f4',
+                        u'cloud_ref': u'https://12.97.16.202/api/cloud/cloud-49829414-c704-43ca-9dff-05b9e8474dcb#AWS Cloud', u'avi_allocated_fip': False, u'se_group_ref': u'https://12.97.16.202/api/serviceenginegroup/serviceenginegroup-3bef6320-5a2d-4801-85c4-ef4f9841f235#Default-Group', u'scaleout_ecmp': False, u'max_cps_per_client': 0, u'type': u'VS_TYPE_NORMAL', u'analytics_profile_ref': u'https://12.97.16.202/api/analyticsprofile/analyticsprofile-70f8b06f-7b6a-4500-b829-c869bbca2009#System-Analytics-Profile', u'use_bridge_ip_as_vip': False, u'application_profile_ref': u'https://12.97.16.202/api/applicationprofile/applicationprofile-103cbc31-cac5-46ab-8e66-bbbb2c8f551f#System-HTTP', u'auto_allocate_floating_ip': False, u'services': [{u'enable_ssl': False, u'port_range_end': 80, u'port': 80}], u'active_standby_se_tag': u'ACTIVE_STANDBY_SE_1', u'ip_address': {u'type': u'V4', u'addr': u'10.144.0.33'}, u'ign_pool_net_reach': False, u'east_west_placement': False, u'limit_doser': False, u'name': u'wwwawssit.ebiz.verizon.com', u'url': u'https://12.97.16.202/api/virtualservice/virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e#wwwawssit.ebiz.verizon.com', u'ssl_sess_cache_avg_size': 1024, u'enable_autogw': True, u'auto_allocate_ip': True, u'tenant_ref': u'https://12.97.16.202/api/tenant/tenant-f52f7a3e-6876-4bb9-b8f7-3cab636dadf2#Sales', u'remove_listening_port_on_vs_down': False
+                        }
+        obj = {'auto_allocate_ip': True, 'subnet_uuid': 'subnet-91f0b6f4', 'cloud_ref': '/api/cloud?name=AWS Cloud', 'services': [{'port': 80}],
+               'name': 'wwwawssit.ebiz.verizon.com'}
+
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
+
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
