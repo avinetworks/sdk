@@ -4,13 +4,15 @@ Created on Aug 16, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
 import re
+import json
 import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound
+
 log = logging.getLogger(__name__)
 
 
-def ansible_return(module, rsp, changed, req=None):
+def ansible_return(module, rsp, changed, req=None, existing_obj=None):
     """
     :param module: AnsibleModule
     :param rsp: ApiResponse from avi_api
@@ -23,6 +25,9 @@ def ansible_return(module, rsp, changed, req=None):
     if rsp.status_code > 299:
         return module.fail_json(msg='Error %d Msg %s req: %s' % (
             rsp.status_code, rsp.text, req))
+    if changed and existing_obj:
+        return module.exit_json(
+            changed=changed, obj=rsp.json(), old_obj=existing_obj)
     return module.exit_json(changed=changed, obj=rsp.json())
 
 
@@ -41,6 +46,7 @@ def purge_optional_fields(obj, module):
                 continue
             if obj[param] is None:
                 purge_fields.append(param)
+    log.debug('purging fields %s', purge_fields)
     for param in purge_fields:
         obj.pop(param, None)
     return obj
@@ -116,6 +122,9 @@ def ref_n_str_cmp(x, y):
         y_name = parts[1] if len(parts) > 1 else ''
         # is just string but y is a url so match either uuid or name
     result = (x in (y, y_name, y_uuid))
+    if not result:
+        log.debug('x: %s y: %s y_name %s y_uuid %s',
+                  x, y, y_name, y_uuid)
     return result
 
 
@@ -264,4 +273,5 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if rsp is None:
         return module.exit_json(changed=changed, obj=existing_obj)
     else:
-        return ansible_return(module, rsp, changed, req)
+        return ansible_return(module, rsp, changed, req,
+                              existing_obj=existing_obj)
