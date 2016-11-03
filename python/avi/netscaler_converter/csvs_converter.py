@@ -1,5 +1,6 @@
 import logging
 import copy
+import re
 from avi.netscaler_converter import ns_util
 
 LOG = logging.getLogger(__name__)
@@ -21,7 +22,7 @@ class CsvsConverter(object):
                 'backupVServer', 'mysqlProtocolVersion', 'mysqlServerVersion',
                 'mysqlCharacterSet', 'mysqlServerCapabilities']
 
-    bind_skipped = ['vServer', 'policyName', 'priority', 'type', 'domainName ',
+    bind_skipped = ['vServer', 'priority', 'type', 'domainName ',
                     'gotoPriorityExpression', 'TTL', 'backupIP', 'cookieDomain',
                     'cookieTimeout', 'sitedomainTTL']
 
@@ -31,10 +32,13 @@ class CsvsConverter(object):
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         policy_lables = ns_config.get('bind cs policylabel', {})
+        policy_config = ns_config.get('add cs policy', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
+
         for key in cs_vs_conf:
+            #print key
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
@@ -53,7 +57,6 @@ class CsvsConverter(object):
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
             enable_ssl = False
-
             if vs_state == 'enable':
                 enabled = (lb_vs.get('state', 'ENABLED') == 'ENABLED')
             else:
@@ -83,6 +86,8 @@ class CsvsConverter(object):
                 continue
             if isinstance(bind_conf_list, dict):
                 bind_conf_list = [bind_conf_list]
+            cs_vs_policies = []
+            default_pool = None
             for bind_conf in bind_conf_list:
                 b_cmd = 'bind cs vserver %s' % vs_name
                 found = False
@@ -95,9 +100,14 @@ class CsvsConverter(object):
                     if 'targetLBVserver' in bind_conf:
                         lbvs_bindings.append(bind_conf['targetLBVserver'])
                         found = True
+                        policy = policy_config[bind_conf['policyName']]
+                        policy = copy.deepcopy(policy)
+                        policy['targetLBVserver'] = bind_conf['targetLBVserver']
+                        cs_vs_policies.append(policy)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     b_cmd += ' -lbvserver %s' % bind_conf['lbvserver']
+                    default_pool = bind_conf['lbvserver']
                     found = True
                 if 'invoke' in bind_conf:
                     parts = bind_conf['invoke'].split(' ')
@@ -111,10 +121,9 @@ class CsvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, [], [])
                 if found:
-                   ns_util.add_conv_status(b_cmd, conv_status, None)
+                    ns_util.add_conv_status(b_cmd, conv_status, None)
                 else:
                     ns_util.add_status_row(b_cmd, 'skipped')
-
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -131,6 +140,9 @@ class CsvsConverter(object):
                 lb_vs_obj.update(vs_obj)
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_ref', None)
+            if default_pool:
+                vs_obj['pool_ref'] = '%s-pool' % default_pool
+            policy = self.policy_converter(cs_vs_policies, vs_name)
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [])
@@ -154,3 +166,113 @@ class CsvsConverter(object):
                                                lbvs_bindings)
             elif 'targetVserver' in policy:
                 lbvs_bindings.append(policy['targetVserver'])
+
+    def policy_converter(self, policies, vs_name):
+        rules = []
+        for policy in policies:
+            policy_name = policy['attrs'][0]
+            ns_rule = policy['rule']
+            if 'URL ==' in ns_rule:
+                query = ns_rule.strip('"')
+                a, b = query.split("==")
+                b = b.strip()
+                b = b.strip("\\'")
+                final = b
+                policy_obj = {
+                    'name': name+'-http-request-policy',
+                    'enable': 'false',
+                    'http_request_policy': {
+                        'rules': [{
+                            'name': policy_name+'-rule',
+                            'match': {
+                                'match_case': 'INSENSITIVE',
+                                'match_str': final,
+                                'match_criteria': 'CONTAINS'
+                            },
+                            'switching_action': {
+                                'action': 'HTTP_POLICY_SET_REF',
+                                'status_code': 200,
+                                'pool_ref': policy_config[
+                                                'targetLBVserver']+'-pool'
+                            }
+                        }]
+                    },
+                    'is_internal_policy': 'false'
+                }
+                print policy_obj
+
+            elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in ns_rule:
+                query= ns_rule.strip('"')
+                match = re.findall('\"(.+?)\"', query)
+                for m in match:
+                    policy_obj = {
+                        'enable': 'false',
+                        'name': name+'-http-request-policy',
+                        'match':
+                            {
+                                'path':
+                                    {
+                                        'match_case': 'INSENSITIVE',
+                                        'match_str': m,
+                                        'match_criteria': 'CONTAINS'
+                                    }
+                            },
+                        'switching_action': {
+                                    'action': 'HTTP_POLICY_SET_REF',
+                                    'status_code': 200,
+                                    'pool_ref': policy_config[
+                                                    'targetLBVserver']+'-pool'
+                                }
+                            }
+                print policy_obj
+
+            elif 'REQ.IP.SOURCEIP' in ns_rule:
+                query = ns_rule.strip('"')
+                a, b = query.split("==")
+                b = b.strip()
+                policy_obj = {
+                    'enable': 'false',
+                    'name': name+'-http-request-policy',
+                    'match':
+                        {
+                            'path':
+                            {
+                                'match_case': 'INSENSITIVE',
+                                'match_str': b,
+                                'match_criteria': 'EQUALS'
+                            }
+                        },
+                        'switching_action': {
+                                    'action': 'HTTP_POLICY_SET_REF',
+                                    'status_code': 200,
+                                    'pool_ref': policy_config[
+                                                    'targetLBVserver']+'-pool'
+                                }
+                            }
+                print policy_obj
+
+            elif 'CLIENT.IP.SRC.EQ' in ns_rule:
+                print "in ip if"
+                query = ns_rule.strip('"')
+                match = re.findall('\((.*?)\)', query)
+                for m in match:
+                    policy_obj = {
+                        'enable': 'false',
+                        'name': name+'-http-request-policy',
+                        'match':
+                            {
+                                'path':
+                                {
+                                    'match_case': 'INSENSITIVE',
+                                    'match_str': m,
+                                    'match_criteria': 'EQUALS'
+                                }
+                            },
+                            'switching_action': {
+                                        'action': 'HTTP_POLICY_SET_REF',
+                                        'status_code': 200,
+                                        'pool_ref': policy_config[
+                                                        'targetLBVserver']+'-pool'
+                                    }
+                                }
+                print policy_obj
