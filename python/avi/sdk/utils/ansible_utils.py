@@ -77,7 +77,8 @@ RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
 
 # if HTTP ref match then strip out the #name
 # HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/[\w/\?.#&-]*$')
-HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/.*#.+')
+HTTP_REF_MATCH = re.compile('https://[\w.0-9:-]+/api/.+')
+HTTP_REF_W_NAME_MATCH = re.compile('https://[\w.0-9:-]+/api/.*#.+')
 
 
 def ref_n_str_cmp(x, y):
@@ -101,6 +102,9 @@ def ref_n_str_cmp(x, y):
     Returns
         True if they are equivalent else False
     """
+    if (type(y) in (int, float, bool, long, complex)):
+        y = str(y)
+        x = str(x)
     if not ((isinstance(x, basestring) or isinstance(x, unicode)) and
             (isinstance(y, basestring) or isinstance(y, unicode))):
         return False
@@ -114,7 +118,7 @@ def ref_n_str_cmp(x, y):
     elif RE_REF_MATCH.match(y):
         y = y.split('name=')[1]
 
-    if HTTP_REF_MATCH.match(y):
+    if HTTP_REF_W_NAME_MATCH.match(y):
         path = y.split('api/', 1)[1]
         _, uuid_or_name = path.split('/')
         parts = uuid_or_name.rsplit('#', 1)
@@ -173,6 +177,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
     if type(x) == list:
         # should compare each item in the list and that should match
         if len(x) != len(y):
+            log.debug('x has %d items y has %d', len(x), len(y))
             return False
         for i in zip(x, y):
             if not avi_obj_cmp(i[0], i[1], sensitive_fields=sensitive_fields):
@@ -180,6 +185,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
                 return False
     if type(x) == dict:
         x.pop('_last_modified', None)
+        x.pop('tenant', None)
         y.pop('_last_modified', None)
         d_xks = []
         for k, v in x.iteritems():
@@ -261,9 +267,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         cleanup_absent_fields(obj)
         if changed:
             obj_uuid = existing_obj['uuid']
-            existing_obj.update(obj)
-            req = existing_obj
-            rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=existing_obj,
+            req = deepcopy(existing_obj)
+            req.update(obj)
+            rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=req,
                           tenant=tenant, tenant_uuid=tenant_uuid)
     else:
         changed = True

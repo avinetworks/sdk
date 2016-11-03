@@ -307,6 +307,65 @@ class Test(unittest.TestCase):
 
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
+    def testhttppolicy(self):
+        existing_obj = {
+            "http_request_policy": {
+                "rules": [
+                    {"enable": True,
+                     "index": 0,
+                     "match": {
+                         "path": {
+                             "match_case": "INSENSITIVE",
+                             "match_criteria": "CONTAINS",
+                             "match_str": [
+                                 "xvz",
+                                 "rst"
+                                 ]
+                            }
+                     },
+                     "name": "blah",
+                     "switching_action": {
+                        "action": "HTTP_SWITCHING_SELECT_POOL",
+                        "pool_ref": "https://12.97.16.202/api/pool/pool-d7f6f5e7-bd26-49ad-aeed-965719eb140b#abc",
+                        "status_code": "HTTP_LOCAL_RESPONSE_STATUS_CODE_200"
+                     }
+                     }
+                ]
+            },
+            "is_internal_policy": False,
+            "name": "blah",
+            "tenant_ref": "https://12.97.16.202/api/tenant/tenant-f52f7a3e-6876-4bb9-b8f7-3cab636dadf2#Sales",
+            "url": "https://12.97.16.202/api/httppolicyset/httppolicyset-ffd8354b-671b-48d5-92cc-69a9057aad0c#blah",
+            "uuid": "httppolicyset-ffd8354b-671b-48d5-92cc-69a9057aad0c"
+        }
+
+        obj = {
+            "http_request_policy": {
+                "rules": [
+                    {"enable": True,
+                     "index": "0",
+                     "match": {
+                         "path": {
+                             "match_case": "INSENSITIVE",
+                             "match_criteria": "CONTAINS",
+                             "match_str": [
+                                 "xvz", "rst"
+                                 ]
+                                }},
+                     "name": "blah",
+                     "switching_action": {
+                         "action": "HTTP_SWITCHING_SELECT_POOL",
+                         "pool_ref": "/api/pool?name=abc",
+                         "status_code": "HTTP_LOCAL_RESPONSE_STATUS_CODE_200"
+                         }
+                     }
+                ]
+            },
+            "is_internal_policy": False,
+            "tenant": "Sales"
+        }
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
 
 
 if __name__ == "__main__":
