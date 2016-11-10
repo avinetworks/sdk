@@ -185,7 +185,27 @@ class CsvsConverter(object):
     def policy_converter(self, policy, vs_name):
         policy_name = policy['attrs'][0]
         ns_rule = policy['rule']
-        match_str = ''
+        path_query = {
+            "match_case": 'INSENSITIVE',
+            "match_str": [],
+            "match_criteria": ''
+        }
+        client_ip = {
+            "addrs": [],
+            "match_criteria": 'IS_IN'
+        }
+        header = {
+            "match_case": 'INSENSITIVE',
+            "hdr": '',
+            "value": [],
+            "match_criteria": ''
+        }
+        cookie = {
+            "match_case": 'INSENSITIVE',
+            "name": '',
+            "value": 'needthismissingvalue',
+            "match_criteria": ''
+        }
         policy_obj = {
             'uuid': policy_name + '-http-request-policy',
             'name': policy_name + '-http-request-policy',
@@ -194,11 +214,7 @@ class CsvsConverter(object):
             'http_request_policy': {
                 'rules': [{
                     'name': policy_name + '-rule',
-                    'match': {
-                        'match_case': 'INSENSITIVE',
-                        'match_str': '',
-                        'match_criteria': 'CONTAINS'
-                    },
+                    'match': {},
                     'switching_action': {
                         'action': 'HTTP_POLICY_SET_REF',
                         'status_code': 200,
@@ -207,29 +223,91 @@ class CsvsConverter(object):
                 }]
             },
         }
+        query = ns_rule.strip('"')
         if 'URL ==' in ns_rule:
-            query = ns_rule.strip('"')
             a, b = query.split("==")
             b = b.strip()
             match_str = b.strip("\\'")
-            policy_obj['is_internal_policy'] = False
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"path": path_query})
+            policy_obj["http_request_policy"]["rules"][0]["match"]["path"]["match_str"].append(match_str)
+            policy_obj["http_request_policy"]["rules"][0]["match"]["path"]["match_criteria"] = "EQUAL"
 
-        elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in ns_rule or 'CLIENT.IP.SRC.EQ' in ns_rule:
-            query= ns_rule.strip('"')
+        elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in ns_rule or \
+                        'HTTP.REQ.URL.QUERY.CONTAINS' in ns_rule or \
+                        'HTTP.REQ.URL.PATH.STARTSWITH' in ns_rule:
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"query": path_query})
+            policy_obj["http_request_policy"]["rules"][0]["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
+
             matches = re.findall('\"(.+?)\"', query)
-            for index, match in enumerate(matches):
-                match_str += match
-                if index != len(matches)-1:
-                    match_str += ','
+            for match in matches:
+                if 'HTTP.REQ.URL.PATH.STARTSWITH' in ns_rule or \
+                                'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in ns_rule:
+                    match = re.sub('[\\\/]', '', match)
+                policy_obj["http_request_policy"]["rules"][0]["match"]["query"]["match_str"].append(match)
 
         elif 'REQ.IP.SOURCEIP' in ns_rule:
-            query = ns_rule.strip('"')
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"client_ip": client_ip})
             matches = re.findall('\REQ.IP.SOURCEIP == [0-9.]+', query)
-            for index, match in enumerate(matches):
+            for match in matches:
                 a, b = match.split("==")
-                match_str += b.strip()
-                if index != len(matches)-1:
-                    match_str += ','
+                policy_obj["http_request_policy"]["rules"][0]["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": b.strip()})
 
-        policy_obj['http_request_policy']['rules'][0]['match']['match_str'] = match_str
+        elif 'CLIENT.IP.SRC.EQ' in ns_rule:
+            print 'print ns rule : %s' % ns_rule
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"client_ip": client_ip})
+            matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
+            for match in matches:
+                print 'EQ match : %s' % match
+                policy_obj["http_request_policy"]["rules"][0]["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": match})
+
+        elif 'HTTP.REQ.HEADER' in ns_rule and \
+                        ".CONTAINS" in ns_rule:
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"hdrs": header})
+            policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["match_criteria"] = "HDR_EQUALS"
+
+            matches = re.findall('\"(.+?)\"', query)
+            policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["hdr"] = matches[0]
+            policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["value"].append(matches[1])
+
+        elif 'HTTP.REQ.HEADER' in ns_rule and ".EXISTS" in ns_rule:
+            header_copy = copy.deepcopy(header)
+            header_copy.pop("match_case")
+            header_copy.pop("value")
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"hdrs": header})
+            policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
+            matches = re.findall('\"(.+?)\"', query)
+            policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["hdr"] = matches[0]
+
+        elif 'HTTP.REQ.COOKIE.CONTAINS' in ns_rule or \
+                        'HTTP.REQ.COOKIE.CONTAINS' in ns_rule:
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"cookie": cookie})
+            matches = re.findall('\"(.+?)\"', query)
+            if 'HTTP.REQ.COOKIE.CONTAINS' in ns_rule:
+                policy_obj["http_request_policy"]["rules"][0]["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
+            elif 'HTTP.REQ.COOKIE.CONTAINS' in ns_rule:
+                policy_obj["http_request_policy"]["rules"][0]["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
+                policy_obj["http_request_policy"]["rules"][0]["match"]["cookie"]["value"] = matches[1]
+            policy_obj["http_request_policy"]["rules"][0]["match"]["cookie"]["name"] = matches[0]
+
+        elif 'HTTP.REQ.URL.PATH.GET(2)' in ns_rule or \
+                        'HTTP.REQ.URL.PATH.CONTAINS' in ns_rule:
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"query": path_query})
+            if 'HTTP.REQ.URL.PATH.GET' in ns_rule:
+                policy_obj["http_request_policy"]["rules"][0]["match"]["query"]["match_criteria"] = "EQUALS"
+            elif 'HTTP.REQ.URL.PATH.CONTAINS' in ns_rule:
+                policy_obj["http_request_policy"]["rules"][0]["match"]["query"]["match_criteria"] = "CONTAINS"
+            matches = re.findall('\"(.+?)\"', query)
+            for match in matches:
+                policy_obj["http_request_policy"]["rules"][0]["match"]["query"]["match_str"].append(match)
+
+        else:
+            LOG.warning("%s Rule is not supported" % ns_rule)
+
         return policy_obj
+
+
+
+
+
+
+
