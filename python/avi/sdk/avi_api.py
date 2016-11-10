@@ -467,7 +467,7 @@ class ApiSession(Session):
             parameters
         returns session's response object
         """
-        uuid = self._get_uuid_by_name(path, name)
+        uuid = self._get_uuid_by_name(path, name, tenant, tenant_uuid)
         path = '%s/%s' % (path, uuid)
         return self.put(path, data, tenant, tenant_uuid, timeout=timeout,
                         params=params, **kwargs)
@@ -511,7 +511,7 @@ class ApiSession(Session):
         """
         uuid = self._get_uuid_by_name(path, name, tenant, tenant_uuid)
         if not uuid:
-            raise ObjectNotFound("%s/?name=%s" % (path,name))
+            raise ObjectNotFound("%s/?name=%s" % (path, name))
         path = '%s/%s' % (path, uuid)
         return self.delete(path, tenant, tenant_uuid, timeout=timeout,
                            params=params, **kwargs)
@@ -555,7 +555,7 @@ class ApiSession(Session):
         else:
             return self.prefix+'/api/'+path
 
-    def _get_uuid_by_name(self, path, name, tenant, tenant_uuid):
+    def _get_uuid_by_name(self, path, name, tenant='admin', tenant_uuid=''):
         """gets object by name and service path and returns uuid"""
         resp = self.get_object_by_name(path, name, tenant, tenant_uuid)
         if not resp:
