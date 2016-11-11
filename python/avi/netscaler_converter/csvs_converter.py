@@ -36,8 +36,8 @@ class CsvsConverter(object):
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
-        avi_config['PolicySet'] = []
-        for key in cs_vs_conf:
+        avi_config['HTTPPolicySet'] = []
+        for cs_vs_index, key in enumerate(cs_vs_conf):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
@@ -144,16 +144,17 @@ class CsvsConverter(object):
                 lb_vs_obj.update(vs_obj)
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_ref', None)
+            vs_obj['http_policies'] = []
             if default_pool:
                 vs_obj['pool_ref'] = '%s-pool' % default_pool
             for cs_vs_policy in cs_vs_policies:
-                policy = self.policy_converter(cs_vs_policy, vs_name)
+                policy = self.policy_converter(cs_vs_policy, cs_vs_index)
                 http_policies = {
                     'index': 11,
                     'http_policy_set_ref': policy['uuid']
                 }
-                vs_obj['http_policies'] = http_policies
-                avi_config['PolicySet'].append(policy)
+                vs_obj['http_policies'].append(http_policies)
+                avi_config['HTTPPolicySet'].append(policy)
                 policy_conv = policy_config.get(policy_name)
                 conv_status = ns_util.get_conv_status(
                     cs_vs_policy, self.skip_attrs, self.na_attrs, [])
@@ -182,7 +183,7 @@ class CsvsConverter(object):
             elif 'targetVserver' in policy:
                 lbvs_bindings.append(policy['targetVserver'])
 
-    def policy_converter(self, policy, vs_name):
+    def policy_converter(self, policy, index):
         policy_name = policy['attrs'][0]
         ns_rule = policy['rule']
         path_query = {
@@ -219,9 +220,10 @@ class CsvsConverter(object):
             'http_request_policy': {
                 'rules': [{
                     'name': policy_name + '-rule',
+                    "index": index,
                     'match': {},
                     'switching_action': {
-                        'action': 'HTTP_POLICY_SET_REF',
+                        'action': 'HTTP_SWITCHING_SELECT_POOL',
                         'status_code': 200,
                         'pool_ref': policy['targetLBVserver'] + '-pool'
                     }
@@ -258,11 +260,9 @@ class CsvsConverter(object):
                 policy_obj["http_request_policy"]["rules"][0]["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": b.strip()})
 
         elif 'CLIENT.IP.SRC.EQ' in ns_rule:
-            print 'print ns rule : %s' % ns_rule
             policy_obj["http_request_policy"]["rules"][0]["match"].update({"client_ip": client_ip})
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
             for match in matches:
-                print 'EQ match : %s' % match
                 policy_obj["http_request_policy"]["rules"][0]["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": match})
 
         elif 'HTTP.REQ.HEADER' in ns_rule and \
