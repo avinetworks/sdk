@@ -200,6 +200,11 @@ class CsvsConverter(object):
             "value": [],
             "match_criteria": ''
         }
+        host_header = {
+            "match_case": 'INSENSITIVE',
+            "value": [],
+            "match_criteria": ''
+        }
         cookie = {
             "match_case": 'INSENSITIVE',
             "name": '',
@@ -277,6 +282,14 @@ class CsvsConverter(object):
             policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
             matches = re.findall('\"(.+?)\"', query)
             policy_obj["http_request_policy"]["rules"][0]["match"]["hdrs"][0]["hdr"] = matches[0]
+
+        elif 'HTTP.REQ.HOSTNAME.EQ' in ns_rule:
+            policy_obj["http_request_policy"]["rules"][0]["match"].update({"host_hdr": host_header})
+            policy_obj["http_request_policy"]["rules"][0]["match"]["host_hdr"]["match_criteria"] = "EQUALS"
+            matches = re.findall('\"(.+?)\"', query)
+            for match in matches:
+                match = re.sub('[\\\/]', '', match)
+                policy_obj["http_request_policy"]["rules"][0]["match"]["host_hdr"]["value"].append(match)
 
         elif 'HTTP.REQ.COOKIE.CONTAINS' in ns_rule or \
                         'HTTP.REQ.COOKIE.CONTAINS' in ns_rule:
