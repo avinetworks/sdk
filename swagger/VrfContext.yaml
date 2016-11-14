@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
+    version: '16.3'
     title: Avi API
     contact:
         name: Avi Networks Inc.
@@ -274,9 +274,17 @@ definitions:
             advertise_vip:
                 description: "Advertise VIP to this Peer"
                 type: boolean
+            advertisement_interval:
+                description: "Advertisement interval for this Peer"
+                type: integer
+                format: int32
             bfd:
                 description: "Enable Bi-Directional Forward Detection. Only async mode supported."
                 type: boolean
+            connect_timer:
+                description: "Connect timer for this Peer"
+                type: integer
+                format: int32
             md5_secret:
                 description: "Peer Autonomous System Md5 Digest Secret Key"
                 type: string

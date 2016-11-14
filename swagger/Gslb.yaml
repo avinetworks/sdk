@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
+    version: '16.3'
     title: Avi API
     contact:
         name: Avi Networks Inc.
