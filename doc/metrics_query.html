@@ -253,6 +253,11 @@ Here are some examples
 <td> True </td>
 </tr>
 <tr>
+<td> dimension_filter_op </td>
+<td> Filters the obj_id based on the filter specified. </td>
+<td> 1 </td>
+</tr>
+<tr>
 <td> limit </td>
 <td> Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples </td>
 <td> 60 </td>
@@ -412,6 +417,13 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <tr>
 <td> l4_server.avg_pool_new_established_conns </td>
 <td> Average rate of new pool server connections established as per second across all servers </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l4_server.avg_pool_open_conns </td>
+<td> Average per server open connections in the pool </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
@@ -2494,7 +2506,7 @@ Virtualmachine Infrastructure Metrics
 </tr>
 <tr>
 <td> vm_stats.avg_cpu_wait </td>
-<td> Percent of time virtual machine was ready to run either due to other VMs stealing CPU or hitting CPU limits configured in VCenter. </td>
+<td> Percent of time virtual machine was ready to run either due to other VMs stealing CPU or hitting CPU limits configured in vCenter. </td>
 <td> PERCENT </td>
 <td> Y </td>
 <td> True </td>
@@ -4468,6 +4480,13 @@ ServiceEngine Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> se_stats.avg_tx_bandwidth </td>
+<td> Average transmitted network bandwidth across all interfaces in SE </td>
+<td> BITS_PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> se_stats.avg_tx_pkts </td>
 <td> Average trasmitted network packets across all interfaces in SE </td>
 <td> PER_SECOND </td>
@@ -5484,6 +5503,20 @@ Controller Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> controller_stats.avg_num_ses </td>
+<td> Current number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.avg_num_sockets </td>
+<td> Average number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> controller_stats.avg_total_se_throughput </td>
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
@@ -5522,6 +5555,34 @@ Controller Metrics
 <td> controller_stats.max_num_se_cores </td>
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_ses </td>
+<td> Max number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_ses_lic_usage </td>
+<td> Maximum number of SEs usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_sockets </td>
+<td> Max number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_sockets_lic_usage </td>
+<td> Maximum number of SE sockets usage fraction </td>
+<td> PERCENT </td>
 <td> False </td>
 <td> True </td>
 </tr>
@@ -6523,6 +6584,62 @@ VSERVER DNS metrics
 <th>Priority</th>
 </tr>
 <tr>
+<td> dns_client.avg_avi_errors </td>
+<td> Rate of avi errors per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_complete_queries </td>
+<td> Rate of DNS responses per second. it includes errors </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_domain_lookup_failures </td>
+<td> Rate of domain lookup DNS Requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_errored_queries </td>
+<td> Rate of errored DNS responses per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_gslbpool_member_not_available </td>
+<td> Rate of Gslb pool member not available per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_invalid_queries </td>
+<td> Rate of invalid queries </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_local_nxdomains </td>
+<td> Rate of nxdomains per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_local_responses </td>
+<td> Rate of local responses from Avi (GSLB) per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> dns_client.avg_req_type_a </td>
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
@@ -6535,6 +6652,153 @@ VSERVER DNS metrics
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_mx </td>
+<td> Rate of DNS Requests of type MX per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_ns </td>
+<td> Rate of DNS Requests of type NS per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_other </td>
+<td> Rate of DNS Requests of type NS per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_srv </td>
+<td> Rate of DNS Requests of type SRV per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_a </td>
+<td> Rate of DNS Responses of type A per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_aaaa </td>
+<td> Rate of DNS Requests of type AAAA per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_cname </td>
+<td> Rate of DNS Requests of type CNAME per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_mx </td>
+<td> Rate of DNS Requests of type MX per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_ns </td>
+<td> Rate of DNS Requests of type NS per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_other </td>
+<td> Rate of DNS Requests of type OTHER per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_type_srv </td>
+<td> Rate of DNS Requests of type SRV per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_tcp_passthrough_errors </td>
+<td> Rate of TCP passthrough DNS errored requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_tcp_passthrough_queries </td>
+<td> Rate of TCP passthrough DNS Requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_tcp_queries </td>
+<td> Rate of tcp queries per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_udp_passthrough_errors </td>
+<td> Rate of UDP passthrough DNS errored requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_udp_passthrough_queries </td>
+<td> Rate of UDP passthrough DNS Requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_udp_passthrough_resp_time </td>
+<td> Average query response time for UDP passthrough queries </td>
+<td> MILLISECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_udp_queries </td>
+<td> Rate of udp queries per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_unsupported_queries </td>
+<td> Rate of unsupported DNS Requests per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.pct_errored_queries </td>
+<td> Percentage of errored DNS responses </td>
+<td> PERCENT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.sum_udp_passthrough_resp_time </td>
+<td> Total duration across all connections </td>
+<td> MILLISECONDS </td>
+<td> False </td>
+<td> False </td>
 </tr>
 </table>
 </div>
@@ -6552,6 +6816,20 @@ SERVER DNS metrics
 <th>Priority</th>
 </tr>
 <tr>
+<td> dns_server.avg_complete_queries </td>
+<td> Rate of DNS responses per second. it includes errors </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_errored_queries </td>
+<td> Rate of errored DNS responses per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> dns_server.avg_req_type_a </td>
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
@@ -6562,6 +6840,76 @@ SERVER DNS metrics
 <td> dns_server.avg_req_type_aaaa </td>
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_a </td>
+<td> Rate of DNS Responses of type A per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_aaaa </td>
+<td> Rate of DNS Requests of type AAAA per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_cname </td>
+<td> Rate of DNS Requests of type CNAME per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_mx </td>
+<td> Rate of DNS Requests of type MX per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_ns </td>
+<td> Rate of DNS Requests of type NS per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_other </td>
+<td> Rate of DNS Requests of type OTHER per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_resp_type_srv </td>
+<td> Rate of DNS Requests of type SRV per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_tcp_queries </td>
+<td> Rate of tcp queries per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.avg_udp_queries </td>
+<td> Rate of udp queries per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_server.pct_errored_queries </td>
+<td> Percentage of errored DNS responses </td>
+<td> PERCENT </td>
 <td> Y </td>
 <td> True </td>
 </tr>
@@ -6786,6 +7134,20 @@ Tenant Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> tenant_stats.avg_num_ses </td>
+<td> Current number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.avg_num_sockets </td>
+<td> Average number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> tenant_stats.avg_total_se_throughput </td>
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
@@ -6824,6 +7186,34 @@ Tenant Metrics
 <td> tenant_stats.max_num_se_cores </td>
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_ses </td>
+<td> Max number of SEs for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_ses_lic_usage </td>
+<td> Maximum number of SEs usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_sockets </td>
+<td> Max number of SE sockets for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_sockets_lic_usage </td>
+<td> Maximum number of SE sockets usage fraction </td>
+<td> PERCENT </td>
 <td> False </td>
 <td> True </td>
 </tr>
@@ -6875,6 +7265,119 @@ Tenant Metrics
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Se_If Metrics </h2>
+<div class='container-fluid'>
+<p>
+SE Interface Metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> se_if.avg_bandwidth </td>
+<td> Average transmit and receive network bandwidth for an interface in SE </td>
+<td> BITS_PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> se_if.avg_connection_table_usage </td>
+<td> connection table usage for interface 0 </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_rx_bytes </td>
+<td> Received bytes from service engine interface </td>
+<td> BYTES_PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_rx_bytes_dropped_non_vs </td>
+<td> Received bytes dropped </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_rx_pkts </td>
+<td> Average received packets per second </td>
+<td> PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_rx_pkts_dropped_non_vs </td>
+<td> Received packets dropped </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_syn_seen_entries_usage </td>
+<td> Percentage of syn seen entries currently used for interface </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_tx_bytes </td>
+<td> Transmitted bytes to service engine interface </td>
+<td> BYTES_PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.avg_tx_pkts </td>
+<td> Average transmit packets per second </td>
+<td> PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.max_peak_bandwidth </td>
+<td> Maximum bandwidth seen on this interface in this sample period </td>
+<td> BYTES_PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.max_rx_bytes_absolute </td>
+<td> Total number of received bytes </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.max_tx_bytes_absolute </td>
+<td> Total number of transmitted bytes </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.sum_connection_dropped_syn_seen_limit </td>
+<td> Number of times flowtable syn seen entry limit is reached </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
+<td> se_if.sum_connection_dropped_table_limit </td>
+<td> Number of times flowtable entries limit is reached </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> False </td>
 </tr>
 </table>
 </div>

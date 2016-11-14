@@ -41,13 +41,14 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=DebugServiceEngine
 <p><h3 class='text-success'>DebugServiceEngine<br></h3></p>
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>seagent_debug</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>VM name unknown</dd></dl><p><strong>seagent_debug</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugSeAgent>DebugSeAgent</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>flags</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugSeDataplane>DebugSeDataplane</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>cpu_shares</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugSeCpuShares>DebugSeCpuShares</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
@@ -55,13 +56,13 @@
 <div class='container'id=DebugSeAgent
 <p><h3 class='text-success'>DebugSeAgent<br></h3></p>
 <p><strong>sub_module</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>trace_level</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, STATECACHE_MGR_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>trace_level</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>TRACE_LEVEL_DEBUG, TRACE_LEVEL_ERROR, TRACE_LEVEL_DISABLED, TRACE_LEVEL_DEBUG_DETAIL</dd></dl><p><strong>log_level</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>LOG_LEVEL_ERROR, LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING</dd></dl></div>
 <div class='container'id=DebugSeDataplane
 <p><h3 class='text-success'>DebugSeDataplane<br></h3></p>
 <p><strong>flag</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>DEBUG_STRICT, DEBUG_ETHERNET_PKT_OUT, DEBUG_ARP_PKT_OUT, DEBUG_ALL, DEBUG_PCAP_RX, DEBUG_IP_PKT_OUT, DEBUG_ARP_PKT_IN, DEBUG_POOL, DEBUG_MISC, DEBUG_CRUD, DEBUG_PCAP_HM, DEBUG_PCAP_ALL, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_PCAP_DOS, DEBUG_PCAP_DROP, DEBUG_NONE, DEBUG_DISPATCHER_FLOW, DEBUG_ICMP, DEBUG_ERROR, DEBUG_ARP, DEBUG_ETHERNET, DEBUG_IP_PKT_IN, DEBUG_ETHERNET_PKT_IN, DEBUG_IP, DEBUG_PCAP_TX, DEBUG_CONFIG, DEBUG_DISPATCHER_FLOW_ALL</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>DEBUG_STRICT, DEBUG_ETHERNET_PKT_OUT, DEBUG_ARP_PKT_OUT, DEBUG_ALL, DEBUG_PCAP_RX, DEBUG_IP_PKT_OUT, DEBUG_ARP_PKT_IN, DEBUG_POOL, DEBUG_MISC, DEBUG_CRUD, DEBUG_PCAP_HM, DEBUG_PCAP_ALL, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_UDP, DEBUG_PCAP_DOS, DEBUG_PCAP_DROP, DEBUG_NONE, DEBUG_DISPATCHER_FLOW, DEBUG_ICMP, DEBUG_ERROR, DEBUG_ARP, DEBUG_SE_APP, DEBUG_ETHERNET, DEBUG_IP_PKT_IN, DEBUG_ETHERNET_PKT_IN, DEBUG_IP, DEBUG_PCAP_TX, DEBUG_CONFIG, DEBUG_DISPATCHER_FLOW_ALL</dd></dl></div>
 <div class='container'id=DebugSeCpuShares
 <p><h3 class='text-success'>DebugSeCpuShares<br></h3></p>
 <p><strong>cpu</strong><br></p>

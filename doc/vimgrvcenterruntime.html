@@ -39,12 +39,13 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=VIMgrVcenterRuntime
 <p><h3 class='text-success'>VIMgrVcenterRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_url</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>username</strong><br></p>
@@ -52,8 +53,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>datacenter_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrdcruntime.html#VIMgrDCRuntime>Reference to VIMgrDCRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>privilege</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>WRITE_ACCESS, READ_ACCESS, NO_ACCESS</dd></dl><p><strong>inventory_state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VCENTER_DISCOVERY_COMPLETE_PER_TENANT_IP_ROUTE, VCENTER_DISCOVERY_FAILURE, VCENTER_DISCOVERY_ONGOING, VCENTER_DISCOVERY_WAITING_DC, VCENTER_DISCOVERY_RETRIEVING_NW, VCENTER_DISCOVERY_RESYNCING, VCENTER_DISCOVERY_COMPLETE_NO_MGMT_NW, VCENTER_DISCOVERY_RETRIEVING_DC, VCENTER_DISCOVERY_BAD_CREDENTIALS, VCENTER_DISCOVERY_COMPLETE, VCENTER_DISCOVERY_DELETING_VCENTER</dd></dl><p><strong>discovered_datacenter</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>progress</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VCENTER_DISCOVERY_COMPLETE_PER_TENANT_IP_ROUTE, VCENTER_DISCOVERY_FAILURE, VCENTER_DISCOVERY_ONGOING, VCENTER_DISCOVERY_MAKING_SE_OVA, VCENTER_DISCOVERY_WAITING_DC, VCENTER_DISCOVERY_RETRIEVING_NW, VCENTER_DISCOVERY_RESYNCING, VCENTER_DISCOVERY_COMPLETE_NO_MGMT_NW, VCENTER_DISCOVERY_RETRIEVING_DC, VCENTER_DISCOVERY_BAD_CREDENTIALS, VCENTER_DISCOVERY_COMPLETE, VCENTER_DISCOVERY_DELETING_VCENTER</dd></dl><p><strong>discovered_datacenter</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>progress</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_dcs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_hosts</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_clusters</strong><br></p>
@@ -72,10 +73,6 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/tenant?name=admin</dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
-<div class='container'id=RepeatableString
-<p><h3 class='text-success'>RepeatableString<br></h3></p>
-<p><strong>str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -128,7 +125,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>APIC_MODE, NON_APIC_MODE</dd></dl><p><strong>se_auth_token</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_se_disk_size_KB</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>10485760</dd></dl><p><strong>controller_cluster_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>single_socket_affinity</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=VcenterDatastore
 <p><h3 class='text-success'>VcenterDatastore<br></h3></p>
 <p><strong>datastore_name</strong><br></p>
@@ -163,8 +161,10 @@
 <div class='container'id=VISetvNicNwReq
 <p><h3 class='text-success'>VISetvNicNwReq<br></h3></p>
 <p><strong>sevm_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_admin</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_vnic_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dc_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_vnic_info</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIVmVnicInfo>VIVmVnicInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_sevm_mor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>rm_cookie</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
@@ -219,9 +219,11 @@
 <div class='container'id=VcenterLogin
 <p><h3 class='text-success'>VcenterLogin<br></h3></p>
 <p><strong>vcenter_url</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>username</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>root</dd></dl><p><strong>password</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>vmware</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>root</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>vmware</dd></dl><p><strong>cloud_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>start_ts</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -262,12 +264,15 @@
 <div class="container">
 <div class='container'id=VISetMgmtIpSEReq
 <p><h3 class='text-success'>VISetMgmtIpSEReq<br></h3></p>
-<p><strong>admin</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>sevm_uuid</strong><br></p>
+<p><strong>cloud_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>sevm_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>ip_params</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VISeVmIpConfParams>VISeVmIpConfParams</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>all_vnic_connected</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>power_on</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>admin</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dc_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>rm_cookie</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=VISeVmIpConfParams
 <p><h3 class='text-success'>VISeVmIpConfParams<br></h3></p>
 <p><strong>mgmt_ip_type</strong><br></p>
@@ -314,7 +319,33 @@
 <p><strong>sevm_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>segroup_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_admin</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIAdminCredentials>VIAdminCredentials</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/vimgrvcenterruntime/fault/inject
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    faultinject vcenter
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=VIFaultInjection
+<p><h3 class='text-success'>VIFaultInjection<br></h3></p>
+<p><strong>api</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>HOST_NO_MEM_ERR, DISC_PGNAME_ERR, HOST_NO_MGMT_ERR, PERF_MONITOR, DISC_CLUSTER_ERR, DISC_PG_ERR, HOST_CTLR_ACCESS_ERR, SIM_VM_BULK_NOTIF, SLOW_VCENTER_ACCESS, DISC_DCDETAILS_ERR, DISC_VM_ERR, MODIFY_MGMT_IP, MODIFY_VNIC, HOST_MM_ERR, CREATE_SE, CREATE_SE_VIMGR, VM_MONITOR, HOST_PWR_STATE_ERR, DISC_DC_ERR, DELETE_SE_VIMGR, HOST_QUARANTINED_ERR, RESOURCE_MONITOR, DISC_HOST_ERR, INITIAL_VALUE, HOST_NO_DISK_ERR, SET_MGMT_IP, HOST_CONN_STATE_ERR, HOST_NO_CPU_ERR</dd></dl><p><strong>status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SEVM_CREATE_FAILURE</dd><dt>Choices</dt><dd>SEVM_CREATE_FAIL_OVF_ERROR, SEVM_CREATE_NO_HOST, SEVM_CREATE_FAIL_ABORTED, SEVM_NO_SOURCE_CLONE, SEVM_CREATE_FAIL_NO_MEM, SEVM_VCENTER_CONN_FAIL, SEVM_CREATE_FAILURE, SEVM_CREATE_ACCESS_ERROR, SEVM_CREATE_FAIL_NO_CPU, SEVM_CREATE_FAIL_NO_MGMT_NW_PORTS, SEVM_FLAVOR_UNAVAIL, SEVM_VNIC_FAILURE_QUESTION, SEVM_DELETE_FAILURE, SEVM_SUCCESS, SEVM_CREATE_FAIL_DUPLICATE_NAME, SEVM_CREATE_FAIL_NO_MGMT_NW, SEVM_CREATE_NO_IMAGE, SEVM_NO_MGMT_IP_AVAILABLE, SEVM_CREATE_FAIL_NO_LEASE, SEVM_SET_MGMT_IP_FAILED, SEVM_CREATE_FAIL_NO_HW_INFO, SEVM_VINFRA_UNINITIALIZED, SEVM_CREATE_FAIL_NO_PROGRESS, SEVM_VINFRA_FAILURE, SEVM_INVALID_DATA, SEVM_CREATE_NO_HOST_VM_NETWORK, SEVM_VNIC_MAC_ADDR_ERROR, SEVM_VNIC_FAILURE, SEVM_NO_AVAILABILITY_ZONE, SEVM_TIMED_OUT, SEVM_VNIC_NO_IPS_AVAILABLE, SEVM_CREATE_LIMIT_REACHED, SEVM_VNIC_NO_PG_PORTS, SEVM_DELETED, SEVM_CREATE_FAIL_POWER_ON, SEVM_VNIC_NO_VM</dd></dl><p><strong>count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -340,25 +371,27 @@
 <h3 class='text-primary'>API</h3>
 <div class="container">
 <pre><code>
-    POST /api/vimgrvcenterruntime/fault/inject
+    POST /api/vimgrvcenterruntime/retrieve/portgroups
 </code></pre>
 </div>
 
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    faultinject vcenter
+    show vcenter portgroups
 </code></pre>
 </div>
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
-<div class='container'id=VIFaultInjection
-<p><h3 class='text-success'>VIFaultInjection<br></h3></p>
-<p><strong>api</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>HOST_NO_MEM_ERR, DISC_PGNAME_ERR, HOST_NO_MGMT_ERR, PERF_MONITOR, DISC_CLUSTER_ERR, DISC_PG_ERR, HOST_CTLR_ACCESS_ERR, SIM_VM_BULK_NOTIF, DISC_DCDETAILS_ERR, DISC_VM_ERR, MODIFY_MGMT_IP, MODIFY_VNIC, HOST_MM_ERR, CREATE_SE, CREATE_SE_VIMGR, VM_MONITOR, HOST_PWR_STATE_ERR, DISC_DC_ERR, DELETE_SE_VIMGR, HOST_QUARANTINED_ERR, RESOURCE_MONITOR, DISC_HOST_ERR, INITIAL_VALUE, HOST_NO_DISK_ERR, SET_MGMT_IP, HOST_CONN_STATE_ERR, HOST_NO_CPU_ERR</dd></dl><p><strong>status</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SEVM_CREATE_FAILURE</dd><dt>Choices</dt><dd>SEVM_CREATE_FAIL_OVF_ERROR, SEVM_CREATE_NO_HOST, SEVM_CREATE_FAIL_ABORTED, SEVM_VINFRA_UNININITIALIZED, SEVM_NO_SOURCE_CLONE, SEVM_CREATE_FAIL_NO_MEM, SEVM_VCENTER_CONN_FAIL, SEVM_CREATE_FAILURE, SEVM_CREATE_ACCESS_ERROR, SEVM_CREATE_FAIL_NO_CPU, SEVM_FLAVOR_UNAVAIL, SEVM_VNIC_FAILURE_QUESTION, SEVM_DELETE_FAILURE, SEVM_SUCCESS, SEVM_CREATE_FAIL_DUPLICATE_NAME, SEVM_CREATE_FAIL_NO_MGMT_NW, SEVM_CREATE_NO_IMAGE, SEVM_CREATE_FAIL_NO_LEASE, SEVM_SET_MGMT_IP_FAILED, SEVM_CREATE_FAIL_NO_HW_INFO, SEVM_CREATE_FAIL_NO_MGMT_NW_PORTS, SEVM_CREATE_FAIL_NO_PROGRESS, SEVM_VINFRA_FAILURE, SEVM_INVALID_DATA, SEVM_CREATE_NO_HOST_VM_NETWORK, SEVM_VNIC_MAC_ADDR_ERROR, SEVM_VNIC_FAILURE, SEVM_NO_AVAILABILITY_ZONE, SEVM_TIMED_OUT, SEVM_VNIC_NO_IPS_AVAILABLE, SEVM_CREATE_LIMIT_REACHED, SEVM_VNIC_NO_PG_PORTS, SEVM_DELETED, SEVM_CREATE_FAIL_POWER_ON, SEVM_VNIC_NO_VM</dd></dl><p><strong>count</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=VIRetrievePGNames
+<p><h3 class='text-success'>VIRetrievePGNames<br></h3></p>
+<p><strong>vcenter_url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>root</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>vmware</dd></dl><p><strong>datacenter</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -385,7 +418,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>region</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>AWS region</dd><dt>Default</dt><dd>us-west-1</dd></dl><p><strong>vpc_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>use_iam_roles</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>iam_assume_role</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 
@@ -426,7 +460,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>password</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>admin_tenant</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>admin</dd></dl><p><strong>keystone_host</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>region</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>region</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>auth_url</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
@@ -434,17 +469,25 @@
 <h3 class='text-primary'>API</h3>
 <div class="container">
 <pre><code>
-    POST /api/vimgrvcenterruntime/&ltkey&gt/rediscover
+    POST /api/vimgrvcenterruntime/initiate/rediscover
 </code></pre>
 </div>
 
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    rediscover vcenter &ltkey&gt
+    rediscover vcenter
 </code></pre>
 </div>
 
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=RediscoverVcenterParam
+<p><h3 class='text-success'>RediscoverVcenterParam<br></h3></p>
+<p><strong>cloud</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
 
 <h3 class='text-primary'>API</h3>
 <div class="container">
@@ -466,8 +509,9 @@
 <p><h3 class='text-success'>EventGenParams<br></h3></p>
 <p><strong>virtualservice</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>events</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VS_REMOVED_SE, SERVER_UP_HA_ACTIVE, NEW_PROBABLE_SRVR, POOL_SE_HA_ACTIVE, VS_SCALEOUT_DONE_AWAITING_MORE_SE, SE_UPGRADING, CONTROLLER_LEADER_FAILOVER, CACHE_OBJ_ALLOC_FAIL, CC_UPDATE_VIP_FAILURE, DEL_NW_SE, VINFRA_DISC_NW, REBALANCE_VS_SCALEIN, MESOS_CREATE_SE_FAIL, VS_SCALEIN_COMPLETE, USER_LOGIN, OPENSTACK_SE_VM_DELETED, VS_RPC_FAILED_EVENT, CONTROLLER_WARM_REBOOT, CC_VNIC_DELETION_FAILURE, OPENSTACK_LBPROV_AUDIT_FAILURE, APIC_VS_PLACEMENT, MESOS_ACCESS_FAILURE, VS_THROUGHPUT_LIMIT, UPGRADE_ALL_SE_DONE, LS_ACCESS_FAILURE, SYSTEM_UPGRADE_COMPLETE, PKT_DROP_NO_PKT_BUFF, VS_SCALEIN_DONE_AWAITING_MORE_SE, OPENSTACK_ACCESS_FAILURE, APIC_CREATE_CDEV, SE_GROUP_HOST_DEL, AWS_ACCESS_FAILURE, CC_HEALTH_FAILURE, CONFIG_UPDATE, CONFIG_CREATE, SE_EXTERNAL_HM_RESTART, MESOS_IMAGE_UPLOAD_IN_PROGRESS, VS_SCALEOUT_DONE, ESX_HOST_UNREACHABLE, AWS_IMAGE_UPLOAD_SUCCESS, OPENSTACK_LBPLUGIN_OP_FAILURE, LICENSE_USAGE_SERVERS, SE_VERSION_CHECK_FAILED, VS_FSM_PARTITIONED, RM_DEL_NETWORK_FAIL, OPENSTACK_SE_VM_CREATED, ANOMALY, MESOS_IMAGE_UPLOAD_FAILURE, SE_SERVER_APP_CHANGED, DELETED_SE, CLOUDSTACK_IMAGE_UPLOAD_FAILURE, VS_SE_HA_ACTIVE, CC_DECONFIG_FAILURE, CONFIG_ACTION, MESOS_ACCESS_SUCCESS, VM_ADDED, SE_HM_EVENT_SHM_UP, NO_HOST_AVAIL, VS_SE_HA_COMPROMISED, VINFRA_DISC_VM, OPENSTACK_VNIC_ADDED, SE_PERSIST_TBL_HIGH, SERVER_AUTOSCALE_OUT_COMPLETE, APIC_CREATE_LIF_CONTEXTS, CONN_DROP_MAX_PERSIST_TBL, UPGRADE_SE_DONE, OPENSTACK_IP_ATTACH_FAILURE, ADD_NW_FAIL, CC_VNIC_DELETED, AWS_ACCESS_SUCCESS, SE_EV_POOL_UP, APIC_DELETE_TENANT, CC_VNIC_ADDITION_FAILURE, CONN_DROP_NO_PKT_BUFF, CC_DELETE_VIP_FAILURE, CC_SYNC_SERVICES_FAILURE, SE_MARKED_DOWN, MESOS_STOP_SE_FAIL, MESOS_START_SE_FAIL, MESOS_STOPPED_SE, APIC_DELETE_CDEV, SE_HEALTH_CHECK_FAIL, CLOUDSTACK_ACCESS_SUCCESS, CC_VIP_DNS_REGISTER_FAILURE, MESOS_DELETE_SE_FAIL, METRIC_THRESHOLD_UP_VIOLATION, VCA_IMAGE_UPLOAD_SUCCESS, SSL_CERT_EXPIRE, SERVER_HEALTH_CHANGE, VCA_IMAGE_UPLOAD_FAILURE, VCENTER_VERSION_NOT_SUPPORTED, SE_VNIC_IP_ADDED, SE_SYN_TBL_HIGH, CREATED_SE, VINFRA_DISC_COMPLETE, VS_DOWN, MESOS_DELETED_SE, VS_FSM_INACTIVE, CC_MARATHON_SERVICE_PORT_OUTSIDE_VALID_RANGE, VS_ADD_SE_INT, SE_SERVER_DELETED, AVG_UPTIME_CHANGE, SE_POWERED_DOWN, VINFRA_DISC_CLUSTER, VS_SCALEOUT_ERR, SERVER_UP, SE_DP_HB_FAILED, VS_SCALEOUT_FAILED, CLOUDSTACK_IMAGE_UPLOAD_SUCCESS, CC_IP_ATTACH_FAILURE, SE_CONN_MEM_HIGH, SE_HM_EVENT_SHM_DOWN, SUMMARIZED_SUBNETS, CREATING_SE, CLOUDSTACK_ACCESS_FAILURE, VS_MIGRATE_SCALEIN_ERROR, UPGRADE_SE_VS_SCALEOUT, APIC_DELETE_LIF_CONTEXTS, SE_PKT_BUFF_HIGH, VS_SCALEIN_FAILED, VINFRA_DISC_FAILURE, LICENSE_USAGE_THROUGHPUT, CC_CLUSTER_VIP_CONFIG_SUCCESS, CREATE_SE_FAIL, VCA_ACCESS_SUCCESS, VS_MIGRATE_SCALEIN_DONE, OPENSTACK_IP_DETACH_FAILURE, SSL_KEY_EXPORTED, CONTROLLER_NODE_LEFT, UPGRADE_SE_START, MODIFY_NW_FAIL, CC_CLUSTER_VIP_DECONFIG_FAILURE, OPENSTACK_VNIC_REMOVED, SE_SYN_CACHE_USAGE_HIGH, MESOS_CREATED_SE, OPENSTACK_SE_CREATION_FAILURE, OPENSTACK_VNIC_ADDITION_FAILURE, CONN_DROP_POOL_LB_FAILURE, SE_DOS_ATTACK, APIC_DELETE_NETWORK, CC_SE_DELETION_FAILURE, APIC_CREATE_NETWORK, CC_TENANT_INIT_FAILURE, VINFRA_DISC_HOST, CC_HEALTH_OK, PKT_BUFF_ALLOC_FAIL, CC_IP_DETACHED, UPGRADE_SE_VS_DISRUPTED, VS_FSM_ACTIVE, VS_FSM_AWAITING_SE_ASSIGNMENT, APIC_ATTACH_CIF_TO_LIF, DUPLICATE_SUBNETS, METRICS_DB_DISK_FULL, CONFIG_INTERNAL_UPDATE, VS_ADD_SE, CC_SE_CREATION_FAILURE, REBALANCE_VS_MIGRATE, SYSTEM_UPGRADE_ABORTED, APIC_BIND_VNIC_TO_NETWORK, SE_VNIC_DUPLICATE_IP, OPENSTACK_ACCESS_SUCCESS, VS_SE_IP_FAIL, CONFIG_DELETE, SE_GROUP_MGMT_NW_DEL, OPENSTACK_IMAGE_UPLOAD_FAILURE, SE_VNIC_DHCP_IP_ALLOC_FAILURE, SERVER_DOWN_HA_COMPROMISED, MESOS_IMAGE_UPLOAD_SUCCESS, VS_SE_BOOTUP_FAIL, MGMT_NW_DEL, APIC_BAD_CREDENTIALS, VS_MIGRATE_SCALEOUT_ERROR, UPGRADE_ALL_SE_START, OPENSTACK_IMAGE_UPLOAD_SUCCESS, UPGRADE_ALL_SE_NOT_NEEDED, SE_SERVER_DISABLED, CONTROLLER_SERVICE_FAILURE, VS_MIGRATE_SCALEOUT_DONE, VS_FSM_PERMANENT_ERROR, UPGRADE_SE_VS_SCALEIN, LICENSE_ADDITION_NOTIF, VS_FSM_DISABLED, CC_MARATHON_SERVICE_PORT_ALREADY_IN_USE, SERVER_AUTOSCALE_IN, LICENSE_USAGE_CORES, SYSTEM_UPGRADE_STARTED, APIC_CREATE_LIFS, MESOS_UPDATED_HOSTS, DELETE_SE_FAIL, CONN_DROP_NO_CONN_MEM, CC_VNIC_ADDED, LS_IMAGE_UPLOAD_SUCCESS, SE_HEALTH_CHANGE, OPENSTACK_SE_VM_DELETION_DETECTED, CONTROLLER_NODE_JOINED, VM_REMOVED, SE_GROUP_CLUSTER_DEL, SERVER_DOWN, CC_SE_DELETION_DETECTED, REBOOT_SE, LICENSE_REMOVAL_NOTIF, VS_RPC_TO_RESMGR_FAILED_EVENT, SERVER_AUTOSCALE_OUT, SERVER_DELETED, POOL_UP, DISCOVERY_DATACENTER_DEL, CONN_DROP_MAX_FLOW_TBL, REBALANCE_VS_SCALEOUT, SE_EV_SERVER_UP, SE_UP, VS_FSM_ACTIVE_AWAITING_SE_TRANSITION, SE_REBOOTED, CC_SYNC_SERVICES_SUCCESS, VS_MIGRATE_DONE, CONFIG_INTERNAL_CREATE, SERVER_AUTOSCALE_FAILED, USER_LOGOUT, MGMT_NW_NAME_CHANGED, APIC_DETACH_CIF_FROM_LIF, MODIFY_NW, AWS_IMAGE_UPLOAD_FAILURE, OPENSTACK_SE_DELETION_FAILURE, DELETING_SE, SE_CPU_HIGH, VS_CONN_LIMIT, ESX_HOST_POWERED_DOWN, OPENSTACK_TENANTS_DELETED, SE_MEM_HIGH, CC_IP_ATTACHED, SE_DOWN, CC_SE_CREATED, VS_FSM_UNEXPECTED_EVENT, VS_HEALTH_CHANGE, SERVER_AUTOSCALE_IN_COMPLETE, SE_DISK_HIGH, SE_EV_SERVER_DOWN, SE_HEARTBEAT_FAILURE, VS_SCALEOUT_COMPLETE, CC_CONFIG_FAILURE, VINFRA_DISC_DC, OPENSTACK_VNIC_DELETION_FAILURE, UPGRADE_SE_NOT_NEEDED, VCENTER_ADDRESS_ERROR, VS_MIGRATE_FAILED, LS_ACCESS_SUCCESS, SE_FLOW_TBL_HIGH, VS_UP, SE_EV_VS_UP, UPGRADE_SE_VS_MIGRATE, SE_EV_POOL_DOWN, POOL_SE_HA_COMPROMISED, OPENSTACK_IP_ATTACHED, CC_IP_DETACH_FAILURE, LICENSE_USAGE_VS, VCENTER_BAD_CREDENTIALS, OPENSTACK_LBPLUGIN_OP_SUCCESS, VS_REMOVED_SE_INT, APIC_DELETE_LIFS, VCA_ACCESS_FAILURE, VS_SCALEIN_ERR, SE_VM_DELETED, VS_FSM_ACTIVE_AWAITING_SCALEOUT_READY, SE_EV_VS_DOWN, OPENSTACK_IP_DETACHED, VS_SCALEIN_DONE, CC_SE_DELETED, VS_MIGRATE_COMPLETE, LICENSE_EXPIRY_NOTIF, OPENSTACK_SYNC_SERVICES_SUCCESS, CREATE_SE_TIMEOUT, MESOS_STARTED_SE, VS_MIGRATE_STARTED, VS_FSM_TRANSIENT_ERROR, CC_GENERIC_FAILURE, VS_INITIAL_PLACEMENT_FAILED, OPENSTACK_LBPROV_AUDIT_SUCCESS, LS_IMAGE_UPLOAD_FAILURE, POOL_HEALTH_CHANGE, SE_FATAL_ERROR, ADD_NW_SE, CC_CLUSTER_VIP_DECONFIG_SUCCESS, CC_CLUSTER_VIP_CONFIG_FAILURE, SE_VNIC_IP_REMOVED, POOL_DOWN, OPENSTACK_SYNC_SERVICES_FAILURE, VS_RPC_TO_SE_FAILED_EVENT, VS_AWAITING_SE, CONN_DROP_MAX_SYN_TBL, DOS_ATTACK, USER_PASSWORD_CHANGE_REQUEST, SE_POOL_DELETED, APIC_CREATE_TENANT, SE_VM_PURGED</dd></dl><p><strong>cluster</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VS_THROUGHPUT_LIMIT, GCP_SUBNET_ATTACH_FAIL, CONTROLLER_NODE_SHUTDOWN, CONTAINER_CLOUD_IMAGE_UPLOAD_SUCCESS, DEL_NW_SE, VINFRA_DISC_NW, MESOS_ACCESS_FAILURE, APIC_CREATE_LIF_CONTEXTS, SYSTEM_UPGRADE_COMPLETE, PKT_DROP_NO_PKT_BUFF, OPENSTACK_ACCESS_FAILURE, SE_GROUP_HOST_DEL, CONFIG_CREATE, GCP_SUBNET_NOT_FOUND, ESX_HOST_UNREACHABLE, SE_UPGRADING, LICENSE_LIMIT_HOSTS, SE_EV_GS_GROUP_DOWN, APIC_VS_NETWORK_RESOLVE_ERROR, POOL_HEALTH_DEGRADED, CONTAINER_CLOUD_ACCESS_SUCCESS, CC_VNIC_ADDITION_FAILURE, CONN_DROP_NO_PKT_BUFF, SE_HEALTH_CHANGE, CC_VIP_DNS_REGISTER_FAILURE, CC_IP_ATTACHED, VCA_IMAGE_UPLOAD_FAILURE, SE_FATAL_ERROR, CC_MARATHON_SERVICE_PORT_OUTSIDE_VALID_RANGE, SE_SERVER_DELETED, VINFRA_DISC_CLUSTER, CREATE_SE_FAIL, VS_SCALEOUT_FAILED, SE_CONN_MEM_HIGH, SUMMARIZED_SUBNETS, CREATING_SE, APIC_DELETE_LIF_CONTEXTS, SE_PKT_BUFF_HIGH, CC_VNIC_DELETED, VINFRA_DISC_FAILURE, SE_EV_GS_DOWN, SERVER_AUTOSCALE_IN_COMPLETE, OPENSTACK_IP_DETACH_FAILURE, CC_SE_STARTED, APIC_CREATE_NETWORK, PKT_BUFF_ALLOC_FAIL, CC_MARATHON_SERVICE_PORT_ALREADY_IN_USE, APIC_ATTACH_CIF_TO_LIF, GSLB_SITE_EXCEPTION_STATUS, CC_SE_CREATION_FAILURE, REBALANCE_VS_MIGRATE, SE_VNIC_DUPLICATE_IP, GCP_ROUTE_DELETE_FAIL, LICENSE_EXPIRY, OPENSTACK_VNIC_ADDITION_FAILURE, CONTROLLER_SERVICE_FAILURE, VS_MIGRATE_SCALEOUT_DONE, APIC_CREATE_CDEV, VS_FSM_DISABLED, SE_MEM_HIGH, CONN_DROP_NO_CONN_MEM, VM_REMOVED, REBOOT_SE, VS_RPC_TO_RESMGR_FAILED_EVENT, SERVER_AUTOSCALE_OUT, CONN_DROP_MAX_FLOW_TBL, REBALANCE_VS_SCALEOUT, SE_REBOOTED, CC_SYNC_SERVICES_SUCCESS, ROLLBACK_ALL_SE_DONE, DOCKER_UCP_IMAGE_UPLOAD_SUCCESS, SE_CPU_HIGH, SE_GATEWAY_HEARTBEAT_FAILED, SSL_CERT_RENEW_FAILED, VS_SCALEOUT_COMPLETE, CC_CONFIG_FAILURE, LICENSE_EXPIRED, IP_POOL_ALMOST_EXHAUSTED, APIC_BAD_CREDENTIALS, VINFRA_DISC_DC, VCENTER_ADDRESS_ERROR, LS_ACCESS_SUCCESS, SE_FLOW_TBL_HIGH, POOL_SE_HA_COMPROMISED, CC_IP_DETACH_FAILURE, VCA_ACCESS_FAILURE, VS_SCALEIN_ERR, CONTAINER_CLOUD_DELETED_SE, SE_VM_DELETED, IP_POOL_EXHAUSTED, VS_HEALTH_DEGRADED, CREATE_SE_TIMEOUT, GCP_ROUTE_DELETE_SUCCESS, OPENSTACK_LBPROV_AUDIT_SUCCESS, SE_EV_GS_MEMBER_DOWN, POOL_UP, GSLB_GS_STATUS, SE_HEALTH_DEGRADED, VS_RPC_TO_SE_FAILED_EVENT, MESOS_DELETE_SE_FAIL, GCP_ACCESS_FAIL, NEW_PROBABLE_SRVR, SYSTEM_ROLLBACK_STARTED, CONTAINER_CLOUD_IMAGE_UPLOAD_IN_PROGRESS, USER_LOGIN, VS_RPC_FAILED_EVENT, CONTROLLER_WARM_REBOOT, CLUSTER_CONFIG_FAILED, GS_GROUP_DOWN, CONTROLLER_NODE_JOINED, UPGRADE_ALL_SE_DONE, LS_ACCESS_FAILURE, VS_SCALEOUT_DONE, DOCKER_UCP_ACCESS_FAILURE, SE_VNIC_IP_ADDED, UPGRADE_SE_VS_MIGRATE, RM_DEL_NETWORK_FAIL, CC_CLUSTER_VIP_DECONFIG_FAILURE, GS_MEMBER_DOWN, SE_EV_GS_GROUP_UP, MESOS_ACCESS_SUCCESS, UPGRADE_SE_DONE, SE_HM_EVENT_SHM_UP, NO_HOST_AVAIL, OPENSTACK_VNIC_ADDED, CC_CLUSTER_VIP_CONFIG_SUCCESS, CC_SE_START_FAILURE, MESOS_STOP_SE_FAIL, SE_HEALTH_CHECK_FAIL, AVG_UPTIME_CHANGE, SE_VNIC_DHCP_IP_ALLOC_FAILURE, OPENSTACK_LBPLUGIN_OP_FAILURE, CC_DECONFIG_FAILURE, CONTAINER_CLOUD_STOP_SE_FAIL, CREATED_SE, VINFRA_DISC_COMPLETE, VS_FSM_INACTIVE, SE_EV_GS_MEMBER_UP, MIGRATE_SE_RESTARTED, REBALANCE_VS_SCALEIN, DOCKER_UCP_IMAGE_UPLOAD_FAILURE, MIGRATE_SE_STARTED, SE_HM_EVENT_SHM_DOWN, CLOUDSTACK_ACCESS_FAILURE, VS_SCALEIN_FAILED, LICENSE_LIMIT_VS, MIGRATE_SE_FAILED, MESOS_CREATED_SE, SE_EV_GS_UP, UPGRADE_SE_START, SE_ENABLE, OPENSTACK_VNIC_REMOVED, OPENSTACK_SE_CREATION_FAILURE, CONTAINER_CLOUD_IMAGE_UPLOAD_FAILURE, CONTAINER_CLOUD_START_SE_FAIL, CC_SE_DELETION_FAILURE, CONTROLLER_SERVICE_CRITICAL_FAILURE, SE_EV_POOL_UP, CONFIG_INTERNAL_UPDATE, SYSTEM_UPGRADE_ABORTED, MESOS_IMAGE_UPLOAD_IN_PROGRESS, VS_SE_IP_FAIL, OPENSTACK_SE_VM_CREATED, GCP_ACCESS_SUCCESS, VS_SE_BOOTUP_FAIL, OPENSTACK_IMAGE_UPLOAD_SUCCESS, APIC_NETWORK_VRF_CHANGED, LICENSE_ADDITION_NOTIF, SERVER_AUTOSCALE_IN, VCENTER_CONNECTIVITY_FAIL, MESOS_UPDATED_HOSTS, DELETE_SE_FAIL, LS_IMAGE_UPLOAD_SUCCESS, OPENSTACK_SE_VM_DELETION_DETECTED, SCHEDULER_ACTION_SUCCESS, LICENSE_LIMIT_THROUGHPUT, SE_GROUP_CLUSTER_DEL, MIGRATE_SE_VS_MIGRATE_FINISHED, CONTAINER_CLOUD_ACCESS_FAILURE, VCENTER_VERSION_NOT_SUPPORTED, SERVER_DELETED, APIC_DELETE_NETWORK, VS_SCALEIN_DONE_AWAITING_MORE_SE, AWS_ACCESS_FAILURE, SE_UP, SE_MARKED_DOWN, SERVER_AUTOSCALE_FAILED, MODIFY_NW, SE_SERVER_APP_CHANGED, SE_HEARTBEAT_FAILURE, CC_SE_STOP_FAILURE, OPENSTACK_VNIC_DELETION_FAILURE, CC_SE_STOPPED, GS_DOWN, SE_EV_VS_UP, CONN_DROP_MAX_SYN_TBL, CC_DELETE_VIP_FAILURE, CONTROLLER_NODE_DB_REPLICATION_FAILED, POOL_DOWN, SCHEDULER_ACTION_FAILURE, OPENSTACK_IP_DETACHED, CC_IP_ATTACH_FAILURE, LICENSE_LIMIT_SERVERS, VS_INITIAL_PLACEMENT_FAILED, SE_VNIC_IP_REMOVED, OPENSTACK_SYNC_SERVICES_FAILURE, SE_VNIC_DOWN_EVENT, SE_HM_EVENT_GHM_UP, CC_CLUSTER_VIP_CONFIG_FAILURE, CONTROLLER_LEADER_FAILOVER, CACHE_OBJ_ALLOC_FAIL, CC_UPDATE_VIP_FAILURE, VS_SCALEIN_COMPLETE, CONFIG_DELETE, APIC_DELETE_LIFS, CONFIG_UPDATE, AWS_IMAGE_UPLOAD_SUCCESS, SE_VERSION_CHECK_FAILED, CONTAINER_CLOUD_CREATE_SE_FAIL, MESOS_IMAGE_UPLOAD_FAILURE, DELETED_SE, CLOUDSTACK_IMAGE_UPLOAD_FAILURE, CONFIG_ACTION, APIC_DELETE_CDEV, SERVER_AUTOSCALE_OUT_COMPLETE, VCENTER_CONNECTIVITY_SUCCESS, GCP_ROUTE_ADD_FAIL, SE_PERSIST_TBL_HIGH, GSLB_SITE_OPER_STATUS, ADD_NW_FAIL, OPENSTACK_SE_VM_DELETED, MESOS_START_SE_FAIL, MESOS_STOPPED_SE, SERVER_HEALTH_CHANGE, DOCKER_UCP_IMAGE_UPLOAD_IN_PROGRESS, CC_SE_DELETED, SE_SYN_TBL_HIGH, SERVER_UP_HA_ACTIVE, SE_DP_HB_FAILED, CLOUDSTACK_IMAGE_UPLOAD_SUCCESS, GCP_API_FAIL, APIC_DELETE_TENANT, VS_MIGRATE_SCALEIN_ERROR, SERVER_HEALTH_DEGRADED, MODIFY_NW_FAIL, SE_GATEWAY_HEARTBEAT_SUCCESS, SE_DOS_ATTACK, CONTAINER_CLOUD_STARTED_SE, VS_FSM_ACTIVE, CONTAINER_CLOUD_SERVICE_FAILURE, VS_ADD_SE, CONTROLLER_NODE_STARTED, OPENSTACK_ACCESS_SUCCESS, VS_CONN_LIMIT, MESOS_IMAGE_UPLOAD_SUCCESS, MGMT_NW_DEL, VS_MIGRATE_SCALEOUT_ERROR, UPGRADE_ALL_SE_NOT_NEEDED, SE_SERVER_DISABLED, VS_FSM_PERMANENT_ERROR, APIC_CREATE_LIFS, CC_VNIC_ADDED, SERVER_AUTOSCALE_OUT_FAILED, MIGRATE_SE_VS_MIGRATE_FAILED, OPENSTACK_LBPLUGIN_OP_SUCCESS, SERVER_DOWN, CC_SE_DELETION_DETECTED, CONTAINER_CLOUD_SERVICE_SUCCESS, CC_VNIC_DELETION_FAILURE, DISCOVERY_DATACENTER_DEL, APIC_CREATE_TENANT, VS_HEALTH_CHANGE, VS_FSM_ACTIVE_AWAITING_SCALEOUT_READY, GCP_SE_DETECTED, SE_DISK_HIGH, USER_LOGOUT, MGMT_NW_NAME_CHANGED, APIC_DETACH_CIF_FROM_LIF, METRICS_DB_DISK_FULL, ESX_HOST_POWERED_DOWN, SYSTEM_UPGRADE_STARTED, SE_DOWN, CC_SE_CREATED, VS_FSM_UNEXPECTED_EVENT, ADD_VIP_VNIC, LICENSE_LIMIT_SE_SOCKETS, APIC_VS_PLACEMENT, CONTAINER_CLOUD_DELETE_SE_FAIL, GS_MEMBER_UP, VS_MIGRATE_FAILED, VS_UP, SYSTEM_ROLLBACK_COMPLETE, VS_REMOVED_SE_INT, SE_EV_GS_GROUP_DELETED, VS_MIGRATE_COMPLETE, MESOS_STARTED_SE, GS_GROUP_UP, VS_MIGRATE_STARTED, VS_FSM_TRANSIENT_ERROR, CC_GENERIC_FAILURE, LS_IMAGE_UPLOAD_FAILURE, POOL_AUTO_DEPLOYMENT_FAILED, CC_CLUSTER_VIP_DECONFIG_SUCCESS, SE_EV_SERVER_DOWN, VS_AWAITING_SE, DOS_ATTACK, SE_POOL_DELETED, VS_REMOVED_SE, POOL_SE_HA_ACTIVE, VS_SCALEOUT_DONE_AWAITING_MORE_SE, MIGRATE_SE_VS_MIGRATE_STARTED, SE_MIGRATE, OPENSTACK_TENANTS_DELETED, GS_UP, SE_EXTERNAL_HM_RESTART, ROLLBACK_ALL_SE_START, VCENTER_ACCESS_SLOW, VCENTER_BAD_CREDENTIALS, VS_FSM_PARTITIONED, VS_SE_HA_ACTIVE, GSLB_DNS_STATUS, USER_PASSWORD_CHANGE_REQUEST, VS_SE_HA_COMPROMISED, VINFRA_DISC_VM, OPENSTACK_SYNC_SERVICES_SUCCESS, LICENSE_LIMIT_SE_VCPUS, POOL_AUTO_DEPLOYMENT_SUCCESS, SE_HM_EVENT_GHM_DOWN, OPENSTACK_IP_ATTACH_FAILURE, CLOUDSTACK_ACCESS_SUCCESS, AWS_ACCESS_SUCCESS, DOCKER_UCP_ACCESS_SUCCESS, CC_SYNC_SERVICES_FAILURE, CC_HEALTH_OK, VS_DOWN, MESOS_DELETED_SE, VS_ADD_SE_INT, CONTAINER_CLOUD_UPDATED_HOSTS, SE_POWERED_DOWN, MESOS_CREATE_SE_FAIL, VS_SCALEOUT_ERR, SERVER_UP, CC_TENANT_INIT_FAILURE, SERVER_AUTOSCALE_IN_FAILED, DEL_VIP_VNIC, POOL_HEALTH_CHANGE, VCA_ACCESS_SUCCESS, VS_MIGRATE_SCALEIN_DONE, SSL_KEY_EXPORTED, CONTROLLER_NODE_LEFT, CONN_DROP_POOL_LB_FAILURE, CONTAINER_CLOUD_CREATED_SE, VINFRA_DISC_HOST, CC_IP_DETACHED, UPGRADE_SE_VS_DISRUPTED, VS_FSM_AWAITING_SE_ASSIGNMENT, UPGRADE_SE_NOT_NEEDED, SE_GROUP_MGMT_NW_DEL, METRIC_THRESHOLD_UP_VIOLATION, SERVER_DOWN_HA_COMPROMISED, UPGRADE_ALL_SE_START, UPGRADE_SE_VS_SCALEIN, APIC_BIND_VNIC_TO_NETWORK, ADD_NW_SE, SE_EV_SERVER_UP, VS_FSM_ACTIVE_AWAITING_SE_TRANSITION, VS_MIGRATE_DONE, CONFIG_INTERNAL_CREATE, UPGRADE_SE_VS_SCALEOUT, CONTROLLER_SERVICE_RESTORED, AWS_IMAGE_UPLOAD_FAILURE, OPENSTACK_SE_DELETION_FAILURE, DELETING_SE, OPENSTACK_IMAGE_UPLOAD_FAILURE, CONN_DROP_MAX_PERSIST_TBL, SYSTEM_ROLLBACK_ABORTED, DUPLICATE_SUBNETS, SSL_CERT_RENEW, GCP_ROUTE_ADD_SUCCESS, ANOMALY, VS_SWITCHOVER, CONTAINER_CLOUD_STOPPED_SE, SE_EV_POOL_DOWN, OPENSTACK_IP_ATTACHED, OPENSTACK_LBPROV_AUDIT_FAILURE, VM_ADDED, SSL_CERT_EXPIRE, VCA_IMAGE_UPLOAD_SUCCESS, SE_EV_VS_DOWN, VS_SCALEIN_DONE, CC_HEALTH_FAILURE, SE_SYN_CACHE_USAGE_HIGH, LICENSE_REMOVAL_NOTIF, MIGRATE_SE_FINISHED, VS_SWITCHOVER_FAIL, SE_VM_PURGED</dd></dl><p><strong>cluster</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>sslkeyandcertificate</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>pool</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
@@ -572,7 +616,7 @@
 <div class='container'id=VIMgrDCRuntime
 <p><h3 class='text-success'>VIMgrDCRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cluster_refs</strong><br></p>
@@ -596,7 +640,7 @@
 <div class='container'id=VIMgrHostRuntime
 <p><h3 class='text-success'>VIMgrHostRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cluster_name</strong><br></p>
@@ -634,7 +678,7 @@
 <div class='container'id=VIMgrClusterRuntime
 <p><h3 class='text-success'>VIMgrClusterRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>datacenter_managed_object_id</strong><br></p>
@@ -646,7 +690,7 @@
 <div class='container'id=VIMgrNWRuntime
 <p><h3 class='text-success'>VIMgrNWRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>datacenter_uuid</strong><br></p>
@@ -663,7 +707,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrvmruntime.html#VIMgrVMRuntime>Reference to VIMgrVMRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>host_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrhostruntime.html#VIMgrHostRuntime>Reference to VIMgrHostRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>availability_zone</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vrf_context_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/vrfcontext?name=global</dd></dl><p><strong>tenant_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/vrfcontext?name=global</dd></dl><p><strong>apic_vrf_context</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/tenant?name=admin</dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
@@ -682,7 +727,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fip_available</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Indicates floating/elastic IP association possibility</dd><dt>Default</dt><dd>False</dd></dl><p><strong>fip_subnet_uuids</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list</dd></dl><p><strong>primary</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>True if prefix is primary IP on interface, else false</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=IpAddrPrefix
 <p><h3 class='text-success'>IpAddrPrefix<br></h3></p>
 <p><strong>ip_addr</strong><br></p>
@@ -696,7 +742,7 @@
 <div class='container'id=VIMgrVMRuntime
 <p><h3 class='text-success'>VIMgrVMRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>host</strong><br></p>
@@ -724,13 +770,14 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>se_ver</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>1</dd></dl><p><strong>init_vnics</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>controller_cluster_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>availability_zone</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/tenant?name=admin</dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
 <div class='container'id=VIMgrGuestNicRuntime
 <p><h3 class='text-success'>VIMgrGuestNicRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>guest_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>guest_ip</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VIMgrIPSubnetRuntime>VIMgrIPSubnetRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>mac_addr</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>network_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>del_pending</strong><br></p>
@@ -744,7 +791,7 @@
 <div class='container'id=VIMgrSEVMRuntime
 <p><h3 class='text-success'>VIMgrSEVMRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>host</strong><br></p>
@@ -773,7 +820,9 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>deletion_in_progress</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>hostid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>controller_cluster_uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>availability_zone</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>host_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrhostruntime.html#VIMgrHostRuntime>Reference to VIMgrHostRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/tenant?name=admin</dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
 
@@ -794,7 +843,7 @@
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    show vinfra vcenter &ltkey&gt datastores filter [datacenter]
+    show vinfra vcenter &ltkey&gt datastores filter [datacenter] [vcenter_url]
 </code></pre>
 </div>
 
@@ -829,7 +878,7 @@
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    show vinfra vcenter &ltkey&gt folders filter [datacenter] [folder]
+    show vinfra vcenter &ltkey&gt folders filter [vcenter_url] [datacenter] [folder]
 </code></pre>
 </div>
 
@@ -905,11 +954,13 @@
     <div class='container'id=VIDatastoreFilter
 <p><h3 class='text-success'>VIDatastoreFilter<br></h3></p>
 <p><strong>datacenter</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>vcenter_url</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 
     <div class='container'id=VISubfolderFilter
 <p><h3 class='text-success'>VISubfolderFilter<br></h3></p>
-<p><strong>datacenter</strong><br></p>
+<p><strong>vcenter_url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>datacenter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>folder</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 

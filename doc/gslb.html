@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Gslb </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>Gslb</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/gslb
+    PUT /api/gslb/&ltkey&gt
+    DELETE /api/gslb/&ltkey&gt
+    GET /api/gslb
+    GET /api/gslb/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure gslb &ltkey&gt
+    show gslb &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=Gslb
+<p><h3 class='text-success'>Gslb<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the Gslb.</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name for the Gslb.</dd></dl><p><strong>dns_configs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DNSConfig>DNSConfig</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Sub domain configuration for this Gslb. GslbService FQDN must be a match one of these subdomains. </dd></dl><p><strong>sites</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSite>GslbSite</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Select Site belonging to this Gslb.</dd></dl><p><strong>leader_cluster_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Mark this Site as leader of Gslb configuration.  This is the one among the sites.</dd></dl><p><strong>send_interval</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Frequency with which group members communicate.</dd><dt>Default</dt><dd>15</dd></dl><p><strong>clear_on_max_retries</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Max retries after which the remote site is treatedas a fresh start. In fresh start all the configsare downloaded.</dd><dt>Default</dt><dd>5</dd></dl><p><strong>view_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>The view-id is used in maintenance mode to differentiate partitioned groups while they havethe same gslb namespace. Each partitioned groupwill be able to operate independently by using theview-id.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=DNSConfig
+<p><h3 class='text-success'>DNSConfig<br></h3></p>
+<p><strong>domain_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Gslb Subdomain used for GslbService FQDN match and placement. </dd></dl></div>
+<div class='container'id=GslbSite
+<p><h3 class='text-success'>GslbSite<br></h3></p>
+<p><strong>cluster_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>UUID of the 'Cluster' object of the Controller Cluster in this site.</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name for the Site Controller Cluster.</dd></dl><p><strong>address</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster.</dd></dl><p><strong>ip_addresses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>IP Address(es) of the Site's Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided.</dd></dl><p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Site Controller Cluster's REST API port number.</dd><dt>Default</dt><dd>443</dd></dl><p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The username used when authenticating with the Site. </dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The password used when authenticating with the Site.</dd></dl><p><strong>dns_vs_uuids</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>The list of DNS-VSes on which the GSes shall be placed. The site has to be an ACTIVE member.</dd></dl><p><strong>member_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The site's member type: A leader is set to ACTIVE while allmembers are set to passive. </dd><dt>Default</dt><dd>GSLB_PASSIVE_MEMBER</dd><dt>Choices</dt><dd>GSLB_PASSIVE_MEMBER, GSLB_ACTIVE_MEMBER</dd></dl><p><strong>enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site's configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site.</dd><dt>Default</dt><dd>True</dd></dl></div>
+<div class='container'id=IpAddr
+<p><h3 class='text-success'>IpAddr<br></h3></p>
+<p><strong>addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+<h2 class='text-primary'>GslbRuntimeInternal </h2>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/gslb/&ltkey&gt/runtime/internal/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show gslb &ltkey&gt internal
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=GslbRuntimeInternal
+<p><h3 class='text-success'>GslbRuntimeInternal<br></h3></p>
+<p><strong>info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbRuntime>GslbRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbRuntime
+<p><h3 class='text-success'>GslbRuntime<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ldr_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>flr_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>dns_enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>site</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSiteRuntime>GslbSiteRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>event_cache</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#EventCache>EventCache</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=CfgState
+<p><h3 class='text-success'>CfgState<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>object-uuid that is being synced to follower. </dd></dl><p><strong>cfg_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>cfg-version synced to follower. </dd></dl><p><strong>cfg_version_in_flight</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>cfg-version in flight to follower. </dd></dl><p><strong>status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Status of the object. </dd><dt>Choices</dt><dd>SYSERR_RM_NO_DEFAULT_GW_SE_MGMT_NW, SYSERR_DEQUEUE, SYSERR_GSLB_INVALID_OPS, SYSERR_RM_ALL_SE_IN_SE_GRP_NW_ACC_MAX_VS, SYSERR_GSLB_INVALID_MTYPE, SYSERR_RM_VIP_SE_GRP_MISMATCH, SYSERR_VI_MGR_SEVM_NO_AVAILABILITY_ZONE, SYSERR_RM_DEF_GW_INCORRECT, SYSERR_RPC_FAILED, SYSERR_UPGRADE_IN_PROGRESS, SYSERR_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_LEASE, SYSERR_RM_PARENT_SE_NW_ACC, SYSERR_VS_MIGRATE_SCALEOUT_ERROR, SYSERR_OS_AGENT_OPENSTACK_ACCESSERR, SYSERR_VI_MGR_SEVM_CREATE_FAIL_POWER_ON, SYSERR_CC_AGENT_METHOD_NOT_IMPLEMENTED, SYSERR_VS_RPC_FAILURE, SYSERR_RPC_SEND_FAILED, SYSERR_DB_CACHE_OBJ_NOT_FOUND, SYSERR_RM_CANNOT_SPAWN_SE, SYSERR_FAULT, SYSERR_RM_VS_SE_VNIC_IP_IN_PROG, SYSERR_CC_NO_FLAVOR, SYSERR_SE_MGR_VNIC_NOT_FOUND, SYSERR_RM_VIP_SE_NW_ACC, SYSERR_AUTOSCALE_REASON_POOL_STATE_CHANGE, SYSERR_VI_MGR_SEVM_VCENTER_CONN_FAIL, SYSERR_DB_QUERY_QUEUED, SYSERR_SVC_COMMON_OBJECT_NOT_IN_CACHED_VIEW, SYSERR_ANOMALYZER_NOT_ENOUGH_SAMPLES, SYSERR_INVAL, SYSERR_METRICS_TOO_MANY_MSG_ACROSS_ENTITIES, SYSERR_RM_RES_NOT_NEEDED, SYSERR_OUT_OF_MEMORY, SYSERR_VS_INVALID_OBJECT, SYSERR_RM_VS_SE_VNIC_ADD_IN_PROG, SYSERR_RM_RES_VIP_REACH_LOST, SYSERR_NO_MULTICAST_RECEIVERS, SYSERR_RM_AWAIT_VM_CREATE, SYSERR_VI_MGR_SEVM_SET_MGMT_IP_FAILED, SYSERR_AUTOSCALEIN_FAILED_LIMIT_EXCEEDED, SYSERR_DB_UPDATE_FAILED, SYSERR_RM_RES_UNAVAIL_NOTIFY, SYSERR_VS_NOT_PRESENT, SYSERR_TIMEOUT, SYSERR_RM_VIP_NO_NETWORK, SYSERR_CC_AGENT_VNIC_NO_IPS_AVAILABLE, SYSERR_DESERIALIZATION, SYSERR_RM_VIP_SE_MAX_VS, SYSERR_AUTOSCALE_POLICY_NOT_FOUND, SYSERR_SEAGENT_OBJ_GRAPHDB_ERROR, SYSERR_AUTOSCALE_REASON_ALERT, SYSERR_VI_MGR_VCENTER_VERSION_MISMATCH, SYSERR_FLEET_API_ERROR, SYSERR_RM_VS_SE_BOOTUP_IN_PROG, SYSERR_RM_SE_GRP_MAX_VS, SYSERR_SEAGENT_OBJ_DISABLED_RULE_POOL, SYSERR_VS_MIGRATE_ERROR, SYSERR_CC_SVC_Q_FULL, SYSERR_MESOS_DISCOVERY_DEPLOYMENT_FAIL, SYSERR_RM_CONSUMER_NOT_FOUND, SYSERR_VS_SCALEIN_ERROR, SYSERR_VI_MGR_SEVM_VNIC_FAILURE_QUESTION, SYSERR_GSLB_PARTIAL_SUCCESS, SYSERR_RM_REACHABILITY_FAILED, SYSERR_GSLB_INVALID_SITE_CREDENTIALS, SYSERR_AUTOSCALE_IGNORED_AS_WITHIN_COOLDOWN, SYSERR_RM_ALL_SE_IN_SE_GRP_MAX_VS, SYSERR_SE_MGR_UNKNOWN_SE, SYSERR_OS_AGENT_Q_FULL, SYSERR_AUTOSCALE_REASON_ORCHESTRATION_FAILED, SYSERR_RM_QUERY_HOST_IN_PROGRESS, SYSERR_RM_NETWORK_NOT_FOUND, SYSERR_RM_RES_INFRA_DELETED, SYSERR_CC_AGENT_VNIC_NO_SUBNETWORK, SYSERR_RM_ALL_SE_IN_SE_GRP_USED, SYSERR_SEAGENT_OBJ_DP_ERROR, SYSERR_VI_MGR_SEVM_CREATE_FAIL_DUPLICATE_NAME, SYSERR_AUTOSCALE_REASON_INTELLIGENT_AUTOSCALE, SYSERR_VS_NOT_ENOUGH_RESOURCES, SYSERR_VS_NOT_BOUND, SYSERR_VS_SE_NOT_AVAILABLE, SYSERR_DATASTORE_UNKNOWN_FAILURE, SYSERR_INVALID_HEALTH_MONITOR_TYPE, SYSERR_RPC_TIMED_OUT, SYSERR_RM_VNIC_IP_FAILURE, SYSERR_CC_AGENT_VNIC_FAILURE, SYSERR_RM_PARTIAL_SE_FOUND, SYSERR_CC_SVC_INVALID_DATA, SYSERR_RM_NO_SE_IN_SE_GRP, SYSERR_RM_SE_MGMT_NO_STATIC_IPS_CONFIGURED, SYSERR_VI_MGR_SEVM_CREATE_NO_HOST, SYSERR_RM_NO_SUITABLE_HOST, SYSERR_RPC_CANCELED_BY_TRANSACTION_CLEANUP, SYSERR_CC_AGENT_DECONFIG_FAILURE, SYSERR_RM_NO_SE_IN_SE_GRP_VIP_ACC, SYSERR_AUTOSCALE_ORCHESTRATION_TIMEOUT, SYSERR_RM_SE_GRP_NW_ACC, SYSERR_VI_MGR_SEVM_FLAVOR_UNAVAIL, SYSERR_MARATHON_INACCESSIBLE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MGMT_NW, SYSERR_SE_MGR_UNKNOWN_STATE_TRANSITION, SYSERR_SEAGENT_OBJ_AWAITING_DP_PROGRAMMING, SYSERR_CC_AGENT_ABSENT, SYSERR_GSLB_OBJECT_NOT_FOUND, SYSERR_RM_INSUFFICIENT_BUFFER_SE, SYSERR_RM_BOOTUP_FAILURE, SYSERR_RM_CONSUMER_PENDING_TASK, SYSERR_ENQUEUE, SYSERR_RM_ALL_SE_INSE_GRP_DISABLED, SYSERR_SE_UPGRADE_IN_PROGRESS, SYSERR_OS_AGENT_INVALID_DATA, SYSERR_DATASTORE_REFERENCE_DOES_NOT_EXIST, SYSERR_RM_SRVR_NO_NETWORK, SYSERR_CC_OS_AGENT_NEUTRON_HOST_ACCESSERR, SYSERR_RPC_CANCELED_BY_CLIENT, SYSERR_VI_MGR_SEVM_CREATE_NO_IMAGE, SYSERR_RM_CONSUMER_RESOURCES_SATISFIED, SYSERR_MESOS_SSH_CMD_TIMEOUT, SYSERR_VI_MGR_SEVM_TIMED_OUT, SYSERR_DATASTORE_OBJECT_DOES_NOT_EXIST, SYSERR_RM_RELEASE_SE_UNAVAIL, SYSERR_IO, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MGMT_NW_PORTS, SYSERR_RM_RES_CONN_LOST, SYSERR_VS_VNIC_FAILURE, SYSERR_DB_CACHE_TBL_NOT_FOUND, SYSERR_SEAGENT_OBJ_INACTIVE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_CPU, SYSERR_CC_AGENT_GENERIC_FAILURE, SYSERR_MESOS_SSH_FAILURE, SYSERR_OS_AGENT_OPENSTACK_RESOURCEERR, SYSERR_RUM_TOOMANYSAMPLES, SYSERR_NO_ENT, SYSERR_RM_DATA_DHCP_FAILURE, SYSERR_RPC_CONNECT_FAILED, SYSERR_SUCCESS, SYSERR_VS_AWAIT_STATIC_SE, SYSERR_VS_MIGRATE_SCALEIN_ERROR, SYSERR_RM_MULT_SE_CRASH, SYSERR_METRICS_TOO_MANY_MSG, SYSERR_RM_RES_NOT_INUSE, SYSERR_RM_PARENT_SE_MAX_VS, SYSERR_VI_MGR_SEVM_CREATE_FAIL_ABORTED, SYSERR_QUEUE_TRANSPORT_FAILURE, SYSERR_RM_VIP_SE_PENDING_OP, SYSERR_GSLB_CLEANUP_IN_PROGRESS, SYSERR_CC_AGENT_RESOURCEERR, SYSERR_SE_MGR_VNIC_ALLOC_FAIL, SYSERR_DATASTORE_LOCK_FAILURE, SYSERR_AUTOSCALE_REASON_TOO_MANY_SERVERS, SYSERR_RM_VS_SE_CREATE_IN_PROG, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_HW_INFO, SYSERR_VS_DELETE_WHILE_STILL_BEING_REFERRED, SYSERR_VS_SERVICE_ENGINE_DOWN, SYSERR_CC_AGENT_ACCESSERR, SYSERR_QUEUE_RETRY_TASK, SYSERR_RM_VS_PROCESSING, SYSERR_VI_MGR_SEVM_CREATE_LIMIT_REACHED, SYSERR_GSLB_FQDN_CONFLICT, SYSERR_VS_SCALEOUT_ERROR, SYSERR_MESOS_SSH_NOTFOUND, SYSERR_INVALID_METHOD, SYSERR_CONTROLLER_NOT_READY, SYSERR_OS_AGENT_TENANT_ABSENT, SYSERR_RM_UNKNOWN_SE_GROUP, SYSERR_VS_INVALID_METHOD, SYSERR_RM_MULT_MGMT_SUBNET, SYSERR_RM_NO_MGMT_SUBNET, SYSERR_MARATHON_APP_TERMINATED, SYSERR_DB_QUERY_FAILED, SYSERR_CC_AGENT_SCALE_IN_FAILED, SYSERR_AUTOSCALE_REASON_NOT_ENOUGH_SERVERS, SYSERR_RM_STATIC_POOL_EXHAUSTED, SYSERR_VS_INVALID_REQUEST, SYSERR_ACCESS, SYSERR_VS_MIN_SE_NOT_ASSIGNED, SYSERR_CC_AGENT_CONFIG_FAILURE, SYSERR_DATASTORE_TBL_NOT_EXIST, SYSERR_VI_MGR_SEVM_VNIC_MAC_ADDR_ERROR, SYSERR_VI_MGR_SEVM_VNIC_NO_PG_PORTS, SYSERR_MESOS_DISCOVERY_TIMEOUT, SYSERR_SEAGENT_OBJ_ACTIVE, SYSERR_VS_INTERNAL_ERROR, SYSERR_VI_MGR_SEVM_VNIC_FAILURE, SYSERR_RM_MAX_SE_CREATE_ATTEMPTS, SYSERR_VI_MGR_SEVM_INVALID_DATA, SYSERR_WARM_START_IN_PROGRESS, SYSERR_RM_RES_USER_REBOOTED, SYSERR_RM_AWAIT_BOOTUP, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_PROGRESS, SYSERR_RM_VIP_MULT_NETWORKS, SYSERR_RM_SE_MGMT_STATIC_IPS_EXHAUSTED, SYSERR_DATASTORE_TRANSPORT_FAILURE, SYSERR_VERSION_MISMATCH, SYSERR_RM_RESOURCE_NOT_FOUND, SYSERR_NOT_SUPPORTED, SYSERR_AUTOSCALE_REASON_CONFIG_UPDATE, SYSERR_CC_AGENT_UNINITIALIZED, SYSERR_CC_AGENT_TENANT_ABSENT, SYSERR_VI_MGR_SEVM_CREATE_FAIL_MULTIPLE_MGMT_NW, SYSERR_OS_AGENT_OPENSTACK_UNINITIALIZED, SYSERR_RM_NO_SE_IN_SE_GRP_SRVR_ACC, SYSERR_VI_MGR_LOGIN_FAIL_USER_CREDENTIALS, SYSERR_MESOS_SSH_ABORTED, SYSERR_SEAGENT_EASTWEST_VS_SUBNET_ERROR, SYSERR_VI_MGR_SEVM_DELETED, SYSERR_VI_MGR_SEVM_CREATE_ACCESS_ERROR, SYSERR_VI_MGR_SEVM_VNIC_NO_VM, SYSERR_VI_MGR_SEVM_VINFRA_UNINITIALIZED, SYSERR_AUTOSCALE_REASON_MANUAL, SYSERR_SE_MGR_SE_OFFLINE_HB_FAILURE, SYSERR_RM_MAX_SE_IN_GRP, SYSERR_RM_RES_CRASHED, SYSERR_BAD_REQUEST, SYSERR_RM_ALL_SE_IN_SE_GRP_DOWN, SYSERR_DATASTORE_DB_LOCKED, SYSERR_VI_MGR_SEVM_DELETE_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MEM, SYSERR_SERIALIZATION, SYSERR_AUTOSCALEOUT_FAILED_LIMIT_EXCEEDED, SYSERR_CC_AGENT_TENANT_ACCESSERR, SYSERR_RM_RES_UNAVAIL, SYSERR_RM_MGMT_DHCP_FAILURE, SYSERR_VI_MGR_SEVM_NO_SOURCE_CLONE, SYSERR_RM_PENDING_VNIC_OP, SYSERR_RM_MAX_PARALLEL_SE_CREATE, SYSERR_RM_SE_GRP_VIP_NW_ACC, SYSERR_TEST1, SYSERR_RM_CANNOT_ADD_VNICS, SYSERR_TEST2, SYSERR_RM_STATIC_NO_POOL, SYSERR_VS_SE_ASSIGNMENT_FAILED, SYSERR_RM_SE_GRP_PENDING_OP, SYSERR_SE_NOT_CONNECTED, SYSERR_RM_RES_USER_DELETED, SYSERR_NOT_READY, SYSERR_CC_AGENT_NOT_IMPLEMENTED, SYSERR_RM_NO_SE_FOUND, SYSERR_VI_MGR_LOGIN_FAIL_NO_VCENTER, SYSERR_VI_MGR_SEVM_VINFRA_FAILURE, SYSERR_VS_DISABLED, SYSERR_VI_MGR_SEVM_CREATE_FAIL_OVF_ERROR, SYSERR_RM_AWAIT_VNIC_ADD, SYSERR_VI_MGR_SEVM_CREATE_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_NO_HOST_VM_NETWORK, SYSERR_DB_QUERY_BATCHED, SYSERR_RM_SRVR_MULT_NETWORKS, SYSERR_VI_MGR_SEVM_VNIC_SUCCESS, SYSERR_CC_AGENT_NON_INFRA_SEVM, SYSERR_RM_VS_SE_PING_CHECK_IN_PROG, SYSERR_RM_PARENT_SE_GRP_MISMATCH</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>site_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>site_uuid to which the object was synced.</dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=TimeStamp
+<p><h3 class='text-success'>TimeStamp<br></h3></p>
+<p><strong>secs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>usecs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbSiteRuntime
+<p><h3 class='text-success'>GslbSiteRuntime<br></h3></p>
+<p><strong>site_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSiteRuntimeInfo>GslbSiteRuntimeInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>site_cfg</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSiteRuntimeCfg>GslbSiteRuntimeCfg</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>site_stats</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSiteRuntimeStats>GslbSiteRuntimeStats</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>rxed_site_hs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbSiteHealthStatus>GslbSiteHealthStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbSiteRuntimeInfo
+<p><h3 class='text-success'>GslbSiteRuntimeInfo<br></h3></p>
+<p><strong>cluster_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>role</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Site Role: Leader or Follower.</dd><dt>Default</dt><dd>GSLB_NOT_A_MEMBER</dd><dt>Choices</dt><dd>GSLB_MEMBER, GSLB_NOT_A_MEMBER, GSLB_LEADER</dd></dl><p><strong>sw_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Current Software version of the site</dd><dt>Default</dt><dd>Not-Initialized</dd></dl><p><strong>oper_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SITE_STATE_NULL</dd><dt>Choices</dt><dd>SITE_STATE_NULL, SITE_STATE_JOIN_IN_PROGRESS, SITE_STATE_UNREACHABLE, SITE_STATE_DISABLED, SITE_STATE_MMODE, SITE_STATE_LEAVE_IN_PROGRESS, SITE_STATE_DISABLE_IN_PROGRESS, SITE_STATE_INIT</dd></dl><p><strong>state_reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>State - Reason</dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/disable state retrieved from the cfg </dd></dl><p><strong>num_of_retries</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of retry attempts to reach the remote site</dd><dt>Default</dt><dd>0</dd></dl><p><strong>cluster_leader</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Leader-IP/VIP/FQDN of the site-cluster</dd></dl><p><strong>hs_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health-status monitoring enable or disable</dd></dl><p><strong>rrtoken</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Current outstanding request-response token of the message to this site</dd></dl><p><strong>dns_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbDnsInfo>GslbDnsInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>operational dns state at the site</dd></dl><p><strong>event_cache</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#EventCache>EventCache</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>event-cache used for event throttling.</dd></dl></div>
+<div class='container'id=OperationalStatus
+<p><h3 class='text-success'>OperationalStatus<br></h3></p>
+<p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_FAILED, OPER_UP, OPER_DISABLING, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_UNAVAIL, OPER_DISABLED</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code_string</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbDnsInfo
+<p><h3 class='text-success'>GslbDnsInfo<br></h3></p>
+<p><strong>dns_active</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>This field indicates that atleast one DNS is active at the site. </dd></dl><p><strong>dns_vs_states</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbPerDnsState>GslbPerDnsState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbPerDnsState
+<p><h3 class='text-success'>GslbPerDnsState<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Configured dns-vs-uuid at the site.</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Configured dns-vs-name at the site.</dd></dl><p><strong>valid_dns_vs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>This field indicates that the local VS is configured to be a DNS service. The services, network profile and application profile are configured in Virtual Service for DNS operations. </dd></dl><p><strong>oper_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=EventCache
+<p><h3 class='text-success'>EventCache<br></h3></p>
+<p><strong>dns_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>exceptions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Cache the exception strings in the system</dd></dl></div>
+<div class='container'id=GslbSiteRuntimeCfg
+<p><h3 class='text-success'>GslbSiteRuntimeCfg<br></h3></p>
+<p><strong>glb_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ConfigInfo>ConfigInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Gslb info published for a site</dd></dl><p><strong>ghm_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ConfigInfo>ConfigInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>GHM info published for a site</dd></dl><p><strong>gs_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ConfigInfo>ConfigInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>GS info published for a site</dd></dl><p><strong>mm_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ConfigInfo>ConfigInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maintenance mode info published for a site</dd></dl></div>
+<div class='container'id=ConfigInfo
+<p><h3 class='text-success'>ConfigInfo<br></h3></p>
+<p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>REPL_DISABLED, REPL_NONE, REPL_ENABLED</dd></dl><p><strong>writer_count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>reader_count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>queue</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VersionInfo>VersionInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=VersionInfo
+<p><h3 class='text-success'>VersionInfo<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ops</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>GSLB_NONE, GSLB_CREATE, GSLB_DELETE, GSLB_UPDATE</dd></dl></div>
+<div class='container'id=GslbSiteRuntimeStats
+<p><h3 class='text-success'>GslbSiteRuntimeStats<br></h3></p>
+<p><strong>num_glb_cr_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_glb_cr_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_glb_del_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_glb_del_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_glb_upd_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_glb_upd_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_cr_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_cr_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_del_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_del_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_upd_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_gs_upd_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_cr_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_cr_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_del_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_del_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_upd_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_ghm_upd_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_health_msgs_txed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_health_msgs_rxed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_of_timeouts</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_of_events_generated</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_of_bad_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>num_of_skip_outstanding_requests</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=GslbSiteHealthStatus
+<p><h3 class='text-success'>GslbSiteHealthStatus<br></h3></p>
+<p><strong>timestamp</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>float</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Timestamp of Health-Status generation</dd></dl><p><strong>sw_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Current Software version of the site</dd></dl><p><strong>dns_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbDnsInfo>GslbDnsInfo</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DNS info at the site</dd></dl><p><strong>controller_gsinfo</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbPoolMemberRuntimeInfo>GslbPoolMemberRuntimeInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Controller retrieved Gslb Service operational info based of virtual service state. </dd></dl><p><strong>datapath_gsinfo</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbPoolMemberRuntimeInfo>GslbPoolMemberRuntimeInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Controller retrieved Gslb Service operational info based of dns datapath resolution. This information is generated only on those sites that have DNS-VS participating in GSLB.</dd></dl><p><strong>glb_table</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Gslb state at member</dd></dl><p><strong>ghm_table</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>GslbHealthMonitor state at member</dd></dl><p><strong>gs_table</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>GslbService state at member</dd></dl></div>
+<div class='container'id=GslbPoolMemberRuntimeInfo
+<p><h3 class='text-success'>GslbPoolMemberRuntimeInfo<br></h3></p>
+<p><strong>gs_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The GS UUID to which this member belongs</dd></dl><p><strong>gs_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cluster_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Site Controller Cluster UUID to which this member belongs</dd></dl><p><strong>site_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Site 's name is required for event-generation etc</dd></dl><p><strong>vs_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>VS UUID belonging to this GslbService</dd></dl><p><strong>vs_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>VS name belonging to this GslbService</dd></dl><p><strong>fqdn</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fqdn address of the member. </dd></dl><p><strong>ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>GslbPoolMember's configured VIP. </dd></dl><p><strong>oper_ips</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Operational VIPs of the member: that can map to multiple VS IP addresses such as private, public and floating addresses.</dd></dl><p><strong>vip_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Describes the VIP type: Avi or non-Avi.</dd><dt>Choices</dt><dd>NON_AVI_VIP, AVI_VIP</dd></dl><p><strong>services</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Service>Service</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>services configured on the Virtual Service.</dd></dl><p><strong>ip_value_to_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>This is an internal field that conveys the IP address from the controller to service engine in binary format. </dd></dl><p><strong>oper_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Pool Member's consolidated operational status </dd></dl><p><strong>controller_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Controller retrieved member status at the site</dd></dl><p><strong>datapath_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbPoolMemberDatapathStatus>GslbPoolMemberDatapathStatus</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>DNS computed member status from different sites</dd></dl><p><strong>vserver_l4_metrics</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VserverL4MetricsObj>VserverL4MetricsObj</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Front end L4 metrics of the virtual service</dd></dl><p><strong>vserver_l7_metrics</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VserverL7MetricsObj>VserverL7MetricsObj</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Front end L7 metrics of the virtual service</dd></dl></div>
+<div class='container'id=Service
+<p><h3 class='text-success'>Service<br></h3></p>
+<p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The Virtual Service's port number.</dd></dl><p><strong>enable_ssl</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable SSL termination and offload for traffic from clients.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>override_network_profile_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=networkprofile.html#NetworkProfile>Reference to NetworkProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Override the network profile for this specific service port.</dd></dl><p><strong>port_range_end</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The end of the Virtual Service's port number range.</dd><dt>Default</dt><dd>0</dd></dl></div>
+<div class='container'id=GslbPoolMemberDatapathStatus
+<p><h3 class='text-success'>GslbPoolMemberDatapathStatus<br></h3></p>
+<p><strong>site_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>oper_status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#OperationalStatus>OperationalStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=VserverL4MetricsObj
+<p><h3 class='text-success'>VserverL4MetricsObj<br></h3></p>
+<p><strong>node_obj_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>sum_dup_ack_retransmits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total duplicate ACK retransmits across all connections</dd></dl><p><strong>sum_sack_retransmits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total SACK retransmits across all connections</dd></dl><p><strong>sum_timeout_retransmits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total connection timeouts in the interval</dd></dl><p><strong>sum_out_of_orders</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total out of order packets across all connections</dd></dl><p><strong>avg_syns</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total syncs sent across all connections</dd></dl><p><strong>avg_new_established_conns</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Averaged rate of new client connections per second.</dd></dl><p><strong>sum_finished_conns</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of finished connections</dd></dl><p><strong>max_open_conns</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Max number of open connections</dd></dl><p><strong>sum_connections_dropped</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total connections dropped including failed</dd></dl><p><strong>avg_rx_pkts</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of packets received per second</dd></dl><p><strong>avg_rx_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of bytes received per second</dd></dl><p><strong>avg_tx_pkts</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of packets transmitted per second</dd></dl><p><strong>avg_tx_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of bytes transmitted per second</dd></dl><p><strong>sum_end_to_end_rtt_bucket1</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total connections that have RTT values from 0 to RTT threshold</dd></dl><p><strong>sum_end_to_end_rtt_bucket2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total connections that have RTT values RTT threshold and above</dd></dl><p><strong>sum_conn_duration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total duration across all connections</dd></dl><p><strong>sum_zero_window_size_events</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of zero window size events across all connections</dd></dl><p><strong>sum_server_flow_control</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of connections with server flow control condition</dd></dl><p><strong>sum_end_to_end_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Sum of end to end network RTT experienced by end clients. Higher value would increase response times experienced by clients.</dd></dl><p><strong>avg_bandwidth</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average transmit and receive network bandwidth between client and virtual service.</dd></dl><p><strong>sum_lossy_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total connections that were lossy due to high packet retransmissions.</dd></dl><p><strong>sum_lossy_req</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total requests that were lossy due to high packet retransmissions.</dd></dl><p><strong>sum_connection_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of client network connections that were lossy or dropped.</dd></dl><p><strong>pct_connection_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percent of l4 connection dropped and lossy for virtual service</dd></dl><p><strong>avg_total_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average network round trip time between client and virtual service</dd></dl><p><strong>sum_rtt_valid_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number connections used for rtt</dd></dl><p><strong>apdexc</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>apdex measuring quality of network connections to servers</dd></dl><p><strong>apdexrtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>apdex measuring network connection quality based on RTT</dd></dl><p><strong>avg_complete_conns</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of total connections per second</dd></dl><p><strong>avg_lossy_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of lossy connections per second</dd></dl><p><strong>avg_connections_dropped</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of dropped connections per second</dd></dl><p><strong>avg_errored_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of total errored connections per second</dd></dl><p><strong>avg_policy_drops</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of total connections dropped due to VS policy per second. It includes drops due to rate limits, security policy drops, connection limits etc.</dd></dl><p><strong>max_rx_pkts_absolute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of received frames</dd></dl><p><strong>max_rx_bytes_absolute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of received bytes</dd></dl><p><strong>max_tx_pkts_absolute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of transmitted frames</dd></dl><p><strong>max_tx_bytes_absolute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of transmitted bytes</dd></dl><p><strong>sum_connection_dropped_user_limit</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of connection dropped due to vserver connection limit</dd></dl><p><strong>sum_packet_dropped_user_bandwidth_limit</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of packets dropped due to vserver bandwidth limit</dd></dl><p><strong>avg_l4_client_latency</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average L4 connection duration which does not include client RTT</dd></dl><p><strong>avg_dos_syn_flood</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Syn Floods</dd></dl><p><strong>avg_dos_bad_rst_flood</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Bad Rst Floods</dd></dl><p><strong>avg_dos_malformed_flood</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Malformed Packet Floods</dd></dl><p><strong>avg_dos_fake_session</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Fake Sessions</dd></dl><p><strong>avg_dos_zero_window_stress</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Zero Window Stresses</dd></dl><p><strong>avg_dos_small_window_stress</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of Small Window Stresses</dd></dl><p><strong>avg_dos_http_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of HTTP Timeouts</dd></dl><p><strong>avg_dos_http_error</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of HTTP Errors</dd></dl><p><strong>avg_dos_http_abort</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of HTTP Aborts</dd></dl><p><strong>avg_dos_ssl_error</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of HTTP SSL Errors</dd></dl><p><strong>avg_dos_app_error</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Rate of HTTP App Errors</dd></dl><p><strong>avg_network_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of Network DDOS attacks occurring</dd></dl><p><strong>avg_application_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of Application DDOS attacks occurring</dd></dl><p><strong>avg_dos_rx_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of bytes received per second related to DDoS attack</dd></dl><p><strong>avg_dos_tx_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of bytes transmitted per second related to DDoS attack</dd></dl><p><strong>avg_dos_bandwidth</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average transmit and receive network bandwidth between client and virtual service related to DDoS attack.</dd></dl><p><strong>avg_dos_total_req</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of request used for L7 dos requests normalization</dd></dl><p><strong>avg_dos_req</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of request considered as DoS</dd></dl><p><strong>avg_dos_conn</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of connections considered as DoS</dd></dl><p><strong>pct_dos_rx_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percentage of received bytes as part of a DoS attack.</dd></dl><p><strong>pct_dos_bandwidth</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS bandwidth percentage.</dd></dl><p><strong>pct_network_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Deprecated</dd></dl><p><strong>pct_application_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fraction of L7 requests owing to DoS.</dd></dl><p><strong>pct_policy_drops</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fraction of L4 requests dropped owing to policy.</dd></dl><p><strong>pct_connections_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fraction of L4 connections owing to DoS.</dd></dl><p><strong>pct_pkts_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fraction of packets owing to DoS.</dd></dl><p><strong>avg_dos_non_syn_flood</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Non SYN packet flood</dd></dl><p><strong>avg_dos_slow_uri</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Slow Uri</dd></dl><p><strong>avg_dos_conn_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Connections dropped due to VS rate limit</dd></dl><p><strong>avg_dos_req_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to VS rate limit</dd></dl><p><strong>avg_dos_conn_ip_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Connections dropped due to IP rate limit</dd></dl><p><strong>avg_dos_req_ip_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to IP rate limit</dd></dl><p><strong>avg_dos_req_uri_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to URL rate limit</dd></dl><p><strong>avg_dos_req_ip_uri_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to IP+URL rate limit</dd></dl><p><strong>avg_dos_req_ip_rl_drop_bad</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to IP rate limit for bad requests</dd></dl><p><strong>avg_dos_req_uri_rl_drop_bad</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to URL rate limit for bad requests</dd></dl><p><strong>avg_dos_req_ip_uri_rl_drop_bad</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to IP+URL rate limit for bad requests</dd></dl><p><strong>avg_dos_req_ip_scan_bad_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to bad IP rate limit</dd></dl><p><strong>avg_dos_req_ip_scan_unknown_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to unknown IP rate limit</dd></dl><p><strong>avg_dos_req_uri_scan_bad_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to bad URL rate limit</dd></dl><p><strong>avg_dos_req_uri_scan_unknown_rl_drop</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DoS attack: Requests dropped due to unknown URL rate limit</dd></dl><p><strong>avg_rx_pkts_dropped</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of received packets dropped per second</dd></dl><p><strong>avg_rx_bytes_dropped</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of received bytes dropped per second</dd></dl><p><strong>avg_lossy_req</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Averaged rate of lossy request per second.</dd></dl><p><strong>avg_pkts_policy_drops</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Averaged rate of dropped packets per second due to policy</dd></dl><p><strong>avg_bytes_policy_drops</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Averaged rate bytes dropped per second.</dd></dl><p><strong>avg_total_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Averaged rate bytes dropped per second.</dd></dl><p><strong>max_num_active_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Max number of SEs.</dd></dl><p><strong>avg_dos_attacks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number DDOS attacks occurring</dd></dl></div>
+<div class='container'id=VserverL7MetricsObj
+<p><h3 class='text-success'>VserverL7MetricsObj<br></h3></p>
+<p><strong>node_obj_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>sum_get_reqs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP GET requests</dd></dl><p><strong>sum_post_reqs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP POST requests</dd></dl><p><strong>sum_other_reqs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP requests that are not GET or POST requests</dd></dl><p><strong>sum_finished_sessions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of server sessions closed in this interval</dd></dl><p><strong>sum_reqs_finished_sessions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of requests served across server sessions closed in the interval</dd></dl><p><strong>max_concurrent_sessions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of concurrent HTTP sessions</dd></dl><p><strong>avg_reqs_per_session</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average requests per session measured for closed sessions</dd></dl><p><strong>sum_resp_1xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP 1XX responses</dd></dl><p><strong>avg_resp_1xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 1xx HTTP responses sent per second</dd></dl><p><strong>sum_resp_2xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP 2XX responses</dd></dl><p><strong>avg_resp_2xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 2xx HTTP responses sent per second</dd></dl><p><strong>sum_resp_3xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP 3XX responses</dd></dl><p><strong>avg_resp_3xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 3xx HTTP responses sent per second</dd></dl><p><strong>sum_resp_4xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP 4XX error responses</dd></dl><p><strong>avg_resp_4xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 4xx HTTP responses sent per second</dd></dl><p><strong>avg_resp_4xx_avi_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 4xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors</dd></dl><p><strong>sum_resp_5xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP 5XX error responses</dd></dl><p><strong>avg_resp_5xx</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 5xx HTTP responses sent per second</dd></dl><p><strong>avg_resp_5xx_avi_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of 5xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors</dd></dl><p><strong>sum_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Count of HTTP 400 and 500 errors for a virtual service in a time interval.</dd></dl><p><strong>avg_error_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of HTTP error responses sent per second. It does not include errors excluded in analytics profile.</dd></dl><p><strong>avg_errors_excluded</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of HTTP responses excluded as errors based on analytics profile</dd></dl><p><strong>pct_response_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percent of 4xx and 5xx responses</dd></dl><p><strong>sum_get_client_txn_latency_bucket1</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP GET requests that were responded satisfactorily within latency threshold</dd></dl><p><strong>sum_get_client_txn_latency_bucket2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP GET requests that were responded beyond latency threshold but within tolerated limits</dd></dl><p><strong>sum_post_client_txn_latency_bucket1</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP POST requests that were responded satisfactorily within latency threshold</dd></dl><p><strong>sum_post_client_txn_latency_bucket2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP POST requests that were responded beyond latency threshold but within tolerated limits</dd></dl><p><strong>sum_other_client_txn_latency_bucket1</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP requests other than GET or POST that were responded satisfactorily within latency threshold</dd></dl><p><strong>sum_other_client_txn_latency_bucket2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP requests other than GET or POST that were responded beyond latency threshold but within tolerated limits</dd></dl><p><strong>avg_total_requests</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average rate of client HTTP requests received by the virtual service per second.</dd></dl><p><strong>sum_total_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total number of HTTP responses sent</dd></dl><p><strong>avg_complete_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate of HTTP responses sent per second</dd></dl><p><strong>avg_cache_hits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average cache hit of requests</dd></dl><p><strong>avg_cache_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average cache bytes</dd></dl><p><strong>avg_cacheable_hits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average cacheable hit of requests</dd></dl><p><strong>avg_cacheable_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average cacheable bytes</dd></dl><p><strong>pct_cache_hits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percentage cache hit of requests</dd></dl><p><strong>pct_cacheable_hits</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percentage cacheable hit of requests</dd></dl><p><strong>avg_pre_compression_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average pre compression bytes</dd></dl><p><strong>avg_post_compression_bytes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average post compression bytes</dd></dl><p><strong>apdexr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Client Apdex measures quality of server response based on latency</dd></dl><p><strong>sum_get_client_txn_latency</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total latency from responses to all the GET requests</dd></dl><p><strong>sum_post_client_txn_latency</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total latency from responses to all the POST requests</dd></dl><p><strong>sum_other_client_txn_latency</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total latency from responses to all the requests other than GET or POST</dd></dl><p><strong>avg_client_txn_latency</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average client transaction latency computed by adding response latencies across all HTTP requests.</dd></dl><p><strong>sum_client_data_transfer_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average client data transfer time computed by adding response latencies across all HTTP requests.</dd></dl><p><strong>avg_client_data_transfer_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average client data transfer time that represents latency of sending response to the client excluding the RTT time . Higher client data transfer time signifies lower bandwidth  between client and Avi Service Engine</dd></dl><p><strong>sum_redirection_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total redirect latency reported by client</dd></dl><p><strong>sum_dns_lookup_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total domain lookup latency reported by client</dd></dl><p><strong>sum_connection_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total client connection latency reported by client</dd></dl><p><strong>sum_blocking_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total time client was blocked</dd></dl><p><strong>sum_application_response_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total time taken by server to respond to requesti</dd></dl><p><strong>sum_server_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Sum of all server Round Trip Times for all samples</dd></dl><p><strong>sum_client_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Sum of all client Round Trip Times for all samples</dd></dl><p><strong>sum_service_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total time from receipt of request to start of response</dd></dl><p><strong>sum_page_download_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total time to transfer response to client</dd></dl><p><strong>sum_browser_rendering_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total browser rendering latency reported by client</dd></dl><p><strong>sum_dom_content_load_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total dom content latency reported by client</dd></dl><p><strong>sum_page_load_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total Page Load Time reported by client</dd></dl><p><strong>sum_num_page_load_time_bucket1</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total samples that had satisfactory page load time</dd></dl><p><strong>sum_num_page_load_time_bucket2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total samples that had tolerated page load time</dd></dl><p><strong>sum_waiting_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total waiting reported by client</dd></dl><p><strong>sum_num_rum_samples</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total samples used for rum metrics</dd></dl><p><strong>sum_rum_client_data_transfer_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total client data transfer time by client</dd></dl><p><strong>avg_redirection_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average redirect latency reported by client</dd></dl><p><strong>avg_dns_lookup_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average domain lookup latency reported by client</dd></dl><p><strong>avg_connection_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average client connection latency reported by client</dd></dl><p><strong>avg_blocking_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average time client was blocked as reported by client</dd></dl><p><strong>avg_server_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average server Round Trip Time</dd></dl><p><strong>avg_client_rtt</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average client Round Trip Time</dd></dl><p><strong>avg_application_response_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average server/application response latency</dd></dl><p><strong>avg_browser_rendering_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average browser rendering latency</dd></dl><p><strong>avg_service_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average latency from receipt of request to start of response</dd></dl><p><strong>avg_page_download_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average Page Load time reported by clients</dd></dl><p><strong>avg_dom_content_load_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average Dom content Load Time reported by clients</dd></dl><p><strong>avg_page_load_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average Page Load Time reported by client</dd></dl><p><strong>avg_waiting_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average Waiting Time reported by client</dd></dl><p><strong>avg_rum_client_data_transfer_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Total client data transfer time by client</dd></dl><p><strong>rum_apdexr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Apdex measures quality of server response based on Real User Metric</dd></dl><p><strong>avg_ssl_handshakes_new</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average new successful SSL sessions</dd></dl><p><strong>avg_ssl_handshakes_reused</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average new successful resumed SSL sessions</dd></dl><p><strong>avg_ssl_handshake_protocol_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL handshake failed due to clients or protocol errors</dd></dl><p><strong>avg_ssl_handshake_network_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL handshakes failed due to network errors</dd></dl><p><strong>avg_ssl_handshakes_timedout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL handshakes timed out</dd></dl><p><strong>avg_ssl_errors</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL errors due to clients, protocol errors,network errors and handshake timeouts</dd></dl><p><strong>max_ssl_open_sessions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of open SSL sessions</dd></dl><p><strong>avg_ssl_ver_ssl30</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions with version 3.0</dd></dl><p><strong>avg_ssl_ver_tls10</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions with TLS version 1.0</dd></dl><p><strong>avg_ssl_ver_tls11</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions with TLS version 1.1</dd></dl><p><strong>avg_ssl_ver_tls12</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions with TLS version 1.2</dd></dl><p><strong>avg_ssl_auth_rsa</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions using RSA certificate</dd></dl><p><strong>avg_ssl_auth_ecdsa</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions using Elliptic Curve DSA (ECDSA) certificates</dd></dl><p><strong>avg_ssl_auth_dsa</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions using DSA certificate</dd></dl><p><strong>avg_ssl_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Sessions</dd></dl><p><strong>avg_ssl_failed_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL connections failed due to protocol , network or timeout reasons</dd></dl><p><strong>pct_ssl_failed_connections</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percent of SSL connections failured due to protocol , network or timeout reasons</dd></dl><p><strong>avg_satisfactory_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Avg number of HTTP requests that completed within satisfactory latency</dd></dl><p><strong>avg_tolerated_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Avg number of HTTP requests that completed within tolerated latency</dd></dl><p><strong>avg_frustrated_responses</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Avg number of HTTP requests that completed within frustrated latency</dd></dl><p><strong>avg_ssl_kx_rsa</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using RSA</dd></dl><p><strong>avg_ssl_kx_dh</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using Diffie-Hellman</dd></dl><p><strong>avg_ssl_kx_ecdh</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using RSA</dd></dl><p><strong>avg_ssl_rsa_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using RSA Cerificates and PFS</dd></dl><p><strong>avg_ssl_handshakes_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using PFS</dd></dl><p><strong>ssl_protocol_strength</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Protocol strength of SSL ciphers used.</dd></dl><p><strong>avg_ssl_rsa_non_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using RSA Cerificates without PFS</dd></dl><p><strong>avg_ssl_ecdsa_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using EC Cerificates and PFS</dd></dl><p><strong>avg_ssl_ecdsa_non_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using EC Cerificates without PFS</dd></dl><p><strong>avg_ssl_handshakes_non_pfs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Average SSL Exchanges using Non-PFS</dd></dl></div>
+
+</div>
+
+
+
+<h2 class='text-primary'>GslbRuntimeDetail </h2>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/gslb/&ltkey&gt/runtime/detail/&ltkey&gt
+	Query Params: <a href=#GlbParamsFilter>GlbParamsFilter</a>
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show gslb &ltkey&gt detail filter [site_name]
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=GslbRuntimeDetail
+<p><h3 class='text-success'>GslbRuntimeDetail<br></h3></p>
+<p><strong>info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbRuntime>GslbRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+
+
+<h2 class='text-primary'>GslbRuntimeSummary </h2>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/gslb/&ltkey&gt/runtime/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show gslb &ltkey&gt summary
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=GslbRuntimeSummary
+<p><h3 class='text-success'>GslbRuntimeSummary<br></h3></p>
+<p><strong>info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#GslbRuntime>GslbRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+
+
+<h1 class='text-primary'>Filters</h1>
+    <div class='container'id=GlbParamsFilter
+<p><h3 class='text-success'>GlbParamsFilter<br></h3></p>
+<p><strong>site_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</body>
+</html>

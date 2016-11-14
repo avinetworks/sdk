@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=AlertSyslogConfig
@@ -59,6 +60,31 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The destination Syslog server IP address or hostname.</dd></dl><p><strong>syslog_server_port</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The destination Syslog server's service port.</dd><dt>Default</dt><dd>514</dd></dl><p><strong>udp</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Network protocol to establish syslog session</dd><dt>Default</dt><dd>True</dd></dl></div>
+
+</div>
+
+<h3 class='text-primary'>Actions</h3>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/alertsyslogconfig/&ltkey&gt/testsyslog
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    test alerttestsyslog &ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=AlertTestSyslogSnmpParams
+<p><h3 class='text-success'>AlertTestSyslogSnmpParams<br></h3></p>
+<p><strong>text</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The contents of the Syslog message/SNMP Trap contents</dd></dl></div>
 
 </div>
 

@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=SnmpTrapProfile
@@ -62,6 +63,31 @@
 <p><strong>addr</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
+
+</div>
+
+<h3 class='text-primary'>Actions</h3>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/snmptrapprofile/&ltkey&gt/testsnmptrap
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    test alerttestsnmptrap &ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=AlertTestSyslogSnmpParams
+<p><h3 class='text-success'>AlertTestSyslogSnmpParams<br></h3></p>
+<p><strong>text</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The contents of the Syslog message/SNMP Trap contents</dd></dl></div>
 
 </div>
 
