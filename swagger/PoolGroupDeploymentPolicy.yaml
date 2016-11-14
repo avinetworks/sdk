@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
+    version: '16.3'
     title: Avi API
     contact:
         name: Avi Networks Inc.
@@ -323,9 +323,6 @@ definitions:
                 type: string
             uuid:
                 description: "UUID of the pool group deployment policy"
-                type: string
-            webhook_uuid:
-                description: "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results"
                 type: string
     PoolGroupDeploymentPolicyApiResponse:
         type: object

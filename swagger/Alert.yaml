@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
+    version: '16.3'
     title: Avi API
     contact:
         name: Avi Networks Inc.
@@ -2410,7 +2410,7 @@ definitions:
                 type: integer
                 format: int32
             target:
-                description: "Canonical hostname, of the machine hosting the service"
+                description: "Canonical hostname, of the machine hosting the service, with no trailing period. 'default.host' is valid but not 'default.host.'"
                 type: string
             weight:
                 description: "Relative weight for service records with same priority, high value implies higher preference for this service record"
@@ -4106,12 +4106,6 @@ definitions:
             uuid:
                 description: "Pool's ID"
                 type: string
-            webhook_reason:
-                description: "Reason returned in webhook callback when configured"
-                type: string
-            webhook_result:
-                description: "Result of webhook callback when configured"
-                type: boolean
     PoolDeploymentSuccessInfo:
         type: object
         properties:
@@ -4129,12 +4123,6 @@ definitions:
             uuid:
                 description: "Pool's ID"
                 type: string
-            webhook_reason:
-                description: "Reason returned in webhook callback when configured"
-                type: string
-            webhook_result:
-                description: "Result of webhook callback when configured"
-                type: boolean
     RebalanceMigrateEventDetails:
         type: object
         required:
