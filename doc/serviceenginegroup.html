@@ -59,13 +59,12 @@
 
 {
     "buffer_se": 0, 
-    "ha_mode": "HA_MODE_BEST_EFFORT", 
+    "ha_mode": "HA_MODE_SHARED", 
     "max_se": 8, 
     "name": "test-group"
 }
  </code></pre>
 </div>
-
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
@@ -81,10 +80,11 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of active Service Engines for the Virtual Service.</dd><dt>Default</dt><dd>4</dd></dl><p><strong>max_se</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of Services Engines in this group.</dd><dt>Default</dt><dd>10</dd></dl><p><strong>vcpus_per_se</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of vcpus for each of the Service Engine virtual machines.</dd><dt>Default</dt><dd>2</dd></dl><p><strong>memory_per_se</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Amount of memory for each of the Service Engine virtual machines.</dd><dt>Default</dt><dd>2048</dd></dl><p><strong>max_cpu_usage</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Amount of memory for each of the Service Engine virtual machines.</dd><dt>Default</dt><dd>2048</dd></dl><p><strong>disk_per_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Amount of disk space for each of the Service Engine virtual machines.</dd><dt>Default</dt><dd>10</dd></dl><p><strong>max_cpu_usage</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When CPU utilization exceeds this maximum threshold, Virtual Services hosted on this Service Engine may be rebalanced to other Service Engines to lighten the load. A new Service Engine may be created as part of this process.</dd><dt>Default</dt><dd>80</dd></dl><p><strong>min_cpu_usage</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When CPU utilization falls below the minimum threshold, Virtual Services hosted on this Service Engine may be consolidated onto other underutilized Service Engines.  After consolidation, unused Service Engines may then be eligible for deletion. When CPU utilization exceeds the maximum threshold, Virtual Services hosted on this Service Engine may be migrated to other Service Engines to lighten the load. A new Service Engine may be created as part of this process.</dd><dt>Default</dt><dd>30</dd></dl><p><strong>se_deprovision_delay</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this Service Engine would still be available to be utilized again rather than creating a new Service Engine.</dd><dt>Default</dt><dd>120</dd></dl><p><strong>auto_rebalance</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this Service Engine would still be available to be utilized again rather than creating a new Service Engine. If this value is set to 0, Controller will never delete any Service Engines, administrator has to manually cleanup unused Service Engines.</dd><dt>Default</dt><dd>120</dd></dl><p><strong>auto_rebalance</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If 'Auto Rebalance' is selected, Virtual Services will be automatically migrated when the load on Service Engines falls below the minimum threshold or goes above the maximum threshold. Otherwise, an Alert is generated instead of automatically performing the migration.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>se_name_prefix</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Prefix to use for virtual machine name of Service Engines.</dd><dt>Default</dt><dd>Avi</dd></dl><p><strong>vs_host_redundancy</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Ensure primary and secondary Service Engines are deployed on different physical hosts.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>vcenter_folder</strong><br></p>
@@ -99,11 +99,11 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>True</dd></dl><p><strong>mgmt_network_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=network.html#Network>Reference to Network</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Management network to use for Avi Service Engines</dd></dl><p><strong>mgmt_subnet</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Management subnet to use for Avi Service Engines</dd></dl><p><strong>ha_mode</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>High Availability mode for all the Virtual Services using this Service Engine group.</dd><dt>Default</dt><dd>HA_MODE_SHARED</dd><dt>Choices</dt><dd>HA_MODE_DEDICATED_PAIR, HA_MODE_SHARED_PAIR, HA_MODE_BEST_EFFORT, HA_MODE_SHARED</dd></dl><p><strong>algo</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>High Availability mode for all the Virtual Services using this Service Engine group.</dd><dt>Default</dt><dd>HA_MODE_SHARED</dd><dt>Choices</dt><dd>HA_MODE_SHARED_PAIR, HA_MODE_LEGACY_ACTIVE_STANDBY, HA_MODE_SHARED</dd></dl><p><strong>algo</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If 'compact' placement algorithm is used, Virtual Services are placed on existing Service Engines until they all have the maximum number of Virtual Services. Otherwise, Virtual Services are distributed to as many Service Engines as possible.</dd><dt>Default</dt><dd>PLACEMENT_ALGO_PACKED</dd><dt>Choices</dt><dd>PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED</dd></dl><p><strong>buffer_se</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Excess Service Engine capacity provisioned for HA failover</dd><dt>Default</dt><dd>1</dd></dl><p><strong>active_standby</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Service Engines in active/standby mode for HA failover</dd><dt>Default</dt><dd>False</dd></dl><p><strong>placement_mode</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. If 'Manual' placement mode is selected, user must specify the Service Engine where the Virtual Service should be placed.</dd><dt>Default</dt><dd>PLACEMENT_MODE_AUTO</dd><dt>Choices</dt><dd>PLACEMENT_MODE_AUTO, PLACEMENT_MODE_MANUAL</dd></dl><p><strong>openstack_mgmt_network_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines.</dd><dt>Default</dt><dd>PLACEMENT_MODE_AUTO</dd><dt>Choices</dt><dd>PLACEMENT_MODE_AUTO</dd></dl><p><strong>openstack_mgmt_network_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Avi Management network name</dd></dl><p><strong>openstack_mgmt_network_uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Management network UUID</dd></dl><p><strong>instance_flavor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Instance/Flavor type for SE instance</dd></dl><p><strong>hypervisor</strong><br></p>
@@ -115,14 +115,28 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Time to wait for the scaled out SE to become ready before marking the scaleout done</dd><dt>Default</dt><dd>30</dd></dl><p><strong>vs_scalein_timeout</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Time to wait for the scaled in SE to drain existing flows before marking the scalein done</dd><dt>Default</dt><dd>30</dd></dl><p><strong>hardwaresecuritymodulegroup_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=hardwaresecuritymodulegroup.html#HardwareSecurityModuleGroup>Reference to HardwareSecurityModuleGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>connection_memory_percentage</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percentage of memory for connection state. This will come at the expence of memory used for http in-memory cache.</dd><dt>Default</dt><dd>20</dd></dl><p><strong>extra_config_multiplier</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Multiplier for extra config to support large VS/Pool config.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>vs_scalein_timeout_for_upgrade</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache.</dd><dt>Default</dt><dd>50</dd></dl><p><strong>extra_config_multiplier</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Multiplier for extra config to support large VS/Pool config.</dd><dt>Default</dt><dd>0.0</dd></dl><p><strong>vs_scalein_timeout_for_upgrade</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done</dd><dt>Default</dt><dd>30</dd></dl><p><strong>host_attribute_key</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host Attribute key</dd></dl><p><strong>host_attribute_value</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host Attribute value</dd></dl><p><strong>log_disksz</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum disk space to be used for debug and application logs in MB</dd><dt>Default</dt><dd>10000</dd></dl><p><strong>os_reserved_memory</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Amount of extra memory to be reserved for use by the Operating System on a Service Engine.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>cloud_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Key of a Key,Value pair identifying a set of hosts. Currently used to separate North-South and East-West ServiceEngine sizing requirements, specifically in Container ecosystems, where ServiceEngines on East-West traffic nodes are typically smaller than those on North-South traffic nodes.</dd></dl><p><strong>host_attribute_value</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Value of a Key,Value pair identifying a set of hosts. Currently used to separate North-South and East-West ServiceEngine sizing requirements, specifically in Container ecosystems, where ServiceEngines on East-West traffic nodes are typically smaller than those on North-South traffic nodes.</dd></dl><p><strong>log_disksz</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.</dd><dt>Default</dt><dd>10000</dd></dl><p><strong>os_reserved_memory</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Amount of extra memory to be reserved for use by the Operating System on a Service Engine.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>floating_intf_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. If manual load distribution among the Active Standby ServiceEngines is enabled, Floating IP's provided here will be advertised only by the Active ServiceEngine hosting all the VirtualServices tagged with Active Standby SE 1 Tag.</dd></dl><p><strong>hm_on_standby</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable active health monitoring from the standby SE for all placed virtual services.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>per_app</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>distribute_load_active_standby</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>auto_redistribute_active_standby_load</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>floating_intf_ip_se_2</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>This field is applicable only if the ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, with manual load distribution among the Active Standby ServiceEngines enabled. Floating IP's provided here will be advertised only by the Active ServiceEngine hosting all the VirtualServices tagged with Active Standby SE 2 Tag.</dd></dl><p><strong>custom_tag</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CustomTag>CustomTag</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name</dd></dl><p><strong>dedicated_dispatcher_core</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>cpu_socket_affinity</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>num_flow_cores_sum_changes_to_ignore</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of changes in num flow cores sum to ignore.</dd><dt>Default</dt><dd>8</dd></dl><p><strong>least_load_core_selection</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Select core with least load for new flow.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>cloud_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl><p><strong>iptables</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IptableRuleSet>IptableRuleSet</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Iptable Rules</dd></dl><p><strong>enable_routing</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable routing for this ServiceEngineGroup </dd><dt>Default</dt><dd>False</dd></dl><p><strong>advertise_backend_networks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature.</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=VcenterDatastore
 <p><h3 class='text-success'>VcenterDatastore<br></h3></p>
 <p><strong>datastore_name</strong><br></p>
@@ -162,9 +176,55 @@
 <p><h3 class='text-success'>MetricsRealTimeUpdate<br></h3></p>
 <p><strong>enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>duration</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Real time metrics collection duration in minutes. 0 for infinite.</dd><dt>Default</dt><dd>60</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Real time metrics collection duration in minutes. 0 for infinite.</dd><dt>Default</dt><dd>30</dd></dl></div>
+<div class='container'id=CustomTag
+<p><h3 class='text-success'>CustomTag<br></h3></p>
+<p><strong>tag_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>tag_val</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=IptableRuleSet
+<p><h3 class='text-success'>IptableRuleSet<br></h3></p>
+<p><strong>table</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>chain</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>rules</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IptableRule>IptableRule</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=IptableRule
+<p><h3 class='text-success'>IptableRule<br></h3></p>
+<p><strong>src_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dst_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>src_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PortRange>PortRange</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dst_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PortRange>PortRange</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>proto</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>PROTO_UDP, PROTO_TCP, PROTO_ICMP, PROTO_ALL</dd></dl><p><strong>input_interface</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>output_interface</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>action</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>MASQUERADE, DROP, DNAT, ACCEPT, REJECT</dd></dl><p><strong>dnat_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tag</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=PortRange
+<p><h3 class='text-success'>PortRange<br></h3></p>
+<p><strong>start</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port range start (inclusive).</dd></dl><p><strong>end</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port range end (inclusive).</dd></dl></div>
 
 </div>
+
+<h3 class='text-primary'>Actions</h3>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/serviceenginegroup/&ltkey&gt/redistribute
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    redistribute serviceenginegroup &ltkey&gt
+</code></pre>
+</div>
+
 
 
 <h1 class='text-primary'>References</h1>
@@ -210,7 +270,9 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>up_se</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>down_se</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>query_host_ticks</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>disconnected_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>at_curr_ver_se</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=SeCreateStats
 <p><h3 class='text-success'>SeCreateStats<br></h3></p>
 <p><strong>num_se_create</strong><br></p>

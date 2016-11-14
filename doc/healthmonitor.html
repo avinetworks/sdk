@@ -54,18 +54,12 @@
     "failed_checks": 3, 
     "send_interval": 10, 
     "http_monitor": {
-        "http_request": "GET / HTTP/1.0", 
-        "http_response_code": [
-            {
-                "code": "HTTP_2XX"
-            }
-        ]
+        "http_request": "GET / HTTP/1.0"
     }, 
     "type": "HEALTH_MONITOR_HTTP"
 }
  </code></pre>
 </div>
-
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
@@ -78,7 +72,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value.</dd><dt>Default</dt><dd>4</dd></dl><p><strong>successful_checks</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of continuous successful health checks before server is marked up.</dd><dt>Default</dt><dd>2</dd></dl><p><strong>failed_checks</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of continuous failed health checks before the server is marked down.</dd><dt>Default</dt><dd>2</dd></dl><p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the health monitor.</dd><dt>Choices</dt><dd>HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_PING</dd></dl><p><strong>tcp_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the health monitor.</dd><dt>Choices</dt><dd>HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_PING</dd></dl><p><strong>tcp_monitor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorTcp>HealthMonitorTcp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>http_monitor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorHttp>HealthMonitorHttp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>https_monitor</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorHttp>HealthMonitorHttp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>external_monitor</strong><br></p>
@@ -92,17 +86,17 @@
 <p><h3 class='text-success'>HealthMonitorTcp<br></h3></p>
 <p><strong>tcp_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Request data to send after completing the TCP handshake.</dd></dl><p><strong>tcp_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for the desired keyword in the first 2Kb of the server's UDP response. If this field is left blank, no server response is required.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for the desired keyword in the first 2Kb of the server's TCP response. If this field is left blank, no server response is required.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>tcp_half_open</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Configure TCP health monitor to use half-open TCP connections to monitor the health of backend servers thereby avoiding consumption of a full fledged server side connection and the overhead and logs associated with it.  This method is light-weight as it makes use of listener in server's kernel layer to measure the health and a child socket or user thread is not created on the server side.</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=HealthMonitorHttp
 <p><h3 class='text-success'>HealthMonitorHttp<br></h3></p>
 <p><strong>http_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host: www.site.com Connection: Close</dd><dt>Default</dt><dd>GET / HTTP/1.0</dd></dl><p><strong>http_response_code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableHttpResponse>RepeatableHttpResponse</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of HTTP response codes to match as successful.  Default is 2xx.</dd></dl><p><strong>http_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for a keyword in the first 2Kb of the server header and body response.</dd></dl></div>
-<div class='container'id=RepeatableHttpResponse
-<p><h3 class='text-success'>RepeatableHttpResponse<br></h3></p>
-<p><strong>code</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP response codes to match.</dd><dt>Default</dt><dd>HTTP_2XX</dd><dt>Choices</dt><dd>HTTP_5XX, HTTP_4XX, HTTP_2XX, HTTP_3XX, HTTP_ANY</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of HTTP response codes to match as successful.  Default is 2xx.</dd><dt>Choices</dt><dd>HTTP_1XX, HTTP_3XX, HTTP_2XX, HTTP_5XX, HTTP_4XX, HTTP_ANY</dd></dl><p><strong>http_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for a keyword in the first 2Kb of the server header and body response.</dd></dl><p><strong>maintenance_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
 <div class='container'id=HealthMonitorExternal
 <p><h3 class='text-success'>HealthMonitorExternal<br></h3></p>
 <p><strong>command_path</strong><br></p>
@@ -114,7 +108,8 @@
 <p><h3 class='text-success'>HealthMonitorUdp<br></h3></p>
 <p><strong>udp_request</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send UDP request.</dd></dl><p><strong>udp_response</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for keyword in the UDP response.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for keyword in the UDP response.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
 <div class='container'id=HealthMonitorDNS
 <p><h3 class='text-success'>HealthMonitorDNS<br></h3></p>
 <p><strong>query_name</strong><br></p>

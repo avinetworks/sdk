@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> PoolGroupDeploymentPolicy </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>PoolGroupDeploymentPolicy</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/poolgroupdeploymentpolicy
+    PUT /api/poolgroupdeploymentpolicy/&ltkey&gt
+    DELETE /api/poolgroupdeploymentpolicy/&ltkey&gt
+    GET /api/poolgroupdeploymentpolicy
+    GET /api/poolgroupdeploymentpolicy/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure poolgroupdeploymentpolicy &ltkey&gt
+    show poolgroupdeploymentpolicy &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=PoolGroupDeploymentPolicy
+<p><h3 class='text-success'>PoolGroupDeploymentPolicy<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the pool group deployment policy</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The name of the pool group deployment policy</dd></dl><p><strong>scheme</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>deployment scheme</dd><dt>Default</dt><dd>BLUE_GREEN</dd><dt>Choices</dt><dd>BLUE_GREEN, CANARY</dd></dl><p><strong>test_traffic_ratio_rampup</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green</dd><dt>Default</dt><dd>100</dd></dl><p><strong>rules</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PGDeploymentRule>PGDeploymentRule</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>evaluation_duration</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Duration of evaluation period for automatic deployment</dd><dt>Default</dt><dd>300</dd></dl><p><strong>target_test_traffic_ratio</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Target traffic ratio before pool is made production</dd><dt>Default</dt><dd>100</dd></dl><p><strong>auto_disable_old_prod_pools</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>It will automatically disable old production pools once there is a new production candidate</dd><dt>Default</dt><dd>True</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
+<div class='container'id=PGDeploymentRule
+<p><h3 class='text-success'>PGDeploymentRule<br></h3></p>
+<p><strong>metric_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>health.health_score_value</dd></dl><p><strong>operator</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>CO_GE</dd><dt>Choices</dt><dd>CO_GE, CO_LE, CO_LT, CO_GT, CO_EQ, CO_NE</dd></dl><p><strong>threshold</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="cloud.html">Cloud</a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>

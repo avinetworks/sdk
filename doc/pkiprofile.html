@@ -44,6 +44,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=PKIProfile
@@ -53,10 +54,10 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name of the PKI Profile</dd></dl><p><strong>ca_certs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SSLCertificate>SSLCertificate</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of Certificate Authorities (Root and Intermediate) trusted that is used for certificate validation</dd></dl><p><strong>crls</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CRL>CRL</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Certificate Revocation Lists</dd></dl><p><strong>ignore_peer_chain</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi will not trust Intermediate and Root certs presented by a client.  Instead, only the chain certs configured in the Certificate Authority section will be used to verify trust of the client's cert.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>header_chk_enabled</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Enable host header name check for server cert</dd><dt>Default</dt><dd>False</dd></dl><p><strong>crl_check</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi will not trust Intermediate and Root certs presented by a client.  Instead, only the chain certs configured in the Certificate Authority section will be used to verify trust of the client's cert.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>crl_check</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi will verify via CRL checks that certificates in the trust chain have not been revoked.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>validate_only_leaf_crl</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs</dd><dt>Default</dt><dd>True</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs</dd><dt>Default</dt><dd>True</dd></dl><p><strong>created_by</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=SSLCertificate
 <p><h3 class='text-success'>SSLCertificate<br></h3></p>
@@ -77,7 +78,9 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fingerprint</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>expiry_status</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_CERTIFICATE_GOOD</dd><dt>Choices</dt><dd>SSL_CERTIFICATE_EXPIRED, SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING</dd></dl><p><strong>chain_verified</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>subject_alt_names</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>subjectAltName that provides additional subject identities</dd></dl><p><strong>days_until_expire</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>365</dd></dl></div>
 <div class='container'id=SSLCertificateDescription
 <p><h3 class='text-success'>SSLCertificateDescription<br></h3></p>
 <p><strong>common_name</strong><br></p>
@@ -111,31 +114,15 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Certificate Revocation list from a given issuer in PEM format. This can either be configured directly or via the server_url. </dd></dl><p><strong>last_update</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The date when this CRL was last issued</dd></dl><p><strong>next_update</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The date when a newer CRL will be available. Also conveys the date after which the CRL should be considered obsolete.</dd></dl><p><strong>update_interval</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A CRL may include a Next Update field, which the CRL server uses to designates when a CRL is expired.  In addition to honoring this timer, Avi may more aggresively check for CRL updates via the Refresh Time, which forces an update check based on this timer.</dd></dl><p><strong>etag</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Interval in minutes to check for CRL update. If not specified, interval will be 1 day</dd></dl><p><strong>etag</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Cached etag to optimize the download of the CRL</dd></dl><p><strong>text</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Certificate Revocation list in plain text for readability</dd></dl><p><strong>common_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Common name of the issuer in the Certificate Revocation list</dd></dl><p><strong>fingerprint</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Fingerprint of the CRL. Used to avoid configuring duplicates</dd></dl><p><strong>distinguished_name</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Distinguished name of the issuer in the Certificate Revocation list</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Distinguished name of the issuer in the Certificate Revocation list</dd></dl><p><strong>last_refreshed</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>Last time CRL was refreshed by the system. This is an internal field used by the system</dd></dl></div>
 
 </div>
-
-<h3 class='text-primary'>Actions</h3>
-
-<h3 class='text-primary'>API</h3>
-<div class="container">
-<pre><code>
-    POST /api/pkiprofile/&ltkey&gt
-</code></pre>
-</div>
-
-<h3 class='text-primary'>CLI</h3>
-<div class="container">
-<pre><code>
-    delete pkiprofile &ltkey&gt
-</code></pre>
-</div>
-
 
 
 <h1 class='text-primary'>References</h1>

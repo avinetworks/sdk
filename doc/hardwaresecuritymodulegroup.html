@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=HardwareSecurityModuleGroup
@@ -56,31 +57,49 @@
 <p><h3 class='text-success'>HardwareSecurityModule<br></h3></p>
 <p><strong>type</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HSM type to use</dd><dt>Choices</dt><dd>HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA</dd></dl><p><strong>rfs</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMThalesRFS>HSMThalesRFS</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Thales Remote File System (RFS), used for the netHSMs, configuration</dd></dl><p><strong>nethsm</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMThalesNetHsm>HSMThalesNetHsm</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Thales netHSM specific configuration</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMThalesRFS>HSMThalesRFS</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Thales Remote File Server (RFS), used for the netHSMs, configuration</dd></dl><p><strong>nethsm</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMThalesNetHsm>HSMThalesNetHsm</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Thales netHSM specific configuration</dd></dl><p><strong>sluna</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMSafenetLuna>HSMSafenetLuna</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Safenet/Gemalto Luna/Gem specific configuration</dd></dl></div>
 <div class='container'id=HSMThalesRFS
 <p><h3 class='text-success'>HSMThalesRFS<br></h3></p>
 <p><strong>ip</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address of the RFS server from where to sync the Thales encrypted private key</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port at which the RFS server accepts the sync request from clients for Thales encrypted private key</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port at which the RFS server accepts the sync request from clients for Thales encrypted private key</dd></dl></div>
 <div class='container'id=IpAddr
 <p><h3 class='text-success'>IpAddr<br></h3></p>
 <p><strong>addr</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
-<div class='container'id=Port
-<p><h3 class='text-success'>Port<br></h3></p>
-<p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port number.</dd></dl></div>
 <div class='container'id=HSMThalesNetHsm
 <p><h3 class='text-success'>HSMThalesNetHsm<br></h3></p>
 <p><strong>remote_ip</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address of the netHSM device</dd></dl><p><strong>remote_port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port at which the netHSM device accepts the connection</dd></dl><p><strong>esn</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port at which the netHSM device accepts the connection</dd></dl><p><strong>esn</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Electronic serial number of the netHSM device. Use Thales anonkneti utility to find the netHSM ESN</dd></dl><p><strong>module_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Local module id of the netHSM device</dd><dt>Default</dt><dd>0</dd></dl><p><strong>keyhash</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Hash of the key that netHSM device uses to authenticate itself. Use Thales anonkneti utility to find the netHSM keyhash</dd></dl><p><strong>priority</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Priority class of the nethsm in an high availability setup. 1 is the highest priority and 100 is the lowest priority</dd><dt>Default</dt><dd>100</dd></dl></div>
+<div class='container'id=HSMSafenetLuna
+<p><h3 class='text-success'>HSMSafenetLuna<br></h3></p>
+<p><strong>server</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMSafenetLunaServer>HSMSafenetLunaServer</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>SafeNet/Gemalto HSM Servers used for crypto operations</dd></dl><p><strong>is_ha</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Set to indicate HA across more than one servers</dd><dt>Default</dt><dd>False</dd></dl><p><strong>ha_group_num</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>Group Number of generated HA Group</dd></dl><p><strong>node_info</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HSMSafenetClientInfo>HSMSafenetClientInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Node specific information</dd></dl><p><strong>server_pem</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>Generated File - server.pem</dd></dl></div>
+<div class='container'id=HSMSafenetLunaServer
+<p><h3 class='text-success'>HSMSafenetLunaServer<br></h3></p>
+<p><strong>remote_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address of the Safenet/Gemalto HSM device</dd></dl><p><strong>server_cert</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>CA certificate of the server</dd></dl><p><strong>partition_passwd</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Password of the partition assigned to this client</dd></dl></div>
+<div class='container'id=HSMSafenetClientInfo
+<p><h3 class='text-success'>HSMSafenetClientInfo<br></h3></p>
+<p><strong>client_priv_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Client Private Key generated by createCert</dd></dl><p><strong>client_cert</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Client Certificate generated by createCert</dd></dl><p><strong>client_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name prepended to client key and certificate filename</dd></dl><p><strong>chrystoki_conf</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>Generated File - Chrystoki.conf </dd></dl></div>
 
 </div>
 
