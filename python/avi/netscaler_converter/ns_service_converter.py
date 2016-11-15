@@ -60,7 +60,7 @@ class ServiceConverter(object):
                         LOG.warn('Health monitor %s not found in avi config'
                                  % ref)
 
-                pool_obj["health_monitor_refs"] = monitor_refs
+                pool_obj["health_monitor_refs"] = list(set(monitor_refs))
                 avi_config['Pool'].append(pool_obj)
 
                 for status in conv_status:
@@ -139,6 +139,8 @@ class ServiceConverter(object):
         if not state == 'ENABLED':
             enabled = False
         port = attrs[3]
+        if port == "*":
+            port = "0"
         server_obj = {
             'ip': {
                 'addr': ip_addr,
