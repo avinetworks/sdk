@@ -88,7 +88,7 @@ def get_avi_lb_algorithm(ns_algorithm):
     elif ns_algorithm in ['LEASTRESPONSETIME', 'LRTM']:
         avi_algorithm = 'LB_ALGORITHM_FASTEST_RESPONSE'
     elif ns_algorithm == 'SOURCEIPHASH':
-        avi_algorithm = 'LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS'
+        avi_algorithm = 'LB_ALGORITHM_CONSISTENT_HASH'
     elif ns_algorithm == 'URLHASH':
         avi_algorithm = 'LB_ALGORITHM_CONSISTENT_HASH_URI'
     return avi_algorithm
