@@ -135,7 +135,7 @@ class ProfileConverter(object):
                         "nagles_algorithm": nagle,
                         "max_segment_size": int(mss),
                         "use_interface_mtu": mtu,
-                        "receive_window": int(window)
+                        "receive_window": int(int(window)/1024)
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },

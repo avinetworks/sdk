@@ -14,7 +14,8 @@ LOG = logging.getLogger(__name__)
 
 def init_logger_path(path):
     LOG.setLevel(logging.DEBUG)
-    formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
+    formatter = \
+        '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
     logging.basicConfig(filename=os.path.join(path, 'converter.log'),
                         level=logging.DEBUG, format=formatter)
 
