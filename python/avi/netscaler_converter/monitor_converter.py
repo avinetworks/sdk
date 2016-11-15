@@ -1,6 +1,7 @@
 import logging
 import avi.netscaler_converter.ns_util as ns_util
 import os
+import re
 
 LOG = logging.getLogger(__name__)
 
