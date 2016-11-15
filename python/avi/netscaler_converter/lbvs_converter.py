@@ -72,7 +72,7 @@ class LbvsConverter(object):
                     if pool_obj:
                         pool_obj[0]["fail_action"] = fail_action
 
-                app_profile = 'System-HTTP'
+                app_profile = 'admin:System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
                 if http_prof:
                     app_profile = http_prof
@@ -122,7 +122,11 @@ class LbvsConverter(object):
                             pass
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
-                            vs_obj[avi_ssl_ref] = mapping['certkeyName']
+                            if not [obj for obj in avi_config['SSLKeyAndCertificate'] if obj['name'] == mapping['attrs'][0]]:
+                                LOG.warn('cannot find ssl key cert ref adding system default insted')
+                                vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
+                                continue
+                            vs_obj[avi_ssl_ref] = mapping['attrs'][0]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
                     if mapping and 'sslProfile' in mapping:
