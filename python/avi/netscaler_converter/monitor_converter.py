@@ -1,7 +1,6 @@
 import logging
 import avi.netscaler_converter.ns_util as ns_util
 import os
-import re
 
 LOG = logging.getLogger(__name__)
 
@@ -63,8 +62,7 @@ class MonitorConverter(object):
             avi_monitor["name"] = ns_monitor['attrs'][0]
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
-            matchObj = re.findall('[0-9]+', ns_monitor.get('interval', 5))
-            avi_monitor["send_interval"] = matchObj[0]
+            avi_monitor["send_interval"] = ns_monitor.get('interval', 5)
             avi_monitor["successful_checks"] = ns_monitor.get(
                 'successRetries', 1)
 

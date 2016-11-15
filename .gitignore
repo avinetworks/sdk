@@ -59,4 +59,3 @@ python/avi/sdk/utils/f5_converter/output/
 python/avi/f5_converter/output/
 python/avi/netscaler_converter/output/
 python/avi/netscaler_converter/test/test_output/
-.idea/

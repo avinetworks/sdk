@@ -37,7 +37,7 @@ def get_command(line):
                 'bind serviceGroup', 'add serviceGroup', 'add ns tcpProfile',
                 'add ns httpProfile', 'bind ssl vserver', 'add ssl certKey',
                 'set ssl vserver', 'add ssl profile', 'add cs vserver',
-                'bind cs vserver', 'bind cs policylabel', 'add cs policy']
+                'bind cs vserver', 'bind cs policylabel']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
