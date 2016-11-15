@@ -1,5 +1,6 @@
 import logging
 import copy
+import re
 from avi.netscaler_converter import ns_util
 
 LOG = logging.getLogger(__name__)
@@ -21,7 +22,7 @@ class CsvsConverter(object):
                 'backupVServer', 'mysqlProtocolVersion', 'mysqlServerVersion',
                 'mysqlCharacterSet', 'mysqlServerCapabilities']
 
-    bind_skipped = ['vServer', 'policyName', 'priority', 'type', 'domainName ',
+    bind_skipped = ['vServer', 'priority', 'type', 'domainName ',
                     'gotoPriorityExpression', 'TTL', 'backupIP', 'cookieDomain',
                     'cookieTimeout', 'sitedomainTTL']
 
@@ -31,7 +32,8 @@ class CsvsConverter(object):
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         policy_lables = ns_config.get('bind cs policylabel', {})
-        lbvs_avi_conf = avi_config['VirtualService']
+        policy_config = ns_config.get('add cs policy', {})
+	lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['HTTPPolicySet'] = []
@@ -87,7 +89,10 @@ class CsvsConverter(object):
                 continue
             if isinstance(bind_conf_list, dict):
                 bind_conf_list = [bind_conf_list]
-            for bind_conf in bind_conf_list:
+            cs_vs_policies = []
+            default_pool = None
+            policy_name = ''
+	    for bind_conf in bind_conf_list:
                 b_cmd = 'bind cs vserver %s' % vs_name
                 found = False
                 if len(bind_conf['attrs']) > 1:
@@ -100,9 +105,14 @@ class CsvsConverter(object):
                     if 'targetLBVserver' in bind_conf:
                         lbvs_bindings.append(bind_conf['targetLBVserver'])
                         found = True
+			policy = policy_config[policy_name]
+                        policy = copy.deepcopy(policy)
+                        policy['targetLBVserver'] = bind_conf['targetLBVserver']
+                        cs_vs_policies.append(policy)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     b_cmd += ' -lbvserver %s' % bind_conf['lbvserver']
+		    default_pool = bind_conf['lbvserver']
                     found = True
                 if 'invoke' in bind_conf:
                     parts = bind_conf['invoke'].split(' ')
