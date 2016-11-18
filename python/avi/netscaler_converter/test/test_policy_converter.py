@@ -134,3 +134,176 @@ class Test(unittest.TestCase):
         pool_ref = gSAMPLE_CONFIG['HTTP.REQ.HOSTNAME.EQ']['targetLBVserver'] + "-pool"
         assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
 
+    def test_http_req_url_query_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.QUERY.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['query']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['query']['match_criteria'] == 'QUERY_MATCH_CONTAINS'
+        assert policy['http_request_policy']['match']['query']['match_str'][0] == "instnum"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.QUERY.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_header_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.HEADER.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['hdrs'][0]['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['hdrs'][0]['hdr'] == 'X-Apple-Store-Front'
+        assert policy['http_request_policy']['match']['hdrs'][0]['match_criteria'] == 'HDR_EQUALS'
+        assert policy['http_request_policy']['match']['hdrs'][0]['value'][0] == "1000000"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.HEADER.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_header_exists_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.HEADER.EXISTS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['hdrs'][0]['hdr'] == 'Akamai-Origin-Hop'
+        assert policy['http_request_policy']['match']['hdrs'][0]['match_criteria'] == 'HDR_EXISTS'
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.HEADER.EXISTS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_cookie_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.COOKIE.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['cookie']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['cookie']['name'] == "dz_in_cookie"
+        assert policy['http_request_policy']['match']['cookie']['value'] == "needthismissingvalue"
+        assert policy['http_request_policy']['match']['cookie']['match_criteria'] == 'HDR_CONTAINS'
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.COOKIE.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_cookie_equal_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.COOKIE.EQ'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['cookie']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['cookie']['name'] == "Pod"
+        assert policy['http_request_policy']['match']['cookie']['value'] == "1"
+        assert policy['http_request_policy']['match']['cookie']['match_criteria'] == 'HDR_EQUALS'
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.COOKIE.EQ']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_url_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['URL =='], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "aedw_analytical2"
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'HDR_EQUALS'
+        pool_ref = gSAMPLE_CONFIG['URL ==']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_url_path_get_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'CONTAINS'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "vpp-associate"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_url_path_get_equals_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'EQUALS'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "MZContentLink.woa"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_url_path_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'CONTAINS'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "vpp-associate"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
