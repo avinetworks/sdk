@@ -171,6 +171,12 @@ def update_status_for_skipped(skipped_cmds):
         add_status_row(cmd, 'skipped')
 
 def remove_duplicate_objects(obj_type, obj_list):
+    """
+    Remove duplicate objects from list
+    :param obj_type: Object type
+    :param obj_list: list of all objects
+    :return: return list which has no duplicates objects
+    """
     if len(obj_list) == 1:
         return obj_list
     for source_obj in obj_list:
@@ -183,11 +189,11 @@ def remove_duplicate_objects(obj_type, obj_list):
             if "description" in src_cp:
                 del src_cp["description"]
 
-            tmp_name = tmp_cp.pop("name")
+            del tmp_cp["name"]
             if "description" in tmp_cp:
                 del tmp_cp["description"]
             if cmp(src_cp, tmp_cp) == 0:
-                LOG.warn('Remove duplicate %s object : %s' % (obj_type, tmp_name))
+                LOG.warn('Remove duplicate %s object : %s' % (obj_type, tmp_obj["name"]))
                 del obj_list[index]
                 remove_duplicate_objects(obj_type, obj_list)
 
