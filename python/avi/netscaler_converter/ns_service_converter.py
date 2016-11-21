@@ -50,15 +50,16 @@ class ServiceConverter(object):
                     }
                 monitor_names = self.get_monitors(ns_config, group)
                 avi_monitors = avi_config["HealthMonitor"]
-                monitor_refs = []
+                hm_monitors = []
                 for ref in monitor_names:
                     refs = [mon for mon in avi_monitors
                             if mon['name'] == ref]
                     if refs:
-                        monitor_refs.append(ref)
-                    else:
-                        LOG.warn('Health monitor %s not found in avi config'
-                                 % ref)
+                        hm_monitors.append(refs[0])
+
+                monitors = self.remove_duplicate_health_monitors(hm_monitors)
+
+                monitor_refs = [mon["name"] for mon in monitors]
 
                 pool_obj["health_monitor_refs"] = list(set(monitor_refs))
                 avi_config['Pool'].append(pool_obj)
@@ -189,3 +190,24 @@ class ServiceConverter(object):
             }
             servers.append(server_obj)
         return servers
+
+    def remove_duplicate_health_monitors(self, monitors):
+        if len(monitors) == 1:
+            return monitors
+        for monitor_obj in monitors:
+            for index, hm in enumerate(monitors):
+                if hm['receive_timeout'] == monitor_obj['receive_timeout'] and \
+                                hm['failed_checks'] == monitor_obj['failed_checks'] and \
+                                hm['receive_timeout'] == monitor_obj['receive_timeout'] and \
+                                hm['send_interval'] == monitor_obj['send_interval'] and \
+                                hm['type'] == monitor_obj['type'] and \
+                                hm['successful_checks'] == monitor_obj['successful_checks'] and \
+                                hm['name'] != monitor_obj['name']:
+                    if 'http_monitor' in hm and 'http_monitor' in monitor_obj and \
+                                    hm["http_monitor"]["http_request"] == monitor_obj["http_monitor"]["http_request"] and \
+                                    hm["http_monitor"]["http_response_code"] == monitor_obj["http_monitor"]["http_response_code"]:
+                        LOG.warn('Remove duplicate Health monitor : %s' % hm['name'])
+                        del monitors[index]
+                        self.remove_duplicate_health_monitors(monitors)
+
+        return monitors
