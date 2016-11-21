@@ -1,6 +1,7 @@
 import csv
 import logging
 import os
+import copy
 
 LOG = logging.getLogger(__name__)
 
@@ -168,3 +169,26 @@ def update_status_for_skipped(skipped_cmds):
         return
     for cmd in skipped_cmds:
         add_status_row(cmd, 'skipped')
+
+def remove_duplicate_objects(obj_type, obj_list):
+    if len(obj_list) == 1:
+        return obj_list
+    for source_obj in obj_list:
+        for index, tmp_obj in enumerate(obj_list):
+            if tmp_obj["name"] == source_obj["name"]:
+                continue
+            src_cp = copy.deepcopy(source_obj)
+            tmp_cp = copy.deepcopy(tmp_obj)
+            del src_cp["name"]
+            if "description" in src_cp:
+                del src_cp["description"]
+
+            tmp_name = tmp_cp.pop("name")
+            if "description" in tmp_cp:
+                del tmp_cp["description"]
+            if cmp(src_cp, tmp_cp) == 0:
+                LOG.warn('Remove duplicate %s object : %s' % (obj_type, tmp_name))
+                del obj_list[index]
+                remove_duplicate_objects(obj_type, obj_list)
+
+    return obj_list
