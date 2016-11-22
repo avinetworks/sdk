@@ -192,8 +192,9 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
             if ((k in sensitive_fields) or
                     ((not v) and (type(v) in (list, dict)))):
                 d_xks.append(k)
-        for k in d_xks:
-            x.pop(k)
+        if d_xks:
+            # if there is sensitive field then always return changed
+            return False
         # pop the keys that are marked deleted but not present in y
         # return false if item is marked absent and is present in y
         d_x_absent_ks = []
