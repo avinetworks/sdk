@@ -100,3 +100,12 @@ class Test(unittest.TestCase):
                 else:
                     count += 1
             return count
+
+    def remove_duplicate_health_monitors(self):
+        converted_hm_config = gSAMPLE_CONFIG["converted_hm_config"]
+        hm_config = gSAMPLE_CONFIG["hm_config"]
+        health_monitors = ns_util.remove_duplicate_objects('Health Monitor', hm_config)
+        if cmp(converted_hm_config, health_monitors) != 0:
+            LOG.error("Error in remove duplicate health monitors")
+
+
