@@ -37,7 +37,8 @@ def get_command(line):
                 'bind serviceGroup', 'add serviceGroup', 'add ns tcpProfile',
                 'add ns httpProfile', 'bind ssl vserver', 'add ssl certKey',
                 'set ssl vserver', 'add ssl profile', 'add cs vserver',
-                'bind cs vserver', 'bind cs policylabel', 'add cs policy']
+                'bind cs vserver', 'bind cs policylabel', 'add cs policy',
+                'add_cs_policylabel']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
@@ -62,7 +63,11 @@ def get_ns_conf_dict(filepath):
                 line = line[offset:]
                 for token in line:
                     if isinstance(token, list):
-                        cmd_dict.update({token[0]: token[1]})
+                        if token[0] == "invoke" and 'policylabel' in token[1]:
+                            policyLabel = token[1].split(' ')
+                            cmd_dict.update({policyLabel[0]: policyLabel[1]})
+                        else:
+                            cmd_dict.update({token[0]: token[1]})
                     else:
                         attr_list.append(token)
                 cmd_dict.update({'attrs':attr_list})
