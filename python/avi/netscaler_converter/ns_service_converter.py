@@ -50,15 +50,16 @@ class ServiceConverter(object):
                     }
                 monitor_names = self.get_monitors(ns_config, group)
                 avi_monitors = avi_config["HealthMonitor"]
-                monitor_refs = []
+                hm_monitors = []
                 for ref in monitor_names:
                     refs = [mon for mon in avi_monitors
                             if mon['name'] == ref]
                     if refs:
-                        monitor_refs.append(ref)
-                    else:
-                        LOG.warn('Health monitor %s not found in avi config'
-                                 % ref)
+                        hm_monitors.append(refs[0])
+
+                monitors = ns_util.remove_duplicate_objects('Health Monitor', hm_monitors)
+
+                monitor_refs = [mon["name"] for mon in monitors]
 
                 pool_obj["health_monitor_refs"] = list(set(monitor_refs))
                 avi_config['Pool'].append(pool_obj)
