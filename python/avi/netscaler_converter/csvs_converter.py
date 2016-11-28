@@ -219,7 +219,7 @@ class CsvsConverter(object):
             "match_criteria": ''
         }
         policy_rules = {
-            'name': policy_name + '-rule' + rule_index,
+            'name': policy_name + '-rule',
             "index": rule_index,
             'match': {},
             'switching_action': {
@@ -242,7 +242,7 @@ class CsvsConverter(object):
             query = query.strip()
             policy_rule = copy.deepcopy(policy_rules)
             policy_rule["index"] = rule_index
-            policy_rule["name"] += rule_index
+            policy_rule["name"] += str(rule_index)
             if 'URL ==' in rule:
                 a, b = query.split("==")
                 b = b.strip()
@@ -335,16 +335,16 @@ class CsvsConverter(object):
                     policy_rule["match"]["host_hdr"]["value"].append(match)
                 rule_index += 1
 
-            elif 'HTTP.REQ.COOKIE.CONTAINS' in query or \
-                            'HTTP.REQ.COOKIE.CONTAINS' in query:
+            elif ('HTTP.REQ.COOKIE' in query and 'CONTAINS' in query) or \
+                    ('HTTP.REQ.COOKIE' in query and 'EQ' in query):
                 policy_rule["match"].update({"cookie": cookie})
                 matches = re.findall('\"(.+?)\"', query)
                 if len(matches) != 2:
                     LOG.warning('No Matches found for %s' % query)
                     continue
-                if 'HTTP.REQ.COOKIE.CONTAINS' in query:
+                if ('HTTP.REQ.COOKIE' in query and 'CONTAINS' in query):
                     policy_rule["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
-                elif 'HTTP.REQ.COOKIE.CONTAINS' in query:
+                elif ('HTTP.REQ.COOKIE' in query and 'EQ' in query):
                     policy_rule["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
                 policy_rule["match"]["cookie"]["value"] = matches[1]
                 policy_rule["match"]["cookie"]["name"] = matches[0]
@@ -354,15 +354,15 @@ class CsvsConverter(object):
                             'HTTP.REQ.URL.PATH.CONTAINS' in query:
                 policy_rule["match"].update({"query": path_query})
                 if 'HTTP.REQ.URL.PATH.GET' in query:
-                    policy_rule["match"]["query"]["match_criteria"] = "EQUALS"
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
                 elif 'HTTP.REQ.URL.PATH.CONTAINS' in query:
-                    policy_rule["match"]["query"]["match_criteria"] = "CONTAINS"
+                    policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
                 matches = re.findall('\"(.+?)\"', query)
                 if len(matches) == 0:
                     LOG.warning('No Matches found for %s' % query)
                     continue
                 for match in matches:
-                    policy_rule["match"]["query"]["match_str"].append(match)
+                    policy_rule["match"]["path"]["match_str"].append(match)
                 rule_index += 1
 
             else:
