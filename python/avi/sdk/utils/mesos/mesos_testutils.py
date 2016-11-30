@@ -255,8 +255,13 @@ class MesosTestUtils(object):
                 auth=HTTPBasicAuth(username, password)
             rsp = requests.post(marathon_uri, data=json.dumps(app_obj),
                                 auth = auth, headers=headers)
+            if rsp.status_code == 409:
+                print 'got response %s, retrying with force=true' %rsp.text
+                marathon_uri = marathon_uri + '?force=true'
+                rsp = requests.post(marathon_uri, data=json.dumps(app_obj),
+                                    auth = auth, headers=headers)
             if rsp.status_code >= 300:
-                raise RuntimeError('failed to create app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
+                raise RuntimeError('failed to create app %s; got response code %s: %s' %(app_id, str(rsp.status_code), rsp.text))
             print 'created app', app_id, app_obj, ' response ', rsp.text
         return app_ids
 
