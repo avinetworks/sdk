@@ -105,15 +105,19 @@ class CsvsConverter(object):
                         policyLabels = policy_lables[policyLabelName]
                         if isinstance(policyLabels, dict):
                             policyLabels = [policyLabels]
-                        for policyLabel in policyLabels:
-                            if 'targetVserver' in policyLabel.keys() and 'policyName' in bind_conf and policyLabel['targetVserver']:
-                                lbvs_bindings.append(policyLabel['targetVserver'])
+                        targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
+                        if targetVserver:
+                            print 'target vserevr1 : %s' % targetVserver
+                            pl_cmd = "bind cs policylabel : %s" % policyLabelName
+                            if 'policyName' in bind_conf:
+                                policy_name = bind_conf['policyName']
+                                lbvs_bindings.append(targetVserver)
                                 found = True
                                 policy = policy_config[policy_name]
                                 policy = copy.deepcopy(policy)
-                                policy['targetLBVserver'] = policyLabel['targetVserver']
+                                policy['targetLBVserver'] = targetVserver
                                 cs_vs_policies.append(policy)
-                                break
+                                ns_util.add_status_row(pl_cmd, 'successful')
 
                 if 'policyName' in bind_conf:
                     policy_name = bind_conf['policyName']
@@ -411,9 +415,18 @@ class CsvsConverter(object):
             return rule_index, policy_obj
         return rule_index, None
 
+    def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=10):
+        if depth == 0:
+            return None
 
-
-
-
-
-
+        target_vserver = [x['targetVserver'] for x in policyLabel if x in 'targetVserver']
+        if target_vserver:
+            return target_vserver[0]
+        else:
+            policy_label = [x['invoke'] for x in policyLabel if x in 'invoke']
+            if policy_label and policy_label[0] in policy_lables.keys():
+                policyLabelName = policy_label[0]
+                policyLabels = policy_lables[policyLabelName]
+                if isinstance(policyLabels, dict):
+                    policyLabels = [policyLabels]
+                self.get_targetvserver_policylabel(self, policyLabels, policy_lables, depth=depth-1)
