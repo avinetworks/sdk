@@ -379,33 +379,6 @@ class CsvsConverter(object):
                     policy_rule["match"]["cookie"]["name"] = matches[0]
                     rule_index += 1
 
-                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'REGEX_MATCH' in query.upper():
-                    policy_rule["match"].update({"path": path_regex})
-                    policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
-                    # matches = re.findall('\"(.+?)\"', query)
-                    # if len(matches) == 0:
-                    #     LOG.warning('No Matches found for %s' % query)
-                    #     continue
-                    # for match in matches:
-                    #     policy_rule["match"]["path"]["string_group_refs"].append(match)
-                    policy_rule["match"]["path"]["string_group_refs"].append("https://10.10.27.32/api/stringgroup/stringgroup-921cedcf-9a6e-4ec5-9792-ed4914538b0c")
-                    rule_index += 1
-
-                elif ('HTTP.REQ.URL.PATH.GET' in query.upper() and ('EQ(' in query.upper() or 'CONTAINS' in query.upper() or 'EQUALS_ANY' in query.upper())) or \
-                                'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():
-                    policy_rule["match"].update({"path": path_query})
-                    if 'HTTP.REQ.URL.PATH.GET' in query.upper() and ('EQ(' in query.upper() or 'EQUALS_ANY' in query.upper()):
-                        policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-                    else:
-                        policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
-                    matches = re.findall('\"(.+?)\"', query)
-                    if len(matches) == 0:
-                        LOG.warning('No Matches found for %s' % query)
-                        continue
-                    for match in matches:
-                        match = re.sub('[\\\/]', '', match)
-                        policy_rule["match"]["path"]["match_str"].append(match)
-                    rule_index += 1
                 else:
                     LOG.warning("%s Rule is not supported" % query)
                     continue
