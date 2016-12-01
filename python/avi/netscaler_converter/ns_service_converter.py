@@ -119,9 +119,14 @@ class ServiceConverter(object):
         for binding in bindings:
             if len(member['attrs']) < 2:
                 continue
+            cmd = "bind service %s" % (member['attrs'][1])
             if binding.get('monitorName', None) and \
                             member['attrs'][1] == binding['attrs'][0]:
-                    mon_ref.append(binding.get('monitorName'))
+                mon_ref.append(binding.get('monitorName'))
+                ns_util.add_status_row(cmd, 'successful')
+            else:
+                ns_util.add_status_row(cmd, 'skipped')
+
 
     def convert_ns_service(self, ns_service, ns_servers, conv_status):
         attrs = ns_service.get('attrs')
