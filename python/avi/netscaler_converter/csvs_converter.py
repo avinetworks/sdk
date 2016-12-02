@@ -33,6 +33,8 @@ class CsvsConverter(object):
         bindings = ns_config.get('bind cs vserver', {})
         policy_lables = ns_config.get('bind cs policylabel', {})
         policy_config = ns_config.get('add cs policy', {})
+        bind_patset = ns_config.get('bind policy patset', {})
+        patset_config = ns_config.get('add policy patset', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
@@ -107,7 +109,6 @@ class CsvsConverter(object):
                             policyLabels = [policyLabels]
                         targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
                         if targetVserver:
-                            print 'target vserevr1 : %s' % targetVserver
                             pl_cmd = "bind cs policylabel : %s" % policyLabelName
                             if 'policyName' in bind_conf:
                                 policy_name = bind_conf['policyName']
@@ -171,7 +172,7 @@ class CsvsConverter(object):
             if default_pool:
                 vs_obj['pool_ref'] = '%s-pool' % default_pool
             for cs_vs_policy in cs_vs_policies:
-                new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index)
+                new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index, bind_patset, patset_config)
                 if policy:
                     http_policies = {
                         'index': 11,
@@ -210,7 +211,7 @@ class CsvsConverter(object):
             elif 'targetVserver' in policy:
                 lbvs_bindings.append(policy['targetVserver'])
 
-    def policy_converter(self, policy, rule_index):
+    def policy_converter(self, policy, rule_index, bind_patset, patset_config):
         policy_name = policy['attrs'][0]
         ns_rule = policy['rule']
         path_query = {
@@ -379,6 +380,80 @@ class CsvsConverter(object):
                     policy_rule["match"]["cookie"]["name"] = matches[0]
                     rule_index += 1
 
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'REGEX_MATCH' in query.upper():
+                    policy_rule["match"].update({"path": path_regex})
+                    policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
+                    exact_match = re.search(r'\((\d+?)\)', query).group(1)
+                    matches1 = re.search(r'\(re(.*?)\)', query).group(1)
+                    matches = re.findall('\(re(.*?)\)', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        regex = '.*/'
+                        if int(exact_match) == 1:
+                            regex = '^%s://.*' % match
+                        elif int(exact_match) > 1:
+                            for index in range(int(exact_match), 2, -1):
+                                regex += '/\w+'
+                            regex += '/%s' % match + '.*'
+                        else:
+                            LOG.warning("%s Rule GET for regex match is not supported" % query)
+                            continue
+                        policy_rule["match"]["path"]["string_group_refs"].append(regex)
+                    rule_index += 1
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+                    exact_match = re.search(r'\((\d+?)\)', query).group(1)
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        regex = '.*/'
+                        match = re.sub('[\\\/]', '', match)
+                        if int(exact_match) == 1:
+                            regex = '^%s://.*' % match
+                        elif int(exact_match) > 1:
+                            if int(exact_match) == 1:
+                                regex = '^%s://.*' % match
+                            elif int(exact_match) > 1:
+                                for index in range(int(exact_match), 2, -1):
+                                    regex += '/\w+'
+                                regex += '/%s' % match + '.*'
+                        else:
+                            LOG.warning("%s Rule GET for Equal match is not supported" % query)
+                            continue
+                        policy_rule["match"]["path"]["match_str"].append(regex)
+                    rule_index += 1
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQUALS_ANY(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    patsets = []
+                    for match in matches:
+                        match = re.sub('[\\\/]', '', match)
+                        patset = self.get_patset_collection(match, bind_patset, patset_config)
+                        patsets += patset
+                    policy_rule["match"]["path"]["match_str"] = list(set(patsets))
+                    rule_index += 1
+
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'CONTAINS(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        match = re.sub('[\\\/]', '', match)
+                        policy_rule["match"]["path"]["match_str"].append(match)
+                    rule_index += 1
+
                 else:
                     LOG.warning("%s Rule is not supported" % query)
                     continue
@@ -392,7 +467,7 @@ class CsvsConverter(object):
         if depth == 0:
             return None
 
-        target_vserver = [x['targetVserver'] for x in policyLabel if x in 'targetVserver']
+        target_vserver = [x['targetVserver'] for x in policyLabel if 'targetVserver' in x]
         if target_vserver:
             return target_vserver[0]
         else:
@@ -403,3 +478,15 @@ class CsvsConverter(object):
                 if isinstance(policyLabels, dict):
                     policyLabels = [policyLabels]
                 self.get_targetvserver_policylabel(self, policyLabels, policy_lables, depth=depth-1)
+
+    def get_patset_collection(self, match, bind_patset, patset_config):
+        if match in patset_config and match in bind_patset:
+            patsets = bind_patset[match]
+            patset_attrs = []
+            for patset in patsets:
+                attrs = [x for x in patset['attrs'] if x != match]
+                patset_attrs += attrs
+            if patset_attrs:
+                return patset_attrs
+
+        LOG.warning("%s Patset policy is not supported" % match)
