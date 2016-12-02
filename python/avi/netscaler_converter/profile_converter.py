@@ -40,6 +40,10 @@ class ProfileConverter(object):
                        'certkeyName', 'ocspCheck', 'skipCAName', 'SNICert',
                        'eccCurveName']
 
+    set_ssl_vserver_skip = ssl_prof_skip + ['dtlsProfileName']
+    set_ssl_vserver_indirect = ['dhCount', 'dh', 'dhFile']
+    set_ssl_vserver_na = ['sslProfileType']
+
     def convert(self, ns_config, avi_config, input_dir):
         http_profiles = ns_config.get('add ns httpProfile', {})
         tcp_profiles = ns_config.get('add ns tcpProfile', {})
@@ -80,6 +84,7 @@ class ProfileConverter(object):
 
         LOG.debug("Conversion started for SSL profiles")
         for key in ssl_vs_mapping.keys():
+            ssl_cmd = 'set ssl vserver %s' % key
             mapping = ssl_vs_mapping[key]
             if not 'sslProfile' in mapping:
                 continue
@@ -90,6 +95,10 @@ class ProfileConverter(object):
             obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
                                     input_dir, avi_ssl_prof)
             avi_config["SSLProfile"].append(avi_ssl_prof)
+            conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
+                                                  self.set_ssl_vserver_indirect,
+                                                  self.set_ssl_vserver_na)
+            ns_util.add_conv_status(ssl_cmd, conv_status, avi_ssl_prof)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):

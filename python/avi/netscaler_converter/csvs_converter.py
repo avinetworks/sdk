@@ -33,6 +33,8 @@ class CsvsConverter(object):
         bindings = ns_config.get('bind cs vserver', {})
         policy_lables = ns_config.get('bind cs policylabel', {})
         policy_config = ns_config.get('add cs policy', {})
+        bind_patset = ns_config.get('bind policy patset', {})
+        patset_config = ns_config.get('add policy patset', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
@@ -98,6 +100,26 @@ class CsvsConverter(object):
                     lbvs_bindings.append(bind_conf['attrs'][1])
                     b_cmd += ' %s' % bind_conf['attrs'][1]
                     found = True
+
+                if 'policylabel' in bind_conf:
+                    policyLabelName = bind_conf['policylabel']
+                    if policyLabelName in policy_lables.keys():
+                        policyLabels = policy_lables[policyLabelName]
+                        if isinstance(policyLabels, dict):
+                            policyLabels = [policyLabels]
+                        targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
+                        if targetVserver:
+                            pl_cmd = "bind cs policylabel : %s" % policyLabelName
+                            if 'policyName' in bind_conf:
+                                policy_name = bind_conf['policyName']
+                                lbvs_bindings.append(targetVserver)
+                                found = True
+                                policy = policy_config[policy_name]
+                                policy = copy.deepcopy(policy)
+                                policy['targetLBVserver'] = targetVserver
+                                cs_vs_policies.append(policy)
+                                ns_util.add_status_row(pl_cmd, 'successful')
+
                 if 'policyName' in bind_conf:
                     policy_name = bind_conf['policyName']
                     b_cmd += ' -policyName %s' % policy_name
@@ -150,7 +172,7 @@ class CsvsConverter(object):
             if default_pool:
                 vs_obj['pool_ref'] = '%s-pool' % default_pool
             for cs_vs_policy in cs_vs_policies:
-                new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index)
+                new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index, bind_patset, patset_config)
                 if policy:
                     http_policies = {
                         'index': 11,
@@ -189,12 +211,17 @@ class CsvsConverter(object):
             elif 'targetVserver' in policy:
                 lbvs_bindings.append(policy['targetVserver'])
 
-    def policy_converter(self, policy, rule_index):
+    def policy_converter(self, policy, rule_index, bind_patset, patset_config):
         policy_name = policy['attrs'][0]
         ns_rule = policy['rule']
         path_query = {
             "match_case": 'INSENSITIVE',
             "match_str": [],
+            "match_criteria": ''
+        }
+        path_regex = {
+            "match_case": 'INSENSITIVE',
+            "string_group_refs": [],
             "match_criteria": ''
         }
         client_ip = {
@@ -236,147 +263,230 @@ class CsvsConverter(object):
                 'rules': []
             },
         }
-        rules = ns_rule.split("&&")
-        for index, rule in enumerate(rules):
-            query = rule.strip('"')
-            query = query.strip()
-            policy_rule = copy.deepcopy(policy_rules)
-            policy_rule["index"] = rule_index
-            policy_rule["name"] += str(rule_index)
-            if 'URL ==' in rule:
-                a, b = query.split("==")
-                b = b.strip()
-                match_str = b.strip("\\'")
-                if match_str is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_str"].append(match_str)
-                policy_rule["match"]["path"]["match_criteria"] = "EQUAL"
-                policy_obj["http_request_policy"]["rules"].append(policy_rule)
-                rule_index += 1
 
-            elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query or \
-                            'HTTP.REQ.URL.QUERY.CONTAINS' in query or \
-                            'HTTP.REQ.URL.PATH.STARTSWITH' in query:
+        conditional_rules = ns_rule.split("&&")
+        for index, conditional_rule in enumerate(conditional_rules):
+            rules = conditional_rule.split("||")
+            for rule in rules:
+                query = rule.strip('"')
+                query = query.strip()
+                policy_rule = copy.deepcopy(policy_rules)
+                policy_rule["index"] = rule_index
+                policy_rule["name"] += str(rule_index)
+                if 'URL ==' in query.upper():
+                    a, b = query.split("==")
+                    b = b.strip()
+                    match_str = b.strip("\\'")
+                    if match_str is None:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_str"].append(match_str)
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUAL"
+                    policy_obj["http_request_policy"]["rules"].append(policy_rule)
+                    rule_index += 1
 
-                policy_rule["match"].update({"query": path_query})
-                policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
+                elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
+                                'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
+                                'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper():
 
-                matches = re.findall('\"(.+?)\"', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    if 'HTTP.REQ.URL.PATH.STARTSWITH' in query or \
-                                    'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query:
+                    policy_rule["match"].update({"query": path_query})
+                    policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
+
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    matches = list(set(matches))
+                    for match in matches:
+                        if 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
+                                        'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper():
+                            match = re.sub('[\\\/]', '', match)
+                            policy_rule["match"]["query"]["match_str"].append(match)
+                    rule_index += 1
+
+                elif 'REQ.IP.SOURCEIP' in query.upper():
+                    policy_rule["match"].update({"client_ip": client_ip})
+                    matches = re.findall('\REQ.IP.SOURCEIP == [0-9.]+', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    matches = list(set(matches))
+                    for match in matches:
+                        a, b = match.split("==")
+                        policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": b.strip()})
+                    rule_index += 1
+
+                elif 'CLIENT.IP.SRC.EQ' in query.upper():
+                    policy_rule["match"].update({"client_ip": client_ip})
+                    matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": match})
+                    rule_index += 1
+
+                elif 'HTTP.REQ.HEADER' in query.upper() and \
+                                ".CONTAINS" in query.upper():
+                    policy_rule["match"].update({"hdrs": header})
+                    policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_CONTAINS"
+
+                    matches = re.findall('\"(.+?)\"', query)
+                    if matches[0] is None or matches[1] is None:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
+                    policy_rule["match"]["hdrs"][0]["value"].append(matches[1])
+                    rule_index += 1
+
+                elif 'HTTP.REQ.HEADER' in query.upper() and ".EXISTS" in query.upper():
+                    header_copy = copy.deepcopy(header)
+                    header_copy.pop("match_case")
+                    header_copy.pop("value")
+                    policy_rule["match"].update({"hdrs": header})
+                    policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if matches[0] is None:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
+                    rule_index += 1
+
+                elif ('HTTP.REQ.HOSTNAME.EQ' in query.upper()) or ('http.REQ.HOSTNAME.SET_TEXT_MODE' in query.upper() and 'EQ' in query.upper()):
+                    policy_rule["match"].update({"host_hdr": host_header})
+                    policy_rule["match"]["host_hdr"]["match_criteria"] = "HDR_EQUALS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
                         match = re.sub('[\\\/]', '', match)
-                        policy_rule["match"]["query"]["match_str"].append(match)
-                rule_index += 1
+                        policy_rule["match"]["host_hdr"]["value"].append(match)
+                    rule_index += 1
 
-            elif 'REQ.IP.SOURCEIP' in query:
-                policy_rule["match"].update({"client_ip": client_ip})
-                matches = re.findall('\REQ.IP.SOURCEIP == [0-9.]+', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    a, b = match.split("==")
-                    policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": b.strip()})
-                rule_index += 1
+                elif ('HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper()) or \
+                        ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
+                    policy_rule["match"].update({"cookie": cookie})
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) != 2:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    if ('HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper()):
+                        policy_rule["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
+                    elif ('HTTP.REQ.COOKIE' in query.upper() and 'EQ' in query.upper()):
+                        policy_rule["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
+                    policy_rule["match"]["cookie"]["value"] = matches[1]
+                    policy_rule["match"]["cookie"]["name"] = matches[0]
+                    rule_index += 1
 
-            elif 'CLIENT.IP.SRC.EQ' in query:
-                policy_rule["match"].update({"client_ip": client_ip})
-                matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": match})
-                rule_index += 1
-
-            elif 'HTTP.REQ.HEADER' in query and \
-                            ".CONTAINS" in query:
-                policy_rule["match"].update({"hdrs": header})
-                policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_EQUALS"
-
-                matches = re.findall('\"(.+?)\"', query)
-                if matches[0] is None or matches[1] is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
-                policy_rule["match"]["hdrs"][0]["value"].append(matches[1])
-                rule_index += 1
-
-            elif 'HTTP.REQ.HEADER' in query and ".EXISTS" in query:
-                header_copy = copy.deepcopy(header)
-                header_copy.pop("match_case")
-                header_copy.pop("value")
-                policy_rule["match"].update({"hdrs": header})
-                policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
-                matches = re.findall('\"(.+?)\"', query)
-                if matches[0] is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
-                rule_index += 1
-
-            elif 'HTTP.REQ.HOSTNAME.EQ' in query:
-                policy_rule["match"].update({"host_hdr": host_header})
-                policy_rule["match"]["host_hdr"]["match_criteria"] = "HDR_EQUALS"
-                matches = re.findall('\"(.+?)\"', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["host_hdr"]["value"].append(match)
-                rule_index += 1
-
-            elif ('HTTP.REQ.COOKIE' in query and 'CONTAINS' in query) or \
-                    ('HTTP.REQ.COOKIE' in query and 'EQ' in query):
-                policy_rule["match"].update({"cookie": cookie})
-                matches = re.findall('\"(.+?)\"', query)
-                if len(matches) != 2:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                if ('HTTP.REQ.COOKIE' in query and 'CONTAINS' in query):
-                    policy_rule["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
-                elif ('HTTP.REQ.COOKIE' in query and 'EQ' in query):
-                    policy_rule["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
-                policy_rule["match"]["cookie"]["value"] = matches[1]
-                policy_rule["match"]["cookie"]["name"] = matches[0]
-                rule_index += 1
-
-            elif ('HTTP.REQ.URL.PATH.GET' in query and  'CONTAINS' in query) or \
-                            'HTTP.REQ.URL.PATH.CONTAINS' in query:
-                policy_rule["match"].update({"query": path_query})
-                if 'HTTP.REQ.URL.PATH.GET' in query:
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'REGEX_MATCH' in query.upper():
+                    policy_rule["match"].update({"path": path_regex})
+                    policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
+                    exact_match = re.search(r'\((\d+?)\)', query).group(1)
+                    matches1 = re.search(r'\(re(.*?)\)', query).group(1)
+                    matches = re.findall('\(re(.*?)\)', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        regex = '.*/'
+                        if int(exact_match) == 1:
+                            regex = '^%s://.*' % match
+                        elif int(exact_match) > 1:
+                            for index in range(int(exact_match), 2, -1):
+                                regex += '/\w+'
+                            regex += '/%s' % match + '.*'
+                        else:
+                            LOG.warning("%s Rule GET for regex match is not supported" % query)
+                            continue
+                        policy_rule["match"]["path"]["string_group_refs"].append(regex)
+                    rule_index += 1
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
                     policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-                elif 'HTTP.REQ.URL.PATH.CONTAINS' in query:
-                    policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
-                matches = re.findall('\"(.+?)\"', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    policy_rule["match"]["path"]["match_str"].append(match)
-                rule_index += 1
+                    exact_match = re.search(r'\((\d+?)\)', query).group(1)
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        regex = '.*/'
+                        match = re.sub('[\\\/]', '', match)
+                        if int(exact_match) == 1:
+                            regex = '^%s://.*' % match
+                        elif int(exact_match) > 1:
+                            if int(exact_match) == 1:
+                                regex = '^%s://.*' % match
+                            elif int(exact_match) > 1:
+                                for index in range(int(exact_match), 2, -1):
+                                    regex += '/\w+'
+                                regex += '/%s' % match + '.*'
+                        else:
+                            LOG.warning("%s Rule GET for Equal match is not supported" % query)
+                            continue
+                        policy_rule["match"]["path"]["match_str"].append(regex)
+                    rule_index += 1
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQUALS_ANY(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    patsets = []
+                    for match in matches:
+                        match = re.sub('[\\\/]', '', match)
+                        patset = self.get_patset_collection(match, bind_patset, patset_config)
+                        patsets += patset
+                    policy_rule["match"]["path"]["match_str"] = list(set(patsets))
+                    rule_index += 1
 
-            else:
-                LOG.warning("%s Rule is not supported" % query)
-                continue
-            policy_obj["http_request_policy"]["rules"].append(policy_rule)
+                elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'CONTAINS(' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    for match in matches:
+                        match = re.sub('[\\\/]', '', match)
+                        policy_rule["match"]["path"]["match_str"].append(match)
+                    rule_index += 1
+
+                else:
+                    LOG.warning("%s Rule is not supported" % query)
+                    continue
+                policy_obj["http_request_policy"]["rules"].append(policy_rule)
 
         if len(policy_obj["http_request_policy"]["rules"]) > 0:
             return rule_index, policy_obj
         return rule_index, None
 
+    def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=10):
+        if depth == 0:
+            return None
 
+        target_vserver = [x['targetVserver'] for x in policyLabel if 'targetVserver' in x]
+        if target_vserver:
+            return target_vserver[0]
+        else:
+            policy_label = [x['invoke'] for x in policyLabel if x in 'invoke']
+            if policy_label and policy_label[0] in policy_lables.keys():
+                policyLabelName = policy_label[0]
+                policyLabels = policy_lables[policyLabelName]
+                if isinstance(policyLabels, dict):
+                    policyLabels = [policyLabels]
+                self.get_targetvserver_policylabel(self, policyLabels, policy_lables, depth=depth-1)
 
+    def get_patset_collection(self, match, bind_patset, patset_config):
+        if match in patset_config and match in bind_patset:
+            patsets = bind_patset[match]
+            patset_attrs = []
+            for patset in patsets:
+                attrs = [x for x in patset['attrs'] if x != match]
+                patset_attrs += attrs
+            if patset_attrs:
+                return patset_attrs
 
-
-
-
+        LOG.warning("%s Patset policy is not supported" % match)
