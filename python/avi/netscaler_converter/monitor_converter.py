@@ -65,6 +65,8 @@ class MonitorConverter(object):
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
             matchObj = re.findall('[0-9]+', ns_monitor.get('interval', '5'))
             avi_monitor["send_interval"] = matchObj[0]
+            if ns_monitor.get('destPort'):
+                avi_monitor['monitor_port'] = ns_monitor.get('destPort')
             avi_monitor["successful_checks"] = ns_monitor.get(
                 'successRetries', 1)
 
