@@ -61,7 +61,7 @@ class ServiceConverter(object):
 
                 monitor_refs = [mon["name"] for mon in monitors]
 
-                pool_obj["health_monitor_refs"] = monitor_refs
+                pool_obj["health_monitor_refs"] = list(set(monitor_refs))
                 avi_config['Pool'].append(pool_obj)
 
                 for status in conv_status:
