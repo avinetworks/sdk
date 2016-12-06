@@ -138,7 +138,6 @@ class Test(unittest.TestCase):
 
     def test_avi_obj_cmp_w_refs_n_name(self):
         existing_obj = {
-            'lb_algorithm': 'LB_ALGORITHM_LEAST_CONNECTIONS',
             'use_service_port': False,
             'server_auto_scale': False,
             'host_check_enabled': False,
@@ -307,6 +306,7 @@ class Test(unittest.TestCase):
 
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
+
     def testhttppolicy(self):
         existing_obj = {
             "http_request_policy": {
@@ -367,6 +367,15 @@ class Test(unittest.TestCase):
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
 
+    def testCleanupFields(self):
+        obj = {'name': 'testpool',
+               'scalar_field': {'state': 'absent'},
+               'list_fields': [{'x': '1'}, {'y': {'state': 'absent'}}]}
+
+        cleanup_absent_fields(obj)
+        assert 'scalar_field' not in obj
+        for elem in obj['list_fields']:
+            assert 'y' not in elem
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
