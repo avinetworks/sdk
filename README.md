@@ -28,16 +28,15 @@ Pip packages are hosted on GitHub. They can be installed simply as:
 ### Avi SDK Install
 ```sh
 $ pip install avisdk
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avisdk-16.3b4.tar.gz
 ```
 ### Avi F5 Converter Install
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b4.tar.gz
+$ pip install avif5converter
 ```
 
 ### Avi Netscaler Converter Install
 ```sh
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avinetscalerconverter-16.3b4.tar.gz
+$ pip install avinetscalerconverter
 ```
 
 ### Python Virtual Environment based installation
@@ -50,8 +49,8 @@ $ virtualenv avi
 $ cd avi
 $ source bin/activate
 $ pip install avisdk
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avif5converter-16.3b4.tar.gz
-$ pip install https://github.com/avinetworks/sdk/releases/download/latest/avinetscalerconverter-16.3b4.tar.gz
+$ pip install avif5converter
+$ pip install avinetscalerconverter
 $ f5_converter.py -h
 $ netscaler_converter.py -h
 $ deactivate
