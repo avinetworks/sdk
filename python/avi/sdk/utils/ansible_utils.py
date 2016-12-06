@@ -62,13 +62,17 @@ def cleanup_absent_fields(obj):
     cleanup_keys = []
     for k, v in obj.iteritems():
         if type(v) == dict:
-            if 'state' in v and v['state'] == 'absent':
+            if (('state' in v and v['state'] == 'absent') or
+                    (v == "{'state': 'absent'}")):
                 cleanup_keys.append(k)
             else:
                 cleanup_absent_fields(v)
         if type(v) == list:
-            for x in v:
-                cleanup_absent_fields(x)
+                cleanup_absent_fields(k)
+
+        if isinstance(v, basestring) or isinstance(v, unicode):
+            if v == "{'state': 'absent'}":
+                cleanup_keys.append(k)
     for k in cleanup_keys:
         del obj[k]
     return obj
@@ -205,6 +209,13 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
                     d_x_absent_ks.append(k)
                 else:
                     return False
+            if isinstance(v, basestring) or isinstance(v, unicode):
+                # this is the case when ansible converts the dictionary into a string.
+                if v == "{'state': 'absent'}" and k not in y:
+                    d_x_absent_ks.append(k)
+                if not v and k not in y:
+                    # this is the case when x has set the value that qualifies as not but y does not have that value
+                    d_x_absent_ks.append(k)
         for k in d_x_absent_ks:
             x.pop(k)
         x_keys = set(x.keys())
@@ -268,8 +279,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         cleanup_absent_fields(obj)
         if changed:
             obj_uuid = existing_obj['uuid']
-            req = deepcopy(existing_obj)
-            req.update(obj)
+            req = obj
             rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=req,
                           tenant=tenant, tenant_uuid=tenant_uuid)
     else:
