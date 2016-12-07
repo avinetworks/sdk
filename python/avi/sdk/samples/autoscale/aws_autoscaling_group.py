@@ -120,24 +120,31 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
         autoscaling_group, desired_capacity=desired_capacity)
     # need to wait and add new servers to the list.
     asg_group = aws_asconn.get_all_groups([autoscaling_group])[0]
-    num_current_instances = len(asg_group.instances)
-
     pool_server_ids = set()
     for server in pool_obj['servers']:
-        instance_id = (server['external_uuid']
-              if 'external_uuid' in server else server['ip']['addr'])
+        try:
+            instance_id = server['external_uuid']
+        except KeyError:
+            vm_ref = server['vm_ref']
+            instance_id = vm_ref.split('/api/vimgrvmruntime/')[1].split('#')[0]
         pool_server_ids.add(instance_id)
 
     new_instances = []
     for _ in xrange(25):
         # try for 2mins
-        time.sleep(5)
+        time.sleep(10)
         asg_group = aws_asconn.get_all_groups([autoscaling_group])[0]
         new_instances = [instance for instance in asg_group.instances
                          if instance.instance_id not in pool_server_ids]
+        new_instances = \
+            [instance for instance in new_instances
+                if (instance.health_status == 'Healthy' and
+                    instance.lifecycle_state == 'InService')]
         if len(new_instances) == nscaleout:
+            print ('Autoscaling group %s has %s new instances %s'
+                   % (autoscaling_group, len(new_instances), new_instances))
             break
-        time.sleep(5)
+        time.sleep(10)
 
     new_instance_ids = [instance.instance_id for instance in new_instances]
     ec2_reservations = ec2_conn.get_all_instances(
@@ -153,11 +160,6 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
                         ins.id])
         ins.add_tag('Name', tag)
         ins.update()
-        if (instance.health_status != 'Healthy' or
-                instance.lifecycle_state != 'InService'):
-            continue
-        if not ins:
-            continue
         ip_address = (ins.ip_address
                       if ins.ip_address else ins.private_ip_address)
         avi_inst_info = AviInstanceInfo(
@@ -269,6 +271,3 @@ def scalein(aws_settings, *args):
 
 if __name__ == '__main__':
     scaleout(*sys.argv)
-
-
-
