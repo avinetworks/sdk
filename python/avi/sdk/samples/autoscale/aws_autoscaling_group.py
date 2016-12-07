@@ -58,11 +58,13 @@ import time
 import boto.ec2
 from avi.sdk.samples.autoscale.samplescaleout import scaleout_params, \
     autoscale_dump, getAviApiSession
-import os
 import boto.ec2.autoscale
 from avi.sdk.samples.autoscale.aws_samplescaleout import (
     AviInstanceInfo, create_aws_connection)
-from boto.connection import BotoServerError
+from requests.packages import urllib3
+
+urllib3.disable_warnings()
+
 
 def create_autoscale_connection(aws_settings):
     """
@@ -80,6 +82,7 @@ def create_autoscale_connection(aws_settings):
     print 'using: ', aws_access_key_id, aws_secret_access_key, ec2_region
     return conn
 
+
 def get_autoscaling_group(api, pool_obj):
     """
     fetchs the aws autoscaling group name from pool
@@ -87,6 +90,7 @@ def get_autoscaling_group(api, pool_obj):
     :param pool_obj:
     :return:
     """
+    return 'grastogi-demo-asg'
     launch_cfg_ref = pool_obj['autoscale_launch_config_ref']
     launch_cfg_uuid = launch_cfg_ref.split('autoScalelaunchconfig')[1]
     launch_cfg = api.get('autoScalelaunchconfig/%s' % launch_cfg_uuid).json()
@@ -113,13 +117,13 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
     ec2_conn = create_aws_connection(aws_settings)
 
     aws_asconn.set_desired_capacity(
-        'autoscaling_group', desired_capacity=desired_capacity)
+        autoscaling_group, desired_capacity=desired_capacity)
     # need to wait and add new servers to the list.
     asg_group = aws_asconn.get_all_groups([autoscaling_group])[0]
     num_current_instances = len(asg_group.instances)
 
     pool_server_ids = set()
-    for server in pool_obj['server']:
+    for server in pool_obj['servers']:
         instance_id = (server['external_uuid']
               if 'external_uuid' in server else server['ip']['addr'])
         pool_server_ids.add(instance_id)
@@ -141,8 +145,8 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
     new_instances_db = {}
     for r in ec2_reservations:
         for instance in r.instances:
-            new_instances_db['instance.id'] = instance
-
+            new_instances_db[instance.id] = instance
+    new_avi_servers = []
     for instance in new_instances:
         ins = new_instances_db.get(instance.instance_id, None)
         tag = '-'.join([aws_settings.get('tag', 'avidemo'),
@@ -157,11 +161,10 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
         ip_address = (ins.ip_address
                       if ins.ip_address else ins.private_ip_address)
         avi_inst_info = AviInstanceInfo(
-            AviInstanceInfo(instance_id=ins.id, ip_address=ip_address,
-                            hostname=tag))
-        new_instances.append(avi_inst_info)
+            instance_id=ins.id, ip_address=ip_address, hostname=tag)
+        new_avi_servers.append(avi_inst_info)
         print 'Adding new instance ', avi_inst_info
-    return new_instances
+    return new_avi_servers
 
 
 def scaleout(aws_settings, *args):
@@ -186,7 +189,8 @@ def scaleout(aws_settings, *args):
     autoscaling_group = get_autoscaling_group(api, pool_obj)
     desired_capacity = len(pool_obj['servers']) + num_scaleout
     new_instances = aws_autoscaling_scaleout(
-        aws_settings, pool_obj, autoscaling_group, desired_capacity)
+        aws_settings, pool_obj, autoscaling_group, desired_capacity,
+        num_scaleout)
     for instance in new_instances:
         insid, ip_addr, hostname = instance
         new_server = {
