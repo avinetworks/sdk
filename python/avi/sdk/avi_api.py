@@ -113,7 +113,7 @@ class ApiSession(Session):
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None,
-                 timeout=None):
+                 timeout=60):
         """
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
@@ -128,7 +128,7 @@ class ApiSession(Session):
             port in the prefix. The prefix would be 'http://ip'. If port is
             a non-default value, then we concatenate http://ip:port in
             the prefix.
-        03. If the timeout value is None, then default the value to 60. 
+        03. If the timeout value is None or zero, then default the value to 60. 
             Otherwise, use the passed value.
         """
         super(ApiSession, self).__init__()
@@ -157,7 +157,7 @@ class ApiSession(Session):
 
         # Refer Notes 03
         self.timeout = timeout
-        if timeout is None:
+        if timeout is None or timeout==0:
             self.timeout = 60
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
@@ -182,7 +182,7 @@ class ApiSession(Session):
     @staticmethod
     def get_session(controller_ip, username, password=None, token=None,
                     tenant=None, tenant_uuid=None, verify=False, port=None,
-                    timeout=None):
+                    timeout=60):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
