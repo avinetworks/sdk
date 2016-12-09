@@ -198,3 +198,23 @@ def remove_duplicate_objects(obj_type, obj_list):
                 remove_duplicate_objects(obj_type, obj_list)
 
     return obj_list
+
+def remove_duplicate_server_objects(obj_type, obj_list):
+    """
+    Remove duplicate objects from list
+    :param obj_type: Object type
+    :param obj_list: list of all objects
+    :return: return list which has no duplicates objects
+    """
+    for source_obj in obj_list:
+        for index in range(1, len(obj_list)):
+            if len(obj_list) == 1:
+                return obj_list
+            src_cp = copy.deepcopy(source_obj)
+            tmp_cp = copy.deepcopy(obj_list[index])
+            if cmp(src_cp, tmp_cp) == 0:
+                LOG.warn('Remove duplicate %s object' % (obj_type))
+                del obj_list[index]
+                remove_duplicate_server_objects(obj_type, obj_list)
+
+    return obj_list

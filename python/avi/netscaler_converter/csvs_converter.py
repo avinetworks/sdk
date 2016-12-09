@@ -35,6 +35,7 @@ class CsvsConverter(object):
         policy_config = ns_config.get('add cs policy', {})
         bind_patset = ns_config.get('bind policy patset', {})
         patset_config = ns_config.get('add policy patset', {})
+        lb_config = ns_config.get('bind lb vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
@@ -58,7 +59,7 @@ class CsvsConverter(object):
             vs_name = cs_vs['attrs'][0]
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
-            if port < int(port):
+            if 1 > int(port) and int(port) > 65535:
                 port = "1"
             enable_ssl = False
             if vs_state == 'enable':
@@ -169,24 +170,28 @@ class CsvsConverter(object):
                 lb_vs_obj.update(vs_obj)
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_ref', None)
-            if default_pool:
+            if default_pool and default_pool in lb_config:
                 vs_obj['pool_ref'] = '%s-pool' % default_pool
             for cs_vs_policy in cs_vs_policies:
-                new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index, bind_patset, patset_config)
-                if policy:
-                    http_policies = {
-                        'index': 11,
-                        'http_policy_set_ref': policy['name']
-                    }
-                    vs_obj['http_policies'] = []
-                    vs_obj['http_policies'].append(http_policies)
-                    avi_config['HTTPPolicySet'].append(policy)
-                    p_cmd = 'add cs policy %s' % policy_name
-                    policy_conv = policy_config.get(policy_name)
-                    conv_status = ns_util.get_conv_status(
-                        cs_vs_policy, self.skip_attrs, self.na_attrs, [])
-                    ns_util.add_conv_status(p_cmd, conv_status, policy)
-                    rule_index = new_rule_index
+                if cs_vs_policy['targetLBVserver'] in lb_config:
+                    new_rule_index, policy = self.policy_converter(cs_vs_policy, rule_index, bind_patset, patset_config)
+                    if policy:
+                        http_policies = {
+                            'index': 11,
+                            'http_policy_set_ref': policy['name']
+                        }
+                        vs_obj['http_policies'] = []
+                        vs_obj['http_policies'].append(http_policies)
+                        avi_config['HTTPPolicySet'].append(policy)
+                        p_cmd = 'add cs policy %s' % policy_name
+                        policy_conv = policy_config.get(policy_name)
+                        conv_status = ns_util.get_conv_status(
+                            cs_vs_policy, self.skip_attrs, self.na_attrs, [])
+                        ns_util.add_conv_status(p_cmd, conv_status, policy)
+                        rule_index = new_rule_index
+                else:
+                    LOG.warning('%s is not bind with any service or service group so skipped policyset' %  cs_vs_policy['targetLBVserver'])
+
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [])
@@ -282,8 +287,7 @@ class CsvsConverter(object):
                         continue
                     policy_rule["match"].update({"path": path_query})
                     policy_rule["match"]["path"]["match_str"].append(match_str)
-                    policy_rule["match"]["path"]["match_criteria"] = "EQUAL"
-                    policy_obj["http_request_policy"]["rules"].append(policy_rule)
+                    policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
                     rule_index += 1
 
                 elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
@@ -402,6 +406,7 @@ class CsvsConverter(object):
                             continue
                         policy_rule["match"]["path"]["string_group_refs"].append(regex)
                     rule_index += 1
+
                 elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
                     policy_rule["match"].update({"path": path_query})
                     policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
@@ -427,6 +432,7 @@ class CsvsConverter(object):
                             continue
                         policy_rule["match"]["path"]["match_str"].append(regex)
                     rule_index += 1
+
                 elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQUALS_ANY(' in query.upper():
                     policy_rule["match"].update({"path": path_query})
                     policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
