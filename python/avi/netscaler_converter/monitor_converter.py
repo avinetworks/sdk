@@ -63,8 +63,11 @@ class MonitorConverter(object):
             avi_monitor["name"] = ns_monitor['attrs'][0]
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
-            matchObj = re.findall('[0-9]+', ns_monitor.get('interval', '5'))
-            avi_monitor["send_interval"] = matchObj[0]
+            interval = ns_monitor.get('interval', '5')
+            if 'MIN' in interval.upper():
+                matchObj = re.findall('[0-9]+', ns_monitor.get('interval', '5'))
+                interval = int(matchObj[0]) * 60
+            avi_monitor["send_interval"] = str(interval)
             if ns_monitor.get('destPort'):
                 avi_monitor['monitor_port'] = ns_monitor.get('destPort')
             avi_monitor["successful_checks"] = ns_monitor.get(
