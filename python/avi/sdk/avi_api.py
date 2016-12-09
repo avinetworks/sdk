@@ -128,8 +128,6 @@ class ApiSession(Session):
             port in the prefix. The prefix would be 'http://ip'. If port is
             a non-default value, then we concatenate http://ip:port in
             the prefix.
-        03. If the timeout value is None or zero, then default the value to 60. 
-            Otherwise, use the passed value.
         """
         super(ApiSession, self).__init__()
         self.controller_ip = controller_ip
@@ -154,11 +152,7 @@ class ApiSession(Session):
                 self.prefix = 'https://{x}'.format(x=controller_ip)
             else:
                 self.prefix = 'https://{x}:{y}'.format(x=controller_ip, y=port)
-
-        # Refer Notes 03
         self.timeout = timeout
-        if timeout is None or timeout==0:
-            self.timeout = 60
         try:
             user_session = ApiSession.sessionDict[self.key]["api"]
         except KeyError:
