@@ -1,4 +1,5 @@
 import logging
+import re
 import avi.netscaler_converter.ns_util as ns_util
 
 LOG = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ class ServiceConverter(object):
                 # conv_status.append({'cmd': cmd, 'status': status})
                 name = '%s-pool' % group_key
                 servers = self.get_servers(ns_config, group, conv_status)
+                servers = ns_util.remove_duplicate_server_objects('Server', servers)
                 lb_vs = lb_vs_conf.get(group_key)
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
@@ -76,6 +78,7 @@ class ServiceConverter(object):
         ns_services = ns_config.get('add service', {})
         ns_service_group = ns_config.get('bind serviceGroup', {})
         ns_servers = ns_config.get('add server', {})
+        ns_dns = ns_config.get('add dns addRec', {})
         ns_sg = None
         if isinstance(group, dict):
             group = [group]
@@ -89,10 +92,10 @@ class ServiceConverter(object):
                 continue
             if ns_sg:
                 servers += self.convert_ns_service_group(
-                    ns_sg, ns_servers, conv_status)
+                    ns_sg, ns_servers, ns_dns, conv_status)
             else:
                 servers += self.convert_ns_service(
-                    ns_service, ns_servers, conv_status)
+                    ns_service, ns_servers, ns_dns, conv_status)
         return servers
 
     def get_monitors(self, ns_config, group):
@@ -128,7 +131,7 @@ class ServiceConverter(object):
                 ns_util.add_status_row(cmd, 'skipped')
 
 
-    def convert_ns_service(self, ns_service, ns_servers, conv_status):
+    def convert_ns_service(self, ns_service, ns_servers, ns_dns, conv_status):
         attrs = ns_service.get('attrs')
         cmd = 'add service %s' % attrs[0]
         status = ns_util.get_conv_status(ns_service, self.service_skip,
@@ -147,6 +150,14 @@ class ServiceConverter(object):
         port = attrs[3]
         if port == "*":
             port = "0"
+
+        if ip_addr in ns_dns:
+            if isinstance(ns_dns[ip_addr], list):
+                ip_addr = ns_dns[ip_addr][0]['attrs'][1]
+            elif isinstance(ns_dns[ip_addr], dict):
+                ip_addr = ns_dns[ip_addr]['attrs'][1]
+
+        matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
         server_obj = {
             'ip': {
                 'addr': ip_addr,
@@ -155,10 +166,15 @@ class ServiceConverter(object):
             'port': port,
             'enabled': enabled
         }
+        if not matches:
+            server_obj['ip']['addr'] = "0.0.0.0"
+            server_obj['hostname'] = ip_addr
+
+
         return [server_obj]
 
     def convert_ns_service_group(self, ns_service_group, ns_servers,
-                                 conv_status):
+                                 ns_dns, conv_status):
         servers = []
         if isinstance(ns_service_group, dict):
             ns_service_group = [ns_service_group]
@@ -180,11 +196,19 @@ class ServiceConverter(object):
             conv_status.append({'cmd': cmd, 'status': status})
 
             ip_addr = server['attrs'][1]
+            if ip_addr in ns_dns:
+                if isinstance(ns_dns[ip_addr], list):
+                    ip_addr = ns_dns[ip_addr][0]['attrs'][1]
+                elif isinstance(ns_dns[ip_addr], dict):
+                    ip_addr = ns_dns[ip_addr]['attrs'][1]
             enabled = True
             state = server.get('state', 'ENABLED')
             if not state == 'ENABLED':
                 enabled = False
             port = attrs[2]
+            if port == "*":
+                port = "0"
+            matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -193,5 +217,9 @@ class ServiceConverter(object):
                 'port': port,
                 'enabled': enabled
             }
+            if not matches:
+                server_obj['ip']['addr'] = "0.0.0.0"
+                server_obj['hostname'] = ip_addr
+                LOG.info('Set the hostname of server : %s' % ip_addr)
             servers.append(server_obj)
         return servers
