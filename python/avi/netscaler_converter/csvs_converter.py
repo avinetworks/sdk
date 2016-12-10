@@ -357,7 +357,7 @@ class CsvsConverter(object):
                     policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
                     rule_index += 1
 
-                elif ('HTTP.REQ.HOSTNAME.EQ' in query.upper()) or ('http.REQ.HOSTNAME.SET_TEXT_MODE' in query.upper() and 'EQ' in query.upper()):
+                elif ('HTTP.REQ.HOSTNAME.EQ' in query.upper()) or ('HTTP.REQ.HOSTNAME.SET_TEXT_MODE' in query.upper() and 'EQ' in query.upper()):
                     policy_rule["match"].update({"host_hdr": host_header})
                     policy_rule["match"]["host_hdr"]["match_criteria"] = "HDR_EQUALS"
                     matches = re.findall('\"(.+?)\"', query)
@@ -388,7 +388,6 @@ class CsvsConverter(object):
                     policy_rule["match"].update({"path": path_regex})
                     policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
                     exact_match = re.search(r'\((\d+?)\)', query).group(1)
-                    matches1 = re.search(r'\(re(.*?)\)', query).group(1)
                     matches = re.findall('\(re(.*?)\)', query)
                     if len(matches) == 0:
                         LOG.warning('No Matches found for %s' % query)
@@ -455,6 +454,20 @@ class CsvsConverter(object):
                     if len(matches) == 0:
                         LOG.warning('No Matches found for %s' % query)
                         continue
+                    for match in matches:
+                        match = re.sub('[\\\/]', '', match)
+                        policy_rule["match"]["path"]["match_str"].append(match)
+                    rule_index += 1
+
+                elif 'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():
+                    policy_rule["match"].update({"path": path_query})
+                    policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
+
+                    matches = re.findall('\"(.+?)\"', query)
+                    if len(matches) == 0:
+                        LOG.warning('No Matches found for %s' % query)
+                        continue
+                    matches = list(set(matches))
                     for match in matches:
                         match = re.sub('[\\\/]', '', match)
                         policy_rule["match"]["path"]["match_str"].append(match)

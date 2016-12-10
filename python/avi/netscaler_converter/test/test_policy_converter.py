@@ -246,46 +246,8 @@ class Test(unittest.TestCase):
         policy = policies[0]
         assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
         assert policy['http_request_policy']['match']['path']['match_str'][0] == "aedw_analytical2"
-        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'HDR_EQUALS'
-        pool_ref = gSAMPLE_CONFIG['URL ==']['targetLBVserver'] + "-pool"
-        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
-
-    def test_http_req_url_path_get_contains_policy_conversion(self):
-        avi_config = dict()
-        avi_config['HTTPPolicySet'] = []
-        new_rule_index, policy = self.policy_converter_obj.policy_converter(
-            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS'], 0)
-
-        assert policy is not None
-        avi_config['HTTPPolicySet'].append(policy)
-
-        assert avi_config
-        policies = avi_config.get('HTTPPolicySet', [])
-        assert len(policies) > 0
-        policy = policies[0]
-        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
-        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'CONTAINS'
-        assert policy['http_request_policy']['match']['path']['match_str'][0] == "vpp-associate"
-        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS']['targetLBVserver'] + "-pool"
-        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
-
-    def test_http_req_url_path_get_equals_policy_conversion(self):
-        avi_config = dict()
-        avi_config['HTTPPolicySet'] = []
-        new_rule_index, policy = self.policy_converter_obj.policy_converter(
-            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS'], 0)
-
-        assert policy is not None
-        avi_config['HTTPPolicySet'].append(policy)
-
-        assert avi_config
-        policies = avi_config.get('HTTPPolicySet', [])
-        assert len(policies) > 0
-        policy = policies[0]
-        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
         assert policy['http_request_policy']['match']['path']['match_criteria'] == 'EQUALS'
-        assert policy['http_request_policy']['match']['path']['match_str'][0] == "MZContentLink.woa"
-        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS']['targetLBVserver'] + "-pool"
+        pool_ref = gSAMPLE_CONFIG['URL ==']['targetLBVserver'] + "-pool"
         assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
 
     def test_http_req_url_path_contains_policy_conversion(self):
@@ -307,3 +269,79 @@ class Test(unittest.TestCase):
         pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.CONTAINS']['targetLBVserver'] + "-pool"
         assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
 
+    def test_http_req_hostname_set_test_mode_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.HOSTNAME.SET_TEXT_MODE'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['host_hdr']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['host_hdr']['match_criteria'] == 'HDR_EQUALS'
+        assert policy['http_request_policy']['match']['host_hdr']['value'][0] == "ks-lb.qualcomm.com"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.HOSTNAME.SET_TEXT_MODE']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+
+    def test_http_req_url_path_get_contains_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'CONTAINS'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "vpp-associate"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.CONTAINS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_url_path_get_regex_match_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.REGEX_MATCH'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'REGEX_MATCH'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == "^ /../: //.*"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.REGEX_MATCH']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
+
+    def test_http_req_url_path_get_equals_policy_conversion(self):
+        avi_config = dict()
+        avi_config['HTTPPolicySet'] = []
+        new_rule_index, policy = self.policy_converter_obj.policy_converter(
+            gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS'], 0)
+
+        assert policy is not None
+        avi_config['HTTPPolicySet'].append(policy)
+
+        assert avi_config
+        policies = avi_config.get('HTTPPolicySet', [])
+        assert len(policies) > 0
+        policy = policies[0]
+        assert policy['http_request_policy']['match']['path']['match_case'] == 'INSENSITIVE'
+        assert policy['http_request_policy']['match']['path']['match_criteria'] == 'EQUALS'
+        assert policy['http_request_policy']['match']['path']['match_str'][0] == ".*//MZContentLink.woa.*"
+        pool_ref = gSAMPLE_CONFIG['HTTP.REQ.URL.PATH.GET.EQUALS']['targetLBVserver'] + "-pool"
+        assert policy['http_request_policy']['switching_action']['pool_ref'] == pool_ref
