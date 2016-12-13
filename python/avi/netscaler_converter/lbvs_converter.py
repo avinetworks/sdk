@@ -85,10 +85,20 @@ class LbvsConverter(object):
                         'type': 'V4'
                     },
                     'enabled': enabled,
-                    'services': [{'port': port, 'enable_ssl': enable_ssl}],
+                    'services': [],
                     'application_profile_ref': app_profile,
-                    'pool_ref': pool_ref
                     }
+
+                if ip_addr == "0.0.0.0":
+                    ns_util.add_status_row(cmd, 'skipped')
+                    LOG.error("Skipped VS, Service point to %s server." % ip_addr)
+                    continue
+
+                service = {'port': port, 'enable_ssl': enable_ssl}
+                if port == "0" or port == "*":
+                    service['port'] = "1"
+                    service['port_range_end'] = "65535"
+                vs_obj['services'].append(service)
 
                 persistenceType = lb_vs.get('persistenceType','')
                 if pool_ref and persistenceType in self.supported_persist_types:
