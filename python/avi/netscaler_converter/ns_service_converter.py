@@ -41,6 +41,10 @@ class ServiceConverter(object):
                 name = '%s-pool' % group_key
                 servers = self.get_servers(ns_config, group, conv_status)
                 servers = ns_util.remove_duplicate_server_objects('Server', servers)
+                if not servers:
+                    ns_util.add_status_row(group_key, "Skipped")
+                    LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
+                    continue
                 lb_vs = lb_vs_conf.get(group_key)
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
@@ -148,8 +152,8 @@ class ServiceConverter(object):
         if not state == 'ENABLED':
             enabled = False
         port = attrs[3]
-        if port == "*":
-            port = "0"
+        if port == "*" or port == "0":
+            port = "1"
 
         if ip_addr in ns_dns:
             if isinstance(ns_dns[ip_addr], list):
@@ -167,9 +171,8 @@ class ServiceConverter(object):
             'enabled': enabled
         }
         if not matches:
-            server_obj['ip']['addr'] = "0.0.0.0"
-            server_obj['hostname'] = ip_addr
-
+            LOG.warning('Not found IP of server : %s' % ip_addr)
+            return []
 
         return [server_obj]
 
@@ -206,8 +209,8 @@ class ServiceConverter(object):
             if not state == 'ENABLED':
                 enabled = False
             port = attrs[2]
-            if port == "*":
-                port = "0"
+            if port == "*" or port == "0":
+                port = "1"
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
                 'ip': {
@@ -218,8 +221,8 @@ class ServiceConverter(object):
                 'enabled': enabled
             }
             if not matches:
-                server_obj['ip']['addr'] = "0.0.0.0"
-                server_obj['hostname'] = ip_addr
-                LOG.info('Set the hostname of server : %s' % ip_addr)
-            servers.append(server_obj)
+                LOG.warning('Not found IP of server : %s' % ip_addr)
+                server_obj = None
+            if server_obj:
+                servers.append(server_obj)
         return servers
