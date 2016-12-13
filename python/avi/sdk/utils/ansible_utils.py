@@ -3,8 +3,8 @@ Created on Aug 16, 2016
 
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
+import os
 import re
-import json
 import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound
@@ -292,3 +292,16 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     else:
         return ansible_return(module, rsp, changed, req,
                               existing_obj=existing_obj)
+
+
+def avi_common_argument_spec():
+    """
+    Returns common arguments for all Avi modules
+    :return: dict
+    """
+    return dict(
+            controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
+            username=dict(default=os.environ.get('AVI_USERNAME', '')),
+            password=dict(default=os.environ.get('AVI_PASSWORD', ''), no_log=True),
+            tenant=dict(default='admin'),
+            tenant_uuid=dict(default=''))
