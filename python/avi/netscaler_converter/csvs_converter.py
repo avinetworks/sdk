@@ -80,7 +80,7 @@ class CsvsConverter(object):
             }
 
             service = {'port': port, 'enable_ssl': enable_ssl}
-            if port == "0" or port == "*":
+            if port in ("0", "*"):
                 service['port'] = "1"
                 service['port_range_end'] = "65535"
             vs_obj['services'].append(service)
