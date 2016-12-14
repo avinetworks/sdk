@@ -199,19 +199,3 @@ def remove_duplicate_objects(obj_type, obj_list):
 
     return obj_list
 
-def remove_duplicate_server_objects(obj_type, obj_list):
-    """
-    Remove duplicate objects from list
-    :param obj_type: Object type
-    :param obj_list: list of all objects
-    :return: return list which has no duplicates objects
-    """
-
-    new_obj_list = []
-    for obj in obj_list:
-        if obj not in new_obj_list:
-            new_obj_list.append(obj)
-        else:
-            LOG.warn('Remove duplicate %s %s' % (obj_type, obj))
-
-    return new_obj_list
