@@ -31,6 +31,7 @@ class ServiceConverter(object):
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['Pool'] = []
         for group_key in groups.keys():
+            b_cmd = 'bind lb vserver %s' % group_key
             try:
                 conv_status = []
                 group = groups.get(group_key)
@@ -42,7 +43,7 @@ class ServiceConverter(object):
                 servers = self.get_servers(ns_config, group, conv_status)
                 servers = ns_util.remove_duplicate_server_objects('Server', servers)
                 if not servers:
-                    ns_util.add_status_row(group_key, "Skipped")
+                    ns_util.add_status_row(b_cmd, "Skipped")
                     LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
                     continue
                 lb_vs = lb_vs_conf.get(group_key)
@@ -152,7 +153,7 @@ class ServiceConverter(object):
         if not state == 'ENABLED':
             enabled = False
         port = attrs[3]
-        if port == "*" or port == "0":
+        if port in ("*", "0"):
             port = "1"
 
         if ip_addr in ns_dns:
@@ -209,7 +210,7 @@ class ServiceConverter(object):
             if not state == 'ENABLED':
                 enabled = False
             port = attrs[2]
-            if port == "*" or port == "0":
+            if port in ("*", "0"):
                 port = "1"
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
