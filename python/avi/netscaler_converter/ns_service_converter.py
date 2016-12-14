@@ -40,8 +40,8 @@ class ServiceConverter(object):
                 #                                  [], [])
                 # conv_status.append({'cmd': cmd, 'status': status})
                 name = '%s-pool' % group_key
-                servers = self.get_servers(ns_config, group, conv_status)
-                servers = ns_util.remove_duplicate_server_objects('Server', servers)
+                server_list = self.get_servers(ns_config, group, conv_status)
+                servers = [server for index, server in enumerate(server_list) if server not in server_list[index + 1:]]
                 if not servers:
                     ns_util.add_status_row(b_cmd, "Skipped")
                     LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
