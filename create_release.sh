@@ -15,8 +15,9 @@ fi
 
 export PYTHONPATH=`pwd`/python:$PYTHONPATH
 
-REL_TAG=$REL
+REL_TAG=tag-$REL
 git tag -d $REL_TAG
+git tag -d $REL
 git tag $REL_TAG
 git push -f origin $REL_TAG
 set -e
