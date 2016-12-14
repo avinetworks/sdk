@@ -207,13 +207,11 @@ def remove_duplicate_server_objects(obj_type, obj_list):
     :return: return list which has no duplicates objects
     """
 
-    for source_obj in obj_list:
-        for index in range(1, len(obj_list)):
-            if len(obj_list) == 1:
-                return obj_list
-            if cmp(source_obj, obj_list[index]) == 0:
-                LOG.warn('Remove duplicate server %s' % (obj_type))
-                del obj_list[index]
-                remove_duplicate_server_objects(obj_type, obj_list)
+    new_obj_list = []
+    for obj in obj_list:
+        if obj not in new_obj_list:
+            new_obj_list.append(obj)
+        else:
+            LOG.warn('Remove duplicate %s %s' % (obj_type, obj))
 
-    return obj_list
+    return new_obj_list
