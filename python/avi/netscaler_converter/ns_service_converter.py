@@ -172,7 +172,7 @@ class ServiceConverter(object):
             'enabled': enabled
         }
         if not matches:
-            LOG.warning('Not found IP of server : %s' % ip_addr)
+            LOG.warning('Not found IP of server : %s' % cmd)
             return []
 
         return [server_obj]
@@ -222,7 +222,7 @@ class ServiceConverter(object):
                 'enabled': enabled
             }
             if not matches:
-                LOG.warning('Not found IP of server : %s' % ip_addr)
+                LOG.warning('Not found IP of server : %s' % cmd)
                 server_obj = None
             if server_obj:
                 servers.append(server_obj)
