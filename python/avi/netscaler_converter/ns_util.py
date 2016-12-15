@@ -199,3 +199,5 @@ def remove_duplicate_objects(obj_type, obj_list):
 
     return obj_list
 
+def cleanup_config(config):
+    del config
