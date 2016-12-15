@@ -3,6 +3,8 @@ import logging
 from avi.netscaler_converter import ns_util
 
 LOG = logging.getLogger(__name__)
+Redirect_Pools = []
+tmp_avi_config = {}
 
 class LbvsConverter(object):
 
@@ -25,6 +27,7 @@ class LbvsConverter(object):
     def convert(self, ns_config, avi_config, vs_state):
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['VirtualService'] = []
+        tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP']
         for key in lb_vs_conf.keys():
@@ -71,6 +74,7 @@ class LbvsConverter(object):
                     }
                     if pool_obj:
                         pool_obj[0]["fail_action"] = fail_action
+                        Redirect_Pools.append(pool_name)
 
                 app_profile = 'admin:System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
@@ -89,9 +93,9 @@ class LbvsConverter(object):
                     'application_profile_ref': app_profile,
                     }
 
-                if ip_addr == "0.0.0.0":
+                if ip_addr == "0.0.0.0" and not redirect_url:
                     ns_util.add_status_row(cmd, 'skipped')
-                    LOG.error("Skipped VS, Service point to %s server." % ip_addr)
+                    LOG.error("%s Skipped VS, Service point to %s server." % (cmd, ip_addr))
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
@@ -116,7 +120,10 @@ class LbvsConverter(object):
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     vs_obj['network_profile_ref'] = ntwk_prof
-                avi_config['VirtualService'].append(vs_obj)
+                if redirect_url:
+                    tmp_avi_config['VirtualService'].append(vs_obj)
+                else:
+                    avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
                     lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list)
                 ns_util.add_conv_status(cmd, conv_status, vs_obj)
