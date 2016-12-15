@@ -2,6 +2,7 @@ import logging
 import copy
 import re
 from avi.netscaler_converter import ns_util
+from lbvs_converter import Redirect_Pools
 
 LOG = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class CsvsConverter(object):
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['HTTPPolicySet'] = []
+        avi_config['StringGroup'] = []
         rule_index = 0
         for cs_vs_index, key in enumerate(cs_vs_conf):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
@@ -260,16 +262,41 @@ class CsvsConverter(object):
             "match_criteria": ''
         }
         pool_ref = policy['targetLBVserver'] + '-pool'
+        redirect_uri = None
+        if pool_ref in Redirect_Pools:
+            pools = [obj for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+            redirect_uri = pools[0]['fail_action']['redirect']['host']
+
+        switching_action = {
+            'action': 'HTTP_SWITCHING_SELECT_POOL',
+            'status_code': 200,
+            'pool_ref': pool_ref
+        }
+
+        redirect_action = {
+            'protocol': 'HTTP',
+            'host': {
+                'type': 'URI_PARAM_TYPE_TOKENIZED',
+                'tokens': [{
+                    'type': 'URI_TOKEN_TYPE_HOST',
+                    'str_value': redirect_uri,
+                    'start_index': '1',
+                    'end_index': '65535'
+                }]
+            }
+        }
+
         policy_rules = {
             'name': policy_name + '-rule',
             "index": rule_index,
             'match': {},
-            'switching_action': {
-                'action': 'HTTP_SWITCHING_SELECT_POOL',
-                'status_code': 200,
-                'pool_ref': pool_ref
-            }
         }
+
+        if redirect_uri:
+            policy_rules['redirect_action'] = redirect_action
+        else:
+            policy_rules['switching_action'] = switching_action
+
         updated_policy_name = policy_name + '-http-request-policy-%s' % rule_index
         policy_obj = {
             'name': updated_policy_name,
@@ -401,6 +428,7 @@ class CsvsConverter(object):
                 if len(matches) == 0:
                     LOG.warning('No Matches found for %s' % query)
                     continue
+                regex_match = []
                 for match in matches:
                     regex = '.*/'
                     if int(exact_match) == 1:
@@ -412,7 +440,9 @@ class CsvsConverter(object):
                     else:
                         LOG.warning("%s Rule GET for regex match is not supported" % query)
                         continue
-                    policy_rule["match"]["path"]["string_group_refs"].append(regex)
+                    regex_match.append(regex)
+                string_group_ref = self.add_string_group_for_policy('%s-string_group_object-%s' % (policy_name, rule_index), regex_match, avi_config)
+                policy_rule["match"]["path"]["string_group_refs"].append(string_group_ref)
                 rule_index += 1
 
             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
@@ -492,7 +522,7 @@ class CsvsConverter(object):
             return rule_index, policy_obj
         return rule_index, None
 
-    def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=10):
+    def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=100):
         if depth == 0:
             return None
 
@@ -519,3 +549,17 @@ class CsvsConverter(object):
                 return patset_attrs
 
         LOG.warning("%s Patset policy is not supported" % match)
+
+    def add_string_group_for_policy(self, string_group_name, matches, avi_config):
+        if not matches:
+            return None
+        stringgroup_object = {
+            "name": string_group_name,
+            "kv": [],
+        }
+
+        for match in matches:
+            stringgroup_object['kv'].append({"key": match})
+        avi_config['StringGroup'].append(stringgroup_object)
+        ns_util.add_status_row(string_group_name, "Successful")
+        return string_group_name
