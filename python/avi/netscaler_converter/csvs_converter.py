@@ -6,7 +6,7 @@ from lbvs_converter import Redirect_Pools
 
 LOG = logging.getLogger(__name__)
 
-
+policy_pool_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
                   'cacheable', 'redirectURL', 'cltTimeout', 'precedence',
@@ -43,6 +43,7 @@ class CsvsConverter(object):
         avi_config['HTTPPolicySet'] = []
         avi_config['StringGroup'] = []
         rule_index = 0
+        avi_config['VirtualService'] = ns_util.remove_duplicate_objects('VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
@@ -204,7 +205,6 @@ class CsvsConverter(object):
                 pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
                 if pools:
                     vs_obj['pool_ref'] = pool_ref
-            ns_util.get_vs_if_shared_vip(vs_obj, avi_config)
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [])
@@ -214,6 +214,7 @@ class CsvsConverter(object):
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
+        ns_util.get_vs_if_shared_vip(avi_config)
 
     def get_target_vs_from_policy(self, policy_lables, name, lbvs_bindings):
         policy_grp = policy_lables.get(name, None)
@@ -521,6 +522,12 @@ class CsvsConverter(object):
                 LOG.warning("%s Rule is not supported" % query)
                 continue
 
+            if 'switching_action' in policy_rule:
+                p_ref = policy_rule['switching_action']['pool_ref']
+                if p_ref in policy_pool_ref:
+                    p_ref = ns_util.clone_pool(p_ref, avi_config)
+                    policy_rule['switching_action']['pool_ref'] = p_ref
+                policy_pool_ref.append(p_ref)
             policy_obj["http_request_policy"]["rules"].append(policy_rule)
 
         if len(policy_obj["http_request_policy"]["rules"]) > 0:
