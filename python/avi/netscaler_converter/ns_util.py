@@ -201,3 +201,29 @@ def remove_duplicate_objects(obj_type, obj_list):
 
 def cleanup_config(config):
     del config
+
+def clone_pool(pool_name, avi_config):
+    pools = [pool for pool in avi_config if pool['name'] == pool_name]
+    if pools:
+        pool_obj = copy.deepcopy(pools[0])
+        pool_obj['name'] += '-clone'
+        avi_config['Pool'].append(pool_obj)
+        return pool_obj['name']
+    return None
+
+def get_vs_if_shared_vip(vs_obj, avi_config):
+    for vs in avi_config['VirtualService']:
+        if vs['ip_address']['addr'] == vs_obj['ip_address']['addr']:
+            if 'port_range_end' in vs['services'][0]:
+                port = int(vs_obj['services'][0]['port'])
+                cp_vs = copy.deepcopy(vs)
+                vs['services'][0]['port'] = '1'
+                vs['services'][0]['port_range_end'] = str(port - 1)
+                cp_pool_ref = None
+                if 'pool_ref' in vs:
+                    cp_pool_ref = clone_pool(vs['pool_ref'])
+                if cp_pool_ref:
+                    cp_vs['pool_ref'] = cp_pool_ref
+                cp_vs['services'][0]['port'] = str(port + 1)
+                cp_vs['services'][0]['port_range_end'] = "65535"
+                avi_config['VirtualService'].append(cp_vs)
