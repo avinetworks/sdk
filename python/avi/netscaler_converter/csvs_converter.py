@@ -201,8 +201,10 @@ class CsvsConverter(object):
 
             if default_pool and default_pool in lb_config:
                 pool_ref = '%s-pool' % default_pool
-                vs_obj['pool_ref'] = pool_ref
-
+                pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+                if pools:
+                    vs_obj['pool_ref'] = pool_ref
+            ns_util.get_vs_if_shared_vip(vs_obj, avi_config)
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [])
@@ -295,6 +297,9 @@ class CsvsConverter(object):
         if redirect_uri:
             policy_rules['redirect_action'] = redirect_action
         else:
+            pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+            if not pools:
+                return rule_index, None
             policy_rules['switching_action'] = switching_action
 
         updated_policy_name = policy_name + '-http-request-policy-%s' % rule_index
