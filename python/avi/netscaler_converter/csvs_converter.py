@@ -218,7 +218,6 @@ class CsvsConverter(object):
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
         ns_util.get_vs_if_shared_vip(avi_config)
-        del tmp_pool_ref
 
     def get_target_vs_from_policy(self, policy_lables, name, lbvs_bindings):
         policy_grp = policy_lables.get(name, None)
@@ -305,7 +304,7 @@ class CsvsConverter(object):
         else:
             pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
             if not pools:
-                LOG.error("Policy Skipped. Pool not found in config %s for policy %s"(pool_ref, policy_name))
+                LOG.error("Policy Skipped. Pool not found in config %s for policy %s" % (pool_ref, policy_name))
                 return rule_index, None
             LOG.info("Add switching Action for policy %s" % policy_name)
             policy_rules['switching_action'] = switching_action
