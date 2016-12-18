@@ -202,12 +202,13 @@ def remove_duplicate_objects(obj_type, obj_list):
 def cleanup_config(config):
     del config
 
-def clone_pool(pool_name, avi_config):
+def clone_pool(pool_name, prefix, avi_config):
     pools = [pool for pool in avi_config['Pool'] if pool['name'] == pool_name]
     if pools:
         pool_obj = copy.deepcopy(pools[0])
-        pool_obj['name'] += '-clone'
+        pool_obj['name'] = prefix + pool_obj['name']
         avi_config['Pool'].append(pool_obj)
+        LOG.info("Same pool reference to other object. Clone Pool %s for %s" % (pool_name, prefix))
         return pool_obj['name']
     return None
 
@@ -220,13 +221,10 @@ def get_vs_if_shared_vip(avi_config):
         if vs_port_list:
             min_port = min(vs_port_list)
             max_port = max(vs_port_list)
-            cp_vs = copy.deepcopy(vs)
-            cp_vs['name'] += '-clone'
             vs['services'][0]['port_range_end'] = str(min_port - 1)
-            cp_vs['services'][0]['port'] = str(max_port + 1)
-            cp_pool_ref = None
-            if 'pool_ref' in vs:
-                cp_pool_ref = clone_pool(vs['pool_ref'], avi_config)
-            if cp_pool_ref:
-                cp_vs['pool_ref'] = cp_pool_ref
-            avi_config['VirtualService'].append(cp_vs)
+            service = {
+                'enable_ssl': False,
+                'port': str(max_port + 1),
+                'port_range_end': '65535'
+            }
+            vs['services'].append(service)

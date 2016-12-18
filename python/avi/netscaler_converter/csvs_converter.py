@@ -6,7 +6,7 @@ from lbvs_converter import Redirect_Pools
 
 LOG = logging.getLogger(__name__)
 
-policy_pool_ref = []
+tmp_pool_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
                   'cacheable', 'redirectURL', 'cltTimeout', 'precedence',
@@ -204,7 +204,10 @@ class CsvsConverter(object):
                 pool_ref = '%s-pool' % default_pool
                 pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
                 if pools:
+                    if pool_ref in tmp_pool_ref:
+                        pool_ref = ns_util.clone_pool(pool_ref, vs_name, avi_config)
                     vs_obj['pool_ref'] = pool_ref
+                    tmp_pool_ref.append(pool_ref)
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [])
@@ -215,6 +218,7 @@ class CsvsConverter(object):
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
         ns_util.get_vs_if_shared_vip(avi_config)
+        del tmp_pool_ref
 
     def get_target_vs_from_policy(self, policy_lables, name, lbvs_bindings):
         policy_grp = policy_lables.get(name, None)
@@ -296,11 +300,14 @@ class CsvsConverter(object):
         }
 
         if redirect_uri:
+            LOG.info("Add redirect Action %s for policy %s" % (redirect_uri, policy_name))
             policy_rules['redirect_action'] = redirect_action
         else:
             pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
             if not pools:
+                LOG.error("Policy Skipped. Pool not found in config %s for policy %s"(pool_ref, policy_name))
                 return rule_index, None
+            LOG.info("Add switching Action for policy %s" % policy_name)
             policy_rules['switching_action'] = switching_action
 
         updated_policy_name = policy_name + '-http-request-policy-%s' % rule_index
@@ -524,10 +531,10 @@ class CsvsConverter(object):
 
             if 'switching_action' in policy_rule:
                 p_ref = policy_rule['switching_action']['pool_ref']
-                if p_ref in policy_pool_ref:
-                    p_ref = ns_util.clone_pool(p_ref, avi_config)
+                if p_ref in tmp_pool_ref:
+                    p_ref = ns_util.clone_pool(p_ref, policy_name, avi_config)
                     policy_rule['switching_action']['pool_ref'] = p_ref
-                policy_pool_ref.append(p_ref)
+                tmp_pool_ref.append(p_ref)
             policy_obj["http_request_policy"]["rules"].append(policy_rule)
 
         if len(policy_obj["http_request_policy"]["rules"]) > 0:
