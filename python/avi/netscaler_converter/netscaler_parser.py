@@ -38,7 +38,8 @@ def get_command(line):
                 'add ns httpProfile', 'bind ssl vserver', 'add ssl certKey',
                 'set ssl vserver', 'add ssl profile', 'add cs vserver',
                 'bind cs vserver', 'bind cs policylabel', 'add cs policy',
-                'add_cs_policylabel', 'bind policy patset', 'add policy patset']
+                'add_cs_policylabel', 'bind policy patset', 'add policy patset',
+                'add dns addRec']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:

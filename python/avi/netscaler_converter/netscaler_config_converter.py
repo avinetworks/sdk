@@ -9,7 +9,7 @@ from avi.netscaler_converter.lbvs_converter import LbvsConverter
 from avi.netscaler_converter.csvs_converter import CsvsConverter
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.profile_converter import ProfileConverter
-
+from lbvs_converter import tmp_avi_config
 
 def convert(ns_config_dict, tenant, version, output_dir, input_dir,
             skipped_cmds, vs_state):
@@ -60,6 +60,8 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
 
         ns_util.update_status_for_skipped(skipped_cmds)
         LOG.debug('Conversion completed successfully')
+
+        ns_util.cleanup_config(tmp_avi_config)
 
     except:
         LOG.error('Error in config conversion', exc_info=True)
