@@ -40,7 +40,6 @@ DEFAULT_APP = {
     "id": "bridged-webapp",
     "cmd": "service nginx start && /usr/sbin/sshd -D",
     #"cmd": "service nginx start",
-    #"cmd": "service nginx start",
     "cpus": APP_CPU,
     "mem": 32.0,
     "instances": 2,
@@ -49,6 +48,7 @@ DEFAULT_APP = {
         "type": "DOCKER",
         "docker": {
             "image": "avinetworks/server",
+            "forcePullImage": True,
             #"image": "nginx",
             "network": "BRIDGE",
             "portMappings": [
@@ -68,7 +68,6 @@ AVI_SERVER = {
     "id": "bridged-webapp",
     "cmd": "service nginx start && /usr/sbin/sshd -D",
     #"cmd": "service nginx start",
-    #"cmd": "service nginx start",
     "cpus": APP_CPU,
     "mem": 64.0,
     "instances": 2,
@@ -76,7 +75,6 @@ AVI_SERVER = {
     "container": {
         "type": "DOCKER",
         "docker": {
-            #"image": "avinetworks/server",
             "image": "avinetworks/server",
             "network": "BRIDGE",
             "portMappings": [
@@ -170,7 +168,7 @@ class MesosTestUtils(object):
                   auth_type=None, auth_token=None, username=None, password=None,
                   ns_service_port=None, ew_service_port_start_index=None,
                   num_service_ports=1, constraints=None,
-                  cpus=None, mem=None, tenant=None):
+                  cpus=None, mem=None, tenant=None, no_healthcheck=False):
         if virtualservice is None:
             virtualservice = {}
         if pool is None:
@@ -185,6 +183,9 @@ class MesosTestUtils(object):
                       if num_apps > 1 else app_name)
             app_obj = self.MARATHON_APP_TEMPLATES[app_type]
             app_obj = deepcopy(app_obj)
+
+            if no_healthcheck:
+                app_obj.pop('healthChecks')
 
             if num_instances:
                 if num_instances < 0:
