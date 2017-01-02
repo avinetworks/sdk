@@ -2,6 +2,8 @@ import copy
 import csv
 import logging
 import os
+from OpenSSL import crypto
+from socket import gethostname
 
 import converter_constants as conv_const
 
@@ -837,3 +839,19 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
             pg_ref = '%s:%s' % (tenant, pg_ref)
     return pg_ref
 
+def create_self_signed_cert():
+
+    # create a key pair
+    key = crypto.PKey()
+    key.generate_key(crypto.TYPE_RSA, 4096)
+
+    # create a self-signed cert
+    cert = crypto.X509()
+    cert.get_subject().C = "US"
+    cert.get_subject().O = "Avi Networks"
+    cert.get_subject().CN = gethostname()
+    cert.set_pubkey(key)
+    cert.sign(key, 'sha256WithRSAEncryption')
+    cert = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+    key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
+    return key, cert
