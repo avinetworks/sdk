@@ -30,9 +30,11 @@ class VSConfigConv(object):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
+        avi_config['VSDataScripts'] = []
         avi_config['NetworkSecurityPolicy'] = []
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
+
         for vs_name in vs_config.keys():
             try:
                 LOG.debug("Converting VS: %s" % vs_name)
@@ -169,7 +171,18 @@ class VSConfigConv(object):
             'enabled': enabled,
             'services': services_obj,
             'application_profile_ref': app_prof[0],
+            'vs_datascripts': []
         }
+
+        if 'rules' in f5_vs.keys():
+            rules = f5_vs['rules'].keys()
+            ds_ref = self.create_vs_datascript(rules[0], avi_config)
+
+            vs_datascript = {
+                'index': 1,
+                'vs_datascript_set_ref': ds_ref
+            }
+            vs_obj['vs_datascripts'].append(vs_datascript)
 
         if is_pool_group:
             vs_obj['pool_group_ref'] = pool_ref
@@ -218,7 +231,9 @@ class VSConfigConv(object):
             snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
             snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
-            vs_obj["snat_ip"] = snat_list
+            if len(snat_list):
+                LOG.warning(' Ignore the snat IPs, its count is beyond 32 for vs : %s' % vs_name)
+            vs_obj["snat_ip"] = snat_list if len(snat_list) < 33 else snat_list[0:32]
             conv_status = {'status': 'successful'}
             message = 'Mapped indirectly to VS -> SNAT IP Address'
             conv_utils.add_conv_status('snatpool', '', snat_pool_name,
@@ -264,6 +279,34 @@ class VSConfigConv(object):
 
         return vs_obj
 
+    def create_vs_datascript(self, rule, avi_config):
+        vs_ds_ref = rule + '-vs-datascript-dumy'
+        if self.check_vs_datascript_ref_already_exist(vs_ds_ref, avi_config['VSDataScripts']):
+            return vs_ds_ref
+        vs_ds = {
+            'name': vs_ds_ref,
+            'datascript': []
+        }
+
+        datascript = {
+            'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ',
+            'script': 'host = avi.http.host()'
+        }
+        if rule == '_sys_https_redirect':
+            datascript['script'] = 'avi.http.redirect("https://" .. avi.http.hostname() .. avi.http.get_uri())'
+        vs_ds['datascript'].append(datascript)
+        avi_config['VSDataScripts'].append(vs_ds)
+        LOG.info('Add new dumy data script : %s' % vs_ds_ref)
+        conv_utils.add_status_row('datascript', None, vs_ds_ref, 'successful')
+
+        return vs_ds_ref
+
+    def check_vs_datascript_ref_already_exist(self, vs_ds_ref, datascript_config):
+        ref  = [ds['name'] for ds in datascript_config if ds['name'] == vs_ds_ref]
+        if ref:
+            LOG.warning('Already data script present : %s' % vs_ds_ref)
+            return True
+        return False
 
 class VSConfigConvV11(VSConfigConv):
     supported_attr = ['profiles', 'destination', 'pool', 'persist',

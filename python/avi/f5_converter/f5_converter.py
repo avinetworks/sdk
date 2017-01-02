@@ -6,7 +6,7 @@ import os
 import sys
 
 from requests.packages import urllib3
-
+from avi.version import AVI_VERSION, AVI_PIP_VERSION
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
 
@@ -32,7 +32,8 @@ def dict_merge(dct, merge_dct):
             dct[k] = merge_dct[k]
 
 
-def get_default_config(version, is_download, path):
+def get_default_config(version, is_download, path, skip_default_file):
+    f5_defaults_dict = {}
     if is_download:
         profile_base = open(path+os.path.sep+"profile_base.conf", "r")
         profile_dict = f5_parser.parse_config(profile_base.read(), version)
@@ -46,7 +47,10 @@ def get_default_config(version, is_download, path):
             monitor_dict["monitor"] = default_mon
             del monitor_dict["monitorroot"]
         profile_dict.update(monitor_dict)
-        f5_defaults_dict = profile_dict
+        if not skip_default_file:
+            f5_defaults_dict = profile_dict
+        LOG.warning('Skipped default file : %s' % profile_base.name)
+
     else:
         if version == '12':
             version = '11'
@@ -59,7 +63,10 @@ def get_default_config(version, is_download, path):
 
         defaults_file = open(dir_path+os.path.sep+"f5_v%s_defaults.conf" %
                              version, "r")
-        f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
+        if not skip_default_file:
+            f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
+        LOG.warning('Skipped default file : %s' % defaults_file.name)
+
     return f5_defaults_dict
 
 
@@ -67,6 +74,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
+    parser.add_argument('--skip_default_file',
+                        help='Falg for skip default file', default=False)
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config file', default='11')
     parser.add_argument('-o', '--output_file_path',
@@ -107,6 +116,7 @@ if __name__ == "__main__":
                         help='comma separated partition config files')
 
     args = parser.parse_args()
+
     init_logger_path(args.output_file_path)
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
@@ -130,6 +140,8 @@ if __name__ == "__main__":
         user_ignore = json.loads(ignore_conf_str)
 
     partitions = []
+    LOG.info('Avi Build version : %s' % AVI_VERSION)
+    LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
     if args.partition_config:
         partitions = args.partition_config.split(',')
 
@@ -153,7 +165,7 @@ if __name__ == "__main__":
     LOG.debug('Parsing defaults files')
     f5_defaults_dict = get_default_config(args.f5_config_version,
                                           is_download_from_host,
-                                          input_dir)
+                                          input_dir, bool(args.skip_default_file))
     if partitions:
         partition_conf = {}
         for partition in partitions:
