@@ -102,7 +102,7 @@ class ProfileConfigConv(object):
         return profile
 
     def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir,
-                         tenant):
+                         tenant, generate_ssl_placeholder):
         """
         Read key and cert files from given location and construct avi
         SSLKeyAndCertificate objects
@@ -114,9 +114,16 @@ class ProfileConfigConv(object):
         :param tenant: tenant name to add tenant ref in config
         :return:SSLKeyAndCertificate object
         """
-        folder_path = input_dir+os.path.sep
-        key = conv_utils.upload_file(folder_path + key_file_name)
-        cert = conv_utils.upload_file(folder_path + cert_file_name)
+        if not generate_ssl_placeholder:
+            folder_path = input_dir+os.path.sep
+            key = conv_utils.upload_file(folder_path + key_file_name)
+            cert = conv_utils.upload_file(folder_path + cert_file_name)
+            LOG.warning('Create self cerificate and key')
+        else:
+            key, cert = conv_utils.create_self_signed_cert()
+            name = name + '-dumy-ssl_key-cert'
+            LOG.warning('Create self cerificate and key for : %s' % name)
+
         ssl_kc_obj = None
         if key and cert:
             cert = {"certificate": cert}
@@ -261,9 +268,12 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_file = None if key_file == 'none' else key_file
             if key_file and cert_file:
                 key_cert_obj = parent_cls.get_key_cert_obj(
-                    name, key_file, cert_file, input_dir, tenant)
-                if key_cert_obj:
-                    conv_utils.update_skip_duplicates(
+                    name, key_file, cert_file, input_dir, tenant, False)
+            else:
+                key_cert_obj = parent_cls.get_key_cert_obj(
+                    name, key_file, cert_file, input_dir, tenant, True)
+            if key_cert_obj:
+                conv_utils.update_skip_duplicates(
                         key_cert_obj, avi_config['SSLKeyAndCertificate'],
                         'key_cert', converted_objs, name, default_profile_name)
 
@@ -842,7 +852,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 key_file = key_file.replace('\"', '')
                 cert_file = cert_file.replace('\"', '')
                 key_cert_obj = parent_cls.get_key_cert_obj(
-                    name, key_file, cert_file, input_dir, tenant)
+                    name, key_file, cert_file, input_dir, tenant, False)
+            else:
+
+                key_cert_obj = parent_cls.get_key_cert_obj(
+                    name, key_file, cert_file, input_dir, tenant, True)
             if key_cert_obj:
                 conv_utils.update_skip_duplicates(
                     key_cert_obj, avi_config['SSLKeyAndCertificate'],
