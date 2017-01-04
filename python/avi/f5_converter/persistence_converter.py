@@ -41,7 +41,7 @@ class PersistenceConfigConv(object):
     def update_conv_status_for_skip(self, persist_mode, name):
         pass
 
-    def convert(self, f5_config, avi_config, user_ignore):
+    def convert(self, f5_config, avi_config, user_ignore, tenant_ref):
         avi_config['hash_algorithm'] = []
         avi_config["ApplicationPersistenceProfile"] = []
         f5_persistence_dict = f5_config.get('persistence')
@@ -60,17 +60,17 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if persist_mode == "cookie":
                     persist_profile = self.convert_cookie(name, profile,
-                                                          skipped, tenant)
+                                                          skipped, tenant_ref)
                     if not persist_profile:
                         continue
                     u_ignore = user_ignore.get('cookie', [])
                 elif persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
-                        name, profile, skipped, self.indirect, tenant)
+                        name, profile, skipped, self.indirect, tenant_ref)
                     u_ignore = user_ignore.get('ssl', [])
                 elif persist_mode == "source-addr":
                     persist_profile = self.convert_source_addr(
-                        name, profile, skipped, tenant)
+                        name, profile, skipped, tenant_ref)
                     u_ignore = user_ignore.get('source-addr', [])
                 elif persist_mode == "hash":
                     avi_config['hash_algorithm'].append(name)
@@ -139,7 +139,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
     indirect = ["hash-length", "hash-offset", "mirror", "method",
                             "cookie-encryption", 'override-connection-limit']
 
-    def convert_cookie(self, name, profile, skipped, tenant):
+    def convert_cookie(self, name, profile, skipped, tenant_ref):
         method = profile.get('method', 'insert')
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
@@ -165,12 +165,11 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
             "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
 
         return persist_profile
 
-    def convert_ssl(self, name, profile, skipped, indirect_mappings, tenant):
+    def convert_ssl(self, name, profile, skipped, indirect_mappings, tenant_ref):
         supported_attr = ["defaults-from"]
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
@@ -180,11 +179,10 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
             "persistence_type": "PERSISTENCE_TYPE_TLS",
             "name": name
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
         return persist_profile
 
-    def convert_source_addr(self, name, profile, skipped, tenant):
+    def convert_source_addr(self, name, profile, skipped, tenant_ref):
         supported_attr = ["timeout", "defaults-from"]
         ignore_lst = ['map-proxies']
         supported_attr += ignore_lst
@@ -201,8 +199,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
             },
             "name": name
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
         return persist_profile
 
     def update_conversion_status(self, conv_status, persist_mode, name,
@@ -228,7 +225,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
     indirect = ["cookie hash length", "cookie hash offset", "mirror",
                 'override connection limit']
 
-    def convert_cookie(self, name, profile, skipped, tenant):
+    def convert_cookie(self, name, profile, skipped, tenant_ref):
         method = profile.get('cookie mode', 'insert')
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
@@ -264,11 +261,10 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
             "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
         return persist_profile
 
-    def convert_ssl(self, name, profile, skipped, indirect, tenant):
+    def convert_ssl(self, name, profile, skipped, indirect, tenant_ref):
         supported_attr = ["mode", "defaults from"]
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
@@ -278,11 +274,10 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             "persistence_type": "PERSISTENCE_TYPE_TLS",
             "name": name
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
         return persist_profile
 
-    def convert_source_addr(self, name, profile, skipped, tenant):
+    def convert_source_addr(self, name, profile, skipped, tenant_ref):
         supported_attr = ["timeout", "mode", "defaults from"]
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
@@ -297,8 +292,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
           },
           "name": name
         }
-        if tenant:
-            persist_profile['tenant_ref'] = tenant
+        persist_profile['tenant_ref'] = tenant_ref
         return persist_profile
 
     def update_conversion_status(self, conv_status, persist_mode, name,

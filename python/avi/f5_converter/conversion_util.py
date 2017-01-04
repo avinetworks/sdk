@@ -264,8 +264,7 @@ def get_content_string_group(name, content_types, tenant):
         uri = {"key": content_type}
         kv.append(uri)
     sg_obj["kv"] = kv
-    if tenant:
-        sg_obj['tenant_ref'] = tenant
+    sg_obj['tenant_ref'] = tenant
     return sg_obj
 
 
@@ -309,7 +308,10 @@ def get_vs_ssl_profiles(profiles, avi_config):
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             mode = None
             if pki_profile:
-                mode = pki_profiles[0].pop('mode')
+                try:
+                    mode = pki_profiles[0].pop('mode')
+                except Exception as e:
+                    LOG.error('Mode not Found for : %s' % pki_profile)
                 if tenant:
                     pki_profile = '%s:%s' % (tenant, pki_profile)
             if context == "clientside":
@@ -544,7 +546,7 @@ def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool):
             add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool)
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
-                            hash_profiles, persist_config):
+                            hash_profiles, persist_config, tenant):
     """
     Updates pool for persistence profile assigned in F5 VS config
     :param avi_pool_list: List of all converted pool objects to avi config
@@ -566,7 +568,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                            if obj["name"] == persist_profile]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
-        pool_obj[persist_ref_key] = persist_profile
+        pool_obj[persist_ref_key] = '%s:%s' % (tenant, persist_profile)
     elif persist_profile == "hash" or persist_profile in hash_profiles:
         del pool_obj["lb_algorithm"]
         hash_algorithm = "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
@@ -577,7 +579,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
-                            hash_profiles, persist_config):
+                            hash_profiles, persist_config, tenant):
 
     pool_group = [obj for obj in avi_config['PoolGroup']
                   if obj['name'] == pool_ref]
@@ -586,7 +588,7 @@ def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
         for member in pool_group['members']:
             update_pool_for_persist(avi_config['Pool'], member['pool_ref'],
                                     persist_profile, hash_profiles,
-                                    persist_config)
+                                    persist_config, tenant)
 
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
