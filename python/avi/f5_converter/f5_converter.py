@@ -10,7 +10,7 @@ from avi.version import AVI_VERSION, AVI_PIP_VERSION
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
 
-urllib3.disable_warnings()
+# urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 
 
@@ -36,8 +36,13 @@ def get_default_config(version, is_download, path, skip_default_file):
     f5_defaults_dict = {}
     if is_download:
         profile_base = open(path+os.path.sep+"profile_base.conf", "r")
-        profile_dict = f5_parser.parse_config(profile_base.read(), version)
         monitor_base = open(path+os.path.sep+"base_monitors.conf", "r")
+        if skip_default_file:
+            LOG.warning('Skipped default profile base file : %s\nSkipped default monitor base file : %s'
+                        % (profile_base.name, monitor_base.name))
+            return f5_defaults_dict
+
+        profile_dict = f5_parser.parse_config(profile_base.read(), version)
         monitor_dict = f5_parser.parse_config(monitor_base.read(), version)
         if int(version) == 10:
             default_mon = monitor_dict.get("monitor", {})
@@ -47,9 +52,7 @@ def get_default_config(version, is_download, path, skip_default_file):
             monitor_dict["monitor"] = default_mon
             del monitor_dict["monitorroot"]
         profile_dict.update(monitor_dict)
-        if not skip_default_file:
-            f5_defaults_dict = profile_dict
-        LOG.warning('Skipped default file : %s' % profile_base.name)
+        f5_defaults_dict = profile_dict
 
     else:
         if version == '12':
@@ -63,9 +66,11 @@ def get_default_config(version, is_download, path, skip_default_file):
 
         defaults_file = open(dir_path+os.path.sep+"f5_v%s_defaults.conf" %
                              version, "r")
-        if not skip_default_file:
-            f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
-        LOG.warning('Skipped default file : %s' % defaults_file.name)
+        if skip_default_file:
+            LOG.warning('Skipped default file : %s' % defaults_file.name)
+            return f5_defaults_dict
+
+        f5_defaults_dict = f5_parser.parse_config(defaults_file.read(), version)
 
     return f5_defaults_dict
 
@@ -116,7 +121,7 @@ if __name__ == "__main__":
                         help='comma separated partition config files')
 
     args = parser.parse_args()
-
+    tenant = args.tenant
     init_logger_path(args.output_file_path)
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
@@ -185,7 +190,7 @@ if __name__ == "__main__":
     f5_config_dict = f5_defaults_dict
     avi_config_dict = f5_config_converter.\
         convert(f5_config_dict, output_dir, args.vs_state,
-                input_dir, args.f5_config_version, user_ignore)
+                input_dir, args.f5_config_version, user_ignore, tenant)
 
     avi_config_dict["META"] = {
         "supported_migrations": {
