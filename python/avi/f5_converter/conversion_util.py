@@ -261,6 +261,9 @@ def get_content_string_group(name, content_types, tenant):
     sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
     kv = []
     for content_type in content_types:
+        if content_type is None:
+            LOG.warning('%s content_types %s has none', name, content_types)
+            continue
         uri = {"key": content_type}
         kv.append(uri)
     sg_obj["kv"] = kv
@@ -845,15 +848,19 @@ def create_self_signed_cert():
 
     # create a key pair
     key = crypto.PKey()
-    key.generate_key(crypto.TYPE_RSA, 4096)
+    key.generate_key(crypto.TYPE_RSA, 2048)
 
     # create a self-signed cert
     cert = crypto.X509()
     cert.get_subject().C = "US"
     cert.get_subject().O = "Avi Networks"
     cert.get_subject().CN = gethostname()
+    cert.set_serial_number(1000)
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
+    cert.set_issuer(cert.get_subject())
     cert.set_pubkey(key)
-    cert.sign(key, 'sha256WithRSAEncryption')
+    cert.sign(key, 'sha1')
     cert = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
     key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
     return key, cert

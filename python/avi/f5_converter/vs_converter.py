@@ -245,7 +245,8 @@ class VSConfigConv(object):
         if enable_ssl:
             vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
-                vs_obj['ssl_key_and_certificate_refs'] = '%s:%s' % (tenant_ref, [ssl_vs[0]["cert"]])
+                vs_obj['ssl_key_and_certificate_refs'] = \
+                    ['%s:%s' % (tenant_ref, c) for c in ssl_vs[0]["cert"]]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
                 app_profiles = [obj for obj in
                                 avi_config["ApplicationProfile"]
