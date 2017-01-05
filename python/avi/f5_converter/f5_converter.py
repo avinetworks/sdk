@@ -10,7 +10,7 @@ from avi.version import AVI_VERSION, AVI_PIP_VERSION
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
 
-# urllib3.disable_warnings()
+urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 
 
