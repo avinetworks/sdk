@@ -97,11 +97,23 @@ def get_files_from_f5(local_path, host, username, pw=None, key=None):
     scp.get_all_files('/config/ssl/ssl.key/', local_path)
     scp.get_all_files('/config/monitors/', local_path)
     scp.get('/config/bigip.conf', local_path + 'bigip.conf')
-    scp.get('/config/profile_base.conf', local_path + 'profile_base.conf')
-    scp.get('/usr/share/monitors/base_monitors.conf', local_path +
-            'base_monitors.conf')
-    scp.get('/config/bigip_gtm.conf', local_path + 'bigip_gtm.conf')
-    scp.get_all_partition_config('/config/partitions/', local_path)
+    try:
+        scp.get('/config/profile_base.conf', local_path + 'profile_base.conf')
+    except:
+        pass
+    try:
+        scp.get('/usr/share/monitors/base_monitors.conf', local_path +
+                'base_monitors.conf')
+    except:
+        pass
+    try:
+        scp.get('/config/bigip_gtm.conf', local_path + 'bigip_gtm.conf')
+    except:
+        pass
+    try:
+        scp.get_all_partition_config('/config/partitions/', local_path)
+    except:
+        pass
     scp.close()
 
 if __name__ == "__main__":
