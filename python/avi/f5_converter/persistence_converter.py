@@ -153,7 +153,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
-        cookie_name = profile.get("cookie-name", None)
+        cookie_name = profile.get("cookie-name", name+':cookie-name')
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
@@ -237,7 +237,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                           "cookie expiration"]
         skipped += [attr for attr in profile.keys()
                    if attr not in supported_attr]
-        cookie_name = profile.get("cookie name", None)
+        cookie_name = profile.get("cookie name", name+':-cookie')
         if not cookie_name:
             LOG.error("Missing Required field cookie name in: %s", name)
             conv_utils.add_status_row('profile', 'persist-cookie', name,
