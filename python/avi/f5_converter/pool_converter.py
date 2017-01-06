@@ -390,7 +390,7 @@ class PoolConfigConvV10(PoolConfigConv):
         ramp_time = f5_pool.get('slow ramp time', None)
         pool_obj = super(PoolConfigConvV10, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
-            limits)
+            limits, tenant_ref)
         monitor_names = f5_pool.get("monitor", None)
         skipped_monitors = []
         if monitor_names:
@@ -483,6 +483,7 @@ class PoolConfigConvV10(PoolConfigConv):
             state = 'enabled'
             ratio = None
             description = None
+            priority = None
             if server:
                 state = server.get("session", 'enabled')
                 skipped = [key for key in server.keys()
@@ -494,7 +495,7 @@ class PoolConfigConvV10(PoolConfigConv):
                 c_lim = int(server.get("limit", '0'))
                 if c_lim > 0:
                     connection_limit.append(c_lim)
-            priority = server.get('priority', None)
+                priority = server.get('priority', None)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
