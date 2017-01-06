@@ -302,8 +302,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
-        request = request.replace('\\\\', '\\')
-        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+        if request:
+            request = request.replace('\\\\', '\\')
+            request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
