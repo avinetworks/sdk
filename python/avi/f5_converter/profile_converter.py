@@ -121,11 +121,10 @@ class ProfileConfigConv(object):
         if key_file_name and cert_file_name:
             key = conv_utils.upload_file(folder_path + key_file_name)
             cert = conv_utils.upload_file(folder_path + cert_file_name)
-            LOG.warning('Create self cerificate and key')
 
         if not key or not cert:
             key, cert = conv_utils.create_self_signed_cert()
-            name = name + '-dummy-ssl_key-cert'
+            name = name + '-dummy'
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ssl_kc_obj = None
@@ -925,7 +924,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         elif profile_type == 'http':
             app_profile, skipped = \
                 self.convert_http_profile(
-                    profile, name, avi_config, converted_objs, tenant)
+                    profile, name, avi_config, converted_objs, tenant_ref)
             u_ignore = user_ignore.get('http', [])
             na_list = self.na_http
             indirect = self.indirect_http
