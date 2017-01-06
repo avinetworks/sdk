@@ -4,7 +4,6 @@ import logging
 import os
 import json
 
-from avi.version import AVI_VERSION, AVI_PIP_VERSION
 import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
 from avi.netscaler_converter import upload_config
@@ -76,8 +75,8 @@ if __name__ == "__main__":
             os.makedirs(output_dir)
         is_download_from_host = True
 
-    LOG.info('Avi Build version : %s' % AVI_VERSION)
-    LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
+    # LOG.info('Avi Build version : %s' % AVI_VERSION)
+    # LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
     if is_download_from_host:
         LOG.debug("Copying files from host")
         scp_util.get_files_from_ns(input_dir, args.ns_host_ip,
