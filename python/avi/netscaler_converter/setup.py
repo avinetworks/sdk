@@ -23,7 +23,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
-                      'pycrypto', 'ecdsa'],
+                      'pycrypto', 'ecdsa', 'pyOpenssl'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )
