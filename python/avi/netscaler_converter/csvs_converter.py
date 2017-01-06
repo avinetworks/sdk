@@ -2,7 +2,7 @@ import logging
 import copy
 import re
 from avi.netscaler_converter import ns_util
-from lbvs_converter import Redirect_Pools
+from avi.netscaler_converter.lbvs_converter import Redirect_Pools
 
 LOG = logging.getLogger(__name__)
 

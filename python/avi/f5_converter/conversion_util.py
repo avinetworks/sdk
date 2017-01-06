@@ -294,7 +294,7 @@ def get_vs_ssl_profiles(profiles, avi_config):
         if ssl_profiles:
             ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
             key_cert = [obj for obj in ssl_key_cert_list if
-                        (obj['name'] == name or name in obj.get("dup_of", []))]
+                        (obj['name'] == name or obj['name'] == name+'-dummy' or name in obj.get("dup_of", []))]
             key_cert = key_cert[0]['name'] if key_cert else None
             if key_cert and tenant:
                key_cert = '%s:%s' % (tenant, key_cert)
@@ -335,7 +335,7 @@ def get_vs_ssl_profiles(profiles, avi_config):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -368,7 +368,7 @@ def get_vs_app_profiles(profiles, avi_config):
             if app_profiles[0].get('HTTPPolicySet', None):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
                 policy_set.append({"index": 12,
-                                   "http_policy_set_ref":  policy_name})
+                                   "http_policy_set_ref":  '%s:%s' % (tenant_ref, policy_name)})
             if app_profiles[0].get('fallback_host', None):
                 f_host = app_profiles[0].pop('fallback_host')
             if app_profiles[0].get('realm', None):
@@ -517,9 +517,18 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
         new_pool["pki_profile_ref"] = None
         avi_pool_list.append(new_pool)
         pool_ref = new_pool["name"]
-        if tenant:
-            pool_ref = '%s:%s' % (tenant, pool_ref)
         return pool_ref
+
+def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
+    pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
+    if pool:
+        hm_refs = pool[0]['health_monitor_refs']
+        for hm_ref in hm_refs:
+            hm = [h for h in avi_config['HealthMonitor'] if '%s:%s' % (tenant, h['name']) == hm_ref]
+            if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
+                pool[0]['health_monitor_refs'].remove(hm_ref)
+                LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
+                            'HTTPS and VS has no ssl profile.' % (hm_ref, pool_ref))
 
 
 def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
@@ -797,10 +806,12 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
                              p_tenant, ref)]
     else:
         shared_vs = [obj for obj in avi_config['VirtualService']
-                     if obj.get("pool_ref", "") == ref]
+                     if obj.get("pool_ref", "") == '%s:%s' % (
+                         tenant, ref)]
         if not shared_vs:
             shared_vs = [obj for obj in avi_config['VirtualService']
-                         if obj.get("pool_group_ref", "") == ref]
+                         if obj.get("pool_group_ref", "") == '%s:%s' % (
+                         tenant, ref)]
         if tenant:
             if is_pool_group:
                 ref = clone_pool_group(ref, vs_name, avi_config, tenant)
@@ -840,8 +851,7 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
         for member in new_pool_group['members']:
             member['pool_ref'] = clone_pool(member['pool_ref'], vs_name,
                                             avi_config['Pool'], tenant)
-        if tenant:
-            pg_ref = '%s:%s' % (tenant, pg_ref)
+        pg_ref = '%s:%s' % (tenant, pg_ref)
     return pg_ref
 
 def create_self_signed_cert():

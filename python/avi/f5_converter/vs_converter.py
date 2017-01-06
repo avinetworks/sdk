@@ -30,7 +30,7 @@ class VSConfigConv(object):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
-        avi_config['VSDataScripts'] = []
+        avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
@@ -70,7 +70,7 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config)
+            profiles, avi_config, tenant_ref)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
 
         oc_prof = False
@@ -109,8 +109,7 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
-        if not destination:
-            print f5_vs
+
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
@@ -125,7 +124,7 @@ class VSConfigConv(object):
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
             # TODO: need to revisit after shared pool support implemented
             pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
-                pool_ref, avi_config, vs_name, tenant, p_tenant)
+                pool_ref, avi_config, vs_name, tenant_ref, p_tenant)
 
             if ssl_pool:
                 if is_pool_group:
@@ -134,6 +133,12 @@ class VSConfigConv(object):
                 else:
                     conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
                                                ssl_pool[0])
+            else:
+                # TODO Remove this once controller support this scenario.
+                if is_pool_group:
+                    conv_utils.remove_https_mon_from_pool_group(avi_config, pool_ref, tenant_ref)
+                else:
+                    conv_utils.remove_https_mon_from_pool(avi_config, pool_ref, tenant_ref)
 
             persist_ref = self.get_persist_ref(f5_vs)
             if persist_ref:
@@ -188,7 +193,7 @@ class VSConfigConv(object):
 
         if is_pool_group:
             vs_obj['pool_group_ref'] = '%s:%s' % (tenant_ref, pool_ref)
-        else:
+        elif pool_ref:
             vs_obj['pool_ref'] = '%s:%s' % (tenant_ref, pool_ref)
 
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
@@ -246,7 +251,7 @@ class VSConfigConv(object):
             vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = \
-                    ['%s:%s' % (tenant_ref, c) for c in ssl_vs[0]["cert"]]
+                    ['%s:%s' % (tenant_ref, ssl_vs[0]["cert"])]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
                 app_profiles = [obj for obj in
                                 avi_config["ApplicationProfile"]
@@ -284,7 +289,7 @@ class VSConfigConv(object):
 
     def create_vs_datascript(self, rule, avi_config, tenant):
         vs_ds_ref = rule + '-vs-datascript-dummy'
-        if self.check_vs_datascript_ref_already_exist(vs_ds_ref, avi_config['VSDataScripts']):
+        if self.check_vs_datascript_ref_already_exist(vs_ds_ref, avi_config['VSDataScriptSet']):
             return vs_ds_ref
         vs_ds = {
             'name': vs_ds_ref,
@@ -299,7 +304,7 @@ class VSConfigConv(object):
         if rule == '_sys_https_redirect':
             datascript['script'] = 'avi.http.redirect("https://" .. avi.http.hostname() .. avi.http.get_uri())'
         vs_ds['datascript'].append(datascript)
-        avi_config['VSDataScripts'].append(vs_ds)
+        avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
         conv_utils.add_status_row('datascript', None, vs_ds_ref, 'successful')
 
