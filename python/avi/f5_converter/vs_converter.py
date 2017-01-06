@@ -26,13 +26,15 @@ class VSConfigConv(object):
     ignore_for_value = None
     connection_limit = None
 
-    def convert(self, f5_config, avi_config, vs_state, user_ignore):
+    def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
+        avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
         unsupported_types = ["l2-forward", "ip-forward", "stateless",
                              "dhcp-relay", "internal", "reject"]
+
         for vs_name in vs_config.keys():
             try:
                 LOG.debug("Converting VS: %s" % vs_name)
@@ -46,7 +48,7 @@ class VSConfigConv(object):
                                               'skipped')
                     continue
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
-                                         f5_snat_pools, user_ignore)
+                                         f5_snat_pools, user_ignore, tenant)
                 avi_config['VirtualService'].append(vs_obj)
                 LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
@@ -56,7 +58,7 @@ class VSConfigConv(object):
         f5_config.pop("virtual", {})
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
-                   user_ignore):
+                   user_ignore, tenant_ref):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
@@ -68,7 +70,7 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config)
+            profiles, avi_config, tenant_ref)
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
 
         oc_prof = False
@@ -107,8 +109,7 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
-        if not destination:
-            print f5_vs
+
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
@@ -123,15 +124,21 @@ class VSConfigConv(object):
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
             # TODO: need to revisit after shared pool support implemented
             pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
-                pool_ref, avi_config, vs_name, tenant, p_tenant)
+                pool_ref, avi_config, vs_name, tenant_ref, p_tenant)
 
             if ssl_pool:
                 if is_pool_group:
                     conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
-                                               ssl_pool[0])
+                                               ssl_pool[0], tenant_ref)
                 else:
                     conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
-                                               ssl_pool[0])
+                                               ssl_pool[0], tenant_ref)
+            else:
+                # TODO Remove this once controller support this scenario.
+                if is_pool_group:
+                    conv_utils.remove_https_mon_from_pool_group(avi_config, pool_ref, tenant_ref)
+                else:
+                    conv_utils.remove_https_mon_from_pool(avi_config, pool_ref, tenant_ref)
 
             persist_ref = self.get_persist_ref(f5_vs)
             if persist_ref:
@@ -141,11 +148,11 @@ class VSConfigConv(object):
                 if is_pool_group:
                     pool_updated = conv_utils.update_pool_group_for_persist(
                         avi_config, pool_ref, persist_ref, hash_profiles,
-                        avi_persistence)
+                        avi_persistence, tenant_ref)
                 else:
                     pool_updated = conv_utils.update_pool_for_persist(
                         avi_config['Pool'], pool_ref, persist_ref, hash_profiles,
-                        avi_persistence)
+                        avi_persistence, tenant_ref)
 
                 if not pool_updated:
                     skipped.append("persist")
@@ -158,6 +165,7 @@ class VSConfigConv(object):
 
         if p_tenant:
             pool_ref = '%s:%s' % (p_tenant, pool_ref)
+
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -168,13 +176,25 @@ class VSConfigConv(object):
             },
             'enabled': enabled,
             'services': services_obj,
-            'application_profile_ref': app_prof[0],
+            'application_profile_ref': '%s:%s' % (tenant_ref, app_prof[0]),
+            'vs_datascripts': [],
+            'tenant_ref': tenant_ref
         }
 
+        if 'rules' in f5_vs:
+            rules = f5_vs['rules'].keys()
+            ds_ref = self.create_vs_datascript(rules[0], avi_config, tenant_ref)
+
+            vs_datascript = {
+                'index': 1,
+                'vs_datascript_set_ref': '%s:%s' %(tenant_ref, ds_ref)
+            }
+            vs_obj['vs_datascripts'].append(vs_datascript)
+
         if is_pool_group:
-            vs_obj['pool_group_ref'] = pool_ref
-        else:
-            vs_obj['pool_ref'] = pool_ref
+            vs_obj['pool_group_ref'] = '%s:%s' % (tenant_ref, pool_ref)
+        elif pool_ref:
+            vs_obj['pool_ref'] = '%s:%s' % (tenant_ref, pool_ref)
 
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
@@ -188,8 +208,6 @@ class VSConfigConv(object):
             vs_obj["connections_rate_limit"] = {
                 "count": rate_limit
             }
-        if tenant:
-            vs_obj['tenant_ref'] = tenant
 
         if realm:
             vs_obj['client_auth'] = realm
@@ -207,7 +225,7 @@ class VSConfigConv(object):
             policy = conv_utils.create_network_security_rule(
                 policy_name, parts[0], mask)
             avi_config['NetworkSecurityPolicy'].append(policy)
-            vs_obj['network_security_policy_ref'] = policy_name
+            vs_obj['network_security_policy_ref'] = '%s:%s' % (tenant_ref, policy_name)
 
         snat = f5_vs.get("source-address-translation", {})
         snat_pool_name = snat.get("pool", None)
@@ -218,17 +236,22 @@ class VSConfigConv(object):
             snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
             snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
-            vs_obj["snat_ip"] = snat_list
+            if len(snat_list) > 32:
+                vs_obj["snat_ip"] = snat_list[0:32]
+                LOG.warning(' Ignore the snat IPs, its count is beyond 32 for vs : %s' % vs_name)
+            else:
+                vs_obj["snat_ip"] = snat_list
             conv_status = {'status': 'successful'}
             message = 'Mapped indirectly to VS -> SNAT IP Address'
             conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                        conv_status, message)
         if ntwk_prof:
-            vs_obj['network_profile_ref'] = ntwk_prof[0]
+            vs_obj['network_profile_ref'] = '%s:%s' % (tenant_ref, ntwk_prof[0])
         if enable_ssl:
             vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
-                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
+                vs_obj['ssl_key_and_certificate_refs'] = \
+                    ['%s:%s' % (tenant_ref, ssl_vs[0]["cert"])]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
                 app_profiles = [obj for obj in
                                 avi_config["ApplicationProfile"]
@@ -238,7 +261,7 @@ class VSConfigConv(object):
                     app_profiles[0]["http_profile"][
                         "ssl_client_certificate_mode"] = ssl_vs[0]["mode"]
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
-                        ssl_vs[0]["pki"]
+                        '%s:%s' % (tenant_ref, ssl_vs[0]["pki"])
 
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]
@@ -264,6 +287,35 @@ class VSConfigConv(object):
 
         return vs_obj
 
+    def create_vs_datascript(self, rule, avi_config, tenant):
+        vs_ds_ref = rule + '-vs-datascript-dummy'
+        if self.check_vs_datascript_ref_already_exist(vs_ds_ref, avi_config['VSDataScriptSet']):
+            return vs_ds_ref
+        vs_ds = {
+            'name': vs_ds_ref,
+            'datascript': [],
+            'tenant_ref': tenant
+        }
+
+        datascript = {
+            'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ',
+            'script': 'host = avi.http.host()'
+        }
+        if rule == '_sys_https_redirect':
+            datascript['script'] = 'avi.http.redirect("https://" .. avi.http.hostname() .. avi.http.get_uri())'
+        vs_ds['datascript'].append(datascript)
+        avi_config['VSDataScriptSet'].append(vs_ds)
+        LOG.info('Add new dummy data script : %s' % vs_ds_ref)
+        conv_utils.add_status_row('datascript', None, vs_ds_ref, 'successful')
+
+        return vs_ds_ref
+
+    def check_vs_datascript_ref_already_exist(self, vs_ds_ref, datascript_config):
+        ref  = [ds['name'] for ds in datascript_config if ds['name'] == vs_ds_ref]
+        if ref:
+            LOG.warning('Already data script present : %s' % vs_ds_ref)
+            return True
+        return False
 
 class VSConfigConvV11(VSConfigConv):
     supported_attr = ['profiles', 'destination', 'pool', 'persist',

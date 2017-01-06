@@ -9,7 +9,7 @@ from avi.netscaler_converter.lbvs_converter import LbvsConverter
 from avi.netscaler_converter.csvs_converter import CsvsConverter
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.profile_converter import ProfileConverter
-from lbvs_converter import tmp_avi_config
+from avi.netscaler_converter.lbvs_converter import tmp_avi_config
 
 def convert(ns_config_dict, tenant, version, output_dir, input_dir,
             skipped_cmds, vs_state):

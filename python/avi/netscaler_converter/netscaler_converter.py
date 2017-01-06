@@ -57,6 +57,7 @@ if __name__ == "__main__":
                              'authentication')
 
     args = parser.parse_args()
+
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     init_logger_path(args.output_file_path)
@@ -74,6 +75,8 @@ if __name__ == "__main__":
             os.makedirs(output_dir)
         is_download_from_host = True
 
+    # LOG.info('Avi Build version : %s' % AVI_VERSION)
+    # LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
     if is_download_from_host:
         LOG.debug("Copying files from host")
         scp_util.get_files_from_ns(input_dir, args.ns_host_ip,

@@ -62,7 +62,7 @@ class MonitorConfigConv(object):
                          name):
         pass
 
-    def convert(self, f5_config, avi_config, input_dir, user_ignore):
+    def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant):
         LOG.debug("Converting health monitors")
         avi_config["HealthMonitor"] = []
         m_user_ignore = user_ignore.get('monitor', {})
@@ -88,7 +88,7 @@ class MonitorConfigConv(object):
                                               'skipped')
                     continue
                 avi_monitor = self.convert_monitor(
-                    f5_monitor, key, monitor_config, input_dir, m_user_ignore)
+                    f5_monitor, key, monitor_config, input_dir, m_user_ignore, tenant)
                 if not avi_monitor:
                     continue
                 avi_config["HealthMonitor"].append(avi_monitor)
@@ -104,7 +104,7 @@ class MonitorConfigConv(object):
                   len(avi_config["HealthMonitor"]))
 
     def convert_monitor(self, f5_monitor, key, monitor_config, input_dir,
-                        user_ignore):
+                        user_ignore, tenant_ref):
         monitor_type, name = self.get_name_type(f5_monitor, key)
         skipped = [val for val in f5_monitor.keys()
                    if val not in self.supported_attributes]
@@ -122,9 +122,8 @@ class MonitorConfigConv(object):
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
         tenant, name = conv_utils.get_tenant_ref(name)
-        if tenant:
-            monitor_dict['tenant_ref'] = tenant
 
+        monitor_dict['tenant_ref'] = tenant_ref
         monitor_dict["name"] = name
         monitor_dict["receive_timeout"] = interval-1
         monitor_dict["failed_checks"] = failed_checks
@@ -303,8 +302,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
-        request = request.replace('\\\\', '\\')
-        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+        if request:
+            request = request.replace('\\\\', '\\')
+            request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
