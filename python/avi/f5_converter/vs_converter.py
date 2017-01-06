@@ -129,10 +129,10 @@ class VSConfigConv(object):
             if ssl_pool:
                 if is_pool_group:
                     conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
-                                               ssl_pool[0])
+                                               ssl_pool[0], tenant_ref)
                 else:
                     conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
-                                               ssl_pool[0])
+                                               ssl_pool[0], tenant_ref)
             else:
                 # TODO Remove this once controller support this scenario.
                 if is_pool_group:

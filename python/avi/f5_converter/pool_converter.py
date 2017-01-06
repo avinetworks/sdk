@@ -68,11 +68,12 @@ class PoolConfigConv(object):
             monitors = monitor_names.split(" ")
             monitor_refs = []
             garbage_val = ["and", "all", "min", "of", "{", "}", "none"]
+
             for monitor in monitors:
+                monitor = monitor.strip()
                 if not monitor or monitor in garbage_val or \
                         monitor.isdigit():
                     continue
-                monitor = monitor.strip()
                 tenant, monitor = conv_utils.get_tenant_ref(monitor)
                 monitor_obj = [obj for obj in monitor_config_list
                                if obj["name"] == monitor]
