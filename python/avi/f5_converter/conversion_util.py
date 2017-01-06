@@ -531,7 +531,7 @@ def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
                             'HTTPS and VS has no ssl profile.' % (hm_ref, pool_ref))
 
 
-def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
+def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant_ref='admin'):
     """
     F5 serverside SSL need to be added to pool if VS contains serverside SSL
     profile this method add that profile to pool
@@ -542,20 +542,20 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
     for pool in avi_pool_list:
         if pool_ref == pool["name"]:
             if pool_ssl_profiles["profile"]:
-                pool["ssl_profile_ref"] = pool_ssl_profiles["profile"]
+                pool["ssl_profile_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["profile"])
             if pool_ssl_profiles["pki"]:
-                pool["pki_profile_ref"] = pool_ssl_profiles["pki"]
+                pool["pki_profile_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["pki"])
             if pool_ssl_profiles["cert"]:
-                pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles["cert"]
+                pool["ssl_key_and_certificate_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["cert"])
 
 
-def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool):
+def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool, tenant_ref):
     pool_group = [obj for obj in avi_config['PoolGroup']
                           if obj['name'] == pool_group_ref]
     if pool_group:
         pool_group = pool_group[0]
         for member in pool_group['members']:
-            add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool)
+            add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool, tenant_ref)
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                             hash_profiles, persist_config, tenant):
@@ -750,7 +750,10 @@ def get_tenant_ref(name):
     if name.startswith('/'):
         parts = name.split('/', 2)
         tenant = parts[1]
+        if not parts[2]:
+            LOG.warning('Invalid tenant ref : %s' % name)
         name = parts[2]
+
     return tenant, name
 
 
