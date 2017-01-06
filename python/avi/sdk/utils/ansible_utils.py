@@ -7,9 +7,13 @@ import os
 import re
 import logging
 from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound
+from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger
 
-log = logging.getLogger(__name__)
+if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
+    log = logging.getLogger(__name__)
+else:
+    # Ansible does not allow logging from the modules.
+    log = avi_sdk_syslog_logger()
 
 
 def ansible_return(module, rsp, changed, req=None, existing_obj=None):
