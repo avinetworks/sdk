@@ -25,6 +25,28 @@ def avi_timedelta(td):
     return ts
 
 
+def avi_sdk_syslog_logger(logger_name='avi.sdk'):
+    # The following sets up syslog module to log underlying avi SDK messages
+    # based on the environment variables:
+    #   AVI_LOG_HANDLER: names the logging handler to use. Only syslog is
+    #     supported.
+    #   AVI_LOG_LEVEL: Logging level used for the avi SDK. Default is DEBUG
+    #   AVI_SYSLOG_ADDRESS: Destination address for the syslog handler.
+    #   Default is /dev/log
+    from logging.handlers import SysLogHandler
+    lf = '[%(asctime)s] %(levelname)s [' \
+                        '%(module)s.%(funcName)s:%(lineno)d] %(message)s'
+    log = logging.getLogger(logger_name)
+    log_level = os.environ.get('AVI_LOG_LEVEL', 'DEBUG')
+    if log_level:
+        log.setLevel(getattr(logging, log_level))
+    formatter = logging.Formatter(lf)
+    sh = SysLogHandler(address=os.environ.get('AVI_SYSLOG_ADDRESS', '/dev/log'))
+    sh.setFormatter(formatter)
+    log.addHandler(sh)
+    return log
+
+
 class ObjectNotFound(Exception):
     pass
 
@@ -313,7 +335,9 @@ class ApiSession(Session):
         else:
             resp = fn(fullpath, data=data, headers=api_hdrs, 
                       timeout=timeout, **kwargs)
-        logger.debug('kwargs: %s rsp %s', kwargs, resp.text)
+        logger.debug(
+            'path: %s http_method: %s headers: %s params: %s data: %s rsp: %s',
+            fullpath, api_name.upper(), api_hdrs, kwargs, data, resp.text)
         if resp.status_code in (401, 419):
             logger.info('received error %d %s so resetting connection',
                         resp.status_code, resp.text)
