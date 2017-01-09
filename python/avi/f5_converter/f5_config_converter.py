@@ -13,7 +13,7 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            user_ignore={}):
+            user_ignore={}, tenant='admin'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -33,19 +33,19 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     avi_config_dict = {}
     try:
         mon_conv = MonitorConfigConv.get_instance(version)
-        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore)
+        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore, tenant)
 
         pool_conv = PoolConfigConv.get_instance(version)
-        pool_conv.convert(f5_config, avi_config_dict, user_ignore)
+        pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
         profile_conv = ProfileConfigConv.get_instance(version)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore, tenant)
 
         persist_conv = PersistenceConfigConv.get_instance(version)
-        persist_conv.convert(f5_config, avi_config_dict, user_ignore)
+        persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
         vs_conv = VSConfigConv.get_instance(version)
-        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore)
+        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore, tenant)
 
         conv_utils.cleanup_config(avi_config_dict)
 

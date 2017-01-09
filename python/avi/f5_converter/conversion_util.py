@@ -2,6 +2,8 @@ import copy
 import csv
 import logging
 import os
+from OpenSSL import crypto
+from socket import gethostname
 
 import converter_constants as conv_const
 
@@ -259,11 +261,13 @@ def get_content_string_group(name, content_types, tenant):
     sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
     kv = []
     for content_type in content_types:
+        if content_type is None:
+            LOG.warning('%s content_types %s has none', name, content_types)
+            continue
         uri = {"key": content_type}
         kv.append(uri)
     sg_obj["kv"] = kv
-    if tenant:
-        sg_obj['tenant_ref'] = tenant
+    sg_obj['tenant_ref'] = tenant
     return sg_obj
 
 
@@ -290,7 +294,7 @@ def get_vs_ssl_profiles(profiles, avi_config):
         if ssl_profiles:
             ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
             key_cert = [obj for obj in ssl_key_cert_list if
-                        (obj['name'] == name or name in obj.get("dup_of", []))]
+                        (obj['name'] == name or obj['name'] == name+'-dummy' or name in obj.get("dup_of", []))]
             key_cert = key_cert[0]['name'] if key_cert else None
             if key_cert and tenant:
                key_cert = '%s:%s' % (tenant, key_cert)
@@ -307,7 +311,10 @@ def get_vs_ssl_profiles(profiles, avi_config):
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             mode = None
             if pki_profile:
-                mode = pki_profiles[0].pop('mode')
+                try:
+                    mode = pki_profiles[0].pop('mode')
+                except Exception as e:
+                    LOG.error('Mode not Found for : %s' % pki_profile)
                 if tenant:
                     pki_profile = '%s:%s' % (tenant, pki_profile)
             if context == "clientside":
@@ -328,7 +335,7 @@ def get_vs_ssl_profiles(profiles, avi_config):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -361,7 +368,7 @@ def get_vs_app_profiles(profiles, avi_config):
             if app_profiles[0].get('HTTPPolicySet', None):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
                 policy_set.append({"index": 12,
-                                   "http_policy_set_ref":  policy_name})
+                                   "http_policy_set_ref":  '%s:%s' % (tenant_ref, policy_name)})
             if app_profiles[0].get('fallback_host', None):
                 f_host = app_profiles[0].pop('fallback_host')
             if app_profiles[0].get('realm', None):
@@ -510,12 +517,21 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
         new_pool["pki_profile_ref"] = None
         avi_pool_list.append(new_pool)
         pool_ref = new_pool["name"]
-        if tenant:
-            pool_ref = '%s:%s' % (tenant, pool_ref)
         return pool_ref
 
+def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
+    pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
+    if pool:
+        hm_refs = pool[0]['health_monitor_refs']
+        for hm_ref in hm_refs:
+            hm = [h for h in avi_config['HealthMonitor'] if '%s:%s' % (tenant, h['name']) == hm_ref]
+            if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
+                pool[0]['health_monitor_refs'].remove(hm_ref)
+                LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
+                            'HTTPS and VS has no ssl profile.' % (hm_ref, pool_ref))
 
-def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
+
+def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant_ref='admin'):
     """
     F5 serverside SSL need to be added to pool if VS contains serverside SSL
     profile this method add that profile to pool
@@ -526,23 +542,23 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles):
     for pool in avi_pool_list:
         if pool_ref == pool["name"]:
             if pool_ssl_profiles["profile"]:
-                pool["ssl_profile_ref"] = pool_ssl_profiles["profile"]
+                pool["ssl_profile_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["profile"])
             if pool_ssl_profiles["pki"]:
-                pool["pki_profile_ref"] = pool_ssl_profiles["pki"]
+                pool["pki_profile_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["pki"])
             if pool_ssl_profiles["cert"]:
-                pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles["cert"]
+                pool["ssl_key_and_certificate_ref"] = '%s:%s' % (tenant_ref, pool_ssl_profiles["cert"])
 
 
-def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool):
+def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool, tenant_ref):
     pool_group = [obj for obj in avi_config['PoolGroup']
                           if obj['name'] == pool_group_ref]
     if pool_group:
         pool_group = pool_group[0]
         for member in pool_group['members']:
-            add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool)
+            add_ssl_to_pool(avi_config['Pool'], member['pool_ref'], ssl_pool, tenant_ref)
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
-                            hash_profiles, persist_config):
+                            hash_profiles, persist_config, tenant):
     """
     Updates pool for persistence profile assigned in F5 VS config
     :param avi_pool_list: List of all converted pool objects to avi config
@@ -564,7 +580,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                            if obj["name"] == persist_profile]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
-        pool_obj[persist_ref_key] = persist_profile
+        pool_obj[persist_ref_key] = '%s:%s' % (tenant, persist_profile)
     elif persist_profile == "hash" or persist_profile in hash_profiles:
         del pool_obj["lb_algorithm"]
         hash_algorithm = "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
@@ -575,7 +591,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
-                            hash_profiles, persist_config):
+                            hash_profiles, persist_config, tenant):
 
     pool_group = [obj for obj in avi_config['PoolGroup']
                   if obj['name'] == pool_ref]
@@ -584,7 +600,7 @@ def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
         for member in pool_group['members']:
             update_pool_for_persist(avi_config['Pool'], member['pool_ref'],
                                     persist_profile, hash_profiles,
-                                    persist_config)
+                                    persist_config, tenant)
 
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
@@ -734,7 +750,10 @@ def get_tenant_ref(name):
     if name.startswith('/'):
         parts = name.split('/', 2)
         tenant = parts[1]
+        if not parts[2]:
+            LOG.warning('Invalid tenant ref : %s' % name)
         name = parts[2]
+
     return tenant, name
 
 
@@ -790,10 +809,12 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
                              p_tenant, ref)]
     else:
         shared_vs = [obj for obj in avi_config['VirtualService']
-                     if obj.get("pool_ref", "") == ref]
+                     if obj.get("pool_ref", "") == '%s:%s' % (
+                         tenant, ref)]
         if not shared_vs:
             shared_vs = [obj for obj in avi_config['VirtualService']
-                         if obj.get("pool_group_ref", "") == ref]
+                         if obj.get("pool_group_ref", "") == '%s:%s' % (
+                         tenant, ref)]
         if tenant:
             if is_pool_group:
                 ref = clone_pool_group(ref, vs_name, avi_config, tenant)
@@ -833,7 +854,26 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
         for member in new_pool_group['members']:
             member['pool_ref'] = clone_pool(member['pool_ref'], vs_name,
                                             avi_config['Pool'], tenant)
-        if tenant:
-            pg_ref = '%s:%s' % (tenant, pg_ref)
+        pg_ref = '%s:%s' % (tenant, pg_ref)
     return pg_ref
 
+def create_self_signed_cert():
+
+    # create a key pair
+    key = crypto.PKey()
+    key.generate_key(crypto.TYPE_RSA, 2048)
+
+    # create a self-signed cert
+    cert = crypto.X509()
+    cert.get_subject().C = "US"
+    cert.get_subject().O = "Avi Networks"
+    cert.get_subject().CN = gethostname()
+    cert.set_serial_number(1000)
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
+    cert.set_issuer(cert.get_subject())
+    cert.set_pubkey(key)
+    cert.sign(key, 'sha1')
+    cert = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+    key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
+    return key, cert
