@@ -62,6 +62,10 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
         LOG.debug('Conversion completed successfully')
 
         ns_util.cleanup_config(tmp_avi_config)
+        for key in avi_config:
+            if key != 'META':
+                LOG.info('Total Objects of %s : %s' % (key, len(avi_config[key])))
+                print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
 
     except:
         LOG.error('Error in config conversion', exc_info=True)

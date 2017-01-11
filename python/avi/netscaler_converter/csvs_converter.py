@@ -340,7 +340,8 @@ class CsvsConverter(object):
 
             elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
                  'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
-                 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper():
+                 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
+                 'HTTP.REQ.URL.STARTSWITH' in query.upper():
                 policy_rule["match"].update({"query": path_query})
                 policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
 
@@ -351,7 +352,8 @@ class CsvsConverter(object):
                 matches = list(set(matches))
                 for match in matches:
                     if 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
-                        'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper():
+                                    'HTTP.REQ.URL.STARTSWITH' in query.upper() or \
+                                    'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper():
                         match = re.sub('[\\\/]', '', match)
                         policy_rule["match"]["query"]["match_str"].append(match)
                 rule_index += 1
