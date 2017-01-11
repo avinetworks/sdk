@@ -19,9 +19,7 @@ def parse_config_file(filepath):
         lambda t: t[0].replace('-', '', 1))
     val = originalTextFor(Optional(ZeroOrMore(text), default=None))
     option = Group(key + val)
-    multi_word_names = quotedString.setParseAction(
-        lambda t: t[0].replace(' ', '_').replace('"', ''))
-    command = Group(OneOrMore(multi_word_names | text) + ZeroOrMore(option))
+    command = Group(OneOrMore(text) + ZeroOrMore(option))
     command.ignore(comment | blank_line)
     with open(filepath) as infile:
         for line in infile:
