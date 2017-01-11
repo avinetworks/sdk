@@ -49,6 +49,11 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         conv_utils.cleanup_config(avi_config_dict)
 
+        for key in avi_config_dict:
+            if key != 'META':
+                LOG.info('Total Objects of %s : %s' % (key, len(avi_config_dict[key])))
+                print 'Total Objects of %s : %s' % (key, len(avi_config_dict[key]))
+
     except:
         LOG.error("Conversion error", exc_info=True)
     for f5_type in f5_config.keys():

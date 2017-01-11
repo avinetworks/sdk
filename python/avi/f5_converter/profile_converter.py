@@ -101,6 +101,38 @@ class ProfileConfigConv(object):
                 profile = parent_profile
         return profile
 
+    def update_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir, tenant,
+                            avi_config, converted_objs, default_profile_name):
+        folder_path = input_dir + os.path.sep
+        key = None
+        cert = None
+        if key_file_name and cert_file_name:
+            key = conv_utils.upload_file(folder_path + key_file_name)
+            cert = conv_utils.upload_file(folder_path + cert_file_name)
+
+        if not key or not cert:
+            key, cert = conv_utils.create_self_signed_cert()
+            name = name + '-dummy'
+            LOG.warning('Create self cerificate and key for : %s' % name)
+
+        ssl_kc_obj = None
+        if key and cert:
+            cert = {"certificate": cert}
+            ssl_kc_obj = {
+                'name': name,
+                'key': key,
+                'certificate': cert,
+                'key_passphrase': '',
+                'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
+            }
+            if tenant:
+                ssl_kc_obj['tenant_ref'] = tenant
+
+        if ssl_kc_obj:
+            conv_utils.update_skip_duplicates(
+                ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
+                'key_cert', converted_objs, name, default_profile_name)
+
     def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir,
                          tenant):
         """
@@ -270,13 +302,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 cert_file = None if cert_file == 'none' else cert_file
                 key_file = None if key_file == 'none' else key_file
 
-            key_cert_obj = parent_cls.get_key_cert_obj(
-                    name, key_file, cert_file, input_dir, tenant_ref)
-
-            if key_cert_obj:
-                conv_utils.update_skip_duplicates(
-                        key_cert_obj, avi_config['SSLKeyAndCertificate'],
-                        'key_cert', converted_objs, name, default_profile_name)
+            parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
+                                           avi_config, converted_objs, default_profile_name)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
             # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
@@ -840,13 +867,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if key_file and cert_file:
                 key_file = key_file.replace('\"', '')
                 cert_file = cert_file.replace('\"', '')
-            key_cert_obj = parent_cls.get_key_cert_obj(
-                    name, key_file, cert_file, input_dir, tenant_ref)
 
-            if key_cert_obj:
-                conv_utils.update_skip_duplicates(
-                    key_cert_obj, avi_config['SSLKeyAndCertificate'],
-                    'key_cert', converted_objs, name, default_profile_name)
+            parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
+                                           avi_config, converted_objs, default_profile_name)
+
             # ciphers = ciphers.replace('\"', '')
             # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
             #                                         'NATIVE'] else ciphers

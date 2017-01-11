@@ -530,6 +530,33 @@ def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
                 LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
                             'HTTPS and VS has no ssl profile.' % (hm_ref, pool_ref))
 
+def remove_http_mon_from_pool(avi_config, pool_ref, tenant):
+    pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
+    if pool:
+        hm_refs = pool[0]['health_monitor_refs']
+        for hm_ref in hm_refs:
+            hm = [h for h in avi_config['HealthMonitor'] if '%s:%s' % (tenant, h['name']) == hm_ref]
+            if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
+                pool[0]['health_monitor_refs'].remove(hm_ref)
+                LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
+                            'HTTPS and VS has no ssl profile.' % (hm_ref, pool_ref))
+
+def remove_https_mon_from_pool_group(avi_config, poolgroup_ref, tenant):
+    poolgroup = [p for p in avi_config['PoolGroup'] if '%s:%s' % (tenant, p['name']) == poolgroup_ref]
+    if poolgroup:
+        pool_members = [p['pool_ref'] for p in poolgroup[0]['members']]
+        for pool_ref in pool_members:
+            pool_ref = pool_ref.split(':')
+            remove_https_mon_from_pool(avi_config, pool_ref[1], tenant)
+
+def remove_http_mon_from_pool_group(avi_config, poolgroup_ref, tenant):
+    poolgroup = [p for p in avi_config['PoolGroup'] if '%s:%s' % (tenant, p['name']) == poolgroup_ref]
+    if poolgroup:
+        pool_members = [p['pool_ref'] for p in poolgroup[0]['members']]
+        for pool_ref in pool_members:
+            pool_ref = pool_ref.split(':')
+            remove_http_mon_from_pool(avi_config, pool_ref[1], tenant)
+
 
 def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant_ref='admin'):
     """
@@ -852,9 +879,10 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
             new_pool_group["tenant_ref"] = tenant
         avi_config['PoolGroup'].append(new_pool_group)
         for member in new_pool_group['members']:
-            member['pool_ref'] = clone_pool(member['pool_ref'], vs_name,
+            pool_ref = member['pool_ref'].split(':')
+            pool_ref = clone_pool(pool_ref[1], vs_name,
                                             avi_config['Pool'], tenant)
-        pg_ref = '%s:%s' % (tenant, pg_ref)
+            member['pool_ref'] = '%s:%s' % (tenant, pool_ref)
     return pg_ref
 
 def create_self_signed_cert():
