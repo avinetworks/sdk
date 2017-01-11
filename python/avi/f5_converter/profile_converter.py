@@ -27,7 +27,8 @@ class ProfileConfigConv(object):
               'AES256-SHA:DES-CBC3-SHA'
 
     def convert_profile(self, profile, key, f5_config, profile_config,
-                        avi_config, input_dir, user_ignore, tenant_ref, key_and_cert_mapping_list):
+                        avi_config, input_dir, user_ignore, tenant_ref,
+                        key_and_cert_mapping_list):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant_ref):
@@ -62,7 +63,8 @@ class ProfileConfigConv(object):
                     profile_type, profile, profile_config, name)
                 u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(profile, key, f5_config, profile_config,
-                                     avi_config, input_dir, u_ignore, tenant_ref, key_and_cert_mapping_list)
+                                     avi_config, input_dir, u_ignore, tenant_ref,
+                                     key_and_cert_mapping_list)
                 LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
