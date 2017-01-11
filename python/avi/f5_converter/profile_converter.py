@@ -27,7 +27,7 @@ class ProfileConfigConv(object):
               'AES256-SHA:DES-CBC3-SHA'
 
     def convert_profile(self, profile, key, f5_config, profile_config,
-                        avi_config, input_dir, user_ignore, tenant_ref):
+                        avi_config, input_dir, user_ignore, tenant_ref, key_and_cert_mapping_list):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant_ref):
@@ -40,6 +40,7 @@ class ProfileConfigConv(object):
         avi_config["StringGroup"] = []
         avi_config['HTTPPolicySet'] = []
         avi_config['OneConnect'] = []
+        key_and_cert_mapping_list = []
         persistence = f5_config.get("persistence", None)
         if not persistence:
             f5_config['persistence'] = {}
@@ -61,7 +62,7 @@ class ProfileConfigConv(object):
                     profile_type, profile, profile_config, name)
                 u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(profile, key, f5_config, profile_config,
-                                     avi_config, input_dir, u_ignore, tenant_ref)
+                                     avi_config, input_dir, u_ignore, tenant_ref, key_and_cert_mapping_list)
                 LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
@@ -76,6 +77,7 @@ class ProfileConfigConv(object):
         count += len(avi_config["NetworkProfile"])
         LOG.debug("Converted %s profiles" % count)
         f5_config.pop("profile")
+        del key_and_cert_mapping_list
 
     def update_with_default_profile(self, profile_type, profile,
                                     profile_config, profile_name):
@@ -102,7 +104,14 @@ class ProfileConfigConv(object):
         return profile
 
     def update_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir, tenant,
-                            avi_config, converted_objs, default_profile_name):
+                            avi_config, converted_objs, default_profile_name, key_and_cert_mapping_list):
+
+        cert_name = [cert['name'] for cert in key_and_cert_mapping_list if cert['key_file_name'] == key_file_name and
+                     cert['cert_file_name'] == cert_file_name]
+        if cert_name:
+            LOG.warning('SSL key and Certificate is already exist for %s and %s is %s' %
+                        (key_file_name, cert_file_name, cert_name[0]))
+            return
         folder_path = input_dir + os.path.sep
         key = None
         cert = None
@@ -129,50 +138,17 @@ class ProfileConfigConv(object):
                 ssl_kc_obj['tenant_ref'] = tenant
 
         if ssl_kc_obj:
+            cert_obj = {'key_file_name': key_file_name,
+                        'cert_file_name': cert_file_name,
+                        'name': name
+                        }
+            key_and_cert_mapping_list.append(cert_obj)
+            LOG.info('Added new SSL key and certificate for %s' % name)
+
+        if ssl_kc_obj:
             conv_utils.update_skip_duplicates(
                 ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
                 'key_cert', converted_objs, name, default_profile_name)
-
-    def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir,
-                         tenant):
-        """
-        Read key and cert files from given location and construct avi
-        SSLKeyAndCertificate objects
-        :param name: SSLKeyAndCertificate object name
-        :param key_file_name: key file name
-        :param cert_file_name: cert file name
-        :param input_dir: location of key and cert files
-        object structure
-        :param tenant: tenant name to add tenant ref in config
-        :return:SSLKeyAndCertificate object
-        """
-
-        folder_path = input_dir+os.path.sep
-        key = None
-        cert = None
-        if key_file_name and cert_file_name:
-            key = conv_utils.upload_file(folder_path + key_file_name)
-            cert = conv_utils.upload_file(folder_path + cert_file_name)
-
-        if not key or not cert:
-            key, cert = conv_utils.create_self_signed_cert()
-            name = name + '-dummy'
-            LOG.warning('Create self cerificate and key for : %s' % name)
-
-        ssl_kc_obj = None
-        if key and cert:
-            cert = {"certificate": cert}
-            ssl_kc_obj = {
-                    'name': name,
-                    'key': key,
-                    'certificate': cert,
-                    'key_passphrase': '',
-                    'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
-                }
-            if tenant:
-                ssl_kc_obj['tenant_ref'] = tenant
-        return ssl_kc_obj
-
 
 class ProfileConfigConvV11(ProfileConfigConv):
     supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
@@ -260,7 +236,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
     supported_oc = ['defaults-from', 'source-mask']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
-                        avi_config, input_dir, user_ignore, tenant_ref):
+                        avi_config, input_dir, user_ignore, tenant_ref,
+                        key_and_cert_mapping_list):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -303,7 +280,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_file = None if key_file == 'none' else key_file
 
             parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
-                                           avi_config, converted_objs, default_profile_name)
+                                           avi_config, converted_objs, default_profile_name,
+                                           key_and_cert_mapping_list)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
             # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
@@ -832,7 +810,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
     supported_oc = ['defaults from', 'source mask']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
-                        avi_config, input_dir, user_ignore, tenant_ref):
+                        avi_config, input_dir, user_ignore, tenant_ref,
+                        key_and_cert_mapping_list):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -869,7 +848,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 cert_file = cert_file.replace('\"', '')
 
             parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
-                                           avi_config, converted_objs, default_profile_name)
+                                           avi_config, converted_objs, default_profile_name,
+                                           key_and_cert_mapping_list)
 
             # ciphers = ciphers.replace('\"', '')
             # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
