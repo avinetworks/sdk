@@ -1,5 +1,6 @@
 import logging
 import copy
+import re
 import avi.f5_converter.conversion_util as conv_utils
 import avi.f5_converter.converter_constants as conv_const
 
@@ -56,6 +57,7 @@ class PoolConfigConv(object):
                         "labels": labels
                     }
                 ],
+                'tenant_ref': tenant_ref
             }
             avi_config['PriorityLabels'] = [priority_labels]
 
@@ -202,15 +204,17 @@ class PoolConfigConv(object):
             priority_pool_ref = '%s-%s' % (name, priority)
             priority_pool['name'] = priority_pool_ref
             pools.append(priority_pool)
-            member = {
-                'priority_label': priority,
-                'pool_ref': priority_pool_ref
-            }
+            if priority_pool_ref:
+                member = {
+                    'priority_label': priority,
+                    'pool_ref': '%s:%s' % (tenant, priority_pool_ref)
+                }
+                pg_members.append(member)
+
             avi_config['PriorityLabels'].append(priority)
-            pg_members.append(member)
         pg_obj = {
             'name': name,
-            'priority_labels_ref': 'numeric_priority_labels',
+            'priority_labels_ref': '%s:numeric_priority_labels' % tenant,
             'members': pg_members
         }
         pg_obj['tenant_ref'] = tenant
@@ -339,6 +343,12 @@ class PoolConfigConvV11(PoolConfigConv):
             if state == "user-down" or session == 'user-disabled':
                 enabled = False
             priority = server.get('priority-group', None)
+
+            ip_addr = ip_addr.strip()
+            matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
+            if not matches:
+                ip_addr = '1.1.1.1'
+
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -359,6 +369,12 @@ class PoolConfigConvV11(PoolConfigConv):
             c_lim = int(server.get("connection-limit", '0'))
             if c_lim > 0:
                 connection_limit.append(c_lim)
+
+            server_obj_list = [s for s in server_list if s['ip']['addr'] == server_obj['ip']['addr'] and s['port'] == server_obj['port']]
+            if server_obj_list:
+                LOG.warning('Skipped duplicate server %s' % ip_addr)
+                continue
+
             server_list.append(server_obj)
             skipped = [key for key in server.keys()
                        if key not in supported_attributes]
