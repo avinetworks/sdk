@@ -1,5 +1,7 @@
 import logging
 import copy
+import random
+import re
 
 import avi.f5_converter.conversion_util as conv_utils
 
@@ -167,6 +169,13 @@ class VSConfigConv(object):
 
         if p_tenant:
             pool_ref = '%s:%s' % (p_tenant, pool_ref)
+
+        ip_addr = ip_addr.strip()
+        matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
+        if not matches:
+            LOG.warning('Avi does not support IPv6 : %s. Generated random ipv4 for vs: %s' % (ip_addr, vs_name))
+            vs_name += '-needs-ipv6-ip'
+            ip_addr = ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
 
         vs_obj = {
             'name': vs_name,
