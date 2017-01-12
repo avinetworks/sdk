@@ -214,7 +214,7 @@ class PoolConfigConv(object):
             avi_config['PriorityLabels'].append(priority)
         pg_obj = {
             'name': name,
-            'priority_labels_ref': '%s:numeric_priority_labels' % tenant,
+            # 'priority_labels_ref': '%s:numeric_priority_labels' % tenant,
             'members': pg_members
         }
         pg_obj['tenant_ref'] = tenant
@@ -347,6 +347,7 @@ class PoolConfigConvV11(PoolConfigConv):
             ip_addr = ip_addr.strip()
             matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
             if not matches:
+                LOG.warning('Avi does not support IPv6. Replace 1.1.1.1 ipv4 for : %s' % ip_addr)
                 ip_addr = '1.1.1.1'
 
             server_obj = {
