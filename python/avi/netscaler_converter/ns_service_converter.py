@@ -124,35 +124,36 @@ class ServiceConverter(object):
             if len(member['attrs']) < 2:
                 continue
             mon_ref = []
-            cmd = "bind service %s" % (member['attrs'][1])
+            cmd = "bind service %s for %s" % (member['attrs'][1], member['attrs'][0])
 
             service_groups = ns_sg.get(member['attrs'][1], [])
             if service_groups and isinstance(service_groups, dict):
                 service_groups = [service_groups]
-            self.get_monitor_names(service_groups, mon_ref)
+            self.get_monitor_names(service_groups, mon_ref, cmd)
 
             services = ns_service_binding.get(member['attrs'][1], [])
             if services and isinstance(services, dict):
                 services = [services]
-            self.get_monitor_names(services, mon_ref)
+            self.get_monitor_names(services, mon_ref, cmd)
 
             if mon_ref:
                 monitor_ref += mon_ref
             else:
-                LOG.error('Skipped service : %s' % cmd)
+                LOG.warning('Command not supported : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Skipped')
 
         return list(set(monitor_ref))
 
-    def get_monitor_names(self, bindings, mon_ref):
+    def get_monitor_names(self, bindings, mon_ref, cmd):
         for binding in bindings:
-            cmd = "bind service %s" % (binding['attrs'][0])
-            if binding.get('monitorName', None):
-                mon_ref.append(binding.get('monitorName'))
+            mon_name = binding.get('monitorName', None)
+            if mon_name:
+                mon_name = mon_name.replace('"', '').strip().replace(' ', '_')
+                mon_ref.append(mon_name)
                 LOG.info('Added service : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Successful')
             else:
-                LOG.error('Skipped service : %s' % cmd)
+                LOG.warning('Command not supported : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Skipped')
 
 
