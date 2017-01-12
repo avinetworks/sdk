@@ -57,7 +57,6 @@ class ServiceConverter(object):
                         "lb_algorithm": algo
                     }
 
-
                 monitor_names = self.get_monitors(ns_config, group)
                 avi_monitors = avi_config["HealthMonitor"]
                 hm_monitors = []
