@@ -42,6 +42,7 @@ class ServiceConverter(object):
                 name = '%s-pool' % group_key
                 server_list = self.get_servers(ns_config, group, conv_status)
                 servers = [server for index, server in enumerate(server_list) if server not in server_list[index + 1:]]
+
                 if not servers:
                     ns_util.add_status_row(b_cmd, "Skipped")
                     LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
@@ -55,6 +56,7 @@ class ServiceConverter(object):
                         "servers": servers,
                         "lb_algorithm": algo
                     }
+
                 monitor_names = self.get_monitors(ns_config, group)
                 avi_monitors = avi_config["HealthMonitor"]
                 hm_monitors = []
@@ -71,7 +73,7 @@ class ServiceConverter(object):
 
                 if len(monitor_refs) > 6:
                     pool_obj["health_monitor_refs"] = monitor_refs[0:6]
-                    LOG.warning(' Ignore the Health monitor references, its count is beyond 6 for pool : %s' % name)
+                    LOG.warning('Ignore the Health monitor references, its count is beyond 6 for pool : %s' % name)
                 else:
                     pool_obj["health_monitor_refs"] = monitor_refs
 
@@ -116,30 +118,42 @@ class ServiceConverter(object):
 
         if isinstance(group, dict):
             group = [group]
+        monitor_ref = []
         for member in group:
-            for key in ns_sg.keys():
-                sg = ns_sg.get(key)
-                if isinstance(sg, dict):
-                    sg = [sg]
-                self.get_monitor_names(sg, mon_ref, member)
-            for key in ns_service_binding.keys():
-                service = ns_service_binding.get(key)
-                if isinstance(service, dict):
-                    service = [service]
-                self.get_monitor_names(service, mon_ref, member)
-        return list(set(mon_ref))
-
-    def get_monitor_names(self, bindings, mon_ref, member):
-        for binding in bindings:
             if len(member['attrs']) < 2:
                 continue
-            cmd = "bind service %s" % (member['attrs'][1])
-            if binding.get('monitorName', None) and \
-                            member['attrs'][1] == binding['attrs'][0]:
-                mon_ref.append(binding.get('monitorName'))
-                ns_util.add_status_row(cmd, 'successful')
+            mon_ref = []
+            cmd = "bind service %s for %s" % (member['attrs'][1], member['attrs'][0])
+
+            service_groups = ns_sg.get(member['attrs'][1], [])
+            if service_groups and isinstance(service_groups, dict):
+                service_groups = [service_groups]
+            self.get_monitor_names(service_groups, mon_ref, cmd)
+
+            services = ns_service_binding.get(member['attrs'][1], [])
+            if services and isinstance(services, dict):
+                services = [services]
+            self.get_monitor_names(services, mon_ref, cmd)
+
+            if mon_ref:
+                monitor_ref += mon_ref
             else:
-                ns_util.add_status_row(cmd, 'skipped')
+                LOG.warning('Command not supported : %s' % cmd)
+                ns_util.add_status_row(cmd, 'Skipped')
+
+        return list(set(monitor_ref))
+
+    def get_monitor_names(self, bindings, mon_ref, cmd):
+        for binding in bindings:
+            mon_name = binding.get('monitorName', None)
+            if mon_name:
+                mon_name = mon_name.replace('"', '').strip().replace(' ', '_')
+                mon_ref.append(mon_name)
+                LOG.info('Added service : %s' % cmd)
+                ns_util.add_status_row(cmd, 'Successful')
+            else:
+                LOG.warning('Command not supported : %s' % cmd)
+                ns_util.add_status_row(cmd, 'Skipped')
 
 
     def convert_ns_service(self, ns_service, ns_servers, ns_dns, conv_status):

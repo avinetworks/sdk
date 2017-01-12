@@ -60,7 +60,7 @@ class MonitorConverter(object):
         try:
             LOG.debug('Conversion started for monitor %s' %
                       ns_monitor['attrs'][0])
-            avi_monitor["name"] = ns_monitor['attrs'][0]
+            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().replace(" ", "_")
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
             interval = ns_monitor.get('interval', '5')
