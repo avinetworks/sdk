@@ -67,8 +67,14 @@ class ServiceConverter(object):
                 monitors = ns_util.remove_duplicate_objects('Health Monitor', hm_monitors)
 
                 monitor_refs = [mon["name"] for mon in monitors]
+                monitor_refs = list(set(monitor_refs))
 
-                pool_obj["health_monitor_refs"] = list(set(monitor_refs))
+                if len(monitor_refs) > 6:
+                    pool_obj["health_monitor_refs"] = monitor_refs[0:6]
+                    LOG.warning(' Ignore the Health monitor references, its count is beyond 6 for pool : %s' % name)
+                else:
+                    pool_obj["health_monitor_refs"] = monitor_refs
+
                 avi_config['Pool'].append(pool_obj)
 
                 for status in conv_status:
@@ -193,6 +199,10 @@ class ServiceConverter(object):
                                              [], [])
             conv_status.append({'cmd': cmd, 'status': status})
             server = ns_servers.get(attrs[1])
+            if not server:
+                ns_util.add_status_row(cmd, 'skipped')
+                LOG.error('Skipped server : %s' % cmd)
+                continue
 
             cmd = 'add server %s' % server['attrs'][0]
             status = ns_util.get_conv_status(server, self.server_skip,
