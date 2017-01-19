@@ -132,23 +132,22 @@ class ServiceConverter(object):
             if len(member['attrs']) < 2:
                 continue
             mon_ref = []
-            cmd = "bind service %s for %s" % (member['attrs'][1], member['attrs'][0])
+            cmd = "bind service %s %s" % (member['attrs'][1], member['attrs'][0])
 
             service_groups = ns_sg.get(member['attrs'][1], [])
             if service_groups and isinstance(service_groups, dict):
+                cmd = "bind service group %s %s" % (member['attrs'][1], member['attrs'][0])
                 service_groups = [service_groups]
             self.get_monitor_names(service_groups, mon_ref, cmd)
 
             services = ns_service_binding.get(member['attrs'][1], [])
             if services and isinstance(services, dict):
+                cmd = "bind service %s %s" % (member['attrs'][1], member['attrs'][0])
                 services = [services]
             self.get_monitor_names(services, mon_ref, cmd)
 
             if mon_ref:
                 monitor_ref += mon_ref
-            else:
-                LOG.warning('Command not supported : %s' % cmd)
-                ns_util.add_status_row(cmd, 'Skipped')
 
         return list(set(monitor_ref))
 
@@ -160,7 +159,9 @@ class ServiceConverter(object):
                 mon_ref.append(mon_name)
                 LOG.info('Added service : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Successful')
-            else:
+            elif binding.get('CustomServerID', None) or \
+                    binding.get('hashId', None) or \
+                    binding.get('policyName', None):
                 LOG.warning('Command not supported : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Skipped')
 
@@ -182,8 +183,6 @@ class ServiceConverter(object):
         state = server.get('state', 'ENABLED')
         if not state == 'ENABLED':
             enabled = False
-        ns_util.add_status_row(cmd + ' state : %s' % state, 'Successful')
-        LOG.info('Successful : %s state : %s' % (cmd, state))
         port = attrs[3]
         if port in ("*", "0"):
             port = "1"
@@ -216,7 +215,6 @@ class ServiceConverter(object):
             ns_service_group = [ns_service_group]
 
         for server_binding in ns_service_group:
-            LOG.debug(server_binding)
             if server_binding.get('monitorName', None):
                 continue
             attrs = server_binding.get('attrs')

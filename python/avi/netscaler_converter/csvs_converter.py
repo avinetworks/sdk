@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 tmp_pool_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
-                  'cacheable', 'redirectURL', 'cltTimeout', 'precedence',
+                  'cacheable', 'redirectURL', 'precedence',
                   'caseSensitive ', 'soMethod', 'soPersistence', 'rtspNat',
                   'soPersistenceTimeOut', 'soThreshold', 'soBackupAction',
                   'redirectPortRewrite', 'downStateFlush', 'Listenpolicy',
