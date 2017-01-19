@@ -40,14 +40,23 @@ class ServiceConverter(object):
                 #                                  [], [])
                 # conv_status.append({'cmd': cmd, 'status': status})
                 name = '%s-pool' % group_key
+                if not group_key:
+                    ns_util.add_status_row(b_cmd, "Skipped")
+                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
+                    continue
                 server_list = self.get_servers(ns_config, group, conv_status)
                 servers = [server for index, server in enumerate(server_list) if server not in server_list[index + 1:]]
 
                 if not servers:
                     ns_util.add_status_row(b_cmd, "Skipped")
-                    LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
+                    LOG.warning('Error: No Servers found. Skipped pool : %s' % group_key)
                     continue
                 lb_vs = lb_vs_conf.get(group_key)
+
+                if not lb_vs:
+                    ns_util.add_status_row(b_cmd, "Skipped")
+                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool')
+                    continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pool_obj = \
@@ -78,7 +87,7 @@ class ServiceConverter(object):
                     pool_obj["health_monitor_refs"] = monitor_refs
 
                 avi_config['Pool'].append(pool_obj)
-
+                ns_util.add_status_row(b_cmd, "successful")
                 for status in conv_status:
                     ns_util.add_conv_status(status['cmd'], status['status'],
                                             pool_obj)
@@ -155,7 +164,6 @@ class ServiceConverter(object):
                 LOG.warning('Command not supported : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Skipped')
 
-
     def convert_ns_service(self, ns_service, ns_servers, ns_dns, conv_status):
         attrs = ns_service.get('attrs')
         cmd = 'add service %s' % attrs[0]
@@ -163,6 +171,8 @@ class ServiceConverter(object):
                                          self.service_na, [], self.skip_for_val)
         conv_status.append({'cmd': cmd, 'status': status})
         server = ns_servers.get(attrs[1])
+        if not server:
+            return []
         cmd = 'add server %s' % server['attrs'][0]
         status = ns_util.get_conv_status(server, self.server_skip,
                                          [], [])
@@ -172,6 +182,8 @@ class ServiceConverter(object):
         state = server.get('state', 'ENABLED')
         if not state == 'ENABLED':
             enabled = False
+        ns_util.add_status_row(cmd + ' state : %s' % state, 'Successful')
+        LOG.info('Successful : %s state : %s' % (cmd, state))
         port = attrs[3]
         if port in ("*", "0"):
             port = "1"

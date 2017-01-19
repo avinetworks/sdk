@@ -246,6 +246,7 @@ class ProfileConverter(object):
                 output = avi_ssl_prof
             else:
                 ns_util.add_status_row(cmd, 'skipped')
+                LOG.warning('Skipped : %s' % cmd)
                 continue
             conv_status = ns_util.get_conv_status(
                 mapping, self.bind_sslvs_skip, [], [])
