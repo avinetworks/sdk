@@ -55,7 +55,7 @@ class ServiceConverter(object):
 
                 if not lb_vs:
                     ns_util.add_status_row(b_cmd, "Skipped")
-                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool')
+                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool %s' % group_key)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
