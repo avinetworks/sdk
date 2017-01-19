@@ -131,7 +131,7 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
 
     conv_status = {
         'skipped': skipped,
-        'indirect': indirect,
+        'indire/AV-importct': indirect,
         'na_list': na,
         'status': status
     }
@@ -228,3 +228,18 @@ def get_vs_if_shared_vip(avi_config):
                 'port_range_end': '65535'
             }
             vs['services'].append(service)
+
+
+def add_clttimeout_for_http_profile(profile_name, avi_config, cltimeout):
+    profile = [p for p in avi_config['ApplicationProfile'] if p['name'] == profile_name]
+    if profile:
+        profile[0]['client_header_timeout'] = int(cltimeout)
+        profile[0]['client_body_timeout'] = int(cltimeout)
+
+def object_exist(object_type, name, avi_config):
+    data = avi_config[object_type]
+    obj_list = [obj for obj in data if obj['name'] == name]
+    if obj_list:
+        return True
+    return False
+
