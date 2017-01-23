@@ -7,6 +7,8 @@ fi
 
 cp avi/$1/setup.py .
 cp avi/$1/MANIFEST.in .
+AVI_PIP_VERSION=`python version.py`
+sed -i s/"AVI_PIP_VERSION=.*$"/"AVI_PIP_VERSION= \'$AVI_PIP_VERSION\'"/g setup.py
 echo "uploading to the pypi "
 twine upload dist/*
 echo "cleanup"
