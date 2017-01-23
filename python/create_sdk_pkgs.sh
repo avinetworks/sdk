@@ -2,6 +2,8 @@
 
 cp avi/sdk/setup.py .
 cp avi/sdk/MANIFEST.in .
+AVI_PIP_VERSION=`python version.py`
+sed -i s/"AVI_PIP_VERSION=.*$"/"AVI_PIP_VERSION= \'$AVI_PIP_VERSION\'"/g setup.py
 python debian/update_version.py
 dpkg-buildpackage -b -us -uc
 mv ../python-avisdk_*.deb dist/
