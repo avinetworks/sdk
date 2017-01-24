@@ -40,14 +40,23 @@ class ServiceConverter(object):
                 #                                  [], [])
                 # conv_status.append({'cmd': cmd, 'status': status})
                 name = '%s-pool' % group_key
+                if not group_key:
+                    ns_util.add_status_row(b_cmd, "Skipped")
+                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
+                    continue
                 server_list = self.get_servers(ns_config, group, conv_status)
                 servers = [server for index, server in enumerate(server_list) if server not in server_list[index + 1:]]
 
                 if not servers:
                     ns_util.add_status_row(b_cmd, "Skipped")
-                    LOG.error('Error: No Servers found. Skipped pool : %s' % group_key)
+                    LOG.warning('Error: No Servers found. Skipped pool : %s' % group_key)
                     continue
                 lb_vs = lb_vs_conf.get(group_key)
+
+                if not lb_vs:
+                    ns_util.add_status_row(b_cmd, "Skipped")
+                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool %s' % group_key)
+                    continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pool_obj = \
@@ -78,7 +87,7 @@ class ServiceConverter(object):
                     pool_obj["health_monitor_refs"] = monitor_refs
 
                 avi_config['Pool'].append(pool_obj)
-
+                ns_util.add_status_row(b_cmd, "successful")
                 for status in conv_status:
                     ns_util.add_conv_status(status['cmd'], status['status'],
                                             pool_obj)
@@ -123,23 +132,22 @@ class ServiceConverter(object):
             if len(member['attrs']) < 2:
                 continue
             mon_ref = []
-            cmd = "bind service %s for %s" % (member['attrs'][1], member['attrs'][0])
+            cmd = "bind service %s %s" % (member['attrs'][1], member['attrs'][0])
 
             service_groups = ns_sg.get(member['attrs'][1], [])
             if service_groups and isinstance(service_groups, dict):
+                cmd = "bind service group %s %s" % (member['attrs'][1], member['attrs'][0])
                 service_groups = [service_groups]
             self.get_monitor_names(service_groups, mon_ref, cmd)
 
             services = ns_service_binding.get(member['attrs'][1], [])
             if services and isinstance(services, dict):
+                cmd = "bind service %s %s" % (member['attrs'][1], member['attrs'][0])
                 services = [services]
             self.get_monitor_names(services, mon_ref, cmd)
 
             if mon_ref:
                 monitor_ref += mon_ref
-            else:
-                LOG.warning('Command not supported : %s' % cmd)
-                ns_util.add_status_row(cmd, 'Skipped')
 
         return list(set(monitor_ref))
 
@@ -151,10 +159,11 @@ class ServiceConverter(object):
                 mon_ref.append(mon_name)
                 LOG.info('Added service : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Successful')
-            else:
+            elif binding.get('CustomServerID', None) or \
+                    binding.get('hashId', None) or \
+                    binding.get('policyName', None):
                 LOG.warning('Command not supported : %s' % cmd)
                 ns_util.add_status_row(cmd, 'Skipped')
-
 
     def convert_ns_service(self, ns_service, ns_servers, ns_dns, conv_status):
         attrs = ns_service.get('attrs')
@@ -163,6 +172,8 @@ class ServiceConverter(object):
                                          self.service_na, [], self.skip_for_val)
         conv_status.append({'cmd': cmd, 'status': status})
         server = ns_servers.get(attrs[1])
+        if not server:
+            return []
         cmd = 'add server %s' % server['attrs'][0]
         status = ns_util.get_conv_status(server, self.server_skip,
                                          [], [])
@@ -204,7 +215,6 @@ class ServiceConverter(object):
             ns_service_group = [ns_service_group]
 
         for server_binding in ns_service_group:
-            LOG.debug(server_binding)
             if server_binding.get('monitorName', None):
                 continue
             attrs = server_binding.get('attrs')

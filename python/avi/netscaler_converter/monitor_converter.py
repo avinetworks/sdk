@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 class MonitorConverter(object):
 
     skip_attrs = ['action', 'respCode', 'rtspRequest', 'customHeaders',
-                  'dispatcherIP', 'dispatcherPort', 'LRTM', 'deviation',
+                  'dispatcherIP', 'dispatcherPort', 'deviation',
                   'resptimeoutThresh', 'retries', 'alertRetries', 'downTime',
                   'state', 'reverse', 'transparent', 'ipTunnel',
                   'tos', 'tosId', 'secure', 'IPAddress', 'group', 'metricTable',
@@ -29,7 +29,8 @@ class MonitorConverter(object):
                 'storedb', 'maxForwards', 'sipMethod', 'sipURI', 'sipregURI',
                 'secondaryPassword', 'logonpointName', 'lasVersion', 'domain',
                 'application', 'sitePath', 'storename', 'storefrontacctservice',
-                'hostIPAddress']
+                'hostIPAddress', 'LRTM']
+    ignore_vals = {'respCode': '200', 'deviation': '0', 'downtime': '30'}
     indirect_list = ['destIP']
 
     def convert(self, ns_config, avi_config, input_dir):
@@ -43,17 +44,17 @@ class MonitorConverter(object):
             mon_type = ns_monitor['attrs'][1]
             if not mon_type in supported_types:
                 ns_util.add_status_row(cmd, 'skipped')
-                LOG.warn('Monitor type %s not supported skipped:%s' %
+                LOG.warning('Monitor type %s not supported skipped:%s' %
                          (mon_type, name))
                 continue
             avi_monitor = self.convert_monitor(ns_monitor, input_dir)
             if not avi_monitor:
                 continue
             conv_status = ns_util.get_conv_status(
-                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list)
+                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list, ignore_for_val=self.ignore_vals)
             ns_util.add_conv_status(cmd, conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
-            LOG.debug("Health monitor conversion completed")
+            LOG.debug("Health monitor conversion completed : %s" % name)
 
     def convert_monitor(self, ns_monitor, input_dir):
         avi_monitor = dict()
