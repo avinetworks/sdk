@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 tmp_pool_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
-                  'cacheable', 'redirectURL', 'cltTimeout', 'precedence',
+                  'cacheable', 'redirectURL', 'precedence',
                   'caseSensitive ', 'soMethod', 'soPersistence', 'rtspNat',
                   'soPersistenceTimeOut', 'soThreshold', 'soBackupAction',
                   'redirectPortRewrite', 'downStateFlush', 'Listenpolicy',
@@ -90,10 +90,24 @@ class CsvsConverter(object):
 
             http_prof = cs_vs.get('httpProfileName', None)
             if http_prof:
-                vs_obj['application_profile_ref'] = http_prof,
+                vs_obj['application_profile_ref'] = http_prof
+                clttimeout = cs_vs.get('cltTimeout', None)
+                if clttimeout:
+                    ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
+                    clt_cmd = cmd + ' cltTimeout %s' % clttimeout
+                    ns_util.add_status_row(clt_cmd, 'Successful')
+                    LOG.info('Successful : %s' % clt_cmd)
             ntwk_prof = cs_vs.get('tcpProfileName', None)
             if ntwk_prof:
-                vs_obj['network_profile_ref'] = ntwk_prof
+                if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
+                    LOG.info('Successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                    vs_obj['network_profile_ref'] = ntwk_prof
+                else:
+                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+                    LOG.error('Error: Not found Network profile %s for %s' % (ntwk_prof, vs_name))
+            else:
+                vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
@@ -128,6 +142,7 @@ class CsvsConverter(object):
                                 policy['targetLBVserver'] = targetVserver
                                 cs_vs_policies.append(policy)
                                 ns_util.add_status_row(pl_cmd, 'successful')
+                                LOG.info('Successful : %s' % pl_cmd)
 
                 if 'policyName' in bind_conf:
                     policy_name = bind_conf['policyName']
@@ -195,10 +210,11 @@ class CsvsConverter(object):
                         conv_status = ns_util.get_conv_status(
                             cs_vs_policy, self.skip_attrs, self.na_attrs, [])
                         ns_util.add_conv_status(p_cmd, conv_status, policy)
+                        LOG.warning('Successful : %s' % p_cmd)
                         rule_index = new_rule_index
                 else:
                     ns_util.add_status_row(b_cmd, 'skipped')
-                    LOG.warning('%s is not bind with any service or service group so skipped policyset' %  cs_vs_policy['targetLBVserver'])
+                    LOG.warning('%s is not bind with any service or service group so skipped policyset' % cs_vs_policy['targetLBVserver'])
 
             if default_pool and default_pool in lb_config:
                 pool_ref = '%s-pool' % default_pool
@@ -235,7 +251,9 @@ class CsvsConverter(object):
 
     def policy_converter(self, policy, rule_index, bind_patset, patset_config, avi_config):
         policy_name = policy['attrs'][0]
-        ns_rule = policy['rule']
+        ns_rule = policy.get('rule', None)
+        if not ns_rule:
+            return rule_index, None
         path_query = {
             "match_case": 'INSENSITIVE',
             "match_str": [],
@@ -370,8 +388,11 @@ class CsvsConverter(object):
                     policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4',"addr": b.strip()})
                 rule_index += 1
 
-            elif 'CLIENT.IP.SRC.EQ' in query.upper():
+            elif 'CLIENT.IP.SRC.EQ' in query.upper() or \
+                            'CLIENT.IP.SRC.NE' in query.upper():
                 policy_rule["match"].update({"client_ip": client_ip})
+                if 'CLIENT.IP.SRC.NE' in query.upper():
+                    policy_rule["match"]['client_ip']['match_criteria'] = 'IS_NOT_IN'
                 matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
                 if len(matches) == 0:
                     LOG.warning('No Matches found for %s' % query)
@@ -528,6 +549,7 @@ class CsvsConverter(object):
 
             else:
                 LOG.warning("%s Rule is not supported" % query)
+                ns_util.add_status_row('add cs policy rule ' + query, 'skipped')
                 continue
 
             if 'switching_action' in policy_rule:
@@ -582,4 +604,5 @@ class CsvsConverter(object):
             stringgroup_object['kv'].append({"key": match})
         avi_config['StringGroup'].append(stringgroup_object)
         ns_util.add_status_row(string_group_name, "Successful")
+        LOG.info('Successful : %s' % string_group_name)
         return string_group_name

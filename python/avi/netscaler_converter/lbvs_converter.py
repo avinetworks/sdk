@@ -37,7 +37,7 @@ class LbvsConverter(object):
                 type = lb_vs['attrs'][1]
                 cmd = 'add lb vserver %s' % key
                 if type not in supported_types:
-                    LOG.warn('Unsupported type %s of LB VS: %s' % (type, key))
+                    LOG.warning('Unsupported type %s of LB VS: %s' % (type, key))
                     ns_util.add_status_row(cmd, 'skipped')
                     continue
                 enable_ssl = False
@@ -79,7 +79,13 @@ class LbvsConverter(object):
                 app_profile = 'admin:System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
                 if http_prof:
+                    clttimeout = lb_vs.get('cltTimeout', None)
                     app_profile = http_prof
+                    if clttimeout:
+                        ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
+                        clt_cmd = cmd + ' cltTimeout %s' % clttimeout
+                        ns_util.add_status_row(clt_cmd, 'Successful')
+                        LOG.info('Successful : %s' % clt_cmd)
 
                 vs_obj = {
                     'name': vs_name,
@@ -92,6 +98,8 @@ class LbvsConverter(object):
                     'services': [],
                     'application_profile_ref': app_profile,
                     }
+                if pool_ref:
+                    vs_obj['pool_ref'] = pool_ref
 
                 if ip_addr == "0.0.0.0" and not redirect_url:
                     ns_util.add_status_row(cmd, 'skipped')
@@ -119,7 +127,14 @@ class LbvsConverter(object):
                              persistenceType)
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
-                    vs_obj['network_profile_ref'] = ntwk_prof
+                    if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
+                        LOG.info('Successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                        vs_obj['network_profile_ref'] = ntwk_prof
+                    else:
+                        vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+                        LOG.info('Error: Not found Network profile %s for %s' % (ntwk_prof, vs_name))
+                else:
+                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
                 if redirect_url:
                     tmp_avi_config['VirtualService'].append(vs_obj)
                 else:
