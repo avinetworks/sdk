@@ -42,7 +42,8 @@ def get_command(line):
                 'bind cs vserver', 'bind cs policylabel', 'add cs policy',
                 'add_cs_policylabel', 'bind policy patset', 'add policy patset',
                 'add dns addRec', 'add responder policy', 'add responder action',
-                'add rewrite policy', 'add rewrite action']
+                'add rewrite policy', 'add rewrite action', 'add cmp global',
+                'bind cmp global']
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:

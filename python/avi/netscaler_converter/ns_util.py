@@ -114,32 +114,33 @@ def get_avi_resp_code(respCode):
 
 
 def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
-                    ignore_for_val=None):
+                    ignore_for_val=None, indirect_commands = None):
     skipped = [attr for attr in ns_object.keys() if attr in skipped_list]
     na = [attr for attr in ns_object.keys() if attr in na_list]
     indirect = [attr for attr in ns_object.keys() if attr in indirect_list]
+    if ignore_for_val:
+        for key in ignore_for_val.keys():
+            if key not in ns_object:
+                continue
+            ns_val = ns_object.get(key)
+            ignore_val = ignore_for_val.get(key)
+            if key in skipped and str(ns_val) == str(ignore_val):
+                skipped.remove(key)
     if skipped:
         status = 'partial'
     else:
         status = 'successful'
-    if ignore_for_val:
-        for key in ignore_for_val.keys():
-            ns_val = ns_object.get(key)
-            ignore_val = ignore_for_val.get(key)
-            if key in skipped and ns_val == ignore_val:
-                skipped.remove(key)
-
 
     conv_status = {
         'skipped': skipped,
-        'indire/AV-importct': indirect,
+        'indirect': indirect,
         'na_list': na,
         'status': status
     }
     return conv_status
 
 
-def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
+def get_key_cert_obj(name, key_file_name, cert_file_name, input_dir):
         folder_path = input_dir+os.path.sep
         key = upload_file(folder_path + key_file_name)
         cert = upload_file(folder_path + cert_file_name)
@@ -245,9 +246,10 @@ def object_exist(object_type, name, avi_config):
     return False
 
 
-def policy_converter(policies, rule_index, bind_patset, patset_config,
+def policy_converter(policies, rule_index1, bind_patset, patset_config,
                       avi_config, rewrite_action_config, responder_action_config,
-                     tmp_pool_ref, Redirect_Pools, skip_attrs, na_attrs):
+                     tmp_pool_ref, Redirect_Pools, skip_attrs, na_attrs, b_cmd):
+    rule_index = 0
     path_query = {
         "match_case": 'INSENSITIVE',
         "match_str": [],
@@ -297,7 +299,7 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
         ns_rule = policy.get('rule', None)
         if (not ns_rule or not policy.get('targetLBVserver', None)) and policy['policy_type'] == 'cs_policy':
             return rule_index, None
-        elif policy['policy_type'] == 'rewrite_policy' or policy['policy_type'] == 'responder_policy':
+        elif policy.get('policy_type', None) == 'rewrite_policy' or policy.get('policy_type', None) == 'responder_policy':
             ns_rule = policy['attrs'][1]
 
         pool_ref = None
@@ -327,9 +329,13 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
             }
         }
 
+        priority_index = policy.get('priority', None)
+        if not priority_index:
+            priority_index = rule_index
+
         policy_rules = {
             'name': policy_name + '-rule',
-            "index": rule_index,
+            "index": priority_index,
             'match': {},
         }
 
@@ -344,6 +350,7 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
             LOG.info("Add switching Action for policy %s" % policy_name)
             policy_rules['switching_action'] = switching_action
 
+        is_policy_successful = True
         conditional_rules = ns_rule.split("&&")
         for rule in conditional_rules:
             query = rule.strip('"')
@@ -485,7 +492,7 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
                         LOG.warning("%s Rule GET for regex match is not supported" % query)
                         continue
                     regex_match.append(regex)
-                string_group_ref = self.add_string_group_for_policy(
+                string_group_ref = add_string_group_for_policy(
                     '%s-string_group_object-%s' % (policy_name, rule_index), regex_match, avi_config)
                 policy_rule["match"]["path"]["string_group_refs"].append(string_group_ref)
                 rule_index += 1
@@ -526,8 +533,9 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
                 patsets = []
                 for match in matches:
                     match = re.sub('[\\\/]', '', match)
-                    patset = self.get_patset_collection(match, bind_patset, patset_config)
-                    patsets += patset
+                    patset = get_patset_collection(match, bind_patset, patset_config)
+                    if patset:
+                        patsets += patset
                 policy_rule["match"]["path"]["match_str"] = list(set(patsets))
                 rule_index += 1
 
@@ -604,30 +612,43 @@ def policy_converter(policies, rule_index, bind_patset, patset_config,
                 add_status_row('add cs policy rule ' + query, 'skipped')
                 continue
 
-            if 'switching_action' in policy_rule:
-                p_ref = policy_rule['switching_action']['pool_ref']
-                if p_ref in tmp_pool_ref:
-                    p_ref = clone_pool(p_ref, policy_name, avi_config)
-                    policy_rule['switching_action']['pool_ref'] = p_ref
-                tmp_pool_ref.append(p_ref)
+        if 'switching_action' in policy_rule:
+            p_ref = policy_rule['switching_action']['pool_ref']
+            if p_ref in tmp_pool_ref:
+                p_ref = clone_pool(p_ref, policy_name, avi_config)
+                policy_rule['switching_action']['pool_ref'] = p_ref
+            tmp_pool_ref.append(p_ref)
 
-            elif policy['policy_type'] == 'rewrite_policy':
-                policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
+        elif policy.get('policy_type', None) == 'rewrite_policy':
+            policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
 
-            elif policy['policy_type'] == 'responder_policy':
-                policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
+        elif policy.get('policy_type', None) == 'responder_policy':
+            r_cmd = 'add responder policy %s' % policy_name
+            policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
+            add_status_row(r_cmd, 'Successful')
 
-            if policy_rule:
-                policy_obj["http_request_policy"]["rules"].append(policy_rule)
-                updated_policy_name += policy_name
+        if policy_rule:
+            policy_obj["http_request_policy"]["rules"].append(policy_rule)
+            updated_policy_name += policy_name
 
-                p_cmd = 'add cs policy %s %s' % (policy_name, query)
-                LOG.info('Successful : %s' % p_cmd)
-                conv_status = get_conv_status(policy, skip_attrs, na_attrs, [])
-                add_conv_status(p_cmd, conv_status, policy_rule)
-
+            p_cmd = 'add cs policy %s %s' % (policy_name, query)
+            LOG.info('Successful : %s' % p_cmd)
+            conv_status = get_conv_status(policy, skip_attrs, na_attrs, [])
+            add_conv_status(p_cmd, conv_status, policy_rule)
+        elif policy['policy_type'] == 'responder_policy' and not policy_rule:
+            r_cmd = 'add responder policy %s' % policy_name
+            LOG.warning('Datascript: %s' % r_cmd)
+            add_status_row(r_cmd, 'Datascript')
+            is_policy_successful = False
 
     if len(policy_obj["http_request_policy"]["rules"]) > 0:
+        bind_cmd = 'bind cs vserver : %s' % b_cmd
+        if not is_policy_successful:
+            LOG.info('Datascript : %s' % bind_cmd)
+            add_status_row(bind_cmd, 'Datascript')
+        else:
+            LOG.info('Successful: %s' % bind_cmd)
+            add_status_row(bind_cmd, 'Successful')
         updated_policy_name += '-http-request-policy-%s' % rule_index
         policy_obj['name'] = updated_policy_name
         return rule_index, policy_obj
@@ -649,10 +670,12 @@ def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
         }]
         policy_rule = copy.deepcopy(policy_rules)
         policy_rule['hdr_action'] = hdr_action
-        matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
-        value = {'val': matches[0]}
-        policy_rule['hdr_action'][0]['hdr']['value'].append(value)
-        LOG.info('Successful: %s' % cmd)
+        if len(policy_action['attrs']) > 3:
+            matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+            if matches:
+                value = {'val': matches[0]}
+                policy_rule['hdr_action'][0]['hdr']['value'].append(value)
+                LOG.info('Successful: %s' % cmd)
 
     elif policy_action and policy_action['attrs'][1] == 'replace':
         policy_rule = copy.deepcopy(policy_rules)
@@ -805,7 +828,8 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
         LOG.info('Successful: %s' % cmd)
 
     else:
-        LOG.warning('Skipped: %s' % cmd)
+        LOG.warning('Datascript: %s' % cmd)
+        add_status_row(cmd, 'Datascript')
 
     return policy_rule
 
@@ -837,3 +861,8 @@ def add_string_group_for_policy(string_group_name, matches, avi_config):
     add_status_row(string_group_name, "Successful")
     LOG.info('Successful : %s' % string_group_name)
     return string_group_name
+
+def is_shared_same_vip(vs, avi_config):
+    shared_vip = [v for v in avi_config['VirtualService'] if v['ip_address']['addr'] == vs['ip_address']['addr']]
+    if shared_vip:
+        return True

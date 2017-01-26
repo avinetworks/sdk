@@ -12,7 +12,7 @@ class MonitorConverter(object):
                   'dispatcherIP', 'dispatcherPort', 'deviation',
                   'resptimeoutThresh', 'retries', 'alertRetries', 'downTime',
                   'state', 'reverse', 'transparent', 'ipTunnel',
-                  'tos', 'tosId', 'secure', 'IPAddress', 'group', 'metricTable',
+                  'tos', 'tosId', 'IPAddress', 'group', 'metricTable',
                   'netProfile', 'vendorSpecificVendorId',
                   'vendorSpecificAuthApplicationIds',
                   'vendorSpecificAcctApplicationIds',
@@ -31,7 +31,7 @@ class MonitorConverter(object):
                 'application', 'sitePath', 'storename', 'storefrontacctservice',
                 'hostIPAddress', 'LRTM']
     ignore_vals = {'respCode': '200', 'deviation': '0', 'downtime': '30'}
-    indirect_list = ['destIP']
+    indirect_list = ['destIP', 'secure']
 
     def convert(self, ns_config, avi_config, input_dir):
         LOG.debug("Conversion started for Health Monitors")
@@ -43,7 +43,7 @@ class MonitorConverter(object):
             ns_monitor = ns_monitors.get(name)
             mon_type = ns_monitor['attrs'][1]
             if not mon_type in supported_types:
-                ns_util.add_status_row(cmd, 'skipped')
+                ns_util.add_status_row(cmd, 'External Monitor')
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (mon_type, name))
                 continue
