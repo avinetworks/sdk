@@ -23,13 +23,14 @@ class LbvsConverter(object):
     indirect_list = ['hashLength']
 
     supported_persist_types = ['SOURCEIP', 'COOKIEINSERT', 'SSLSESSION']
+    ignore_vals = {'Listenpolicy': 'None'}
 
     def convert(self, ns_config, avi_config, vs_state):
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
-        supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP']
+        supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DNS', 'DNS_TCP']
         for key in lb_vs_conf.keys():
             try:
                 LOG.debug('LB VS conversion started for: %s' % key)
@@ -76,8 +77,8 @@ class LbvsConverter(object):
                         pool_obj[0]["fail_action"] = fail_action
                         Redirect_Pools.append(pool_name)
 
-                app_profile = 'admin:System-HTTP'
                 http_prof = lb_vs.get('httpProfileName', None)
+                app_profile = None
                 if http_prof:
                     clttimeout = lb_vs.get('cltTimeout', None)
                     app_profile = http_prof
@@ -96,8 +97,20 @@ class LbvsConverter(object):
                     },
                     'enabled': enabled,
                     'services': [],
-                    'application_profile_ref': app_profile,
                     }
+
+                if app_profile:
+                    vs_obj['application_profile_ref'] = app_profile
+                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
+                    vs_obj['application_profile_ref'] = 'admin:System-DNS'
+                    vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
+                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'UDP':
+                    vs_obj['application_profile_ref'] = 'admin:System-L4-Application'
+                    vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
+                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS_TCP':
+                    vs_obj['application_profile_ref'] = 'admin:System-L4-Application'
+                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+
                 if pool_ref:
                     vs_obj['pool_ref'] = pool_ref
 
@@ -130,17 +143,19 @@ class LbvsConverter(object):
                     if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
                         LOG.info('Successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
                         vs_obj['network_profile_ref'] = ntwk_prof
-                    else:
-                        vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
-                        LOG.info('Error: Not found Network profile %s for %s' % (ntwk_prof, vs_name))
-                else:
-                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+
                 if redirect_url:
                     tmp_avi_config['VirtualService'].append(vs_obj)
                 else:
+                    # is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
+                    # if is_shared:
+                    #     ns_util.add_status_row(cmd, 'Skipped')
+                    #     LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+                    #     continue
                     avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
-                    lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list)
+                    lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list,
+                    ignore_for_val=self.ignore_vals)
                 ns_util.add_conv_status(cmd, conv_status, vs_obj)
 
                 if enable_ssl:

@@ -9,10 +9,10 @@ class ServiceConverter(object):
 
     bind_lb_skipped = ['priority', 'gotoPriorityExpression', 'type', 'invoke']
     service_skip = ['clearTextPort', 'cacheType', 'maxReq', 'useproxyport',
-                    'sc', 'rtspSessionidRemap', 'CKA', 'maxBandwidth',
+                    'sc', 'rtspSessionidRemap', 'maxBandwidth',
                     'monThreshold', 'netProfile', 'td', 'dnsProfileName']
     service_na = ['pathMonitor', 'pathMonitorIndv', 'accessDown', 'appflowLog',
-                  'processLocal']
+                  'processLocal', 'CKA']
 
     bind_sg_skip = ['passive', 'CustomServerID', 'state', 'hashId', 'weight']
 

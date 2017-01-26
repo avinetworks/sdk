@@ -15,19 +15,21 @@ class CsvsConverter(object):
                   'redirectPortRewrite', 'downStateFlush', 'Listenpolicy',
                   'insertVserverIPPort', 'disablePrimaryOnDown', 'authnVsName',
                   'AuthenticationHost', 'Authentication', 'Listenpriority',
-                  'authn401',  'push', 'pushVserver', 'pushLabel', 'appflowLog',
+                  'authn401',  'push', 'pushVserver', 'pushLabel',
                   'pushMultiClients', 'comment', 'mssqlServerVersion ',
                   'l2Conn', 'netProfile', 'icmpVsrResponse', 'RHIstate',
                   'authnProfile', 'dnsProfileName']
     na_attrs = ['dbProfileName', 'oracleServerVersion', 'stateupdate',
                 'backupVServer', 'mysqlProtocolVersion', 'mysqlServerVersion',
-                'mysqlCharacterSet', 'mysqlServerCapabilities']
+                'mysqlCharacterSet', 'mysqlServerCapabilities', 'appflowLog']
 
-    bind_skipped = ['vServer', 'priority', 'type', 'domainName ',
+    bind_skipped = ['vServer', 'type', 'domainName ',
                     'gotoPriorityExpression', 'TTL', 'backupIP', 'cookieDomain',
                     'cookieTimeout', 'sitedomainTTL']
 
-    supported_types = ['HTTP', 'SSL', 'TCP']
+    supported_types = ['HTTP', 'SSL', 'TCP', 'DNS', 'DNS_TCP']
+
+    ignore_vals = {'Listenpolicy': 'None'}
 
     def convert(self, ns_config, avi_config, vs_state):
         cs_vs_conf = ns_config.get('add cs vserver', {})
@@ -110,9 +112,16 @@ class CsvsConverter(object):
                 else:
                     vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
                     LOG.error('Error: Not found Network profile %s for %s' % (ntwk_prof, vs_name))
-            else:
-                vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
 
+            if not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS':
+                vs_obj['application_profile_ref'] = 'admin:System-DNS'
+                vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
+            elif not http_prof and (cs_vs['attrs'][1]).upper() == 'UDP':
+                vs_obj['application_profile_ref'] = 'admin:System-L4-Application'
+                vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
+            elif not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS_TCP':
+                vs_obj['application_profile_ref']= 'admin:System-L4-Application'
+                vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
@@ -163,18 +172,25 @@ class CsvsConverter(object):
                         policy = copy.deepcopy(policy)
                         policy['policy_type'] = 'cs_policy'
                         policy['targetLBVserver'] = bind_conf['targetLBVserver']
+                        if bind_conf.get('priority', None):
+                            policy['priority'] = bind_conf.get('priority')
                         cs_vs_policies.append(policy)
 
                     elif rewrite_policy:
                         policy = rewrite_policy_config[policy_name]
                         policy = copy.deepcopy(policy)
                         policy['policy_type'] = 'rewrite_policy'
+                        if bind_conf.get('priority', None):
+                            policy['priority'] = bind_conf.get('priority')
+
                         cs_vs_policies.append(policy)
 
                     elif responder_policy:
                         policy = responder_policy_config[policy_name]
                         policy = copy.deepcopy(policy)
                         policy['policy_type'] = 'responder_policy'
+                        if bind_conf.get('priority', None):
+                            policy['priority'] = bind_conf.get('priority')
                         cs_vs_policies.append(policy)
 
                 if 'lbvserver' in bind_conf:
@@ -217,7 +233,8 @@ class CsvsConverter(object):
             if cs_vs_policies:
                 new_rule_index, policy = ns_util.policy_converter(cs_vs_policies, rule_index, bind_patset,
                                                                   patset_config, avi_config, rewrite_action_config,
-                                                                  responder_action_config, tmp_pool_ref, Redirect_Pools)
+                                                                  responder_action_config, tmp_pool_ref, Redirect_Pools,
+                                                                  self.skip_attrs, self.na_attrs, b_cmd)
                 if policy:
                     http_policies = {
                         'index': 11,
@@ -226,12 +243,10 @@ class CsvsConverter(object):
                     vs_obj['http_policies'] = []
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
-                    p_cmd = 'add cs policy %s' % policy_name
-                    LOG.warning('Successful : %s' % p_cmd)
                     rule_index = new_rule_index
                 else:
                     ns_util.add_status_row(b_cmd, 'skipped')
-                    # LOG.warning('%s is not bind with any service or service group so skipped policyset' % cs_vs_policy['targetLBVserver'])
+                    LOG.warning('Skipped: %s', b_cmd)
 
             if default_pool and default_pool in lb_config:
                 pool_ref = '%s-pool' % default_pool
@@ -241,9 +256,15 @@ class CsvsConverter(object):
                         pool_ref = ns_util.clone_pool(pool_ref, vs_name, avi_config)
                     vs_obj['pool_ref'] = pool_ref
                     tmp_pool_ref.append(pool_ref)
+            # is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
+            # if is_shared:
+            #     ns_util.add_status_row(cmd, 'Skipped')
+            #     LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+            #     continue
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
-                cs_vs, self.skip_attrs, self.na_attrs, [])
+                cs_vs, self.skip_attrs, self.na_attrs, [],
+                ignore_for_val=self.ignore_vals)
             ns_util.add_conv_status(cmd, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
