@@ -22,7 +22,7 @@ git tag $REL_TAG
 git push -f origin $REL_TAG
 set -e
 git checkout -B $BRANCH
-AVI_VERSION=`python ./python/avi/version.py`
+AVI_VERSION=`python ./python/version.py`
 
 cd python
 rm -rf dist/
