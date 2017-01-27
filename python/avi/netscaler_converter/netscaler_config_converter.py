@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 
 LOG = logging.getLogger(__name__)
 
@@ -59,17 +58,6 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
 
         csvs_converter = CsvsConverter()
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
-
-        bind_cmp = ns_config_dict.get('bind cmp global', [])
-        add_cmp = ns_config_dict.get('add cmp global', [])
-        for key in bind_cmp:
-            cmd = 'bind cmp global %s' % key
-            ns_util.add_status_row(cmd, 'Indirect')
-
-        for key in add_cmp:
-            cmd = 'add cmp global %s' % key
-            ns_util.add_status_row(cmd, 'Indirect')
-
 
         ns_util.update_status_for_skipped(skipped_cmds)
         LOG.debug('Conversion completed successfully')

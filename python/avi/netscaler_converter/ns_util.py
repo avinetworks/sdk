@@ -167,10 +167,26 @@ def get_command_from_line(line):
 
 
 def update_status_for_skipped(skipped_cmds):
+    na_cmds = ['set system', 'set interface', 'set ns config', 'set snmp']
+    indirect_cmds = ['add cmp global', 'bind cmp global']
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:
-        add_status_row(cmd, 'skipped')
+        cmd = cmd.strip()
+        is_na = False
+        is_id = False
+        for na_cmd in na_cmds:
+            if cmd.startswith(na_cmd):
+                add_status_row(cmd, 'Not Applicable')
+                is_na = True
+                break
+        for id_cmd in indirect_cmds:
+            if cmd.startswith(id_cmd):
+                add_status_row(cmd, 'Indirect')
+                is_id = True
+                break
+        if not is_na and not is_id:
+            add_status_row(cmd, 'skipped')
 
 def remove_duplicate_objects(obj_type, obj_list):
     """
