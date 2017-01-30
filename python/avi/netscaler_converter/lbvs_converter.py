@@ -1,4 +1,5 @@
 import logging
+import re
 
 from avi.netscaler_converter import ns_util
 
@@ -88,8 +89,10 @@ class LbvsConverter(object):
                         ns_util.add_status_row(clt_cmd, 'Successful')
                         LOG.info('Successful : %s' % clt_cmd)
 
+                updated_vs_name = re.sub('[:]', '-', vs_name)
+
                 vs_obj = {
-                    'name': vs_name,
+                    'name': updated_vs_name,
                     'type': 'VS_TYPE_NORMAL',
                     'ip_address': {
                         'addr': ip_addr,
@@ -113,6 +116,9 @@ class LbvsConverter(object):
 
                 if pool_ref:
                     vs_obj['pool_ref'] = pool_ref
+                    updated_pool_ref = re.sub('[:]', '-', pool_ref)
+                    vs_obj['pool_ref'] = updated_pool_ref
+                updated_pool_ref = pool_ref
 
                 if ip_addr == "0.0.0.0" and not redirect_url:
                     ns_util.add_status_row(cmd, 'skipped')
@@ -133,7 +139,7 @@ class LbvsConverter(object):
                         persistenceType, timeout, profile_name)
                     avi_config['ApplicationPersistenceProfile'].append(
                         persist_profile)
-                    self.update_pool_for_persist(avi_config, pool_ref,
+                    self.update_pool_for_persist(avi_config, updated_pool_ref,
                                                  profile_name)
                 elif not persistenceType == 'NONE':
                     LOG.warn('Persistance type %s not supported by Avi' %
@@ -147,11 +153,11 @@ class LbvsConverter(object):
                 if redirect_url:
                     tmp_avi_config['VirtualService'].append(vs_obj)
                 else:
-                    # is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
-                    # if is_shared:
-                    #     ns_util.add_status_row(cmd, 'Skipped')
-                    #     LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
-                    #     continue
+                    is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
+                    if is_shared:
+                        ns_util.add_status_row(cmd, 'Skipped')
+                        LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+                        continue
                     avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
                     lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list,
