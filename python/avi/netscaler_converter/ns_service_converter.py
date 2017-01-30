@@ -40,6 +40,7 @@ class ServiceConverter(object):
                 #                                  [], [])
                 # conv_status.append({'cmd': cmd, 'status': status})
                 name = '%s-pool' % group_key
+                updated_pool_name = re.sub('[:]', '-', name)
                 if not group_key:
                     ns_util.add_status_row(b_cmd, "Skipped")
                     LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
@@ -61,7 +62,7 @@ class ServiceConverter(object):
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pool_obj = \
                     {
-                        "name": name,
+                        "name": updated_pool_name,
                         "servers": servers,
                         "lb_algorithm": algo
                     }
