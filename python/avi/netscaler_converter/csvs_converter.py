@@ -7,6 +7,7 @@ from avi.netscaler_converter.lbvs_converter import Redirect_Pools
 LOG = logging.getLogger(__name__)
 
 tmp_pool_ref = []
+tmp_policy_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
                   'cacheable', 'redirectURL', 'precedence',
@@ -78,8 +79,9 @@ class CsvsConverter(object):
 
             if cs_vs['attrs'][1] == 'SSL':
                 enable_ssl = True
+            updated_vs_name = re.sub('[:]', '-', vs_name)
             vs_obj = {
-                'name': vs_name,
+                'name': updated_vs_name,
                 'type': 'VS_TYPE_NORMAL',
                 'ip_address': {
                     'addr': ip_addr,
@@ -236,6 +238,9 @@ class CsvsConverter(object):
                                                                   responder_action_config, tmp_pool_ref, Redirect_Pools,
                                                                   self.skip_attrs, self.na_attrs, b_cmd)
                 if policy:
+                    if policy['name'] in tmp_policy_ref:
+                        ns_util.clone_http_policy_set(policy, avi_config)
+                    tmp_policy_ref.append(policy['name'])
                     http_policies = {
                         'index': 11,
                         'http_policy_set_ref': policy['name']
@@ -250,17 +255,18 @@ class CsvsConverter(object):
 
             if default_pool and default_pool in lb_config:
                 pool_ref = '%s-pool' % default_pool
-                pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+                updated_pool_ref = re.sub('[:]', '-', pool_ref)
+                pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == updated_pool_ref]
                 if pools:
-                    if pool_ref in tmp_pool_ref:
-                        pool_ref = ns_util.clone_pool(pool_ref, vs_name, avi_config)
-                    vs_obj['pool_ref'] = pool_ref
-                    tmp_pool_ref.append(pool_ref)
-            # is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
-            # if is_shared:
-            #     ns_util.add_status_row(cmd, 'Skipped')
-            #     LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
-            #     continue
+                    if updated_pool_ref in tmp_pool_ref:
+                        updated_pool_ref = ns_util.clone_pool(updated_pool_ref, vs_name, avi_config)
+                    vs_obj['pool_ref'] = updated_pool_ref
+                    tmp_pool_ref.append(updated_pool_ref)
+            is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
+            if is_shared:
+                ns_util.add_status_row(cmd, 'Skipped')
+                LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+                continue
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [],
