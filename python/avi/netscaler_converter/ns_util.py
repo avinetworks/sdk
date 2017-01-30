@@ -311,7 +311,6 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
 
     for policy in policies:
         policy_name = policy['attrs'][0]
-
         ns_rule = policy.get('rule', None)
         if (not ns_rule or not policy.get('targetLBVserver', None)) and policy['policy_type'] == 'cs_policy':
             return rule_index, None
@@ -350,7 +349,7 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
             priority_index = rule_index
 
         policy_rules = {
-            'name': policy_name + '-rule',
+            'name': policy_name + '-rule-%s' % priority_index,
             "index": priority_index,
             'match': {},
         }
@@ -367,13 +366,11 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
             policy_rules['switching_action'] = switching_action
 
         is_policy_successful = True
+        policy_rule = copy.deepcopy(policy_rules)
         conditional_rules = ns_rule.split("&&")
         for rule in conditional_rules:
             query = rule.strip('"')
             query = query.strip()
-            policy_rule = copy.deepcopy(policy_rules)
-            policy_rule["index"] = rule_index
-            policy_rule["name"] += str(rule_index)
             if 'URL ==' in query.upper():
                 a, b = query.split("==")
                 b = b.strip()
@@ -516,8 +513,9 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
                 policy_rule["match"].update({"path": path_query})
                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+                policy_rule["match"]["path"]["match_str"] = []
                 exact_match = re.search(r'\((\d+?)\)', query).group(1)
-                matches = re.findall('\"(.+?)\"', query)
+                matches = re.findall('\\\\(.+?)\\\\', query)
                 if len(matches) == 0:
                     LOG.warning('No Matches found for %s' % query)
                     continue
@@ -635,15 +633,15 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
                 policy_rule['switching_action']['pool_ref'] = p_ref
             tmp_pool_ref.append(p_ref)
 
-        elif policy.get('policy_type', None) == 'rewrite_policy':
+        elif policy.get('policy_type', None) == 'rewrite_policy' and policy['attrs'][1] != 'true':
             policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
 
-        elif policy.get('policy_type', None) == 'responder_policy':
+        elif policy.get('policy_type', None) == 'responder_policy' and policy['attrs'][1] != 'true':
             r_cmd = 'add responder policy %s' % policy_name
             policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
             add_status_row(r_cmd, 'Successful')
 
-        if policy_rule:
+        if policy_rule and policy_rule['match']:
             policy_obj["http_request_policy"]["rules"].append(policy_rule)
             updated_policy_name += policy_name
 
@@ -681,16 +679,16 @@ def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
             'action': 'HTTP_ADD_HDR',
             'hdr': {
                 'name': policy_action['attrs'][1],
-                'value': []
+                'value': {}
             }
         }]
         policy_rule = copy.deepcopy(policy_rules)
         policy_rule['hdr_action'] = hdr_action
         if len(policy_action['attrs']) > 3:
-            matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+            matches = [policy_action['attrs'][3]]
             if matches:
                 value = {'val': matches[0]}
-                policy_rule['hdr_action'][0]['hdr']['value'].append(value)
+                policy_rule['hdr_action'][0]['hdr']['value'].update(value)
                 LOG.info('Successful: %s' % cmd)
 
     elif policy_action and policy_action['attrs'][1] == 'replace':
@@ -764,7 +762,7 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
         }]
         policy_rule = copy.deepcopy(policy_rules)
         policy_rule['hdr_action'] = hdr_action
-        matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+        matches = [policy_action['attrs'][3]]
         value = {'val': matches[0]}
         policy_rule['hdr_action'][0]['hdr']['value'].append(value)
         LOG.info('Successful: %s' % cmd)
@@ -879,6 +877,15 @@ def add_string_group_for_policy(string_group_name, matches, avi_config):
     return string_group_name
 
 def is_shared_same_vip(vs, avi_config):
-    shared_vip = [v for v in avi_config['VirtualService'] if v['ip_address']['addr'] == vs['ip_address']['addr']]
+    shared_vip = [v for v in avi_config['VirtualService'] if v['ip_address']['addr'] == vs['ip_address']['addr'] and v['services'][0]['port'] == vs['services'][0]['port']]
     if shared_vip:
         return True
+
+def clone_http_policy_set(policy, avi_config):
+    policy_name = policy['name']
+    for rule in policy['http_request_policy']['rules']:
+        if rule.get('switching_action', None):
+            pool_ref = clone_pool(rule['switching_action']['pool_ref'], policy_name, avi_config)
+            if pool_ref:
+                rule['switching_action']['pool_ref'] = pool_ref
+    policy['name'] += '-clone'
