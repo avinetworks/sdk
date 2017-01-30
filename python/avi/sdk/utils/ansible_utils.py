@@ -257,6 +257,18 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj.pop('controller', None)
     obj.pop('username', None)
     obj.pop('password', None)
+
+    # Special code to handle situation where object has a field
+    # named username. This is used in case of api/user
+    # The following code copies the username and password
+    # from the obj_username and obj_password fields.
+    if 'obj_username' in obj:
+        obj['username'] = obj['obj_username']
+        obj.pop('obj_username')
+    if 'obj_password' in obj:
+        obj['password'] = obj['obj_password']
+        obj.pop('obj_password')
+
     tenant = obj.pop('tenant', '')
     tenant_uuid = obj.pop('tenant_uuid', '')
     # obj.pop('cloud_ref', None)
