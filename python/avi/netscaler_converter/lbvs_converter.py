@@ -203,6 +203,9 @@ class LbvsConverter(object):
                 "name": name
             }
         elif persistenceType == 'SOURCEIP':
+            timeout = int(timeout)/60
+            if timeout < 1:
+                timeout = 1
             profile = {
               "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
               "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
