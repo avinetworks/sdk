@@ -278,6 +278,7 @@ class CsvsConverter(object):
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
         ns_util.get_vs_if_shared_vip(avi_config)
+        ns_util.set_rules_index_for_http_policy_set(avi_config)
 
     def get_target_vs_from_policy(self, policy_lables, name, lbvs_bindings):
         policy_grp = policy_lables.get(name, None)
