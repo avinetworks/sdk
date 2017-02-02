@@ -889,3 +889,11 @@ def clone_http_policy_set(policy, avi_config):
             if pool_ref:
                 rule['switching_action']['pool_ref'] = pool_ref
     policy['name'] += '-clone'
+
+def set_rules_index_for_http_policy_set(avi_config):
+    http_policy_sets = avi_config['HTTPPolicySet']
+    for http_policy_set in http_policy_sets:
+        rules = http_policy_set['http_request_policy']['rules']
+        rules = sorted(rules, key=lambda d: int(d['index']))
+        for index, rule in enumerate(rules):
+            rule['index'] = index
