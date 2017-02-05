@@ -2,6 +2,7 @@ import logging
 import re
 
 from avi.netscaler_converter import ns_util
+from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 
 LOG = logging.getLogger(__name__)
 Redirect_Pools = []
@@ -37,10 +38,11 @@ class LbvsConverter(object):
                 LOG.debug('LB VS conversion started for: %s' % key)
                 lb_vs = lb_vs_conf[key]
                 type = lb_vs['attrs'][1]
-                cmd = 'add lb vserver %s' % key
+                cmd = 'add lb vserver'
+                full_cmd = ns_util.get_netscalar_full_command(cmd, lb_vs)
                 if type not in supported_types:
                     LOG.warning('Unsupported type %s of LB VS: %s' % (type, key))
-                    ns_util.add_status_row(cmd, 'skipped')
+                    ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
                     continue
                 enable_ssl = False
                 if type in ['SSL', 'SSL_BRIDGE', 'SSL_TCP']:
@@ -85,9 +87,8 @@ class LbvsConverter(object):
                     app_profile = http_prof
                     if clttimeout:
                         ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
-                        clt_cmd = cmd + ' cltTimeout %s' % clttimeout
-                        ns_util.add_status_row(clt_cmd, 'Successful')
-                        LOG.info('Successful : %s' % clt_cmd)
+                        clt_cmd = cmd + '%s cltTimeout %s' % (key, clttimeout)
+                        LOG.info('Conversion successful : %s' % clt_cmd)
 
                 updated_vs_name = re.sub('[:]', '-', vs_name)
 
@@ -121,8 +122,8 @@ class LbvsConverter(object):
                 updated_pool_ref = pool_ref
 
                 if ip_addr == "0.0.0.0" and not redirect_url:
-                    ns_util.add_status_row(cmd, 'skipped')
-                    LOG.error("%s Skipped VS, Service point to %s server." % (cmd, ip_addr))
+                    ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                    LOG.error("%s %s Skipped VS, Service point to %s server." % (cmd, key, ip_addr))
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
@@ -147,7 +148,7 @@ class LbvsConverter(object):
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
-                        LOG.info('Successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                        LOG.info('Conversion successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
                         vs_obj['network_profile_ref'] = ntwk_prof
 
                 if redirect_url:
@@ -155,14 +156,14 @@ class LbvsConverter(object):
                 else:
                     is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
                     if is_shared:
-                        ns_util.add_status_row(cmd, 'Skipped')
+                        ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
                         LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
                         continue
                     avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
                     lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list,
                     ignore_for_val=self.ignore_vals)
-                ns_util.add_conv_status(cmd, conv_status, vs_obj)
+                ns_util.add_conv_status(cmd, key, full_cmd, conv_status, vs_obj)
 
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})

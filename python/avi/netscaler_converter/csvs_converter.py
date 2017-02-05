@@ -3,6 +3,7 @@ import copy
 import re
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.lbvs_converter import Redirect_Pools
+from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 
 LOG = logging.getLogger(__name__)
 
@@ -56,17 +57,18 @@ class CsvsConverter(object):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
-            cmd = 'add cs vserver %s' % key
+            cmd = 'add cs vserver'
+            full_cmd = ns_util.get_netscalar_full_command(cmd, cs_vs)
             if not cs_vs['attrs'][1] in self.supported_types:
                 LOG.warn('Unsupported type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cmd, 'skipped')
+                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
                 continue
             tt = cs_vs.get('targetType', None)
             if tt and tt == 'GSLB':
                 LOG.warn('Unsupported target type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cmd, 'skipped')
+                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
             vs_name = cs_vs['attrs'][0]
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
@@ -104,12 +106,11 @@ class CsvsConverter(object):
                 if clttimeout:
                     ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
                     clt_cmd = cmd + ' cltTimeout %s' % clttimeout
-                    ns_util.add_status_row(clt_cmd, 'Successful')
-                    LOG.info('Successful : %s' % clt_cmd)
+                    LOG.info('Conversion successful : %s' % clt_cmd)
             ntwk_prof = cs_vs.get('tcpProfileName', None)
             if ntwk_prof:
                 if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
-                    LOG.info('Successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                    LOG.info('Conversion successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
                     vs_obj['network_profile_ref'] = ntwk_prof
                 else:
                     vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
@@ -133,11 +134,11 @@ class CsvsConverter(object):
             default_pool = None
             policy_name = ''
             for bind_conf in bind_conf_list:
-                b_cmd = 'bind cs vserver %s' % vs_name
+                b_cmd = 'bind cs vserver'
+                full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
                 found = False
                 if len(bind_conf['attrs']) > 1:
                     lbvs_bindings.append(bind_conf['attrs'][1])
-                    b_cmd += ' %s' % bind_conf['attrs'][1]
                     found = True
 
                 if 'policylabel' in bind_conf:
@@ -157,12 +158,10 @@ class CsvsConverter(object):
                                 policy = copy.deepcopy(policy)
                                 policy['targetLBVserver'] = targetVserver
                                 cs_vs_policies.append(policy)
-                                ns_util.add_status_row(pl_cmd, 'successful')
-                                LOG.info('Successful : %s' % pl_cmd)
+                                LOG.info('Conversion successful : %s' % pl_cmd)
 
                 if 'policyName' in bind_conf:
                     policy_name = bind_conf['policyName']
-                    b_cmd += ' -policyName %s' % policy_name
                     c_policy = policy_config.get(policy_name, None)
                     rewrite_policy = rewrite_policy_config.get(policy_name, None)
                     responder_policy = responder_policy_config.get(policy_name, None)
@@ -197,7 +196,6 @@ class CsvsConverter(object):
 
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
-                    b_cmd += ' -lbvserver %s' % bind_conf['lbvserver']
                     default_pool = bind_conf['lbvserver']
                     found = True
                 if 'invoke' in bind_conf:
@@ -212,9 +210,10 @@ class CsvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, [], [])
                 if found:
-                    ns_util.add_conv_status(b_cmd, conv_status, None)
+
+                    ns_util.add_conv_status(b_cmd, vs_name, full_cmd, conv_status, vs_obj)
                 else:
-                    ns_util.add_status_row(b_cmd, 'skipped')
+                    ns_util.add_status_row(b_cmd, vs_name, full_cmd, STATUS_SKIPPED)
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -249,9 +248,6 @@ class CsvsConverter(object):
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
                     rule_index = new_rule_index
-                else:
-                    ns_util.add_status_row(b_cmd, 'skipped')
-                    LOG.warning('Skipped: %s', b_cmd)
 
             if default_pool and default_pool in lb_config:
                 pool_ref = '%s-pool' % default_pool
@@ -264,14 +260,14 @@ class CsvsConverter(object):
                     tmp_pool_ref.append(updated_pool_ref)
             is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
             if is_shared:
-                ns_util.add_status_row(cmd, 'Skipped')
+                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
                 LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
                 continue
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(cmd, conv_status, vs_obj)
+            ns_util.add_conv_status(cmd, key, full_cmd, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
