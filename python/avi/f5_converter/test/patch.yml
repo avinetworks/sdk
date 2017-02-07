@@ -1,0 +1,6 @@
+Pool:
+  - match_name: p1
+    patch:
+      name: grastogi
+      cloud_ref: /api/cloud/?name=AWS
+
