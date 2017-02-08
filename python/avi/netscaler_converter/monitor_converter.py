@@ -3,6 +3,8 @@ import avi.netscaler_converter.ns_util as ns_util
 import os
 import re
 
+from avi.netscaler_converter.ns_constants import STATUS_EXTERNAL_MONITOR
+
 LOG = logging.getLogger(__name__)
 
 
@@ -34,16 +36,17 @@ class MonitorConverter(object):
     indirect_list = ['destIP', 'secure']
 
     def convert(self, ns_config, avi_config, input_dir):
+        netscalar_command = 'add lb monitor'
         LOG.debug("Conversion started for Health Monitors")
         ns_monitors = ns_config.get('add lb monitor', {})
         supported_types = ['PING', 'TCP', 'HTTP', 'DNS', 'USER', 'HTTP-ECV']
         avi_config['HealthMonitor'] = []
         for name in ns_monitors.keys():
-            cmd = 'add lb monitor %s' % name
             ns_monitor = ns_monitors.get(name)
+            full_cmd = ns_util.get_netscalar_full_command(netscalar_command, ns_monitor)
             mon_type = ns_monitor['attrs'][1]
             if not mon_type in supported_types:
-                ns_util.add_status_row(cmd, 'External Monitor')
+                ns_util.add_status_row(netscalar_command, name, full_cmd, STATUS_EXTERNAL_MONITOR)
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (mon_type, name))
                 continue
@@ -52,7 +55,7 @@ class MonitorConverter(object):
                 continue
             conv_status = ns_util.get_conv_status(
                 ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list, ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(cmd, conv_status, avi_monitor)
+            ns_util.add_conv_status(netscalar_command, name, full_cmd, conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 
