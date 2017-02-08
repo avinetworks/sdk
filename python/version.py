@@ -5,7 +5,7 @@ Created on Apr 22, 2016
 '''
 
 AVI_VERSION = '16.3.4'
-AVI_PIP_VERSION = AVI_VERSION + 'b8'
+AVI_PIP_VERSION = AVI_VERSION
 
 if __name__ == '__main__':
     print AVI_PIP_VERSION
