@@ -4,6 +4,11 @@ import os
 import copy
 import re
 
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
+                                               STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
+                                               STATUS_PARTIAL, STATUS_DATASCRIPT,
+                                                  STATUS_COMMAND_NOT_SUPPORTED)
+
 LOG = logging.getLogger(__name__)
 
 csv_writer = None
@@ -30,7 +35,7 @@ def upload_file(file_path):
     return file_str
 
 
-def add_conv_status(cmd, conv_status, avi_object=None):
+def add_conv_status(cmd, object_type, full_command, conv_status, avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -39,18 +44,20 @@ def add_conv_status(cmd, conv_status, avi_object=None):
     """
     global csv_writer
     row = {
-        'Netscaler Command': cmd,
+        'Netscaler Command': cmd if cmd else '',
+        'Object Type': object_type if object_type else '',
+        'Full Command': full_command if full_command else '',
         'Status': conv_status.get('status', ''),
         'Skipped settings': str(conv_status.get('skipped', '')),
         'Indirect mapping': str(conv_status.get('indirect', '')),
         'Not Applicable': str(conv_status.get('na_list', '')),
         'User Ignored': str(conv_status.get('user_ignore', '')),
-        'Avi Object': str(avi_object)
+        'AVI Object': str(avi_object) if avi_object else ''
     }
     csv_writer.writerow(row)
 
 
-def add_status_row(cmd, status):
+def add_status_row(cmd, object_type, full_command, status, avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -59,7 +66,10 @@ def add_status_row(cmd, status):
     global csv_writer
     row = {
         'Netscaler Command': cmd,
+        'Object Type': object_type,
+        'Full Command': full_command,
         'Status': status,
+        'AVI Object': str(avi_object) if avi_object else ''
     }
     csv_writer.writerow(row)
 
@@ -70,9 +80,9 @@ def add_csv_headers(csv_file):
     :param csv_file: File to which header is to be added
     """
     global csv_writer
-    fieldnames = ['Netscaler Command', 'Status',
+    fieldnames = ['Netscaler Command', 'Object Type', 'Full Command', 'Status',
                   'Skipped settings', 'Indirect mapping', 'Not Applicable',
-                  'User Ignored', 'Avi Object']
+                  'User Ignored', 'AVI Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
     csv_writer.writeheader()
@@ -127,9 +137,9 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
             if key in skipped and str(ns_val) == str(ignore_val):
                 skipped.remove(key)
     if skipped:
-        status = 'partial'
+        status = STATUS_PARTIAL
     else:
-        status = 'successful'
+        status = STATUS_SUCCESSFUL
 
     conv_status = {
         'skipped': skipped,
@@ -177,16 +187,16 @@ def update_status_for_skipped(skipped_cmds):
         is_id = False
         for na_cmd in na_cmds:
             if cmd.startswith(na_cmd):
-                add_status_row(cmd, 'Not Applicable')
+                add_status_row(na_cmd, None, cmd, STATUS_NOT_APPLICABLE)
                 is_na = True
                 break
         for id_cmd in indirect_cmds:
             if cmd.startswith(id_cmd):
-                add_status_row(cmd, 'Indirect')
+                add_status_row(id_cmd, None, cmd, STATUS_INDIRECT)
                 is_id = True
                 break
         if not is_na and not is_id:
-            add_status_row(cmd, 'skipped')
+            add_status_row(cmd, None, None, STATUS_COMMAND_NOT_SUPPORTED)
 
 def remove_duplicate_objects(obj_type, obj_list):
     """
@@ -214,7 +224,6 @@ def remove_duplicate_objects(obj_type, obj_list):
                 LOG.warn('Remove duplicate %s object : %s' % (obj_type, tmp_obj["name"]))
                 del obj_list[index]
                 remove_duplicate_objects(obj_type, obj_list)
-
     return obj_list
 
 def cleanup_config(config):
@@ -623,7 +632,6 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
 
             else:
                 LOG.warning("%s Rule is not supported" % query)
-                add_status_row('add cs policy rule ' + query, 'skipped')
                 continue
 
         if 'switching_action' in policy_rule:
@@ -634,35 +642,46 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
             tmp_pool_ref.append(p_ref)
 
         elif policy.get('policy_type', None) == 'rewrite_policy' and policy['attrs'][1] != 'true':
+            r_cmd = 'add rewrite policy'
             policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
+            full_cmd = get_netscalar_full_command(r_cmd, policy)
+            if policy_rule:
+                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+            else:
+                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SKIPPED)
 
         elif policy.get('policy_type', None) == 'responder_policy' and policy['attrs'][1] != 'true':
-            r_cmd = 'add responder policy %s' % policy_name
+            r_cmd = 'add responder policy'
             policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
-            add_status_row(r_cmd, 'Successful')
+            full_cmd = get_netscalar_full_command(r_cmd, policy)
+            if policy_rule:
+                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
         if policy_rule and policy_rule['match']:
             policy_obj["http_request_policy"]["rules"].append(policy_rule)
             updated_policy_name += policy_name
-
-            p_cmd = 'add cs policy %s %s' % (policy_name, query)
-            LOG.info('Successful : %s' % p_cmd)
+            p_cmd = 'add cs policy'
+            LOG.info('Conversion successful : %s %s' % (p_cmd, policy_name))
             conv_status = get_conv_status(policy, skip_attrs, na_attrs, [])
-            add_conv_status(p_cmd, conv_status, policy_rule)
+            full_cmd = get_netscalar_full_command(p_cmd, policy)
+            add_conv_status(p_cmd, policy_name, full_cmd, conv_status, policy_rule)
         elif policy['policy_type'] == 'responder_policy' and not policy_rule:
-            r_cmd = 'add responder policy %s' % policy_name
-            LOG.warning('Datascript: %s' % r_cmd)
-            add_status_row(r_cmd, 'Datascript')
+            r_cmd = 'add responder policy'
+            full_cmd = get_netscalar_full_command(r_cmd, policy)
+            LOG.warning('Datascript: %s %s' % (r_cmd, policy_name))
+            add_status_row(r_cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
             is_policy_successful = False
 
     if len(policy_obj["http_request_policy"]["rules"]) > 0:
-        bind_cmd = 'bind cs vserver : %s' % b_cmd
+        bind_cmd = 'bind cs vserver'
+        full_cmd = get_netscalar_full_command(bind_cmd, policy)
         if not is_policy_successful:
-            LOG.info('Datascript : %s' % bind_cmd)
-            add_status_row(bind_cmd, 'Datascript')
+            LOG.info('Datascript : %s %s' % (bind_cmd, b_cmd))
+            add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_DATASCRIPT)
         else:
-            LOG.info('Successful: %s' % bind_cmd)
-            add_status_row(bind_cmd, 'Successful')
+            LOG.info('Conversion successful: %s %s' % (bind_cmd, b_cmd))
+            add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_SUCCESSFUL, policy_obj)
+
         updated_policy_name += '-http-request-policy-%s' % rule_index
         policy_obj['name'] = updated_policy_name
         return rule_index, policy_obj
@@ -672,7 +691,11 @@ def policy_converter(policies, rule_index1, bind_patset, patset_config,
 def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
     policy_action = rewrite_action_config.get(policy_name, None)
     policy_rule = None
-    cmd = 'add rewrite action %s' % policy_name
+    cmd = 'add rewrite action'
+    if not policy_action:
+        LOG.warning('No responder action found: %s' % policy_name)
+        return
+    full_cmd = get_netscalar_full_command(cmd, policy_action)
 
     if policy_action and policy_action['attrs'][1] == 'insert_http_header':
         hdr_action = [{
@@ -689,7 +712,8 @@ def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
             if matches:
                 value = {'val': matches[0]}
                 policy_rule['hdr_action'][0]['hdr']['value'].update(value)
-                LOG.info('Successful: %s' % cmd)
+                LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+                add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
     elif policy_action and policy_action['attrs'][1] == 'replace':
         policy_rule = copy.deepcopy(policy_rules)
@@ -715,7 +739,8 @@ def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
             }
         }
         policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
     elif policy_action and policy_action['attrs'][1] == 'insert_before':
         policy_rule = copy.deepcopy(policy_rules)
@@ -741,16 +766,23 @@ def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
             }
         }
         policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
     else:
-        LOG.warning('Skipped: %s' % cmd)
+        LOG.warning('Skipped: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SKIPPED)
 
     return policy_rule
 
 def get_responder_action(policy_name, policy_rules, responder_action_config):
     policy_action = responder_action_config.get(policy_name, None)
+    if not policy_action:
+        LOG.warning('No responder action found: %s' % policy_name)
+        return
+
     policy_rule = None
-    cmd = 'add responder action %s' % policy_name
+    cmd = 'add responder action'
+    full_cmd = get_netscalar_full_command(cmd, policy_action)
 
     if policy_action and policy_action['attrs'][1] == 'insert_http_header':
         hdr_action = [{
@@ -765,7 +797,8 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
         matches = [policy_action['attrs'][3]]
         value = {'val': matches[0]}
         policy_rule['hdr_action'][0]['hdr']['value'].append(value)
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
     elif policy_action and policy_action['attrs'][1] == 'replace':
         policy_rule = copy.deepcopy(policy_rules)
@@ -791,7 +824,8 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
             }
         }
         policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
     elif policy_action and policy_action['attrs'][1] == 'insert_before':
         policy_rule = copy.deepcopy(policy_rules)
@@ -817,7 +851,8 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
             }
         }
         policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
     elif policy_action and policy_action['attrs'][1] == 'redirect':
         policy_rule = copy.deepcopy(policy_rules)
         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][2].strip('"').strip())
@@ -839,11 +874,12 @@ def get_responder_action(policy_name, policy_rules, responder_action_config):
             }
         }
         policy_rule['redirect_action'] = redirect_action
-        LOG.info('Successful: %s' % cmd)
+        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
 
     else:
-        LOG.warning('Datascript: %s' % cmd)
-        add_status_row(cmd, 'Datascript')
+        LOG.warning('Datascript: %s %s' % (cmd, policy_name))
+        add_status_row(cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
 
     return policy_rule
 
@@ -872,8 +908,7 @@ def add_string_group_for_policy(string_group_name, matches, avi_config):
     for match in matches:
         stringgroup_object['kv'].append({"key": match})
     avi_config['StringGroup'].append(stringgroup_object)
-    add_status_row(string_group_name, "Successful")
-    LOG.info('Successful : %s' % string_group_name)
+    LOG.info('Conversion successful : %s' % string_group_name)
     return string_group_name
 
 def is_shared_same_vip(vs, avi_config):
@@ -897,3 +932,12 @@ def set_rules_index_for_http_policy_set(avi_config):
         rules = sorted(rules, key=lambda d: int(d['index']))
         for index, rule in enumerate(rules):
             rule['index'] = index
+
+def get_netscalar_full_command(netscalar_command, obj):
+    for attr in obj['attrs']:
+        netscalar_command += ' %s' % attr
+    for key in obj:
+        if isinstance(obj[key], list):
+            continue
+        netscalar_command += ' -%s %s' % (key, obj[key])
+    return netscalar_command
