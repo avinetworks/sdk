@@ -122,8 +122,12 @@ class ConfigPatch(object):
         new_obj_name = obj['name']
         if ('name' in patch_data['patch']) and (obj_name != new_obj_name):
             # need to update all the references for this object
-            new_obj_ref = '/api/%s/?name=%s&tenant=%s' % (
-                obj_type.lower(), obj['name'], tenant)
+            new_obj_ref = '/api/%s/?tenant=%s&name=%s' % (
+                obj_type.lower(), tenant, obj['name'])
+            cloud = (self.param_value_in_ref(obj.get('cloud_ref'), 'name')
+                     if 'cloud_ref' in obj else '')
+            if cloud:
+                new_obj_ref = '%s&cloud=%s' % (new_obj_ref, cloud)
             # this is to handle old references could be in multiple formats
             for old_obj_ref in old_obj_refs:
                 self.update_references(
