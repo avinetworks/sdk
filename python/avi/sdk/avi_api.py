@@ -135,7 +135,7 @@ class ApiSession(Session):
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None,
-                 timeout=60):
+                 timeout=60, api_version=None):
         """
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
@@ -162,6 +162,7 @@ class ApiSession(Session):
         self.verify = verify
         self.port = port
         self.key = controller_ip + ":" + username
+        self.api_version = api_version
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -286,6 +287,8 @@ class ApiSession(Session):
         """
         api_hdrs = copy.deepcopy(self.headers)
         api_hdrs['timeout'] = str(timeout)
+        if self.api_version:
+            api_hdrs['X-Avi-Version'] = self.api_version
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
