@@ -1,6 +1,0 @@
-Pool:
-  - match_name: vp21q05it-mzbookkeeper-0-pool
-    patch:
-      name: grastogi
-      cloud: AWS
-
