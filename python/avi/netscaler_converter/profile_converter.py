@@ -39,8 +39,7 @@ class ProfileConverter(object):
                          'notificationPeriod', 'bundle']
 
     bind_sslvs_skip = ['priority', 'gotoPriorityExpression', 'invoke',
-                       'certkeyName', 'ocspCheck', 'skipCAName', 'SNICert',
-                       'eccCurveName']
+                       'ocspCheck', 'skipCAName', 'SNICert', 'eccCurveName']
 
     set_ssl_vserver_skip = ssl_prof_skip + ['dtlsProfileName']
     set_ssl_vserver_indirect = ['dhCount', 'dh', 'dhFile']
@@ -190,7 +189,7 @@ class ProfileConverter(object):
         for mapping in ssl_mappings:
             output = None
             cmd = 'bind ssl vserver'
-            full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
+            full_cmd = ns_util.get_netscalar_full_command(cmd, mapping)
 
             if 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
@@ -258,7 +257,8 @@ class ProfileConverter(object):
             conv_status = ns_util.get_conv_status(
                 mapping, self.bind_sslvs_skip, [], [])
             netscalar_cmd = 'bind ssl vserver'
-            ns_util.add_conv_status(netscalar_cmd, key_cert['attrs'][0], full_cmd, conv_status, output)
+            full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, mapping)
+            ns_util.add_conv_status(netscalar_cmd, mapping['attrs'][0], full_cmd, conv_status, output)
 
         avi_ssl_prof['accepted_ciphers'] = ':'.join(ciphers)
         return obj
