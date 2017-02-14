@@ -95,17 +95,17 @@ class ProfileConverter(object):
 
             ssl_profile_name = mapping.get('sslProfile')
             ssl_profile = ssl_profiles.get(ssl_profile_name, None)
-            if ssl_profile:
-                avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
+
             obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
-                                    input_dir, avi_ssl_prof, ns_config)
-            if obj.get('accepted_ciphers', None):
+                                    input_dir, None, ns_config)
+            if obj.get('accepted_ciphers', None) and ssl_profile:
+                avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
                 avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
                 avi_config["SSLProfile"].append(avi_ssl_prof)
-            conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
-                                                  self.set_ssl_vserver_indirect,
-                                                  self.set_ssl_vserver_na)
-            ns_util.add_conv_status(netscalar_cmd, key, full_cmd, conv_status, avi_ssl_prof)
+                conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
+                                                      self.set_ssl_vserver_indirect,
+                                                      self.set_ssl_vserver_na)
+                ns_util.add_conv_status(netscalar_cmd, key, full_cmd, conv_status, avi_ssl_prof)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
@@ -273,10 +273,10 @@ class ProfileConverter(object):
 
     def get_ciphers(self, cipher, ns_config):
         """
-
-        :param cipher:
-        :param ns_config:
-        :return:
+        This function is define to get the ssl ciphers
+        :param cipher: cipher name
+        :param ns_config: netscalar configuration
+        :return: list of ciphers
         """
         cipher_config = ns_config.get('add ssl cipher', {})
         cipher_mapping = ns_config.get('bind ssl cipher', {})
