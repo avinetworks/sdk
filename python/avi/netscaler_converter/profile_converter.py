@@ -90,15 +90,18 @@ class ProfileConverter(object):
             netscalar_cmd = 'set ssl vserver'
             mapping = ssl_vs_mapping[key]
             full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, mapping)
-            if not 'sslProfile' in mapping:
-                continue
+            # if not 'sslProfile' in mapping:
+            #     continue
+
             ssl_profile_name = mapping.get('sslProfile')
             ssl_profile = ssl_profiles.get(ssl_profile_name, None)
             if ssl_profile:
                 avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
             obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
                                     input_dir, avi_ssl_prof, ns_config)
-            avi_config["SSLProfile"].append(avi_ssl_prof)
+            if obj.get('accepted_ciphers', None):
+                avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
+                avi_config["SSLProfile"].append(avi_ssl_prof)
             conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
                                                   self.set_ssl_vserver_indirect,
                                                   self.set_ssl_vserver_na)
@@ -224,6 +227,8 @@ class ProfileConverter(object):
 
             elif 'certkeyName' in  mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
+                netscalar_cmd = 'add ssl certKey'
+                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
                 if key_file_name:
@@ -232,6 +237,9 @@ class ProfileConverter(object):
                 if cert_file_name:
                     cert_str = ns_util.upload_file(
                         input_dir+os.path.sep+cert_file_name)
+                if not key_cert and not cert_str:
+                    LOG.warning('Skipped : %s %s' % (netscalar_cmd, key_cert['attrs'][0]))
+                    ns_util.add_status_row(netscalar_cmd, key_cert['attrs'][0], full_cmd, STATUS_SKIPPED)
                 if key_str and cert_str:
                     cert = {"certificate": cert_str}
                     ssl_kc_obj = {
@@ -244,13 +252,13 @@ class ProfileConverter(object):
                     output = ssl_kc_obj
                 conv_status = ns_util.get_conv_status(
                     key_cert, self.add_key_cert_skip, [], [])
-                netscalar_cmd = 'add ssl certKey'
-                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
                 ns_util.add_conv_status(netscalar_cmd, key_cert['attrs'][0], full_cmd, conv_status, avi_ssl_prof)
             elif 'cipherName' in mapping.keys():
                 ciphers_keys = self.get_ciphers(mapping['cipherName'], ns_config)
                 ciphers += ciphers_keys
-                output = avi_ssl_prof
+                ciphers = list(set(ciphers))
+                obj['accepted_ciphers'] = ':'.join(ciphers)
+                # output = avi_ssl_prof
             else:
                 ns_util.add_status_row(cmd, mapping['attrs'][0], full_cmd, STATUS_SKIPPED)
                 LOG.warning('Skipped : %s %s' % (cmd, mapping['attrs'][0]))
@@ -261,8 +269,6 @@ class ProfileConverter(object):
             full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, mapping)
             ns_util.add_conv_status(netscalar_cmd, mapping['attrs'][0], full_cmd, conv_status, output)
 
-        ciphers = list(set(ciphers))
-        avi_ssl_prof['accepted_ciphers'] = ':'.join(ciphers)
         return obj
 
     def get_ciphers(self, cipher, ns_config):
