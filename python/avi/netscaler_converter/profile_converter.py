@@ -97,7 +97,7 @@ class ProfileConverter(object):
             if ssl_profile:
                 avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
             obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
-                                    input_dir, avi_ssl_prof)
+                                    input_dir, avi_ssl_prof, ns_config)
             avi_config["SSLProfile"].append(avi_ssl_prof)
             conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
                                                   self.set_ssl_vserver_indirect,
@@ -183,7 +183,7 @@ class ProfileConverter(object):
         return avi_ssl_prof
 
     def get_key_cert(self, ssl_mappings, ssl_key_and_cert, input_dir,
-                     avi_ssl_prof):
+                     avi_ssl_prof, ns_config):
         obj = dict()
         ciphers = []
         for mapping in ssl_mappings:
@@ -248,7 +248,8 @@ class ProfileConverter(object):
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
                 ns_util.add_conv_status(netscalar_cmd, key_cert['attrs'][0], full_cmd, conv_status, avi_ssl_prof)
             elif 'cipherName' in mapping.keys():
-                ciphers.append(mapping['cipherName'])
+                ciphers_keys = self.get_ciphers(mapping['cipherName'], ns_config)
+                ciphers += ciphers_keys
                 output = avi_ssl_prof
             else:
                 ns_util.add_status_row(cmd, mapping['attrs'][0], full_cmd, STATUS_SKIPPED)
@@ -260,5 +261,31 @@ class ProfileConverter(object):
             full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, mapping)
             ns_util.add_conv_status(netscalar_cmd, mapping['attrs'][0], full_cmd, conv_status, output)
 
+        ciphers = list(set(ciphers))
         avi_ssl_prof['accepted_ciphers'] = ':'.join(ciphers)
         return obj
+
+    def get_ciphers(self, cipher, ns_config):
+        """
+
+        :param cipher:
+        :param ns_config:
+        :return:
+        """
+        cipher_config = ns_config.get('add ssl cipher', {})
+        cipher_mapping = ns_config.get('bind ssl cipher', {})
+        lb_cipher = cipher_config.get(cipher, None)
+        bind_ciphers = cipher_mapping.get(cipher, None)
+        if not (lb_cipher and bind_ciphers):
+            return [cipher]
+        ciphers = []
+        if isinstance(bind_ciphers, dict):
+            bind_ciphers = [bind_ciphers]
+        for bind_cipher in bind_ciphers:
+            if bind_cipher.get('cipherName', None):
+                ciphers.append(bind_cipher['cipherName'])
+
+        if not ciphers:
+            return [cipher]
+        return ciphers
+

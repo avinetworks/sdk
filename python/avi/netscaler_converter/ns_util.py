@@ -3,6 +3,7 @@ import logging
 import os
 import copy
 import re
+import ruamel.yaml
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
                                                STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
@@ -177,8 +178,18 @@ def get_command_from_line(line):
 
 
 def update_status_for_skipped(skipped_cmds):
-    na_cmds = ['set system', 'set interface', 'set ns config', 'set snmp']
-    indirect_cmds = ['add cmp global', 'bind cmp global']
+    na_cmds = ['set system', 'set interface', 'set ns config', 'set snmp',
+               'add aaa group', 'bind aaa group', 'add ca action',
+               'add cache contentGroup', 'add cache policy', 'add cache policylabel',
+               'bind cache global', 'bind cache policylabel', 'add db user',
+               'add ns acl', 'add ns ip', 'add system cmdPolicy', 'add system group',
+               'add system user', 'add vpn intranetApplication', 'add vrID',
+               'apply ns acls', 'bind authentication vserver', 'bind system global',
+               'bind system group', 'bind system user', 'bind vpn global', 'bind vrID',
+               'enable ns feature', 'enable ns mode']
+    indirect_cmds = ['add cmp global', 'bind cmp global', 'add appflow action',
+                     'add appflow collector', 'add appflow policy',
+                     'add dns nsRec', 'add HA node', 'add vlan', 'bind vlan']
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:

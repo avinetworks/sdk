@@ -7,6 +7,7 @@ from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 LOG = logging.getLogger(__name__)
 Redirect_Pools = []
 tmp_avi_config = {}
+used_pool_ref = []
 
 class LbvsConverter(object):
 
@@ -32,7 +33,8 @@ class LbvsConverter(object):
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
-        supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DNS', 'DNS_TCP']
+        supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
+                           'SSL_TCP', 'DNS', 'DNS_TCP']
         for key in lb_vs_conf.keys():
             try:
                 LOG.debug('LB VS conversion started for: %s' % key)
@@ -66,19 +68,7 @@ class LbvsConverter(object):
                     LOG.warn('Pool not found in avi config for LB VS %s' % key)
 
                 redirect_url = lb_vs.get('redirectURL', None)
-                if redirect_url:
-                    fail_action = {
-                        "redirect":
-                        {
-                          "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
-                          "host": redirect_url,
-                          "protocol": "HTTP"
-                        },
-                        "type": "FAIL_ACTION_HTTP_REDIRECT"
-                    }
-                    if pool_obj:
-                        pool_obj[0]["fail_action"] = fail_action
-                        Redirect_Pools.append(pool_name)
+
 
                 http_prof = lb_vs.get('httpProfileName', None)
                 app_profile = None
@@ -86,7 +76,9 @@ class LbvsConverter(object):
                     clttimeout = lb_vs.get('cltTimeout', None)
                     app_profile = http_prof
                     if clttimeout:
-                        ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
+                        ns_util.add_clttimeout_for_http_profile(http_prof,
+                                                                avi_config,
+                                                                clttimeout)
                         clt_cmd = cmd + '%s cltTimeout %s' % (key, clttimeout)
                         LOG.info('Conversion successful : %s' % clt_cmd)
 
@@ -119,11 +111,40 @@ class LbvsConverter(object):
                     vs_obj['pool_ref'] = pool_ref
                     updated_pool_ref = re.sub('[:]', '-', pool_ref)
                     vs_obj['pool_ref'] = updated_pool_ref
+                    used_pool_ref.append(pool_ref)
                 updated_pool_ref = pool_ref
-
-                if ip_addr == "0.0.0.0" and not redirect_url:
+                backup_server = lb_vs.get('backupVServer', None)
+                if redirect_url:
+                    fail_action = {
+                        "redirect":
+                        {
+                          "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+                          "host": redirect_url,
+                          "protocol": "HTTP"
+                        },
+                        "type": "FAIL_ACTION_HTTP_REDIRECT"
+                    }
+                    if pool_obj:
+                        pool_obj[0]["fail_action"] = fail_action
+                        Redirect_Pools.append(pool_name)
+                elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
+                    backup_pool_ref = backup_server + '-pool'
+                    if backup_pool_ref in used_pool_ref:
+                        backup_pool_ref = ns_util.clone_pool(pool_name,
+                                                             vs_name, avi_config)
+                        backup_pool = {
+                            'type': 'FAIL_ACTION_BACKUP_POOL',
+                            'backup_pool': {
+                                'backup_pool_uuid': backup_pool_ref
+                            }
+                        }
+                        used_pool_ref
+                        pool_obj[0]['fail_action'] = backup_pool
+                elif ip_addr == "0.0.0.0" and not redirect_url and not backup_server:
                     ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
-                    LOG.error("%s %s Skipped VS, Service point to %s server." % (cmd, key, ip_addr))
+                    LOG.error('%s %s Skipped VS, Service point to %s server '
+                              'and not have redirect action and backup vserver'
+                              % (cmd, key, ip_addr))
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
@@ -148,7 +169,8 @@ class LbvsConverter(object):
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
-                        LOG.info('Conversion successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                        LOG.info('Conversion successful: Added network profile '
+                                 '%s for %s' % (ntwk_prof, vs_name))
                         vs_obj['network_profile_ref'] = ntwk_prof
 
                 if redirect_url:
@@ -157,7 +179,8 @@ class LbvsConverter(object):
                     is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
                     if is_shared:
                         ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
-                        LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+                        LOG.warning('Skipped: %s Same vip shares another '
+                                    'virtual service' % vs_name)
                         continue
                     avi_config['VirtualService'].append(vs_obj)
                 conv_status = ns_util.get_conv_status(
@@ -176,8 +199,10 @@ class LbvsConverter(object):
                             pass
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
-                            if not [obj for obj in avi_config['SSLKeyAndCertificate'] if obj['name'] == mapping['attrs'][0]]:
-                                LOG.warn('cannot find ssl key cert ref adding system default insted')
+                            if not [obj for obj in avi_config['SSLKeyAndCertificate']
+                                    if obj['name'] == mapping['attrs'][0]]:
+                                LOG.warn('cannot find ssl key cert ref adding '
+                                         'system default insted')
                                 vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
                                 continue
                             vs_obj[avi_ssl_ref] = mapping['attrs'][0]
