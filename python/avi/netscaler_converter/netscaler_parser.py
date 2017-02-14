@@ -3,6 +3,8 @@ from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
                        Word, originalTextFor, Optional, ZeroOrMore, Group,
                        restOfLine, quotedString, LineStart, OneOrMore)
 import avi.netscaler_converter.ns_util as ns_util
+import avi.netscaler_converter.ns_constants as ns_constant
+
 ParserElement.enablePackrat()
 
 LOG = logging.getLogger(__name__)
@@ -14,7 +16,7 @@ def parse_config_file(filepath):
     SOL = LineStart().suppress()
     blank_line = SOL + EOL
     result = []
-    # hyphen = Literal("-")
+    hyphen = Literal("-")
     not_hyphen_sign = ''.join(c for c in printables if c != '-')
     text = Word(not_hyphen_sign, printables)
     key = Word('-', printables).setParseAction(
@@ -36,18 +38,7 @@ def parse_config_file(filepath):
         return result
 
 
-def get_command(line):
-    commands = ['add server', 'add service', 'add lb vserver',
-                'bind lb vserver', 'add lb monitor', 'bind service',
-                'bind serviceGroup', 'add serviceGroup', 'add ns tcpProfile',
-                'add ns httpProfile', 'bind ssl vserver', 'add ssl certKey',
-                'set ssl vserver', 'add ssl profile', 'add cs vserver',
-                'bind cs vserver', 'bind cs policylabel', 'add cs policy',
-                'add cs policylabel', 'bind policy patset', 'add policy patset',
-                'add dns addRec', 'add responder policy', 'add responder action',
-                'add rewrite policy', 'add rewrite action', 'add ssl cipher',
-                'bind ssl cipher', 'add policy expression']
-
+def get_command(line, commands):
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
@@ -61,10 +52,12 @@ def get_ns_conf_dict(filepath):
     LOG.debug('Started parsing netscaler config file')
     netscaler_conf = dict()
     skipped_cmds = []
+    ns_constant.init()
+    commands = ns_constant.netscalar_command_status['SupportedCommands']
     try:
         result = parse_config_file(filepath)
         for line in result:
-            cmd, offset = get_command(line)
+            cmd, offset = get_command(line, commands)
             if offset:
                 cmd_dict = dict()
                 attr_list = []

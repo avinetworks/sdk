@@ -3,7 +3,6 @@ import logging
 import os
 import copy
 import re
-import ruamel.yaml
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
                                                STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
