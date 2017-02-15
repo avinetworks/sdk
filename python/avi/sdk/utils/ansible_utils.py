@@ -273,6 +273,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     tenant_uuid = obj.pop('tenant_uuid', '')
     # obj.pop('cloud_ref', None)
     purge_optional_fields(obj, module)
+
+    log.info('passed object %s ', obj)
     if state == 'absent':
         try:
             rsp = api.delete_by_name(
@@ -291,6 +293,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
+        log.error('EXISTING OBJ %s', existing_obj)
         changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
         cleanup_absent_fields(obj)
         if changed:
