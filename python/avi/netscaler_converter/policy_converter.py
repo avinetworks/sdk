@@ -16,7 +16,7 @@ class PolicyConverter(object):
     """
     This class is used to convert the policy
     """
-    policy_types = ['csvs', 'rewrite', 'responder', 'expression']
+    policy_types = ['cs', 'rewrite', 'responder', 'expression']
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, skip_attrs, na_attrs, netscalar_command):
@@ -41,6 +41,7 @@ class PolicyConverter(object):
         rewrite_action_config = ns_config.get('add rewrite action', {})
         bind_patset = ns_config.get('bind policy patset', {})
         patset_config = ns_config.get('add policy patset', {})
+        policy_expression_config = ns_config.get('add policy expression', {})
         http_request_policy = {
             'rules': []
         }
@@ -55,11 +56,13 @@ class PolicyConverter(object):
         }
 
         is_policy_obj = False
+        rule_index = 0
 
         for bind_conf in bind_conf_list:
             bind_lb_netscalar_complete_command = ns_util.\
                 get_netscalar_full_command(netscalar_command, bind_conf)
             policy_name = None
+            targetVserver = None
             if 'policylabel' in bind_conf:
                 policyLabelName = bind_conf['policylabel']
                 if policyLabelName in policy_lables.keys():
@@ -91,24 +94,41 @@ class PolicyConverter(object):
             if 'policyName' in bind_conf:
                 policy_name = bind_conf['policyName']
             else:
+                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0],
+                                       bind_lb_netscalar_complete_command, STATUS_SKIPPED)
                 continue
-            targetLBVserver = bind_conf.get('targetLBVserver', None)
+            targetLBVserver = bind_conf.get('targetLBVserver', )
             if not targetLBVserver and targetVserver:
                 targetLBVserver = targetVserver
+
+            priority_index = int(bind_conf.get('priority', rule_index))
             policy, policy_type = self.get_policy_from_policy_name(policy_name,
                                                                    policy_config,
                                                                    rewrite_policy_config,
                                                                    responder_policy_config)
-            rule = self.rule_converter(policy, policy_type, redirect_pools,
-                                       bind_patset, patset_config,
-                                       rewrite_action_config,
-                                       responder_action_config, avi_config,
-                                       targetLBVserver)
+            if not policy:
+                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0],
+                                       bind_lb_netscalar_complete_command, STATUS_SKIPPED)
+                continue
+            rule, rule_index = self.rule_converter(policy, policy_type,
+                                                   priority_index,
+                                                   redirect_pools, bind_patset,
+                                                   patset_config,
+                                                   rewrite_action_config,
+                                                   responder_action_config,
+                                                   policy_expression_config,
+                                                   avi_config,
+                                                   targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 http_request_policy['rules'].append(rule)
             elif rule and policy_type in ['policy_expression']:
                 http_security_policy['rules'].append(rule)
             else:
+                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0],
+                                       bind_lb_netscalar_complete_command, STATUS_SKIPPED)
                 continue
         if len(http_request_policy['rules']) > 0:
             is_policy_obj = True
@@ -148,10 +168,9 @@ class PolicyConverter(object):
                                                    depth=depth-1)
 
 
-    def rule_converter(self, policy, policy_type, redirect_pools, bind_patset,
-                       patset_config, rewrite_action_config,
-                       responder_action_config, avi_config,
-                       targetLBVserver=None):
+    def rule_converter(self, policy, policy_type, priority_index, redirect_pools, bind_patset,
+                       patset_config, rewrite_action_config, responder_action_config,
+                       policy_expression_config, avi_config, targetLBVserver=None):
         """
 
         :param policy:
@@ -164,26 +183,45 @@ class PolicyConverter(object):
         :param targetLBVserver:
         :return:
         """
-
+        netscalar_command = None
         rule_name = policy['attrs'][0]
         ns_rule = policy.get('rule', None)
+        if policy_type == 'cs':
+            netscalar_command = 'add cs policy'
+        elif policy_type == 'rewrite':
+            netscalar_command = 'add rewrite policy'
+        elif policy_type == 'responder':
+            netscalar_command = 'add responder policy'
+        elif policy_type == 'expression':
+            netscalar_command = 'add expression policy'
+        full_cmd = ns_util.get_netscalar_full_command(netscalar_command, policy)
+
         if policy_type == 'cs' and not (targetLBVserver and ns_rule):
-            return None
-        else:
+            LOG.warning('Skipped policy: %s' % rule_name)
+            ns_util.add_status_row(netscalar_command, rule_name, full_cmd, STATUS_SKIPPED)
+            return None, priority_index
+        elif policy_type in ['rewrite', 'responder', 'expression']:
+
             ns_rule = policy['attrs'][1]
 
-        priority_index = policy.get('priority', None)
+
         name = rule_name + '-rule-%s' % priority_index,
         conditional_rules = ns_rule.split("&&")
         match = {}
         for rule in conditional_rules:
+            exression_policy = policy_expression_config.get(rule.strip(), None)
+            if exression_policy:
+                rule = exression_policy['attrs'][1]
+                LOG.error('Policy expression : %s' % rule)
             rule_match = self.query_converter(rule, name, bind_patset,
                                               patset_config, avi_config)
             if rule_match:
                 match.update(rule_match)
 
         if not match:
-            return None
+            LOG.warning('Skipped policy: %s' % rule_name)
+            ns_util.add_status_row(netscalar_command, rule_name, full_cmd, STATUS_SKIPPED)
+            return None, priority_index
 
         policy_rules = {
             'name': name,
@@ -192,9 +230,6 @@ class PolicyConverter(object):
         }
 
         if policy_type == 'cs':
-            cs_policy_command = 'add cs policy'
-            cs_policy_netscalar_full_command = ns_util.\
-                get_netscalar_full_command(cs_policy_command, policy)
             cs_action, redirect_uri = self.get_cs_policy_action(targetLBVserver,
                                                                 redirect_pools,
                                                                 avi_config)
@@ -203,58 +238,48 @@ class PolicyConverter(object):
                     policy_rules['redirect_action'] = cs_action
                 else:
                     policy_rules['switching_action'] = cs_action
-                LOG.info('Conversion successful : %s %s' % (cs_policy_command,
+                LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
-                ns_util.add_status_row(cs_policy_command, rule_name,
-                                       cs_policy_netscalar_full_command,
-                                       STATUS_SUCCESSFUL, policy_rules)
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Skipped : %s %s' % (cs_policy_command, rule_name))
-                ns_util.add_status_row(cs_policy_command, rule_name,
-                                       cs_policy_netscalar_full_command,
-                                       STATUS_SKIPPED)
+                LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_SKIPPED)
                 policy_rules = None
         elif policy_type == 'rewrite':
-            rewrite_policy_command = 'add rewrite policy'
-            rewrite_policy_netscalar_full_command = ns_util.\
-                get_netscalar_full_command(rewrite_policy_command, policy)
             policy_rules = self.get_rewrite_action(policy['attrs'][2],
                                                    policy_rules,
                                                    rewrite_action_config)
             if policy_rules:
-                LOG.info('Conversion successful : %s %s' % (rewrite_policy_command,
+                LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
-                ns_util.add_status_row(rewrite_policy_command, rule_name,
-                                       rewrite_policy_netscalar_full_command,
-                                       STATUS_SUCCESSFUL, policy_rules)
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Skipped : %s %s' % (rewrite_policy_command, rule_name))
-                ns_util.add_status_row(rewrite_policy_command, rule_name,
-                                       rewrite_policy_netscalar_full_command,
-                                       STATUS_SKIPPED)
+                LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_SKIPPED)
         elif policy_type == 'responder':
-            responder_policy_command = 'add responder policy'
-            responder_policy_netscalar_full_command = ns_util.\
-                get_netscalar_full_command(responder_policy_command, policy)
             policy_rules = self.get_responder_action(policy['attrs'][2],
                                                      policy_rules,
                                                      responder_action_config)
             if policy_rules:
                 LOG.info('Conversion successful : %s %s' % (
-                    responder_policy_command, rule_name))
-                ns_util.add_status_row(responder_policy_command, rule_name,
-                                       responder_policy_netscalar_full_command,
-                                       STATUS_SUCCESSFUL, policy_rules)
+                    netscalar_command, rule_name))
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Datascript : %s %s' % (responder_policy_command,
+                LOG.warning('Datascript : %s %s' % (netscalar_command,
                                                     rule_name))
-                ns_util.add_status_row(responder_policy_command, rule_name,
-                                       responder_policy_netscalar_full_command,
-                                       STATUS_DATASCRIPT)
+                ns_util.add_status_row(netscalar_command, rule_name,
+                                       full_cmd, STATUS_DATASCRIPT)
         else:
             policy_rules = None
 
-        return policy_rules
+        if policy_rules:
+            priority_index = priority_index + 1
+        return policy_rules, priority_index
 
 
     def query_converter(self, rule, policy_name, bind_patset, patset_config,
@@ -505,7 +530,7 @@ class PolicyConverter(object):
                 return None
             matches = list(set(matches))
             for element in matches:
-                match = re.sub('[\\\/]', '', element)
+                element = re.sub('[\\\/]', '', element)
                 match["path"]["match_str"].append(element)
 
         elif 'HTTP.REQ.URL.PATH.EQ' in query.upper():
@@ -854,7 +879,41 @@ class PolicyConverter(object):
             LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
             ns_util.add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
                                    policy_rule)
+        elif policy_action and policy_action['attrs'][1] == 'respondwith':
+            policy_rule = copy.deepcopy(policy_rules)
 
+            if policy_action['attrs'][3] == '301':
+                redirect_action = {
+                    'port': 80,
+                    'protocol': 'HTTP',
+                    'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',
+                    'keep_query': False,
+
+                    'path': {
+                        'type': 'URI_PARAM_TYPE_TOKENIZED',
+                        'tokens': [{
+                            'type': 'URI_TOKEN_TYPE_STRING',
+                            'str_value': policy_action['attrs'][6]
+                        }]
+                    },
+                    'query': {
+                        'keep_query': False
+                    }
+                }
+                policy_rule['redirect_action'] = redirect_action
+            elif policy_action['attrs'][3] in ['403', '429', '200', '404']:
+                switching_action ={
+                    'action': 'HTTP_SWITCHING_SELECT_LOCAL',
+                    'status_code': 'HTTP_LOCAL_RESPONSE_STATUS_CODE_' + policy_action['attrs'][3]
+                }
+                policy_rule['switching_action'] = switching_action
+
+            else:
+                LOG.warning('Datascript: %s %s' % (cmd, policy_name))
+                ns_util.add_status_row(cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
+            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+            ns_util.add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+                                   policy_rule)
         else:
             LOG.warning('Datascript: %s %s' % (cmd, policy_name))
             ns_util.add_status_row(cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
@@ -882,7 +941,7 @@ class PolicyConverter(object):
             return rewrite_policy, 'rewrite'
         responder_policy = responder_policy_config.get(policy_name, None)
         if responder_policy:
-            return rewrite_policy, 'responder'
+            return responder_policy, 'responder'
 
 
 

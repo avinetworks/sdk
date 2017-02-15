@@ -3,6 +3,7 @@ import logging
 import os
 import copy
 import re
+import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
                                                STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
@@ -45,7 +46,7 @@ def add_conv_status(cmd, object_type, full_command, conv_status, avi_object=None
     global csv_writer
     row = {
         'Netscaler Command': cmd if cmd else '',
-        'Object Type': object_type if object_type else '',
+        'Object Name': object_type if object_type else '',
         'Full Command': full_command if full_command else '',
         'Status': conv_status.get('status', ''),
         'Skipped settings': str(conv_status.get('skipped', '')),
@@ -66,7 +67,7 @@ def add_status_row(cmd, object_type, full_command, status, avi_object=None):
     global csv_writer
     row = {
         'Netscaler Command': cmd,
-        'Object Type': object_type,
+        'Object Name': object_type,
         'Full Command': full_command,
         'Status': status,
         'AVI Object': str(avi_object) if avi_object else ''
@@ -80,7 +81,7 @@ def add_csv_headers(csv_file):
     :param csv_file: File to which header is to be added
     """
     global csv_writer
-    fieldnames = ['Netscaler Command', 'Object Type', 'Full Command', 'Status',
+    fieldnames = ['Netscaler Command', 'Object Name', 'Full Command', 'Status',
                   'Skipped settings', 'Indirect mapping', 'Not Applicable',
                   'User Ignored', 'AVI Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
@@ -177,18 +178,8 @@ def get_command_from_line(line):
 
 
 def update_status_for_skipped(skipped_cmds):
-    na_cmds = ['set system', 'set interface', 'set ns config', 'set snmp',
-               'add aaa group', 'bind aaa group', 'add ca action',
-               'add cache contentGroup', 'add cache policy', 'add cache policylabel',
-               'bind cache global', 'bind cache policylabel', 'add db user',
-               'add ns acl', 'add ns ip', 'add system cmdPolicy', 'add system group',
-               'add system user', 'add vpn intranetApplication', 'add vrID',
-               'apply ns acls', 'bind authentication vserver', 'bind system global',
-               'bind system group', 'bind system user', 'bind vpn global', 'bind vrID',
-               'enable ns feature', 'enable ns mode']
-    indirect_cmds = ['add cmp global', 'bind cmp global', 'add appflow action',
-                     'add appflow collector', 'add appflow policy',
-                     'add dns nsRec', 'add HA node', 'add vlan', 'bind vlan']
+    na_cmds = ns_constants.netscalar_command_status['NotApplicableCommands']
+    indirect_cmds = ns_constants.netscalar_command_status['IndirectCommands']
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:
@@ -951,3 +942,17 @@ def get_netscalar_full_command(netscalar_command, obj):
             continue
         netscalar_command += ' -%s %s' % (key, obj[key])
     return netscalar_command
+
+def clone_pool_group(pg_name, prefix, avi_config):
+    pool_groups = [pg for pg in avi_config['PoolGroup'] if pg['name'] == pg_name]
+    if pool_groups:
+        pool_group = copy.deepcopy(pool_groups[0])
+        pool_group['name'] = prefix + pg_name
+        for member in pool_group.get('members', []):
+            pool_ref = clone_pool(member['pool_ref'], prefix, avi_config)
+            if pool_ref:
+                member['pool_ref'] = pool_ref
+        avi_config['PoolGroup'].append(pool_group)
+        LOG.info("Same pool group reference to other object. Clone Pool group %s for %s" % (pg_name, prefix))
+        return pool_group['name']
+    return None

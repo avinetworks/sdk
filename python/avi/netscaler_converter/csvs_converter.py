@@ -4,6 +4,7 @@ import re
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.lbvs_converter import Redirect_Pools, used_pool_ref
 from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
+from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
 
@@ -34,17 +35,18 @@ class CsvsConverter(object):
     ignore_vals = {'Listenpolicy': 'None'}
 
     def convert(self, ns_config, avi_config, vs_state):
+        policy_converter = PolicyConverter()
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
-        policy_lables = ns_config.get('bind cs policylabel', {})
-        policy_config = ns_config.get('add cs policy', {})
-        responder_policy_config = ns_config.get('add responder policy', {})
-        rewrite_policy_config = ns_config.get('add rewrite policy', {})
-        responder_action_config = ns_config.get('add responder action', {})
-        rewrite_action_config = ns_config.get('add rewrite action', {})
-
-        bind_patset = ns_config.get('bind policy patset', {})
-        patset_config = ns_config.get('add policy patset', {})
+        # policy_lables = ns_config.get('bind cs policylabel', {})
+        # policy_config = ns_config.get('add cs policy', {})
+        # responder_policy_config = ns_config.get('add responder policy', {})
+        # rewrite_policy_config = ns_config.get('add rewrite policy', {})
+        # responder_action_config = ns_config.get('add responder action', {})
+        # rewrite_action_config = ns_config.get('add rewrite action', {})
+        #
+        # bind_patset = ns_config.get('bind policy patset', {})
+        # patset_config = ns_config.get('add policy patset', {})
         lb_config = ns_config.get('bind lb vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
@@ -133,87 +135,91 @@ class CsvsConverter(object):
             cs_vs_policies = []
             default_pool = None
             policy_name = ''
+            # for bind_conf in bind_conf_list:
+            #     b_cmd = 'bind cs vserver'
+            #     full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
+            #     found = False
+            #     if len(bind_conf['attrs']) > 1:
+            #         lbvs_bindings.append(bind_conf['attrs'][1])
+            #         found = True
+            #
+            #     if 'policylabel' in bind_conf:
+            #         policyLabelName = bind_conf['policylabel']
+            #         if policyLabelName in policy_lables.keys():
+            #             policyLabels = policy_lables[policyLabelName]
+            #             if isinstance(policyLabels, dict):
+            #                 policyLabels = [policyLabels]
+            #             targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
+            #             if targetVserver:
+            #                 pl_cmd = "bind cs policylabel : %s" % policyLabelName
+            #                 if 'policyName' in bind_conf:
+            #                     policy_name = bind_conf['policyName']
+            #                     lbvs_bindings.append(targetVserver)
+            #                     found = True
+            #                     policy = policy_config[policy_name]
+            #                     policy = copy.deepcopy(policy)
+            #                     policy['targetLBVserver'] = targetVserver
+            #                     cs_vs_policies.append(policy)
+            #                     LOG.info('Conversion successful : %s' % pl_cmd)
+            #
+            #     if 'policyName' in bind_conf:
+            #         policy_name = bind_conf['policyName']
+            #         c_policy = policy_config.get(policy_name, None)
+            #         rewrite_policy = rewrite_policy_config.get(policy_name, None)
+            #         responder_policy = responder_policy_config.get(policy_name, None)
+            #
+            #         if c_policy and bind_conf.get('targetLBVserver', None):
+            #             lbvs_bindings.append(bind_conf['targetLBVserver'])
+            #             found = True
+            #             policy = policy_config[policy_name]
+            #             policy = copy.deepcopy(policy)
+            #             policy['policy_type'] = 'cs_policy'
+            #             policy['targetLBVserver'] = bind_conf['targetLBVserver']
+            #             if bind_conf.get('priority', None):
+            #                 policy['priority'] = bind_conf.get('priority')
+            #             cs_vs_policies.append(policy)
+            #
+            #         elif rewrite_policy:
+            #             policy = rewrite_policy_config[policy_name]
+            #             policy = copy.deepcopy(policy)
+            #             policy['policy_type'] = 'rewrite_policy'
+            #             if bind_conf.get('priority', None):
+            #                 policy['priority'] = bind_conf.get('priority')
+            #
+            #             cs_vs_policies.append(policy)
+            #
+            #         elif responder_policy:
+            #             policy = responder_policy_config[policy_name]
+            #             policy = copy.deepcopy(policy)
+            #             policy['policy_type'] = 'responder_policy'
+            #             if bind_conf.get('priority', None):
+            #                 policy['priority'] = bind_conf.get('priority')
+            #             cs_vs_policies.append(policy)
+            #
+            found = False
             for bind_conf in bind_conf_list:
                 b_cmd = 'bind cs vserver'
-                full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
-                found = False
-                if len(bind_conf['attrs']) > 1:
-                    lbvs_bindings.append(bind_conf['attrs'][1])
-                    found = True
-
-                if 'policylabel' in bind_conf:
-                    policyLabelName = bind_conf['policylabel']
-                    if policyLabelName in policy_lables.keys():
-                        policyLabels = policy_lables[policyLabelName]
-                        if isinstance(policyLabels, dict):
-                            policyLabels = [policyLabels]
-                        targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
-                        if targetVserver:
-                            pl_cmd = "bind cs policylabel : %s" % policyLabelName
-                            if 'policyName' in bind_conf:
-                                policy_name = bind_conf['policyName']
-                                lbvs_bindings.append(targetVserver)
-                                found = True
-                                policy = policy_config[policy_name]
-                                policy = copy.deepcopy(policy)
-                                policy['targetLBVserver'] = targetVserver
-                                cs_vs_policies.append(policy)
-                                LOG.info('Conversion successful : %s' % pl_cmd)
-
-                if 'policyName' in bind_conf:
-                    policy_name = bind_conf['policyName']
-                    c_policy = policy_config.get(policy_name, None)
-                    rewrite_policy = rewrite_policy_config.get(policy_name, None)
-                    responder_policy = responder_policy_config.get(policy_name, None)
-
-                    if c_policy and bind_conf.get('targetLBVserver', None):
-                        lbvs_bindings.append(bind_conf['targetLBVserver'])
-                        found = True
-                        policy = policy_config[policy_name]
-                        policy = copy.deepcopy(policy)
-                        policy['policy_type'] = 'cs_policy'
-                        policy['targetLBVserver'] = bind_conf['targetLBVserver']
-                        if bind_conf.get('priority', None):
-                            policy['priority'] = bind_conf.get('priority')
-                        cs_vs_policies.append(policy)
-
-                    elif rewrite_policy:
-                        policy = rewrite_policy_config[policy_name]
-                        policy = copy.deepcopy(policy)
-                        policy['policy_type'] = 'rewrite_policy'
-                        if bind_conf.get('priority', None):
-                            policy['priority'] = bind_conf.get('priority')
-
-                        cs_vs_policies.append(policy)
-
-                    elif responder_policy:
-                        policy = responder_policy_config[policy_name]
-                        policy = copy.deepcopy(policy)
-                        policy['policy_type'] = 'responder_policy'
-                        if bind_conf.get('priority', None):
-                            policy['priority'] = bind_conf.get('priority')
-                        cs_vs_policies.append(policy)
-
+                b_full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     default_pool = bind_conf['lbvserver']
                     found = True
-                if 'invoke' in bind_conf:
-                    parts = bind_conf['invoke'].split(' ')
-                    if parts[0] != 'policylabel' or len(parts) < 2:
-                        continue
-                    before_len = size = len(lbvs_bindings)
-                    self.get_target_vs_from_policy(policy_lables, parts[1],
-                                                   lbvs_bindings)
-                    if len(lbvs_bindings) > before_len:
-                        found = True
+                # if 'invoke' in bind_conf:
+                #     parts = bind_conf['invoke'].split(' ')
+                #     if parts[0] != 'policylabel' or len(parts) < 2:
+                #         continue
+                #     before_len = size = len(lbvs_bindings)
+                #     self.get_target_vs_from_policy(policy_lables, parts[1],
+                #                                    lbvs_bindings)
+                #     if len(lbvs_bindings) > before_len:
+                #         found = True
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, [], [])
                 if found:
 
-                    ns_util.add_conv_status(b_cmd, vs_name, full_cmd, conv_status, vs_obj)
+                    ns_util.add_conv_status(b_cmd, vs_name, b_full_cmd, conv_status, vs_obj)
                 else:
-                    ns_util.add_status_row(b_cmd, vs_name, full_cmd, STATUS_SKIPPED)
+                    ns_util.add_status_row(b_cmd, vs_name, b_full_cmd, STATUS_SKIPPED)
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -231,32 +237,46 @@ class CsvsConverter(object):
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_ref', None)
 
-            if cs_vs_policies:
-                new_rule_index, policy = ns_util.policy_converter(cs_vs_policies, rule_index, bind_patset,
-                                                                  patset_config, avi_config, rewrite_action_config,
-                                                                  responder_action_config, tmp_pool_ref, Redirect_Pools,
-                                                                  self.skip_attrs, self.na_attrs, b_cmd)
-                if policy:
-                    if policy['name'] in tmp_policy_ref:
-                        ns_util.clone_http_policy_set(policy, avi_config)
-                    tmp_policy_ref.append(policy['name'])
-                    http_policies = {
-                        'index': 11,
-                        'http_policy_set_ref': policy['name']
-                    }
-                    vs_obj['http_policies'] = []
-                    vs_obj['http_policies'].append(http_policies)
-                    avi_config['HTTPPolicySet'].append(policy)
-                    rule_index = new_rule_index
+            policy = policy_converter.convert(bind_conf_list, ns_config, avi_config, tmp_pool_ref, Redirect_Pools,
+                                              self.skip_attrs, self.na_attrs, 'bind cs vserver')
 
-            if default_pool and default_pool in lb_config:
-                pool_ref = '%s-pool' % default_pool
+            # if cs_vs_policies:
+            #     new_rule_index, policy = ns_util.policy_converter(cs_vs_policies, rule_index, bind_patset,
+            #                                                       patset_config, avi_config, rewrite_action_config,
+            #                                                       responder_action_config, tmp_pool_ref, Redirect_Pools,
+            #                                                       self.skip_attrs, self.na_attrs, b_cmd)
+            #     if policy:
+            #         if policy['name'] in tmp_policy_ref:
+            #             ns_util.clone_http_policy_set(policy, avi_config)
+            #         tmp_policy_ref.append(policy['name'])
+            #         http_policies = {
+            #             'index': 11,
+            #             'http_policy_set_ref': policy['name']
+            #         }
+            #         vs_obj['http_policies'] = []
+            #         vs_obj['http_policies'].append(http_policies)
+            #         avi_config['HTTPPolicySet'].append(policy)
+                    # rule_index = new_rule_index
+            if policy:
+                if policy['name'] in tmp_policy_ref:
+                    ns_util.clone_http_policy_set(policy, avi_config)
+                tmp_policy_ref.append(policy['name'])
+                http_policies = {
+                    'index': 11,
+                    'http_policy_set_ref': policy['name']
+                }
+                vs_obj['http_policies'] = []
+                vs_obj['http_policies'].append(http_policies)
+                avi_config['HTTPPolicySet'].append(policy)
+
+            if default_pool:
+                pool_ref = '%s-poolgroup' % default_pool
                 updated_pool_ref = re.sub('[:]', '-', pool_ref)
-                pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == updated_pool_ref]
+                pools = [pg['name'] for pg in avi_config['PoolGroup'] if pg['name'] == updated_pool_ref]
                 if pools:
                     if updated_pool_ref in tmp_pool_ref:
-                        updated_pool_ref = ns_util.clone_pool(updated_pool_ref, vs_name, avi_config)
-                    vs_obj['pool_ref'] = updated_pool_ref
+                        updated_pool_ref = ns_util.clone_pool_group(updated_pool_ref, vs_name, avi_config)
+                    vs_obj['pool_group_ref'] = updated_pool_ref
                     tmp_pool_ref.append(updated_pool_ref)
             is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
             if is_shared:

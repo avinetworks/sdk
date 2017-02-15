@@ -95,8 +95,11 @@ class ProfileConverter(object):
 
             ssl_profile_name = mapping.get('sslProfile')
             ssl_profile = ssl_profiles.get(ssl_profile_name, None)
+            ssl_mapping_data = ssl_mappings.get(key,[])
+            if isinstance(ssl_mapping_data, dict):
+                ssl_mapping_data = [ssl_mapping_data]
 
-            obj = self.get_key_cert(ssl_mappings.get(key,[]), ssl_key_and_cert,
+            obj = self.get_key_cert(ssl_mapping_data, ssl_key_and_cert,
                                     input_dir, None, ns_config)
             if obj.get('accepted_ciphers', None) and ssl_profile:
                 avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
