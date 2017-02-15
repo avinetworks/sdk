@@ -1,0 +1,12 @@
+Pool:
+  - match_name: p1
+    patch:
+      name: coolpool
+      cloud_ref: /api/cloud/?name=AWS
+
+  - match_regex_name: "*cicd*"
+    patch:
+      enabled: False
+      tenant_ref: /api/tenant/?name=awesome
+
+
