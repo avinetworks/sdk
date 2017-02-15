@@ -31,71 +31,92 @@ class ServiceConverter(object):
         groups = ns_config.get('bind lb vserver', {})
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['Pool'] = []
+        avi_config['PoolGroup'] = []
         b_cmd = 'bind lb vserver'
-        for group_key in groups.keys():
 
+        for group_key in groups.keys():
             try:
-                conv_status = []
-                group = groups.get(group_key)
-                if isinstance(group, list):
-                    group = group[0]
-                full_cmd = ns_util.get_netscalar_full_command(b_cmd, group)
-                name = '%s-pool' % group_key
-                updated_pool_name = re.sub('[:]', '-', name)
                 if not group_key:
                     ns_util.add_status_row(b_cmd, group_key,full_cmd, STATUS_SKIPPED)
                     LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
                     continue
-                server_list = self.get_servers(ns_config, group, conv_status)
-                servers = [server for index, server in enumerate(server_list) if server not in server_list[index + 1:]]
 
-                if not servers:
-                    ns_util.add_status_row(b_cmd, group_key, full_cmd, STATUS_SKIPPED)
-                    LOG.warning('Error: No Servers found. Skipped pool : %s' % group_key)
-                    continue
+                conv_status = []
+                group = groups.get(group_key)
+                if isinstance(group, dict):
+                    group = [group]
+                pools = []
                 lb_vs = lb_vs_conf.get(group_key)
 
                 if not lb_vs:
                     ns_util.add_status_row(b_cmd, group_key, full_cmd, STATUS_SKIPPED)
-                    LOG.warning('Skipped: No bind lb vserver found. Skipped pool %s' % group_key)
+                    LOG.warning('Skipped: No add lb vserver found. Skipped pool %s' % group_key)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
-                pool_obj = \
-                    {
-                        "name": updated_pool_name,
-                        "servers": servers,
-                        "lb_algorithm": algo
+                pg_members = []
+                for element in group:
+                    full_cmd = ns_util.get_netscalar_full_command(b_cmd, element)
+                    services = self.get_servers_and_thier_health_monitor(ns_config, element, conv_status)
+                    conv_status = ns_util.get_conv_status(element, self.bind_lb_skipped, [], [])
+                    if services:
+                        for service in services:
+                            pool_name = '%s-%s-pool' % (group_key, service['name'])
+                            pool_obj = {
+                                'name': pool_name,
+                                'servers': service['server']['ip'],
+                                'lb_algorithm': algo,
+                                'health_monitor_refs': []
+                            }
+                            if service.get('health_monitor', None):
+                                pool_obj['health_monitor_refs'].append(service.get('health_monitor'))
+                            avi_config['Pool'].append(pool_obj)
+                            LOG.info('Conversion successful : %s %s' % (b_cmd, pool_name))
+                            ns_util.add_conv_status(b_cmd, group_key, full_cmd, conv_status, pool_obj)
+                            pools.append(pool_obj)
+                            pg_members.append({'pool_ref': pool_name})
+                    else:
+                        ns_util.add_status_row(b_cmd, group_key, full_cmd, STATUS_SKIPPED)
+
+
+
+                pg_name = group_key + '-poolgroup'
+                if pg_members:
+                    pool_group = {
+                        'name': pg_name,
+                        'members': pg_members
                     }
-
-                monitor_names = self.get_monitors(ns_config, group)
-                avi_monitors = avi_config["HealthMonitor"]
-                hm_monitors = []
-                for ref in monitor_names:
-                    refs = [mon for mon in avi_monitors
-                            if mon['name'] == ref]
-                    if refs:
-                        hm_monitors.append(refs[0])
-
-                monitors = ns_util.remove_duplicate_objects('Health Monitor', hm_monitors)
-
-                monitor_refs = [mon["name"] for mon in monitors]
-                monitor_refs = list(set(monitor_refs))
-
-                if len(monitor_refs) > 6:
-                    pool_obj["health_monitor_refs"] = monitor_refs[0:6]
-                    LOG.warning('Ignore the Health monitor references, its count is beyond 6 for pool : %s' % name)
-                else:
-                    pool_obj["health_monitor_refs"] = monitor_refs
-
-                avi_config['Pool'].append(pool_obj)
-
-                conv_status = ns_util.get_conv_status(group, self.bind_lb_skipped, [], [])
-                ns_util.add_conv_status(b_cmd, group_key, full_cmd, conv_status, pool_obj)
-
-            except:
+                    avi_config['PoolGroup'].append(pool_group)
+            except Exception as e:
+                print e
                 LOG.error('Error in bind lb vserver conversion bound to: %s' %
                           group_key, exc_info=True)
+
+
+    def get_servers_and_thier_health_monitor(self, ns_config, group, conv_status):
+        servers = []
+        ns_services = ns_config.get('add service', {})
+        ns_service_group = ns_config.get('bind serviceGroup', {})
+        ns_servers = ns_config.get('add server', {})
+        ns_dns = ns_config.get('add dns addRec', {})
+        ns_service = None
+        ns_sg = None
+        if len(group.get('attrs', [])) > 1:
+            ns_service = ns_services.get(group['attrs'][1], None)
+        if not ns_service and len(group['attrs']) > 1:
+            ns_sg = ns_service_group.get(group['attrs'][1], None)
+        if not ns_sg and not ns_service:
+            return None
+        if ns_sg:
+            servers += self.convert_ns_service_group(
+                ns_sg, ns_servers, ns_dns, conv_status)
+        else:
+            servers += self.convert_ns_service(
+                ns_service, ns_servers, ns_dns, conv_status)
+
+
+        return servers
+
 
     def get_servers(self, ns_config, group, conv_status):
         servers = []
@@ -103,6 +124,7 @@ class ServiceConverter(object):
         ns_service_group = ns_config.get('bind serviceGroup', {})
         ns_servers = ns_config.get('add server', {})
         ns_dns = ns_config.get('add dns addRec', {})
+        ns_service_binding = ns_config.get('bind service', {})
         ns_sg = None
         if isinstance(group, dict):
             group = [group]
@@ -198,19 +220,23 @@ class ServiceConverter(object):
                 ip_addr = ns_dns[ip_addr]['attrs'][1]
 
         matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
+
         server_obj = {
-            'ip': {
-                'addr': ip_addr,
-                'type': 'V4'
+            'server': {
+                'ip': {
+                    'addr': ip_addr,
+                    'type': 'V4'
+                },
+                'port': port,
+                'enabled': enabled
             },
-            'port': port,
-            'enabled': enabled
+            'name': attrs[0]
         }
+
         if not matches:
             ns_util.add_status_row(cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
             LOG.warning('Not found IP of server : %s' % full_cmd)
             return []
-
 
         ns_util.add_conv_status(cmd, server['attrs'][0], full_cmd, status, server_obj)
         return [server_obj]
@@ -240,7 +266,6 @@ class ServiceConverter(object):
             full_cmd = ns_util.get_netscalar_full_command(cmd, server)
             status = ns_util.get_conv_status(server, self.server_skip,
                                              [], [])
-
             ip_addr = server['attrs'][1]
             if ip_addr in ns_dns:
                 if isinstance(ns_dns[ip_addr], list):
@@ -256,12 +281,16 @@ class ServiceConverter(object):
                 port = "1"
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
-                'ip': {
-                    'addr': ip_addr,
-                    'type': 'V4'
+                'server': {
+                    'ip': {
+                        'addr': ip_addr,
+                        'type': 'V4'
+                    },
+                    'port': port,
+                    'enabled': enabled
                 },
-                'port': port,
-                'enabled': enabled
+                'name': server['attrs'][0],
+                'health_monitor': server_binding.get('monitorName')
             }
             if not matches:
                 ns_util.add_status_row(cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
