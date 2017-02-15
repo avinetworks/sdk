@@ -127,7 +127,7 @@ class ConfigPatch(object):
             cloud = (self.param_value_in_ref(obj.get('cloud_ref'), 'name')
                      if 'cloud_ref' in obj else '')
             if cloud:
-                new_obj_ref = '%s&cloud=%s' % (new_obj_ref, cloud)
+                new_obj_ref += '&cloud=%s' % cloud
             # this is to handle old references could be in multiple formats
             for old_obj_ref in old_obj_refs:
                 self.update_references(
