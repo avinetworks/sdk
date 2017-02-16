@@ -517,7 +517,7 @@ class PolicyConverter(object):
                 LOG.warning('No Matches found for %s' % query)
                 return None
             for element in matches:
-                match = re.sub('[\\\/]', '', element)
+                element = re.sub('[\\\/]', '', element)
                 match["path"]["match_str"].append(element)
 
         elif 'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():

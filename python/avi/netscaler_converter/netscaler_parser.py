@@ -1,7 +1,7 @@
 import logging
 from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
-                       Word, originalTextFor, Optional, ZeroOrMore, Group,
-                       restOfLine, quotedString, LineStart, OneOrMore)
+                       Word, originalTextFor, Optional, ZeroOrMore, Group, SkipTo,
+                       restOfLine, quotedString, LineStart, OneOrMore, Keyword)
 import avi.netscaler_converter.ns_util as ns_util
 import avi.netscaler_converter.ns_constants as ns_constant
 
@@ -23,9 +23,9 @@ def parse_config_file(filepath):
         lambda t: t[0].replace('-', '', 1))
     val = originalTextFor(Optional(ZeroOrMore(text), default=None))
     option = Group(key + val)
-    multi_word_names = quotedString.setParseAction(
-        lambda t: t[0].replace(' ', '_').replace('"', ''))
-    command = Group(OneOrMore(multi_word_names | text) + ZeroOrMore(option))
+    multi_word_names = quotedString
+    q_obj = originalTextFor(Keyword('q{')+SkipTo(Keyword("}")))
+    command = Group(OneOrMore(q_obj | multi_word_names | text) + ZeroOrMore(option))
     command.ignore(comment | blank_line)
     with open(filepath) as infile:
         for line in infile:
@@ -97,7 +97,7 @@ def get_ns_conf_dict(filepath):
 
     return netscaler_conf, skipped_cmds
 
-# if __name__ == "__main__":
-#     ns_conf, skipped_cmds = get_ns_conf_dict(
-#         "D:\\avi\\NetscalerConverter\\test.conf")
-#     print ns_conf
+if __name__ == "__main__":
+    ns_conf, skipped_cmds = get_ns_conf_dict(
+        "C:\\avi\\NetscalerConverter\\test.conf")
+    print ns_conf
