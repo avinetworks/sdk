@@ -336,7 +336,7 @@ class PolicyConverter(object):
             a, b = query.split("==")
             b = b.strip()
             match_str = b.strip("\\'")
-            if match_str:
+            if not match_str:
                 LOG.warning('No Matches found for %s' % query)
                 return None
             match = {"path": path_query}
