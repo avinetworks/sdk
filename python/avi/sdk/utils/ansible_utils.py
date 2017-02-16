@@ -251,7 +251,10 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             module.params['password'],
             tenant=module.params['tenant'])
     state = module.params['state']
-    name = module.params['name']
+    name = module.params.get('name', None)
+    obj_path = None
+    if name is None:
+        obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
     obj.pop('state', None)
     obj.pop('controller', None)
@@ -277,16 +280,24 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     log.info('passed object %s ', obj)
     if state == 'absent':
         try:
-            rsp = api.delete_by_name(
-                obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid)
+            if name is not None:
+                rsp = api.delete_by_name(
+                    obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid)
+            else:
+                rsp = api.delete(obj_path, tenant=tenant,
+                                 tenant_uuid=tenant_uuid)
         except ObjectNotFound:
             return module.exit_json(changed=False)
         if rsp.status_code == 204:
             return module.exit_json(changed=True)
         return module.fail_json(msg=rsp.text)
-    existing_obj = api.get_object_by_name(
-        obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
-        params={'include_refs': '', 'include_name': ''})
+    if name is not None:
+        existing_obj = api.get_object_by_name(
+            obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
+            params={'include_refs': '', 'include_name': ''})
+    else:
+        existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+            params={'include_refs': '', 'include_name': ''}).json()
     changed = False
     rsp = None
     req = None
@@ -297,9 +308,11 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
         cleanup_absent_fields(obj)
         if changed:
-            obj_uuid = existing_obj['uuid']
+            if name is not None:
+                obj_uuid = existing_obj['uuid']
+                obj_path = '%s/%s' % (obj_type, obj_uuid)
             req = obj
-            rsp = api.put('%s/%s' % (obj_type, obj_uuid), data=req,
+            rsp = api.put(obj_path, data=req,
                           tenant=tenant, tenant_uuid=tenant_uuid)
     else:
         changed = True
