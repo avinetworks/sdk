@@ -55,13 +55,15 @@ class PolicyConverter(object):
             'enable': 'false',
         }
 
+
+
         is_policy_obj = False
         rule_index = 0
-
+        vs_policy_name = ''
         for bind_conf in bind_conf_list:
+            policy_name = ''
             bind_lb_netscalar_complete_command = ns_util.\
                 get_netscalar_full_command(netscalar_command, bind_conf)
-            policy_name = None
             targetVserver = None
             if 'policylabel' in bind_conf:
                 policyLabelName = bind_conf['policylabel']
@@ -122,8 +124,10 @@ class PolicyConverter(object):
                                                    targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 http_request_policy['rules'].append(rule)
+                vs_policy_name += policy_name
             elif rule and policy_type in ['policy_expression']:
                 http_security_policy['rules'].append(rule)
+                vs_policy_name += policy_name
             else:
                 LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
                 ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0],
@@ -136,6 +140,7 @@ class PolicyConverter(object):
             policy_obj['http_request_policy'] = http_security_policy
             is_policy_obj = True
         if is_policy_obj:
+            policy_obj['name'] = vs_policy_name
             return policy_obj
 
 
