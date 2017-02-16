@@ -213,12 +213,12 @@ class CsvsConverter(object):
                 #                                    lbvs_bindings)
                 #     if len(lbvs_bindings) > before_len:
                 #         found = True
-                conv_status = ns_util.get_conv_status(
+            conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, [], [])
-                if found:
-                    ns_util.add_conv_status(b_cmd, vs_name, b_full_cmd, conv_status, vs_obj)
-                else:
-                    ns_util.add_status_row(b_cmd, vs_name, b_full_cmd, STATUS_SKIPPED)
+            if found:
+                ns_util.add_conv_status(b_cmd, vs_name, b_full_cmd, conv_status, vs_obj)
+            else:
+                ns_util.add_status_row(b_cmd, vs_name, b_full_cmd, STATUS_SKIPPED)
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
