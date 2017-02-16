@@ -129,7 +129,7 @@ class PolicyConverter(object):
                 http_security_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             else:
-                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                LOG.warning('Skipped: Not Supported policy %s' % bind_lb_netscalar_complete_command)
                 ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command, STATUS_SKIPPED)
                 continue
