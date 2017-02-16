@@ -72,8 +72,7 @@ class PolicyConverter(object):
                     targetVserver = self.\
                         get_targetvserver_policylabel(policyLabels,
                                                       policy_lables)
-                    policy_label_netscalar_command = "bind cs policylabel" % \
-                                                     policyLabelName
+                    policy_label_netscalar_command = "bind cs policylabel"
                     policy_label_netscalar_full_command = ns_util.\
                         get_netscalar_full_command(policy_label_netscalar_command,
                                                    policyLabels[0])
@@ -517,7 +516,7 @@ class PolicyConverter(object):
                 LOG.warning('No Matches found for %s' % query)
                 return None
             for element in matches:
-                match = re.sub('[\\\/]', '', element)
+                element = re.sub('[\\\/]', '', element)
                 match["path"]["match_str"].append(element)
 
         elif 'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():
@@ -881,8 +880,10 @@ class PolicyConverter(object):
                                    policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'respondwith':
             policy_rule = copy.deepcopy(policy_rules)
-
-            if policy_action['attrs'][3] == '301':
+            attrs = policy_action['attrs'][2].split(' ')
+            if attrs[0].startswith('q{'):
+                return
+            if attrs[1] == '301':
                 redirect_action = {
                     'port': 80,
                     'protocol': 'HTTP',
@@ -893,7 +894,7 @@ class PolicyConverter(object):
                         'type': 'URI_PARAM_TYPE_TOKENIZED',
                         'tokens': [{
                             'type': 'URI_TOKEN_TYPE_STRING',
-                            'str_value': policy_action['attrs'][6]
+                            'str_value': attrs[4]
                         }]
                     },
                     'query': {

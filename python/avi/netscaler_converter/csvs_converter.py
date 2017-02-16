@@ -234,7 +234,7 @@ class CsvsConverter(object):
                 lb_vs_obj = copy.deepcopy(lb_vs_obj)
                 lb_vs_obj.update(vs_obj)
                 vs_obj = lb_vs_obj
-            vs_obj.pop('pool_ref', None)
+            vs_obj.pop('pool_group_ref', None)
 
             policy = policy_converter.convert(bind_conf_list, ns_config, avi_config, tmp_pool_ref, Redirect_Pools,
                                               self.skip_attrs, self.na_attrs, 'bind cs vserver')

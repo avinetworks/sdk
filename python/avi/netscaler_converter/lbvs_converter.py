@@ -3,6 +3,7 @@ import re
 
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
+from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
 Redirect_Pools = []
@@ -30,11 +31,17 @@ class LbvsConverter(object):
 
     def convert(self, ns_config, avi_config, vs_state):
         lb_vs_conf = ns_config.get('add lb vserver', {})
+        bind_lb_vs_config = ns_config.get('add lb vserver', {})
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
                            'SSL_TCP', 'DNS', 'DNS_TCP']
+
+
+
+        policy_converter = PolicyConverter()
+        tmp_policy_ref = []
         for key in lb_vs_conf.keys():
             try:
                 LOG.debug('LB VS conversion started for: %s' % key)
@@ -93,6 +100,26 @@ class LbvsConverter(object):
                     'enabled': enabled,
                     'services': [],
                     }
+                bind_conf_list = bind_lb_vs_config.get(key, None)
+                if not bind_conf_list:
+                    continue
+                if isinstance(bind_conf_list, dict):
+                    bind_conf_list = [bind_conf_list]
+
+                policy = policy_converter.convert(bind_conf_list, ns_config, avi_config, [], Redirect_Pools,
+                                                  self.skip_attrs, self.na_attrs, 'bind lb vserver')
+
+                if policy:
+                    if policy['name'] in tmp_policy_ref:
+                        ns_util.clone_http_policy_set(policy, avi_config)
+                    tmp_policy_ref.append(policy['name'])
+                    http_policies = {
+                        'index': 11,
+                        'http_policy_set_ref': policy['name']
+                    }
+                    vs_obj['http_policies'] = []
+                    vs_obj['http_policies'].append(http_policies)
+                    avi_config['HTTPPolicySet'].append(policy)
 
                 if app_profile:
                     vs_obj['application_profile_ref'] = app_profile
@@ -111,8 +138,8 @@ class LbvsConverter(object):
                     if pool_group_ref in used_pool_group_ref:
                         pool_group_ref = ns_util.clone_pool_group(pool_group_ref, vs_name, avi_config)
                         pool_group_ref = re.sub('[:]', '-', pool_group_ref)
-                        used_pool_group_ref.append(updated_pool_ref)
-                        updated_pool_group = [pg for pg in avi_config.get('PoolGroup', []) if pg['name'] == updated_pool_ref]
+                        used_pool_group_ref.append(pool_group_ref)
+                        updated_pool_group = [pg for pg in avi_config.get('PoolGroup', []) if pg['name'] == pool_group_ref]
 
                     vs_obj['pool_group_ref'] = pool_group_ref
                     pool_group = updated_pool_group[0]
