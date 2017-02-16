@@ -73,7 +73,7 @@ class ServiceConverter(object):
                         conv_status = ns_util.get_conv_status(element, self.bind_lb_skipped, [], [])
                         ns_util.add_conv_status(netscalar_cmd, element['attrs'][0], full_cmd, conv_status, pool[0])
                     else:
-                        LOG.warning('Skipped : %s' % element['attrs'][0])
+                        LOG.warning('Skipped :Pool is not created %s' % element['attrs'][0])
                         ns_util.add_status_row(netscalar_cmd, element['attrs'][0], full_cmd, STATUS_SKIPPED)
 
                 pg_name = group_key + '-poolgroup'
@@ -112,7 +112,7 @@ class ServiceConverter(object):
             service_netscalar_full_command = ns_util.get_netscalar_full_command(service_command, service)
             server = self.convert_ns_service(service, ns_servers, ns_dns)
             if not server:
-                LOG.warning('Skipped: %s' % service_netscalar_full_command)
+                LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
                 ns_util.add_status_row(service_command, service_name, service_netscalar_full_command, STATUS_SKIPPED)
 
             pool_obj = {
@@ -136,8 +136,9 @@ class ServiceConverter(object):
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
             servers, monitor_ref = self.convert_ns_service_group(bind_groups, ns_servers, ns_dns)
             if not servers:
-                LOG.warning('Skipped: %s' % service_netscalar_full_command)
+                LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
                 ns_util.add_status_row(service_group_command, service_group_name, service_group_netscalar_full_command, STATUS_SKIPPED)
+                continue
 
             pool_obj = {
                 'name': service_group_name + '-pool',
