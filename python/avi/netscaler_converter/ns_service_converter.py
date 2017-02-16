@@ -69,9 +69,11 @@ class ServiceConverter(object):
                         pool[0]['lb_algorithm'] = algo
                         pg_members.append({'pool_ref': pool_name})
                         used_pool_ref.append(pool_name)
+                        LOG.info('Conversion successful : %s' % element['attrs'][0])
                         conv_status = ns_util.get_conv_status(element, self.bind_lb_skipped, [], [])
                         ns_util.add_conv_status(netscalar_cmd, element['attrs'][0], full_cmd, conv_status, pool[0])
                     else:
+                        LOG.warning('Skipped : %s' % element['attrs'][0])
                         ns_util.add_status_row(netscalar_cmd, element['attrs'][0], full_cmd, STATUS_SKIPPED)
 
                 pg_name = group_key + '-poolgroup'
@@ -149,8 +151,6 @@ class ServiceConverter(object):
             conv_status = ns_util.get_conv_status(service_group, self.bind_lb_skipped, [], [])
             ns_util.add_conv_status(service_group_command, service_group_name, service_group_netscalar_full_command, conv_status,
                                     pool_obj)
-        self.convert(ns_config, avi_config)
-
 
     def get_service_montor(self, service_name, bind_ns_service):
         monitor_refs = []

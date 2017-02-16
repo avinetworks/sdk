@@ -33,7 +33,7 @@ def parse_config_file(filepath):
                 tmp = command.parseString(line)
                 result += tmp.asList()
             except Exception as exception:
-                LOG.error("Parsing error: %s \n%s" % (line, exception))
+                LOG.error("Parsing error: " + line)
         return result
 
 
