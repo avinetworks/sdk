@@ -216,7 +216,6 @@ class CsvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, [], [])
                 if found:
-
                     ns_util.add_conv_status(b_cmd, vs_name, b_full_cmd, conv_status, vs_obj)
                 else:
                     ns_util.add_status_row(b_cmd, vs_name, b_full_cmd, STATUS_SKIPPED)

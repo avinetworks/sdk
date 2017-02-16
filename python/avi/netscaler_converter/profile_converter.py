@@ -241,7 +241,7 @@ class ProfileConverter(object):
                     cert_str = ns_util.upload_file(
                         input_dir+os.path.sep+cert_file_name)
                 if not key_cert and not cert_str:
-                    LOG.warning('Skipped : %s %s' % (netscalar_cmd, key_cert['attrs'][0]))
+                    LOG.warning('Skipped : %s' % full_cmd)
                     ns_util.add_status_row(netscalar_cmd, key_cert['attrs'][0], full_cmd, STATUS_SKIPPED)
                 if key_str and cert_str:
                     cert = {"certificate": cert_str}
@@ -264,7 +264,7 @@ class ProfileConverter(object):
                 # output = avi_ssl_prof
             else:
                 ns_util.add_status_row(cmd, mapping['attrs'][0], full_cmd, STATUS_SKIPPED)
-                LOG.warning('Skipped : %s %s' % (cmd, mapping['attrs'][0]))
+                LOG.warning('Skipped : %s' % full_cmd)
                 continue
             conv_status = ns_util.get_conv_status(
                 mapping, self.bind_sslvs_skip, [], [])
