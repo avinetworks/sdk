@@ -2,13 +2,13 @@ import logging
 import copy
 import re
 from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.lbvs_converter import Redirect_Pools, used_pool_ref
+from avi.netscaler_converter.lbvs_converter import Redirect_Pools, used_pool_group_ref
 from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
 
-tmp_pool_ref = used_pool_ref
+tmp_pool_ref = used_pool_group_ref
 tmp_policy_ref = []
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
@@ -77,7 +77,7 @@ class CsvsConverter(object):
 
             enable_ssl = False
             if vs_state == 'enable':
-                enabled = (lb_vs.get('state', 'ENABLED') == 'ENABLED')
+                enabled = (cs_vs.get('state', 'ENABLED') == 'ENABLED')
             else:
                 enabled = False
 
