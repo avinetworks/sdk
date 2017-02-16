@@ -7,7 +7,7 @@ from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 LOG = logging.getLogger(__name__)
 Redirect_Pools = []
 tmp_avi_config = {}
-used_pool_ref = []
+used_pool_group_ref = []
 
 class LbvsConverter(object):
 
@@ -58,14 +58,13 @@ class LbvsConverter(object):
                 else:
                     enabled = False
 
-                pool_name = '%s-pool' % vs_name
-                pool_ref = None
-                pool_obj = [pool for pool in avi_config.get("Pool",[])
-                            if pool['name'] == pool_name]
-                if pool_obj:
-                    pool_ref = pool_name
+                pool_group_name = '%s-poolgroup' % vs_name
+                pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[])
+                            if pool_group['name'] == pool_group_name]
+                if pool_group:
+                    pool_group_ref = pool_group_name
                 else:
-                    LOG.warn('Pool not found in avi config for LB VS %s' % key)
+                    LOG.warning('Pool group not found in avi config for LB VS %s' % key)
 
                 redirect_url = lb_vs.get('redirectURL', None)
 
@@ -107,12 +106,17 @@ class LbvsConverter(object):
                     vs_obj['application_profile_ref'] = 'admin:System-L4-Application'
                     vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
 
-                if pool_ref:
-                    vs_obj['pool_ref'] = pool_ref
-                    updated_pool_ref = re.sub('[:]', '-', pool_ref)
-                    vs_obj['pool_ref'] = updated_pool_ref
-                    used_pool_ref.append(pool_ref)
-                updated_pool_ref = pool_ref
+                if pool_group:
+                    updated_pool_group = pool_group
+                    if pool_group_ref in used_pool_group_ref:
+                        pool_group_ref = ns_util.clone_pool_group(pool_group_ref, vs_name, avi_config)
+                        pool_group_ref = re.sub('[:]', '-', pool_group_ref)
+                        used_pool_group_ref.append(updated_pool_ref)
+                        updated_pool_group = [pg for pg in avi_config.get('PoolGroup', []) if pg['name'] == updated_pool_ref]
+
+                    vs_obj['pool_group_ref'] = pool_group_ref
+                    pool_group = updated_pool_group[0]
+
                 backup_server = lb_vs.get('backupVServer', None)
                 if redirect_url:
                     fail_action = {
@@ -124,22 +128,30 @@ class LbvsConverter(object):
                         },
                         "type": "FAIL_ACTION_HTTP_REDIRECT"
                     }
-                    if pool_obj:
-                        pool_obj[0]["fail_action"] = fail_action
-                        Redirect_Pools.append(pool_name)
+                    if pool_group:
+                        for member in pool_group['members']:
+                            pool_ref = member['pool_ref']
+                            pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
+                            if pool:
+                                pool[0]["fail_action"] = fail_action
+                                Redirect_Pools.append(pool_ref)
                 elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
-                    backup_pool_ref = backup_server + '-pool'
-                    if backup_pool_ref in used_pool_ref:
-                        backup_pool_ref = ns_util.clone_pool(pool_name,
-                                                             vs_name, avi_config)
-                        backup_pool = {
-                            'type': 'FAIL_ACTION_BACKUP_POOL',
-                            'backup_pool': {
-                                'backup_pool_uuid': backup_pool_ref
+                    backup_pool_group_ref = backup_server + '-poolgroup'
+                    backup_pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[]) if pool_group['name'] == backup_pool_group_ref]
+                    backup_pool_ref = backup_pool_group[0]['members'][0]['pool_ref']
+                    for index, pool_ref in enumerate(pool_group['members']):
+                        pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
+                        if pool:
+                            new_backup_pool_ref = ns_util.clone_pool(backup_pool_ref, index, avi_config)
+                            backup_pool = {
+                                'type': 'FAIL_ACTION_BACKUP_POOL',
+                                'backup_pool': {
+                                    'backup_pool_uuid': new_backup_pool_ref
+                                }
                             }
-                        }
-                        used_pool_ref
-                        pool_obj[0]['fail_action'] = backup_pool
+                            pool[0]['fail_action'] = backup_pool
+
+
                 elif ip_addr == "0.0.0.0" and not redirect_url and not backup_server:
                     ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
                     LOG.error('%s %s Skipped VS, Service point to %s server '
@@ -154,14 +166,14 @@ class LbvsConverter(object):
                 vs_obj['services'].append(service)
 
                 persistenceType = lb_vs.get('persistenceType','')
-                if pool_ref and persistenceType in self.supported_persist_types:
+                if pool_group_ref and persistenceType in self.supported_persist_types:
                     timeout = lb_vs.get('timeout', 2)
                     profile_name = '%s-persistance-profile' % vs_name
                     persist_profile = self.convert_persistance_prof(
                         persistenceType, timeout, profile_name)
                     avi_config['ApplicationPersistenceProfile'].append(
                         persist_profile)
-                    self.update_pool_for_persist(avi_config, updated_pool_ref,
+                    self.update_pool_for_persist(avi_config, pool_group,
                                                  profile_name)
                 elif not persistenceType == 'NONE':
                     LOG.warn('Persistance type %s not supported by Avi' %
@@ -248,13 +260,11 @@ class LbvsConverter(object):
             }
         return profile
 
-    def update_pool_for_persist(self, avi_config, pool_ref, profile_name):
-        pool_obj = [pool for pool in avi_config['Pool']
-                    if pool["name"] == pool_ref]
-        if not pool_obj:
-            LOG.error("Pool %s not found to add profile %s" %
-                      (pool_ref, profile_name))
-        pool_obj = pool_obj[0]
-        persist_ref_key = "application_persistence_profile_ref"
-        pool_obj[persist_ref_key] = profile_name
+    def update_pool_for_persist(self, avi_config, pool_group, profile_name):
+        for pool_ref in pool_group['members']:
+            pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref['pool_ref']]
+            if pool:
+                pool_obj = pool[0]
+                persist_ref_key = "application_persistence_profile_ref"
+                pool_obj[persist_ref_key] = profile_name
 
