@@ -72,8 +72,7 @@ class PolicyConverter(object):
                     targetVserver = self.\
                         get_targetvserver_policylabel(policyLabels,
                                                       policy_lables)
-                    policy_label_netscalar_command = "bind cs policylabel" % \
-                                                     policyLabelName
+                    policy_label_netscalar_command = "bind cs policylabel"
                     policy_label_netscalar_full_command = ns_util.\
                         get_netscalar_full_command(policy_label_netscalar_command,
                                                    policyLabels[0])
