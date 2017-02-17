@@ -167,13 +167,6 @@ class ServiceConverter(object):
 
     def convert_ns_service(self, ns_service, ns_servers, ns_dns):
         attrs = ns_service.get('attrs')
-
-        cmd = 'add service'
-        status = ns_util.get_conv_status(ns_service, self.service_skip,
-                                         self.service_na, [], self.skip_for_val)
-
-        full_cmd = ns_util.get_netscalar_full_command(cmd, ns_service)
-        ns_util.add_conv_status(cmd, attrs[0], full_cmd, status, ns_service)
         server = ns_servers.get(attrs[1])
         if not server:
             return []
