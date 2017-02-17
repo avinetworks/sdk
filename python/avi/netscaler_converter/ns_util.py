@@ -169,12 +169,16 @@ def get_key_cert_obj(name, key_file_name, cert_file_name, input_dir):
 
 def get_command_from_line(line):
     cmd = ''
+    line_no = 0
     for member in line:
+        if 'line_no' in member:
+            line_no = member[1]
+            continue
         if isinstance(member, str):
             cmd += ' %s' % member
         else:
             cmd += ' -%s' % ' '.join(member)
-    return cmd
+    return cmd, line_no
 
 
 def update_status_for_skipped(skipped_cmds):
@@ -183,6 +187,8 @@ def update_status_for_skipped(skipped_cmds):
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:
+        line_no = cmd['line_no']
+        cmd = cmd['cmd']
         cmd = cmd.strip()
         is_na = False
         is_id = False
