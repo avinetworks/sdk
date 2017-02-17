@@ -60,6 +60,25 @@ NotApplicableCommands:
 - 'bind vrID'
 - 'enable ns feature'
 - 'enable ns mode'
+- 'set lacp'
+- 'set rsskeytype'
+- 'set ns hostName'
+- 'add snmp community'
+- 'add snmp manager'
+- 'add snmp view'
+- 'add snmp group'
+- 'add snmp user'
+- 'add snmp trap'
+- 'set ns rpcNode'
+- 'add gslb site'
+- 'set lb parameter'
+- 'set cache parameter'
+- 'set aaa parameter'
+- 'set dns parameter'
+- 'set ns param'
+- 'set ptp'
+- 'set ip6TunnelParam'
+- 'set L3Param'
 
 IndirectCommands:
 - 'add cmp global'
@@ -71,6 +90,7 @@ IndirectCommands:
 - 'add HA node'
 - 'add vlan'
 - 'bind vlan'
+- 'link ssl certKey'
 
 
 
