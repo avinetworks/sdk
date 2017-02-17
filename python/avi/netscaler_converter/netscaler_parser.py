@@ -104,7 +104,7 @@ def get_ns_conf_dict(filepath):
 
     return netscaler_conf, skipped_cmds
 
-if __name__ == "__main__":
-    ns_conf, skipped_cmds = get_ns_conf_dict(
-        "C:\\avi\\NetscalerConverter\\test.conf")
-    print ns_conf
+# if __name__ == "__main__":
+#     ns_conf, skipped_cmds = get_ns_conf_dict(
+#         "C:\\avi\\NetscalerConverter\\test.conf")
+#     print ns_conf
