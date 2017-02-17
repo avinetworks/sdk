@@ -2,7 +2,8 @@ import logging
 import re
 
 from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+                                                  STATUS_INCOMPLETE_CONFIGURATION)
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
@@ -31,7 +32,7 @@ class LbvsConverter(object):
 
     def convert(self, ns_config, avi_config, vs_state):
         lb_vs_conf = ns_config.get('add lb vserver', {})
-        bind_lb_vs_config = ns_config.get('add lb vserver', {})
+        bind_lb_vs_config = ns_config.get('bind lb vserver', {})
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
@@ -51,7 +52,7 @@ class LbvsConverter(object):
                 full_cmd = ns_util.get_netscalar_full_command(cmd, lb_vs)
                 if type not in supported_types:
                     LOG.warning('Unsupported type %s of LB VS: %s' % (type, key))
-                    ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
                     continue
                 enable_ssl = False
                 if type in ['SSL', 'SSL_BRIDGE', 'SSL_TCP']:
@@ -72,6 +73,8 @@ class LbvsConverter(object):
                     pool_group_ref = pool_group_name
                 else:
                     LOG.warning('Pool group not found in avi config for LB VS %s' % key)
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd, STATUS_INCOMPLETE_CONFIGURATION)
+                    continue
 
                 redirect_url = lb_vs.get('redirectURL', None)
 
@@ -163,24 +166,28 @@ class LbvsConverter(object):
                                 pool[0]["fail_action"] = fail_action
                                 Redirect_Pools.append(pool_ref)
                 elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
-                    backup_pool_group_ref = backup_server + '-poolgroup'
-                    backup_pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[]) if pool_group['name'] == backup_pool_group_ref]
-                    backup_pool_ref = backup_pool_group[0]['members'][0]['pool_ref']
-                    for index, pool_ref in enumerate(pool_group['members']):
-                        pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
-                        if pool:
-                            new_backup_pool_ref = ns_util.clone_pool(backup_pool_ref, index, avi_config)
-                            backup_pool = {
-                                'type': 'FAIL_ACTION_BACKUP_POOL',
-                                'backup_pool': {
-                                    'backup_pool_uuid': new_backup_pool_ref
+                    try:
+                        backup_pool_group_ref = backup_server + '-poolgroup'
+                        backup_pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[]) if pool_group['name'] == backup_pool_group_ref]
+                        backup_pool_ref = backup_pool_group[0]['members'][0]['pool_ref']
+                        for index, pool_ref in enumerate(pool_group['members']):
+                            pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
+                            if pool:
+                                new_backup_pool_ref = ns_util.clone_pool(backup_pool_ref, index, avi_config)
+                                backup_pool = {
+                                    'type': 'FAIL_ACTION_BACKUP_POOL',
+                                    'backup_pool': {
+                                        'backup_pool_uuid': new_backup_pool_ref
+                                    }
                                 }
-                            }
-                            pool[0]['fail_action'] = backup_pool
-
+                                pool[0]['fail_action'] = backup_pool
+                    except Exception as e:
+                        LOG.error('No Backup pool found: %s' % full_cmd)
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
+                        continue
 
                 elif ip_addr == "0.0.0.0" and not redirect_url and not backup_server:
-                    ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
                     LOG.error('%s %s Skipped VS, Service point to %s server '
                               'and not have redirect action and backup vserver'
                               % (cmd, key, ip_addr))
@@ -217,7 +224,7 @@ class LbvsConverter(object):
                 else:
                     is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
                     if is_shared:
-                        ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
                         LOG.warning('Skipped: %s Same vip shares another '
                                     'virtual service' % vs_name)
                         continue
@@ -225,7 +232,7 @@ class LbvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list,
                     ignore_for_val=self.ignore_vals)
-                ns_util.add_conv_status(cmd, key, full_cmd, conv_status, vs_obj)
+                ns_util.add_conv_status(lb_vs['line_no'], cmd, key, full_cmd, conv_status, vs_obj)
 
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})

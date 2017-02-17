@@ -45,8 +45,8 @@ class MonitorConverter(object):
             ns_monitor = ns_monitors.get(name)
             full_cmd = ns_util.get_netscalar_full_command(netscalar_command, ns_monitor)
             mon_type = ns_monitor['attrs'][1]
-            if not mon_type in supported_types:
-                ns_util.add_status_row(netscalar_command, name, full_cmd, STATUS_EXTERNAL_MONITOR)
+            if mon_type not in supported_types:
+                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command, name, full_cmd, STATUS_EXTERNAL_MONITOR)
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (mon_type, name))
                 continue
@@ -55,7 +55,7 @@ class MonitorConverter(object):
                 continue
             conv_status = ns_util.get_conv_status(
                 ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list, ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(netscalar_command, name, full_cmd, conv_status, avi_monitor)
+            ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command, name, full_cmd, conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 

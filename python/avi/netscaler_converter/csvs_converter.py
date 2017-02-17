@@ -64,13 +64,13 @@ class CsvsConverter(object):
             if not cs_vs['attrs'][1] in self.supported_types:
                 LOG.warn('Unsupported type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
                 continue
             tt = cs_vs.get('targetType', None)
             if tt and tt == 'GSLB':
                 LOG.warn('Unsupported target type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
             vs_name = cs_vs['attrs'][0]
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
@@ -132,7 +132,6 @@ class CsvsConverter(object):
                 continue
             if isinstance(bind_conf_list, dict):
                 bind_conf_list = [bind_conf_list]
-            cs_vs_policies = []
             default_pool = None
             policy_name = ''
             # for bind_conf in bind_conf_list:
@@ -196,14 +195,12 @@ class CsvsConverter(object):
             #                 policy['priority'] = bind_conf.get('priority')
             #             cs_vs_policies.append(policy)
             #
-            found = False
             for bind_conf in bind_conf_list:
                 b_cmd = 'bind cs vserver'
                 b_full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     default_pool = bind_conf['lbvserver']
-                    found = True
                 # if 'invoke' in bind_conf:
                 #     parts = bind_conf['invoke'].split(' ')
                 #     if parts[0] != 'policylabel' or len(parts) < 2:
@@ -213,12 +210,6 @@ class CsvsConverter(object):
                 #                                    lbvs_bindings)
                 #     if len(lbvs_bindings) > before_len:
                 #         found = True
-            conv_status = ns_util.get_conv_status(
-                    bind_conf, self.bind_skipped, [], [])
-            if found:
-                ns_util.add_conv_status(b_cmd, vs_name, b_full_cmd, conv_status, vs_obj)
-            else:
-                ns_util.add_status_row(b_cmd, vs_name, b_full_cmd, STATUS_SKIPPED)
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -279,14 +270,14 @@ class CsvsConverter(object):
                     tmp_pool_ref.append(updated_pool_ref)
             is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
             if is_shared:
-                ns_util.add_status_row(cmd, key, full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
                 LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
                 continue
             cs_vs_list.append(vs_obj)
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(cmd, key, full_cmd, conv_status, vs_obj)
+            ns_util.add_conv_status(cs_vs['line_no'], cmd, key, full_cmd, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]

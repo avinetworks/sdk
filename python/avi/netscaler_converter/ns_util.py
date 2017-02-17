@@ -8,11 +8,13 @@ import avi.netscaler_converter.ns_constants as ns_constants
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
                                                STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
                                                STATUS_PARTIAL, STATUS_DATASCRIPT,
+                                                  STATUS_INCOMPLETE_CONFIGURATION,
                                                   STATUS_COMMAND_NOT_SUPPORTED)
 
 LOG = logging.getLogger(__name__)
 
 csv_writer = None
+csv_writer_dict_list = []
 
 
 def upload_file(file_path):
@@ -36,15 +38,15 @@ def upload_file(file_path):
     return file_str
 
 
-def add_conv_status(cmd, object_type, full_command, conv_status, avi_object=None):
+def add_conv_status(line_no, cmd, object_type, full_command, conv_status, avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
     :param conv_status: dict of conversion status
     :param avi_object: Converted objectconverted avi object
     """
-    global csv_writer
     row = {
+        'Line Number': line_no if line_no else '',
         'Netscaler Command': cmd if cmd else '',
         'Object Name': object_type if object_type else '',
         'Full Command': full_command if full_command else '',
@@ -55,24 +57,67 @@ def add_conv_status(cmd, object_type, full_command, conv_status, avi_object=None
         'User Ignored': str(conv_status.get('user_ignore', '')),
         'AVI Object': str(avi_object) if avi_object else ''
     }
-    csv_writer.writerow(row)
+    csv_writer_dict_list.append(row)
 
 
-def add_status_row(cmd, object_type, full_command, status, avi_object=None):
+def add_complete_conv_status(csv_file, ns_config):
+    """
+    Adds as status row in conversion status csv
+    :param cmd: netscaler command
+    :param conv_status: dict of conversion status
+    :param avi_object: Converted objectconverted avi object
+    """
+    global csv_writer_dict_list
+    global csv_writer
+    for config_key in ns_config:
+        config_object = ns_config[config_key]
+        for element_key in config_object:
+            element_object_list = config_object[element_key]
+            if isinstance(element_object_list, dict):
+                element_object_list = [element_object_list]
+            for element_object in element_object_list:
+                match = [match for match in csv_writer_dict_list if match['Line Number'] == element_object['line_no']]
+                if not match:
+                    full_cmd = get_netscalar_full_command(config_key, element_object)
+                    add_status_row(element_object['line_no'], config_key, element_object['attrs'][0], full_cmd, STATUS_INCOMPLETE_CONFIGURATION)
+
+
+    # fieldnames = ['Line Number', 'Netscaler Command', 'Object Name', 'Full Command', 'Status',
+    #               'Skipped settings', 'Indirect mapping', 'Not Applicable',
+    #               'User Ignored', 'AVI Object']
+    # csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames, lineterminator='\n', )
+    # csv_writer.writeheader()
+    unique_line_number_list = set()
+    row_list = []
+    for dict_row in csv_writer_dict_list:
+        if dict_row['Line Number'] not in unique_line_number_list:
+            unique_line_number_list.add(dict_row['Line Number'])
+            row_list.append(dict_row)
+        else:
+            row = [row for row in row_list if row['Line Number'] == dict_row['Line Number']]
+            if dict_row.get('AVI Object', None):
+                row[0]['AVI Object'] += ' %s' % dict_row['AVI Object']
+
+    for row in row_list:
+        csv_writer.writerow(row)
+
+
+def add_status_row(line_no, cmd, object_type, full_command, status, avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
     :param status: conversion status
     """
-    global csv_writer
+    global csv_writer_dict_list
     row = {
+        'Line Number': line_no if line_no else '',
         'Netscaler Command': cmd,
         'Object Name': object_type,
         'Full Command': full_command,
         'Status': status,
         'AVI Object': str(avi_object) if avi_object else ''
     }
-    csv_writer.writerow(row)
+    csv_writer_dict_list.append(row)
 
 
 def add_csv_headers(csv_file):
@@ -81,11 +126,12 @@ def add_csv_headers(csv_file):
     :param csv_file: File to which header is to be added
     """
     global csv_writer
-    fieldnames = ['Netscaler Command', 'Object Name', 'Full Command', 'Status',
+    fieldnames = ['Line Number', 'Netscaler Command', 'Object Name', 'Full Command', 'Status',
                   'Skipped settings', 'Indirect mapping', 'Not Applicable',
                   'User Ignored', 'AVI Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
+
     csv_writer.writeheader()
 
 
@@ -184,26 +230,31 @@ def get_command_from_line(line):
 def update_status_for_skipped(skipped_cmds):
     na_cmds = ns_constants.netscalar_command_status['NotApplicableCommands']
     indirect_cmds = ns_constants.netscalar_command_status['IndirectCommands']
+    datascript_cmds = ns_constants.netscalar_command_status['DatascriptCommands']
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:
         line_no = cmd['line_no']
         cmd = cmd['cmd']
         cmd = cmd.strip()
-        is_na = False
-        is_id = False
+        is_found = False
         for na_cmd in na_cmds:
             if cmd.startswith(na_cmd):
-                add_status_row(na_cmd, None, cmd, STATUS_NOT_APPLICABLE)
-                is_na = True
+                add_status_row(line_no, na_cmd, None, cmd, STATUS_NOT_APPLICABLE)
+                is_found = True
                 break
         for id_cmd in indirect_cmds:
             if cmd.startswith(id_cmd):
-                add_status_row(id_cmd, None, cmd, STATUS_INDIRECT)
-                is_id = True
+                add_status_row(line_no, id_cmd, None, cmd, STATUS_INDIRECT)
+                is_found = True
                 break
-        if not is_na and not is_id:
-            add_status_row(cmd, None, None, STATUS_COMMAND_NOT_SUPPORTED)
+        for datascript_cmd in datascript_cmds:
+            if cmd.startswith(datascript_cmd):
+                add_status_row(line_no, datascript_cmd, None, cmd, STATUS_DATASCRIPT)
+                is_found = True
+                break
+        if not is_found:
+            add_status_row(line_no, cmd, None, None, STATUS_COMMAND_NOT_SUPPORTED)
 
 def remove_duplicate_objects(obj_type, obj_list):
     """
