@@ -28,11 +28,17 @@ def parse_config_file(filepath):
     command = Group(OneOrMore(q_obj | multi_word_names | text) + ZeroOrMore(option))
     command.ignore(comment | blank_line)
     with open(filepath) as infile:
+        line_no = 1
         for line in infile:
             try:
                 tmp = command.parseString(line)
-                result += tmp.asList()
+                tokens = tmp.asList()
+                if tokens:
+                    tokens[0].append(['line_no', str(line_no)])
+                result += tokens
+                line_no += 1
             except Exception as exception:
+                line_no += 1
                 LOG.error("Parsing error: " + line)
         return result
 
