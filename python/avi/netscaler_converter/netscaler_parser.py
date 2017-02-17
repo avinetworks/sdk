@@ -48,8 +48,9 @@ def get_command(line, commands):
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
             return command, len(cmd_arr)
-    cmd = ns_util.get_command_from_line(line)
+    cmd, line_no = ns_util.get_command_from_line(line)
     LOG.debug("Command not supported : %s" % cmd)
+    cmd = {'cmd': cmd, 'line_no': line_no}
     return cmd, None
 
 
