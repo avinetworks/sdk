@@ -114,6 +114,7 @@ class ServiceConverter(object):
             if not server:
                 LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
                 ns_util.add_status_row(service_command, service_name, service_netscalar_full_command, STATUS_SKIPPED)
+                continue
 
             pool_obj = {
                 'name': service_name + '-pool',
