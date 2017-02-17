@@ -2,18 +2,17 @@ import logging
 import avi.netscaler_converter.ns_util as ns_util
 import os
 
-from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
+from avi.netscaler_converter.ns_constants import STATUS_SKIPPED, STATUS_SUCCESSFUL
 
 LOG = logging.getLogger(__name__)
 
 
 class ProfileConverter(object):
-
     http_skip = ['dropInvalReqs', 'markHttp09Inval', 'markConnReqInval', 'spdy',
                  'cmpOnPush', 'maxReusePool', 'dropExtraCRLF', 'incompHdrDelay',
                  'rtspTunnel', 'reqTimeout', 'adptTimeout', 'reqTimeoutAction',
                  'dropExtraData', 'persistentETag', 'http2HeaderTableSize'
-                 'reusePoolTimeout', 'maxHeaderLen', 'minReUsePool',
+                                                    'reusePoolTimeout', 'maxHeaderLen', 'minReUsePool',
                  'http2MaxHeaderListSize', 'http2MaxFrameSize', 'http2',
                  'http2MaxConcurrentStreams', 'http2InitialWindowSize']
     http_indirect = ['maxReq']
@@ -67,7 +66,7 @@ class ProfileConverter(object):
             if app_profile:
                 conv_status = ns_util.get_conv_status(profile, self.http_skip,
                                                       [], self.http_indirect)
-                ns_util.add_conv_status(netscalar_cmd, key, full_cmd, conv_status, app_profile)
+                ns_util.add_conv_status(profile['line_no'], netscalar_cmd, key, full_cmd, conv_status, app_profile)
                 avi_config['ApplicationProfile'].append(app_profile)
 
         LOG.debug("HTTP profiles conversion completed")
@@ -81,7 +80,7 @@ class ProfileConverter(object):
             if net_profile:
                 conv_status = ns_util.get_conv_status(profile, self.tcp_skip,
                                                       [], self.tcp_indirect)
-                ns_util.add_conv_status(netscalar_cmd, key, full_cmd, conv_status, net_profile)
+                ns_util.add_conv_status(profile['line_no'], netscalar_cmd, key, full_cmd, conv_status, net_profile)
                 avi_config['NetworkProfile'].append(net_profile)
         LOG.debug("TCP profiles conversion completed")
 
@@ -95,7 +94,7 @@ class ProfileConverter(object):
 
             ssl_profile_name = mapping.get('sslProfile')
             ssl_profile = ssl_profiles.get(ssl_profile_name, None)
-            ssl_mapping_data = ssl_mappings.get(key,[])
+            ssl_mapping_data = ssl_mappings.get(key, [])
             if isinstance(ssl_mapping_data, dict):
                 ssl_mapping_data = [ssl_mapping_data]
 
@@ -108,7 +107,7 @@ class ProfileConverter(object):
                 conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
                                                       self.set_ssl_vserver_indirect,
                                                       self.set_ssl_vserver_na)
-                ns_util.add_conv_status(netscalar_cmd, key, full_cmd, conv_status, avi_ssl_prof)
+                ns_util.add_conv_status(mapping['line_no'], netscalar_cmd, key, full_cmd, conv_status, avi_ssl_prof)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
@@ -128,7 +127,7 @@ class ProfileConverter(object):
             xff_header = profile.get('clientIpHdrExpr', None)
             xff_enabled = True if xff_header else False
             http_profile['xff_enabled'] = xff_enabled
-            #TODO: clientIpHdrExpr conversion to xff_alternate_name
+            # TODO: clientIpHdrExpr conversion to xff_alternate_name
             websockets = profile.get('websockets_enabled', 'DISABLED')
             websockets = False if websockets == 'DISABLED' else True
             http_profile['websockets_enabled'] = websockets
@@ -154,14 +153,14 @@ class ProfileConverter(object):
                         "nagles_algorithm": nagle,
                         "max_segment_size": int(mss),
                         "use_interface_mtu": mtu,
-                        "receive_window": int(int(window)/1024)
+                        "receive_window": int(int(window) / 1024)
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },
                 "name": profile['attrs'][0]
             }
         except:
-             LOG.error("Error in convertion of tcpProfile", exc_info=True)
+            LOG.error("Error in convertion of tcpProfile", exc_info=True)
         return ntwk_profile
 
     def convert_ssl_profile(self, profile):
@@ -184,7 +183,8 @@ class ProfileConverter(object):
             profile, self.ssl_prof_skip, self.ssl_prof_indirect,
             self.ssl_prof_na)
         full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, profile)
-        ns_util.add_conv_status(netscalar_cmd, profile['attrs'][0], full_cmd, conv_status, avi_ssl_prof)
+        ns_util.add_conv_status(profile['line_no'], netscalar_cmd, profile['attrs'][0], full_cmd, conv_status,
+                                avi_ssl_prof)
 
         return avi_ssl_prof
 
@@ -194,8 +194,9 @@ class ProfileConverter(object):
         ciphers = []
         for mapping in ssl_mappings:
             output = None
-            cmd = 'bind ssl vserver'
-            full_cmd = ns_util.get_netscalar_full_command(cmd, mapping)
+            bind_ssl_cmd = 'bind ssl vserver'
+            bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd, mapping)
+            bind_ssl_success = False
 
             if 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
@@ -203,12 +204,14 @@ class ProfileConverter(object):
                 cert_file_name = key_cert.get('cert')
                 ca_str = None
                 crl_str = None
+                netscalar_cmd = 'add ssl certKey'
+                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
                 if key_file_name:
                     ca_str = ns_util.upload_file(
-                        input_dir+os.path.sep+key_file_name)
+                        input_dir + os.path.sep + key_file_name)
                 if cert_file_name:
                     crl_str = ns_util.upload_file(
-                        input_dir+os.path.sep+cert_file_name)
+                        input_dir + os.path.sep + cert_file_name)
                 if ca_str:
                     pki_profile = dict()
                     pki_profile["ca_certs"] = [{'certificate': ca_str}]
@@ -222,13 +225,18 @@ class ProfileConverter(object):
                     pki_profile["name"] = key_cert['attrs'][0]
                     obj['pki'] = pki_profile
                     output = pki_profile
-                conv_status = ns_util.get_conv_status(
-                    key_cert, self.add_key_cert_skip, [], [])
-                netscalar_cmd = 'add ssl certKey'
-                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
-                ns_util.add_conv_status(netscalar_cmd, key_cert['attrs'][0], full_cmd, conv_status, avi_ssl_prof)
+                    bind_ssl_success = True
+                    LOG.info('Conversion successful: %s' % full_cmd)
+                    conv_status = ns_util.get_conv_status(
+                        key_cert, self.add_key_cert_skip, [], [])
+                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                                            conv_status, avi_ssl_prof)
+                else:
+                    LOG.info('Skipped: %s' % full_cmd)
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                                           STATUS_SKIPPED)
 
-            elif 'certkeyName' in  mapping.keys():
+            elif 'certkeyName' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
@@ -236,41 +244,49 @@ class ProfileConverter(object):
                 cert_file_name = key_cert.get('cert')
                 if key_file_name:
                     key_str = ns_util.upload_file(
-                        input_dir+os.path.sep+key_file_name)
+                        input_dir + os.path.sep + key_file_name)
                 if cert_file_name:
                     cert_str = ns_util.upload_file(
-                        input_dir+os.path.sep+cert_file_name)
-                if not key_cert and not cert_str:
-                    LOG.warning('Skipped : %s' % full_cmd)
-                    ns_util.add_status_row(netscalar_cmd, key_cert['attrs'][0], full_cmd, STATUS_SKIPPED)
+                        input_dir + os.path.sep + cert_file_name)
                 if key_str and cert_str:
                     cert = {"certificate": cert_str}
                     ssl_kc_obj = {
-                            'name': key_cert['attrs'][0],
-                            'key': key_str,
-                            'certificate': cert,
-                            'key_passphrase': key_cert.get('password', '')
-                        }
+                        'name': key_cert['attrs'][0],
+                        'key': key_str,
+                        'certificate': cert,
+                        'key_passphrase': key_cert.get('password', '')
+                    }
                     obj['cert'] = ssl_kc_obj
                     output = ssl_kc_obj
-                conv_status = ns_util.get_conv_status(
-                    key_cert, self.add_key_cert_skip, [], [])
-                ns_util.add_conv_status(netscalar_cmd, key_cert['attrs'][0], full_cmd, conv_status, avi_ssl_prof)
+                    conv_status = ns_util.get_conv_status(
+                        key_cert, self.add_key_cert_skip, [], [])
+                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                                            conv_status, avi_ssl_prof)
+                    bind_ssl_success = True
+                else:
+                    LOG.warning('Skipped : %s' % full_cmd)
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                                           STATUS_SKIPPED)
+
             elif 'cipherName' in mapping.keys():
                 ciphers_keys = self.get_ciphers(mapping['cipherName'], ns_config)
                 ciphers += ciphers_keys
                 ciphers = list(set(ciphers))
                 obj['accepted_ciphers'] = ':'.join(ciphers)
-                # output = avi_ssl_prof
-            else:
-                ns_util.add_status_row(cmd, mapping['attrs'][0], full_cmd, STATUS_SKIPPED)
-                LOG.warning('Skipped : %s' % full_cmd)
-                continue
+                bind_ssl_success = True
+                output = avi_ssl_prof
+
             conv_status = ns_util.get_conv_status(
                 mapping, self.bind_sslvs_skip, [], [])
-            netscalar_cmd = 'bind ssl vserver'
-            full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, mapping)
-            ns_util.add_conv_status(netscalar_cmd, mapping['attrs'][0], full_cmd, conv_status, output)
+            if not bind_ssl_success:
+                LOG.warning('Skipped : %s' % bind_ssl_full_cmd)
+                ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0], bind_ssl_full_cmd,
+                                       STATUS_SKIPPED)
+                continue
+
+            LOG.info('Conversion successful: %s' % bind_ssl_full_cmd)
+            ns_util.add_conv_status(mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0], bind_ssl_full_cmd,
+                                    conv_status, output)
 
         return obj
 
@@ -285,16 +301,31 @@ class ProfileConverter(object):
         cipher_mapping = ns_config.get('bind ssl cipher', {})
         lb_cipher = cipher_config.get(cipher, None)
         bind_ciphers = cipher_mapping.get(cipher, None)
+        add_ssl_cipher_command = 'add ssl cipher'
+        bind_ssl_cipher_command = 'bind ssl cipher'
+
         if not (lb_cipher and bind_ciphers):
             return [cipher]
         ciphers = []
+        full_add_ssl_cipher_command = ns_util.get_netscalar_full_command(add_ssl_cipher_command, lb_cipher)
+        LOG.info('Conversion successful: %s' % full_add_ssl_cipher_command)
+        ns_util.add_status_row(lb_cipher['line_no'], add_ssl_cipher_command, cipher,
+                               full_add_ssl_cipher_command, STATUS_SUCCESSFUL, None)
         if isinstance(bind_ciphers, dict):
             bind_ciphers = [bind_ciphers]
         for bind_cipher in bind_ciphers:
+            full_bind_ssl_cipher_command = ns_util.get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
                 ciphers.append(bind_cipher['cipherName'])
+                LOG.info('Conversion successful: %s' % full_bind_ssl_cipher_command)
+                ns_util.add_status_row(bind_cipher['line_no'], bind_ssl_cipher_command, cipher,
+                                       full_bind_ssl_cipher_command, STATUS_SUCCESSFUL, ciphers)
+            else:
+                LOG.info('Skipped: %s' % full_bind_ssl_cipher_command)
+                ns_util.add_status_row(bind_cipher['line_no'], bind_ssl_cipher_command, cipher,
+                                       full_bind_ssl_cipher_command, STATUS_SKIPPED)
 
         if not ciphers:
             return [cipher]
-        return ciphers
 
+        return ciphers

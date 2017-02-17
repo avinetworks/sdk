@@ -60,8 +60,9 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         ns_util.update_status_for_skipped(skipped_cmds)
-        LOG.debug('Conversion completed successfully')
+        ns_util.add_complete_conv_status(csv_file, ns_config_dict)
 
+        LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
         for key in avi_config:
             if key != 'META':

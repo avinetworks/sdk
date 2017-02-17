@@ -92,6 +92,9 @@ IndirectCommands:
 - 'bind vlan'
 - 'link ssl certKey'
 
+DatascriptCommands:
+- 'add ca action'
+
 
 
 

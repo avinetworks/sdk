@@ -1,7 +1,9 @@
 import logging
 import re
 import avi.netscaler_converter.ns_util as ns_util
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL)
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+                                                  STATUS_SUCCESSFUL,
+                                                  STATUS_INDIRECT)
 
 LOG = logging.getLogger(__name__)
 
@@ -37,11 +39,21 @@ class ServiceConverter(object):
 
         # service converter
         self.service_convert(ns_config, avi_config)
+        ns_dns = ns_config.get('add dns addRec', {})
+        for dns_key in ns_dns:
+
+            dns_obj = ns_dns.get(dns_key, [])
+            if isinstance(dns_obj, dict):
+                dns_obj = [dns_obj]
+            dns_cmd = 'add dns addRec'
+            for element in dns_obj:
+                full_dns_cmd = ns_util.get_netscalar_full_command(dns_cmd, element)
+                ns_util.add_status_row(element['line_no'], dns_cmd, dns_key, full_dns_cmd, STATUS_INDIRECT)
 
         for group_key in groups:
             try:
                 if not group_key:
-                    ns_util.add_status_row(netscalar_cmd, group_key, full_cmd, STATUS_SKIPPED)
+                    ns_util.add_status_row(None, netscalar_cmd, group_key, full_cmd, STATUS_SKIPPED)
                     LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
                     continue
 
@@ -50,7 +62,7 @@ class ServiceConverter(object):
                     group = [group]
                 lb_vs = lb_vs_conf.get(group_key)
                 if not lb_vs:
-                    ns_util.add_status_row(netscalar_cmd, group_key, None, STATUS_SKIPPED)
+                    ns_util.add_status_row(None, netscalar_cmd, group_key, full_cmd, STATUS_SKIPPED)
                     LOG.warning('Skipped: No add lb vserver found. Skipped pool %s' % group_key)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
@@ -71,10 +83,10 @@ class ServiceConverter(object):
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % element['attrs'][0])
                         conv_status = ns_util.get_conv_status(element, self.bind_lb_skipped, [], [])
-                        ns_util.add_conv_status(netscalar_cmd, element['attrs'][0], full_cmd, conv_status, pool[0])
+                        ns_util.add_conv_status(element['line_no'], netscalar_cmd, element['attrs'][0], full_cmd, conv_status, pool[0])
                     else:
                         LOG.warning('Skipped :Pool is not created %s' % element['attrs'][0])
-                        ns_util.add_status_row(netscalar_cmd, element['attrs'][0], full_cmd, STATUS_SKIPPED)
+                        ns_util.add_status_row(element['line_no'], netscalar_cmd, element['attrs'][0], full_cmd, STATUS_SKIPPED)
 
                 pg_name = group_key + '-poolgroup'
                 if pg_members:
@@ -113,7 +125,7 @@ class ServiceConverter(object):
             server = self.convert_ns_service(service, ns_servers, ns_dns)
             if not server:
                 LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
-                ns_util.add_status_row(service_command, service_name, service_netscalar_full_command, STATUS_SKIPPED)
+                ns_util.add_status_row(service['line_no'], service_command, service_name, service_netscalar_full_command, STATUS_SKIPPED)
                 continue
 
             pool_obj = {
@@ -127,7 +139,7 @@ class ServiceConverter(object):
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_netscalar_full_command)
             conv_status = ns_util.get_conv_status(service, self.bind_lb_skipped, [], [])
-            ns_util.add_conv_status(service_command, service_name, service_netscalar_full_command, conv_status, pool_obj)
+            ns_util.add_conv_status(service['line_no'], service_command, service_name, service_netscalar_full_command, conv_status, pool_obj)
 
         for group_key in ns_service_groups:
             service_group_command = 'add serviceGroup'
@@ -138,7 +150,7 @@ class ServiceConverter(object):
             servers, monitor_ref = self.convert_ns_service_group(bind_groups, ns_servers, ns_dns)
             if not servers:
                 LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
-                ns_util.add_status_row(service_group_command, service_group_name, service_group_netscalar_full_command, STATUS_SKIPPED)
+                ns_util.add_status_row(service_group['line_no'], service_group_command, service_group_name, service_group_netscalar_full_command, STATUS_SKIPPED)
                 continue
 
             pool_obj = {
@@ -151,18 +163,26 @@ class ServiceConverter(object):
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_group_netscalar_full_command)
             conv_status = ns_util.get_conv_status(service_group, self.bind_lb_skipped, [], [])
-            ns_util.add_conv_status(service_group_command, service_group_name, service_group_netscalar_full_command, conv_status,
+            ns_util.add_conv_status(service_group['line_no'], service_group_command, service_group_name, service_group_netscalar_full_command, conv_status,
                                     pool_obj)
 
     def get_service_montor(self, service_name, bind_ns_service):
         monitor_refs = []
         bind_service = bind_ns_service.get(service_name, None)
+        bind_service_command = 'bind service'
         if bind_service:
             if isinstance(bind_service, dict):
                 bind_service = [bind_service]
             for service in bind_service:
+                full_bind_service_command = ns_util.get_netscalar_full_command(bind_service_command, service)
                 if service and service.get('monitorName', None):
                     monitor_refs.append(service.get('monitorName'))
+                    LOG.info('Conversion suv=ccessful : %s' % full_bind_service_command)
+                    ns_util.add_status_row(service['line_no'], bind_service_command, service_name, full_bind_service_command, STATUS_SUCCESSFUL, service.get('monitorName'))
+                else:
+                    LOG.warning('Skipped : Not found Health monitor %s' % full_bind_service_command)
+                    ns_util.add_status_row(service['line_no'], bind_service_command, service_name, full_bind_service_command,
+                                           STATUS_SKIPPED)
         return monitor_refs
 
 
@@ -192,7 +212,7 @@ class ServiceConverter(object):
 
         matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
         if not matches:
-            ns_util.add_status_row(cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
+            ns_util.add_status_row(server['line_no'], cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
             LOG.warning('Not found IP of server : %s' % full_cmd)
             return []
         server_obj = {
@@ -203,7 +223,7 @@ class ServiceConverter(object):
             'port': port,
             'enabled': enabled
         }
-        ns_util.add_conv_status(cmd, server['attrs'][0], full_cmd, status, server_obj)
+        ns_util.add_conv_status(server['line_no'], cmd, server['attrs'][0], full_cmd, status, server_obj)
         return server_obj
 
 
@@ -223,10 +243,10 @@ class ServiceConverter(object):
             status = ns_util.get_conv_status(server_binding, self.bind_sg_skip,
                                              [], [])
             full_cmd = ns_util.get_netscalar_full_command(cmd, server_binding)
-            ns_util.add_conv_status(cmd, attrs[0], full_cmd, status, server_binding)
+            ns_util.add_conv_status(server_binding['line_no'], cmd, attrs[0], full_cmd, status, server_binding)
             server = ns_servers.get(attrs[1])
             if not server:
-                ns_util.add_status_row(cmd, attrs[1], full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(server_binding['line_no'], cmd, attrs[1], full_cmd, STATUS_SKIPPED)
                 LOG.error('Skipped server : %s' % cmd)
                 continue
 
@@ -259,12 +279,12 @@ class ServiceConverter(object):
 
             }
             if not matches:
-                ns_util.add_status_row(cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(server['line_no'], cmd, server['attrs'][0], full_cmd, STATUS_SKIPPED)
                 LOG.warning('Not found IP of server : %s %s' % (cmd, attrs[1]))
                 server_obj = None
             if server_obj:
                 servers.append(server_obj)
-            ns_util.add_conv_status(cmd, server['attrs'][0], full_cmd, status, server_obj)
+            ns_util.add_conv_status(server['line_no'], cmd, server['attrs'][0], full_cmd, status, server_obj)
         return servers, monitor_name
 
 
