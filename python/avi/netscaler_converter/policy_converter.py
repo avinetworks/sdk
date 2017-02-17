@@ -123,9 +123,12 @@ class PolicyConverter(object):
                                                    avi_config,
                                                    targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
+                ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command, STATUS_SUCCESSFUL, policy)
                 http_request_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             elif rule and policy_type in ['policy_expression']:
+                ns_util.add_status_row(netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
+                                       STATUS_SUCCESSFUL, policy)
                 http_security_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             else:
