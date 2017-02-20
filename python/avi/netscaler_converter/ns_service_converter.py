@@ -139,6 +139,9 @@ class ServiceConverter(object):
                 'servers': [server],
                 'health_monitor_refs': []
             }
+            monitor_refs = self.get_service_montor(service_name, bind_ns_service, avi_config)
+            if monitor_refs:
+                pool_obj['health_monitor_refs'] = list(set(monitor_refs))
             ssl_service = set_ssl_service.get(key, None)
             if ssl_service:
                 if [pki for pki in avi_config['PKIProfile'] if pki['name'] == key]:
@@ -147,9 +150,8 @@ class ServiceConverter(object):
                     pool_obj['ssl_key_and_certificate_uuid'] = key
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == key]:
                     pool_obj['ssl_profile_ref'] = key
-            monitor_refs = self.get_service_montor(service_name, bind_ns_service)
-            if monitor_refs:
-                pool_obj['health_monitor_refs'] = list(set(monitor_refs))
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
+
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_netscalar_full_command)
             conv_status = ns_util.get_conv_status(service, self.bind_lb_skipped, [], [])
@@ -173,24 +175,31 @@ class ServiceConverter(object):
                 'health_monitor_refs': []
             }
 
+            if monitor_ref and [monitor for monitor in avi_config['HealthMonitor'] if monitor['name'] == monitor_ref]:
+                pool_obj['health_monitor_refs'].append(monitor_ref)
+
             ssl_service_group = set_ssl_service_group.get(group_key, None)
             if ssl_service_group:
                 if [pki for pki in avi_config['PKIProfile'] if pki['name'] == group_key]:
                     pool_obj['pki_profile_ref'] = group_key
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == group_key]:
-                    pool_obj['ssl_key_and_certificate_uuid'] = group_key
+                    pool_obj['ssl_key_and_certificate_ref'] = group_key
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == group_key]:
                     pool_obj['ssl_profile_ref'] = group_key
+                if pool_obj.get('pki_profile_ref', None) or \
+                    pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                    pool_obj.get('ssl_profile_ref', None):
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
 
-            if monitor_ref:
-                pool_obj['health_monitor_refs'].append(monitor_ref)
+
+
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_group_netscalar_full_command)
             conv_status = ns_util.get_conv_status(service_group, self.bind_lb_skipped, [], [])
             ns_util.add_conv_status(service_group['line_no'], service_group_command, service_group_name, service_group_netscalar_full_command, conv_status,
                                     pool_obj)
 
-    def get_service_montor(self, service_name, bind_ns_service):
+    def get_service_montor(self, service_name, bind_ns_service, avi_config):
         monitor_refs = []
         bind_service = bind_ns_service.get(service_name, None)
         bind_service_command = 'bind service'
@@ -200,7 +209,10 @@ class ServiceConverter(object):
             for service in bind_service:
                 full_bind_service_command = ns_util.get_netscalar_full_command(bind_service_command, service)
                 if service and service.get('monitorName', None):
-                    monitor_refs.append(service.get('monitorName'))
+                    monitor_name = service.get('monitorName')
+                    if not [monitor for monitor in avi_config['HealthMonitor'] if monitor['name'] == monitor_name]:
+                        continue
+                    monitor_refs.append(monitor_name)
                     LOG.info('Conversion suv=ccessful : %s' % full_bind_service_command)
                     ns_util.add_status_row(service['line_no'], bind_service_command, service_name, full_bind_service_command, STATUS_SUCCESSFUL, service.get('monitorName'))
                 else:
