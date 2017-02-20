@@ -52,15 +52,19 @@ class ServiceConverter(object):
 
         for group_key in groups:
             try:
+
                 if not group_key:
-                    ns_util.add_status_row(None, netscalar_cmd, group_key, full_cmd, STATUS_SKIPPED)
+                    ns_util.add_status_row(None, netscalar_cmd, group_key, None, STATUS_SKIPPED)
                     LOG.warning('Skipped: No bind lb vserver found. Skipped pool' % group_key)
                     continue
 
                 group = groups.get(group_key)
+
+
                 if isinstance(group, dict):
                     group = [group]
                 lb_vs = lb_vs_conf.get(group_key)
+                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, group[0])
                 if not lb_vs:
                     ns_util.add_status_row(None, netscalar_cmd, group_key, full_cmd, STATUS_SKIPPED)
                     LOG.warning('Skipped: No add lb vserver found. Skipped pool %s' % group_key)

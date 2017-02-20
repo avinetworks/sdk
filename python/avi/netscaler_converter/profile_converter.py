@@ -309,6 +309,8 @@ class ProfileConverter(object):
 
             if 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
+                if not key_cert:
+                    continue
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
                 ca_str = None
@@ -347,6 +349,8 @@ class ProfileConverter(object):
 
             elif 'certkeyName' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
+                if not key_cert:
+                    continue
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
                 key_file_name = key_cert.get('key')
