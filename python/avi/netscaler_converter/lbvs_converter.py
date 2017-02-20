@@ -115,7 +115,7 @@ class LbvsConverter(object):
 
                 if policy:
                     if policy['name'] in tmp_policy_ref:
-                        ns_util.clone_http_policy_set(policy, avi_config)
+                        ns_util.clone_http_policy_set(policy, updated_vs_name, avi_config)
                     tmp_policy_ref.append(policy['name'])
                     http_policies = {
                         'index': 11,
