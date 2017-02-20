@@ -2,7 +2,6 @@ import csv
 import logging
 import os
 import copy
-import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
@@ -329,645 +328,645 @@ def object_exist(object_type, name, avi_config):
     return False
 
 
-def policy_converter(policies, rule_index1, bind_patset, patset_config,
-                      avi_config, rewrite_action_config, responder_action_config,
-                     tmp_pool_ref, Redirect_Pools, skip_attrs, na_attrs, b_cmd):
-    rule_index = 0
-    path_query = {
-        "match_case": 'INSENSITIVE',
-        "match_str": [],
-        "match_criteria": ''
-    }
-    path_regex = {
-        "match_case": 'INSENSITIVE',
-        "string_group_refs": [],
-        "match_criteria": ''
-    }
-    client_ip = {
-        "addrs": [],
-        "match_criteria": 'IS_IN'
-    }
-    header = {
-        "match_case": 'INSENSITIVE',
-        "hdr": '',
-        "value": [],
-        "match_criteria": ''
-    }
-    host_header = {
-        "match_case": 'INSENSITIVE',
-        "value": [],
-        "match_criteria": ''
-    }
-    cookie = {
-        "match_case": 'INSENSITIVE',
-        "name": '',
-        "value": 'needthismissingvalue',
-        "match_criteria": ''
-    }
-
-    updated_policy_name = ''
-
-    policy_obj = {
-        'name': '',
-        'tenant_uuid': 'admin',
-        'enable': 'false',
-        'http_request_policy': {
-            'rules': []
-        },
-    }
-
-    for policy in policies:
-        policy_name = policy['attrs'][0]
-        ns_rule = policy.get('rule', None)
-        if (not ns_rule or not policy.get('targetLBVserver', None)) and policy['policy_type'] == 'cs_policy':
-            return rule_index, None
-        elif policy.get('policy_type', None) == 'rewrite_policy' or policy.get('policy_type', None) == 'responder_policy':
-            ns_rule = policy['attrs'][1]
-
-        pool_ref = None
-        if policy.get('targetLBVserver', None):
-            pool_ref = policy['targetLBVserver'] + '-pool'
-        redirect_uri = None
-        if pool_ref in Redirect_Pools:
-            pools = [obj for obj in avi_config['Pool'] if obj['name'] == pool_ref]
-            redirect_uri = pools[0]['fail_action']['redirect']['host']
-
-        switching_action = {
-            'action': 'HTTP_SWITCHING_SELECT_POOL',
-            'status_code': 200,
-            'pool_ref': pool_ref
-        }
-
-        redirect_action = {
-            'protocol': 'HTTP',
-            'host': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_HOST',
-                    'str_value': redirect_uri,
-                    'start_index': '1',
-                    'end_index': '65535'
-                }]
-            }
-        }
-
-        priority_index = policy.get('priority', None)
-        if not priority_index:
-            priority_index = rule_index
-
-        policy_rules = {
-            'name': policy_name + '-rule-%s' % priority_index,
-            "index": priority_index,
-            'match': {},
-        }
-
-        if redirect_uri:
-            LOG.info("Add redirect Action %s for policy %s" % (redirect_uri, policy_name))
-            policy_rules['redirect_action'] = redirect_action
-        elif policy.get('targetLBVserver', None):
-            pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
-            if not pools:
-                LOG.error("Policy Skipped. Pool not found in config %s for policy %s" % (pool_ref, policy_name))
-                continue
-            LOG.info("Add switching Action for policy %s" % policy_name)
-            policy_rules['switching_action'] = switching_action
-
-        is_policy_successful = True
-        policy_rule = copy.deepcopy(policy_rules)
-        conditional_rules = ns_rule.split("&&")
-        for rule in conditional_rules:
-            query = rule.strip('"')
-            query = query.strip()
-            if 'URL ==' in query.upper():
-                a, b = query.split("==")
-                b = b.strip()
-                match_str = b.strip("\\'")
-                if match_str is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_str"].append(match_str)
-                policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
-                            'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
-                            'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
-                            'HTTP.REQ.URL.STARTSWITH' in query.upper():
-                policy_rule["match"].update({"query": path_query})
-                policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    if 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
-                                    'HTTP.REQ.URL.STARTSWITH' in query.upper() or \
-                                    'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper():
-                        match = re.sub('[\\\/]', '', match)
-                        policy_rule["match"]["query"]["match_str"].append(match)
-                rule_index += 1
-
-            elif 'REQ.IP.SOURCEIP' in query.upper():
-                policy_rule["match"].update({"client_ip": client_ip})
-                matches = re.findall('\REQ.IP.SOURCEIP == [0-9.]+', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    a, b = match.split("==")
-                    policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": b.strip()})
-                rule_index += 1
-
-            elif 'CLIENT.IP.SRC.EQ' in query.upper() or \
-                            'CLIENT.IP.SRC.NE' in query.upper():
-                policy_rule["match"].update({"client_ip": client_ip})
-                if 'CLIENT.IP.SRC.NE' in query.upper():
-                    policy_rule["match"]['client_ip']['match_criteria'] = 'IS_NOT_IN'
-                matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": match})
-                rule_index += 1
-
-            elif ('HTTP.REQ.HEADER' in query.upper() and \
-                            '.CONTAINS' in query.upper()) or \
-                            'HTTP.REQ.FULL_HEADER.CONTAINS' in query.upper():
-                policy_rule["match"].update({"hdrs": [header]})
-                policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_CONTAINS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0 or matches[0] is None or matches[1] is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
-                policy_rule["match"]["hdrs"][0]["value"].append(matches[1])
-                rule_index += 1
-
-            elif 'HTTP.REQ.HEADER' in query.upper() and ".EXISTS" in query.upper():
-                header_copy = copy.deepcopy(header)
-                header_copy.pop("match_case")
-                header_copy.pop("value")
-                policy_rule["match"].update({"hdrs": [header]})
-                policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if matches[0] is None:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
-                rule_index += 1
-
-            elif ('HTTP.REQ.HOSTNAME.EQ' in query.upper()) or (
-                    'HTTP.REQ.HOSTNAME.SET_TEXT_MODE' in query.upper() and 'EQ' in query.upper()):
-                policy_rule["match"].update({"host_hdr": host_header})
-                policy_rule["match"]["host_hdr"]["match_criteria"] = "HDR_EQUALS"
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["host_hdr"]["value"].append(match)
-                rule_index += 1
-
-            elif ('HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper()) or \
-                    ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
-                policy_rule["match"].update({"cookie": cookie})
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) != 2:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                if 'HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper():
-                    policy_rule["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
-                elif 'HTTP.REQ.COOKIE' in query.upper() and 'EQ' in query.upper():
-                    policy_rule["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
-                policy_rule["match"]["cookie"]["value"] = matches[1]
-                policy_rule["match"]["cookie"]["name"] = matches[0]
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'REGEX_MATCH' in query.upper():
-                policy_rule["match"].update({"path": path_regex})
-                policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
-                exact_match = re.search(r'\((\d+?)\)', query).group(1)
-                matches = re.findall('\(re(.*?)\)', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                regex_match = []
-                for match in matches:
-                    regex = '.*/'
-                    if int(exact_match) == 1:
-                        regex = '^%s://.*' % match
-                    elif int(exact_match) > 1:
-                        for index in range(int(exact_match), 2, -1):
-                            regex += '/\w+'
-                        regex += '/%s' % match + '.*'
-                    else:
-                        LOG.warning("%s Rule GET for regex match is not supported" % query)
-                        continue
-                    regex_match.append(regex)
-                string_group_ref = add_string_group_for_policy(
-                    '%s-string_group_object-%s' % (policy_name, rule_index), regex_match, avi_config)
-                policy_rule["match"]["path"]["string_group_refs"].append(string_group_ref)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-                policy_rule["match"]["path"]["match_str"] = []
-                exact_match = re.search(r'\((\d+?)\)', query).group(1)
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    regex = '.*/'
-                    match = re.sub('[\\\/]', '', match)
-                    if int(exact_match) == 1:
-                        regex = '^%s://.*' % match
-                    elif int(exact_match) > 1:
-                        if int(exact_match) == 1:
-                            regex = '^%s://.*' % match
-                        elif int(exact_match) > 1:
-                            for index in range(int(exact_match), 2, -1):
-                                regex += '/\w+'
-                            regex += '/%s' % match + '.*'
-                    else:
-                        LOG.warning("%s Rule GET for Equal match is not supported" % query)
-                        continue
-                    policy_rule["match"]["path"]["match_str"].append(regex)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQUALS_ANY(' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                patsets = []
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    patset = get_patset_collection(match, bind_patset, patset_config)
-                    if patset:
-                        patsets += patset
-                policy_rule["match"]["path"]["match_str"] = list(set(patsets))
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'CONTAINS(' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["path"]["match_str"].append(match)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["path"]["match_str"].append(match)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH.EQ' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["path"]["match_str"].append(match)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.PATH' in query.upper():
-                policy_rule["match"].update({"path": path_query})
-                policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["path"]["match_str"].append(match)
-                rule_index += 1
-
-            elif 'HTTP.REQ.URL.EQ' in query.upper():
-                policy_rule["match"].update({"query": path_query})
-                policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
-
-                matches = re.findall('\\\\(.+?)\\\\', query)
-                if len(matches) == 0:
-                    LOG.warning('No Matches found for %s' % query)
-                    continue
-                matches = list(set(matches))
-                for match in matches:
-                    match = re.sub('[\\\/]', '', match)
-                    policy_rule["match"]["query"]["match_str"].append(match)
-                rule_index += 1
-
-            else:
-                LOG.warning("%s Rule is not supported" % query)
-                continue
-
-        if 'switching_action' in policy_rule:
-            p_ref = policy_rule['switching_action']['pool_ref']
-            if p_ref in tmp_pool_ref:
-                p_ref = clone_pool(p_ref, policy_name, avi_config)
-                policy_rule['switching_action']['pool_ref'] = p_ref
-            tmp_pool_ref.append(p_ref)
-
-        elif policy.get('policy_type', None) == 'rewrite_policy' and policy['attrs'][1] != 'true':
-            r_cmd = 'add rewrite policy'
-            policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
-            full_cmd = get_netscalar_full_command(r_cmd, policy)
-            if policy_rule:
-                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-            else:
-                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SKIPPED)
-
-        elif policy.get('policy_type', None) == 'responder_policy' and policy['attrs'][1] != 'true':
-            r_cmd = 'add responder policy'
-            policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
-            full_cmd = get_netscalar_full_command(r_cmd, policy)
-            if policy_rule:
-                add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-        if policy_rule and policy_rule['match']:
-            policy_obj["http_request_policy"]["rules"].append(policy_rule)
-            updated_policy_name += policy_name
-            p_cmd = 'add cs policy'
-            LOG.info('Conversion successful : %s %s' % (p_cmd, policy_name))
-            conv_status = get_conv_status(policy, skip_attrs, na_attrs, [])
-            full_cmd = get_netscalar_full_command(p_cmd, policy)
-            add_conv_status(p_cmd, policy_name, full_cmd, conv_status, policy_rule)
-        elif policy['policy_type'] == 'responder_policy' and not policy_rule:
-            r_cmd = 'add responder policy'
-            full_cmd = get_netscalar_full_command(r_cmd, policy)
-            LOG.warning('Datascript: %s %s' % (r_cmd, policy_name))
-            add_status_row(r_cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
-            is_policy_successful = False
-
-    if len(policy_obj["http_request_policy"]["rules"]) > 0:
-        bind_cmd = 'bind cs vserver'
-        full_cmd = get_netscalar_full_command(bind_cmd, policy)
-        if not is_policy_successful:
-            LOG.info('Datascript : %s %s' % (bind_cmd, b_cmd))
-            add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_DATASCRIPT)
-        else:
-            LOG.info('Conversion successful: %s %s' % (bind_cmd, b_cmd))
-            add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_SUCCESSFUL, policy_obj)
-
-        updated_policy_name += '-http-request-policy-%s' % rule_index
-        policy_obj['name'] = updated_policy_name
-        return rule_index, policy_obj
-
-    return rule_index, None
-
-def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
-    policy_action = rewrite_action_config.get(policy_name, None)
-    policy_rule = None
-    cmd = 'add rewrite action'
-    if not policy_action:
-        LOG.warning('No responder action found: %s' % policy_name)
-        return
-    full_cmd = get_netscalar_full_command(cmd, policy_action)
-
-    if policy_action and policy_action['attrs'][1] == 'insert_http_header':
-        hdr_action = [{
-            'action': 'HTTP_ADD_HDR',
-            'hdr': {
-                'name': policy_action['attrs'][1],
-                'value': {}
-            }
-        }]
-        policy_rule = copy.deepcopy(policy_rules)
-        policy_rule['hdr_action'] = hdr_action
-        if len(policy_action['attrs']) > 3:
-            matches = [policy_action['attrs'][3]]
-            if matches:
-                value = {'val': matches[0]}
-                policy_rule['hdr_action'][0]['hdr']['value'].update(value)
-                LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-                add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-    elif policy_action and policy_action['attrs'][1] == 'replace':
-        policy_rule = copy.deepcopy(policy_rules)
-        path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3].strip('"').strip())
-        url_action = {
-            'action': 'HTTP_ADD_HDR',
-            'host_hdr': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': policy_action['attrs'][2]
-                }]
-            },
-            'path': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': path_matches[0]
-                }]
-            },
-            'query': {
-                'keep_query': False
-            }
-        }
-        policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-    elif policy_action and policy_action['attrs'][1] == 'insert_before':
-        policy_rule = copy.deepcopy(policy_rules)
-        path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
-        url_action = {
-            'action': 'HTTP_ADD_HDR',
-            'host_hdr': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': policy_action['attrs'][2]
-                }]
-            },
-            'path': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': path_matches[0] + str(path_matches[0:])
-                }]
-            },
-            'query': {
-                'keep_query': False
-            }
-        }
-        policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-    else:
-        LOG.warning('Skipped: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SKIPPED)
-
-    return policy_rule
-
-def get_responder_action(policy_name, policy_rules, responder_action_config):
-    policy_action = responder_action_config.get(policy_name, None)
-    if not policy_action:
-        LOG.warning('No responder action found: %s' % policy_name)
-        return
-
-    policy_rule = None
-    cmd = 'add responder action'
-    full_cmd = get_netscalar_full_command(cmd, policy_action)
-
-    if policy_action and policy_action['attrs'][1] == 'insert_http_header':
-        hdr_action = [{
-            'action': 'HTTP_ADD_HDR',
-            'hdr': {
-                'name': policy_action['attrs'][1],
-                'value': []
-            }
-        }]
-        policy_rule = copy.deepcopy(policy_rules)
-        policy_rule['hdr_action'] = hdr_action
-        matches = [policy_action['attrs'][3]]
-        value = {'val': matches[0]}
-        policy_rule['hdr_action'][0]['hdr']['value'].append(value)
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-    elif policy_action and policy_action['attrs'][1] == 'replace':
-        policy_rule = copy.deepcopy(policy_rules)
-        path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3].strip('"').strip())
-        url_action = {
-            'action': 'HTTP_ADD_HDR',
-            'host_hdr': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': policy_action['attrs'][2]
-                }]
-            },
-            'path': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': path_matches[0]
-                }]
-            },
-            'query': {
-                'keep_query': False
-            }
-        }
-        policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-    elif policy_action and policy_action['attrs'][1] == 'insert_before':
-        policy_rule = copy.deepcopy(policy_rules)
-        path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
-        url_action = {
-            'action': 'HTTP_ADD_HDR',
-            'host_hdr': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': policy_action['attrs'][2]
-                }]
-            },
-            'path': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': path_matches[0] + str(path_matches[0:])
-                }]
-            },
-            'query': {
-                'keep_query': False
-            }
-        }
-        policy_rule['rewrite_url_action'] = url_action
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-    elif policy_action and policy_action['attrs'][1] == 'redirect':
-        policy_rule = copy.deepcopy(policy_rules)
-        path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][2].strip('"').strip())
-        redirect_action = {
-            'port': 80,
-            'protocol': 'HTTP',
-            'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
-            'keep_query': False,
-
-            'path': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_STRING',
-                    'str_value': path_matches[0]
-                }]
-            },
-            'query': {
-                'keep_query': False
-            }
-        }
-        policy_rule['redirect_action'] = redirect_action
-        LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
-
-    else:
-        LOG.warning('Datascript: %s %s' % (cmd, policy_name))
-        add_status_row(cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
-
-    return policy_rule
-
-
-def get_patset_collection(match, bind_patset, patset_config):
-    if match in patset_config and match in bind_patset:
-        patsets = bind_patset[match]
-        patset_attrs = []
-        for patset in patsets:
-            attrs = [x for x in patset['attrs'] if x != match]
-            patset_attrs += attrs
-        if patset_attrs:
-            return patset_attrs
-
-    LOG.warning("%s Patset policy is not supported" % match)
+# def policy_converter(policies, rule_index1, bind_patset, patset_config,
+#                       avi_config, rewrite_action_config, responder_action_config,
+#                      tmp_pool_ref, Redirect_Pools, skip_attrs, na_attrs, b_cmd):
+#     rule_index = 0
+#     path_query = {
+#         "match_case": 'INSENSITIVE',
+#         "match_str": [],
+#         "match_criteria": ''
+#     }
+#     path_regex = {
+#         "match_case": 'INSENSITIVE',
+#         "string_group_refs": [],
+#         "match_criteria": ''
+#     }
+#     client_ip = {
+#         "addrs": [],
+#         "match_criteria": 'IS_IN'
+#     }
+#     header = {
+#         "match_case": 'INSENSITIVE',
+#         "hdr": '',
+#         "value": [],
+#         "match_criteria": ''
+#     }
+#     host_header = {
+#         "match_case": 'INSENSITIVE',
+#         "value": [],
+#         "match_criteria": ''
+#     }
+#     cookie = {
+#         "match_case": 'INSENSITIVE',
+#         "name": '',
+#         "value": 'needthismissingvalue',
+#         "match_criteria": ''
+#     }
+#
+#     updated_policy_name = ''
+#
+#     policy_obj = {
+#         'name': '',
+#         'tenant_uuid': 'admin',
+#         'enable': 'false',
+#         'http_request_policy': {
+#             'rules': []
+#         },
+#     }
+#
+#     for policy in policies:
+#         policy_name = policy['attrs'][0]
+#         ns_rule = policy.get('rule', None)
+#         if (not ns_rule or not policy.get('targetLBVserver', None)) and policy['policy_type'] == 'cs_policy':
+#             return rule_index, None
+#         elif policy.get('policy_type', None) == 'rewrite_policy' or policy.get('policy_type', None) == 'responder_policy':
+#             ns_rule = policy['attrs'][1]
+#
+#         pool_ref = None
+#         if policy.get('targetLBVserver', None):
+#             pool_ref = policy['targetLBVserver'] + '-pool'
+#         redirect_uri = None
+#         if pool_ref in Redirect_Pools:
+#             pools = [obj for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+#             redirect_uri = pools[0]['fail_action']['redirect']['host']
+#
+#         switching_action = {
+#             'action': 'HTTP_SWITCHING_SELECT_POOL',
+#             'status_code': 200,
+#             'pool_ref': pool_ref
+#         }
+#
+#         redirect_action = {
+#             'protocol': 'HTTP',
+#             'host': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_HOST',
+#                     'str_value': redirect_uri,
+#                     'start_index': '1',
+#                     'end_index': '65535'
+#                 }]
+#             }
+#         }
+#
+#         priority_index = policy.get('priority', None)
+#         if not priority_index:
+#             priority_index = rule_index
+#
+#         policy_rules = {
+#             'name': policy_name + '-rule-%s' % priority_index,
+#             "index": priority_index,
+#             'match': {},
+#         }
+#
+#         if redirect_uri:
+#             LOG.info("Add redirect Action %s for policy %s" % (redirect_uri, policy_name))
+#             policy_rules['redirect_action'] = redirect_action
+#         elif policy.get('targetLBVserver', None):
+#             pools = [obj['name'] for obj in avi_config['Pool'] if obj['name'] == pool_ref]
+#             if not pools:
+#                 LOG.error("Policy Skipped. Pool not found in config %s for policy %s" % (pool_ref, policy_name))
+#                 continue
+#             LOG.info("Add switching Action for policy %s" % policy_name)
+#             policy_rules['switching_action'] = switching_action
+#
+#         is_policy_successful = True
+#         policy_rule = copy.deepcopy(policy_rules)
+#         conditional_rules = ns_rule.split("&&")
+#         for rule in conditional_rules:
+#             query = rule.strip('"')
+#             query = query.strip()
+#             if 'URL ==' in query.upper():
+#                 a, b = query.split("==")
+#                 b = b.strip()
+#                 match_str = b.strip("\\'")
+#                 if match_str is None:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_str"].append(match_str)
+#                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
+#                             'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
+#                             'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
+#                             'HTTP.REQ.URL.STARTSWITH' in query.upper():
+#                 policy_rule["match"].update({"query": path_query})
+#                 policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     if 'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
+#                                     'HTTP.REQ.URL.STARTSWITH' in query.upper() or \
+#                                     'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper():
+#                         match = re.sub('[\\\/]', '', match)
+#                         policy_rule["match"]["query"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             elif 'REQ.IP.SOURCEIP' in query.upper():
+#                 policy_rule["match"].update({"client_ip": client_ip})
+#                 matches = re.findall('\REQ.IP.SOURCEIP == [0-9.]+', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     a, b = match.split("==")
+#                     policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": b.strip()})
+#                 rule_index += 1
+#
+#             elif 'CLIENT.IP.SRC.EQ' in query.upper() or \
+#                             'CLIENT.IP.SRC.NE' in query.upper():
+#                 policy_rule["match"].update({"client_ip": client_ip})
+#                 if 'CLIENT.IP.SRC.NE' in query.upper():
+#                     policy_rule["match"]['client_ip']['match_criteria'] = 'IS_NOT_IN'
+#                 matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     policy_rule["match"]["client_ip"]["addrs"].append({"type": 'V4', "addr": match})
+#                 rule_index += 1
+#
+#             elif ('HTTP.REQ.HEADER' in query.upper() and \
+#                             '.CONTAINS' in query.upper()) or \
+#                             'HTTP.REQ.FULL_HEADER.CONTAINS' in query.upper():
+#                 policy_rule["match"].update({"hdrs": [header]})
+#                 policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_CONTAINS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0 or matches[0] is None or matches[1] is None:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
+#                 policy_rule["match"]["hdrs"][0]["value"].append(matches[1])
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.HEADER' in query.upper() and ".EXISTS" in query.upper():
+#                 header_copy = copy.deepcopy(header)
+#                 header_copy.pop("match_case")
+#                 header_copy.pop("value")
+#                 policy_rule["match"].update({"hdrs": [header]})
+#                 policy_rule["match"]["hdrs"][0]["match_criteria"] = "HDR_EXISTS"
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if matches[0] is None:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 policy_rule["match"]["hdrs"][0]["hdr"] = matches[0]
+#                 rule_index += 1
+#
+#             elif ('HTTP.REQ.HOSTNAME.EQ' in query.upper()) or (
+#                     'HTTP.REQ.HOSTNAME.SET_TEXT_MODE' in query.upper() and 'EQ' in query.upper()):
+#                 policy_rule["match"].update({"host_hdr": host_header})
+#                 policy_rule["match"]["host_hdr"]["match_criteria"] = "HDR_EQUALS"
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["host_hdr"]["value"].append(match)
+#                 rule_index += 1
+#
+#             elif ('HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper()) or \
+#                     ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
+#                 policy_rule["match"].update({"cookie": cookie})
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) != 2:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 if 'HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper():
+#                     policy_rule["match"]["cookie"]["match_criteria"] = "HDR_CONTAINS"
+#                 elif 'HTTP.REQ.COOKIE' in query.upper() and 'EQ' in query.upper():
+#                     policy_rule["match"]["cookie"]["match_criteria"] = "HDR_EQUALS"
+#                 policy_rule["match"]["cookie"]["value"] = matches[1]
+#                 policy_rule["match"]["cookie"]["name"] = matches[0]
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'REGEX_MATCH' in query.upper():
+#                 policy_rule["match"].update({"path": path_regex})
+#                 policy_rule["match"]["path"]["match_criteria"] = "REGEX_MATCH"
+#                 exact_match = re.search(r'\((\d+?)\)', query).group(1)
+#                 matches = re.findall('\(re(.*?)\)', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 regex_match = []
+#                 for match in matches:
+#                     regex = '.*/'
+#                     if int(exact_match) == 1:
+#                         regex = '^%s://.*' % match
+#                     elif int(exact_match) > 1:
+#                         for index in range(int(exact_match), 2, -1):
+#                             regex += '/\w+'
+#                         regex += '/%s' % match + '.*'
+#                     else:
+#                         LOG.warning("%s Rule GET for regex match is not supported" % query)
+#                         continue
+#                     regex_match.append(regex)
+#                 string_group_ref = add_string_group_for_policy(
+#                     '%s-string_group_object-%s' % (policy_name, rule_index), regex_match, avi_config)
+#                 policy_rule["match"]["path"]["string_group_refs"].append(string_group_ref)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+#                 policy_rule["match"]["path"]["match_str"] = []
+#                 exact_match = re.search(r'\((\d+?)\)', query).group(1)
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 for match in matches:
+#                     regex = '.*/'
+#                     match = re.sub('[\\\/]', '', match)
+#                     if int(exact_match) == 1:
+#                         regex = '^%s://.*' % match
+#                     elif int(exact_match) > 1:
+#                         if int(exact_match) == 1:
+#                             regex = '^%s://.*' % match
+#                         elif int(exact_match) > 1:
+#                             for index in range(int(exact_match), 2, -1):
+#                                 regex += '/\w+'
+#                             regex += '/%s' % match + '.*'
+#                     else:
+#                         LOG.warning("%s Rule GET for Equal match is not supported" % query)
+#                         continue
+#                     policy_rule["match"]["path"]["match_str"].append(regex)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQUALS_ANY(' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 patsets = []
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     patset = get_patset_collection(match, bind_patset, patset_config)
+#                     if patset:
+#                         patsets += patset
+#                 policy_rule["match"]["path"]["match_str"] = list(set(patsets))
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'CONTAINS(' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["path"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.CONTAINS' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "CONTAINS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["path"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH.EQ' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["path"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.PATH' in query.upper():
+#                 policy_rule["match"].update({"path": path_query})
+#                 policy_rule["match"]["path"]["match_criteria"] = "EQUALS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["path"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             elif 'HTTP.REQ.URL.EQ' in query.upper():
+#                 policy_rule["match"].update({"query": path_query})
+#                 policy_rule["match"]["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
+#
+#                 matches = re.findall('\\\\(.+?)\\\\', query)
+#                 if len(matches) == 0:
+#                     LOG.warning('No Matches found for %s' % query)
+#                     continue
+#                 matches = list(set(matches))
+#                 for match in matches:
+#                     match = re.sub('[\\\/]', '', match)
+#                     policy_rule["match"]["query"]["match_str"].append(match)
+#                 rule_index += 1
+#
+#             else:
+#                 LOG.warning("%s Rule is not supported" % query)
+#                 continue
+#
+#         if 'switching_action' in policy_rule:
+#             p_ref = policy_rule['switching_action']['pool_ref']
+#             if p_ref in tmp_pool_ref:
+#                 p_ref = clone_pool(p_ref, policy_name, avi_config)
+#                 policy_rule['switching_action']['pool_ref'] = p_ref
+#             tmp_pool_ref.append(p_ref)
+#
+#         elif policy.get('policy_type', None) == 'rewrite_policy' and policy['attrs'][1] != 'true':
+#             r_cmd = 'add rewrite policy'
+#             policy_rule = get_rewrite_action(policy['attrs'][2], policy_rule, rewrite_action_config)
+#             full_cmd = get_netscalar_full_command(r_cmd, policy)
+#             if policy_rule:
+#                 add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#             else:
+#                 add_status_row(r_cmd, policy_name, full_cmd, STATUS_SKIPPED)
+#
+#         elif policy.get('policy_type', None) == 'responder_policy' and policy['attrs'][1] != 'true':
+#             r_cmd = 'add responder policy'
+#             policy_rule = get_responder_action(policy['attrs'][2], policy_rule, responder_action_config)
+#             full_cmd = get_netscalar_full_command(r_cmd, policy)
+#             if policy_rule:
+#                 add_status_row(r_cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#         if policy_rule and policy_rule['match']:
+#             policy_obj["http_request_policy"]["rules"].append(policy_rule)
+#             updated_policy_name += policy_name
+#             p_cmd = 'add cs policy'
+#             LOG.info('Conversion successful : %s %s' % (p_cmd, policy_name))
+#             conv_status = get_conv_status(policy, skip_attrs, na_attrs, [])
+#             full_cmd = get_netscalar_full_command(p_cmd, policy)
+#             add_conv_status(p_cmd, policy_name, full_cmd, conv_status, policy_rule)
+#         elif policy['policy_type'] == 'responder_policy' and not policy_rule:
+#             r_cmd = 'add responder policy'
+#             full_cmd = get_netscalar_full_command(r_cmd, policy)
+#             LOG.warning('Datascript: %s %s' % (r_cmd, policy_name))
+#             add_status_row(r_cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
+#             is_policy_successful = False
+#
+#     if len(policy_obj["http_request_policy"]["rules"]) > 0:
+#         bind_cmd = 'bind cs vserver'
+#         full_cmd = get_netscalar_full_command(bind_cmd, policy)
+#         if not is_policy_successful:
+#             LOG.info('Datascript : %s %s' % (bind_cmd, b_cmd))
+#             add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_DATASCRIPT)
+#         else:
+#             LOG.info('Conversion successful: %s %s' % (bind_cmd, b_cmd))
+#             add_status_row(bind_cmd, b_cmd, full_cmd, STATUS_SUCCESSFUL, policy_obj)
+#
+#         updated_policy_name += '-http-request-policy-%s' % rule_index
+#         policy_obj['name'] = updated_policy_name
+#         return rule_index, policy_obj
+#
+#     return rule_index, None
+#
+# def get_rewrite_action(policy_name, policy_rules, rewrite_action_config):
+#     policy_action = rewrite_action_config.get(policy_name, None)
+#     policy_rule = None
+#     cmd = 'add rewrite action'
+#     if not policy_action:
+#         LOG.warning('No responder action found: %s' % policy_name)
+#         return
+#     full_cmd = get_netscalar_full_command(cmd, policy_action)
+#
+#     if policy_action and policy_action['attrs'][1] == 'insert_http_header':
+#         hdr_action = [{
+#             'action': 'HTTP_ADD_HDR',
+#             'hdr': {
+#                 'name': policy_action['attrs'][1],
+#                 'value': {}
+#             }
+#         }]
+#         policy_rule = copy.deepcopy(policy_rules)
+#         policy_rule['hdr_action'] = hdr_action
+#         if len(policy_action['attrs']) > 3:
+#             matches = [policy_action['attrs'][3]]
+#             if matches:
+#                 value = {'val': matches[0]}
+#                 policy_rule['hdr_action'][0]['hdr']['value'].update(value)
+#                 LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#                 add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#     elif policy_action and policy_action['attrs'][1] == 'replace':
+#         policy_rule = copy.deepcopy(policy_rules)
+#         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3].strip('"').strip())
+#         url_action = {
+#             'action': 'HTTP_ADD_HDR',
+#             'host_hdr': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': policy_action['attrs'][2]
+#                 }]
+#             },
+#             'path': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': path_matches[0]
+#                 }]
+#             },
+#             'query': {
+#                 'keep_query': False
+#             }
+#         }
+#         policy_rule['rewrite_url_action'] = url_action
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#     elif policy_action and policy_action['attrs'][1] == 'insert_before':
+#         policy_rule = copy.deepcopy(policy_rules)
+#         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+#         url_action = {
+#             'action': 'HTTP_ADD_HDR',
+#             'host_hdr': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': policy_action['attrs'][2]
+#                 }]
+#             },
+#             'path': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': path_matches[0] + str(path_matches[0:])
+#                 }]
+#             },
+#             'query': {
+#                 'keep_query': False
+#             }
+#         }
+#         policy_rule['rewrite_url_action'] = url_action
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#     else:
+#         LOG.warning('Skipped: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SKIPPED)
+#
+#     return policy_rule
+#
+# def get_responder_action(policy_name, policy_rules, responder_action_config):
+#     policy_action = responder_action_config.get(policy_name, None)
+#     if not policy_action:
+#         LOG.warning('No responder action found: %s' % policy_name)
+#         return
+#
+#     policy_rule = None
+#     cmd = 'add responder action'
+#     full_cmd = get_netscalar_full_command(cmd, policy_action)
+#
+#     if policy_action and policy_action['attrs'][1] == 'insert_http_header':
+#         hdr_action = [{
+#             'action': 'HTTP_ADD_HDR',
+#             'hdr': {
+#                 'name': policy_action['attrs'][1],
+#                 'value': []
+#             }
+#         }]
+#         policy_rule = copy.deepcopy(policy_rules)
+#         policy_rule['hdr_action'] = hdr_action
+#         matches = [policy_action['attrs'][3]]
+#         value = {'val': matches[0]}
+#         policy_rule['hdr_action'][0]['hdr']['value'].append(value)
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#     elif policy_action and policy_action['attrs'][1] == 'replace':
+#         policy_rule = copy.deepcopy(policy_rules)
+#         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3].strip('"').strip())
+#         url_action = {
+#             'action': 'HTTP_ADD_HDR',
+#             'host_hdr': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': policy_action['attrs'][2]
+#                 }]
+#             },
+#             'path': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': path_matches[0]
+#                 }]
+#             },
+#             'query': {
+#                 'keep_query': False
+#             }
+#         }
+#         policy_rule['rewrite_url_action'] = url_action
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#     elif policy_action and policy_action['attrs'][1] == 'insert_before':
+#         policy_rule = copy.deepcopy(policy_rules)
+#         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+#         url_action = {
+#             'action': 'HTTP_ADD_HDR',
+#             'host_hdr': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': policy_action['attrs'][2]
+#                 }]
+#             },
+#             'path': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': path_matches[0] + str(path_matches[0:])
+#                 }]
+#             },
+#             'query': {
+#                 'keep_query': False
+#             }
+#         }
+#         policy_rule['rewrite_url_action'] = url_action
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#     elif policy_action and policy_action['attrs'][1] == 'redirect':
+#         policy_rule = copy.deepcopy(policy_rules)
+#         path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][2].strip('"').strip())
+#         redirect_action = {
+#             'port': 80,
+#             'protocol': 'HTTP',
+#             'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
+#             'keep_query': False,
+#
+#             'path': {
+#                 'type': 'URI_PARAM_TYPE_TOKENIZED',
+#                 'tokens': [{
+#                     'type': 'URI_TOKEN_TYPE_STRING',
+#                     'str_value': path_matches[0]
+#                 }]
+#             },
+#             'query': {
+#                 'keep_query': False
+#             }
+#         }
+#         policy_rule['redirect_action'] = redirect_action
+#         LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_SUCCESSFUL, policy_rule)
+#
+#     else:
+#         LOG.warning('Datascript: %s %s' % (cmd, policy_name))
+#         add_status_row(cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
+#
+#     return policy_rule
 
 
-def add_string_group_for_policy(string_group_name, matches, avi_config):
-    if not matches:
-        return None
-    stringgroup_object = {
-        "name": string_group_name,
-        "kv": [],
-    }
+# def get_patset_collection(match, bind_patset, patset_config):
+#     if match in patset_config and match in bind_patset:
+#         patsets = bind_patset[match]
+#         patset_attrs = []
+#         for patset in patsets:
+#             attrs = [x for x in patset['attrs'] if x != match]
+#             patset_attrs += attrs
+#         if patset_attrs:
+#             return patset_attrs
+#
+#     LOG.warning("%s Patset policy is not supported" % match)
 
-    for match in matches:
-        stringgroup_object['kv'].append({"key": match})
-    avi_config['StringGroup'].append(stringgroup_object)
-    LOG.info('Conversion successful : %s' % string_group_name)
-    return string_group_name
+
+# def add_string_group_for_policy(string_group_name, matches, avi_config):
+#     if not matches:
+#         return None
+#     stringgroup_object = {
+#         "name": string_group_name,
+#         "kv": [],
+#     }
+#
+#     for match in matches:
+#         stringgroup_object['kv'].append({"key": match})
+#     avi_config['StringGroup'].append(stringgroup_object)
+#     LOG.info('Conversion successful : %s' % string_group_name)
+#     return string_group_name
 
 def is_shared_same_vip(vs, avi_config):
     shared_vip = [v for v in avi_config['VirtualService'] if v['ip_address']['addr'] == vs['ip_address']['addr'] and v['services'][0]['port'] == vs['services'][0]['port']]
@@ -978,9 +977,9 @@ def clone_http_policy_set(policy, avi_config):
     policy_name = policy['name']
     for rule in policy['http_request_policy']['rules']:
         if rule.get('switching_action', None):
-            pool_ref = clone_pool(rule['switching_action']['pool_ref'], policy_name, avi_config)
-            if pool_ref:
-                rule['switching_action']['pool_ref'] = pool_ref
+            pool_group_ref = clone_pool_group(rule['switching_action']['pool_group_ref'], policy_name, avi_config)
+            if pool_group_ref:
+                rule['switching_action']['pool_group_ref'] = pool_group_ref
     policy['name'] += '-clone'
 
 def set_rules_index_for_http_policy_set(avi_config):

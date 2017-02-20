@@ -652,12 +652,15 @@ class PolicyConverter(object):
         :return:
         """
 
-        pool_ref = targetLBVserver + '-pool'
+        pool_group_ref = targetLBVserver + '-poolgroup'
         redirect_uri = None
-        if pool_ref in redirect_pools:
-            pools = [pool for pool in avi_config['Pool'] if pool['name'] ==
-                     pool_ref]
-            redirect_uri = pools[0]['fail_action']['redirect']['host']
+        if pool_group_ref in redirect_pools:
+            pool_group = [pg for pg in avi_config['PoolGroup'] if pg['name'] ==
+                     pool_group_ref]
+            for member in pool_group[0]['members']:
+                pool_ref = member['pool_ref']
+                pools = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
+                redirect_uri = pools[0]['fail_action']['redirect']['host']
 
         if redirect_uri:
             action = {
@@ -677,7 +680,7 @@ class PolicyConverter(object):
             action = {
                 'action': 'HTTP_SWITCHING_SELECT_POOL',
                 'status_code': 200,
-                'pool_ref': pool_ref
+                'pool_group_ref': pool_group_ref
             }
             return action, False
 
