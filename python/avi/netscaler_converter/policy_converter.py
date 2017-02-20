@@ -677,11 +677,16 @@ class PolicyConverter(object):
             }
             return action, True
         else:
+            pool_group = [pg for pg in avi_config['PoolGroup'] if pg['name'] ==
+                          pool_group_ref]
             action = {
                 'action': 'HTTP_SWITCHING_SELECT_POOL',
                 'status_code': 200,
                 'pool_group_ref': pool_group_ref
             }
+            if not pool_group:
+                action = None
+
             return action, False
 
 

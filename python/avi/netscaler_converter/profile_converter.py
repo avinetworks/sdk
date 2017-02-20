@@ -129,8 +129,13 @@ class ProfileConverter(object):
                 if ssl_profile:
                     avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
                 else:
-                    avi_ssl_prof = {'name': key}
-                avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
+                    avi_ssl_prof = {'name': key, 'accepted_versions': []}
+                    if not avi_ssl_prof['accepted_versions']:
+                        avi_ssl_prof['accepted_versions'].append({'type': 'SSL_VERSION_TLS1_1'})
+
+                # Todo supported only valid ciphers
+                # avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
+                avi_ssl_prof['accepted_ciphers'] = 'AES:3DES:RC4'
                 avi_config["SSLProfile"].append(avi_ssl_prof)
                 LOG.info('Conversion successful: ssl profile %s' % key)
                 conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
@@ -160,7 +165,8 @@ class ProfileConverter(object):
             full_set_ssl_service_command = ns_util.get_netscalar_full_command(set_ssl_service_command, ssl_service)
             ssl_profile_name = ssl_service['attrs'][0]
             ssl_profile = {
-                'name': ssl_profile_name
+                'name': ssl_profile_name,
+                'accepted_versions': []
             }
             # set ssl service
             sess_reuse = ssl_service.get('sessReuse', None)
@@ -177,6 +183,9 @@ class ProfileConverter(object):
                 accepted_versions.append({'type': 'SSL_VERSION_TLS1_2'})
             if accepted_versions:
                 ssl_profile['accepted_versions'] = accepted_versions
+            else:
+                ssl_profile['accepted_versions'].append({'type': 'SSL_VERSION_TLS1_1'})
+
             send_close_notify = ssl_service.get('sendCloseNotify', None)
             if send_close_notify == 'NO':
                 ssl_profile['send_close_notify'] = False
@@ -190,7 +199,9 @@ class ProfileConverter(object):
             obj = self.get_key_cert(binding_mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config, bind_ssl_service_command)
             if obj.get('accepted_ciphers', None):
-                ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
+                # Todo supported only valid ciphers
+                ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
+                # ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
