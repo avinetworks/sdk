@@ -165,7 +165,7 @@ class LbvsConverter(object):
                             pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_ref]
                             if pool:
                                 pool[0]["fail_action"] = fail_action
-                                Redirect_Pools.append(pool_ref)
+                        Redirect_Pools.append(pool_group['name'])
                 elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
                     try:
                         backup_pool_group_ref = backup_server + '-poolgroup'
