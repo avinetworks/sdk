@@ -134,6 +134,7 @@ class PolicyConverter(object):
                                                    responder_action_config,
                                                    policy_expression_config,
                                                    avi_config,
+                                                   tmp_pool_ref,
                                                    targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command, STATUS_SUCCESSFUL, policy)
@@ -190,7 +191,7 @@ class PolicyConverter(object):
 
     def rule_converter(self, policy, policy_type, priority_index, redirect_pools, bind_patset,
                        patset_config, rewrite_action_config, responder_action_config,
-                       policy_expression_config, avi_config, targetLBVserver=None):
+                       policy_expression_config, avi_config, tmp_pool_ref, targetLBVserver=None):
         """
 
         :param policy:
@@ -225,7 +226,7 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
 
-        name = rule_name + '-rule-%s' % priority_index,
+        name = '%s-rule-%s' % (rule_name, priority_index)
         conditional_rules = ns_rule.split("&&")
         match = {}
         for rule in conditional_rules:
@@ -250,9 +251,10 @@ class PolicyConverter(object):
         }
 
         if policy_type == 'cs':
-            cs_action, redirect_uri = self.get_cs_policy_action(targetLBVserver,
+            cs_action, redirect_uri = self.get_cs_policy_action(name, targetLBVserver,
                                                                 redirect_pools,
-                                                                avi_config)
+                                                                avi_config,
+                                                                tmp_pool_ref)
             if cs_action:
                 if redirect_uri:
                     policy_rules['redirect_action'] = cs_action
@@ -643,7 +645,7 @@ class PolicyConverter(object):
         LOG.warning("%s Patset policy is not supported" % match)
 
 
-    def get_cs_policy_action(self, targetLBVserver, redirect_pools, avi_config):
+    def get_cs_policy_action(self, name, targetLBVserver, redirect_pools, avi_config, tmp_pool_ref):
         """
 
         :param targetLBVserver:
@@ -679,13 +681,19 @@ class PolicyConverter(object):
         else:
             pool_group = [pg for pg in avi_config['PoolGroup'] if pg['name'] ==
                           pool_group_ref]
+            if pool_group and pool_group_ref in tmp_pool_ref:
+                pool_group_ref = ns_util.clone_pool_group(pool_group_ref, name, avi_config)
+
+
             action = {
-                'action': 'HTTP_SWITCHING_SELECT_POOL',
+                'action': 'HTTP_SWITCHING_SELECT_POOLGROUP',
                 'status_code': 200,
                 'pool_group_ref': pool_group_ref
             }
             if not pool_group:
                 action = None
+            else:
+                tmp_pool_ref.append(pool_group_ref)
 
             return action, False
 

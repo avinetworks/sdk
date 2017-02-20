@@ -378,7 +378,8 @@ class ProfileConverter(object):
                         'name': key_cert['attrs'][0],
                         'key': key_str,
                         'certificate': cert,
-                        'key_passphrase': key_cert.get('password', '')
+                        'key_passphrase': key_cert.get('password', ''),
+                        'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
                     }
                     obj['cert'] = ssl_kc_obj
                     output = ssl_kc_obj
