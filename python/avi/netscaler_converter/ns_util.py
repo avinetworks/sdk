@@ -231,30 +231,30 @@ def update_status_for_skipped(skipped_cmds):
     na_cmds = ns_constants.netscalar_command_status['NotApplicableCommands']
     indirect_cmds = ns_constants.netscalar_command_status['IndirectCommands']
     datascript_cmds = ns_constants.netscalar_command_status['DatascriptCommands']
+    not_supported = ns_constants.netscalar_command_status['NotSupported']
     if not skipped_cmds:
         return
     for cmd in skipped_cmds:
         line_no = cmd['line_no']
         cmd = cmd['cmd']
         cmd = cmd.strip()
-        is_found = False
         for na_cmd in na_cmds:
             if cmd.startswith(na_cmd):
                 add_status_row(line_no, na_cmd, None, cmd, STATUS_NOT_APPLICABLE)
-                is_found = True
                 break
         for id_cmd in indirect_cmds:
             if cmd.startswith(id_cmd):
                 add_status_row(line_no, id_cmd, None, cmd, STATUS_INDIRECT)
-                is_found = True
                 break
         for datascript_cmd in datascript_cmds:
             if cmd.startswith(datascript_cmd):
                 add_status_row(line_no, datascript_cmd, None, cmd, STATUS_DATASCRIPT)
-                is_found = True
                 break
-        if not is_found:
-            add_status_row(line_no, cmd, None, None, STATUS_COMMAND_NOT_SUPPORTED)
+        for not_commands in not_supported:
+            if cmd.startswith(not_commands):
+                add_status_row(line_no, not_commands, None, cmd, STATUS_COMMAND_NOT_SUPPORTED)
+                break
+
 
 def remove_duplicate_objects(obj_type, obj_list):
     """
