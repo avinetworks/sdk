@@ -973,14 +973,14 @@ def is_shared_same_vip(vs, avi_config):
     if shared_vip:
         return True
 
-def clone_http_policy_set(policy, avi_config):
+def clone_http_policy_set(policy, prefix, avi_config):
     policy_name = policy['name']
     for rule in policy['http_request_policy']['rules']:
         if rule.get('switching_action', None):
             pool_group_ref = clone_pool_group(rule['switching_action']['pool_group_ref'], policy_name, avi_config)
             if pool_group_ref:
                 rule['switching_action']['pool_group_ref'] = pool_group_ref
-    policy['name'] += '-clone'
+    policy['name'] += '-%s-clone' % prefix
 
 def set_rules_index_for_http_policy_set(avi_config):
     http_policy_sets = avi_config['HTTPPolicySet']
