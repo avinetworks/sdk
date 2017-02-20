@@ -36,6 +36,7 @@ class LbvsConverter(object):
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['ApplicationPersistenceProfile'] = []
+        avi_config['HTTPPolicySet'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
                            'SSL_TCP', 'DNS', 'DNS_TCP']
 
