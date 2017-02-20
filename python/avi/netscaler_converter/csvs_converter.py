@@ -38,22 +38,11 @@ class CsvsConverter(object):
         policy_converter = PolicyConverter()
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
-        # policy_lables = ns_config.get('bind cs policylabel', {})
-        # policy_config = ns_config.get('add cs policy', {})
-        # responder_policy_config = ns_config.get('add responder policy', {})
-        # rewrite_policy_config = ns_config.get('add rewrite policy', {})
-        # responder_action_config = ns_config.get('add responder action', {})
-        # rewrite_action_config = ns_config.get('add rewrite action', {})
-        #
-        # bind_patset = ns_config.get('bind policy patset', {})
-        # patset_config = ns_config.get('add policy patset', {})
-        lb_config = ns_config.get('bind lb vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['HTTPPolicySet'] = []
         avi_config['StringGroup'] = []
-        rule_index = 0
         avi_config['VirtualService'] = ns_util.remove_duplicate_objects('VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
@@ -201,6 +190,22 @@ class CsvsConverter(object):
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     default_pool = bind_conf['lbvserver']
+                # if 'CA' in bind_conf:
+                #     pki_ref = bind_conf['attrs'][0]
+                #     if [pki_profile for pki_profile in avi_config["PKIProfile"] if pki_profile['name'] == pki_ref]:
+                #         vs_obj['pki_profile_ref'] = pki_ref
+                #         LOG.info('Added: %s PKI profile %s' % (pki_ref, key))
+                if 'certkeyName' in bind_conf:
+                    avi_ssl_ref = 'ssl_key_and_certificate_refs'
+                    if not [obj for obj in avi_config['SSLKeyAndCertificate']
+                                if obj['name'] == bind_conf['attrs'][0]]:
+                        LOG.warn('cannot find ssl key cert ref adding '
+                                         'system default insted')
+                        vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
+                if [ssl_profile for ssl_profile in avi_config["SSLProfile"] if
+                                        ssl_profile['name'] == bind_conf['attrs'][0]]:
+                    vs_obj['ssl_profile_name'] = bind_conf['attrs'][0]
+                    LOG.info('Added: %s SSL profile %s' % (key, key))
                 # if 'invoke' in bind_conf:
                 #     parts = bind_conf['invoke'].split(' ')
                 #     if parts[0] != 'policylabel' or len(parts) < 2:
@@ -230,23 +235,6 @@ class CsvsConverter(object):
             policy = policy_converter.convert(bind_conf_list, ns_config, avi_config, tmp_pool_ref, Redirect_Pools,
                                               self.skip_attrs, self.na_attrs, 'bind cs vserver')
 
-            # if cs_vs_policies:
-            #     new_rule_index, policy = ns_util.policy_converter(cs_vs_policies, rule_index, bind_patset,
-            #                                                       patset_config, avi_config, rewrite_action_config,
-            #                                                       responder_action_config, tmp_pool_ref, Redirect_Pools,
-            #                                                       self.skip_attrs, self.na_attrs, b_cmd)
-            #     if policy:
-            #         if policy['name'] in tmp_policy_ref:
-            #             ns_util.clone_http_policy_set(policy, avi_config)
-            #         tmp_policy_ref.append(policy['name'])
-            #         http_policies = {
-            #             'index': 11,
-            #             'http_policy_set_ref': policy['name']
-            #         }
-            #         vs_obj['http_policies'] = []
-            #         vs_obj['http_policies'].append(http_policies)
-            #         avi_config['HTTPPolicySet'].append(policy)
-                    # rule_index = new_rule_index
             if policy:
                 if policy['name'] in tmp_policy_ref:
                     ns_util.clone_http_policy_set(policy, avi_config)

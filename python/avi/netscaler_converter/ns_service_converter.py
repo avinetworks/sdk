@@ -116,6 +116,8 @@ class ServiceConverter(object):
         ns_dns = ns_config.get('add dns addRec', {})
         bind_ns_service = ns_config.get('bind service', {})
         ns_service_groups = ns_config.get('add serviceGroup', {})
+        set_ssl_service_group = ns_config.get('set ssl serviceGroup', {})
+        set_ssl_service = ns_config.get('set ssl service', {})
 
         for key in ns_services:
             service = ns_services.get(key, {})
@@ -133,6 +135,14 @@ class ServiceConverter(object):
                 'servers': [server],
                 'health_monitor_refs': []
             }
+            ssl_service = set_ssl_service.get(key, None)
+            if ssl_service:
+                if [pki for pki in avi_config['PKIProfile'] if pki['name'] == key]:
+                    pool_obj['pki_profile_ref'] = key
+                if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == key]:
+                    pool_obj['ssl_key_and_certificate_uuid'] = key
+                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == key]:
+                    pool_obj['ssl_profile_ref'] = key
             monitor_refs = self.get_service_montor(service_name, bind_ns_service)
             if monitor_refs:
                 pool_obj['health_monitor_refs'] = list(set(monitor_refs))
@@ -158,6 +168,16 @@ class ServiceConverter(object):
                 'servers': servers,
                 'health_monitor_refs': []
             }
+
+            ssl_service_group = set_ssl_service_group.get(group_key, None)
+            if ssl_service_group:
+                if [pki for pki in avi_config['PKIProfile'] if pki['name'] == group_key]:
+                    pool_obj['pki_profile_ref'] = group_key
+                if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == group_key]:
+                    pool_obj['ssl_key_and_certificate_uuid'] = group_key
+                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == group_key]:
+                    pool_obj['ssl_profile_ref'] = group_key
+
             if monitor_ref:
                 pool_obj['health_monitor_refs'].append(monitor_ref)
             avi_config['Pool'].append(pool_obj)

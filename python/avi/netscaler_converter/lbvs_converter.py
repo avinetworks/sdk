@@ -241,8 +241,10 @@ class LbvsConverter(object):
                         ssl_bindings = [ssl_bindings]
                     for mapping in ssl_bindings:
                         if 'CA' in mapping:
-                            #TODO add ref of pki prof in app profile
-                            pass
+                            pki_ref = mapping['attrs'][0]
+                            if [pki_profile for pki_profile in avi_config["PKIProfile"] if pki_profile['name'] == pki_ref]:
+                                vs_obj['pki_profile_ref'] = pki_ref
+                                LOG.info('Added: %s PKI profile %s' % (pki_ref, key))
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
                             if not [obj for obj in avi_config['SSLKeyAndCertificate']
@@ -254,8 +256,9 @@ class LbvsConverter(object):
                             vs_obj[avi_ssl_ref] = mapping['attrs'][0]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
-                    if mapping and 'sslProfile' in mapping:
-                        vs_obj['ssl_profile_name'] = mapping.get('sslProfile')
+                    if mapping and [ssl_profile for ssl_profile in avi_config["SSLProfile"] if ssl_profile['name'] == key]:
+                        vs_obj['ssl_profile_name'] = key
+                        LOG.info('Added: %s SSL profile %s' % (key, key))
 
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
