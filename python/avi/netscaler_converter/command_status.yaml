@@ -29,6 +29,10 @@ SupportedCommands:
 - 'add ssl cipher'
 - 'bind ssl cipher'
 - 'add policy expression'
+- 'set ssl serviceGroup'
+- 'bind ssl serviceGroup'
+- 'set ssl service'
+- 'bind ssl service'
 
 NotApplicableCommands:
 - 'set system'
