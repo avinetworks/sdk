@@ -997,6 +997,8 @@ def get_netscalar_full_command(netscalar_command, obj):
     for key in obj:
         if isinstance(obj[key], list):
             continue
+        if key == 'line_no':
+            continue
         netscalar_command += ' -%s %s' % (key, obj[key])
     return netscalar_command
 
