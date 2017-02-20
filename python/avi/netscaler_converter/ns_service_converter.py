@@ -85,7 +85,7 @@ class ServiceConverter(object):
                         pool[0]['lb_algorithm'] = algo
                         pg_members.append({'pool_ref': pool_name})
                         used_pool_ref.append(pool_name)
-                        LOG.info('Conversion successful : %s' % element['attrs'][0])
+                        LOG.info('Conversion successful : %s' % full_cmd)
                         conv_status = ns_util.get_conv_status(element, self.bind_lb_skipped, [], [])
                         ns_util.add_conv_status(element['line_no'], netscalar_cmd, element['attrs'][0], full_cmd, conv_status, pool[0])
                     else:
@@ -201,7 +201,7 @@ class ServiceConverter(object):
                 full_bind_service_command = ns_util.get_netscalar_full_command(bind_service_command, service)
                 if service and service.get('monitorName', None):
                     monitor_refs.append(service.get('monitorName'))
-                    LOG.info('Conversion suv=ccessful : %s' % full_bind_service_command)
+                    LOG.info('Conversion successful : %s' % full_bind_service_command)
                     ns_util.add_status_row(service['line_no'], bind_service_command, service_name, full_bind_service_command, STATUS_SUCCESSFUL, service.get('monitorName'))
                 else:
                     LOG.warning('Skipped : Not found Health monitor %s' % full_bind_service_command)
