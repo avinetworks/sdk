@@ -412,7 +412,7 @@ class PolicyConverter(object):
             match["hdrs"][0]["match_criteria"] = "HDR_CONTAINS"
 
             matches = re.findall('\\\\(.+?)\\\\', query)
-            if len(matches) == 0 or matches[0] is None or matches[1] is None:
+            if len(matches) < 2 or matches[0] is None or matches[1] is None:
                 LOG.warning('No Matches found for %s' % query)
                 return None
             match["hdrs"][0]["hdr"] = matches[0]
