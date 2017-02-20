@@ -964,6 +964,6 @@ class PolicyConverter(object):
         responder_policy = responder_policy_config.get(policy_name, None)
         if responder_policy:
             return responder_policy, 'responder'
-
+        return None, None
 
 
