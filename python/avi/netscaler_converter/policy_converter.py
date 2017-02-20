@@ -239,7 +239,7 @@ class PolicyConverter(object):
                 match.update(rule_match)
 
         if not match:
-            LOG.warning('Skipped policy: %s' % rule_name)
+            LOG.warning('Skipped policy Does not match any rule: %s' % rule_name)
             ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name, full_cmd, STATUS_SKIPPED)
             return None, priority_index
 
