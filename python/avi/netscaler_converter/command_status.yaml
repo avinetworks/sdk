@@ -83,7 +83,14 @@ NotApplicableCommands:
 - 'set ptp'
 - 'set ip6TunnelParam'
 - 'set L3Param'
-
+- 'set ns encryptionParams'
+- 'set aaa preauthenticationparameter'
+- 'set vpn parameter'
+- 'add audit syslogAction'
+- 'set locationParameter'
+- 'add audit messageaction'
+- 'set audit syslogParams'
+ 
 IndirectCommands:
 - 'add cmp global'
 - 'bind cmp global'
@@ -95,9 +102,11 @@ IndirectCommands:
 - 'add vlan'
 - 'bind vlan'
 - 'link ssl certKey'
+- 'set appfw profile'
 
 DatascriptCommands:
 - 'add ca action'
+- 'add cs action'
 
 
 
