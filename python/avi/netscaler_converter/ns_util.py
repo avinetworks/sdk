@@ -5,9 +5,12 @@ import copy
 import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
-                                               STATUS_INDIRECT, STATUS_NOT_APPLICABLE,
-                                               STATUS_PARTIAL, STATUS_DATASCRIPT,
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+                                                  STATUS_SUCCESSFUL,
+                                                  STATUS_INDIRECT,
+                                                  STATUS_NOT_APPLICABLE,
+                                                  STATUS_PARTIAL,
+                                                  STATUS_DATASCRIPT,
                                                   STATUS_INCOMPLETE_CONFIGURATION,
                                                   STATUS_COMMAND_NOT_SUPPORTED)
 
@@ -39,7 +42,8 @@ def upload_file(file_path):
     return file_str
 
 
-def add_conv_status(line_no, cmd, object_type, full_command, conv_status, avi_object=None):
+def add_conv_status(line_no, cmd, object_type, full_command, conv_status,
+                    avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -79,11 +83,16 @@ def add_complete_conv_status(csv_file, ns_config):
             if isinstance(element_object_list, dict):
                 element_object_list = [element_object_list]
             for element_object in element_object_list:
-                match = [match for match in csv_writer_dict_list if match['Line Number'] == element_object['line_no']]
+                match = [match for match in csv_writer_dict_list
+                         if match['Line Number'] == element_object['line_no']]
                 if not match:
-                    ns_complete_command = get_netscalar_full_command(config_key, element_object)
+                    ns_complete_command = \
+                        get_netscalar_full_command(config_key, element_object)
                     # Add status incomplete configuration
-                    add_status_row(element_object['line_no'], config_key, element_object['attrs'][0], ns_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
+                    add_status_row(element_object['line_no'], config_key,
+                                   element_object['attrs'][0],
+                                   ns_complete_command,
+                                   STATUS_INCOMPLETE_CONFIGURATION)
 
     unique_line_number_list = set()
     row_list = []
@@ -92,7 +101,8 @@ def add_complete_conv_status(csv_file, ns_config):
             unique_line_number_list.add(dict_row['Line Number'])
             row_list.append(dict_row)
         else:
-            row = [row for row in row_list if row['Line Number'] == dict_row['Line Number']]
+            row = [row for row in row_list
+                   if row['Line Number'] == dict_row['Line Number']]
             if dict_row.get('AVI Object', None):
                 row[0]['AVI Object'] += ' %s' % dict_row['AVI Object']
 
@@ -100,7 +110,8 @@ def add_complete_conv_status(csv_file, ns_config):
         csv_writer.writerow(row)
 
 
-def add_status_row(line_no, cmd, object_type, full_command, status, avi_object=None):
+def add_status_row(line_no, cmd, object_type, full_command, status,
+                   avi_object=None):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -126,9 +137,10 @@ def add_csv_headers(csv_file):
     """
 
     global csv_writer
-    fieldnames = ['Line Number', 'Netscaler Command', 'Object Name', 'Full Command', 'Status',
-                  'Skipped settings', 'Indirect mapping', 'Not Applicable',
-                  'User Ignored', 'AVI Object']
+    fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                  'Full Command', 'Status', 'Skipped settings',
+                  'Indirect mapping', 'Not Applicable', 'User Ignored',
+                  'AVI Object']
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
                                 lineterminator='\n',)
 
@@ -280,7 +292,8 @@ def update_status_for_skipped(skipped_cmds):
         for na_cmd in na_cmds:
             if cmd.startswith(na_cmd):
                 # Add status not applicable in csv/report
-                add_status_row(line_no, na_cmd, None, cmd, STATUS_NOT_APPLICABLE)
+                add_status_row(line_no, na_cmd, None, cmd,
+                               STATUS_NOT_APPLICABLE)
                 break
         for id_cmd in indirect_cmds:
             if cmd.startswith(id_cmd):
@@ -290,12 +303,14 @@ def update_status_for_skipped(skipped_cmds):
         for datascript_cmd in datascript_cmds:
             if cmd.startswith(datascript_cmd):
                 # Add status datascript in csv/report
-                add_status_row(line_no, datascript_cmd, None, cmd, STATUS_DATASCRIPT)
+                add_status_row(line_no, datascript_cmd, None, cmd,
+                               STATUS_DATASCRIPT)
                 break
         for not_commands in not_supported:
             if cmd.startswith(not_commands):
                 # Add status not not supported in csv/report
-                add_status_row(line_no, not_commands, None, cmd, STATUS_COMMAND_NOT_SUPPORTED)
+                add_status_row(line_no, not_commands, None, cmd,
+                               STATUS_COMMAND_NOT_SUPPORTED)
                 break
 
 
@@ -323,7 +338,8 @@ def remove_duplicate_objects(obj_type, obj_list):
             if "description" in tmp_cp:
                 del tmp_cp["description"]
             if cmp(src_cp, tmp_cp) == 0:
-                LOG.warn('Remove duplicate %s object : %s' % (obj_type, tmp_obj["name"]))
+                LOG.warn('Remove duplicate %s object : %s' % (obj_type,
+                                                              tmp_obj["name"]))
                 del obj_list[index]
                 remove_duplicate_objects(obj_type, obj_list)
     return obj_list
@@ -352,7 +368,8 @@ def clone_pool(pool_name, prefix, avi_config):
         pool_name = re.sub('[:]', '-', prefix + pool_obj['name'])
         pool_obj['name'] = pool_name
         avi_config['Pool'].append(pool_obj)
-        LOG.info("Same pool reference to other object. Clone Pool %s for %s" % (pool_name, prefix))
+        LOG.info("Same pool reference to other object. Clone Pool %s for %s" %
+                 (pool_name, prefix))
         return pool_obj['name']
     return None
 
@@ -363,11 +380,13 @@ def get_vs_if_shared_vip(avi_config):
     :return: None
     """
 
-    vs_list = [v for v in avi_config['VirtualService'] if 'port_range_end' in v['services'][0]]
+    vs_list = [v for v in avi_config['VirtualService'] if 'port_range_end' in
+               v['services'][0]]
     for vs in vs_list:
-        vs_port_list = [int(v['services'][0]['port']) for v in avi_config['VirtualService']
-                        if v['ip_address']['addr'] == vs['ip_address']['addr'] and
-                        'port_range_end' not in v['services'][0]]
+        vs_port_list = [int(v['services'][0]['port']) for v in
+                        avi_config['VirtualService']
+                        if v['ip_address']['addr'] == vs['ip_address']['addr']
+                        and 'port_range_end' not in v['services'][0]]
         if vs_port_list:
             min_port = min(vs_port_list)
             max_port = max(vs_port_list)
@@ -388,7 +407,8 @@ def add_clttimeout_for_http_profile(profile_name, avi_config, cltimeout):
     :return: Bool Value
     """
 
-    profile = [p for p in avi_config['ApplicationProfile'] if p['name'] == profile_name]
+    profile = [p for p in avi_config['ApplicationProfile']
+               if p['name'] == profile_name]
     if profile:
         profile[0]['client_header_timeout'] = int(cltimeout)
         profile[0]['client_body_timeout'] = int(cltimeout)
@@ -409,7 +429,9 @@ def is_shared_same_vip(vs, avi_config):
     :return: Bool value
     """
 
-    shared_vip = [v for v in avi_config['VirtualService'] if v['ip_address']['addr'] == vs['ip_address']['addr'] and v['services'][0]['port'] == vs['services'][0]['port']]
+    shared_vip = [v for v in avi_config['VirtualService']
+                  if v['ip_address']['addr'] == vs['ip_address']['addr']
+                  and v['services'][0]['port'] == vs['services'][0]['port']]
     if shared_vip:
         return True
 
@@ -425,7 +447,9 @@ def clone_http_policy_set(policy, prefix, avi_config):
     policy_name = policy['name']
     for rule in policy['http_request_policy']['rules']:
         if rule.get('switching_action', None):
-            pool_group_ref = clone_pool_group(rule['switching_action']['pool_group_ref'], policy_name, avi_config)
+            pool_group_ref = clone_pool_group(rule['switching_action']
+                                              ['pool_group_ref'], policy_name,
+                                              avi_config)
             if pool_group_ref:
                 rule['switching_action']['pool_group_ref'] = pool_group_ref
     policy['name'] += '-%s-clone' % prefix
@@ -481,14 +505,16 @@ def clone_pool_group(pg_name, prefix, avi_config):
             if pool_ref:
                 member['pool_ref'] = pool_ref
         avi_config['PoolGroup'].append(pool_group)
-        LOG.info("Same pool group reference to other object. Clone Pool group %s for %s" % (pg_name, prefix))
+        LOG.info("Same pool group reference to other object. Clone Pool group "
+                 "%s for %s" % (pg_name, prefix))
         return pool_group['name']
     return None
 
 
 def remove_http_mon_from_pool(avi_config, pool):
     """
-    This function is used for removing http type from health monitor for https vs.
+    This function is used for removing http type from health monitor for https
+    vs.
     :param avi_config: avi config dict
     :param pool: name of pool
     :return: None
@@ -499,6 +525,8 @@ def remove_http_mon_from_pool(avi_config, pool):
             hm = [h for h in avi_config['HealthMonitor'] if h['name'] == hm_ref]
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                 pool['health_monitor_refs'].remove(hm_ref)
-                LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
-                            'HTTPS and VS has no ssl profile.' % (hm_ref, pool['name']))
+                LOG.warning('Skipping %s this reference from %s pool because of '
+                            'health monitor type is '
+                            'HTTPS and VS has no ssl profile.' % (hm_ref,
+                                                                  pool['name']))
 
