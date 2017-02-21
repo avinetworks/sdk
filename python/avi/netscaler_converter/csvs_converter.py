@@ -2,14 +2,17 @@ import logging
 import copy
 import re
 from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.lbvs_converter import Redirect_Pools, used_pool_group_ref
+from avi.netscaler_converter.lbvs_converter import (redirect_pools,
+                                                    used_pool_group_ref)
 from avi.netscaler_converter.ns_constants import STATUS_SKIPPED
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
 
-tmp_pool_ref = used_pool_group_ref
+tmp_used_pool_group_ref = used_pool_group_ref
 tmp_policy_ref = []
+
+
 class CsvsConverter(object):
     skip_attrs = ['td', 'IPPattern', 'IPMask', 'dnsRecordType', 'persistenceId',
                   'cacheable', 'redirectURL', 'precedence',
@@ -18,7 +21,7 @@ class CsvsConverter(object):
                   'redirectPortRewrite', 'downStateFlush', 'Listenpolicy',
                   'insertVserverIPPort', 'disablePrimaryOnDown', 'authnVsName',
                   'AuthenticationHost', 'Authentication', 'Listenpriority',
-                  'authn401',  'push', 'pushVserver', 'pushLabel',
+                  'authn401', 'push', 'pushVserver', 'pushLabel',
                   'pushMultiClients', 'comment', 'mssqlServerVersion ',
                   'l2Conn', 'netProfile', 'icmpVsrResponse', 'RHIstate',
                   'authnProfile', 'dnsProfileName']
@@ -35,6 +38,16 @@ class CsvsConverter(object):
     ignore_vals = {'Listenpolicy': 'None'}
 
     def convert(self, ns_config, avi_config, vs_state):
+        """
+        This function defines that it convert netscalar cs vs config to vs
+        config of AVI
+        :param ns_config: It is dict of all netscalar commands which are
+        supported by AVI
+        :param avi_config: It is dict of AVI output config
+        :param vs_state: state of vs
+        :return: None
+        """
+
         policy_converter = PolicyConverter()
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
@@ -42,23 +55,33 @@ class CsvsConverter(object):
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['StringGroup'] = []
-        avi_config['VirtualService'] = ns_util.remove_duplicate_objects('VirtualService', avi_config['VirtualService'])
+        avi_config['VirtualService'] = ns_util.remove_duplicate_objects \
+            ('VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
-            cmd = 'add cs vserver'
-            full_cmd = ns_util.get_netscalar_full_command(cmd, cs_vs)
+            ns_add_cs_vserver_command = 'add cs vserver'
+            ns_add_cs_vserver_complete_command = ns_util. \
+                get_netscalar_full_command(ns_add_cs_vserver_command, cs_vs)
+            # Skipped this CS VS if it has type which are not supported
             if not cs_vs['attrs'][1] in self.supported_types:
                 LOG.warn('Unsupported type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
+                ns_util.add_status_row(cs_vs['line_no'],
+                                       ns_add_cs_vserver_command, key,
+                                       ns_add_cs_vserver_complete_command,
+                                       STATUS_SKIPPED)
                 continue
             tt = cs_vs.get('targetType', None)
             if tt and tt == 'GSLB':
                 LOG.warn('Unsupported target type %s of Context switch VS: %s' %
                          (cs_vs['attrs'][1], key))
-                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
+                # Skipped this CS VS if targetType is GSLB
+                ns_util.add_status_row(cs_vs['line_no'],
+                                       ns_add_cs_vserver_command,
+                                       key, ns_add_cs_vserver_complete_command,
+                                       STATUS_SKIPPED)
             vs_name = cs_vs['attrs'][0]
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
@@ -94,128 +117,63 @@ class CsvsConverter(object):
                 vs_obj['application_profile_ref'] = http_prof
                 clttimeout = cs_vs.get('cltTimeout', None)
                 if clttimeout:
-                    ns_util.add_clttimeout_for_http_profile(http_prof, avi_config, clttimeout)
-                    clt_cmd = cmd + ' cltTimeout %s' % clttimeout
+                    ns_util.add_clttimeout_for_http_profile(http_prof,
+                                                            avi_config,
+                                                            clttimeout)
+                    clt_cmd = ns_add_cs_vserver_command + ' cltTimeout %s' % \
+                                                          clttimeout
                     LOG.info('Conversion successful : %s' % clt_cmd)
             ntwk_prof = cs_vs.get('tcpProfileName', None)
             if ntwk_prof:
-                if ns_util.object_exist('NetworkProfile', ntwk_prof, avi_config):
-                    LOG.info('Conversion successful: Added network profile %s for %s' % (ntwk_prof, vs_name))
+                if ns_util.object_exist('NetworkProfile', ntwk_prof,
+                                        avi_config):
+                    LOG.info('Conversion successful: Added network profile %s '
+                             'for %s' % (ntwk_prof, vs_name))
                     vs_obj['network_profile_ref'] = ntwk_prof
                 else:
                     vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
-                    LOG.error('Error: Not found Network profile %s for %s' % (ntwk_prof, vs_name))
+                    LOG.error('Error: Not found Network profile %s for %s' %
+                              (ntwk_prof, vs_name))
 
             if not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS':
                 vs_obj['application_profile_ref'] = 'admin:System-DNS'
                 vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
             elif not http_prof and (cs_vs['attrs'][1]).upper() == 'UDP':
-                vs_obj['application_profile_ref'] = 'admin:System-L4-Application'
+                vs_obj[
+                    'application_profile_ref'] = 'admin:System-L4-Application'
                 vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
             elif not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS_TCP':
-                vs_obj['application_profile_ref']= 'admin:System-L4-Application'
+                vs_obj[
+                    'application_profile_ref'] = 'admin:System-L4-Application'
                 vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
             if isinstance(bind_conf_list, dict):
                 bind_conf_list = [bind_conf_list]
-            default_pool = None
+            default_pool_group = None
             policy_name = ''
-            # for bind_conf in bind_conf_list:
-            #     b_cmd = 'bind cs vserver'
-            #     full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
-            #     found = False
-            #     if len(bind_conf['attrs']) > 1:
-            #         lbvs_bindings.append(bind_conf['attrs'][1])
-            #         found = True
-            #
-            #     if 'policylabel' in bind_conf:
-            #         policyLabelName = bind_conf['policylabel']
-            #         if policyLabelName in policy_lables.keys():
-            #             policyLabels = policy_lables[policyLabelName]
-            #             if isinstance(policyLabels, dict):
-            #                 policyLabels = [policyLabels]
-            #             targetVserver = self.get_targetvserver_policylabel(policyLabels, policy_lables)
-            #             if targetVserver:
-            #                 pl_cmd = "bind cs policylabel : %s" % policyLabelName
-            #                 if 'policyName' in bind_conf:
-            #                     policy_name = bind_conf['policyName']
-            #                     lbvs_bindings.append(targetVserver)
-            #                     found = True
-            #                     policy = policy_config[policy_name]
-            #                     policy = copy.deepcopy(policy)
-            #                     policy['targetLBVserver'] = targetVserver
-            #                     cs_vs_policies.append(policy)
-            #                     LOG.info('Conversion successful : %s' % pl_cmd)
-            #
-            #     if 'policyName' in bind_conf:
-            #         policy_name = bind_conf['policyName']
-            #         c_policy = policy_config.get(policy_name, None)
-            #         rewrite_policy = rewrite_policy_config.get(policy_name, None)
-            #         responder_policy = responder_policy_config.get(policy_name, None)
-            #
-            #         if c_policy and bind_conf.get('targetLBVserver', None):
-            #             lbvs_bindings.append(bind_conf['targetLBVserver'])
-            #             found = True
-            #             policy = policy_config[policy_name]
-            #             policy = copy.deepcopy(policy)
-            #             policy['policy_type'] = 'cs_policy'
-            #             policy['targetLBVserver'] = bind_conf['targetLBVserver']
-            #             if bind_conf.get('priority', None):
-            #                 policy['priority'] = bind_conf.get('priority')
-            #             cs_vs_policies.append(policy)
-            #
-            #         elif rewrite_policy:
-            #             policy = rewrite_policy_config[policy_name]
-            #             policy = copy.deepcopy(policy)
-            #             policy['policy_type'] = 'rewrite_policy'
-            #             if bind_conf.get('priority', None):
-            #                 policy['priority'] = bind_conf.get('priority')
-            #
-            #             cs_vs_policies.append(policy)
-            #
-            #         elif responder_policy:
-            #             policy = responder_policy_config[policy_name]
-            #             policy = copy.deepcopy(policy)
-            #             policy['policy_type'] = 'responder_policy'
-            #             if bind_conf.get('priority', None):
-            #                 policy['priority'] = bind_conf.get('priority')
-            #             cs_vs_policies.append(policy)
-            #
+            lb_vserver_bind_conf = None
             for bind_conf in bind_conf_list:
-                b_cmd = 'bind cs vserver'
-                b_full_cmd = ns_util.get_netscalar_full_command(b_cmd, bind_conf)
+                ns_bind_cs_vs_command = 'bind cs vserver'
+                ns_bind_cs_vs_complete_command = ns_util. \
+                    get_netscalar_full_command(ns_bind_cs_vs_command, bind_conf)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
-                    default_pool = bind_conf['lbvserver']
-                # if 'CA' in bind_conf:
-                #     pki_ref = bind_conf['attrs'][0]
-                #     if [pki_profile for pki_profile in avi_config["PKIProfile"] if pki_profile['name'] == pki_ref]:
-                #         vs_obj['pki_profile_ref'] = pki_ref
-                #         LOG.info('Added: %s PKI profile %s' % (pki_ref, key))
+                    default_pool_group = bind_conf['lbvserver']
+                    lb_vserver_bind_conf = bind_conf
                 if 'certkeyName' in bind_conf:
                     avi_ssl_ref = 'ssl_key_and_certificate_refs'
                     if not [obj for obj in avi_config['SSLKeyAndCertificate']
-                                if obj['name'] == bind_conf['attrs'][0]]:
-                        LOG.warn('cannot find ssl key cert ref adding '
-                                         'system default insted')
+                            if obj['name'] == bind_conf['attrs'][0]]:
+                        LOG.warn('Could not find ssl key cert ref, so adding '
+                                 'default cert system default insted')
                         vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
                 ssl_profile_name = re.sub('[:]', '-', bind_conf['attrs'][0])
                 if [ssl_profile for ssl_profile in avi_config["SSLProfile"] if
-                                        ssl_profile['name'] == ssl_profile_name]:
-
+                    ssl_profile['name'] == ssl_profile_name]:
                     vs_obj['ssl_profile_name'] = ssl_profile_name
-                    LOG.info('Added: %s SSL profile %s' % (key, key))
-                # if 'invoke' in bind_conf:
-                #     parts = bind_conf['invoke'].split(' ')
-                #     if parts[0] != 'policylabel' or len(parts) < 2:
-                #         continue
-                #     before_len = size = len(lbvs_bindings)
-                #     self.get_target_vs_from_policy(policy_lables, parts[1],
-                #                                    lbvs_bindings)
-                #     if len(lbvs_bindings) > before_len:
-                #         found = True
+                    LOG.debug('Added: %s SSL profile %s' % (key, key))
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -233,12 +191,21 @@ class CsvsConverter(object):
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_group_ref', None)
 
-            policy = policy_converter.convert(bind_conf_list, ns_config, avi_config, tmp_pool_ref, Redirect_Pools,
-                                              self.skip_attrs, self.na_attrs, 'bind cs vserver')
+            # Convert netscalar policy to AVI http policy set
+            policy = policy_converter.convert(bind_conf_list, ns_config,
+                                              avi_config,
+                                              tmp_used_pool_group_ref,
+                                              redirect_pools,
+                                              self.skip_attrs, self.na_attrs,
+                                              'bind cs vserver')
 
+            # TODO move duplicate code for adding policy to vs in ns_util
+            # Add the http policy set reference to VS in AVI
             if policy:
                 if policy['name'] in tmp_policy_ref:
-                    ns_util.clone_http_policy_set(policy, updated_vs_name, avi_config)
+                    # clone the http policy set if it is referenced to other VS
+                    ns_util.clone_http_policy_set(policy, updated_vs_name,
+                                                  avi_config)
                 tmp_policy_ref.append(policy['name'])
                 http_policies = {
                     'index': 11,
@@ -248,59 +215,60 @@ class CsvsConverter(object):
                 vs_obj['http_policies'].append(http_policies)
                 avi_config['HTTPPolicySet'].append(policy)
 
-            if default_pool:
-                pool_ref = '%s-poolgroup' % default_pool
-                updated_pool_ref = re.sub('[:]', '-', pool_ref)
-                pools = [pg['name'] for pg in avi_config['PoolGroup'] if pg['name'] == updated_pool_ref]
+            # Add reference of pool group to VS
+            if default_pool_group:
+                pool_group_ref = '%s-poolgroup' % default_pool_group
+                updated_pool_group_ref = re.sub('[:]', '-', pool_group_ref)
+                pools = [pool_group['name'] for pool_group in
+                         avi_config['PoolGroup']
+                         if pool_group['name'] == updated_pool_group_ref]
                 if pools:
-                    if updated_pool_ref in tmp_pool_ref:
-                        updated_pool_ref = ns_util.clone_pool_group(updated_pool_ref, vs_name, avi_config)
-                    vs_obj['pool_group_ref'] = updated_pool_ref
-                    tmp_pool_ref.append(updated_pool_ref)
+                    # clone the pool group if it is referenced to other VS ot
+                    # http policy set
+                    if updated_pool_group_ref in tmp_used_pool_group_ref:
+                        updated_pool_group_ref = ns_util. \
+                            clone_pool_group(updated_pool_group_ref, vs_name,
+                                             avi_config)
+                    vs_obj['pool_group_ref'] = updated_pool_group_ref
+                    tmp_used_pool_group_ref.append(updated_pool_group_ref)
+            if lb_vserver_bind_conf:
+                bind_cs_vserver_command = 'bind cs vserver'
+                bind_cs_vserver_complete_command = ns_util. \
+                    get_netscalar_full_command(bind_cs_vserver_command,
+                                               lb_vserver_bind_conf)
+                LOG.debug('Conversion successful : %s' %
+                          bind_cs_vserver_complete_command)
+                conv_status = ns_util.get_conv_status(
+                    bind_conf, self.bind_skipped, [], [])
+                ns_util.add_conv_status(lb_vserver_bind_conf['line_no'],
+                                        bind_cs_vserver_command,
+                                        lb_vserver_bind_conf['attrs'][0],
+                                        bind_cs_vserver_complete_command,
+                                        conv_status, vs_obj)
+            # Verify that this cs vs has share the same VIP of another vs
+            # If yes then skipped this cs vs
             is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
             if is_shared:
-                ns_util.add_status_row(cs_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED)
-                LOG.warning('Skipped: %s Same vip shares another virtual service' % vs_name)
+                ns_util.add_status_row(cs_vs['line_no'],
+                                       ns_add_cs_vserver_command, key,
+                                       ns_add_cs_vserver_complete_command,
+                                       STATUS_SKIPPED)
+                LOG.warning('Skipped: %s Same vip shares another virtual '
+                            'service' % vs_name)
                 continue
             cs_vs_list.append(vs_obj)
+            # Add summery of this cs vs in CSV/report
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.skip_attrs, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(cs_vs['line_no'], cmd, key, full_cmd, conv_status, vs_obj)
+            ns_util.add_conv_status(cs_vs['line_no'], ns_add_cs_vserver_command,
+                                    key, ns_add_cs_vserver_complete_command,
+                                    conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
         ns_util.get_vs_if_shared_vip(avi_config)
+        # Update the index value of all policy rules as per their priority
         ns_util.set_rules_index_for_http_policy_set(avi_config)
-
-    def get_target_vs_from_policy(self, policy_lables, name, lbvs_bindings):
-        policy_grp = policy_lables.get(name, None)
-        if not policy_grp:
-            return None
-        if isinstance(policy_grp, dict):
-            policy_grp = [policy_grp]
-        for policy in policy_grp:
-            if 'invoke' in policy:
-                parts = policy['invoke'].split(' ')
-                self.get_target_vs_from_policy(policy_lables, parts[1],
-                                               lbvs_bindings)
-            elif 'targetVserver' in policy:
-                lbvs_bindings.append(policy['targetVserver'])
-
-    def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=100):
-        if depth == 0:
-            return None
-
-        target_vserver = [x['targetVserver'] for x in policyLabel if 'targetVserver' in x]
-        if target_vserver:
-            return target_vserver[0]
-        else:
-            policy_label = [x['invoke'] for x in policyLabel if x in 'invoke']
-            if policy_label and policy_label[0] in policy_lables.keys():
-                policyLabelName = policy_label[0]
-                policyLabels = policy_lables[policyLabelName]
-                if isinstance(policyLabels, dict):
-                    policyLabels = [policyLabels]
-                self.get_targetvserver_policylabel(self, policyLabels, policy_lables, depth=depth-1)

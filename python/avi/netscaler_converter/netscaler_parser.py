@@ -11,6 +11,12 @@ LOG = logging.getLogger(__name__)
 
 
 def parse_config_file(filepath):
+    """
+    This function defines that to parsed the netscalar input file
+    :param filepath: path of netscalar input configuration
+    :return: return parsed dict
+    """
+
     EOL = LineEnd().suppress()
     comment = Suppress("#") + Suppress(restOfLine) + EOL
     SOL = LineStart().suppress()
@@ -44,6 +50,13 @@ def parse_config_file(filepath):
 
 
 def get_command(line, commands):
+    """
+    This functions defines that convert each supported command to dict
+    :param line: netscalar command
+    :param commands: List of supported commands
+    :return: Netscalar dict after parsing
+    """
+
     for command in commands:
         cmd_arr = command.split(' ')
         if line[0: len(cmd_arr)] == cmd_arr:
@@ -55,15 +68,21 @@ def get_command(line, commands):
 
 
 def get_ns_conf_dict(filepath):
+    """
+    This function defines that create a dict netscalar commands
+    :param filepath: Netscalar Input configuration file
+    :return: None
+    """
+
     LOG.debug('Started parsing netscaler config file')
     netscaler_conf = dict()
     skipped_cmds = []
     ns_constant.init()
-    commands = ns_constant.netscalar_command_status['SupportedCommands']
+    supported_commands = ns_constant.netscalar_command_status['SupportedCommands']
     try:
         result = parse_config_file(filepath)
         for line in result:
-            cmd, offset = get_command(line, commands)
+            cmd, offset = get_command(line, supported_commands)
             if offset:
                 cmd_dict = dict()
                 attr_list = []
@@ -103,6 +122,7 @@ def get_ns_conf_dict(filepath):
         LOG.error('Error in parsing the file', exc_info=True)
 
     return netscaler_conf, skipped_cmds
+
 
 # if __name__ == "__main__":
 #     ns_conf, skipped_cmds = get_ns_conf_dict(

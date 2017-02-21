@@ -17,5 +17,9 @@ STATUS_INCOMPLETE_CONFIGURATION = 'INCOMPLETE CONFIGURATION'
 
 
 def init():
+    """
+    This function defines that to initialize contant from yaml file
+    :return: None
+    """
     global netscalar_command_status
     netscalar_command_status = yaml.safe_load(open("command_status.yaml"))
