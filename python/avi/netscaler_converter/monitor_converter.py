@@ -52,11 +52,14 @@ class MonitorConverter(object):
         avi_config['HealthMonitor'] = []
         for name in ns_monitors.keys():
             ns_monitor = ns_monitors.get(name)
-            ns_monitor_complete_command = ns_util.get_netscalar_full_command(netscalar_command, ns_monitor)
+            ns_monitor_complete_command = ns_util.\
+                get_netscalar_full_command(netscalar_command, ns_monitor)
             ns_monitor_type = ns_monitor['attrs'][1]
             if ns_monitor_type not in supported_types:
                 # Skipped health monitor if type is not supported
-                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command, name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR)
+                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command,
+                                       name, ns_monitor_complete_command,
+                                       STATUS_EXTERNAL_MONITOR)
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (ns_monitor_type, name))
                 continue
@@ -65,15 +68,19 @@ class MonitorConverter(object):
                 continue
             # Add summery of this lb vs in CSV/report
             conv_status = ns_util.get_conv_status(
-                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list, ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command, name, ns_monitor_complete_command, conv_status, avi_monitor)
+                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list,
+                ignore_for_val=self.ignore_vals)
+            ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command,
+                                    name, ns_monitor_complete_command,
+                                    conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 
 
     def convert_monitor(self, ns_monitor, input_dir):
         """
-        This functions defines that convert netscalar health monitor to AVI health monitor object
+        This functions defines that convert netscalar health monitor to AVI
+        health monitor object
         :param ns_monitor: Object of health monitor
         :param input_dir: Input dir for command_code
         :return: health monitor object
@@ -83,7 +90,8 @@ class MonitorConverter(object):
         try:
             LOG.debug('Conversion started for monitor %s' %
                       ns_monitor['attrs'][0])
-            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().replace(" ", "_")
+            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().\
+                replace(" ", "_")
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
             interval = ns_monitor.get('interval', '5')

@@ -90,12 +90,12 @@ def get_ns_conf_dict(filepath):
                 line = line[offset:]
                 for token in line:
                     if isinstance(token, list):
-                        if token[0] == "invoke" and 'policylabel' in token[1] and \
-                                        cmd == "bind cs policylabel":
+                        if token[0] == "invoke" and 'policylabel' in token[1] \
+                                and cmd == "bind cs policylabel":
                             policyLabel = token[1].split(' ')
                             cmd_dict.update({token[0]: policyLabel[1]})
-                        elif token[0] == "invoke" and 'policylabel' in token[1] and \
-                                        cmd == "bind cs vserver":
+                        elif token[0] == "invoke" and 'policylabel' in token[1] \
+                                and cmd == "bind cs vserver":
                             policyLabel = token[1].split(' ')
                             cmd_dict.update({policyLabel[0]: policyLabel[1]})
                         else:

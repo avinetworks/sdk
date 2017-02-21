@@ -156,11 +156,13 @@ class LbvsConverter(object):
                     vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'UDP':
                     vs_obj[
-                        'application_profile_ref'] = 'admin:System-L4-Application'
+                        'application_profile_ref'] = \
+                        'admin:System-L4-Application'
                     vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS_TCP':
                     vs_obj[
-                        'application_profile_ref'] = 'admin:System-L4-Application'
+                        'application_profile_ref'] = \
+                        'admin:System-L4-Application'
                     vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
 
                 if pool_group:
@@ -201,7 +203,8 @@ class LbvsConverter(object):
                             if pool:
                                 pool[0]["fail_action"] = fail_action
                         redirect_pools.append(pool_group['name'])
-                elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
+                elif ip_addr == '0.0.0.0' and not redirect_url \
+                        and backup_server:
                     # Add baclup pool of poolgroup if this lb vs has an ip
                     # 0.0.0.0 with backup vserver
                     try:
@@ -276,8 +279,8 @@ class LbvsConverter(object):
                 if redirect_url:
                     tmp_avi_config['VirtualService'].append(vs_obj)
                 else:
-                    # Verify that this lb vs has share the same VIP of another vs
-                    # If yes then skipped this lb vs
+                    # Verify that this lb vs has share the same VIP of another
+                    # vs If yes then skipped this lb vs
                     is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
                     if is_shared:
                         ns_util.add_status_row(lb_vs['line_no'], cmd, key,

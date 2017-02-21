@@ -13,7 +13,7 @@ class ProfileConverter(object):
                  'cmpOnPush', 'maxReusePool', 'dropExtraCRLF', 'incompHdrDelay',
                  'rtspTunnel', 'reqTimeout', 'adptTimeout', 'reqTimeoutAction',
                  'dropExtraData', 'persistentETag', 'http2HeaderTableSize'
-                                                    'reusePoolTimeout', 'maxHeaderLen', 'minReUsePool',
+                 'reusePoolTimeout', 'maxHeaderLen', 'minReUsePool',
                  'http2MaxHeaderListSize', 'http2MaxFrameSize', 'http2',
                  'http2MaxConcurrentStreams', 'http2InitialWindowSize']
     http_indirect = ['maxReq']
@@ -58,7 +58,8 @@ class ProfileConverter(object):
         'ssl3': 'DISABLED'
     }
 
-    bind_ssl_service_skip = ['policyName', 'priority', 'invoke', 'labelType', 'labelName', ]
+    bind_ssl_service_skip = ['policyName', 'priority', 'invoke', 'labelType',
+                             'labelName', ]
     bind_ssl_service_indirect = []
     bind_ssl_service_ignore = {
         'sslv2Redirect': 'default',
@@ -71,7 +72,8 @@ class ProfileConverter(object):
     def convert(self, ns_config, avi_config, input_dir):
         """
         This function defines that convert netscalar profiles to avi profiles
-        :param ns_config: It is dict of all netscalar commands which are supported by AVI
+        :param ns_config: It is dict of all netscalar commands which are
+        supported by AVI
         :param avi_config: dict of AVI
         :param input_dir: input dir path for key and cert
         :return: None
@@ -97,13 +99,17 @@ class ProfileConverter(object):
         for key in http_profiles.keys():
             ns_http_profile_command = 'add ns httpProfile'
             profile = http_profiles[key]
-            ns_http_profile_complete_command = ns_util.get_netscalar_full_command(ns_http_profile_command, profile)
+            ns_http_profile_complete_command = ns_util.\
+                get_netscalar_full_command(ns_http_profile_command, profile)
             app_profile = self.convert_http_profile(profile)
             if app_profile:
                 conv_status = ns_util.get_conv_status(profile, self.http_skip,
                                                       [], self.http_indirect)
                 # Add summery in CSV/report for http profile
-                ns_util.add_conv_status(profile['line_no'], ns_http_profile_command, key, ns_http_profile_complete_command, conv_status, app_profile)
+                ns_util.add_conv_status(profile['line_no'],
+                                        ns_http_profile_command, key,
+                                        ns_http_profile_complete_command,
+                                        conv_status, app_profile)
                 avi_config['ApplicationProfile'].append(app_profile)
 
         LOG.debug("HTTP profiles conversion completed")
@@ -112,13 +118,17 @@ class ProfileConverter(object):
         for key in tcp_profiles.keys():
             ns_tcp_profile_command = 'add ns tcpProfile'
             profile = tcp_profiles[key]
-            ns_tcp_profile_complete_command = ns_util.get_netscalar_full_command(ns_tcp_profile_command, profile)
+            ns_tcp_profile_complete_command = ns_util.\
+                get_netscalar_full_command(ns_tcp_profile_command, profile)
             net_profile = self.convert_tcp_profile(profile)
             if net_profile:
                 # Add summery in CSV/report for tcp profile
                 conv_status = ns_util.get_conv_status(profile, self.tcp_skip,
                                                       [], self.tcp_indirect)
-                ns_util.add_conv_status(profile['line_no'], ns_tcp_profile_command, key, ns_tcp_profile_complete_command, conv_status, net_profile)
+                ns_util.add_conv_status(profile['line_no'],
+                                        ns_tcp_profile_command, key,
+                                        ns_tcp_profile_complete_command,
+                                        conv_status, net_profile)
                 avi_config['NetworkProfile'].append(net_profile)
         LOG.debug("TCP profiles conversion completed")
 
@@ -126,7 +136,8 @@ class ProfileConverter(object):
         for key in ssl_vs_mapping.keys():
             ns_set_ssl_vserver_command = 'set ssl vserver'
             mapping = ssl_vs_mapping[key]
-            ns_set_ssl_vserver_complete_command = ns_util.get_netscalar_full_command(ns_set_ssl_vserver_command, mapping)
+            ns_set_ssl_vserver_complete_command = ns_util.\
+                get_netscalar_full_command(ns_set_ssl_vserver_command, mapping)
             ssl_profile_name = mapping.get('sslProfile')
             ssl_profile = ssl_profiles.get(ssl_profile_name, None)
 
@@ -135,51 +146,65 @@ class ProfileConverter(object):
                 ssl_mapping_data = [ssl_mapping_data]
 
             obj = self.get_key_cert(ssl_mapping_data, ssl_key_and_cert,
-                                    input_dir, None, ns_config, 'bind ssl vserver')
+                                    input_dir, None, ns_config,
+                                    'bind ssl vserver')
             if obj.get('accepted_ciphers', None):
                 if ssl_profile:
                     avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
                 else:
                     ssl_profile_name = re.sub('[:]', '-', key)
-                    avi_ssl_prof = {'name': ssl_profile_name, 'accepted_versions': []}
+                    avi_ssl_prof = {'name': ssl_profile_name,
+                                    'accepted_versions': []}
                     if not avi_ssl_prof['accepted_versions']:
-                        avi_ssl_prof['accepted_versions'].append({'type': 'SSL_VERSION_TLS1_1'})
+                        avi_ssl_prof['accepted_versions'].append(
+                            {'type': 'SSL_VERSION_TLS1_1'})
 
                 # Todo supported only valid ciphers
                 # avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
                 avi_ssl_prof['accepted_ciphers'] = 'AES:3DES:RC4'
                 avi_config["SSLProfile"].append(avi_ssl_prof)
                 LOG.info('Conversion successful: ssl profile %s' % key)
-                conv_status = ns_util.get_conv_status(avi_ssl_prof, self.set_ssl_vserver_skip,
+                conv_status = ns_util.get_conv_status(avi_ssl_prof,
+                                                      self.set_ssl_vserver_skip,
                                                       self.set_ssl_vserver_indirect,
                                                       self.set_ssl_vserver_na)
                 # Add summery in CSV/report for ssl profile
-                ns_util.add_conv_status(mapping['line_no'], ns_set_ssl_vserver_command, key, ns_set_ssl_vserver_complete_command, conv_status, avi_ssl_prof)
+                ns_util.add_conv_status(mapping['line_no'],
+                                        ns_set_ssl_vserver_command, key,
+                                        ns_set_ssl_vserver_complete_command,
+                                        conv_status, avi_ssl_prof)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
                 avi_config["PKIProfile"].append(obj.get('pki'))
 
         # Set ssl service conversion
-        self.convert_ssl_service_profile(set_ssl_service, bind_ssl_service, ssl_key_and_cert, input_dir, ns_config, avi_config, 'set ssl service', 'bind ssl service')
+        self.convert_ssl_service_profile(set_ssl_service, bind_ssl_service,
+                                         ssl_key_and_cert, input_dir, ns_config,
+                                         avi_config, 'set ssl service',
+                                         'bind ssl service')
 
         # Set ssl servicegroup conversion
-        self.convert_ssl_service_profile(set_ssl_service_group, bind_ssl_service_group, ssl_key_and_cert, input_dir, ns_config,
-                                         avi_config, 'set ssl serviceGroup', 'bind ssl serviceGroup')
-
-
-
+        self.convert_ssl_service_profile(set_ssl_service_group,
+                                         bind_ssl_service_group,
+                                         ssl_key_and_cert, input_dir, ns_config,
+                                         avi_config, 'set ssl serviceGroup',
+                                         'bind ssl serviceGroup')
 
         LOG.debug("SSL profiles conversion completed")
 
-    def convert_ssl_service_profile(self, set_ssl_service, bind_ssl_service, ssl_key_and_cert, input_dir, ns_config, avi_config, set_ssl_service_command, bind_ssl_service_command):
+    def convert_ssl_service_profile(self, set_ssl_service, bind_ssl_service,
+                                    ssl_key_and_cert, input_dir, ns_config,
+                                    avi_config, set_ssl_service_command,
+                                    bind_ssl_service_command):
         """
         This function defines that convert ssl profiles
         :param set_ssl_service: dict of set_ssl_service netscalar command
         :param bind_ssl_service: dict of bind_ssl_service netscalar command
         :param ssl_key_and_cert: dict of set_ssl_service netscalar command
         :param input_dir: path of input dir which keeps cert and key
-        :param ns_config: It is dict of all netscalar commands which are supported by AVI
+        :param ns_config: It is dict of all netscalar commands which are
+        supported by AVI
         :param avi_config: dict of AVI
         :param set_ssl_service_command: netscalar command set ssl
         :param bind_ssl_service_command: netscalar command bind ssl
@@ -188,7 +213,8 @@ class ProfileConverter(object):
 
         for key in set_ssl_service:
             ssl_service = set_ssl_service[key]
-            full_set_ssl_service_command = ns_util.get_netscalar_full_command(set_ssl_service_command, ssl_service)
+            full_set_ssl_service_command = ns_util.\
+                get_netscalar_full_command(set_ssl_service_command, ssl_service)
             ssl_profile_name = ssl_service['attrs'][0]
             ssl_profile_name = re.sub('[:]', '-', ssl_profile_name)
             ssl_profile = {
@@ -200,7 +226,8 @@ class ProfileConverter(object):
             if sess_reuse == 'DISABLED':
                 ssl_profile['enable_ssl_session_reuse'] = False
             if ssl_service.get('sessTimeout', None):
-                ssl_profile['ssl_session_timeout'] = int(ssl_service.get('sessTimeout'))
+                ssl_profile['ssl_session_timeout'] = \
+                    int(ssl_service.get('sessTimeout'))
             accepted_versions = []
             if ssl_service.get('tls1', None):
                 accepted_versions.append({'type': 'SSL_VERSION_TLS1'})
@@ -211,7 +238,8 @@ class ProfileConverter(object):
             if accepted_versions:
                 ssl_profile['accepted_versions'] = accepted_versions
             else:
-                ssl_profile['accepted_versions'].append({'type': 'SSL_VERSION_TLS1_1'})
+                ssl_profile['accepted_versions'].append(
+                    {'type': 'SSL_VERSION_TLS1_1'})
 
             send_close_notify = ssl_service.get('sendCloseNotify', None)
             if send_close_notify == 'NO':
@@ -222,7 +250,8 @@ class ProfileConverter(object):
             if isinstance(binding_mapping, dict):
                 binding_mapping = [binding_mapping]
             obj = self.get_key_cert(binding_mapping, ssl_key_and_cert,
-                                    input_dir, None, ns_config, bind_ssl_service_command)
+                                    input_dir, None, ns_config,
+                                    bind_ssl_service_command)
             if obj.get('accepted_ciphers', None):
                 # Todo supported only valid ciphers
                 ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
@@ -234,13 +263,15 @@ class ProfileConverter(object):
 
             avi_config["SSLProfile"].append(ssl_profile)
             LOG.info('Conversion successful: %s' % full_set_ssl_service_command)
-            conv_status = ns_util.get_conv_status(ssl_profile, self.set_ssl_service_skip,
-                                                      self.set_ssl_service_indirect,
-                                                      [])
+            conv_status = ns_util.get_conv_status(ssl_profile,
+                                                  self.set_ssl_service_skip,
+                                                  self.set_ssl_service_indirect,
+                                                  [])
             # Add summery in CSV/report for ssl service
-            ns_util.add_conv_status(ssl_service['line_no'], set_ssl_service_command, key,
-                                        full_set_ssl_service_command,
-                                        conv_status, ssl_profile)
+            ns_util.add_conv_status(ssl_service['line_no'],
+                                    set_ssl_service_command, key,
+                                    full_set_ssl_service_command,
+                                    conv_status, ssl_profile)
 
         LOG.debug("SSL profiles conversion completed")
 
@@ -334,7 +365,8 @@ class ProfileConverter(object):
             self.ssl_prof_na)
         ns_full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, profile)
         # Add summery in CSV/report for ssl profile
-        ns_util.add_conv_status(profile['line_no'], netscalar_cmd, profile['attrs'][0], ns_full_cmd, conv_status,
+        ns_util.add_conv_status(profile['line_no'], netscalar_cmd,
+                                profile['attrs'][0], ns_full_cmd, conv_status,
                                 avi_ssl_prof)
 
         return avi_ssl_prof
@@ -356,7 +388,8 @@ class ProfileConverter(object):
         ciphers = []
         for mapping in ssl_mappings:
             output = None
-            bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd, mapping)
+            bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd,
+                                                                   mapping)
             bind_ssl_success = False
 
             if 'CA' in mapping.keys():
@@ -368,7 +401,8 @@ class ProfileConverter(object):
                 ca_str = None
                 crl_str = None
                 netscalar_cmd = 'add ssl certKey'
-                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
+                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
+                                                              key_cert)
                 if key_file_name:
                     ca_str = ns_util.upload_file(
                         input_dir + os.path.sep + key_file_name)
@@ -393,12 +427,14 @@ class ProfileConverter(object):
                     conv_status = ns_util.get_conv_status(
                         key_cert, self.add_key_cert_skip, [], [])
                     # Add summery in CSV/report for PKI
-                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd,
+                                            key_cert['attrs'][0], full_cmd,
                                             conv_status, obj['pki'])
                 else:
                     LOG.info('Skipped: %s' % full_cmd)
                     # Add skipped status in CSV/report for ssl cert key
-                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
+                                           key_cert['attrs'][0], full_cmd,
                                            STATUS_SKIPPED)
 
             elif 'certkeyName' in mapping.keys():
@@ -406,7 +442,8 @@ class ProfileConverter(object):
                 if not key_cert:
                     continue
                 netscalar_cmd = 'add ssl certKey'
-                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, key_cert)
+                full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
+                                                              key_cert)
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
                 if key_file_name:
@@ -429,17 +466,20 @@ class ProfileConverter(object):
                     conv_status = ns_util.get_conv_status(
                         key_cert, self.add_key_cert_skip, [], [])
                     # Add ssummery in CSV/report for ssl service
-                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd,
+                                            key_cert['attrs'][0], full_cmd,
                                             conv_status, output)
                     bind_ssl_success = True
                 else:
                     LOG.warning('Skipped : %s' % full_cmd)
                     # Add skipped status in CSV/report for ssl cert key
-                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd, key_cert['attrs'][0], full_cmd,
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
+                                           key_cert['attrs'][0], full_cmd,
                                            STATUS_SKIPPED)
 
             elif 'cipherName' in mapping.keys():
-                ciphers_keys = self.get_ciphers(mapping['cipherName'], ns_config)
+                ciphers_keys = self.get_ciphers(mapping['cipherName'],
+                                                ns_config)
                 ciphers += ciphers_keys
                 ciphers = list(set(ciphers))
                 obj['accepted_ciphers'] = ':'.join(ciphers)
@@ -451,13 +491,15 @@ class ProfileConverter(object):
             if not bind_ssl_success:
                 LOG.warning('Skipped : %s' % bind_ssl_full_cmd)
                 # Add skipped status in CSV/report for bind ssl service
-                ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0], bind_ssl_full_cmd,
+                ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                       mapping['attrs'][0], bind_ssl_full_cmd,
                                        STATUS_SKIPPED)
                 continue
 
             LOG.info('Conversion successful: %s' % bind_ssl_full_cmd)
             # Add successful status in CSV/report for ssl service
-            ns_util.add_conv_status(mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0], bind_ssl_full_cmd,
+            ns_util.add_conv_status(mapping['line_no'], bind_ssl_cmd,
+                                    mapping['attrs'][0], bind_ssl_full_cmd,
                                     conv_status, output)
 
         return obj
@@ -481,27 +523,35 @@ class ProfileConverter(object):
         if not (lb_cipher and bind_ciphers):
             return [cipher]
         ciphers = []
-        full_add_ssl_cipher_command = ns_util.get_netscalar_full_command(add_ssl_cipher_command, lb_cipher)
+        full_add_ssl_cipher_command = ns_util.\
+            get_netscalar_full_command(add_ssl_cipher_command, lb_cipher)
         LOG.info('Conversion successful: %s' % full_add_ssl_cipher_command)
         # Add Successful status in CSV/report for add ssl cipher
-        ns_util.add_status_row(lb_cipher['line_no'], add_ssl_cipher_command, cipher,
-                               full_add_ssl_cipher_command, STATUS_SUCCESSFUL, None)
+        ns_util.add_status_row(lb_cipher['line_no'], add_ssl_cipher_command,
+                               cipher, full_add_ssl_cipher_command,
+                               STATUS_SUCCESSFUL, None)
         if isinstance(bind_ciphers, dict):
             bind_ciphers = [bind_ciphers]
         for bind_cipher in bind_ciphers:
-            full_bind_ssl_cipher_command = ns_util.get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
+            full_bind_ssl_cipher_command = ns_util.\
+                get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
                 avi_cipher = {'accepted_ciphers': bind_cipher['cipherName']}
                 ciphers.append(bind_cipher['cipherName'])
-                LOG.info('Conversion successful: %s' % full_bind_ssl_cipher_command)
+                LOG.info('Conversion successful: %s' %
+                         full_bind_ssl_cipher_command)
                 # Add Successful status in CSV/report for add ssl cipher
-                ns_util.add_status_row(bind_cipher['line_no'], bind_ssl_cipher_command, cipher,
-                                       full_bind_ssl_cipher_command, STATUS_SUCCESSFUL, avi_cipher)
+                ns_util.add_status_row(bind_cipher['line_no'],
+                                       bind_ssl_cipher_command, cipher,
+                                       full_bind_ssl_cipher_command,
+                                       STATUS_SUCCESSFUL, avi_cipher)
             else:
                 LOG.info('Skipped: %s' % full_bind_ssl_cipher_command)
                 # Add skipped status in CSV/report for add ssl cipher
-                ns_util.add_status_row(bind_cipher['line_no'], bind_ssl_cipher_command, cipher,
-                                       full_bind_ssl_cipher_command, STATUS_SKIPPED)
+                ns_util.add_status_row(bind_cipher['line_no'],
+                                       bind_ssl_cipher_command, cipher,
+                                       full_bind_ssl_cipher_command,
+                                       STATUS_SKIPPED)
 
         if not ciphers:
             return [cipher]
