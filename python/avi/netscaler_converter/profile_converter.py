@@ -1,6 +1,7 @@
 import logging
 import avi.netscaler_converter.ns_util as ns_util
 import os
+import re
 
 from avi.netscaler_converter.ns_constants import STATUS_SKIPPED, STATUS_SUCCESSFUL
 
@@ -129,7 +130,8 @@ class ProfileConverter(object):
                 if ssl_profile:
                     avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
                 else:
-                    avi_ssl_prof = {'name': key, 'accepted_versions': []}
+                    ssl_profile_name = re.sub('[:]', '-', key)
+                    avi_ssl_prof = {'name': ssl_profile_name, 'accepted_versions': []}
                     if not avi_ssl_prof['accepted_versions']:
                         avi_ssl_prof['accepted_versions'].append({'type': 'SSL_VERSION_TLS1_1'})
 
@@ -164,6 +166,7 @@ class ProfileConverter(object):
             ssl_service = set_ssl_service[key]
             full_set_ssl_service_command = ns_util.get_netscalar_full_command(set_ssl_service_command, ssl_service)
             ssl_profile_name = ssl_service['attrs'][0]
+            ssl_profile_name = re.sub('[:]', '-', ssl_profile_name)
             ssl_profile = {
                 'name': ssl_profile_name,
                 'accepted_versions': []
@@ -287,7 +290,8 @@ class ProfileConverter(object):
     def convert_ssl_profile(self, profile):
         avi_ssl_prof = dict()
         netscalar_cmd = 'add ssl profile'
-        avi_ssl_prof['name'] = profile['attrs'][0]
+        profile_name = re.sub('[:]', '-', profile['attrs'][0])
+        avi_ssl_prof['name'] = profile_name
         scn = profile.get('sendCloseNotify', 'NO')
         scn = True if scn == 'YES' else False
         avi_ssl_prof['send_close_notify'] = scn
