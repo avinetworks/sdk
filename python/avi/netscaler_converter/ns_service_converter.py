@@ -77,7 +77,7 @@ class ServiceConverter(object):
                         continue
                     full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, element)
                     service = element['attrs'][1]
-                    pool_name = service + '-pool'
+                    pool_name = re.sub('[:]', '-', service + '-pool')
                     pool = [pool for pool in avi_config['Pool'] if pool['name'] == pool_name]
                     if pool:
                         if pool_name in used_pool_ref:
@@ -93,6 +93,7 @@ class ServiceConverter(object):
                         ns_util.add_status_row(element['line_no'], netscalar_cmd, element['attrs'][0], full_cmd, STATUS_SKIPPED)
 
                 pg_name = group_key + '-poolgroup'
+                pg_name = re.sub('[:]', '-', pg_name)
                 if pg_members:
                     pool_group = {
                         'name': pg_name,
@@ -133,9 +134,10 @@ class ServiceConverter(object):
                 LOG.warning('Skipped:No server found %s' % service_netscalar_full_command)
                 ns_util.add_status_row(service['line_no'], service_command, service_name, service_netscalar_full_command, STATUS_SKIPPED)
                 continue
+            pool_name = re.sub('[:]', '-', service_name + '-pool')
 
             pool_obj = {
-                'name': service_name + '-pool',
+                'name': pool_name,
                 'servers': [server],
                 'health_monitor_refs': []
             }
@@ -148,8 +150,9 @@ class ServiceConverter(object):
                     pool_obj['pki_profile_ref'] = key
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == key]:
                     pool_obj['ssl_key_and_certificate_uuid'] = key
-                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == key]:
-                    pool_obj['ssl_profile_ref'] = key
+                ssl_profile_name = re.sub('[:]', '-', key)
+                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == ssl_profile_name]:
+                    pool_obj['ssl_profile_ref'] = ssl_profile_name
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
 
             avi_config['Pool'].append(pool_obj)
@@ -169,8 +172,9 @@ class ServiceConverter(object):
                 ns_util.add_status_row(service_group['line_no'], service_group_command, service_group_name, service_group_netscalar_full_command, STATUS_SKIPPED)
                 continue
 
+            pool_name = re.sub('[:]', '-', service_group_name + '-pool')
             pool_obj = {
-                'name': service_group_name + '-pool',
+                'name': pool_name,
                 'servers': servers,
                 'health_monitor_refs': []
             }
@@ -184,8 +188,9 @@ class ServiceConverter(object):
                     pool_obj['pki_profile_ref'] = group_key
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == group_key]:
                     pool_obj['ssl_key_and_certificate_ref'] = group_key
-                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == group_key]:
-                    pool_obj['ssl_profile_ref'] = group_key
+                ssl_profile_name = re.sub('[:]', '-', group_key)
+                if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == ssl_profile_name]:
+                    pool_obj['ssl_profile_ref'] = ssl_profile_name
                 if pool_obj.get('pki_profile_ref', None) or \
                     pool_obj.get('ssl_key_and_certificate_ref', None) or \
                     pool_obj.get('ssl_profile_ref', None):

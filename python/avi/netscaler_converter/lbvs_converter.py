@@ -68,6 +68,7 @@ class LbvsConverter(object):
                     enabled = False
 
                 pool_group_name = '%s-poolgroup' % vs_name
+                pool_group_name = re.sub('[:]', '-', pool_group_name)
                 pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[])
                             if pool_group['name'] == pool_group_name]
                 if pool_group:
@@ -141,9 +142,9 @@ class LbvsConverter(object):
                     updated_pool_group = pool_group
                     if pool_group_ref in used_pool_group_ref:
                         pool_group_ref = ns_util.clone_pool_group(pool_group_ref, vs_name, avi_config)
-                        pool_group_ref = re.sub('[:]', '-', pool_group_ref)
-                        used_pool_group_ref.append(pool_group_ref)
-                        updated_pool_group = [pg for pg in avi_config.get('PoolGroup', []) if pg['name'] == pool_group_ref]
+                    pool_group_ref = re.sub('[:]', '-', pool_group_ref)
+                    used_pool_group_ref.append(pool_group_ref)
+                    updated_pool_group = [pg for pg in avi_config.get('PoolGroup', []) if pg['name'] == pool_group_ref]
 
                     vs_obj['pool_group_ref'] = pool_group_ref
                     pool_group = updated_pool_group[0]
@@ -169,6 +170,7 @@ class LbvsConverter(object):
                 elif ip_addr == '0.0.0.0' and not redirect_url and backup_server:
                     try:
                         backup_pool_group_ref = backup_server + '-poolgroup'
+                        backup_pool_group_ref = re.sub('[:]', '-', backup_pool_group_ref)
                         backup_pool_group = [pool_group for pool_group in avi_config.get("PoolGroup",[]) if pool_group['name'] == backup_pool_group_ref]
                         backup_pool_ref = backup_pool_group[0]['members'][0]['pool_ref']
                         for index, pool_ref in enumerate(pool_group['members']):
@@ -257,8 +259,9 @@ class LbvsConverter(object):
                             vs_obj[avi_ssl_ref] = mapping['attrs'][0]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
-                    if mapping and [ssl_profile for ssl_profile in avi_config["SSLProfile"] if ssl_profile['name'] == key]:
-                        vs_obj['ssl_profile_name'] = key
+                    ssl_profile_name = re.sub('[:]', '-', key)
+                    if mapping and [ssl_profile for ssl_profile in avi_config["SSLProfile"] if ssl_profile['name'] == ssl_profile_name]:
+                        vs_obj['ssl_profile_name'] = ssl_profile_name
                         LOG.info('Added: %s SSL profile %s' % (key, key))
 
                 LOG.debug('LB VS conversion completed for: %s' % key)

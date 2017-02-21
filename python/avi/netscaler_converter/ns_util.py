@@ -2,6 +2,7 @@ import csv
 import logging
 import os
 import copy
+import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_SUCCESSFUL,
@@ -290,7 +291,8 @@ def clone_pool(pool_name, prefix, avi_config):
     pools = [pool for pool in avi_config['Pool'] if pool['name'] == pool_name]
     if pools:
         pool_obj = copy.deepcopy(pools[0])
-        pool_obj['name'] = prefix + pool_obj['name']
+        pool_name = re.sub('[:]', '-', prefix + pool_obj['name'])
+        pool_obj['name'] = pool_name
         avi_config['Pool'].append(pool_obj)
         LOG.info("Same pool reference to other object. Clone Pool %s for %s" % (pool_name, prefix))
         return pool_obj['name']
@@ -1005,7 +1007,8 @@ def clone_pool_group(pg_name, prefix, avi_config):
     pool_groups = [pg for pg in avi_config['PoolGroup'] if pg['name'] == pg_name]
     if pool_groups:
         pool_group = copy.deepcopy(pool_groups[0])
-        pool_group['name'] = prefix + pg_name
+        pool_group_name = re.sub('[:]', '-', prefix + pg_name)
+        pool_group['name'] = pool_group_name
         for member in pool_group.get('members', []):
             pool_ref = clone_pool(member['pool_ref'], prefix, avi_config)
             if pool_ref:

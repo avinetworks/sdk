@@ -655,6 +655,7 @@ class PolicyConverter(object):
         """
 
         pool_group_ref = targetLBVserver + '-poolgroup'
+        pool_group_ref = re.sub('[:]', '-', pool_group_ref)
         redirect_uri = None
         if pool_group_ref in redirect_pools:
             pool_group = [pg for pg in avi_config['PoolGroup'] if pg['name'] ==

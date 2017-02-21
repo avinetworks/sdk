@@ -202,9 +202,11 @@ class CsvsConverter(object):
                         LOG.warn('cannot find ssl key cert ref adding '
                                          'system default insted')
                         vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
+                ssl_profile_name = re.sub('[:]', '-', bind_conf['attrs'][0])
                 if [ssl_profile for ssl_profile in avi_config["SSLProfile"] if
-                                        ssl_profile['name'] == bind_conf['attrs'][0]]:
-                    vs_obj['ssl_profile_name'] = bind_conf['attrs'][0]
+                                        ssl_profile['name'] == ssl_profile_name]:
+
+                    vs_obj['ssl_profile_name'] = ssl_profile_name
                     LOG.info('Added: %s SSL profile %s' % (key, key))
                 # if 'invoke' in bind_conf:
                 #     parts = bind_conf['invoke'].split(' ')
