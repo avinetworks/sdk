@@ -1021,10 +1021,11 @@ def clone_pool_group(pg_name, prefix, avi_config):
 
 def remove_http_mon_from_pool(avi_config, pool):
     if pool:
-        hm_refs = pool['health_monitor_refs']
+        hm_refs = copy.deepcopy(pool['health_monitor_refs'])
         for hm_ref in hm_refs:
             hm = [h for h in avi_config['HealthMonitor'] if h['name'] == hm_ref]
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                 pool['health_monitor_refs'].remove(hm_ref)
                 LOG.warning('Skipping %s this reference from %s pool because of health monitor type is '
                             'HTTPS and VS has no ssl profile.' % (hm_ref, pool['name']))
+

@@ -146,6 +146,7 @@ class ServiceConverter(object):
                 pool_obj['health_monitor_refs'] = list(set(monitor_refs))
             ssl_service = set_ssl_service.get(key, None)
             if ssl_service:
+
                 if [pki for pki in avi_config['PKIProfile'] if pki['name'] == key]:
                     pool_obj['pki_profile_ref'] = key
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate'] if key_cert['name'] == key]:
@@ -154,6 +155,8 @@ class ServiceConverter(object):
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile'] if ssl_prof['name'] == ssl_profile_name]:
                     pool_obj['ssl_profile_ref'] = ssl_profile_name
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
+            if len(pool_obj['health_monitor_refs']) > 6:
+                pool_obj['health_monitor_refs'] = pool_obj['health_monitor_refs'][:6]
 
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_netscalar_full_command)
@@ -195,9 +198,8 @@ class ServiceConverter(object):
                     pool_obj.get('ssl_key_and_certificate_ref', None) or \
                     pool_obj.get('ssl_profile_ref', None):
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
-
-
-
+            if len(pool_obj['health_monitor_refs']) > 6:
+                pool_obj['health_monitor_refs'] = pool_obj['health_monitor_refs'][:6]
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' % service_group_netscalar_full_command)
             conv_status = ns_util.get_conv_status(service_group, self.bind_lb_skipped, [], [])

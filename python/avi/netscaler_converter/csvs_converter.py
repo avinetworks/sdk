@@ -41,7 +41,6 @@ class CsvsConverter(object):
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
-        avi_config['HTTPPolicySet'] = []
         avi_config['StringGroup'] = []
         avi_config['VirtualService'] = ns_util.remove_duplicate_objects('VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
