@@ -14,6 +14,7 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
 
 LOG = logging.getLogger(__name__)
 
+
 class PolicyConverter(object):
     """
     This class is used to convert the policy
@@ -26,16 +27,16 @@ class PolicyConverter(object):
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, skip_attrs, na_attrs, netscalar_command):
         """
-
-        :param bind_conf_list:
-        :param ns_config:
-        :param avi_config:
-        :param tmp_pool_ref:
-        :param redirect_pools:
-        :param skip_attrs:
-        :param na_attrs:
-        :param netscalar_command:
-        :return:
+        This function defines that convert netscalar policy to http policy set in AVI
+        :param bind_conf_list: Binding policy to vs
+        :param ns_config: Dict of netscaler parsed config
+        :param avi_config: Dict of AVI
+        :param tmp_pool_ref: List temporary pool reference
+        :param redirect_pools: List of pools which are redirect
+        :param skip_attrs: list of skipped attribute
+        :param na_attrs: List of na attributes
+        :param netscalar_command: netscalar command
+        :return: Http policy set object
         """
 
         policy_lables = ns_config.get('bind cs policylabel', {})
@@ -60,21 +61,15 @@ class PolicyConverter(object):
             'enable': 'false',
         }
 
-
-
         is_policy_obj = False
         rule_index = 0
         vs_policy_name = ''
         for bind_conf in bind_conf_list:
-            conv_status = ns_util.get_conv_status(
-                bind_conf, self.bind_skipped, [], [])
             policy_name = ''
             bind_lb_netscalar_complete_command = ns_util.\
                 get_netscalar_full_command(netscalar_command, bind_conf)
             targetVserver = None
             if 'lbvserver' in bind_conf:
-                LOG.info('Conversion successful: %s' % bind_lb_netscalar_complete_command)
-                ns_util.add_conv_status(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command, conv_status, bind_conf)
                 continue
             if 'policylabel' in bind_conf:
                 policyLabelName = bind_conf['policylabel']
@@ -90,6 +85,7 @@ class PolicyConverter(object):
                         get_netscalar_full_command(policy_label_netscalar_command,
                                                    policyLabels[0])
                     if targetVserver:
+                        # Add status successful in CSV/report for bind if it has targetVserver
                         ns_util.add_status_row(policyLabels[0]['line_no'], policy_label_netscalar_command,
                                                policyLabelName,
                                                policy_label_netscalar_full_command,
@@ -97,6 +93,7 @@ class PolicyConverter(object):
                         LOG.info('Conversion successful : %s %s' %
                                  (policy_label_netscalar_command, policyLabelName))
                     else:
+                        # Skipped this bind if it does not have targetVserver
                         ns_util.add_status_row(policyLabels[0]['line_no'], policy_label_netscalar_command,
                                                policyLabelName,
                                                policy_label_netscalar_full_command,
@@ -109,6 +106,7 @@ class PolicyConverter(object):
                 continue
             else:
                 LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                # Skipped this bind if it does not attach any policy
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command, STATUS_SKIPPED)
                 continue
@@ -123,6 +121,7 @@ class PolicyConverter(object):
                                                                    responder_policy_config)
             if not policy:
                 LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                # Skipped this bind if it does not have policy
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command, STATUS_SKIPPED)
                 continue
@@ -137,15 +136,18 @@ class PolicyConverter(object):
                                                    tmp_pool_ref,
                                                    targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
-                ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command, STATUS_SUCCESSFUL, policy)
+                # Add status successful in CSV/report if policy is converted successfully in to AVI
+                ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command, STATUS_SUCCESSFUL, rule)
                 http_request_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             elif rule and policy_type in ['policy_expression']:
+                # Add status successful in CSV/report if policy is converted successfully in to AVI
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                                       STATUS_SUCCESSFUL, policy)
+                                       STATUS_SUCCESSFUL, rule)
                 http_security_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             else:
+                # Add status Skipped in CSV/report if policy is converted in to AVI
                 LOG.warning('Skipped: Not Supported policy %s' % bind_lb_netscalar_complete_command)
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command, bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command, STATUS_SKIPPED)
@@ -163,11 +165,11 @@ class PolicyConverter(object):
 
     def get_targetvserver_policylabel(self, policyLabel, policy_lables, depth=100):
         """
-
-        :param policyLabel:
-        :param policy_lables:
-        :param depth:
-        :return:
+        This functions defines that return the target vserver ref from policylabel with max depth is 100 for recursion
+        :param policyLabel: name policy label
+        :param policy_lables: dict of add cs policy label
+        :param depth: recursion  loop depth
+        :return: return target vserver ref
         """
 
         if depth == 0:
@@ -193,17 +195,18 @@ class PolicyConverter(object):
                        patset_config, rewrite_action_config, responder_action_config,
                        policy_expression_config, avi_config, tmp_pool_ref, targetLBVserver=None):
         """
-
-        :param policy:
-        :param policy_type:
-        :param redirect_pools:
-        :param bind_patset:
-        :param patset_config:
-        :param rewrite_action_config:
-        :param avi_config:
-        :param targetLBVserver:
-        :return:
+        This function defines to convert netscalar rule to http policy rule
+        :param policy: Object of policy
+        :param policy_type: Type of policy(CS, Rewrite, Responder, policy expression)
+        :param redirect_pools: List of rediredt pools
+        :param bind_patset: dict of bind patset netscalar command
+        :param patset_config: dict of patset config
+        :param rewrite_action_config: dict of rewrite action
+        :param avi_config: dict of AVI
+        :param targetLBVserver: name tarhet lb vserver
+        :return:  http policy rule
         """
+
         netscalar_command = None
         rule_name = policy['attrs'][0]
         ns_rule = policy.get('rule', None)
@@ -215,16 +218,16 @@ class PolicyConverter(object):
             netscalar_command = 'add responder policy'
         elif policy_type == 'expression':
             netscalar_command = 'add expression policy'
-        full_cmd = ns_util.get_netscalar_full_command(netscalar_command, policy)
+        ns_policy_complete_cmd = ns_util.get_netscalar_full_command(netscalar_command, policy)
 
         if policy_type == 'cs' and not (targetLBVserver and ns_rule):
             LOG.warning('Skipped policy: %s' % rule_name)
-            ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name, full_cmd, STATUS_SKIPPED)
+            # Skipped this policy if rule is not supported by tool
+            ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name, ns_policy_complete_cmd, STATUS_SKIPPED)
             return None, priority_index
         elif policy_type in ['rewrite', 'responder', 'expression']:
 
             ns_rule = policy['attrs'][1]
-
 
         name = '%s-rule-%s' % (rule_name, priority_index)
         conditional_rules = ns_rule.split("&&")
@@ -241,7 +244,8 @@ class PolicyConverter(object):
 
         if not match:
             LOG.warning('Skipped policy Does not match any rule: %s' % rule_name)
-            ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name, full_cmd, STATUS_SKIPPED)
+            # Skipped this policy if rule is not supported by tool
+            ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name, ns_policy_complete_cmd, STATUS_SKIPPED)
             return None, priority_index
 
         policy_rules = {
@@ -262,12 +266,14 @@ class PolicyConverter(object):
                     policy_rules['switching_action'] = cs_action
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
+                # Add status successful in CSV/report if rule is supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
+                                       ns_policy_complete_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
                 LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_SKIPPED)
+                                       ns_policy_complete_cmd, STATUS_SKIPPED)
                 policy_rules = None
         elif policy_type == 'rewrite':
             policy_rules = self.get_rewrite_action(policy['attrs'][2],
@@ -276,12 +282,14 @@ class PolicyConverter(object):
             if policy_rules:
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
+                # Add status successful in CSV/report if rule is supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
+                                       ns_policy_complete_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
                 LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_SKIPPED)
+                                       ns_policy_complete_cmd, STATUS_SKIPPED)
         elif policy_type == 'responder':
             policy_rules = self.get_responder_action(policy['attrs'][2],
                                                      policy_rules,
@@ -289,13 +297,15 @@ class PolicyConverter(object):
             if policy_rules:
                 LOG.info('Conversion successful : %s %s' % (
                     netscalar_command, rule_name))
+                # Add status successful in CSV/report if rule is supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_SUCCESSFUL, policy_rules)
+                                       ns_policy_complete_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
                 LOG.warning('Datascript : %s %s' % (netscalar_command,
                                                     rule_name))
+                # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command, rule_name,
-                                       full_cmd, STATUS_DATASCRIPT)
+                                       ns_policy_complete_cmd, STATUS_DATASCRIPT)
         else:
             policy_rules = None
 
@@ -307,13 +317,13 @@ class PolicyConverter(object):
     def query_converter(self, rule, policy_name, bind_patset, patset_config,
                         avi_config):
         """
-
-        :param rule:
-        :param policy_name:
-        :param bind_patset:
-        :param patset_config:
-        :param avi_config:
-        :return:
+        this function defines that convert netscalar rule to http policy match
+        :param rule: netscalar rule
+        :param policy_name: name of policy
+        :param bind_patset: dict of bind patset
+        :param patset_config: dict of patset config
+        :param avi_config: dict of AVI
+        :return: http policy match
         """
 
         query = rule.strip('"')
@@ -603,11 +613,11 @@ class PolicyConverter(object):
 
     def add_string_group_for_policy(self, string_group_name, matches, avi_config):
         """
-
-        :param string_group_name:
-        :param matches:
-        :param avi_config:
-        :return:
+        This function defines that to convert netscalar string to string group onject
+        :param string_group_name: Name of string group onject
+        :param matches: List of match string
+        :param avi_config: dict of AVI
+        :return: StringGroup object
         """
 
         if not matches:
@@ -626,11 +636,11 @@ class PolicyConverter(object):
 
     def get_patset_collection(self, match, bind_patset, patset_config):
         """
-
-        :param match:
-        :param bind_patset:
-        :param patset_config:
-        :return:
+        This function defines that return the list of patset attribute
+        :param match: list of match
+        :param bind_patset: dict of bind patset
+        :param patset_config: dict patset config
+        :return: patset attributes
         """
 
         if match in patset_config and match in bind_patset:
@@ -647,11 +657,11 @@ class PolicyConverter(object):
 
     def get_cs_policy_action(self, name, targetLBVserver, redirect_pools, avi_config, tmp_pool_ref):
         """
-
-        :param targetLBVserver:
-        :param redirect_pools:
-        :param avi_config:
-        :return:
+        This function defines that return the http request policy action
+        :param targetLBVserver: name of terget lb vserver
+        :param redirect_pools: list of redirect pools
+        :param avi_config: dict of AVI
+        :return: http policy action
         """
 
         pool_group_ref = targetLBVserver + '-poolgroup'
@@ -702,20 +712,20 @@ class PolicyConverter(object):
     def get_rewrite_action(self, policy_name, policy_rules,
                            rewrite_action_config):
         """
-
-        :param policy_name:
-        :param policy_rules:
-        :param rewrite_action_config:
-        :return:
+        This functions defines that return rewrite policy action
+        :param policy_name: name of policy
+        :param policy_rules: rules of policy
+        :param rewrite_action_config: dict of rewrite action
+        :return: rewrite policy action
         """
 
         policy_action = rewrite_action_config.get(policy_name, None)
         policy_rule = None
-        cmd = 'add rewrite action'
+        ns_action_command = 'add rewrite action'
         if not policy_action:
             LOG.warning('No responder action found: %s' % policy_name)
             return
-        full_cmd = ns_util.get_netscalar_full_command(cmd, policy_action)
+        ns_action_complete_command = ns_util.get_netscalar_full_command(ns_action_command, policy_action)
 
         if policy_action and policy_action['attrs'][1] == 'insert_http_header':
             hdr_action = [{
@@ -732,8 +742,9 @@ class PolicyConverter(object):
                 if matches:
                     value = {'val': matches[0]}
                     policy_rule['hdr_action'][0]['hdr']['value'].update(value)
-                    LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-                    ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd,
+                    LOG.info('Conversion successful: %s %s' % (ns_action_command, policy_name))
+                    # Add status successful in CSV/report for policy action
+                    ns_util.add_status_row(policy_action['line_no'], ns_action_command, policy_name, ns_action_complete_command,
                                            STATUS_SUCCESSFUL, policy_rule)
 
         elif policy_action and policy_action['attrs'][1] == 'replace':
@@ -761,8 +772,9 @@ class PolicyConverter(object):
                 }
             }
             policy_rule['rewrite_url_action'] = url_action
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_action_command, policy_name))
+            # Add status successful in CSV/report for policy action
+            ns_util.add_status_row(policy_action['line_no'], ns_action_command, policy_name, ns_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
 
         elif policy_action and policy_action['attrs'][1] == 'insert_before':
@@ -789,12 +801,14 @@ class PolicyConverter(object):
                 }
             }
             policy_rule['rewrite_url_action'] = url_action
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_action_command, policy_name))
+            # Add status successful in CSV/report for policy action
+            ns_util.add_status_row(policy_action['line_no'], ns_action_command, policy_name, ns_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
         else:
-            LOG.warning('Skipped: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SKIPPED)
+            LOG.warning('Skipped: %s %s' % (ns_action_command, policy_name))
+            # Add status Skipped in CSV/report for policy action if rule is not supported by tool
+            ns_util.add_status_row(policy_action['line_no'], ns_action_command, policy_name, ns_action_complete_command, STATUS_SKIPPED)
 
         return policy_rule
 
@@ -802,11 +816,11 @@ class PolicyConverter(object):
     def get_responder_action(self, policy_name, policy_rules,
                              responder_action_config):
         """
-
-        :param policy_name:
-        :param policy_rules:
-        :param responder_action_config:
-        :return:
+        This functions defines that return responder policy action
+        :param policy_name: name of policy
+        :param policy_rules: rules of policy
+        :param rewrite_action_config: dict of rewrite action
+        :return: responder policy action
         """
 
         policy_action = responder_action_config.get(policy_name, None)
@@ -815,8 +829,8 @@ class PolicyConverter(object):
             return
 
         policy_rule = None
-        cmd = 'add responder action'
-        full_cmd = ns_util.get_netscalar_full_command(cmd, policy_action)
+        ns_responder_action_command = 'add responder action'
+        ns_responder_action_complete_command = ns_util.get_netscalar_full_command(ns_responder_action_command, policy_action)
 
         if policy_action and policy_action['attrs'][1] == 'insert_http_header':
             hdr_action = [{
@@ -831,8 +845,9 @@ class PolicyConverter(object):
             matches = [policy_action['attrs'][3]]
             value = {'val': matches[0]}
             policy_rule['hdr_action'][0]['hdr']['value'].append(value)
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_responder_action_command, policy_name))
+            # Add successful status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
 
         elif policy_action and policy_action['attrs'][1] == 'replace':
@@ -860,8 +875,9 @@ class PolicyConverter(object):
                 }
             }
             policy_rule['rewrite_url_action'] = url_action
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_responder_action_command, policy_name))
+            # Add successful status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
 
         elif policy_action and policy_action['attrs'][1] == 'insert_before':
@@ -888,8 +904,9 @@ class PolicyConverter(object):
                 }
             }
             policy_rule['rewrite_url_action'] = url_action
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_responder_action_command, policy_name))
+            # Add successful status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'redirect':
             policy_rule = copy.deepcopy(policy_rules)
@@ -913,8 +930,9 @@ class PolicyConverter(object):
                 }
             }
             policy_rule['redirect_action'] = redirect_action
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+            LOG.info('Conversion successful: %s %s' % (ns_responder_action_command, policy_name))
+            # Add successful status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'respondwith':
             policy_rule = copy.deepcopy(policy_rules)
@@ -948,14 +966,17 @@ class PolicyConverter(object):
                 policy_rule['switching_action'] = switching_action
 
             else:
-                LOG.warning('Datascript: %s %s' % (cmd, policy_name))
-                ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
-            LOG.info('Conversion successful: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_SUCCESSFUL,
+                LOG.warning('Datascript: %s %s' % (ns_responder_action_command, policy_name))
+                # Add Datascript status for responder action
+                ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_DATASCRIPT)
+            LOG.info('Conversion successful: %s %s' % (ns_responder_action_command, policy_name))
+            # Add successful status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_SUCCESSFUL,
                                    policy_rule)
         else:
-            LOG.warning('Datascript: %s %s' % (cmd, policy_name))
-            ns_util.add_status_row(policy_action['line_no'], cmd, policy_name, full_cmd, STATUS_DATASCRIPT)
+            LOG.warning('Datascript: %s %s' % (ns_responder_action_command, policy_name))
+            # Add Datascript status for responder action
+            ns_util.add_status_row(policy_action['line_no'], ns_responder_action_command, policy_name, ns_responder_action_complete_command, STATUS_DATASCRIPT)
 
         return policy_rule
 
@@ -965,11 +986,11 @@ class PolicyConverter(object):
                                     responder_policy_config):
         """
 
-        :param policy_name:
-        :param policy_config:
-        :param rewrite_policy_config:
-        :param responder_policy_config:
-        :return:
+        :param policy_name: name of policy
+        :param policy_config: dict cs policy config
+        :param rewrite_policy_config: dict of rewrite policy
+        :param responder_policy_config: dict of responder policy
+        :return: Policy and policy type
         """
 
         cs_policy = policy_config.get(policy_name, None)

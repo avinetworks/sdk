@@ -1,3 +1,9 @@
+# This fie defines the list of netscalar commands.
+# Supported commands defines that these commands are supported by netscalar tool
+# Not Applicable commands are not applicable in AVI. Those commands are netscalar specific commands
+# Indirect commands are supported indirectly in AVI
+# Not Supported commands are not supported by this tool yet
+
 ---
 SupportedCommands:
 - 'add server'
@@ -146,10 +152,3 @@ NotSupported:
 - 'add filter policy'
 - 'bind lb group'
 - 'set lb group'
-
-
-
-
-
-
-
