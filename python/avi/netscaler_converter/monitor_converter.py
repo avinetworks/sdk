@@ -35,7 +35,16 @@ class MonitorConverter(object):
     ignore_vals = {'respCode': '200', 'deviation': '0', 'downtime': '30'}
     indirect_list = ['destIP', 'secure']
 
+
     def convert(self, ns_config, avi_config, input_dir):
+        """
+        This functions defines that convert health monitor
+        :param ns_config: Dict of netscalar commands
+        :param avi_config: Dict of AVI
+        :param input_dir: Input dir for command_code
+        :return: None
+        """
+
         netscalar_command = 'add lb monitor'
         LOG.debug("Conversion started for Health Monitors")
         ns_monitors = ns_config.get('add lb monitor', {})
@@ -43,28 +52,46 @@ class MonitorConverter(object):
         avi_config['HealthMonitor'] = []
         for name in ns_monitors.keys():
             ns_monitor = ns_monitors.get(name)
-            full_cmd = ns_util.get_netscalar_full_command(netscalar_command, ns_monitor)
-            mon_type = ns_monitor['attrs'][1]
-            if not mon_type in supported_types:
-                ns_util.add_status_row(netscalar_command, name, full_cmd, STATUS_EXTERNAL_MONITOR)
+            ns_monitor_complete_command = ns_util.\
+                get_netscalar_full_command(netscalar_command, ns_monitor)
+            ns_monitor_type = ns_monitor['attrs'][1]
+            if ns_monitor_type not in supported_types:
+                # Skipped health monitor if type is not supported
+                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command,
+                                       name, ns_monitor_complete_command,
+                                       STATUS_EXTERNAL_MONITOR)
                 LOG.warning('Monitor type %s not supported skipped:%s' %
-                         (mon_type, name))
+                         (ns_monitor_type, name))
                 continue
             avi_monitor = self.convert_monitor(ns_monitor, input_dir)
             if not avi_monitor:
                 continue
+            # Add summery of this lb vs in CSV/report
             conv_status = ns_util.get_conv_status(
-                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list, ignore_for_val=self.ignore_vals)
-            ns_util.add_conv_status(netscalar_command, name, full_cmd, conv_status, avi_monitor)
+                ns_monitor, self.skip_attrs, self.na_attrs, self.indirect_list,
+                ignore_for_val=self.ignore_vals)
+            ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command,
+                                    name, ns_monitor_complete_command,
+                                    conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 
+
     def convert_monitor(self, ns_monitor, input_dir):
+        """
+        This functions defines that convert netscalar health monitor to AVI
+        health monitor object
+        :param ns_monitor: Object of health monitor
+        :param input_dir: Input dir for command_code
+        :return: health monitor object
+        """
+
         avi_monitor = dict()
         try:
             LOG.debug('Conversion started for monitor %s' %
                       ns_monitor['attrs'][0])
-            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().replace(" ", "_")
+            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().\
+                replace(" ", "_")
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
             interval = ns_monitor.get('interval', '5')

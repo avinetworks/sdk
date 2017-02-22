@@ -14,6 +14,18 @@ from avi.netscaler_converter.lbvs_converter import tmp_avi_config
 
 def convert(ns_config_dict, tenant, version, output_dir, input_dir,
             skipped_cmds, vs_state):
+    """
+    This functions defines that it convert service/servicegroup to pool
+    Convert pool group of netscalar bind lb vserver configuration
+    :param ns_config_dict: Dict of netscalar commands
+    :param tenant: Tenant
+    :param version: Version
+    :param output_dir: Output dir for write AVI object after conversion
+    :param input_dir: Input dir is to keep cert and keys
+    :param skipped_cmds: List of skipped commands
+    :param vs_state: VS state
+    :return: None
+    """
 
     status_file = output_dir + os.path.sep + "ConversionStatus.csv"
     csv_file = open(status_file, 'w')
@@ -59,13 +71,17 @@ def convert(ns_config_dict, tenant, version, output_dir, input_dir,
         csvs_converter = CsvsConverter()
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
+        # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
-        LOG.debug('Conversion completed successfully')
+        # Add/update CSV/report
+        ns_util.add_complete_conv_status(csv_file, ns_config_dict)
 
+        LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
         for key in avi_config:
             if key != 'META':
-                LOG.info('Total Objects of %s : %s' % (key, len(avi_config[key])))
+                LOG.info('Total Objects of %s : %s' % (key,
+                                                       len(avi_config[key])))
                 print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
 
     except:
