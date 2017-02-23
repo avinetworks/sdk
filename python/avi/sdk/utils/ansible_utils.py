@@ -16,6 +16,18 @@ else:
     log = avi_sdk_syslog_logger()
 
 
+class AviCheckModeResponse(object):
+    """
+    Class to support ansible check mode.
+    """
+    def __init__(self, obj, status_code=200):
+        self.obj = obj
+        self.status_code = status_code
+
+    def json(self):
+        return self.obj
+
+
 def ansible_return(module, rsp, changed, req=None, existing_obj=None):
     """
     :param module: AnsibleModule
@@ -252,6 +264,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             tenant=module.params['tenant'])
     state = module.params['state']
     name = module.params.get('name', None)
+    check_mode = module.check_mode
     obj_path = None
     if name is None:
         obj_path = '%s/' % obj_type
@@ -278,8 +291,22 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     purge_optional_fields(obj, module)
 
     log.info('passed object %s ', obj)
+
+    if name is not None:
+        existing_obj = api.get_object_by_name(
+            obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
+            params={'include_refs': '', 'include_name': ''})
+    else:
+        existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+            params={'include_refs': '', 'include_name': ''}).json()
+
     if state == 'absent':
         try:
+            if check_mode:
+                if existing_obj:
+                    return module.exit_json(changed=True, obj=existing_obj)
+                else:
+                    return module.exit_json(changed=False, obj=None)
             if name is not None:
                 rsp = api.delete_by_name(
                     obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid)
@@ -291,13 +318,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         if rsp.status_code == 204:
             return module.exit_json(changed=True)
         return module.fail_json(msg=rsp.text)
-    if name is not None:
-        existing_obj = api.get_object_by_name(
-            obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
-            params={'include_refs': '', 'include_name': ''})
-    else:
-        existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
-            params={'include_refs': '', 'include_name': ''}).json()
+
     changed = False
     rsp = None
     req = None
@@ -312,13 +333,22 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                 obj_uuid = existing_obj['uuid']
                 obj_path = '%s/%s' % (obj_type, obj_uuid)
             req = obj
-            rsp = api.put(obj_path, data=req,
-                          tenant=tenant, tenant_uuid=tenant_uuid)
+            if check_mode:
+                # No need to process any further.
+                rsp = AviCheckModeResponse(obj=existing_obj)
+            else:
+                rsp = api.put(obj_path, data=req,
+                              tenant=tenant, tenant_uuid=tenant_uuid)
+        elif check_mode:
+            rsp = AviCheckModeResponse(obj=existing_obj)
     else:
         changed = True
         req = obj
-        rsp = api.post(obj_type, data=obj,
-                       tenant=tenant, tenant_uuid=tenant_uuid)
+        if check_mode:
+            rsp = AviCheckModeResponse(obj=None)
+        else:
+            rsp = api.post(obj_type, data=obj,
+                           tenant=tenant, tenant_uuid=tenant_uuid)
     if rsp is None:
         return module.exit_json(changed=changed, obj=existing_obj)
     else:
