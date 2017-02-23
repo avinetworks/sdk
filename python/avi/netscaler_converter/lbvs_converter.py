@@ -3,7 +3,7 @@ import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED, STATUS_INDIRECT,
                                                   STATUS_INCOMPLETE_CONFIGURATION,
                                                   OBJECT_TYPE_SSL_PROFILE,
                                                   OBJECT_TYPE_APPLICATION_PROFILE,
@@ -14,6 +14,7 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                                   OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
                                                   OBJECT_TYPE_POOL)
+
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
@@ -276,14 +277,14 @@ class LbvsConverter(object):
                         # Skipped lb vs if backup pool is found in AVI
                         LOG.error('No Backup pool found: %s' % full_cmd)
                         ns_util.add_status_row(lb_vs['line_no'], cmd, key,
-                                               full_cmd, STATUS_SKIPPED)
+                                               full_cmd, STATUS_INDIRECT)
                         continue
                 elif ip_addr == "0.0.0.0" and not redirect_url and not \
                         backup_server:
                     # Skipped lb vs if it has ip 0.0.0.0 and does not have
                     # backup pool and redirect url
                     ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd,
-                                           STATUS_SKIPPED)
+                                           STATUS_INDIRECT)
                     LOG.error('%s %s Skipped VS, Service point to %s server '
                               'and not have redirect action and backup vserver'
                               % (cmd, key, ip_addr))

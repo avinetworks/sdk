@@ -4,7 +4,9 @@ import os
 import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter.ns_constants import STATUS_SKIPPED, STATUS_SUCCESSFUL
+from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+                                                  STATUS_SUCCESSFUL,
+                                                  STATUS_INDIRECT)
 
 LOG = logging.getLogger(__name__)
 
@@ -34,25 +36,31 @@ class ProfileConverter(object):
         self.profile_set_ssl_vserver_skip = \
             ns_constants.netscalar_command_status['profile_set_ssl_vserver_skip']
         self.profile_set_ssl_vserver_indirect = \
-            ns_constants.netscalar_command_status['profile_set_ssl_vserver_indirect']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_vserver_indirect']
         self.profile_set_ssl_vserver_na = \
             ns_constants.netscalar_command_status['profile_set_ssl_vserver_na']
         self.profile_set_ssl_service_skip = \
             ns_constants.netscalar_command_status['profile_set_ssl_service_skip']
         self.profile_set_ssl_service_indirect = \
-            ns_constants.netscalar_command_status['profile_set_ssl_service_indirect']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_service_indirect']
         self.profile_set_ssl_service_ignore = \
-            ns_constants.netscalar_command_status['profile_set_ssl_service_ignore']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_service_ignore']
         self.profile_bind_ssl_service_skip = \
             ns_constants.netscalar_command_status['profile_bind_ssl_service_skip']
         self.profile_bind_ssl_service_indirect = \
-            ns_constants.netscalar_command_status['profile_bind_ssl_service_indirect']
+            ns_constants.netscalar_command_status[
+                'profile_bind_ssl_service_indirect']
         self.profile_bind_ssl_service_ignore = \
-            ns_constants.netscalar_command_status['profile_bind_ssl_service_ignore']
+            ns_constants.netscalar_command_status[
+                'profile_bind_ssl_service_ignore']
         self.tenant_name = tenant_name
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+
 
     def convert(self, ns_config, avi_config, input_dir):
         """
@@ -489,6 +497,13 @@ class ProfileConverter(object):
                 obj['accepted_ciphers'] = ':'.join(ciphers)
                 bind_ssl_success = True
                 output = obj
+            elif 'eccCurveName' in mapping.keys():
+                LOG.warning('Indirect : %s' % bind_ssl_full_cmd)
+                # Add indirect status in CSV/report for bind ssl service
+                ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                       mapping['attrs'][0], bind_ssl_full_cmd,
+                                       STATUS_INDIRECT)
+                continue
 
             conv_status = ns_util.get_conv_status(
                 mapping, self.profile_bind_sslvs_skip, [], [])
