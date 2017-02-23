@@ -533,7 +533,6 @@ profile_bind_sslvs_skip:
 - 'ocspCheck'
 - 'skipCAName'
 - 'SNICert'
-- 'eccCurveName'
 
 profile_set_ssl_vserver_skip:
 - 'dtlsProfileName'
