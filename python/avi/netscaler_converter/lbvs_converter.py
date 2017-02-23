@@ -1,9 +1,19 @@
 import logging
 import re
+import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  STATUS_INCOMPLETE_CONFIGURATION)
+                                                  STATUS_INCOMPLETE_CONFIGURATION,
+                                                  OBJECT_TYPE_SSL_PROFILE,
+                                                  OBJECT_TYPE_APPLICATION_PROFILE,
+                                                  OBJECT_TYPE_HTTP_POLICY_SET,
+                                                  OBJECT_TYPE_POOL_GROUP,
+                                                  OBJECT_TYPE_NETWORK_PROFILE,
+                                                  OBJECT_TYPE_PKI_PROFILE,
+                                                  OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                  OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
+                                                  OBJECT_TYPE_POOL)
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
@@ -13,22 +23,23 @@ used_pool_group_ref = []
 
 
 class LbvsConverter(object):
-    skip_attrs = ['persistenceBackup', 'backupPersistenceTimeout', 'netmask',
-                  'v6netmasklen', 'dataLength', 'dataOffset', 'rule',
-                  'Listenpolicy', 'Listenpriority', 'resRule', 'persistMask',
-                  'v6persistmasklen', 'pq', 'sc', 'rtspNat', 'sessionless',
-                  'connfailover', 'cacheable', 'soMethod', 'soPersistence',
-                  'soPersistenceTimeOut', 'healthThreshold', 'soThreshold',
-                  'soBackupAction', 'redirectPortRewrite']
-    na_attrs = ['l2Conn', 'oracleServerVersion', 'mssqlServerVersion', 'td',
-                'mysqlProtocolVersion', 'mysqlServerVersion', 'processLocal',
-                'mysqlCharacterSet', 'mysqlServerCapabilities', 'appflowLog',
-                'icmpVsrResponse', 'persistAVPno', 'authnProfile', 'bypassAAAA',
-                'macmodeRetainvlan', 'dbsLb', 'dns64', 'RecursionAvailable']
-    indirect_list = ['hashLength']
 
-    supported_persist_types = ['SOURCEIP', 'COOKIEINSERT', 'SSLSESSION']
-    ignore_vals = {'Listenpolicy': 'None'}
+
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+        self.lbvs_skip_attrs = \
+            ns_constants.netscalar_command_status['lbvs_skip_attrs']
+        self.lbvs_na_attrs = \
+            ns_constants.netscalar_command_status['lbvs_na_attrs']
+        self.lbvs_indirect_list = \
+            ns_constants.netscalar_command_status['lbvs_indirect_list']
+        self.lbvs_supported_persist_types = \
+            ns_constants.netscalar_command_status['lbvs_supported_persist_types']
+        self.lbvs_ignore_vals = \
+            ns_constants.netscalar_command_status['lbvs_ignore_vals']
+        self.tenant_name = tenant_name
+        self.cloud_name = cloud_name
+        self.tenant_ref = tenant_ref
+        self.cloud_ref = cloud_ref
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -50,7 +61,8 @@ class LbvsConverter(object):
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
                            'SSL_TCP', 'DNS', 'DNS_TCP']
 
-        policy_converter = PolicyConverter()
+        policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
+                                           self.tenant_ref, self.cloud_ref)
         tmp_policy_ref = []
         for key in lb_vs_conf.keys():
             try:
@@ -112,6 +124,8 @@ class LbvsConverter(object):
                 vs_obj = {
                     'name': updated_vs_name,
                     'type': 'VS_TYPE_NORMAL',
+                    'tenant_ref': self.tenant_ref,
+                    # 'cloud_ref': self.cloud_ref,
                     'ip_address': {
                         'addr': ip_addr,
                         'type': 'V4'
@@ -130,26 +144,36 @@ class LbvsConverter(object):
                 policy = policy_converter.convert(bind_conf_list, ns_config,
                                                   avi_config, [],
                                                   redirect_pools,
-                                                  self.skip_attrs,
-                                                  self.na_attrs,
+                                                  self.lbvs_skip_attrs,
+                                                  self.lbvs_na_attrs,
                                                   'bind lb vserver')
 
                 # TODO move duplicate code for adding policy to vs in ns_util
                 # Convert netscalar policy to AVI http policy set
                 if policy:
                     if policy['name'] in tmp_policy_ref:
-                        ns_util.clone_http_policy_set(policy, updated_vs_name,
-                                                      avi_config)
+                        policy = ns_util.clone_http_policy_set(policy,
+                                                               updated_vs_name,
+                                                               avi_config,
+                                                               self.tenant_name)
                     tmp_policy_ref.append(policy['name'])
+                    updated_http_policy_ref = \
+                        ns_util.get_object_ref(policy['name'],
+                                               OBJECT_TYPE_HTTP_POLICY_SET,
+                                               self.tenant_name, self.cloud_name)
                     http_policies = {
                         'index': 11,
-                        'http_policy_set_ref': policy['name']
+                        'http_policy_set_ref': updated_http_policy_ref
                     }
                     vs_obj['http_policies'] = []
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
 
                 if app_profile:
+                    app_profile = \
+                        ns_util.get_object_ref(app_profile,
+                                               OBJECT_TYPE_APPLICATION_PROFILE,
+                                               self.tenant_name, self.cloud_name)
                     vs_obj['application_profile_ref'] = app_profile
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
                     vs_obj['application_profile_ref'] = 'admin:System-DNS'
@@ -169,9 +193,11 @@ class LbvsConverter(object):
                     # clone the pool group if it is referenced to other
                     # VS ot http policy set
                     if pool_group_ref in used_pool_group_ref:
-                        pool_group_ref = ns_util.clone_pool_group(
-                            pool_group_ref,
-                            vs_name, avi_config)
+                        pool_group_ref = \
+                            ns_util.clone_pool_group(pool_group_ref, vs_name,
+                                                     avi_config,
+                                                     self.tenant_name,
+                                                     self.cloud_name)
                     pool_group_ref = re.sub('[:]', '-', pool_group_ref)
                     used_pool_group_ref.append(pool_group_ref)
                     updated_pool_group = [pg for pg in
@@ -179,7 +205,10 @@ class LbvsConverter(object):
                                                          [])
                                           if pg['name'] == pool_group_ref]
 
-                    vs_obj['pool_group_ref'] = pool_group_ref
+                    vs_obj['pool_group_ref'] = \
+                        ns_util.get_object_ref(pool_group_ref,
+                                               OBJECT_TYPE_POOL_GROUP,
+                                               self.tenant_name, self.cloud_name)
                     pool_group = updated_pool_group[0]
 
                 backup_server = lb_vs.get('backupVServer', None)
@@ -197,7 +226,10 @@ class LbvsConverter(object):
                     }
                     if pool_group:
                         for member in pool_group['members']:
-                            pool_ref = member['pool_ref']
+                            pool_ref = \
+                            (member['pool_ref'].split('&')[1].split('=')[1])
+                            # pool_ref = ns_util.\
+                            #     get_name_from_reference(member['pool_ref'])
                             pool = [pool for pool in avi_config['Pool'] if
                                     pool['name'] == pool_ref]
                             if pool:
@@ -217,13 +249,22 @@ class LbvsConverter(object):
                                              backup_pool_group_ref]
                         backup_pool_ref = backup_pool_group[0]['members']
                         [0]['pool_ref']
+                        backup_pool_ref = \
+                            backup_pool_group[0]['members'][0]['pool_ref']. \
+                                split('&')[1].split('=')[1]
                         for index, pool_ref in enumerate(pool_group['members']):
+                            pool_ref = pool_ref.split('&')[1].split('=')[1]
                             pool = [pool for pool in avi_config['Pool']
                                     if pool['name'] == pool_ref]
                             if pool:
-                                new_backup_pool_ref = ns_util. \
-                                    clone_pool(backup_pool_ref, index,
-                                               avi_config)
+                                new_backup_pool_ref = \
+                                    ns_util.clone_pool(backup_pool_ref, index,
+                                                       avi_config)
+                                new_backup_pool_ref = \
+                                    ns_util.get_object_ref(new_backup_pool_ref,
+                                                           OBJECT_TYPE_POOL,
+                                                           self.tenant_name,
+                                                           self.cloud_name)
                                 backup_pool = {
                                     'type': 'FAIL_ACTION_BACKUP_POOL',
                                     'backup_pool': {
@@ -256,7 +297,7 @@ class LbvsConverter(object):
 
                 persistenceType = lb_vs.get('persistenceType', '')
                 if pool_group_ref and persistenceType in \
-                        self.supported_persist_types:
+                        self.lbvs_supported_persist_types:
                     timeout = lb_vs.get('timeout', 2)
                     profile_name = '%s-persistance-profile' % vs_name
                     persist_profile = self.convert_persistance_prof(
@@ -274,6 +315,11 @@ class LbvsConverter(object):
                                             avi_config):
                         LOG.info('Conversion successful: Added network profile '
                                  '%s for %s' % (ntwk_prof, vs_name))
+                        ntwk_prof = \
+                            ns_util.get_object_ref(ntwk_prof,
+                                                   OBJECT_TYPE_NETWORK_PROFILE,
+                                                   self.tenant_name,
+                                                   self.cloud_name)
                         vs_obj['network_profile_ref'] = ntwk_prof
 
                 if redirect_url:
@@ -291,8 +337,9 @@ class LbvsConverter(object):
                     avi_config['VirtualService'].append(vs_obj)
                 # Add summery of this lb vs in CSV/report
                 conv_status = ns_util.get_conv_status(
-                    lb_vs, self.skip_attrs, self.na_attrs, self.indirect_list,
-                    ignore_for_val=self.ignore_vals)
+                    lb_vs, self.lbvs_skip_attrs, self.lbvs_na_attrs,\
+                    self.lbvs_indirect_list,
+                    ignore_for_val=self.lbvs_ignore_vals)
                 ns_util.add_conv_status(lb_vs['line_no'], cmd, key, full_cmd,
                                         conv_status, vs_obj)
 
@@ -307,6 +354,11 @@ class LbvsConverter(object):
                             if [pki_profile for pki_profile in
                                 avi_config["PKIProfile"] if
                                 pki_profile['name'] == pki_ref]:
+                                pki_ref = \
+                                    ns_util.get_object_ref(pki_ref,
+                                                           OBJECT_TYPE_PKI_PROFILE,
+                                                           self.tenant_name,
+                                                           self.cloud_name)
                                 vs_obj['pki_profile_ref'] = pki_ref
                                 LOG.info(
                                     'Added: %s PKI profile %s' % (pki_ref, key))
@@ -321,14 +373,24 @@ class LbvsConverter(object):
                                 vs_obj[avi_ssl_ref] = [
                                     'admin:System-Default-Cert']
                                 continue
-                            vs_obj[avi_ssl_ref] = mapping['attrs'][0]
+                            updated_ssl_ref = \
+                                ns_util.get_object_ref(
+                                    mapping['attrs'][0],
+                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                    self.tenant_name, self.cloud_name)
+                            vs_obj[avi_ssl_ref] = updated_ssl_ref
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
                     ssl_profile_name = re.sub('[:]', '-', key)
                     if mapping and [ssl_profile for ssl_profile in
                                     avi_config["SSLProfile"] if
                                     ssl_profile['name'] == ssl_profile_name]:
-                        vs_obj['ssl_profile_name'] = ssl_profile_name
+                        updated_ssl_profile_ref = \
+                            ns_util.get_object_ref(ssl_profile_name,
+                                                   OBJECT_TYPE_SSL_PROFILE,
+                                                   self.tenant_name,
+                                                   self.cloud_name)
+                        vs_obj['ssl_profile_name'] = updated_ssl_profile_ref
                         LOG.debug('Added: %s SSL profile %s' % (key, key))
 
                 LOG.debug('LB VS conversion completed for: %s' % key)
@@ -355,7 +417,7 @@ class LbvsConverter(object):
                 },
                 "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
                 "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                "name": name
+                "name": name,
             }
         elif persistenceType == 'SOURCEIP':
             timeout = int(timeout) / 60
@@ -375,6 +437,7 @@ class LbvsConverter(object):
                 "persistence_type": "PERSISTENCE_TYPE_TLS",
                 "name": name
             }
+        profile['tenant_ref'] = self.tenant_ref
         return profile
 
     def update_pool_for_persist(self, avi_config, pool_group, profile_name):
@@ -388,9 +451,14 @@ class LbvsConverter(object):
         """
 
         for pool_ref in pool_group['members']:
+            pool_ref = pool_ref['pool_ref'].split('&')[1].split('=')[1]
             pool = [pool for pool in avi_config['Pool'] if
-                    pool['name'] == pool_ref['pool_ref']]
+                    pool['name'] == pool_ref]
             if pool:
                 pool_obj = pool[0]
                 persist_ref_key = "application_persistence_profile_ref"
-                pool_obj[persist_ref_key] = profile_name
+                persist_ref = \
+                    ns_util.get_object_ref(
+                        profile_name, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
+                        self.tenant_name, self.cloud_name)
+                pool_obj[persist_ref_key] = persist_ref

@@ -4,11 +4,13 @@ This file is used to convert the policies.
 import logging
 import re
 import copy
+import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter import ns_util
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
-                                                  STATUS_DATASCRIPT)
+                                                  STATUS_DATASCRIPT,
+                                                  OBJECT_TYPE_POOL_GROUP)
 
 
 
@@ -19,10 +21,15 @@ class PolicyConverter(object):
     """
     This class is used to convert the policy
     """
-    policy_types = ['cs', 'rewrite', 'responder', 'expression']
-    bind_skipped = ['vServer', 'type', 'domainName ',
-                    'gotoPriorityExpression', 'TTL', 'backupIP', 'cookieDomain',
-                    'cookieTimeout', 'sitedomainTTL']
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+        self.policyconverter_policy_types = \
+        ns_constants.netscalar_command_status['policyconverter_policy_types']
+        self.policyconverter_bind_skipped = \
+        ns_constants.netscalar_command_status['policyconverter_bind_skipped']
+        self.tenant_name = tenant_name
+        self.cloud_name = cloud_name
+        self.tenant_ref = tenant_ref
+        self.cloud_ref = cloud_ref
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, skip_attrs, na_attrs, netscalar_command):
@@ -58,7 +65,7 @@ class PolicyConverter(object):
 
         policy_obj = {
             'name': '',
-            'tenant_uuid': 'admin',
+            'tenant_ref': self.tenant_ref,
             'enable': 'false',
         }
 
@@ -67,8 +74,8 @@ class PolicyConverter(object):
         vs_policy_name = ''
         for bind_conf in bind_conf_list:
             policy_name = ''
-            bind_lb_netscalar_complete_command = ns_util.\
-                get_netscalar_full_command(netscalar_command, bind_conf)
+            bind_lb_netscalar_complete_command = \
+                ns_util.get_netscalar_full_command(netscalar_command, bind_conf)
             targetVserver = None
             if 'lbvserver' in bind_conf:
                 continue
@@ -78,13 +85,13 @@ class PolicyConverter(object):
                     policyLabels = policy_lables[policyLabelName]
                     if isinstance(policyLabels, dict):
                         policyLabels = [policyLabels]
-                    targetVserver = self.\
-                        get_targetvserver_policylabel(policyLabels,
-                                                      policy_lables)
+                    targetVserver = \
+                        self.get_targetvserver_policylabel(policyLabels,
+                                                           policy_lables)
                     policy_label_netscalar_command = "bind cs policylabel"
-                    policy_label_netscalar_full_command = ns_util.\
-                        get_netscalar_full_command(policy_label_netscalar_command,
-                                                   policyLabels[0])
+                    policy_label_netscalar_full_command = \
+                        ns_util.get_netscalar_full_command(
+                            policy_label_netscalar_command, policyLabels[0])
                     if targetVserver:
                         # Add status successful in CSV/report for bind if it has
                         # targetVserver
@@ -143,8 +150,7 @@ class PolicyConverter(object):
                                                    rewrite_action_config,
                                                    responder_action_config,
                                                    policy_expression_config,
-                                                   avi_config,
-                                                   tmp_pool_ref,
+                                                   avi_config, tmp_pool_ref,
                                                    targetLBVserver)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 # Add status successful in CSV/report if policy is converted
@@ -245,8 +251,8 @@ class PolicyConverter(object):
             netscalar_command = 'add responder policy'
         elif policy_type == 'expression':
             netscalar_command = 'add expression policy'
-        ns_policy_complete_cmd = ns_util.\
-            get_netscalar_full_command(netscalar_command, policy)
+        ns_policy_complete_cmd = \
+            ns_util.get_netscalar_full_command(netscalar_command, policy)
 
         if policy_type == 'cs' and not (targetLBVserver and ns_rule):
             LOG.warning('Skipped policy: %s' % rule_name)
@@ -402,16 +408,17 @@ class PolicyConverter(object):
             "value": 'needthismissingvalue',
             "match_criteria": ''
         }
-        if 'URL ==' in query.upper():
-            a, b = query.split("==")
-            b = b.strip()
-            match_str = b.strip("\\'")
-            if not match_str:
-                LOG.warning('No Matches found for %s' % query)
-                return None
-            match = {"path": path_query}
-            match["path"]["match_str"].append(match_str)
-            match["path"]["match_criteria"] = "EQUALS"
+
+        if 'URL ==' in query.upper() and 'REQ.HTTP.URL ==' not in query.upper():
+                a, b = query.split("==")
+                b = b.strip()
+                match_str = b.strip("\\'")
+                if not match_str:
+                    LOG.warning('No Matches found for %s' % query)
+                    return None
+                match = {"path": path_query}
+                match["path"]["match_str"].append(match_str)
+                match["path"]["match_criteria"] = "EQUALS"
 
         elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
                         'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
@@ -669,6 +676,7 @@ class PolicyConverter(object):
         stringgroup_object = {
             "name": string_group_name,
             "kv": [],
+            "tenant_ref": self.tenant_ref
         }
 
         for match in matches:
@@ -698,8 +706,8 @@ class PolicyConverter(object):
 
         LOG.warning("%s Patset policy is not supported" % match)
 
-
-    def get_cs_policy_action(self, name, targetLBVserver, redirect_pools, avi_config, tmp_pool_ref):
+    def get_cs_policy_action(self, name, targetLBVserver, redirect_pools,
+                             avi_config, tmp_pool_ref):
         """
         This function defines that return the http request policy action
         :param targetLBVserver: name of terget lb vserver
@@ -715,7 +723,8 @@ class PolicyConverter(object):
             pool_group = [pg for pg in avi_config['PoolGroup']
                           if pg['name'] == pool_group_ref]
             for member in pool_group[0]['members']:
-                pool_ref = member['pool_ref']
+
+                pool_ref = member['pool_ref'].split('&')[1].split('=')[1]
                 pools = [pool for pool in avi_config['Pool']
                          if pool['name'] == pool_ref]
                 redirect_uri = pools[0]['fail_action']['redirect']['host']
@@ -739,13 +748,17 @@ class PolicyConverter(object):
                           if pg['name'] == pool_group_ref]
             if pool_group and pool_group_ref in tmp_pool_ref:
                 pool_group_ref = ns_util.clone_pool_group(pool_group_ref, name,
-                                                          avi_config)
+                                                          avi_config,
+                                                          self.tenant_name,
+                                                          self.cloud_name)
 
-
+            updated_pool_group_ref = \
+                ns_util.get_object_ref(pool_group_ref, OBJECT_TYPE_POOL_GROUP,
+                                       self.tenant_name, self.cloud_name)
             action = {
                 'action': 'HTTP_SWITCHING_SELECT_POOLGROUP',
                 'status_code': 200,
-                'pool_group_ref': pool_group_ref
+                'pool_group_ref': updated_pool_group_ref
             }
             if not pool_group:
                 action = None
@@ -771,8 +784,8 @@ class PolicyConverter(object):
         if not policy_action:
             LOG.warning('No responder action found: %s' % policy_name)
             return
-        ns_action_complete_command = ns_util.\
-            get_netscalar_full_command(ns_action_command, policy_action)
+        ns_action_complete_command = \
+            ns_util.get_netscalar_full_command(ns_action_command, policy_action)
 
         if policy_action and policy_action['attrs'][1] == 'insert_http_header':
             hdr_action = [{
@@ -887,9 +900,9 @@ class PolicyConverter(object):
 
         policy_rule = None
         ns_responder_action_command = 'add responder action'
-        ns_responder_action_complete_command = ns_util.\
-            get_netscalar_full_command(ns_responder_action_command,
-                                       policy_action)
+        ns_responder_action_complete_command = \
+            ns_util.get_netscalar_full_command(ns_responder_action_command,
+                                               policy_action)
 
         if policy_action and policy_action['attrs'][1] == 'insert_http_header':
             hdr_action = [{

@@ -16,6 +16,17 @@ STATUS_EXTERNAL_MONITOR = 'EXTERNAL MONITOR'
 STATUS_COMMAND_NOT_SUPPORTED = 'NOT SUPPORTED'  # Commands are not supported in
 # AVI yet
 STATUS_INCOMPLETE_CONFIGURATION = 'INCOMPLETE CONFIGURATION'
+# Object type constant which are used in object reference generation
+OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
+OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
+OBJECT_TYPE_HTTP_POLICY_SET = 'httppolicyset'
+OBJECT_TYPE_POOL_GROUP = 'poolgroup'
+OBJECT_TYPE_POOL = 'pool'
+OBJECT_TYPE_NETWORK_PROFILE = 'networkprofile'
+OBJECT_TYPE_PKI_PROFILE = 'pkiprofile'
+OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE = 'sslkeyandcertificate'
+OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
+OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
 
 
 def init():

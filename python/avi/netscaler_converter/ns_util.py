@@ -12,7 +12,9 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_PARTIAL,
                                                   STATUS_DATASCRIPT,
                                                   STATUS_INCOMPLETE_CONFIGURATION,
-                                                  STATUS_COMMAND_NOT_SUPPORTED)
+                                                  STATUS_COMMAND_NOT_SUPPORTED,
+                                                  OBJECT_TYPE_POOL_GROUP,
+                                                  OBJECT_TYPE_POOL)
 
 LOG = logging.getLogger(__name__)
 
@@ -228,7 +230,6 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
     return conv_status
 
 
-
 def get_key_cert_obj(name, key_file_name, cert_file_name, input_dir):
     """
     :param name:name of ssl cert.
@@ -435,7 +436,7 @@ def is_shared_same_vip(vs, avi_config):
     if shared_vip:
         return True
 
-def clone_http_policy_set(policy, prefix, avi_config):
+def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name):
     """
     This function clone pool reused in context switching rule
     :param policy: name of policy
@@ -445,14 +446,24 @@ def clone_http_policy_set(policy, prefix, avi_config):
     """
 
     policy_name = policy['name']
-    for rule in policy['http_request_policy']['rules']:
+    clone_policy = copy.deepcopy(policy)
+    for rule in clone_policy['http_request_policy']['rules']:
         if rule.get('switching_action', None):
-            pool_group_ref = clone_pool_group(rule['switching_action']
-                                              ['pool_group_ref'], policy_name,
-                                              avi_config)
+            pool_group_ref = \
+                rule['switching_action']['pool_group_ref'].split('&')[1].split(
+                    '=')[1]
+            pool_group_ref = clone_pool_group(pool_group_ref, policy_name,
+                                              avi_config, tenant_name,
+                                              cloud_name)
             if pool_group_ref:
-                rule['switching_action']['pool_group_ref'] = pool_group_ref
-    policy['name'] += '-%s-clone' % prefix
+                updated_pool_group_ref = get_object_ref(pool_group_ref,
+                                                        OBJECT_TYPE_POOL_GROUP,
+                                                        tenant_name, cloud_name)
+                rule['switching_action']['pool_group_ref'] = \
+                    updated_pool_group_ref
+    clone_policy['name'] += '-%s-clone' % prefix
+    return clone_policy
+
 
 def set_rules_index_for_http_policy_set(avi_config):
     """
@@ -486,7 +497,7 @@ def get_netscalar_full_command(netscalar_command, obj):
         netscalar_command += ' -%s %s' % (key, obj[key])
     return netscalar_command
 
-def clone_pool_group(pg_name, prefix, avi_config):
+def clone_pool_group(pg_name, prefix, avi_config, tenant_name, cloud_name):
     """
     Used for cloning shared pool group.
     :param pg_name: pool group name
@@ -494,16 +505,18 @@ def clone_pool_group(pg_name, prefix, avi_config):
     :param avi_config: avi config dict
     :return: None
     """
-
     pool_groups = [pg for pg in avi_config['PoolGroup'] if pg['name'] == pg_name]
     if pool_groups:
         pool_group = copy.deepcopy(pool_groups[0])
         pool_group_name = re.sub('[:]', '-', prefix + pg_name)
         pool_group['name'] = pool_group_name
         for member in pool_group.get('members', []):
-            pool_ref = clone_pool(member['pool_ref'], prefix, avi_config)
+            pool_ref = (member['pool_ref']).split('&')[1].split('=')[1]
+            pool_ref = clone_pool(pool_ref, prefix, avi_config)
             if pool_ref:
-                member['pool_ref'] = pool_ref
+                updated_pool_ref = get_object_ref(pool_ref, OBJECT_TYPE_POOL,
+                                                  tenant_name, cloud_name)
+                member['pool_ref'] = updated_pool_ref
         avi_config['PoolGroup'].append(pool_group)
         LOG.info("Same pool group reference to other object. Clone Pool group "
                  "%s for %s" % (pg_name, prefix))
@@ -526,7 +539,27 @@ def remove_http_mon_from_pool(avi_config, pool):
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                 pool['health_monitor_refs'].remove(hm_ref)
                 LOG.warning('Skipping %s this reference from %s pool because of '
-                            'health monitor type is '
-                            'HTTPS and VS has no ssl profile.' % (hm_ref,
-                                                                  pool['name']))
+                            'health monitor type is HTTPS and VS has no ssl '
+                            'profile.' % (hm_ref, pool['name']))
 
+
+def get_object_ref(object_name, object_type, tenant=None, cloud_name=None):
+    """
+    This function defines that to genarte object ref in the format of
+    /api/object_type/?tenant=tenant_name&name=object_name&cloud=cloud_name
+    :param object_name: Name of object
+    :param object_type: Type of object
+    :param tenant: Name of tenant
+    :param cloud_name: Name of cloud
+    :return: Return generated object ref
+    """
+    
+    if object_type == 'tenant':
+        ref = '/api/tenant/?name=%s' % object_name
+    elif object_type == 'cloud':
+        ref = '/api/cloud/?name=%s' % object_name
+    else:
+        ref = '/api/%s/?tenant=%s&name=%s' % (object_type, tenant, object_name)
+    # if cloud_name:
+    #     ref += '&cloud=%s' % cloud_name
+    return ref
