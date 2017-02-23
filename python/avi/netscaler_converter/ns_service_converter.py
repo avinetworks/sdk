@@ -1,37 +1,51 @@
 import logging
 import re
 import avi.netscaler_converter.ns_util as ns_util
+import avi.netscaler_converter.ns_constants as ns_constants
+
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
                                                   STATUS_INDIRECT,
-                                                  STATUS_INCOMPLETE_CONFIGURATION)
+                                                  STATUS_INCOMPLETE_CONFIGURATION,
+                                                  OBJECT_TYPE_POOL,
+                                                  OBJECT_TYPE_PKI_PROFILE,
+                                                  OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                  OBJECT_TYPE_SSL_PROFILE,
+                                                  OBJECT_TYPE_HEALTH_MONITOR)
 
 LOG = logging.getLogger(__name__)
 
 
 class ServiceConverter(object):
-    bind_lb_skipped = ['priority', 'gotoPriorityExpression', 'type', 'invoke']
-    service_skip = ['clearTextPort', 'cacheType', 'maxReq', 'useproxyport',
-                    'sc', 'rtspSessionidRemap', 'maxBandwidth',
-                    'monThreshold', 'netProfile', 'td', 'dnsProfileName']
-    service_na = ['pathMonitor', 'pathMonitorIndv', 'accessDown', 'appflowLog',
-                  'processLocal', 'CKA']
 
-    bind_sg_skip = ['passive', 'CustomServerID', 'state', 'hashId', 'weight']
 
-    server_skip = ['comment', 'td']
-
-    skip_for_val = {'useproxyport': 'YES', 'maxReq': '0'}
-
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+        self.nsservice_bind_lb_skipped = \
+            ns_constants.netscalar_command_status['nsservice_bind_lb_skipped']
+        self.nsservice_service_skip = \
+            ns_constants.netscalar_command_status['nsservice_service_skip']
+        self.nsservice_service_na = \
+            ns_constants.netscalar_command_status['nsservice_service_na']
+        self.nsservice_bind_sg_skip = \
+            ns_constants.netscalar_command_status['nsservice_bind_sg_skip']
+        self.nsservice_server_skip = \
+            ns_constants.netscalar_command_status['nsservice_server_skip']
+        self.nsservice_skip_for_val = \
+            ns_constants.netscalar_command_status['nsservice_skip_for_val']
+        self.tenant_name = tenant_name
+        self.cloud_name = cloud_name
+        self.tenant_ref = tenant_ref
+        self.cloud_ref = cloud_ref
 
     def convert(self, ns_config, avi_config):
         """
         Converts service or service groups bound to VS to avi Pool entity
         :param ns_config: Netscaler parsed config
         :param avi_config: Avi converted config
+        :param tenant_ref: Tenant
+        :param cloud_ref: Cloud ref
         :return: None
         """
-
         used_pool_ref = []
         groups = ns_config.get('bind lb vserver', {})
         lb_vs_conf = ns_config.get('add lb vserver', {})
@@ -47,8 +61,8 @@ class ServiceConverter(object):
                 dns_obj = [dns_obj]
             ns_dns_command = 'add dns addRec'
             for element in dns_obj:
-                ns_dns_complate_command = ns_util.\
-                    get_netscalar_full_command(ns_dns_command, element)
+                ns_dns_complate_command = \
+                    ns_util.get_netscalar_full_command(ns_dns_command, element)
                 # Add status indirect to all add dns addRec netscalar commands
                 # which are indirectly converted to AVI
                 ns_util.add_status_row(element['line_no'], ns_dns_command,
@@ -69,9 +83,9 @@ class ServiceConverter(object):
                 if isinstance(group, dict):
                     group = [group]
                 lb_vs = lb_vs_conf.get(group_key)
-                ns_bind_lb_vserver_complete_command = ns_util.\
-                    get_netscalar_full_command(ns_bind_lb_vserver_command,
-                                               group[0])
+                ns_bind_lb_vserver_complete_command = \
+                    ns_util.get_netscalar_full_command(
+                        ns_bind_lb_vserver_command, group[0])
                 if not lb_vs:
                     # Skipped service if could not found add lb vs
                     ns_util.add_status_row(None, ns_bind_lb_vserver_command,
@@ -88,9 +102,9 @@ class ServiceConverter(object):
                     if len(element['attrs']) < 2:
                         # Skipped this service if it doen not have any server
                         continue
-                    full_cmd = ns_util.\
-                        get_netscalar_full_command(ns_bind_lb_vserver_command,
-                                                   element)
+                    full_cmd = \
+                        ns_util.get_netscalar_full_command(ns_bind_lb_vserver_command,
+                                                           element)
                     service = element['attrs'][1]
                     pool_name = re.sub('[:]', '-', service + '-pool')
                     pool = [pool for pool in avi_config['Pool']
@@ -100,36 +114,41 @@ class ServiceConverter(object):
                             pool_name = ns_util.clone_pool(pool_name, group_key,
                                                            avi_config)
                         pool[0]['lb_algorithm'] = algo
-                        pg_members.append({'pool_ref': pool_name})
+                        updated_pool_ref = \
+                            ns_util.get_object_ref(pool_name, OBJECT_TYPE_POOL,
+                                                   self.tenant_name,
+                                                   self.cloud_name)
+                        pg_members.append({'pool_ref': updated_pool_ref})
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report
-                        conv_status = ns_util.\
-                            get_conv_status(element, self.bind_lb_skipped, [],
-                                            [])
-                        ns_util.\
-                            add_conv_status(element['line_no'],
-                                            ns_bind_lb_vserver_command,
-                                            element['attrs'][0],
-                                            ns_bind_lb_vserver_complete_command,
-                                            conv_status, pool[0])
+                        conv_status = \
+                            ns_util.get_conv_status(
+                                element, self.nsservice_bind_lb_skipped, [], [])
+                        ns_util.add_conv_status(element['line_no'],
+                                                ns_bind_lb_vserver_command,
+                                                element['attrs'][0],
+                                                ns_bind_lb_vserver_complete_command,
+                                                conv_status, pool[0])
                     else:
                         # Skipped add server if pool not found in AVI
                         LOG.warning('Skipped :Pool is not created %s' %
                                     element['attrs'][0])
-                        ns_util.\
-                            add_status_row(element['line_no'],
-                                           ns_bind_lb_vserver_command,
-                                           element['attrs'][0],
-                                           ns_bind_lb_vserver_complete_command,
-                                           STATUS_SKIPPED)
+                        ns_util.add_status_row(element['line_no'],
+                                               ns_bind_lb_vserver_command,
+                                               element['attrs'][0],
+                                               ns_bind_lb_vserver_complete_command,
+                                               STATUS_SKIPPED)
 
                 pg_name = group_key + '-poolgroup'
                 pg_name = re.sub('[:]', '-', pg_name)
                 if pg_members:
                     pool_group = {
                         'name': pg_name,
-                        'members': pg_members
+                        'members': pg_members,
+                        'tenant_ref': self.tenant_ref
+                        # 'tenant_ref': self.tenant_ref,
+                        # 'cloud_ref': self.cloud_ref
                     }
                     avi_config['PoolGroup'].append(pool_group)
 
@@ -161,8 +180,8 @@ class ServiceConverter(object):
             service = ns_services.get(key, {})
             service_command = 'add service'
             service_name = key
-            service_netscalar_full_command = ns_util.\
-                get_netscalar_full_command(service_command, service)
+            service_netscalar_full_command = \
+                ns_util.get_netscalar_full_command(service_command, service)
             server = self.convert_ns_service(service, ns_servers, ns_dns)
             if not server:
                 LOG.warning('Skipped:No server found %s' %
@@ -178,7 +197,10 @@ class ServiceConverter(object):
             pool_obj = {
                 'name': pool_name,
                 'servers': [server],
-                'health_monitor_refs': []
+                'health_monitor_refs': [],
+                'tenant_ref': self.tenant_ref
+                # 'tenant_ref': self.tenant_ref,
+                # 'cloud_ref': self.cloud_ref
             }
             # Add health monitor reference to pool
             monitor_refs = self.get_service_montor(service_name,
@@ -187,30 +209,48 @@ class ServiceConverter(object):
                 pool_obj['health_monitor_refs'] = list(set(monitor_refs))
             ssl_service = set_ssl_service.get(key, None)
             if ssl_service:
-
-                if [pki for pki in avi_config['PKIProfile']
-                    if pki['name'] == key]:
-                    pool_obj['pki_profile_ref'] = key
+                if [pki for pki in avi_config['PKIProfile'] if pki['name'] == key]:
+                    updated_pki_ref = ns_util.get_object_ref(
+                        key, OBJECT_TYPE_PKI_PROFILE, self.tenant_name,
+                        self.cloud_name)
+                    pool_obj['pki_profile_ref'] = updated_pki_ref
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate']
                     if key_cert['name'] == key]:
-                    pool_obj['ssl_key_and_certificate_uuid'] = key
+                    ssl_key_cert_ref = \
+                        ns_util.get_object_ref(
+                            key, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                            self.tenant_name, self.cloud_name)
+                    pool_obj['ssl_key_and_certificate_ref'] = ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', key)
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile']
                     if ssl_prof['name'] == ssl_profile_name]:
-                    pool_obj['ssl_profile_ref'] = ssl_profile_name
+                    updated_ssl_profile_ref = \
+                        ns_util.get_object_ref(ssl_profile_name,
+                                               OBJECT_TYPE_SSL_PROFILE,
+                                               self.tenant_name, self.cloud_name)
+                    pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
                     # Remove http type of health monitor reference if pool
                     # has ssl profile
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
+            if pool_obj['health_monitor_refs']:
+                updated_health_monitor_ref = []
+                for health_monitor_ref in pool_obj['health_monitor_refs']:
+                    updated_health_monitor_ref.append(
+                        ns_util.get_object_ref(health_monitor_ref,
+                                               OBJECT_TYPE_HEALTH_MONITOR,
+                                               self.tenant_name,
+                                               self.cloud_name))
+                pool_obj['health_monitor_refs'] = updated_health_monitor_ref
 
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' %
                         service_netscalar_full_command)
             # Add summery of this service in CSV/report
-            conv_status = ns_util.get_conv_status(service, self.bind_lb_skipped,
-                                                  [], [])
+            conv_status = ns_util.\
+                get_conv_status(service, self.nsservice_bind_lb_skipped, [], [])
             ns_util.add_conv_status(service['line_no'], service_command,
                                     service_name, service_netscalar_full_command,
                                     conv_status, pool_obj)
@@ -219,8 +259,9 @@ class ServiceConverter(object):
             service_group_command = 'add serviceGroup'
             service_group = ns_service_groups.get(group_key, {})
             service_group_name = group_key
-            service_group_netscalar_full_command = ns_util.\
-                get_netscalar_full_command(service_group_command, service_group)
+            service_group_netscalar_full_command = \
+                ns_util.get_netscalar_full_command(service_group_command,
+                                                   service_group)
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
             servers, monitor_ref = self.convert_ns_service_group(bind_groups,
                                                                  ns_servers,
@@ -239,27 +280,39 @@ class ServiceConverter(object):
             pool_obj = {
                 'name': pool_name,
                 'servers': servers,
-                'health_monitor_refs': []
+                'health_monitor_refs': [],
+                'tenant_ref': self.tenant_ref
             }
 
             # Add health monitor reference to pool
             if monitor_ref and [monitor for monitor in
                                 avi_config['HealthMonitor']
                                 if monitor['name'] == monitor_ref]:
+
                 pool_obj['health_monitor_refs'].append(monitor_ref)
 
             ssl_service_group = set_ssl_service_group.get(group_key, None)
             if ssl_service_group:
-                if [pki for pki in avi_config['PKIProfile']
-                    if pki['name'] == group_key]:
-                    pool_obj['pki_profile_ref'] = group_key
+                if [pki for pki in avi_config['PKIProfile'] if pki['name'] == group_key]:
+                    updated_pki_ref = \
+                        ns_util.get_object_ref(key, OBJECT_TYPE_PKI_PROFILE,
+                                               self.tenant_name, self.cloud_name)
+                    pool_obj['pki_profile_ref'] = updated_pki_ref
                 if [key_cert for key_cert in avi_config['SSLKeyAndCertificate']
                     if key_cert['name'] == group_key]:
-                    pool_obj['ssl_key_and_certificate_ref'] = group_key
+                    ssl_key_cert_ref = \
+                        ns_util.get_object_ref(
+                            key, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                            self.tenant_name, self.cloud_name)
+                    pool_obj['ssl_key_and_certificate_ref'] = ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', group_key)
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile']
                     if ssl_prof['name'] == ssl_profile_name]:
-                    pool_obj['ssl_profile_ref'] = ssl_profile_name
+                    updated_ssl_profile_ref = \
+                        ns_util.get_object_ref(ssl_profile_name,
+                                               OBJECT_TYPE_SSL_PROFILE,
+                                               self.tenant_name, self.cloud_name)
+                    pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
@@ -269,12 +322,25 @@ class ServiceConverter(object):
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
+
+            if pool_obj['health_monitor_refs']:
+                if pool_obj['health_monitor_refs']:
+                    updated_health_monitor_ref = []
+                    for health_monitor_ref in pool_obj['health_monitor_refs']:
+                        updated_health_monitor_ref.append(
+                            ns_util.get_object_ref(health_monitor_ref,
+                                                   OBJECT_TYPE_HEALTH_MONITOR,
+                                                   self.tenant_name,
+                                                   self.cloud_name))
+                    pool_obj['health_monitor_refs'] = updated_health_monitor_ref
+
             avi_config['Pool'].append(pool_obj)
             LOG.warning('Conversion successful: %s' %
                         service_group_netscalar_full_command)
             # Add summery of this service group in CSV/report
-            conv_status = ns_util.get_conv_status(service_group,
-                                                  self.bind_lb_skipped, [], [])
+            conv_status = ns_util.\
+                get_conv_status(service_group, self.nsservice_bind_lb_skipped,
+                                [], [])
             ns_util.add_conv_status(service_group['line_no'],
                                     service_group_command, service_group_name,
                                     service_group_netscalar_full_command,
@@ -298,8 +364,9 @@ class ServiceConverter(object):
             if isinstance(bind_service, dict):
                 bind_service = [bind_service]
             for service in bind_service:
-                full_bind_service_command = ns_util.\
-                    get_netscalar_full_command(bind_service_command, service)
+                full_bind_service_command = \
+                    ns_util.get_netscalar_full_command(bind_service_command,
+                                                       service)
                 if service and service.get('monitorName', None):
                     monitor_name = service.get('monitorName')
                     if not [monitor for monitor in avi_config['HealthMonitor']
@@ -339,10 +406,10 @@ class ServiceConverter(object):
         if not server:
             return []
         ns_add_server_command = 'add server'
-        status = ns_util.get_conv_status(server, self.server_skip,
+        status = ns_util.get_conv_status(server, self.nsservice_server_skip,
                                          [], [])
-        ns_add_server_complete_command = ns_util.\
-            get_netscalar_full_command(ns_add_server_command, server)
+        ns_add_server_complete_command = \
+            ns_util.get_netscalar_full_command(ns_add_server_command, server)
         ip_addr = server['attrs'][1]
         enabled = True
         state = server.get('state', 'ENABLED')
@@ -405,11 +472,12 @@ class ServiceConverter(object):
                 continue
             attrs = server_binding.get('attrs')
             ns_bind_service_group_command = 'bind serviceGroup'
-            status = ns_util.get_conv_status(server_binding, self.bind_sg_skip,
-                                             [], [])
-            ns_bind_service_group_complete_command = ns_util.\
-                get_netscalar_full_command(ns_bind_service_group_command,
-                                           server_binding)
+            status = \
+                ns_util.get_conv_status(server_binding,
+                                        self.nsservice_bind_sg_skip, [], [])
+            ns_bind_service_group_complete_command = \
+                ns_util.get_netscalar_full_command(ns_bind_service_group_command,
+                                                   server_binding)
             server = ns_servers.get(attrs[1])
             if not server:
                 # Skipped bind service group if doen not server
@@ -422,9 +490,9 @@ class ServiceConverter(object):
                 continue
 
             ns_add_server_command = 'add server'
-            ns_add_server_complete_command = ns_util.\
-                get_netscalar_full_command(ns_add_server_command, server)
-            status = ns_util.get_conv_status(server, self.server_skip,
+            ns_add_server_complete_command = \
+                ns_util.get_netscalar_full_command(ns_add_server_command, server)
+            status = ns_util.get_conv_status(server, self.nsservice_server_skip,
                                              [], [])
             ip_addr = server['attrs'][1]
             if ip_addr in ns_dns:
