@@ -8,7 +8,8 @@ fi
 cp avi/$1/setup.py .
 cp avi/$1/MANIFEST.in .
 AVI_PIP_VERSION=`python version.py`
-sed -i s/"AVI_PIP_VERSION=.*$"/"AVI_PIP_VERSION= \'$AVI_PIP_VERSION\'"/g setup.py
+sed -i s/"AVI_PIP_VERSION =.*$"/"AVI_PIP_VERSION = \'$AVI_PIP_VERSION\'"/g setup.py
+sed -i s/"__version__ =.*$"/"__version__ = \'$AVI_PIP_VERSION\'"/g avi/$1/__init__.py
 echo "uploading to the pypi "
 twine upload dist/*
 echo "cleanup"
@@ -21,3 +22,4 @@ else
 fi
 rm -f setup.py
 rm -f MANIFEST.in
+sed -i s/"__version__ =.*$"/"__version__ = \'\'"/g avi/$1/__init__.py
