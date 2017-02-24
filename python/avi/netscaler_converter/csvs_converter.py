@@ -10,7 +10,10 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   OBJECT_TYPE_APPLICATION_PROFILE,
                                                   OBJECT_TYPE_SSL_PROFILE,
                                                   OBJECT_TYPE_HTTP_POLICY_SET,
-                                                  OBJECT_TYPE_POOL_GROUP)
+                                                  OBJECT_TYPE_POOL_GROUP,
+                                                  OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                  OBJECT_TYPE_PKI_PROFILE,
+                                                  OBJECT_TYPE_NETWORK_PROFILE)
 from avi.netscaler_converter.policy_converter import PolicyConverter
 
 LOG = logging.getLogger(__name__)
@@ -69,22 +72,25 @@ class CsvsConverter(object):
                                                    cs_vs)
             # Skipped this CS VS if it has type which are not supported
             if not cs_vs['attrs'][1] in self.csvs_supported_types:
-                LOG.warn('Unsupported type %s of Context switch VS: %s' %
-                         (cs_vs['attrs'][1], key))
+                skipped_status = 'Skipped:Unsupported type %s of Context ' \
+                                 'switch VS: %s' %(cs_vs['attrs'][1], key)
+                LOG.warning(skipped_status)
                 ns_util.add_status_row(cs_vs['line_no'],
                                        ns_add_cs_vserver_command, key,
                                        ns_add_cs_vserver_complete_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
             tt = cs_vs.get('targetType', None)
             if tt and tt == 'GSLB':
-                LOG.warn('Unsupported target type %s of Context switch VS: %s' %
-                         (cs_vs['attrs'][1], key))
+                skipped_status = 'Skipped:Unsupported target type %s of ' \
+                                 'Context switch VS: %s' % (cs_vs['attrs'][1],
+                                                            key)
+                LOG.warning(skipped_status)
                 # Skipped this CS VS if targetType is GSLB
                 ns_util.add_status_row(cs_vs['line_no'],
                                        ns_add_cs_vserver_command,
                                        key, ns_add_cs_vserver_complete_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
             vs_name = cs_vs['attrs'][0]
             ip_addr = cs_vs['attrs'][2]
             port = cs_vs['attrs'][3]
@@ -122,7 +128,7 @@ class CsvsConverter(object):
                 http_prof = \
                     ns_util.get_object_ref(http_prof,
                                            OBJECT_TYPE_APPLICATION_PROFILE,
-                                           self.tenant_name, self.cloud_name)
+                                           self.tenant_name)
                 vs_obj['application_profile_ref'] = http_prof
                 clttimeout = cs_vs.get('cltTimeout', None)
                 if clttimeout:
@@ -140,8 +146,8 @@ class CsvsConverter(object):
                              'for %s' % (ntwk_prof, vs_name))
                     ntwk_prof = \
                         ns_util.get_object_ref(ntwk_prof,
-                                               OBJECT_TYPE_APPLICATION_PROFILE,
-                                               self.tenant_name, self.cloud_name)
+                                               OBJECT_TYPE_NETWORK_PROFILE,
+                                               self.tenant_name)
 
                     vs_obj['network_profile_ref'] = ntwk_prof
                 else:
@@ -168,31 +174,72 @@ class CsvsConverter(object):
             default_pool_group = None
             policy_name = ''
             lb_vserver_bind_conf = None
+
+            if enable_ssl:
+                ssl_mappings = ns_config.get('bind ssl vserver', {})
+                ssl_bindings = ssl_mappings.get(key, [])
+                if isinstance(ssl_bindings, dict):
+                    ssl_bindings = [ssl_bindings]
+                for mapping in ssl_bindings:
+                    if 'CA' in mapping:
+                        pki_ref = mapping['attrs'][0]
+                        if [pki_profile for pki_profile in
+                            avi_config["PKIProfile"] if
+                            pki_profile['name'] == pki_ref]:
+                            pki_ref = \
+                                ns_util.get_object_ref(pki_ref,
+                                                       OBJECT_TYPE_PKI_PROFILE,
+                                                       self.tenant_name)
+
+                            app_profile_with_pki_profile = \
+                                ns_util.update_application_profile(
+                                    http_prof, pki_ref, self.tenant_ref,
+                                    vs_name, avi_config)
+                            app_profile_with_pki_profile_ref = \
+                                ns_util.get_object_ref(
+                                    app_profile_with_pki_profile['name'],
+                                    OBJECT_TYPE_APPLICATION_PROFILE,
+                                    self.tenant_name)
+                            vs_obj['application_profile_ref'] = \
+                                app_profile_with_pki_profile_ref
+                            LOG.info(
+                                'Added: %s PKI profile %s' % (pki_ref, key))
+                    elif 'certkeyName' in mapping:
+                        avi_ssl_ref = 'ssl_key_and_certificate_refs'
+                        if not [obj for obj in
+                                avi_config['SSLKeyAndCertificate']
+                                if obj['name'] == mapping[
+                                'certkeyName'] + '-dummy']:
+                            LOG.warning(
+                                'Could not find ssl key cert, so adding '
+                                'default cert as system default insted')
+                            vs_obj[avi_ssl_ref] = [
+                                'admin:System-Default-Cert']
+                            continue
+                        updated_ssl_ref = \
+                            ns_util.get_object_ref(
+                                mapping['certkeyName'] + '-dummy',
+                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                self.tenant_name)
+                        vs_obj[avi_ssl_ref] = [updated_ssl_ref]
+                ssl_vs_mapping = ns_config.get('set ssl vserver', {})
+                mapping = ssl_vs_mapping.get(key, None)
+                ssl_profile_name = re.sub('[:]', '-', key)
+                if mapping and [ssl_profile for ssl_profile in
+                                avi_config["SSLProfile"] if
+                                ssl_profile['name'] == ssl_profile_name]:
+                    updated_ssl_profile_ref = \
+                        ns_util.get_object_ref(ssl_profile_name,
+                                               OBJECT_TYPE_SSL_PROFILE,
+                                               self.tenant_name)
+                    vs_obj['ssl_profile_name'] = updated_ssl_profile_ref
+                    LOG.debug('Added: %s SSL profile %s' % (key, key))
+
             for bind_conf in bind_conf_list:
-                ns_bind_cs_vs_command = 'bind cs vserver'
-                ns_bind_cs_vs_complete_command = \
-                    ns_util.get_netscalar_full_command(ns_bind_cs_vs_command,
-                                                       bind_conf)
                 if 'lbvserver' in bind_conf:
                     lbvs_bindings.append(bind_conf['lbvserver'])
                     default_pool_group = bind_conf['lbvserver']
                     lb_vserver_bind_conf = bind_conf
-                if 'certkeyName' in bind_conf:
-                    avi_ssl_ref = 'ssl_key_and_certificate_refs'
-                    if not [obj for obj in avi_config['SSLKeyAndCertificate']
-                            if obj['name'] == bind_conf['attrs'][0]]:
-                        LOG.warn('Could not find ssl key cert ref, so adding '
-                                 'default cert system default instead')
-                        vs_obj[avi_ssl_ref] = ['admin:System-Default-Cert']
-                ssl_profile_name = re.sub('[:]', '-', bind_conf['attrs'][0])
-                if [ssl_profile for ssl_profile in avi_config["SSLProfile"] if
-                    ssl_profile['name'] == ssl_profile_name]:
-                    ssl_profile_name = \
-                        ns_util.get_object_ref(ssl_profile_name,
-                                               OBJECT_TYPE_SSL_PROFILE,
-                                               self.tenant_name, self.cloud_name)
-                    vs_obj['ssl_profile_name'] = ssl_profile_name
-                    LOG.debug('Added: %s SSL profile %s' % (key, key))
 
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
@@ -232,7 +279,7 @@ class CsvsConverter(object):
                 updated_http_policy_ref = \
                     ns_util.get_object_ref(policy['name'],
                                            OBJECT_TYPE_HTTP_POLICY_SET,
-                                           self.tenant_name, self.cloud_name)
+                                           self.tenant_name)
 
                 tmp_policy_ref.append(policy['name'])
 
@@ -263,7 +310,8 @@ class CsvsConverter(object):
                     avi_pool_group_ref = \
                         ns_util.get_object_ref(updated_pool_group_ref,
                                                OBJECT_TYPE_POOL_GROUP,
-                                               self.tenant_name, self.cloud_name)
+                                               self.tenant_name,
+                                               self.cloud_name)
                     vs_obj['pool_group_ref'] = avi_pool_group_ref
                     tmp_used_pool_group_ref.append(updated_pool_group_ref)
             if lb_vserver_bind_conf:
@@ -284,12 +332,13 @@ class CsvsConverter(object):
             # If yes then skipped this cs vs
             is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
             if is_shared:
+                skipped_status = 'Skipped: %s Same vip shared by another ' \
+                                 'virtual service' % vs_name
+                LOG.warning(skipped_status)
                 ns_util.add_status_row(cs_vs['line_no'],
                                        ns_add_cs_vserver_command, key,
                                        ns_add_cs_vserver_complete_command,
-                                       STATUS_SKIPPED)
-                LOG.warning('Skipped: %s Same vip shares another virtual '
-                            'service' % vs_name)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
             cs_vs_list.append(vs_obj)
             # Add summery of this cs vs in CSV/report
