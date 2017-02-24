@@ -39,6 +39,8 @@ SupportedCommands:
 - 'bind ssl serviceGroup'
 - 'set ssl service'
 - 'bind ssl service'
+- 'bind lb group'
+- 'set lb group'
 
 NotApplicableCommands:
 - 'set system'
@@ -80,7 +82,6 @@ NotApplicableCommands:
 - 'add snmp user'
 - 'add snmp trap'
 - 'set ns rpcNode'
-- 'add gslb site'
 - 'set lb parameter'
 - 'set cache parameter'
 - 'set aaa parameter'
@@ -96,7 +97,14 @@ NotApplicableCommands:
 - 'set locationParameter'
 - 'add audit messageaction'
 - 'set audit syslogParams'
- 
+- 'set ns tcpbufParam'
+- 'set ns diameter'
+- 'set ns rateControl'
+- 'set ns spParams'
+- 'set ns weblogparam'
+- 'set ns tcpParam'
+- 'set ns idletimeout'
+
 IndirectCommands:
 - 'add cmp global'
 - 'bind cmp global'
@@ -109,6 +117,7 @@ IndirectCommands:
 - 'bind vlan'
 - 'link ssl certKey'
 - 'set appfw profile'
+- 'add appfw'
 
 DatascriptCommands:
 - 'add ca action'
@@ -118,12 +127,13 @@ DatascriptCommands:
 - 'add transform action'
 - 'set transform action'
 - 'bind transform global'
+- 'add transform policy'
 
 NotSupported:
 - 'set channel'
 - 'set ipsec'
 - 'set nd6RAvariables'
-- 'set ns'
+- 'set ns tcpProfile'
 - 'add filter'
 - 'add authentication'
 - 'add audit'
@@ -136,7 +146,6 @@ NotSupported:
 - 'set vpn'
 - 'bind tm'
 - 'set lldp'
-- 'add appfw'
 - 'set ipv6'
 - 'add policy'
 - 'bind policy'
@@ -149,14 +158,13 @@ NotSupported:
 - 'dia-station_act'
 - 'add gslb service'
 - 'bind gslb vserver'
+- 'add gslb site'
 - 'add ssl action'
 - 'add ssl policy'
 - 'set audit'
 - 'set rnat'
 - 'set rnatparam'
 - 'add filter policy'
-- 'bind lb group'
-- 'set lb group'
 
 lbvs_skip_attrs:
 - 'persistenceBackup'
@@ -378,10 +386,13 @@ monitor_indirect_list:
 - 'secure'
 
 nsservice_bind_lb_skipped :
-- 'priority'
 - 'gotoPriorityExpression'
 - 'type'
 - 'invoke'
+
+nsservice_bind_lb_ignore_val :
+    'Listenpolicy' : 'None'
+    'gotoPriorityExpression' : 'END'
 
 nsservice_service_skip:
 - 'clearTextPort'
@@ -424,6 +435,7 @@ policyconverter_policy_types:
 - 'rewrite'
 - 'responder'
 - 'expression'
+
 policyconverter_bind_skipped:
 - 'vServer'
 - 'type'

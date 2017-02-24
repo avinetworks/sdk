@@ -4,7 +4,8 @@ import os
 import re
 import avi.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter.ns_constants import STATUS_EXTERNAL_MONITOR
+from avi.netscaler_converter.ns_constants import (STATUS_EXTERNAL_MONITOR,
+                                                  STATUS_MISSING_FILE)
 
 
 LOG = logging.getLogger(__name__)
@@ -45,7 +46,8 @@ class MonitorConverter(object):
         for name in ns_monitors.keys():
             ns_monitor = ns_monitors.get(name)
             ns_monitor_complete_command = \
-                ns_util.get_netscalar_full_command(netscalar_command, ns_monitor)
+                ns_util.get_netscalar_full_command(netscalar_command,
+                                                   ns_monitor)
             ns_monitor_type = ns_monitor['attrs'][1]
             if ns_monitor_type not in supported_types:
                 # Skipped health monitor if type is not supported
@@ -55,7 +57,9 @@ class MonitorConverter(object):
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (ns_monitor_type, name))
                 continue
-            avi_monitor = self.convert_monitor(ns_monitor, input_dir)
+            avi_monitor = self.convert_monitor(ns_monitor, input_dir,
+                                               netscalar_command,
+                                               ns_monitor_complete_command)
             if not avi_monitor:
                 continue
             # Add summery of this lb vs in CSV/report
@@ -70,7 +74,8 @@ class MonitorConverter(object):
             LOG.debug("Health monitor conversion completed : %s" % name)
 
 
-    def convert_monitor(self, ns_monitor, input_dir):
+    def convert_monitor(self, ns_monitor, input_dir, netscalar_command,
+                        ns_monitor_complete_command):
         """
         This functions defines that convert netscalar health monitor to AVI
         health monitor object
@@ -134,6 +139,15 @@ class MonitorConverter(object):
                 cmd_code = ns_util.upload_file(
                     input_dir + os.path.sep + file_name)
                 if not cmd_code:
+                    skipped_status = 'File not found %s : %s' % \
+                                     (input_dir + os.path.sep + file_name,
+                                      ns_monitor_complete_command)
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(ns_monitor['line_no'],
+                                           netscalar_command,
+                                           avi_monitor["name"],
+                                           ns_monitor_complete_command,
+                                           STATUS_MISSING_FILE, skipped_status)
                     return None
                 ext_monitor = {
                     "command_code": cmd_code,
