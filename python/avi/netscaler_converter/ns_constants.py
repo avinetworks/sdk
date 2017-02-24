@@ -3,6 +3,7 @@ This file is used to define constants which are used across code.
 """
 
 import yaml
+import os
 
 # Status Constants which are used in CSV/report generation of the conversion run.
 STATUS_SKIPPED = 'SKIPPED'
@@ -28,6 +29,7 @@ OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE = 'sslkeyandcertificate'
 OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
 OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
 
+netscalar_command_status = None
 
 def init():
     """
@@ -35,4 +37,5 @@ def init():
     :return: None
     """
     global netscalar_command_status
-    netscalar_command_status = yaml.safe_load(open("command_status.yaml"))
+    netscalar_command_status = yaml.safe_load(
+        open(os.path.dirname(__file__) + "/command_status.yaml"))
