@@ -117,7 +117,7 @@ class PolicyConverter(object):
                                                policy_label_netscalar_command,
                                                policyLabelName,
                                                policy_label_netscalar_full_command,
-                                               STATUS_SKIPPED,skipped_status)
+                                               STATUS_SKIPPED, skipped_status)
                         LOG.warning(skipped_status)
             if 'policyName' in bind_conf:
                 policy_name = bind_conf['policyName']
@@ -142,15 +142,19 @@ class PolicyConverter(object):
                 self.get_policy_from_policy_name(policy_name, policy_config,
                                                  rewrite_policy_config,
                                                  responder_policy_config)
-            if not policy:
-                skipped_status = 'Skipped:Policy is not created %s' \
+
+            if not policy or not type:
+                skipped_status = 'Skipped: Policy is not created %s' \
+                                 % bind_lb_netscalar_complete_command
+                if not policy_type:
+                    skipped_status = 'Skipped: Policy not supported %s' \
                                  % bind_lb_netscalar_complete_command
                 LOG.warning(skipped_status)
                 # Skipped this bind if it does not have policy
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
             rule, rule_index = self.rule_converter(policy, policy_type,
                                                    priority_index,
