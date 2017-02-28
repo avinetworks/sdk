@@ -62,7 +62,10 @@ class LbvsConverter(object):
                            'SSL_TCP', 'DNS', 'DNS_TCP']
 
         policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
-                                           self.tenant_ref, self.cloud_ref)
+                                           self.tenant_ref, self.cloud_ref,
+                                           self.lbvs_skip_attrs,
+                                           self.lbvs_na_attrs,
+                                           self.lbvs_ignore_vals)
         tmp_policy_ref = []
         for key in lb_vs_conf.keys():
             try:
@@ -150,8 +153,6 @@ class LbvsConverter(object):
                     policy = policy_converter.convert(bind_conf_list, ns_config,
                                                       avi_config, [],
                                                       redirect_pools,
-                                                      self.lbvs_skip_attrs,
-                                                      self.lbvs_na_attrs,
                                                       'bind lb vserver')
 
                 # TODO move duplicate code for adding policy to vs in ns_util

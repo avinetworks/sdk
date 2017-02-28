@@ -395,7 +395,8 @@ class ProfileConverter(object):
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
                                            key_cert['attrs'][0], full_cmd,
                                            STATUS_MISSING_FILE, skipped_status)
-                    skipped_status = 'Missing key or cert file: %s' % bind_ssl_full_cmd
+                    skipped_status = 'Missing key or cert file: %s' % \
+                                     bind_ssl_full_cmd
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
                                            mapping['attrs'][0],
@@ -438,7 +439,8 @@ class ProfileConverter(object):
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
                                            key_cert['attrs'][0], full_cmd,
                                            STATUS_MISSING_FILE, skipped_status)
-                    skipped_status = 'Missing key or cert file: %s' % bind_ssl_full_cmd
+                    skipped_status = 'Missing key or cert file: %s' % \
+                                     bind_ssl_full_cmd
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
                                            mapping['attrs'][0],

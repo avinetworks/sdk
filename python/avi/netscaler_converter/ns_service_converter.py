@@ -36,6 +36,8 @@ class ServiceConverter(object):
             ns_constants.netscalar_command_status['nsservice_skip_for_val']
         self.lbvs_supported_persist_types = \
             ns_constants.netscalar_command_status['lbvs_supported_persist_types']
+        self.nsservice_bind_lb_ignore_val = \
+            ns_constants.netscalar_command_status['nsservice_bind_lb_ignore_val']
         self.tenant_name = tenant_name
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
@@ -136,7 +138,8 @@ class ServiceConverter(object):
                         # Add summery of add server in CSV/report
                         conv_status = \
                             ns_util.get_conv_status(
-                                element, self.nsservice_bind_lb_skipped, [], [])
+                                element, self.nsservice_bind_lb_skipped, [], [],
+                                ignore_for_val=self.nsservice_bind_lb_ignore_val)
                         ns_util.add_conv_status(
                             element['line_no'], ns_bind_lb_vserver_command,
                             element['attrs'][0],
@@ -609,19 +612,18 @@ class ServiceConverter(object):
                            if monitor['name'] == monitor_name]
                 if monitor:
                     # Add summery of service group in CSV/report
-                    ns_util.add_conv_status(server_binding['line_no'],
-                                            ns_bind_service_group_command, attrs[0],
-                                            ns_bind_service_group_complete_command,
-                                            group_status, monitor[0])
+                    ns_util.add_conv_status(
+                        server_binding['line_no'], ns_bind_service_group_command,
+                        attrs[0], ns_bind_service_group_complete_command,
+                        group_status, monitor[0])
                 else:
                     LOG.warning('External Health monitor: %s' %
                                 ns_bind_service_group_complete_command)
                     # Skipped bind service group if doen not server
-                    ns_util.add_status_row(server_binding['line_no'],
-                                           ns_bind_service_group_command,
-                                           attrs[0],
-                                           ns_bind_service_group_complete_command,
-                                           STATUS_EXTERNAL_MONITOR)
+                    ns_util.add_status_row(
+                        server_binding['line_no'], ns_bind_service_group_command,
+                        attrs[0], ns_bind_service_group_complete_command,
+                        STATUS_EXTERNAL_MONITOR)
 
                 continue
 
@@ -638,7 +640,8 @@ class ServiceConverter(object):
 
             ns_add_server_command = 'add server'
             ns_add_server_complete_command = \
-                ns_util.get_netscalar_full_command(ns_add_server_command, server)
+                ns_util.get_netscalar_full_command(
+                    ns_add_server_command, server)
             status = ns_util.get_conv_status(server, self.nsservice_server_skip,
                                              [], [])
             ip_addr = server['attrs'][1]

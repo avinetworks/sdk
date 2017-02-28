@@ -21,7 +21,8 @@ class PolicyConverter(object):
     """
     This class is used to convert the policy
     """
-    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
+                 bind_skipped, na_attrs, ignore_vals):
         self.policyconverter_policy_types = \
         ns_constants.netscalar_command_status['policyconverter_policy_types']
         self.policyconverter_bind_skipped = \
@@ -30,9 +31,12 @@ class PolicyConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        self.bind_skipped = bind_skipped
+        self.na_attrs = na_attrs
+        self.ignore_vals = ignore_vals
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
-                redirect_pools, skip_attrs, na_attrs, netscalar_command):
+                redirect_pools, netscalar_command):
         """
         This function defines that convert netscalar policy to http policy set
         in AVI
@@ -157,22 +161,25 @@ class PolicyConverter(object):
                                                    policy_expression_config,
                                                    avi_config, tmp_pool_ref,
                                                    targetLBVserver)
+            conv_status = ns_util.get_conv_status(
+                bind_conf, self.bind_skipped, self.na_attrs, [],
+                ignore_for_val=self.ignore_vals)
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
-                ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
+                ns_util.add_conv_status(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command,
-                                       STATUS_SUCCESSFUL, rule)
+                                        conv_status, rule)
                 http_request_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             elif rule and policy_type in ['policy_expression']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
-                ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
-                                       bind_conf['attrs'][0],
-                                       bind_lb_netscalar_complete_command,
-                                       STATUS_SUCCESSFUL, rule)
+                ns_util.add_conv_status(bind_conf['line_no'], netscalar_command,
+                                        bind_conf['attrs'][0],
+                                        bind_lb_netscalar_complete_command,
+                                        conv_status, rule)
                 http_security_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             else:
