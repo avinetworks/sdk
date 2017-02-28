@@ -801,3 +801,14 @@ def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config, te
     vs_obj['http_policies'].append(http_policies)
     avi_config['HTTPPolicySet'].append(policy_obj)
 
+
+def clean_virtual_service_from_avi_config(avi_config):
+    """
+    This function defines that clean up vs which has vip 0.0.0.0
+    :param avi_config: dict of AVI
+    :return: None
+    """
+    vs_list = copy.deepcopy(avi_config['VirtualService'])
+    avi_config['VirtualService'] = []
+    avi_config['VirtualService'] = [vs for vs in vs_list if vs['ip_address']['addr'] != '0.0.0.0']
+
