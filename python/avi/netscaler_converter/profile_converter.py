@@ -382,8 +382,7 @@ class ProfileConverter(object):
                 ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
                                        mapping['attrs'][0],
                                        bind_ssl_full_cmd,
-                                       STATUS_COMMAND_NOT_SUPPORTED,
-                                       skipped_status)
+                                       STATUS_COMMAND_NOT_SUPPORTED)
                 continue
             elif 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
