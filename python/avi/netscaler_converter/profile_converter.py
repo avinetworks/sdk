@@ -7,7 +7,8 @@ import avi.netscaler_converter.ns_constants as ns_constants
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
                                                   STATUS_INDIRECT,
-                                                  STATUS_MISSING_FILE)
+                                                  STATUS_MISSING_FILE,
+                                                  STATUS_COMMAND_NOT_SUPPORTED)
 
 LOG = logging.getLogger(__name__)
 
@@ -375,7 +376,16 @@ class ProfileConverter(object):
             bind_ssl_success = False
             skipped_status = None
 
-            if 'CA' in mapping.keys():
+            if 'policyName' in mapping.keys():
+                skipped_status = 'Not supported: %s' % bind_ssl_full_cmd
+                LOG.warning(skipped_status)
+                ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                       mapping['attrs'][0],
+                                       bind_ssl_full_cmd,
+                                       STATUS_COMMAND_NOT_SUPPORTED,
+                                       skipped_status)
+                continue
+            elif 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
                 if not key_cert or name in tmp_pki_profile_list:
                     continue
