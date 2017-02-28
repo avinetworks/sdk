@@ -3,8 +3,11 @@ import logging
 import os
 import copy
 import re
+import random
 import avi.netscaler_converter.ns_constants as ns_constants
 
+from OpenSSL import crypto
+from socket import gethostname
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
                                                   STATUS_INDIRECT,
@@ -14,7 +17,8 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_INCOMPLETE_CONFIGURATION,
                                                   STATUS_COMMAND_NOT_SUPPORTED,
                                                   OBJECT_TYPE_POOL_GROUP,
-                                                  OBJECT_TYPE_POOL)
+                                                  OBJECT_TYPE_POOL,
+                                                  OBJECT_TYPE_HTTP_POLICY_SET)
 
 LOG = logging.getLogger(__name__)
 
@@ -105,6 +109,8 @@ def add_complete_conv_status(csv_file, ns_config):
         else:
             row = [row for row in row_list
                    if row['Line Number'] == dict_row['Line Number']]
+            if str(dict_row['AVI Object']).startswith('Skipped'):
+                continue
             if dict_row.get('AVI Object', None):
                 row[0]['AVI Object'] += ' %s' % dict_row['AVI Object']
 
@@ -563,3 +569,235 @@ def get_object_ref(object_name, object_type, tenant=None, cloud_name=None):
     # if cloud_name:
     #     ref += '&cloud=%s' % cloud_name
     return ref
+
+
+def create_self_signed_cert():
+    """
+    This functions defines that generate cert and key ussing ssl lib
+    :return: Return cert and key
+    """
+
+    # create a key pair
+    key = crypto.PKey()
+    key.generate_key(crypto.TYPE_RSA, 2048)
+
+    # create a self-signed cert
+    cert = crypto.X509()
+    cert.get_subject().C = "US"
+    cert.get_subject().O = "Avi Networks"
+    cert.get_subject().CN = gethostname()
+    cert.set_serial_number(1000)
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
+    cert.set_issuer(cert.get_subject())
+    cert.set_pubkey(key)
+    cert.sign(key, 'sha1')
+    cert = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
+    key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
+    return key, cert
+
+
+def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
+                           default_profile_name):
+    """
+    Merge duplicate profiles
+    :param obj: Source object to find duplicates for
+    :param obj_list: List of object to search duplicates in
+    :param obj_type: Type of object to add in converted_objs status
+    :param converted_objs: Converted avi object or merged object name
+    :param name: Name of the object
+    :param default_profile_name : Name of root parent default profile
+    :return:
+    """
+    dup_of = None
+    # root default profiles are skipped for merging
+    if not name == default_profile_name:
+        dup_of = check_for_duplicates(obj, obj_list)
+    if dup_of:
+        converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
+        LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
+    else:
+        obj_list.append(obj)
+        converted_objs.append({obj_type: obj})
+
+
+def check_for_duplicates(src_obj, obj_list):
+    """
+    Checks for duplicate objects except name and description values
+    :param src_obj: Object to be checked for duplicate
+    :param obj_list: List of oll objects to search in
+    :return: Name of object for which given object is duplicate of
+    """
+    for tmp_obj in obj_list:
+        src_cp = copy.deepcopy(src_obj)
+        tmp_cp = copy.deepcopy(tmp_obj)
+        del src_cp["name"]
+        if "description" in src_cp:
+            del src_cp["description"]
+        del tmp_cp["name"]
+        if "description" in tmp_cp:
+            del tmp_cp["description"]
+        dup_lst = tmp_cp.pop("dup_of", [])
+        if cmp(src_cp, tmp_cp) == 0:
+            dup_lst.append(src_obj["name"])
+            tmp_obj["dup_of"] = dup_lst
+            return tmp_obj["name"]
+    return None
+
+
+def update_application_profile(app_profile, pki_profile_ref, tenant_ref, name,
+                               avi_config):
+    """
+    This functions defines to update application profile with pki profile if
+    application profile exist if not create new http profile with pki profile
+    :param app_profile: object of Http profile
+    :param pki_profile_ref:  ref of PKI profile
+    :param tenant_ref: tenant ref
+    :param name: name of virtual service
+    :param avi_config: Dict of AVi config
+    :return: Http profile
+    """
+
+    try:
+        if app_profile:
+            app_profile["http_profile"]['pki_profile_ref'] = pki_profile_ref
+            LOG.debug(
+                'Added PKI profile to application profile successfully : %s' % (
+                app_profile['name'], pki_profile_ref))
+        else:
+            app_profile = dict()
+            LOG.debug("Converting httpProfile: %s" % app_profile['attrs'][0])
+            app_profile['name'] = name + '-%s-dummy' % random.randrange(0, 1000)
+            app_profile['tenant_ref'] = tenant_ref
+            app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
+            http_profile = dict()
+            http_profile['connection_multiplexing_enabled'] = False
+            http_profile['xff_enabled'] = False
+            # TODO: clientIpHdrExpr conversion to xff_alternate_name
+            http_profile['websockets_enabled'] = False
+            http_profile['pki_profile_ref'] = pki_profile_ref
+            app_profile["http_profile"] = http_profile
+            avi_config['ApplicationProfile'].append(app_profile)
+        LOG.debug("Conversion completed successfully for httpProfile: %s" %
+                  app_profile['name'])
+    except:
+        LOG.error("Error in convertion of httpProfile", exc_info=True)
+
+    return app_profile
+
+
+def convert_persistance_prof(vs, name, tenant_ref):
+    """
+    This function defines that it convert the persistent profile and
+    return that profile
+    :param vs: object of lb vs or pool
+    :param name: name of application persteance profile
+    :param tenant_ref: reference of tenant
+    :return: application persistent profile
+    """
+
+    profile = None
+    persistenceType = vs.get('persistenceType', '')
+    timeout = vs.get('timeout', 2)
+    if persistenceType == 'COOKIEINSERT':
+        profile = {
+            "http_cookie_persistence_profile": {
+                "always_send_cookie": False,
+                "timeout": timeout
+            },
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+            "name": name,
+        }
+    elif persistenceType == 'SOURCEIP':
+        timeout = int(timeout) / 60
+        if timeout < 1:
+            timeout = 1
+        profile = {
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+            "ip_persistence_profile": {
+                "ip_persistent_timeout": timeout
+            },
+            "name": name
+        }
+    elif persistenceType == 'SSLSESSION':
+        profile = {
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+            "persistence_type": "PERSISTENCE_TYPE_TLS",
+            "name": name
+        }
+    profile['tenant_ref'] = tenant_ref
+    return profile
+
+
+def update_status_target_lb_vs_to_indirect(larget_lb_vs):
+    """
+    This function defines that update status for the target lb vserver as Indirect
+    :param larget_lb_vs: name of target lb vserver
+    :return: None
+    """
+    global csv_writer_dict_list
+    row = [row for row in csv_writer_dict_list
+           if row['Object Name'] == larget_lb_vs
+           and row['Netscaler Command'] == 'add lb vserver']
+    if row:
+        row[0]['Status'] = STATUS_INDIRECT
+
+
+def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config, tenant_name, tenant_ref):
+    """
+    This function defines that create http policy for redirect url
+    :param vs_obj: object of VS
+    :param redirect_uri: redirect uri
+    :param avi_config: dict of AVi
+    :param tenant_name: name of tenant
+    :param tenant_ref: tenant ref
+    :return: None
+    """
+    action = {
+        'protocol': 'HTTP',
+        'host': {
+            'type': 'URI_PARAM_TYPE_TOKENIZED',
+            'tokens': [{
+                'type': 'URI_TOKEN_TYPE_HOST',
+                'str_value': redirect_uri,
+                'start_index': '1',
+                'end_index': '65535'
+            }]
+        }
+    }
+    policy_obj = {
+        'name': vs_obj['name'] + '-redirect-policy',
+        'tenant_ref': tenant_ref,
+        'enable': 'false',
+        'http_request_policy': {
+            'rules': [
+                {
+                    'index': 0,
+                    'name': vs_obj['name'] + '-redirect-policy-rule-0',
+                    'match': {
+                        'path': {
+                            'match_case': 'INSENSITIVE',
+                            'match_str': [
+                                '/'
+                            ],
+                            'match_criteria': 'EQUALS'
+                        }
+                    },
+                    'redirect_action': action
+                }
+            ]
+        }
+    }
+    updated_http_policy_ref = get_object_ref(policy_obj['name'],
+                                             OBJECT_TYPE_HTTP_POLICY_SET,
+                                             tenant_name)
+    http_policies = {
+        'index': 11,
+        'http_policy_set_ref': updated_http_policy_ref
+    }
+    vs_obj['http_policies'] = []
+    vs_obj['http_policies'].append(http_policies)
+    avi_config['HTTPPolicySet'].append(policy_obj)
+

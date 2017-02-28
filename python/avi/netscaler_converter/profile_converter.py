@@ -6,11 +6,13 @@ import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
-                                                  STATUS_INDIRECT)
+                                                  STATUS_INDIRECT,
+                                                  STATUS_MISSING_FILE)
 
 LOG = logging.getLogger(__name__)
 
-
+tmp_ssl_key_and_cert_list = []
+tmp_pki_profile_list = []
 class ProfileConverter(object):
 
 
@@ -120,8 +122,9 @@ class ProfileConverter(object):
             net_profile = self.convert_tcp_profile(profile)
             if net_profile:
                 # Add summery in CSV/report for tcp profile
-                conv_status = ns_util.get_conv_status(profile, self.profile_tcp_skip,
-                                                      [], self.profile_tcp_indirect)
+                conv_status = \
+                    ns_util.get_conv_status(profile, self.profile_tcp_skip,
+                                            [], self.profile_tcp_indirect)
                 ns_util.add_conv_status(profile['line_no'],
                                         ns_tcp_profile_command, key,
                                         ns_tcp_profile_complete_command,
@@ -130,61 +133,30 @@ class ProfileConverter(object):
         LOG.debug("TCP profiles conversion completed")
 
         LOG.debug("Conversion started for SSL profiles")
-        for key in ssl_vs_mapping.keys():
-            ns_set_ssl_vserver_command = 'set ssl vserver'
-            mapping = ssl_vs_mapping[key]
-            ns_set_ssl_vserver_complete_command = \
-                ns_util.get_netscalar_full_command(ns_set_ssl_vserver_command,
-                                                   mapping)
-            ssl_profile_name = mapping.get('sslProfile')
-            ssl_profile = ssl_profiles.get(ssl_profile_name, None)
 
-            ssl_mapping_data = ssl_mappings.get(key, [])
-            if isinstance(ssl_mapping_data, dict):
-                ssl_mapping_data = [ssl_mapping_data]
-
-            obj = self.get_key_cert(ssl_mapping_data, ssl_key_and_cert,
+        for key in ssl_mappings:
+            mapping = ssl_mappings[key]
+            if isinstance(mapping, dict):
+                mapping = [mapping]
+            obj = self.get_key_cert(mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config,
                                     'bind ssl vserver')
-            if obj.get('accepted_ciphers', None):
-                if ssl_profile:
-                    avi_ssl_prof = self.convert_ssl_profile(ssl_profile)
-                else:
-                    ssl_profile_name = re.sub('[:]', '-', key)
-                    avi_ssl_prof = {
-                        'name': ssl_profile_name,
-                        'accepted_versions': [],
-                        'tenant_ref': self.tenant_ref
-                    }
-                    if not avi_ssl_prof['accepted_versions']:
-                        avi_ssl_prof['accepted_versions'].append(
-                            {'type': 'SSL_VERSION_TLS1_1'})
-
-                # Todo supported only valid ciphers
-                # avi_ssl_prof['accepted_ciphers'] = obj.get('accepted_ciphers')
-                avi_ssl_prof['accepted_ciphers'] = 'AES:3DES:RC4'
-                avi_config["SSLProfile"].append(avi_ssl_prof)
-                LOG.info('Conversion successful: ssl profile %s' % key)
-                conv_status = \
-                    ns_util.get_conv_status(avi_ssl_prof,
-                                            self.profile_set_ssl_vserver_skip,
-                                            self.profile_set_ssl_vserver_indirect,
-                                            self.profile_set_ssl_vserver_na)
-                # Add summery in CSV/report for ssl profile
-                ns_util.add_conv_status(mapping['line_no'],
-                                        ns_set_ssl_vserver_command, key,
-                                        ns_set_ssl_vserver_complete_command,
-                                        conv_status, avi_ssl_prof)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
                 avi_config["PKIProfile"].append(obj.get('pki'))
 
-        # Set ssl service conversion
+        # set ssl vserver conversion
         self.convert_ssl_service_profile(set_ssl_service, bind_ssl_service,
                                          ssl_key_and_cert, input_dir, ns_config,
                                          avi_config, 'set ssl service',
                                          'bind ssl service')
+
+        # Set ssl service conversion
+        self.convert_ssl_service_profile(ssl_vs_mapping, ssl_mappings,
+                                         ssl_key_and_cert, input_dir, ns_config,
+                                         avi_config, 'set ssl vserver',
+                                         'bind ssl vserver')
 
         # Set ssl servicegroup conversion
         self.convert_ssl_service_profile(set_ssl_service_group,
@@ -269,7 +241,7 @@ class ProfileConverter(object):
             avi_config["SSLProfile"].append(ssl_profile)
             LOG.info('Conversion successful: %s' % full_set_ssl_service_command)
             conv_status = \
-                ns_util.get_conv_status(ssl_profile,
+                ns_util.get_conv_status(ssl_service,
                                         self.profile_set_ssl_service_skip,
                                         self.profile_set_ssl_service_indirect,
                                         [])
@@ -401,10 +373,11 @@ class ProfileConverter(object):
             bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd,
                                                                    mapping)
             bind_ssl_success = False
+            skipped_status = None
 
             if 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
-                if not key_cert:
+                if not key_cert or name in tmp_pki_profile_list:
                     continue
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
@@ -413,6 +386,23 @@ class ProfileConverter(object):
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
                                                               key_cert)
+
+                if not (key_file_name and cert_file_name):
+                    skipped_status = 'Missing key or cert file: %s' \
+                                     % full_cmd
+                    LOG.warning(skipped_status)
+                    # Add skipped status in CSV/report for ssl cert key
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
+                                           key_cert['attrs'][0], full_cmd,
+                                           STATUS_MISSING_FILE, skipped_status)
+                    skipped_status = 'Missing key or cert file: %s' % bind_ssl_full_cmd
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                           mapping['attrs'][0],
+                                           bind_ssl_full_cmd,
+                                           STATUS_MISSING_FILE,
+                                           skipped_status)
+                    continue
                 if key_file_name:
                     ca_str = ns_util.upload_file(
                         input_dir + os.path.sep + key_file_name)
@@ -429,7 +419,7 @@ class ProfileConverter(object):
                         pki_profile['crl_check'] = False
                     if crl_str:
                         pki_profile["crls"] = [{'body': crl_str}]
-                    pki_profile["name"] = key_cert['attrs'][0]
+                    pki_profile["name"] = mapping['attrs'][0]
                     pki_profile["tenant_ref"] = self.tenant_ref
                     obj['pki'] = pki_profile
                     output = pki_profile
@@ -441,12 +431,21 @@ class ProfileConverter(object):
                     ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd,
                                             key_cert['attrs'][0], full_cmd,
                                             conv_status, obj['pki'])
+                    tmp_pki_profile_list.append(pki_profile["name"])
                 else:
-                    LOG.info('Skipped: %s' % full_cmd)
-                    # Add skipped status in CSV/report for ssl cert key
+                    skipped_status = 'Missing key or cert file: %s' % full_cmd
+                    LOG.warning(skipped_status)
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
                                            key_cert['attrs'][0], full_cmd,
-                                           STATUS_SKIPPED)
+                                           STATUS_MISSING_FILE, skipped_status)
+                    skipped_status = 'Missing key or cert file: %s' % bind_ssl_full_cmd
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                           mapping['attrs'][0],
+                                           bind_ssl_full_cmd,
+                                           STATUS_MISSING_FILE,
+                                           skipped_status)
+                    continue
 
             elif 'certkeyName' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
@@ -455,39 +454,42 @@ class ProfileConverter(object):
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
                                                               key_cert)
-                key_file_name = key_cert.get('key')
-                cert_file_name = key_cert.get('cert')
-                if key_file_name:
-                    key_str = ns_util.upload_file(
-                        input_dir + os.path.sep + key_file_name)
-                if cert_file_name:
-                    cert_str = ns_util.upload_file(
-                        input_dir + os.path.sep + cert_file_name)
-                if key_str and cert_str:
-                    cert = {"certificate": cert_str}
-                    ssl_kc_obj = {
-                        'name': key_cert['attrs'][0],
-                        'tenant_ref': self.tenant_ref,
-                        'key': key_str,
-                        'certificate': cert,
-                        'key_passphrase': key_cert.get('password', ''),
-                        'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
-                    }
-                    obj['cert'] = ssl_kc_obj
-                    output = ssl_kc_obj
-                    conv_status = ns_util.get_conv_status(
-                        key_cert, self.profile_add_key_cert_skip, [], [])
-                    # Add ssummery in CSV/report for ssl service
-                    ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd,
-                                            key_cert['attrs'][0], full_cmd,
-                                            conv_status, output)
-                    bind_ssl_success = True
-                else:
-                    LOG.warning('Skipped : %s' % full_cmd)
-                    # Add skipped status in CSV/report for ssl cert key
+                name = key_cert['attrs'][0] + '-dummy'
+                # Skipped this certificate if already exist
+                if name in tmp_ssl_key_and_cert_list:
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
                                            key_cert['attrs'][0], full_cmd,
-                                           STATUS_SKIPPED)
+                                           STATUS_INDIRECT)
+                    ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
+                                           mapping['attrs'][0],
+                                           bind_ssl_full_cmd,
+                                           STATUS_INDIRECT)
+                    continue
+                # Generate dummy cert and key 
+                key, cert = ns_util.create_self_signed_cert()
+                LOG.warning('Create self cerificate and key for : %s' % name)
+                ssl_kc_obj = None
+                if key and cert:
+                    cert = {"certificate": cert}
+                    ssl_kc_obj = {
+                        'name': name,
+                        'key': key,
+                        'certificate': cert,
+                        'key_passphrase': '',
+                        'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE',
+                        'tenant_ref': self.tenant_ref
+                    }
+                    tmp_ssl_key_and_cert_list.append(name)
+                    obj['cert'] = ssl_kc_obj
+                    output = ssl_kc_obj
+                    # Add ssummery in CSV/report for ssl service
+                    ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
+                                            key_cert['attrs'][0], full_cmd,
+                                            STATUS_INDIRECT)
+                    bind_ssl_success = True
+                else:
+                    skipped_status = 'Skipped: Key and certificate not ' \
+                                     'generated : %s' % full_cmd
 
             elif 'cipherName' in mapping.keys():
                 ciphers_keys = self.get_ciphers(mapping['cipherName'],
@@ -497,6 +499,9 @@ class ProfileConverter(object):
                 obj['accepted_ciphers'] = ':'.join(ciphers)
                 bind_ssl_success = True
                 output = obj
+                if not obj['accepted_ciphers']:
+                    skipped_status = 'Skipped:Does not get any ciphers : %s' \
+                                     % bind_ssl_full_cmd
             elif 'eccCurveName' in mapping.keys():
                 LOG.warning('Indirect : %s' % bind_ssl_full_cmd)
                 # Add indirect status in CSV/report for bind ssl service
@@ -508,11 +513,11 @@ class ProfileConverter(object):
             conv_status = ns_util.get_conv_status(
                 mapping, self.profile_bind_sslvs_skip, [], [])
             if not bind_ssl_success:
-                LOG.warning('Skipped : %s' % bind_ssl_full_cmd)
+                LOG.warning(skipped_status)
                 # Add skipped status in CSV/report for bind ssl service
                 ns_util.add_status_row(mapping['line_no'], bind_ssl_cmd,
                                        mapping['attrs'][0], bind_ssl_full_cmd,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
 
             LOG.info('Conversion successful: %s' % bind_ssl_full_cmd)
@@ -543,7 +548,8 @@ class ProfileConverter(object):
             return [cipher]
         ciphers = []
         full_add_ssl_cipher_command = \
-            ns_util.get_netscalar_full_command(add_ssl_cipher_command, lb_cipher)
+            ns_util.get_netscalar_full_command(add_ssl_cipher_command,
+                                               lb_cipher)
         LOG.info('Conversion successful: %s' % full_add_ssl_cipher_command)
         # Add Successful status in CSV/report for add ssl cipher
         ns_util.add_status_row(lb_cipher['line_no'], add_ssl_cipher_command,
@@ -565,12 +571,14 @@ class ProfileConverter(object):
                                        full_bind_ssl_cipher_command,
                                        STATUS_SUCCESSFUL, avi_cipher)
             else:
-                LOG.info('Skipped: %s' % full_bind_ssl_cipher_command)
+                skipped_status = 'Skipped:Does not get any ciphers: %s' \
+                                 % full_bind_ssl_cipher_command
+                LOG.warning(skipped_status)
                 # Add skipped status in CSV/report for add ssl cipher
                 ns_util.add_status_row(bind_cipher['line_no'],
                                        bind_ssl_cipher_command, cipher,
                                        full_bind_ssl_cipher_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
 
         if not ciphers:
             return [cipher]

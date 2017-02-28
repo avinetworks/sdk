@@ -106,25 +106,28 @@ class PolicyConverter(object):
                                   policyLabelName))
                     else:
                         # Skipped this bind if it does not have targetVserver
+                        skipped_status = 'Skipped: Do not have target vserver' \
+                                         ' %s %s' % (
+                            policy_label_netscalar_command, policyLabelName)
                         ns_util.add_status_row(policyLabels[0]['line_no'],
                                                policy_label_netscalar_command,
                                                policyLabelName,
                                                policy_label_netscalar_full_command,
-                                               STATUS_SKIPPED)
-                        LOG.info('Skipped : %s %s' %
-                                 (policy_label_netscalar_command,
-                                  policyLabelName))
+                                               STATUS_SKIPPED,skipped_status)
+                        LOG.warning(skipped_status)
             if 'policyName' in bind_conf:
                 policy_name = bind_conf['policyName']
             elif netscalar_command == 'bind lb vserver':
                 continue
             else:
-                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                skipped_status = 'Skipped:Policy Name attribute not present %s'\
+                                 % bind_lb_netscalar_complete_command
+                LOG.warning(skipped_status)
                 # Skipped this bind if it does not attach any policy
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
             targetLBVserver = bind_conf.get('targetLBVserver', )
             if not targetLBVserver and targetVserver:
@@ -136,7 +139,9 @@ class PolicyConverter(object):
                                                  rewrite_policy_config,
                                                  responder_policy_config)
             if not policy:
-                LOG.warning('Skipped: %s' % bind_lb_netscalar_complete_command)
+                skipped_status = 'Skipped:Policy is not created %s' \
+                                 % bind_lb_netscalar_complete_command
+                LOG.warning(skipped_status)
                 # Skipped this bind if it does not have policy
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
@@ -173,12 +178,13 @@ class PolicyConverter(object):
             else:
                 # Add status Skipped in CSV/report if policy is converted in to
                 #  AVI
-                LOG.warning('Skipped: Not Supported policy %s' %
-                            bind_lb_netscalar_complete_command)
+                skipped_status = 'Skipped:  Policy not supported %s' \
+                                 % bind_lb_netscalar_complete_command
+                LOG.warning(skipped_status)
                 ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 continue
         if len(http_request_policy['rules']) > 0:
             is_policy_obj = True
@@ -255,11 +261,13 @@ class PolicyConverter(object):
             ns_util.get_netscalar_full_command(netscalar_command, policy)
 
         if policy_type == 'cs' and not (targetLBVserver and ns_rule):
-            LOG.warning('Skipped policy: %s' % rule_name)
+            skipped_status = 'Skipped policy Does not have ' \
+                             'rules or target lb vserver: %s' % rule_name
+            LOG.warning(skipped_status)
             # Skipped this policy if rule is not supported by tool
             ns_util.add_status_row(policy['line_no'], netscalar_command,
                                    rule_name, ns_policy_complete_cmd,
-                                   STATUS_SKIPPED)
+                                   STATUS_SKIPPED, skipped_status)
             return None, priority_index
         elif policy_type in ['rewrite', 'responder', 'expression']:
 
@@ -279,11 +287,12 @@ class PolicyConverter(object):
                 match.update(rule_match)
 
         if not match:
-            LOG.warning('Skipped policy Does not match any rule: %s' % rule_name)
+            skipped_status = 'Skipped:Rule not supported: %s' % rule_name
+            LOG.warning(skipped_status)
             # Skipped this policy if rule is not supported by tool
             ns_util.add_status_row(policy['line_no'], netscalar_command,
                                    rule_name, ns_policy_complete_cmd,
-                                   STATUS_SKIPPED)
+                                   STATUS_SKIPPED, skipped_status)
             return None, priority_index
 
         policy_rules = {
@@ -293,14 +302,13 @@ class PolicyConverter(object):
         }
 
         if policy_type == 'cs':
-            cs_action, redirect_uri = self.get_cs_policy_action(name,
-                                                                targetLBVserver,
-                                                                redirect_pools,
-                                                                avi_config,
-                                                                tmp_pool_ref)
+            cs_action, redirect_uri = self.get_cs_policy_action(
+                name, targetLBVserver, redirect_pools, avi_config, tmp_pool_ref)
             if cs_action:
                 if redirect_uri:
                     policy_rules['redirect_action'] = cs_action
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        targetLBVserver)
                 else:
                     policy_rules['switching_action'] = cs_action
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
@@ -311,11 +319,14 @@ class PolicyConverter(object):
                                        rule_name, ns_policy_complete_cmd,
                                        STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                skipped_status = 'Skipped:PoolGroup not found : %s %s %s ' \
+                                 '-PoolGroup' % (netscalar_command,
+                                                 rule_name, targetLBVserver)
+                LOG.warning(skipped_status)
                 # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command,
                                        rule_name, ns_policy_complete_cmd,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
                 policy_rules = None
         elif policy_type == 'rewrite':
             policy_rules = self.get_rewrite_action(policy['attrs'][2],
@@ -330,11 +341,13 @@ class PolicyConverter(object):
                                        rule_name, ns_policy_complete_cmd,
                                        STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Skipped : %s %s' % (netscalar_command, rule_name))
+                skipped_status = 'Skipped:Rules are not supported: %s %s' \
+                                 % (netscalar_command, rule_name)
+                LOG.warning(skipped_status)
                 # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(policy['line_no'], netscalar_command,
                                        rule_name, ns_policy_complete_cmd,
-                                       STATUS_SKIPPED)
+                                       STATUS_SKIPPED, skipped_status)
         elif policy_type == 'responder':
             policy_rules = self.get_responder_action(policy['attrs'][2],
                                                      policy_rules,
@@ -409,16 +422,28 @@ class PolicyConverter(object):
             "match_criteria": ''
         }
 
-        if 'URL ==' in query.upper() and 'REQ.HTTP.URL ==' not in query.upper():
-                a, b = query.split("==")
-                b = b.strip()
-                match_str = b.strip("\\'")
-                if not match_str:
-                    LOG.warning('No Matches found for %s' % query)
-                    return None
-                match = {"path": path_query}
-                match["path"]["match_str"].append(match_str)
-                match["path"]["match_criteria"] = "EQUALS"
+        if 'REQ.HTTP.URL ==' in query.upper():
+            match = {"query": path_query}
+            match["query"]["match_criteria"] = "EQUALS"
+            matches = re.findall('\\\\(.+?)\\\\', query)
+            if len(matches) == 0:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            matches = list(set(matches))
+            for element in matches:
+                element = re.sub('[\\\/]', '', element)
+                match["query"]["match_str"].append(element)
+
+        elif 'URL ==' in query.upper():
+            a, b = query.split("==")
+            b = b.strip()
+            match_str = b.strip("\\'")
+            if not match_str:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            match = {"path": path_query}
+            match["path"]["match_str"].append(match_str)
+            match["path"]["match_criteria"] = "EQUALS"
 
         elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
                         'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
@@ -716,34 +741,25 @@ class PolicyConverter(object):
         :return: http policy action
         """
 
-        pool_group_ref = targetLBVserver + '-poolgroup'
-        pool_group_ref = re.sub('[:]', '-', pool_group_ref)
-        redirect_uri = None
-        if pool_group_ref in redirect_pools:
-            pool_group = [pg for pg in avi_config['PoolGroup']
-                          if pg['name'] == pool_group_ref]
-            for member in pool_group[0]['members']:
-
-                pool_ref = member['pool_ref'].split('&')[1].split('=')[1]
-                pools = [pool for pool in avi_config['Pool']
-                         if pool['name'] == pool_ref]
-                redirect_uri = pools[0]['fail_action']['redirect']['host']
-
-        if redirect_uri:
+        if targetLBVserver in redirect_pools:
             action = {
                 'protocol': 'HTTP',
                 'host': {
                     'type': 'URI_PARAM_TYPE_TOKENIZED',
                     'tokens': [{
                         'type': 'URI_TOKEN_TYPE_HOST',
-                        'str_value': redirect_uri,
+                        'str_value': redirect_pools[targetLBVserver],
                         'start_index': '1',
                         'end_index': '65535'
                     }]
                 }
             }
+
             return action, True
+
         else:
+            pool_group_ref = targetLBVserver + '-poolgroup'
+            pool_group_ref = re.sub('[:]', '-', pool_group_ref)
             pool_group = [pg for pg in avi_config['PoolGroup']
                           if pg['name'] == pool_group_ref]
             if pool_group and pool_group_ref in tmp_pool_ref:
@@ -802,8 +818,8 @@ class PolicyConverter(object):
                 if matches:
                     value = {'val': matches[0]}
                     policy_rule['hdr_action'][0]['hdr']['value'].update(value)
-                    LOG.info('Conversion successful: %s %s' % (ns_action_command,
-                                                               policy_name))
+                    LOG.info('Conversion successful: %s %s' % (
+                        ns_action_command, policy_name))
                     # Add status successful in CSV/report for policy action
                     ns_util.add_status_row(policy_action['line_no'],
                                            ns_action_command, policy_name,
@@ -812,8 +828,9 @@ class PolicyConverter(object):
 
         elif policy_action and policy_action['attrs'][1] == 'replace':
             policy_rule = copy.deepcopy(policy_rules)
-            path_matches = re.findall('\\\\(.+?)\\\\',
-                                      policy_action['attrs'][3].strip('"').strip())
+            path_matches = \
+                re.findall('\\\\(.+?)\\\\',
+                           policy_action['attrs'][3].strip('"').strip())
             url_action = {
                 'action': 'HTTP_ADD_HDR',
                 'host_hdr': {
@@ -844,7 +861,8 @@ class PolicyConverter(object):
 
         elif policy_action and policy_action['attrs'][1] == 'insert_before':
             policy_rule = copy.deepcopy(policy_rules)
-            path_matches = re.findall('\\\\(.+?)\\\\', policy_action['attrs'][3])
+            path_matches = re.findall('\\\\(.+?)\\\\',
+                                      policy_action['attrs'][3])
             url_action = {
                 'action': 'HTTP_ADD_HDR',
                 'host_hdr': {
@@ -873,12 +891,14 @@ class PolicyConverter(object):
                                    policy_name, ns_action_complete_command,
                                    STATUS_SUCCESSFUL, policy_rule)
         else:
-            LOG.warning('Skipped: %s %s' % (ns_action_command, policy_name))
+            skipped_status = 'Skipped:Policy action not supported: %s %s' \
+                             % (ns_action_command, policy_name)
+            LOG.warning(skipped_status)
             # Add status Skipped in CSV/report for policy action if rule is not
             # supported by tool
             ns_util.add_status_row(policy_action['line_no'], ns_action_command,
                                    policy_name, ns_action_complete_command,
-                                   STATUS_SKIPPED)
+                                   STATUS_SKIPPED, skipped_status)
 
         return policy_rule
 
@@ -927,8 +947,9 @@ class PolicyConverter(object):
 
         elif policy_action and policy_action['attrs'][1] == 'replace':
             policy_rule = copy.deepcopy(policy_rules)
-            path_matches = re.findall('\\\\(.+?)\\\\',
-                                      policy_action['attrs'][3].strip('"').strip())
+            path_matches = \
+                re.findall('\\\\(.+?)\\\\',
+                           policy_action['attrs'][3].strip('"').strip())
             url_action = {
                 'action': 'HTTP_ADD_HDR',
                 'host_hdr': {
@@ -992,8 +1013,9 @@ class PolicyConverter(object):
                                    STATUS_SUCCESSFUL, policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'redirect':
             policy_rule = copy.deepcopy(policy_rules)
-            path_matches = re.findall('\\\\(.+?)\\\\',
-                                      policy_action['attrs'][2].strip('"').strip())
+            path_matches = \
+                re.findall('\\\\(.+?)\\\\',
+                           policy_action['attrs'][2].strip('"').strip())
             redirect_action = {
                 'port': 80,
                 'protocol': 'HTTP',
