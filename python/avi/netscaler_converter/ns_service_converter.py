@@ -100,14 +100,19 @@ class ServiceConverter(object):
                     ns_util.get_netscalar_full_command(
                         ns_bind_lb_vserver_command, group[0])
                 if not lb_vs:
-                    # Skipped service if could not found add lb vs
-                    skipped_status = 'Skipped: No add lb vserver found. ' \
-                                     'Skipped pool %s' % group_key
-                    ns_util.add_status_row(None, ns_bind_lb_vserver_command,
-                                           group_key,
-                                           ns_bind_lb_vserver_complete_command,
-                                           STATUS_SKIPPED, skipped_status)
-                    LOG.warning(skipped_status)
+                    for element in group:
+                        # Skipped service if could not found add lb vs
+                        skipped_status = 'Skipped: No add lb vserver found. ' \
+                                         'Skipped pool %s' % element['attrs'][0]
+                        ns_bind_lb_vserver_complete_command = \
+                            ns_util.get_netscalar_full_command(
+                                ns_bind_lb_vserver_command, element)
+                        ns_util.add_status_row(element['line_no'],
+                                               ns_bind_lb_vserver_command,
+                                               element['attrs'][0],
+                                               ns_bind_lb_vserver_complete_command,
+                                               STATUS_SKIPPED, skipped_status)
+                        LOG.warning(skipped_status)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
