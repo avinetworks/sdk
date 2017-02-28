@@ -16,7 +16,8 @@ STATUS_DATASCRIPT = 'DATASCRIPT'
 STATUS_EXTERNAL_MONITOR = 'EXTERNAL MONITOR'
 STATUS_COMMAND_NOT_SUPPORTED = 'NOT SUPPORTED'  # Commands are not supported in
 # AVI yet
-STATUS_INCOMPLETE_CONFIGURATION = 'NOT IN USED CONFIGURATION'
+STATUS_INCOMPLETE_CONFIGURATION = 'NOT IN USE'
+STATUS_MISSING_FILE = 'MISSING FILE'
 # Object type constant which are used in object reference generation
 OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
 OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
@@ -30,6 +31,7 @@ OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
 OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
 
 netscalar_command_status = None
+
 
 def init():
     """
