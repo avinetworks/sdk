@@ -53,7 +53,10 @@ class CsvsConverter(object):
         """
 
         policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
-                                           self.tenant_ref, self.cloud_ref)
+                                           self.tenant_ref, self.cloud_ref,
+                                           self.csvs_bind_skipped,
+                                           self.csvs_na_attrs,
+                                           self.csvs_ignore_vals)
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
@@ -262,8 +265,6 @@ class CsvsConverter(object):
                                               avi_config,
                                               tmp_used_pool_group_ref,
                                               redirect_pools,
-                                              self.csvs_skip_attrs,
-                                              self.csvs_na_attrs,
                                               'bind cs vserver')
 
             # TODO move duplicate code for adding policy to vs in ns_util
@@ -356,3 +357,4 @@ class CsvsConverter(object):
         ns_util.get_vs_if_shared_vip(avi_config)
         # Update the index value of all policy rules as per their priority
         ns_util.set_rules_index_for_http_policy_set(avi_config)
+        ns_util.clean_virtual_service_from_avi_config(avi_config)

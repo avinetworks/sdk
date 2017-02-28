@@ -97,7 +97,14 @@ NotApplicableCommands:
 - 'set locationParameter'
 - 'add audit messageaction'
 - 'set audit syslogParams'
- 
+- 'set ns tcpbufParam'
+- 'set ns diameter'
+- 'set ns rateControl'
+- 'set ns spParams'
+- 'set ns weblogparam'
+- 'set ns tcpParam'
+- 'set ns idletimeout'
+
 IndirectCommands:
 - 'add cmp global'
 - 'bind cmp global'
@@ -110,6 +117,7 @@ IndirectCommands:
 - 'bind vlan'
 - 'link ssl certKey'
 - 'set appfw profile'
+- 'add appfw'
 
 DatascriptCommands:
 - 'add ca action'
@@ -125,7 +133,7 @@ NotSupported:
 - 'set channel'
 - 'set ipsec'
 - 'set nd6RAvariables'
-- 'set ns'
+- 'set ns tcpProfile'
 - 'add filter'
 - 'add authentication'
 - 'add audit'
@@ -138,7 +146,6 @@ NotSupported:
 - 'set vpn'
 - 'bind tm'
 - 'set lldp'
-- 'add appfw'
 - 'set ipv6'
 - 'add policy'
 - 'bind policy'
@@ -379,10 +386,13 @@ monitor_indirect_list:
 - 'secure'
 
 nsservice_bind_lb_skipped :
-- 'priority'
 - 'gotoPriorityExpression'
 - 'type'
 - 'invoke'
+
+nsservice_bind_lb_ignore_val :
+    'Listenpolicy' : 'None'
+    'gotoPriorityExpression' : 'END'
 
 nsservice_service_skip:
 - 'clearTextPort'
@@ -425,6 +435,7 @@ policyconverter_policy_types:
 - 'rewrite'
 - 'responder'
 - 'expression'
+
 policyconverter_bind_skipped:
 - 'vServer'
 - 'type'
