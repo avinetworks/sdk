@@ -432,15 +432,15 @@ class PolicyConverter(object):
         if 'REQ.HTTP.URL ==' in query.upper():
             match = {"query": path_query}
             match["query"]["match_criteria"] = "EQUALS"
-            matches = re.findall('\\\\(.+?)\\\\', query)
-            if len(matches) == 0:
-                LOG.warning('No Matches found for %s' % query)
-                return None
+            matches = query.split('||')
             matches = list(set(matches))
             for element in matches:
-                element = re.sub('[\\\/]', '', element)
-                match["query"]["match_str"].append(element)
-
+                element = element.split('==')
+                if len(element) > 1:
+                    match["query"]["match_str"].append(element)
+            if not match["query"]["match_str"]:
+                LOG.warning('No Matches found for %s' % query)
+                return None
         elif 'URL ==' in query.upper():
             a, b = query.split("==")
             b = b.strip()
