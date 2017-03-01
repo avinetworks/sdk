@@ -153,7 +153,7 @@ class LbvsConverter(object):
                     policy = policy_converter.convert(bind_conf_list, ns_config,
                                                       avi_config, [],
                                                       redirect_pools,
-                                                      'bind lb vserver')
+                                                      'bind lb vserver', True)
 
                 # TODO move duplicate code for adding policy to vs in ns_util
                 # Convert netscalar policy to AVI http policy set

@@ -234,7 +234,6 @@ csvs_skip_attrs:
 - 'cacheable'
 - 'redirectURL'
 - 'precedence'
-- 'caseSensitive'
 - 'soMethod'
 - 'soPersistence'
 - 'rtspNat'
@@ -379,7 +378,7 @@ monitor_na_attrs:
 monitor_ignore_vals:
     'respCode': '200'
     'deviation': '0'
-    'downtime': '30'
+    'downTime': '30'
 
 monitor_indirect_list:
 - 'destIP'
