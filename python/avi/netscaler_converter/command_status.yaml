@@ -417,7 +417,6 @@ nsservice_service_na:
 nsservice_bind_sg_skip:
 - 'passive'
 - 'CustomServerID'
-- 'state'
 - 'hashId'
 - 'weight'
 
