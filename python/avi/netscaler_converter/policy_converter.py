@@ -169,6 +169,19 @@ class PolicyConverter(object):
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
+            # TODO add support for || rules as datascript
+            if rule == STATUS_DATASCRIPT:
+                # Add status datascript in CSV/report if policy has status
+                # datascript
+                datascript_status = 'Datascript: %s' % \
+                                    bind_lb_netscalar_complete_command
+                ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
+                                        bind_conf['attrs'][0],
+                                        bind_lb_netscalar_complete_command,
+                                        STATUS_DATASCRIPT)
+                LOG.warning(datascript_status)
+                continue
+
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
@@ -286,6 +299,16 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
         name = '%s-rule-%s' % (rule_name, priority_index)
+        # TODO add support for || rules as datascript
+        if '||' in ns_rule:
+            skipped_status = 'Datascript: %s ' % ns_policy_complete_cmd
+            LOG.warning(skipped_status)
+            ns_util.add_status_row(policy['line_no'], netscalar_command,
+                                   rule_name, ns_policy_complete_cmd,
+                                   STATUS_DATASCRIPT)
+            return STATUS_DATASCRIPT, priority_index
+
+
         conditional_rules = ns_rule.split("&&")
         match = {}
         for rule in conditional_rules:
