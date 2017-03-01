@@ -36,7 +36,7 @@ class PolicyConverter(object):
         self.ignore_vals = ignore_vals
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
-                redirect_pools, netscalar_command):
+                redirect_pools, netscalar_command, case_sensitive):
         """
         This function defines that convert netscalar policy to http policy set
         in AVI
@@ -164,7 +164,8 @@ class PolicyConverter(object):
                                                    responder_action_config,
                                                    policy_expression_config,
                                                    avi_config, tmp_pool_ref,
-                                                   targetLBVserver)
+                                                   targetLBVserver,
+                                                   case_sensitive)
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
@@ -242,7 +243,7 @@ class PolicyConverter(object):
                        redirect_pools, bind_patset, patset_config,
                        rewrite_action_config, responder_action_config,
                        policy_expression_config, avi_config, tmp_pool_ref,
-                       targetLBVserver=None):
+                       targetLBVserver=None, case_sensitive=True):
         """
         This function defines to convert netscalar rule to http policy rule
         :param policy: Object of policy
@@ -293,7 +294,8 @@ class PolicyConverter(object):
                 rule = exression_policy['attrs'][1]
                 LOG.error('Policy expression : %s' % rule)
             rule_match = self.query_converter(rule, name, bind_patset,
-                                              patset_config, avi_config)
+                                              patset_config, avi_config,
+                                              case_sensitive)
             if rule_match:
                 match.update(rule_match)
 
@@ -387,7 +389,7 @@ class PolicyConverter(object):
 
 
     def query_converter(self, rule, policy_name, bind_patset, patset_config,
-                        avi_config):
+                        avi_config, case_sensitive):
         """
         this function defines that convert netscalar rule to http policy match
         :param rule: netscalar rule
@@ -402,10 +404,11 @@ class PolicyConverter(object):
         query = query.strip()
         match = None
         path_query = {
-            "match_case": 'INSENSITIVE',
             "match_str": [],
             "match_criteria": ''
         }
+        if case_sensitive:
+            path_query['match_case'] = 'INSENSITIVE'
         path_regex = {
             "match_case": 'INSENSITIVE',
             "string_group_refs": [],
