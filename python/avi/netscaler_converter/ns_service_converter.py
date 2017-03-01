@@ -111,7 +111,7 @@ class ServiceConverter(object):
                                                ns_bind_lb_vserver_command,
                                                element['attrs'][0],
                                                ns_bind_lb_vserver_complete_command,
-                                               STATUS_SKIPPED, skipped_status)
+                                               STATUS_INCOMPLETE_CONFIGURATION)
                         LOG.warning(skipped_status)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
