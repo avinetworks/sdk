@@ -16,8 +16,8 @@ tmp_ssl_key_and_cert_list = []
 tmp_pki_profile_list = []
 class ProfileConverter(object):
 
-
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+        
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
         self.profile_http_indirect = \
@@ -32,12 +32,16 @@ class ProfileConverter(object):
             ns_constants.netscalar_command_status['profile_ssl_prof_na']
         self.profile_ssl_prof_skip = \
             ns_constants.netscalar_command_status['profile_ssl_prof_skip']
+        self.profile_ssl_prof_ignore = \
+            ns_constants.netscalar_command_status['profile_ssl_prof_ignore']
         self.profile_add_key_cert_skip = \
             ns_constants.netscalar_command_status['profile_add_key_cert_skip']
         self.profile_bind_sslvs_skip = \
             ns_constants.netscalar_command_status['profile_bind_sslvs_skip']
         self.profile_set_ssl_vserver_skip = \
             ns_constants.netscalar_command_status['profile_set_ssl_vserver_skip']
+        self.profile_set_ssl_vserver_ignore = \
+            ns_constants.netscalar_command_status['profile_set_ssl_vserver_ignore']
         self.profile_set_ssl_vserver_indirect = \
             ns_constants.netscalar_command_status[
                 'profile_set_ssl_vserver_indirect']
