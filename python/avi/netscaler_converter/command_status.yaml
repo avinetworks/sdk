@@ -511,7 +511,6 @@ profile_ssl_prof_skip:
 - 'sslRedirect'
 - 'redirectPortRewrite'
 - 'nonFipsCiphers'
-- 'ssl3'
 - 'SNIEnable'
 - 'serverAuth'
 - 'commonName'
@@ -527,6 +526,9 @@ profile_ssl_prof_skip:
 - 'pushEncTriggerTimeout'
 - 'sslTriggerTimeout'
 - 'clientAuthUseBoundCAChain'
+
+profile_ssl_prof_ignore:
+    ssl3 : 'DISABLED'
 
 profile_add_key_cert_skip:
 - 'fipsKey'
@@ -559,7 +561,6 @@ profile_set_ssl_vserver_skip:
 - 'sslRedirect'
 - 'redirectPortRewrite'
 - 'nonFipsCiphers'
-- 'ssl3'
 - 'SNIEnable'
 - 'serverAuth'
 - 'commonName'
@@ -581,6 +582,9 @@ profile_set_ssl_vserver_indirect:
 - 'dh'
 - 'dhFile'
 
+profile_set_ssl_vserver_ignore:
+    ssl3 : 'DISABLED'
+
 profile_set_ssl_vserver_na:
 - 'sslProfileType'
 
@@ -591,11 +595,11 @@ profile_set_ssl_service_skip:
 - 'sslv2URL'
 - 'clientAuth'
 - 'ssl2'
-- 'ssl3'
 - 'serverAuth'
 - 'commonName'
 - 'pushEncTrigger'
 - 'dtlsProfileName'
+
 
 profile_set_ssl_service_indirect:
 - 'dh'
