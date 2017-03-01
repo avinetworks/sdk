@@ -234,7 +234,6 @@ csvs_skip_attrs:
 - 'cacheable'
 - 'redirectURL'
 - 'precedence'
-- 'caseSensitive'
 - 'soMethod'
 - 'soPersistence'
 - 'rtspNat'
@@ -379,7 +378,7 @@ monitor_na_attrs:
 monitor_ignore_vals:
     'respCode': '200'
     'deviation': '0'
-    'downtime': '30'
+    'downTime': '30'
 
 monitor_indirect_list:
 - 'destIP'
@@ -418,7 +417,6 @@ nsservice_service_na:
 nsservice_bind_sg_skip:
 - 'passive'
 - 'CustomServerID'
-- 'state'
 - 'hashId'
 - 'weight'
 
@@ -512,7 +510,6 @@ profile_ssl_prof_skip:
 - 'sslRedirect'
 - 'redirectPortRewrite'
 - 'nonFipsCiphers'
-- 'ssl3'
 - 'SNIEnable'
 - 'serverAuth'
 - 'commonName'
@@ -528,6 +525,9 @@ profile_ssl_prof_skip:
 - 'pushEncTriggerTimeout'
 - 'sslTriggerTimeout'
 - 'clientAuthUseBoundCAChain'
+
+profile_ssl_prof_ignore:
+    ssl3 : 'DISABLED'
 
 profile_add_key_cert_skip:
 - 'fipsKey'
@@ -560,7 +560,6 @@ profile_set_ssl_vserver_skip:
 - 'sslRedirect'
 - 'redirectPortRewrite'
 - 'nonFipsCiphers'
-- 'ssl3'
 - 'SNIEnable'
 - 'serverAuth'
 - 'commonName'
@@ -582,6 +581,9 @@ profile_set_ssl_vserver_indirect:
 - 'dh'
 - 'dhFile'
 
+profile_set_ssl_vserver_ignore:
+    ssl3 : 'DISABLED'
+
 profile_set_ssl_vserver_na:
 - 'sslProfileType'
 
@@ -592,11 +594,11 @@ profile_set_ssl_service_skip:
 - 'sslv2URL'
 - 'clientAuth'
 - 'ssl2'
-- 'ssl3'
 - 'serverAuth'
 - 'commonName'
 - 'pushEncTrigger'
 - 'dtlsProfileName'
+
 
 profile_set_ssl_service_indirect:
 - 'dh'

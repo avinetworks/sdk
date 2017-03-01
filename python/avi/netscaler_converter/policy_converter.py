@@ -36,7 +36,7 @@ class PolicyConverter(object):
         self.ignore_vals = ignore_vals
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
-                redirect_pools, netscalar_command):
+                redirect_pools, netscalar_command, case_sensitive):
         """
         This function defines that convert netscalar policy to http policy set
         in AVI
@@ -164,10 +164,24 @@ class PolicyConverter(object):
                                                    responder_action_config,
                                                    policy_expression_config,
                                                    avi_config, tmp_pool_ref,
-                                                   targetLBVserver)
+                                                   targetLBVserver,
+                                                   case_sensitive)
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
+            # TODO add support for || rules as datascript
+            if rule == STATUS_DATASCRIPT:
+                # Add status datascript in CSV/report if policy has status
+                # datascript
+                datascript_status = 'Datascript: %s' % \
+                                    bind_lb_netscalar_complete_command
+                ns_util.add_status_row(bind_conf['line_no'], netscalar_command,
+                                        bind_conf['attrs'][0],
+                                        bind_lb_netscalar_complete_command,
+                                        STATUS_DATASCRIPT)
+                LOG.warning(datascript_status)
+                continue
+
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
@@ -242,7 +256,7 @@ class PolicyConverter(object):
                        redirect_pools, bind_patset, patset_config,
                        rewrite_action_config, responder_action_config,
                        policy_expression_config, avi_config, tmp_pool_ref,
-                       targetLBVserver=None):
+                       targetLBVserver=None, case_sensitive=True):
         """
         This function defines to convert netscalar rule to http policy rule
         :param policy: Object of policy
@@ -285,6 +299,16 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
         name = '%s-rule-%s' % (rule_name, priority_index)
+        # TODO add support for || rules as datascript
+        if '||' in ns_rule:
+            skipped_status = 'Datascript: %s ' % ns_policy_complete_cmd
+            LOG.warning(skipped_status)
+            ns_util.add_status_row(policy['line_no'], netscalar_command,
+                                   rule_name, ns_policy_complete_cmd,
+                                   STATUS_DATASCRIPT)
+            return STATUS_DATASCRIPT, priority_index
+
+
         conditional_rules = ns_rule.split("&&")
         match = {}
         for rule in conditional_rules:
@@ -293,7 +317,8 @@ class PolicyConverter(object):
                 rule = exression_policy['attrs'][1]
                 LOG.error('Policy expression : %s' % rule)
             rule_match = self.query_converter(rule, name, bind_patset,
-                                              patset_config, avi_config)
+                                              patset_config, avi_config,
+                                              case_sensitive)
             if rule_match:
                 match.update(rule_match)
 
@@ -387,7 +412,7 @@ class PolicyConverter(object):
 
 
     def query_converter(self, rule, policy_name, bind_patset, patset_config,
-                        avi_config):
+                        avi_config, case_sensitive):
         """
         this function defines that convert netscalar rule to http policy match
         :param rule: netscalar rule
@@ -402,10 +427,11 @@ class PolicyConverter(object):
         query = query.strip()
         match = None
         path_query = {
-            "match_case": 'INSENSITIVE',
             "match_str": [],
             "match_criteria": ''
         }
+        if case_sensitive:
+            path_query['match_case'] = 'INSENSITIVE'
         path_regex = {
             "match_case": 'INSENSITIVE',
             "string_group_refs": [],

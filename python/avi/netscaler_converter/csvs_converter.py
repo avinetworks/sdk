@@ -260,12 +260,15 @@ class CsvsConverter(object):
                 vs_obj = lb_vs_obj
             vs_obj.pop('pool_group_ref', None)
 
+            case_sensitive = False \
+                if cs_vs.get('caseSensitive', '') == 'OFF' else True
+
             # Convert netscalar policy to AVI http policy set
             policy = policy_converter.convert(bind_conf_list, ns_config,
                                               avi_config,
                                               tmp_used_pool_group_ref,
                                               redirect_pools,
-                                              'bind cs vserver')
+                                              'bind cs vserver', case_sensitive)
 
             # TODO move duplicate code for adding policy to vs in ns_util
             # Add the http policy set reference to VS in AVI
