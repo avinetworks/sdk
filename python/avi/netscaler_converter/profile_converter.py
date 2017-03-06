@@ -4,6 +4,8 @@ import os
 import re
 import yaml
 import avi.netscaler_converter.ns_constants as ns_constants
+from datetime import datetime
+from OpenSSL import crypto as c
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
@@ -478,13 +480,21 @@ class ProfileConverter(object):
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
                 if '/' in key_file_name:
-                    key_file_name = str(key_file_name).split('/')[-1]
-
+                    key_file_name = str(key_file_name).split('/')[-1].strip('"')
                 if key_file_name and cert_file_name:
                     cert = ns_util.upload_file(
                         input_dir + os.path.sep + cert_file_name)
                     key = ns_util.upload_file(
                         input_dir + os.path.sep + key_file_name)
+                if cert and key:
+                    cert_date = c.load_certificate(c.FILETYPE_PEM,
+                                              file(input_dir + os.path.sep
+                                                   + cert_file_name).read())
+                    expiry_date = datetime.strptime(cert_date.get_notAfter(),
+                                                     "%Y%m%d%H%M%SZ")
+                    present_date = datetime.now()
+                    if expiry_date < present_date:
+                        cert, key = None, None
                 if not cert or not key:
                     name = key_cert['attrs'][0] + '-dummy'
                 else:
@@ -531,7 +541,6 @@ class ProfileConverter(object):
                 else:
                     skipped_status = 'Skipped: Key and certificate not ' \
                                      'generated : %s' % full_cmd
-
             elif 'cipherName' in mapping.keys():
                 ciphers_keys = self.get_ciphers(mapping['cipherName'],
                                                 ns_config)
