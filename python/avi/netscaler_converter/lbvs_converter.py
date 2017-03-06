@@ -41,7 +41,6 @@ class LbvsConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
-
     def convert(self, ns_config, avi_config, vs_state):
         """
         This function defines that it convert netscalar lb vs config to vs
@@ -131,7 +130,7 @@ class LbvsConverter(object):
                     'name': updated_vs_name,
                     'type': 'VS_TYPE_NORMAL',
                     'tenant_ref': self.tenant_ref,
-                    # 'cloud_ref': self.cloud_ref,
+                    'cloud_ref': self.cloud_ref,
                     'ip_address': {
                         'addr': ip_addr,
                         'type': 'V4'

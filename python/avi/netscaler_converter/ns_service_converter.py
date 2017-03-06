@@ -167,8 +167,8 @@ class ServiceConverter(object):
                     pool_group = {
                         'name': pg_name,
                         'members': pg_members,
-                        'tenant_ref': self.tenant_ref
-                        # 'cloud_ref': self.cloud_ref
+                        'tenant_ref': self.tenant_ref,
+                        'cloud_ref': self.cloud_ref
                     }
                     avi_config['PoolGroup'].append(pool_group)
 
@@ -300,8 +300,8 @@ class ServiceConverter(object):
                 'name': pool_name,
                 'servers': [server],
                 'health_monitor_refs': [],
-                'tenant_ref': self.tenant_ref
-                # 'cloud_ref': self.cloud_ref
+                'tenant_ref': self.tenant_ref,
+                'cloud_ref': self.cloud_ref
             }
             # Add health monitor reference to pool
             monitor_refs = self.get_service_montor(service_name,
@@ -394,8 +394,8 @@ class ServiceConverter(object):
                 'name': pool_name,
                 'servers': servers,
                 'health_monitor_refs': [],
-                'tenant_ref': self.tenant_ref
-                # 'cloud_ref': self.cloud_ref
+                'tenant_ref': self.tenant_ref,
+                'cloud_ref': self.cloud_ref
             }
 
             # Add health monitor reference to pool
