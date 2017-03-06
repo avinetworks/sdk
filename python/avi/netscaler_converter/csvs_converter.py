@@ -110,7 +110,7 @@ class CsvsConverter(object):
             vs_obj = {
                 'name': updated_vs_name,
                 'tenant_ref': self.tenant_ref,
-                # 'cloud_ref': self.cloud_ref,
+                'cloud_ref': self.cloud_ref,
                 'type': 'VS_TYPE_NORMAL',
                 'ip_address': {
                     'addr': ip_addr,
