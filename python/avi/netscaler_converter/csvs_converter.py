@@ -51,7 +51,6 @@ class CsvsConverter(object):
         :param vs_state: state of vs
         :return: None
         """
-
         policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
                                            self.tenant_ref, self.cloud_ref,
                                            self.csvs_bind_skipped,
@@ -107,6 +106,19 @@ class CsvsConverter(object):
             if cs_vs['attrs'][1] == 'SSL':
                 enable_ssl = True
             updated_vs_name = re.sub('[:]', '-', vs_name)
+
+            # Regex to check Vs has IPV6 address if yes the Skipped
+            if re.findall(ns_constants.IPV6_Address, ip_addr):
+                skipped_status = "Skipped:IPV6 not Supported %s" \
+                                 % ns_add_cs_vserver_command
+                LOG.warning(skipped_status)
+                ns_util.add_status_row(cs_vs['line_no'],
+                                       ns_add_cs_vserver_command,
+                                       key, ns_add_cs_vserver_complete_command,
+                                       STATUS_SKIPPED,
+                                       skipped_status)
+                continue
+
             vs_obj = {
                 'name': updated_vs_name,
                 'tenant_ref': self.tenant_ref,

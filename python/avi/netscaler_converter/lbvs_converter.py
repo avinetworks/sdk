@@ -126,6 +126,14 @@ class LbvsConverter(object):
 
                 updated_vs_name = re.sub('[:]', '-', vs_name)
 
+                # Regex to check Vs has IPV6 address if yes the Skipped
+                if re.findall(ns_constants.IPV6_Address, ip_addr):
+                    skipped_status = "Skipped:IPV6 not Supported %s" %full_cmd
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                           full_cmd, STATUS_SKIPPED,
+                                           skipped_status)
+                    continue
                 vs_obj = {
                     'name': updated_vs_name,
                     'type': 'VS_TYPE_NORMAL',
