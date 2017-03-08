@@ -397,22 +397,32 @@ class LbvsConverter(object):
                                     'Added: %s PKI profile %s' % (pki_ref, key))
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
-                            if not [obj for obj in
-                                    avi_config['SSLKeyAndCertificate']
-                                    if obj['name'] ==
-                                                    mapping['certkeyName'] +
-                                                    '-dummy']:
+                            if [obj for obj in
+                                avi_config['SSLKeyAndCertificate']
+                                if obj['name'] == mapping['certkeyName']]:
+                                updated_ssl_ref = \
+                                    ns_util.get_object_ref(
+                                        mapping['certkeyName'],
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                        self.tenant_name)
+                                vs_obj[avi_ssl_ref] = [updated_ssl_ref]
+                            elif not [obj for obj in
+                                  avi_config['SSLKeyAndCertificate']
+                                  if obj['name'] == mapping['certkeyName'] +
+                                        '-dummy']:
+                                updated_ssl_ref = \
+                                    ns_util.get_object_ref(
+                                        mapping['certkeyName'] + '-dummy',
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                        self.tenant_name)
+                                vs_obj[avi_ssl_ref] = [updated_ssl_ref]
+                            else:
                                 LOG.warning(
                                     'Could not find ssl key cert, so adding '
                                     'default cert as system default insted')
                                 vs_obj[avi_ssl_ref] = [
                                     'admin:System-Default-Cert']
                                 continue
-                            updated_ssl_ref = \
-                                ns_util.get_object_ref(
-                                    mapping['certkeyName'] + '-dummy',
-                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                    self.tenant_name)
                             vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
