@@ -16,16 +16,18 @@ class PoolConfigConv(object):
             return PoolConfigConvV11()
     supported_attr = None
 
-    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
+                     tenant_ref, cloud_ref):
         pass
 
-    def convert(self, f5_config, avi_config, user_ignore, tenant_ref):
+    def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
+                cloud_name):
         pool_list = []
         pool_config = f5_config.get('pool', {})
         user_ignore = user_ignore.get('pool', {})
         avi_config['VrfContext'] = []
         avi_config['PoolGroup'] = []
-        avi_config['PriorityLabels'] = []
+        avi_config['PriorityLabels'] = {}
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
@@ -34,8 +36,9 @@ class PoolConfigConv(object):
                 conv_utils.add_status_row('pool', None, pool_name, 'skipped')
                 continue
             try:
-                converted_objs = self.convert_pool(pool_name, f5_config,
-                                                   avi_config, user_ignore, tenant_ref)
+                converted_objs = self.convert_pool(
+                    pool_name, f5_config, avi_config, user_ignore, tenant_ref,
+                    cloud_name)
                 pool_list += converted_objs['pools']
                 if 'pg_obj' in converted_objs:
                     avi_config['PoolGroup'].append(converted_objs['pg_obj'])
@@ -44,28 +47,33 @@ class PoolConfigConv(object):
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name, 'Error')
-        labels = avi_config.pop('PriorityLabels', None)
-        if labels:
-            labels = list(set(labels))
-            labels = map(int, labels)
-            labels.sort(reverse=True)
-            labels = map(str, labels)
-            priority_labels = {
-                "name": "numeric_priority_labels",
-                "equivalent_labels": [
-                    {
-                        "labels": labels
-                    }
-                ],
-                'tenant_ref': tenant_ref
-            }
-            avi_config['PriorityLabels'] = [priority_labels]
+        labels_dict = avi_config.pop('PriorityLabels', None)
+        if labels_dict:
+            for tenant in labels_dict:
+                labels = labels_dict[tenant]
+                if not tenant_ref == 'admin':
+                    tenant = tenant_ref
+                labels = list(set(labels))
+                labels = map(int, labels)
+                labels.sort(reverse=True)
+                labels = map(str, labels)
+                priority_labels = {
+                    "name": "numeric_priority_labels",
+                    "equivalent_labels": [
+                        {
+                            "labels": labels
+                        }
+                    ],
+                    'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
+                }
+                avi_config['PriorityLabels'] = [priority_labels]
 
         avi_config['Pool'] = pool_list
         LOG.debug("Converted %s pools" % len(pool_list))
         f5_config.pop('pool', {})
 
-    def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name, tenant_ref):
+    def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name,
+                         tenant_ref):
             skipped_monitors = []
             monitors = monitor_names.split(" ")
             monitor_refs = []
@@ -80,12 +88,13 @@ class PoolConfigConv(object):
                 monitor_obj = [obj for obj in monitor_config_list
                                if obj["name"] == monitor]
 
-                if not tenant:
+                if not tenant_ref == 'admin':
                     tenant = tenant_ref
                 if monitor_obj:
                     if tenant:
-                        monitor_refs.append('%s:%s' % (
-                            tenant, monitor_obj[0]["name"]))
+                        monitor_refs.append(conv_utils.get_object_ref(
+                            monitor_obj[0]['name'], 'healthmonitor',
+                            tenant=tenant))
                 else:
                     LOG.warning("Monitor not found: %s for pool %s" %
                                 (monitor, pool_name))
@@ -93,17 +102,19 @@ class PoolConfigConv(object):
             return skipped_monitors, monitor_refs
 
     def create_pool_object(self, name, desc, servers, pd_action, algo,
-                           ramp_time, limits, tenant_ref):
+                           ramp_time, limits, tenant_ref, cloud_ref):
         tenant, name = conv_utils.get_tenant_ref(name)
-        pool_obj = \
-            {
-                "name": name,
-                "description": desc,
-                "servers": servers,
-                "fail_action": pd_action,
-                "lb_algorithm": algo
-            }
-        pool_obj['tenant_ref'] = tenant_ref
+        pool_obj = {
+            'name': name,
+            'description': desc,
+            'servers': servers,
+            'fail_action': pd_action,
+            'lb_algorithm': algo,
+            'cloud_ref': conv_utils.get_object_ref(cloud_ref, 'cloud')
+        }
+        if not tenant_ref == 'admin':
+            tenant = tenant_ref
+        pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         if ramp_time:
             pool_obj['connection_ramp_duration'] = ramp_time
         if limits.get('connection_limit', 0) > 0:
@@ -186,7 +197,8 @@ class PoolConfigConv(object):
         conv_utils.add_conv_status('pool', None, name, conv_status,
                                    converted_objs)
 
-    def convert_for_pg(self, pg_dict, pool_obj, name, tenant, avi_config):
+    def convert_for_pg(self, pg_dict, pool_obj, name, tenant, avi_config,
+                       cloud_ref):
         """
         Creates a pool group object
         :param pg_dict: priority wise sorted dict of pools
@@ -207,17 +219,24 @@ class PoolConfigConv(object):
             if priority_pool_ref:
                 member = {
                     'priority_label': priority,
-                    'pool_ref': '%s:%s' % (tenant, priority_pool_ref)
+                    'pool_ref': conv_utils.get_object_ref(
+                        priority_pool_ref, 'pool', tenant=tenant,
+                        cloud_name=cloud_ref)
                 }
                 pg_members.append(member)
 
-            avi_config['PriorityLabels'].append(priority)
+            priority_list = avi_config['PriorityLabels'].get(tenant,[])
+            priority_list.append(priority)
+            avi_config['PriorityLabels'][tenant] = priority_list
         pg_obj = {
             'name': name,
-            # 'priority_labels_ref': '%s:numeric_priority_labels' % tenant,
-            'members': pg_members
+            'priority_labels_ref': conv_utils.get_object_ref(
+                'numeric_priority_labels', 'prioritylabels', tenant=tenant),
+            'members': pg_members,
+            'cloud_ref': cloud_ref
         }
-        pg_obj['tenant_ref'] = tenant
+
+        pg_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         converted_objs = {
             'pools': pools,
             'pg_obj': pg_obj
@@ -230,7 +249,8 @@ class PoolConfigConvV11(PoolConfigConv):
                       'load-balancing-mode', 'description', 'slow-ramp-time',
                       'reselect-tries']
 
-    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore, tenant_ref):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
+                     tenant_ref, cloud_ref):
         converted_objs = {}
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
@@ -245,8 +265,10 @@ class PoolConfigConvV11(PoolConfigConv):
         ramp_time = f5_pool.get('slow-ramp-time', None)
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
-            limits, tenant_ref)
+            limits, tenant_ref, cloud_ref)
         tenant, name = conv_utils.get_tenant_ref(pool_name)
+        if not tenant_ref == 'admin':
+            tenant = tenant_ref
         num_retries = f5_pool.get('reselect-tries', None)
         if num_retries:
             server_reselect = {
@@ -263,7 +285,7 @@ class PoolConfigConvV11(PoolConfigConv):
         if monitor_names:
             skipped_monitors, monitor_refs = super(
                 PoolConfigConvV11, self).get_monitor_refs(
-                monitor_names, monitor_config, pool_name, tenant_ref)
+                monitor_names, monitor_config, pool_name, tenant)
             pool_obj["health_monitor_refs"] = monitor_refs
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
@@ -271,7 +293,7 @@ class PoolConfigConvV11(PoolConfigConv):
         is_pg, pg_dict = self.check_for_pool_group(servers)
         if is_pg:
             converted_objs = self.convert_for_pg(
-                pg_dict, pool_obj, name, tenant_ref, avi_config)
+                pg_dict, pool_obj, name, tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
 
@@ -393,7 +415,8 @@ class PoolConfigConvV10(PoolConfigConv):
     supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method',
                       'description', 'slow ramp time', 'reselect tries']
 
-    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore, tenant_ref):
+    def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
+                     tenant_ref, cloud_ref):
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
@@ -407,7 +430,7 @@ class PoolConfigConvV10(PoolConfigConv):
         ramp_time = f5_pool.get('slow ramp time', None)
         pool_obj = super(PoolConfigConvV10, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
-            limits, tenant_ref)
+            limits, tenant_ref, cloud_ref)
         monitor_names = f5_pool.get("monitor", None)
         skipped_monitors = []
         if monitor_names:
@@ -436,7 +459,7 @@ class PoolConfigConvV10(PoolConfigConv):
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         if is_pg:
             converted_objs = self.convert_for_pg(
-                pg_dict, pool_obj, name, tenant_ref, avi_config)
+                pg_dict, pool_obj, name, tenant, avi_config)
         else:
             converted_objs['pools'] = [pool_obj]
 
