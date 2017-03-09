@@ -41,7 +41,6 @@ class LbvsConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
-
     def convert(self, ns_config, avi_config, vs_state):
         """
         This function defines that it convert netscalar lb vs config to vs
@@ -127,11 +126,19 @@ class LbvsConverter(object):
 
                 updated_vs_name = re.sub('[:]', '-', vs_name)
 
+                # Regex to check Vs has IPV6 address if yes the Skipped
+                if re.findall(ns_constants.IPV6_Address, ip_addr):
+                    skipped_status = "Skipped:IPV6 not Supported %s" %full_cmd
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                           full_cmd, STATUS_SKIPPED,
+                                           skipped_status)
+                    continue
                 vs_obj = {
                     'name': updated_vs_name,
                     'type': 'VS_TYPE_NORMAL',
                     'tenant_ref': self.tenant_ref,
-                    # 'cloud_ref': self.cloud_ref,
+                    'cloud_ref': self.cloud_ref,
                     'ip_address': {
                         'addr': ip_addr,
                         'type': 'V4'
@@ -390,22 +397,32 @@ class LbvsConverter(object):
                                     'Added: %s PKI profile %s' % (pki_ref, key))
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
-                            if not [obj for obj in
-                                    avi_config['SSLKeyAndCertificate']
-                                    if obj['name'] ==
-                                                    mapping['certkeyName'] +
-                                                    '-dummy']:
+                            if [obj for obj in
+                                avi_config['SSLKeyAndCertificate']
+                                if obj['name'] == mapping['certkeyName']]:
+                                updated_ssl_ref = \
+                                    ns_util.get_object_ref(
+                                        mapping['certkeyName'],
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                        self.tenant_name)
+                                vs_obj[avi_ssl_ref] = [updated_ssl_ref]
+                            elif not [obj for obj in
+                                  avi_config['SSLKeyAndCertificate']
+                                  if obj['name'] == mapping['certkeyName'] +
+                                        '-dummy']:
+                                updated_ssl_ref = \
+                                    ns_util.get_object_ref(
+                                        mapping['certkeyName'] + '-dummy',
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                        self.tenant_name)
+                                vs_obj[avi_ssl_ref] = [updated_ssl_ref]
+                            else:
                                 LOG.warning(
                                     'Could not find ssl key cert, so adding '
                                     'default cert as system default insted')
                                 vs_obj[avi_ssl_ref] = [
                                     'admin:System-Default-Cert']
                                 continue
-                            updated_ssl_ref = \
-                                ns_util.get_object_ref(
-                                    mapping['certkeyName'] + '-dummy',
-                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                    self.tenant_name)
                             vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)

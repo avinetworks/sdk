@@ -3,6 +3,8 @@ import avi.netscaler_converter.ns_util as ns_util
 import os
 import re
 import avi.netscaler_converter.ns_constants as ns_constants
+from datetime import datetime
+from OpenSSL import crypto as c
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
@@ -469,7 +471,28 @@ class ProfileConverter(object):
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
                                                               key_cert)
-                name = key_cert['attrs'][0] + '-dummy'
+                key_file_name = key_cert.get('key')
+                cert_file_name = key_cert.get('cert')
+                if '/' in key_file_name:
+                    key_file_name = str(key_file_name).split('/')[-1].strip('"')
+                if key_file_name and cert_file_name:
+                    cert = ns_util.upload_file(
+                        input_dir + os.path.sep + cert_file_name)
+                    key = ns_util.upload_file(
+                        input_dir + os.path.sep + key_file_name)
+                if cert and key:
+                    cert_date = c.load_certificate(c.FILETYPE_PEM,
+                                              file(input_dir + os.path.sep
+                                                   + cert_file_name).read())
+                    expiry_date = datetime.strptime(cert_date.get_notAfter(),
+                                                     "%Y%m%d%H%M%SZ")
+                    present_date = datetime.now()
+                    if expiry_date < present_date:
+                        cert, key = None, None
+                if not cert or not key:
+                    name = key_cert['attrs'][0] + '-dummy'
+                else:
+                    name = key_cert['attrs'][0]
                 # Skipped this certificate if already exist
                 if name in tmp_ssl_key_and_cert_list:
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
@@ -480,8 +503,9 @@ class ProfileConverter(object):
                                            bind_ssl_full_cmd,
                                            STATUS_INDIRECT)
                     continue
-                # Generate dummy cert and key 
-                key, cert = ns_util.create_self_signed_cert()
+                # Generate dummy cert and key
+                if not cert or not key:
+                    key, cert = ns_util.create_self_signed_cert()
                 LOG.warning('Create self cerificate and key for : %s' % name)
                 ssl_kc_obj = None
                 if key and cert:
