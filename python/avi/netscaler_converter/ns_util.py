@@ -559,11 +559,18 @@ def get_object_ref(object_name, object_type, tenant=None, cloud_name=None):
     :param cloud_name: Name of cloud
     :return: Return generated object ref
     """
-    
+
+    cloud_supported_types = ['pool', 'poolgroup']
+    if not cloud_name:
+        cloud_name = "Default-Cloud"
+
     if object_type == 'tenant':
         ref = '/api/tenant/?name=%s' % object_name
     elif object_type == 'cloud':
-        ref = '/api/cloud/?name=%s' % object_name
+        ref = '/api/cloud/?tenant=admin&name=%s' % object_name
+    elif object_type in cloud_supported_types:
+        ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (object_type, tenant,
+                                                       object_name, cloud_name)
     else:
         ref = '/api/%s/?tenant=%s&name=%s' % (object_type, tenant, object_name)
     # if cloud_name:

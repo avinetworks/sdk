@@ -4,6 +4,7 @@ This file is used to convert the policies.
 import logging
 import re
 import copy
+import random
 import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter import ns_util
@@ -50,7 +51,6 @@ class PolicyConverter(object):
         :param netscalar_command: netscalar command
         :return: Http policy set object
         """
-
         policy_lables = ns_config.get('bind cs policylabel', {})
         policy_config = ns_config.get('add cs policy', {})
         responder_policy_config = ns_config.get('add responder policy', {})
@@ -270,7 +270,6 @@ class PolicyConverter(object):
         :param targetLBVserver: name tarhet lb vserver
         :return:  http policy rule
         """
-
         netscalar_command = None
         rule_name = policy['attrs'][0]
         ns_rule = policy.get('rule', None)
@@ -339,7 +338,8 @@ class PolicyConverter(object):
 
         if policy_type == 'cs':
             cs_action, redirect_uri = self.get_cs_policy_action(
-                name, targetLBVserver, redirect_pools, avi_config, tmp_pool_ref)
+                name, targetLBVserver, redirect_pools,
+                avi_config, tmp_pool_ref)
             if cs_action:
                 if redirect_uri:
                     policy_rules['redirect_action'] = cs_action
@@ -799,8 +799,10 @@ class PolicyConverter(object):
             pool_group_ref = re.sub('[:]', '-', pool_group_ref)
             pool_group = [pg for pg in avi_config['PoolGroup']
                           if pg['name'] == pool_group_ref]
+            index = int(random.random() * 10000)
             if pool_group and pool_group_ref in tmp_pool_ref:
-                pool_group_ref = ns_util.clone_pool_group(pool_group_ref, name,
+                pool_group_ref = ns_util.clone_pool_group(pool_group_ref,
+                                                          name + '-%s-' % index,
                                                           avi_config,
                                                           self.tenant_name,
                                                           self.cloud_name)
