@@ -95,6 +95,8 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--password',
                         help='controller password for auto upload',
                         default='avi123')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
     parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
                         default='admin')
     parser.add_argument('-c', '--controller_ip',
@@ -188,8 +190,8 @@ if __name__ == "__main__":
     dict_merge(f5_defaults_dict, f5_config_dict)
     f5_config_dict = f5_defaults_dict
     avi_config_dict = f5_config_converter.\
-        convert(f5_config_dict, output_dir, args.vs_state,
-                input_dir, args.f5_config_version, user_ignore, tenant)
+        convert(f5_config_dict, output_dir, args.vs_state, input_dir,
+                args.f5_config_version, user_ignore, tenant, args.cloud_name)
 
     avi_config_dict["META"] = {
         "supported_migrations": {
