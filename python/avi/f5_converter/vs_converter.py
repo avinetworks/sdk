@@ -193,7 +193,7 @@ class VSConfigConv(object):
         }
 
         if 'rules' in f5_vs:
-            if isinstance(f5_vs['rules'], str):
+            if isinstance(f5_vs['rules'], basestring):
                 rules = [f5_vs['rules']]
             else:
                 rules = f5_vs['rules'].keys()
