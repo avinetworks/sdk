@@ -13,7 +13,7 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            user_ignore={}, tenant='admin'):
+            user_ignore={}, tenant='admin', cloud_name='Default-Cloud'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -24,6 +24,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param input_dir: Location of cert and external monitor script files
     :param version: Version of F5 config
     :param user_ignore: Ignore config defined by user
+    :param tenant: Tenant for which config need to be converted
+    :param cloud_name: cloud for which config need to be converted
     :return: Converted avi objects
     """
 
@@ -33,26 +35,32 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     avi_config_dict = {}
     try:
         mon_conv = MonitorConfigConv.get_instance(version)
-        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore, tenant)
+        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
+                         tenant)
 
         pool_conv = PoolConfigConv.get_instance(version)
-        pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
+        pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
+                          cloud_name)
 
         profile_conv = ProfileConfigConv.get_instance(version)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore, tenant)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
+                             tenant)
 
         persist_conv = PersistenceConfigConv.get_instance(version)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
         vs_conv = VSConfigConv.get_instance(version)
-        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore, tenant)
+        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
+                        tenant, cloud_name)
 
         conv_utils.cleanup_config(avi_config_dict)
 
         for key in avi_config_dict:
             if key != 'META':
-                LOG.info('Total Objects of %s : %s' % (key, len(avi_config_dict[key])))
-                print 'Total Objects of %s : %s' % (key, len(avi_config_dict[key]))
+                LOG.info('Total Objects of %s : %s' % (key, len(
+                    avi_config_dict[key])))
+                print 'Total Objects of %s : %s' % (key, len(
+                    avi_config_dict[key]))
 
     except:
         LOG.error("Conversion error", exc_info=True)
