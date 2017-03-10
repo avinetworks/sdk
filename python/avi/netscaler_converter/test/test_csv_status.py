@@ -3,6 +3,7 @@ import os
 import unittest
 import json
 import csv
+from testconfig import config
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
@@ -17,16 +18,13 @@ def init_logger_path(path):
     logging.basicConfig(filename=os.path.join(path, 'test.log'),
                         level=logging.DEBUG, format=formatter)
 
-def setUpModule():
+def setUp():
     global csv_reader
     global aviconfig
-
     LOG.setLevel(logging.DEBUG)
-    path = "test_output"
-    if not os.path.exists(path):
-        os.mkdir(path)
-    csv_file = open('../output/ConversionStatus.csv', 'r')
-    output_file = open('../output/Output.json', 'r')
+    output_dir = config['netscaler_test_config']['output_dir']
+    csv_file = open('%s/ConversionStatus.csv' % output_dir, 'r')
+    output_file = open('%s/Output.json' % output_dir, 'r')
     csv_reader = csv.DictReader(csv_file, )
     output_data = output_file.read()
     aviconfig = json.loads(output_data)
@@ -34,15 +32,12 @@ def setUpModule():
 
 class TestCSV(unittest.TestCase):
 
-
     def test_csv_skipped_status_report(self):
         """
         This functions defines that verify skipped netscaler commands have
         the reasons
         :return: None
         """
-
-        setUpModule()
         skipped_rows = [row for row in csv_reader
                         if row['Status'] == STATUS_SKIPPED and
                         row['AVI Object'] == '']
@@ -58,7 +53,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'add lb monitor']
@@ -77,7 +71,7 @@ class TestCSV(unittest.TestCase):
         object
         :return: None
         """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'add cs vserver']
@@ -97,7 +91,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'add service']
@@ -117,7 +110,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'add serviceGroup']
@@ -137,7 +129,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'set lb group']
@@ -157,7 +148,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'bind lb vserver']
@@ -176,7 +166,7 @@ class TestCSV(unittest.TestCase):
         object
         :return: None
         """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'set ssl serviceGroup']
@@ -195,7 +185,7 @@ class TestCSV(unittest.TestCase):
        object
        :return: None
        """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'set ssl service']
@@ -216,7 +206,7 @@ class TestCSV(unittest.TestCase):
        object
        :return: None
        """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_SUCCESSFUL and
                            row['Netscaler Command'] == 'set ssl vserver']
@@ -239,7 +229,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'add lb monitor']
@@ -255,14 +244,14 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_add_cs_vserver(self):
+    def test_csv_partial_status_add_cs_vserver(self):
         """
         This function defines that verify all add cs vserver netscaler commands
         which are successful those VS should be created from avi
         object
         :return: None
         """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'add cs vserver']
@@ -279,7 +268,7 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_add_service(self):
+    def test_csv_partial_status_add_service(self):
         """
         This function defines that verify all add service netscaler commands
         which are successful those pool should be created from avi
@@ -287,7 +276,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'add service']
@@ -304,7 +292,7 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_add_service_group(self):
+    def test_csv_partial_status_add_service_group(self):
         """
         This function defines that verify all add serviceGroup netscaler commands
         which are successful those pool should be created from avi
@@ -312,7 +300,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'add serviceGroup']
@@ -329,7 +316,7 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_set_lb_group(self):
+    def test_csv_partial_status_set_lb_group(self):
         """
         This function defines that verify all set lb group netscaler commands
         which are successful those ssl profile should be created from avi
@@ -337,7 +324,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'set lb group']
@@ -355,7 +341,7 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_bind_lb_vserver(self):
+    def test_csv_partial_status_bind_lb_vserver(self):
         """
         This function defines that verify all bind lb vserver netscaler commands
         which are successful those pool should be created from avi
@@ -363,7 +349,6 @@ class TestCSV(unittest.TestCase):
         :return: None
         """
 
-        setUpModule()
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'bind lb vserver']
@@ -380,14 +365,14 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_set_ssl_service_group(self):
+    def test_csv_partial_status_set_ssl_service_group(self):
         """
         This function defines that verify all set ssl service group netscaler commands
         which are successful those ssl profile should be created from avi
         object
         :return: None
         """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'set ssl serviceGroup']
@@ -406,14 +391,14 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_set_ssl_service(self):
+    def test_csv_partial_status_set_ssl_service(self):
         """
        This function defines that verify all set ssl service netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
        """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'set ssl service']
@@ -432,14 +417,14 @@ class TestCSV(unittest.TestCase):
                 self.assertIn(skipped_attribute, row['Full Command'])
 
 
-    def test_csv_partia_status_set_ssl_vserver(self):
+    def test_csv_partial_status_set_ssl_vserver(self):
         """
        This function defines that verify all set ssl vserver netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
        """
-        setUpModule()
+
         successful_rows = [row for row in csv_reader
                            if row['Status'] == STATUS_PARTIAL and
                            row['Netscaler Command'] == 'set ssl vserver']
@@ -465,6 +450,7 @@ class TestCSV(unittest.TestCase):
         :param avi_string: string to be converted
         :return: Return converted string
         """
+
         repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
                 ("None", "null")
         avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
@@ -478,9 +464,11 @@ class TestCSV(unittest.TestCase):
         :param avi_string: string to be converted
         :return: Return converted string
         """
+
         repls = ('[', ''), (']', ''), ("'", "")
         avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
         return avi_string.split(',')
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestCSV)
-unittest.TextTestRunner(verbosity=2).run(suite)
+
+if __name__ == '__main__':
+    unittest.main()
