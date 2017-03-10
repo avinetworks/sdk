@@ -3,7 +3,6 @@ import argparse
 import logging
 import os
 import json
-
 import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
 from avi.netscaler_converter import upload_config
@@ -57,9 +56,10 @@ if __name__ == "__main__":
     parser.add_argument('--ns_key_file',
                         help='Netscaler host key file location if key based ' +
                              'authentication')
+    parser.add_argument('--ns_passphrase_file',
+                        help='Netscaler key passphrase yaml file')
 
     args = parser.parse_args()
-
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     init_logger_path(args.output_file_path)
@@ -87,13 +87,13 @@ if __name__ == "__main__":
         source_file = input_dir + os.path.sep + "ns.conf"
     else:
         source_file = args.ns_config_file
-
     ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
     avi_config = ns_conf_converter.convert(ns_config, args.tenant,
                                            args.cloud_name,
                                            args.controller_version, output_dir,
                                            input_dir, skipped_cmds,
-                                           args.vs_state)
+                                           args.vs_state,
+                                           args.ns_passphrase_file)
 
     if args.option == "cli-upload":
         text_file = open(output_dir + os.path.sep + "Output.json", "w")

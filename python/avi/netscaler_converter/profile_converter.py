@@ -2,6 +2,7 @@ import logging
 import avi.netscaler_converter.ns_util as ns_util
 import os
 import re
+import yaml
 import avi.netscaler_converter.ns_constants as ns_constants
 
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
@@ -16,7 +17,8 @@ tmp_ssl_key_and_cert_list = []
 tmp_pki_profile_list = []
 class ProfileConverter(object):
 
-    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
+                 keypassphrase=None):
         
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
@@ -67,7 +69,10 @@ class ProfileConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
-
+        # list of keys with passphrase provided in YAML.
+        self.netscalar_passphrase_keys = None
+        if keypassphrase:
+            self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
 
     def convert(self, ns_config, avi_config, input_dir):
         """
@@ -374,6 +379,7 @@ class ProfileConverter(object):
         obj = dict()
         ciphers = []
         for mapping in ssl_mappings:
+            key_passphrase = None
             output = None
             bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd,
                                                                    mapping)
@@ -483,6 +489,10 @@ class ProfileConverter(object):
                     name = key_cert['attrs'][0] + '-dummy'
                 else:
                     name = key_cert['attrs'][0]
+                    # Get the key passphrase for key_file
+                    if self.netscalar_passphrase_keys:
+                        key_passphrase = self.netscalar_passphrase_keys.get\
+                            (key_file_name, None)
                 # Skipped this certificate if already exist
                 if name in tmp_ssl_key_and_cert_list:
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
@@ -504,10 +514,12 @@ class ProfileConverter(object):
                         'name': name,
                         'key': key,
                         'certificate': cert,
-                        'key_passphrase': '',
                         'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE',
                         'tenant_ref': self.tenant_ref
                     }
+                    # set the key passphrase for ssl key and certificate object
+                    if key_passphrase:
+                        ssl_kc_obj['key_passphrase'] = key_passphrase
                     tmp_ssl_key_and_cert_list.append(name)
                     obj['cert'] = ssl_kc_obj
                     output = ssl_kc_obj
