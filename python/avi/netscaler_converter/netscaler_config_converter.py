@@ -13,7 +13,7 @@ from avi.netscaler_converter.lbvs_converter import tmp_avi_config
 
 
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
-            input_dir, skipped_cmds, vs_state):
+            input_dir, skipped_cmds, vs_state, key_passphrase=None):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -64,7 +64,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         monitor_converter.convert(ns_config_dict, avi_config, input_dir)
 
         profile_converter = ProfileConverter(tenant_name, cloud_name,tenant_ref,
-                                             cloud_ref)
+                                             cloud_ref, key_passphrase)
         profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
         service_converter = ServiceConverter(tenant_name, cloud_name,tenant_ref,
