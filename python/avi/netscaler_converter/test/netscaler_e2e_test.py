@@ -97,3 +97,7 @@ if __name__ == "__main__":
     # Run test complete vs configuration test suite
     os.system("nosetests test/test_complete_vs_configuration.py -s --with-html "
               "--html-report=test/vs_config_output.html")
+
+    # Run test refernces vs test suite
+    os.system("nosetests test/test_vs_references.py -s --with-html "
+              "--html-report=test/vs_references_output.html")
