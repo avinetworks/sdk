@@ -1,8 +1,9 @@
 import os
+
 from ConfigParser import ConfigParser
 
 
-def set_output_dir_in_test_config_ini(ini_file, output_dir):
+def set_output_dir_in_test_config_ini(ini_file, section, output_dir):
     """
     Parse and collapse a ConfigParser-Style ini file into a nested,
     eval'ing the individual values, as they are assumed to be valid
@@ -15,10 +16,10 @@ def set_output_dir_in_test_config_ini(ini_file, output_dir):
     ini_config = ConfigParser()
     ini_config.read(ini_file)
     try:
-        ini_config.add_section('netscaler_test_config')
+        ini_config.add_section(section)
     except:
         pass
-    ini_config.set('netscaler_test_config', 'output_dir', output_dir)
+    ini_config.set(section, 'output_dir', output_dir)
 
     with open(ini_file, 'w') as configfile:  # save
         ini_config.write(configfile)
@@ -72,8 +73,24 @@ if __name__ == "__main__":
         test_report_location = '%s/log_test_csv_status.html' % output_dir
         # Set the output directory location in INI file which will be read by
         # test config
-        set_output_dir_in_test_config_ini(test_config_ini_path, output_dir)
+        set_output_dir_in_test_config_ini(test_config_ini_path,
+                                          'netscaler_test_config', output_dir)
         # Run test csv status test suite
         os.system("nosetests test/test_csv_status.py -s --tc-file=%s "
+                  "--with-html --html-report=%s" % (test_config_ini_path,
+                                                    test_report_location))
+
+    # Get the upload inputs from INI file
+    upload_inputs = ini_config.get('netscaler_e2e_config', 'upload_inputs')
+    # Test upload output config on controller
+    for input in upload_inputs.split(','):
+        output_dir = os.path.abspath(output_dir_path + '/' + input + '-output')
+        output_dir += '/output'
+        set_output_dir_in_test_config_ini(test_config_ini_path, 'upload_config',
+                                          output_dir)
+
+        test_report_location = '%s/log_test_upload.html' % output_dir
+        # Run test_upload_output test suite
+        os.system("nosetests test/test_upload_output.py -s --tc-file=%s "
                   "--with-html --html-report=%s" % (test_config_ini_path,
                                                     test_report_location))
