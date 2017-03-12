@@ -96,4 +96,4 @@ if __name__ == "__main__":
                                                     test_report_location))
     # Run test complete vs configuration test suite
     os.system("nosetests test/test_complete_vs_configuration.py -s --with-html "
-              "--html-report=test/output.html")
+              "--html-report=test/vs_config_output.html")

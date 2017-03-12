@@ -110,3 +110,6 @@ class VSConfig(unittest.TestCase):
             self.assertListEqual(cfg_pool['health_monitor_refs'],
                                  avi_config_pool[0]['health_monitor_refs'])
 
+
+if __name__ == '__main__':
+    unittest.main()
