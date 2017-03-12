@@ -45,6 +45,7 @@ if __name__ == "__main__":
     # Get the list of files from input folder
     input_files = [config_file for config_file in os.listdir(input_path)
                    if os.path.isfile(os.path.join(input_path, config_file))]
+
     for input in input_files:
         # Set the input file to convert
         input_file = os.path.abspath(input_path + '/' + input)
@@ -68,7 +69,7 @@ if __name__ == "__main__":
         # Start execution of netscaler_converter.py
         os.system(run_script)
         # Location path for html log report
-        test_report_location = '%s/log.html' % output_dir
+        test_report_location = '%s/log_test_csv_status.html' % output_dir
         # Set the output directory location in INI file which will be read by
         # test config
         set_output_dir_in_test_config_ini(test_config_ini_path, output_dir)
