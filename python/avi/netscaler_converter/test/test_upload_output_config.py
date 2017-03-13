@@ -61,6 +61,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(pool_group_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == pool_group['name'])
 
     def test_upload_http_policy_set_on_controller(self):
         http_policy_sets = avi_config['HTTPPolicySet']
@@ -74,6 +75,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(http_policy_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == http_policy_set['name'])
 
     def test_upload_ssl_profile_on_controller(self):
         ssl_profiles = avi_config['SSLProfile']
@@ -87,6 +89,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(ssl_profiles_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == ssl_profile['name'])
 
     def test_upload_ssl_key_and_certificate_on_controller(self):
         ssl_key_and_certificates = avi_config['SSLKeyAndCertificate']
@@ -101,6 +104,8 @@ class TestUploadConfig(unittest.TestCase):
                                            controller_ip, user_name, password,
                                            tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(
+                jsondata['name'] == ssl_key_and_certificate['name'])
 
     def test_upload_network_profile_on_controller(self):
         network_profiles = avi_config['NetworkProfile']
@@ -114,6 +119,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(network_profile_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == network_profile['name'])
 
     def test_upload_application_profile_on_controller(self):
         application_profiles = avi_config['ApplicationProfile']
@@ -128,6 +134,7 @@ class TestUploadConfig(unittest.TestCase):
                                            controller_ip, user_name, password,
                                            tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == application_profile['name'])
 
     def test_upload_health_monitor_on_controller(self):
         health_monitors = avi_config['HealthMonitor']
@@ -141,6 +148,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(health_monitor_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == health_monitor['name'])
 
     def test_upload_virtual_service_on_controller(self):
         virtual_services = avi_config['VirtualService']
@@ -154,6 +162,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(virtual_service_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == virtual_service['name'])
 
     def test_upload_string_group_on_controller(self):
         string_groups = avi_config['PoolGroup']
@@ -167,6 +176,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(string_group_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == string_group['name'])
 
     def test_upload_application_persistence_profile_on_controller(self):
         application_persistence_profiles = avi_config['PoolGroup']
@@ -181,6 +191,8 @@ class TestUploadConfig(unittest.TestCase):
                                            controller_ip, user_name, password,
                                            tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(
+                jsondata['name'] == application_persistence_profile['name'])
 
     def test_upload_pool_on_controller(self):
         pools = avi_config['PoolGroup']
@@ -193,6 +205,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(pool_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == pool['name'])
 
     def test_upload_pki_profile_on_controller(self):
         pki_profiles = avi_config['PoolGroup']
@@ -206,6 +219,7 @@ class TestUploadConfig(unittest.TestCase):
                 get_object_from_controller(pki_profile_ref, controller_ip,
                                            user_name, password, tenant)
             self.assertTrue(int(status_code) < 299)
+            self.assertEqual(jsondata['name'] == pki_profile['name'])
 
 
 if __name__ == '__main__':
