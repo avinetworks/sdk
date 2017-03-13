@@ -29,6 +29,8 @@ OBJECT_TYPE_PKI_PROFILE = 'pkiprofile'
 OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE = 'sslkeyandcertificate'
 OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
 OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
+OBJECT_TYPE_VIRTUAL_SERVICE = 'virtualservice'
+OBJECT_TYPE_STRING_GROUP = 'stringgroup'
 
 # Regex for IPV6
 IPV6_Address = re.compile('^(?:(?:[0-9A-Fa-f]{1,4}:){6}'
