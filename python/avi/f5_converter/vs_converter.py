@@ -64,6 +64,8 @@ class VSConfigConv(object):
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
+        if tenant == 'CTO':
+            print vs_name, tenant
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         hash_profiles = avi_config.get('hash_algorithm', [])
@@ -123,7 +125,6 @@ class VSConfigConv(object):
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
             conv_utils.add_vrf(avi_config, vrf)
-        p_tenant = None
         pool_ref = f5_vs.get("pool", None)
         is_pool_group = False
         if pool_ref:
@@ -196,8 +197,7 @@ class VSConfigConv(object):
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
             'services': services_obj,
-            'application_profile_ref': conv_utils.get_object_ref(
-                app_prof[0], 'applicationprofile', tenant=tenant),
+            'application_profile_ref': app_prof[0],
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
@@ -247,7 +247,7 @@ class VSConfigConv(object):
                 mask = parts[1]
             policy_name = ('vs-%s-ns' % vs_name)
             policy = conv_utils.create_network_security_rule(
-                policy_name, parts[0], mask)
+                policy_name, parts[0], mask, tenant)
             avi_config['NetworkSecurityPolicy'].append(policy)
             vs_obj['network_security_policy_ref'] = conv_utils.get_object_ref(
                 policy_name, 'networksecuritypolicy', tenant=tenant)
@@ -273,27 +273,22 @@ class VSConfigConv(object):
             conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                        conv_status, message)
         if ntwk_prof:
-            vs_obj['network_profile_ref'] = conv_utils.get_object_ref(
-                ntwk_prof[0], 'networkprofile', tenant=tenant)
+            vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
-            vs_obj['ssl_profile_name'] = conv_utils.get_object_ref(
-                ssl_vs[0]["profile"], 'sslprofile', tenant=tenant)
+            vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
-                vs_obj['ssl_key_and_certificate_refs'] = [
-                    conv_utils.get_object_ref(
-                        ssl_vs[0]["cert"], 'sslkeyandcertificate',
-                        tenant=tenant)]
+                vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
                 app_profiles = [obj for obj in
                                 avi_config["ApplicationProfile"]
-                                if obj['name'] == app_prof[0]]
+                                if obj['name'] ==
+                                conv_utils.get_name_from_ref(app_prof[0])]
                 if app_profiles[0]["type"] == \
                         'APPLICATION_PROFILE_TYPE_HTTP':
                     app_profiles[0]["http_profile"][
                         "ssl_client_certificate_mode"] = ssl_vs[0]["mode"]
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
-                        conv_utils.get_object_ref(
-                            ssl_vs[0]["pki"], 'pkiprofile', tenant=tenant)
+                        ssl_vs[0]["pki"]
 
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]

@@ -395,6 +395,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile['secure_cookie_enabled'] = encpt_cookie
             http_profile['xff_enabled'] = xff_enabled
             http_profile['connection_multiplexing_enabled'] = con_mltplxng
+            http_profile['ssl_client_certificate_mode'] = \
+                'SSL_CLIENT_CERTIFICATE_NONE'
 
             enforcement = profile.get('enforcement', None)
             if enforcement:
@@ -514,6 +516,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     include_uri.remove(None)
                 cache_config['mime_types_list'] = include_uri
             http_profile = dict()
+            http_profile['ssl_client_certificate_mode'] = \
+                'SSL_CLIENT_CERTIFICATE_NONE'
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
 
@@ -547,6 +551,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
             ct_exclude = profile.get("content-type-exclude", "")
             ct_exclude = None if ct_exclude == 'none' else ct_exclude
             http_profile = dict()
+            http_profile['ssl_client_certificate_mode'] = \
+                'SSL_CLIENT_CERTIFICATE_NONE'
             if content_type:
                 content_type = content_type.keys()+content_type.values()
             elif ct_exclude:
@@ -636,6 +642,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
             app_profile['description'] = profile.get('description', None)
             http_profile = dict()
+            http_profile['ssl_client_certificate_mode'] = \
+                'SSL_CLIENT_CERTIFICATE_NONE'
             insert_xff = profile.get('insert-xforwarded-for', 'disabled')
             insert_xff = True if insert_xff == 'enabled' else False
             http_profile['x_forwarded_proto_enabled'] = insert_xff
