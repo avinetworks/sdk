@@ -8,9 +8,9 @@ import sys
 from requests.packages import urllib3
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
-from avi.f5_converter import SDK_VERSION
+from avi.f5_converter import __version__
 
-urllib3.disable_warnings()
+# urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 
 
@@ -121,8 +121,15 @@ if __name__ == "__main__":
                         help='config json to skip the config in conversion')
     parser.add_argument('--partition_config',
                         help='comma separated partition config files')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
 
     args = parser.parse_args()
+    # print avi f5 converter version
+    if args.version:
+        print __version__
+        exit(0)
     tenant = args.tenant
     init_logger_path(args.output_file_path)
     if not os.path.exists(args.output_file_path):
@@ -147,9 +154,9 @@ if __name__ == "__main__":
         user_ignore = json.loads(ignore_conf_str)
 
     partitions = []
-    # Add logger and print sdk version
-    LOG.info('AVI sdk version: %s' % SDK_VERSION)
-    print 'AVI sdk version: %s' % SDK_VERSION
+    # Add logger and print avi f5 converter version
+    LOG.info('AVI sdk version: %s' % __version__)
+    print 'AVI sdk version: %s' % __version__
 
     if args.partition_config:
         partitions = args.partition_config.split(',')
