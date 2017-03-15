@@ -8,6 +8,7 @@ import sys
 from requests.packages import urllib3
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
+from avi.f5_converter import SDK_VERSION
 
 urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -146,8 +147,10 @@ if __name__ == "__main__":
         user_ignore = json.loads(ignore_conf_str)
 
     partitions = []
-    #LOG.info('Avi Build version : %s' % AVI_VERSION)
-    #LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
+    # Add logger and print sdk version
+    LOG.info('AVI sdk version: %s' % SDK_VERSION)
+    print 'AVI sdk version: %s' % SDK_VERSION
+
     if args.partition_config:
         partitions = args.partition_config.split(',')
 
