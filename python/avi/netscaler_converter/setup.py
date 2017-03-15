@@ -1,13 +1,13 @@
 import os
 from setuptools import setup, find_packages
+from avi.netscaler_converter import __version__
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
-AVI_PIP_VERSION=''
 
 setup(
     name='avinetscalerconverter',
-    version=AVI_PIP_VERSION,
+    version=__version__,
     packages=find_packages(exclude=['*sdk*', '*f5_converter*']),
     description='Avi Netscaler Converter.',
     url='http://avinetworks.com/',

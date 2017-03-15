@@ -5,8 +5,10 @@ import os
 import json
 import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
-from avi.netscaler_converter import upload_config
 import avi.netscaler_converter.scp_util as scp_util
+
+from avi.netscaler_converter import upload_config
+from avi.netscaler_converter import __version__
 
 LOG = logging.getLogger(__name__)
 
@@ -58,8 +60,17 @@ if __name__ == "__main__":
                              'authentication')
     parser.add_argument('--ns_passphrase_file',
                         help='Netscaler key passphrase yaml file')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
 
     args = parser.parse_args()
+
+    # print avi netscaler converter version
+    if args.version:
+        print __version__
+        exit(0)
+
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
     init_logger_path(args.output_file_path)
@@ -77,8 +88,10 @@ if __name__ == "__main__":
             os.makedirs(output_dir)
         is_download_from_host = True
 
-    # LOG.info('Avi Build version : %s' % AVI_VERSION)
-    # LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
+    # Add logger and print avi netscaler converter version
+    LOG.info('AVI sdk version: %s' % __version__)
+    print 'AVI sdk version: %s' % __version__
+
     if is_download_from_host:
         LOG.debug("Copying files from host")
         scp_util.get_files_from_ns(input_dir, args.ns_host_ip,

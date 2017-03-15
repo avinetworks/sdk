@@ -20,7 +20,7 @@ tmp_pki_profile_list = []
 class ProfileConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 keypassphrase=None):
+                 ssl_ciphers_yaml, keypassphrase=None):
         
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
@@ -71,8 +71,15 @@ class ProfileConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        # ssl cipher yaml
+        ssl_ciphers_dict = yaml.safe_load(open(ssl_ciphers_yaml))
+        self.netscaler_ssl_cipher_to_open_ssl_cipher = ssl_ciphers_dict.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
+        self.open_ssl_cipher_to_avi_ssl_cipher = ssl_ciphers_dict.get(
+            'open_ssl_cipher_to_avi_ssl_cipher', {})
         # list of keys with passphrase provided in YAML.
         self.netscalar_passphrase_keys = None
+
+
         if keypassphrase:
             self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
 
@@ -243,8 +250,8 @@ class ProfileConverter(object):
                                     bind_ssl_service_command)
             if obj.get('accepted_ciphers', None):
                 # Todo supported only valid ciphers
-                ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
-                # ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
+                ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
+                # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
@@ -611,17 +618,32 @@ class ProfileConverter(object):
             full_bind_ssl_cipher_command = ns_util.\
                 get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
-                avi_cipher = {'accepted_ciphers': bind_cipher['cipherName']}
-                ciphers.append(bind_cipher['cipherName'])
-                LOG.info('Conversion successful: %s' %
-                         full_bind_ssl_cipher_command)
-                # Add Successful status in CSV/report for add ssl cipher
-                ns_util.add_status_row(bind_cipher['line_no'],
-                                       bind_ssl_cipher_command, cipher,
-                                       full_bind_ssl_cipher_command,
-                                       STATUS_SUCCESSFUL, avi_cipher)
+                avi_ssl_cipher = None
+                open_ssl_cipher = self.netscaler_ssl_cipher_to_open_ssl_cipher.get(bind_cipher['cipherName'], None)
+                if open_ssl_cipher:
+                    avi_ssl_cipher = self.open_ssl_cipher_to_avi_ssl_cipher.get(open_ssl_cipher, None)
+                if avi_ssl_cipher:
+                    avi_cipher = {'accepted_ciphers': avi_ssl_cipher}
+                    ciphers.append(avi_ssl_cipher)
+                    LOG.info('Conversion successful: %s' %
+                             full_bind_ssl_cipher_command)
+                    # Add Successful status in CSV/report for add ssl cipher
+                    ns_util.add_status_row(bind_cipher['line_no'],
+                                           bind_ssl_cipher_command, cipher,
+                                           full_bind_ssl_cipher_command,
+                                           STATUS_SUCCESSFUL, avi_cipher)
+                else:
+                    skipped_status = 'Skipped: Cipher not match in avi: %s' \
+                                     % full_bind_ssl_cipher_command
+                    LOG.warning(skipped_status)
+                    # Add skipped status in CSV/report for add ssl cipher
+                    ns_util.add_status_row(bind_cipher['line_no'],
+                                           bind_ssl_cipher_command, cipher,
+                                           full_bind_ssl_cipher_command,
+                                           STATUS_SKIPPED, skipped_status)
+
             else:
-                skipped_status = 'Skipped:Does not get any ciphers: %s' \
+                skipped_status = 'Skipped: Does not get any ciphers: %s' \
                                  % full_bind_ssl_cipher_command
                 LOG.warning(skipped_status)
                 # Add skipped status in CSV/report for add ssl cipher
