@@ -156,6 +156,7 @@ class ProfileConfigConv(object):
                 ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
                 'key_cert', converted_objs, name, default_profile_name)
 
+
 class ProfileConfigConvV11(ProfileConfigConv):
     supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
                        "web-acceleration", "http-compression", "fastl4", "tcp",
@@ -166,7 +167,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
     na_ssl = ['secure-renegotiation', 'cache-size', 'cache-timeout',
               'renegotiate-size', 'renegotiate-max-record-delay',
               'strict-resume', 'renegotiate-period']
-    indirect_ssl =['renegotiate', 'session-mirroring', 'chain']
+    indirect_ssl = ['renegotiate', 'session-mirroring', 'chain']
     supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
                      'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from',
                      'peer-cert-mode']
@@ -229,9 +230,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     'syn-cookie-whitelist', 'max-segment-size',  'mptcp-csum',
                     'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
                     'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
-                    'mptcp-makeafterbreak', 'mptcp-nojoindssack',
-                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout', 'send-buffer-size',
-                    'proxy-buffer-high', 'proxy-buffer-low', 'dsack',
+                    'mptcp-makeafterbreak', 'mptcp-nojoindssack', 'dsack',
+                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout',
+                    'send-buffer-size', 'proxy-buffer-high', 'proxy-buffer-low',
                     'delayed-acks', 'selective-nack', 'early-retransmit']
     na_tcp = ['hardware-syn-cookie']
     supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
@@ -287,9 +288,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 cert_file = None if cert_file == 'none' else cert_file
                 key_file = None if key_file == 'none' else key_file
 
-            parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
-                                           avi_config, converted_objs, default_profile_name,
-                                           key_and_cert_mapping_list)
+            parent_cls.update_key_cert_obj(
+                name, key_file, cert_file, input_dir, tenant_ref, avi_config,
+                converted_objs, default_profile_name, key_and_cert_mapping_list)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
             # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
@@ -395,9 +396,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile['secure_cookie_enabled'] = encpt_cookie
             http_profile['xff_enabled'] = xff_enabled
             http_profile['connection_multiplexing_enabled'] = con_mltplxng
-            http_profile['ssl_client_certificate_mode'] = \
-                'SSL_CLIENT_CERTIFICATE_NONE'
-
             enforcement = profile.get('enforcement', None)
             if enforcement:
                 header_size = enforcement.get('max-header-size',
@@ -440,7 +438,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     "is_internal_policy": False
                 }
                 policy['tenant_ref'] = conv_utils.get_object_ref(
-                tenant, 'tenant')
+                    tenant, 'tenant')
                 avi_config['HTTPPolicySet'].append(policy)
                 app_profile["HTTPPolicySet"] = policy_name
                 converted_objs.append({'policy_set': policy})
@@ -516,8 +514,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     include_uri.remove(None)
                 cache_config['mime_types_list'] = include_uri
             http_profile = dict()
-            http_profile['ssl_client_certificate_mode'] = \
-                'SSL_CLIENT_CERTIFICATE_NONE'
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
 
@@ -551,8 +547,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             ct_exclude = profile.get("content-type-exclude", "")
             ct_exclude = None if ct_exclude == 'none' else ct_exclude
             http_profile = dict()
-            http_profile['ssl_client_certificate_mode'] = \
-                'SSL_CLIENT_CERTIFICATE_NONE'
             if content_type:
                 content_type = content_type.keys()+content_type.values()
             elif ct_exclude:
@@ -642,8 +636,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
             app_profile['description'] = profile.get('description', None)
             http_profile = dict()
-            http_profile['ssl_client_certificate_mode'] = \
-                'SSL_CLIENT_CERTIFICATE_NONE'
             insert_xff = profile.get('insert-xforwarded-for', 'disabled')
             insert_xff = True if insert_xff == 'enabled' else False
             http_profile['x_forwarded_proto_enabled'] = insert_xff
@@ -797,7 +789,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
     na_ssl = ['secure renegotiation', 'cache size', 'cache timeout',
               'renegotiate size', 'renegotiate max record delay',
               'strict resume', 'renegotiate period']
-    indirect_ssl =['renegotiate', 'session mirroring', 'chain']
+    indirect_ssl = ['renegotiate', 'session mirroring', 'chain']
     ignore_for_defaults = {'app service': 'none', 'uri exclude': 'none'}
     na_http = ['lws width']
     supported_http = ["insert xforwarded for", "xff alternative names",
@@ -831,7 +823,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                      "time wait recycle", "time wait", "congestion control",
                      "recv window", "max retrans", "defaults from"]
     indirect_tcp = ["reset on timeout", "slow start", "send buffer",
-                    "proxy buffer high" , "proxy buffer low" , "dsack",
+                    "proxy buffer high", "proxy buffer low", "dsack",
                     "delayed acks", "selective acks"]
 
     supported_udp = ["idle timeout", "datagram lb", "defaults from"]
@@ -863,7 +855,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
             u_ignore += user_ignore.get('serverssl', [])
             na_list = self.na_ssl
             indirect = self.indirect_ssl
-            key_cert_obj = None
             original_prof = profile_config.get('%s %s' % (profile_type, name),
                                                None)
             inherit_key = original_prof.get('inherit-certkeychain', 'true')
@@ -878,9 +869,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 key_file = key_file.replace('\"', '')
                 cert_file = cert_file.replace('\"', '')
 
-            parent_cls.update_key_cert_obj(name, key_file, cert_file, input_dir, tenant_ref,
-                                           avi_config, converted_objs, default_profile_name,
-                                           key_and_cert_mapping_list)
+            parent_cls.update_key_cert_obj(
+                name, key_file, cert_file, input_dir, tenant_ref, avi_config,
+                converted_objs, default_profile_name, key_and_cert_mapping_list)
 
             # ciphers = ciphers.replace('\"', '')
             # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
@@ -938,7 +929,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     pc_mode = 'SSL_CLIENT_CERTIFICATE_REQUIRE'
                 pki_profile['mode'] = pc_mode
                 pki_profile['tenant_ref'] = conv_utils.get_object_ref(
-                tenant, 'tenant')
+                    tenant, 'tenant')
                 error = False
                 ca = conv_utils.upload_file(file_path)
                 if ca:
@@ -992,8 +983,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             sw_syn_protection = (profile.get("software syncookie",
                                              None) == 'enabled')
 
-            syn_protection = (profile.get("software syncookie", None) ==
-                              'enabled')
+            syn_protection = (hw_syn_protection or sw_syn_protection)
 
             description = profile.get('description', None)
             timeout = profile.get("idle timeout", final.MIN_SESSION_TIMEOUT)
