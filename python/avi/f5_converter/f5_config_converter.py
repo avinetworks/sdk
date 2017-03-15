@@ -64,12 +64,16 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
     except:
         LOG.error("Conversion error", exc_info=True)
+    datascript_objs = ['data-group']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
             sub_type = None
             if ' ' in key:
                 sub_type, key = key.rsplit(' ', 1)
-            conv_utils.add_status_row(f5_type, sub_type, key, 'skipped')
+            if f5_type in datascript_objs:
+                conv_utils.add_status_row(f5_type, sub_type, key, 'datascript')
+            else:
+                conv_utils.add_status_row(f5_type, sub_type, key, 'skipped')
     csv_file.close()
     return avi_config_dict
