@@ -406,7 +406,7 @@ class LbvsConverter(object):
                                         OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                         self.tenant_name)
                                 vs_obj[avi_ssl_ref] = [updated_ssl_ref]
-                            elif not [obj for obj in
+                            elif [obj for obj in
                                   avi_config['SSLKeyAndCertificate']
                                   if obj['name'] == mapping['certkeyName'] +
                                         '-dummy']:
