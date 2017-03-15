@@ -335,7 +335,8 @@ class VSConfigConv(object):
         vs_ds['datascript'].append(datascript)
         avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
-        conv_utils.add_status_row('datascript', None, vs_ds_ref, 'successful')
+        conv_utils.add_conv_status('rule', None, vs_ds_ref, 'datascript',
+                                   avi_object=vs_ds)
 
         return vs_ds_ref
 
