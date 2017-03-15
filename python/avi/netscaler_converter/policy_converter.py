@@ -169,7 +169,7 @@ class PolicyConverter(object):
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
-            # TODO add support for || rules as datascript
+            # TODO add support for || and + rules as datascript
             if rule == STATUS_DATASCRIPT:
                 # Add status datascript in CSV/report if policy has status
                 # datascript
@@ -299,9 +299,8 @@ class PolicyConverter(object):
 
         name = '%s-rule-%s' % (rule_name, priority_index)
         # TODO add support for || rules as datascript
-        if '||' in ns_rule:
-            skipped_status = 'Datascript: %s ' % ns_policy_complete_cmd
-            LOG.warning(skipped_status)
+        if '||' in ns_rule or '+' in ns_rule:
+            LOG.warning('Datascript: %s ' % ns_policy_complete_cmd)
             ns_util.add_status_row(policy['line_no'], netscalar_command,
                                    rule_name, ns_policy_complete_cmd,
                                    STATUS_DATASCRIPT)
