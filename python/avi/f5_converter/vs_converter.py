@@ -64,8 +64,6 @@ class VSConfigConv(object):
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
-        if tenant == 'CTO':
-            print vs_name, tenant
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         hash_profiles = avi_config.get('hash_algorithm', [])
@@ -335,8 +333,8 @@ class VSConfigConv(object):
         vs_ds['datascript'].append(datascript)
         avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
-        conv_utils.add_conv_status('rule', None, vs_ds_ref, 'datascript',
-                                   avi_object=vs_ds)
+        conv_utils.add_conv_status('rule', None, vs_ds_ref,
+                                   {'status': 'datascript'}, avi_object=vs_ds)
 
         return vs_ds_ref
 
