@@ -6,12 +6,12 @@ import re
 
 def setUp():
     global avi_config
-    output_file = open('output/Output.json', 'r')
+    output_file = open('../output/Output.json', 'r')
     output_data = output_file.read()
     avi_config = []
     if output_data:
         avi_config = json.loads(output_data)
-    cfg_file = open('test/test_complete_vs_configuration.cfg', 'r')
+    cfg_file = open('test_complete_vs_configuration.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = json.loads(cfg)
@@ -42,6 +42,13 @@ class VSConfig(unittest.TestCase):
             if 'http_policy' in pool_group_name:
                 pg_name = re.search(r"test_target.*\-poolgroup",
                                     pool_group_name).group(0)
+                avi_config_pool_group = \
+                    [pool_group for pool_group in avi_config_pool_groups
+                     if pg_name in pool_group['name']]
+            elif 'rule' in pool_group_name:
+                pg_name = re.search(r"rule.*\-poolgroup",
+                                    pool_group_name).group(0)
+                pg_name = pg_name[-20:]
                 avi_config_pool_group = \
                     [pool_group for pool_group in avi_config_pool_groups
                      if pg_name in pool_group['name']]
@@ -191,6 +198,12 @@ class VSConfig(unittest.TestCase):
                 name = re.search(r"test_target.*\-pool", pool_name).group(0)
                 avi_config_pool = [pool for pool in avi_config_pools
                                    if name in pool['name']]
+            elif 'rule' in pool_name:
+                name = re.search(r"rule.*\-pool", pool_name).group(0)
+                name = name[-15:]
+                avi_config_pool = [pool for pool in avi_config_pools
+                                   if name in pool['name']]
+
             else:
                 avi_config_pool = [pool for pool in avi_config_pools
                                    if pool['name'] == pool_name]
