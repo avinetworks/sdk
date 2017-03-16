@@ -8,7 +8,9 @@ def setUp():
     global avi_config
     output_file = open('output/Output.json', 'r')
     output_data = output_file.read()
-    avi_config = json.loads(output_data)
+    avi_config = []
+    if output_data:
+        avi_config = json.loads(output_data)
     cfg_file = open('test/test_complete_vs_configuration.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
