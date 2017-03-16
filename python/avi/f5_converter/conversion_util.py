@@ -316,10 +316,8 @@ def get_vs_ssl_profiles(profiles, avi_config):
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             mode = 'SSL_CLIENT_CERTIFICATE_NONE'
             if pki_profile:
-                try:
-                    mode = pki_profiles[0].pop('mode')
-                except Exception as e:
-                    LOG.error('Mode not Found for : %s' % pki_profile)
+                mode = pki_profiles[0].pop('mode',
+                                           'SSL_CLIENT_CERTIFICATE_NONE')
                 pki_profile = get_object_ref(
                     pki_profiles[0]["name"], 'pkiprofile',
                     tenant=get_name_from_ref(pki_profiles[0]['tenant_ref']))
@@ -353,18 +351,13 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref):
     policy_set = []
     f_host = None
     realm = None
-
+    app_profile_list = avi_config.get("ApplicationProfile", [])
     if not profiles:
-        app_profile_refs.append(get_object_ref("http", 'applicationprofile'))
-        return app_profile_refs, f_host, realm,  policy_set
+        profiles = {}
     if isinstance(profiles, str):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
     for name in profiles.keys():
-        tenant, name = get_tenant_ref(name)
-        if not tenant_ref == 'admin':
-            tenant = tenant_ref
-        app_profile_list = avi_config.get("ApplicationProfile", [])
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
@@ -399,7 +392,11 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref):
                     "realm": app_profiles[0].pop('realm')
                 }
     if not app_profile_refs:
-        app_profile_refs.append(get_object_ref("http", 'applicationprofile'))
+        default_app_profile = [obj for obj in app_profile_list if (
+            obj['name'] == 'http' or 'http' in obj.get("dup_of", []))]
+        tenant = get_name_from_ref(default_app_profile[0]['tenant_ref'])
+        app_profile_refs.append(get_object_ref("http", 'applicationprofile',
+                                               tenant=tenant))
     return app_profile_refs, f_host, realm,  policy_set
 
 
