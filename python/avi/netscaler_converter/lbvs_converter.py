@@ -349,7 +349,9 @@ class LbvsConverter(object):
                 else:
                     # Verify that this lb vs has share the same VIP of another
                     # vs If yes then skipped this lb vs
-                    is_shared = ns_util.is_shared_same_vip(vs_obj, avi_config)
+                    is_shared = \
+                        ns_util.is_shared_same_vip(vs_obj,
+                                                   avi_config['VirtualService'])
                     if is_shared:
                         skipped_status = 'Skipped: %s Same vip shared by ' \
                                          'another virtual service' % vs_name
