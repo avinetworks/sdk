@@ -73,7 +73,7 @@ class Test(unittest.TestCase):
     def test_external_monitor_conversion(self):
         avi_config = dict()
         self.monitor_converter.convert(gSAMPLE_CONFIG['external_mon_config'],
-                                       avi_config, 'input_files')
+                                       avi_config, 'certs')
         assert avi_config
         monitors = avi_config.get('HealthMonitor', [])
         assert len(monitors) > 0
