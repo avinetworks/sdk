@@ -618,13 +618,10 @@ class ProfileConverter(object):
             full_bind_ssl_cipher_command = ns_util.\
                 get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
-                avi_ssl_cipher = None
                 open_ssl_cipher = self.netscaler_ssl_cipher_to_open_ssl_cipher.get(bind_cipher['cipherName'], None)
                 if open_ssl_cipher:
-                    avi_ssl_cipher = self.open_ssl_cipher_to_avi_ssl_cipher.get(open_ssl_cipher, None)
-                if avi_ssl_cipher:
-                    avi_cipher = {'accepted_ciphers': avi_ssl_cipher}
-                    ciphers.append(avi_ssl_cipher)
+                    avi_cipher = {'accepted_ciphers': open_ssl_cipher}
+                    ciphers.append(open_ssl_cipher)
                     LOG.info('Conversion successful: %s' %
                              full_bind_ssl_cipher_command)
                     # Add Successful status in CSV/report for add ssl cipher

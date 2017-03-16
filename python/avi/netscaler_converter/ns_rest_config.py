@@ -16,12 +16,15 @@ def upload_config_to_controller(avi_config_dict, controller_ip,
         if resp.status_code < 300:
             LOG.info("Config uploaded to controller successfully")
         else:
-            LOG.error("Upload error response:"+resp.text)
-    except:
+            LOG.error("Upload error response:" + resp.text)
+            raise Exception("Upload error response:" + resp.text)
+    except Exception as e:
         LOG.error("Failed config upload", exc_info=True)
         print "Error"
+        raise Exception(e)
 
-def get_object_from_controller(uri, controller_ip, username, password, tenant):
+
+def get_object_from_controller(object_type, object_name, controller_ip, username, password, tenant):
     """
     This function defines that it get the object from controller or raise
     exception if object status code is less than 299
@@ -36,12 +39,7 @@ def get_object_from_controller(uri, controller_ip, username, password, tenant):
     session = ApiSession.get_session(controller_ip, username,
                                      password=password, tenant=tenant)
     try:
-        resp = session.get(uri)
-        jsondata = requests.to_json(resp.content)
-        if resp.status_code < 300:
-            return [resp.status_code, jsondata]
-        else:
-            raise Exception()
-            return [resp.status_code, {}]
+        resp = session.get_object_by_name(object_type, object_name)
+        return resp
     except:
-        raise Exception("Failed get %s" % uri, exc_info=True)
+        raise Exception("Failed get %s" % object_name, exc_info=True)
