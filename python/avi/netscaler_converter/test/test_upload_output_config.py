@@ -15,9 +15,9 @@ from avi.netscaler_converter.ns_constants import (OBJECT_TYPE_POOL_GROUP,
                                                   OBJECT_TYPE_POOL,
                                                   OBJECT_TYPE_PKI_PROFILE)
 from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.avi_rest_lib import get_object_from_controller
 from testconfig import config
-from avi.netscaler_converter import upload_config
+from avi.netscaler_converter.ns_rest_config import (upload_config_to_controller,
+                                                    get_object_from_controller)
 
 
 
@@ -47,8 +47,8 @@ def setUp():
 
 class TestUploadConfig(unittest.TestCase):
     def test_upload_output_config(self):
-        upload_config.upload_config_to_controller(avi_config, controller_ip,
-                                                  user_name, password, tenant)
+        upload_config_to_controller(avi_config, controller_ip, user_name,
+                                    password, tenant)
 
     def test_upload_poolgroup_on_controller(self):
         """
