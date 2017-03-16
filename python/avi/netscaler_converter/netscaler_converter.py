@@ -7,7 +7,7 @@ import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
 import avi.netscaler_converter.scp_util as scp_util
 
-from avi.netscaler_converter import upload_config
+from avi.netscaler_converter import ns_rest_config
 from avi.netscaler_converter import __version__
 
 LOG = logging.getLogger(__name__)
@@ -115,6 +115,6 @@ if __name__ == "__main__":
         LOG.info('written avi config file ' +
                  output_dir + os.path.sep + "Output.json")
     else:
-        upload_config.upload_config_to_controller(
+        ns_rest_config.upload_config_to_controller(
             avi_config, args.controller_ip,
             args.user, args.password, args.tenant)
