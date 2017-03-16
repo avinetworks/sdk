@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
         test_report_location = '%s/log_test_upload.html' % output_dir
         # Run test_upload_output test suite
-        os.system("nosetests test/test_upload_output.py -s --tc-file=%s "
+        os.system("nosetests test/test_upload_output_config.py -s --tc-file=%s "
                   "--with-html --html-report=%s" % (test_config_ini_path,
                                                     test_report_location))
     # Run test complete vs configuration test suite

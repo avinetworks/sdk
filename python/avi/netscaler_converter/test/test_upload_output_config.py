@@ -32,6 +32,7 @@ def setUp():
     global password
     global tenant
     global cloud_name
+
     LOG.setLevel(logging.DEBUG)
     output_dir = config['upload_config']['output_dir']
     output_file = open('%s/Output.json' % output_dir, 'r')
@@ -183,9 +184,10 @@ class TestUploadConfig(unittest.TestCase):
         for application_persistence_profile in application_persistence_profiles:
             assert application_persistence_profile['name']
             application_persistence_profile_ref = \
-                ns_util.get_object_ref(application_persistence_profile['name'],
-                                       OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
-                                       tenant, cloud_name)
+                ns_util.get_object_ref(
+                    application_persistence_profile['name'],
+                    OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE, tenant,
+                    cloud_name)
             status_code, jsondata = \
                 get_object_from_controller(application_persistence_profile_ref,
                                            controller_ip, user_name, password,
