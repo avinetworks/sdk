@@ -89,7 +89,7 @@ class PersistenceConfigConv(object):
                         'profile', "hash-persistence", name, conv_status, msg)
                     continue
                 else:
-                    LOG.error(
+                    LOG.warn(
                         'persist mode not supported skipping conversion: %s' %
                         name)
                     self.update_conv_status_for_skip(persist_mode, name)
