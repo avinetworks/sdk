@@ -34,7 +34,7 @@ class TestCSV(unittest.TestCase):
 
     def test_csv_skipped_status_report(self):
         """
-        This functions defines that verify skipped netscaler commands have
+        This test case defines that verify skipped netscaler commands have
         the reasons
         :return: None
         """
@@ -43,11 +43,9 @@ class TestCSV(unittest.TestCase):
                         row['AVI Object'] == '']
         self.assertTrue(len(skipped_rows) == 0)
 
-
-    # Check for Successful netscaler commands
     def test_csv_successful_status_add_lb_monitor(self):
         """
-        This function defines that verify all add lb monitor netscaler commands
+        This test case defines that verify all add lb monitor netscaler commands
         which are successful those Health monitor should be created from avi
         object
         :return: None
@@ -63,10 +61,9 @@ class TestCSV(unittest.TestCase):
                            if monitor['name'] == avi_monitor_object['name']]
             self.assertTrue(len(avi_monitor) == 1)
 
-
     def test_csv_successful_status_add_cs_vserver(self):
         """
-        This function defines that verify all add cs vserver netscaler commands
+        This test case defines that verify all add cs vserver netscaler commands
         which are successful those VS should be created from avi
         object
         :return: None
@@ -82,10 +79,9 @@ class TestCSV(unittest.TestCase):
                            if cs_vs['name'] == avi_vs_object['name']]
             self.assertTrue(len(avi_vs) == 1)
 
-
     def test_csv_successful_status_add_service(self):
         """
-        This function defines that verify all add service netscaler commands
+        This test case defines that verify all add service netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -101,10 +97,9 @@ class TestCSV(unittest.TestCase):
                            if cs_vs['name'] == avi_pool_object['name']]
             self.assertTrue(len(avi_pool) == 1)
 
-
     def test_csv_successful_status_add_service_group(self):
         """
-        This function defines that verify all add serviceGroup netscaler commands
+        This test case defines that verify all add serviceGroup netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -120,10 +115,9 @@ class TestCSV(unittest.TestCase):
                            if cs_vs['name'] == avi_pool_object['name']]
             self.assertTrue(len(avi_pool) == 1)
 
-
     def test_csv_successful_status_set_lb_group(self):
         """
-        This function defines that verify all set lb group netscaler commands
+        This test case defines that verify all set lb group netscaler commands
         which are successful those ssl profile should be created from avi
         object
         :return: None
@@ -139,10 +133,9 @@ class TestCSV(unittest.TestCase):
                            if profile['name'] == avi_profile_object['name']]
             self.assertTrue(len(avi_profile) == 1)
 
-
     def test_csv_successful_status_bind_lb_vserver(self):
         """
-        This function defines that verify all bind lb vserver netscaler commands
+        This test case defines that verify all bind lb vserver netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -158,10 +151,9 @@ class TestCSV(unittest.TestCase):
                            if pool['name'] == avi_pool_object['name']]
             self.assertTrue(len(avi_pool) == 1)
 
-
     def test_csv_successful_status_set_ssl_service_group(self):
         """
-        This function defines that verify all set ssl service group netscaler commands
+        This test case defines that verify all set ssl service group netscaler commands
         which are successful those ssl profile should be created from avi
         object
         :return: None
@@ -177,10 +169,9 @@ class TestCSV(unittest.TestCase):
                         if ssl_profile['name'] == avi_ssl_profile_object['name']]
             self.assertTrue(len(avi_ssl_profile) == 1)
 
-
     def test_csv_successful_status_set_ssl_service(self):
         """
-       This function defines that verify all set ssl service netscaler commands
+       This test case defines that verify all set ssl service netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
@@ -198,10 +189,9 @@ class TestCSV(unittest.TestCase):
                                avi_ssl_profile_object['name']]
             self.assertTrue(len(avi_ssl_profile) == 1)
 
-
     def test_csv_successful_status_set_ssl_vserver(self):
         """
-       This function defines that verify all set ssl vserver netscaler commands
+       This test case defines that verify all set ssl vserver netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
@@ -219,11 +209,9 @@ class TestCSV(unittest.TestCase):
                                avi_ssl_profile_object['name']]
             self.assertTrue(len(avi_ssl_profile) == 1)
 
-
-    # Check for Successful netscaler commands
     def test_csv_partial_status_add_lb_monitor(self):
         """
-        This function defines that verify all add lb monitor netscaler commands
+        This test case defines that verify all add lb monitor netscaler commands
         which are successful those Health monitor should be created from avi
         object
         :return: None
@@ -243,10 +231,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_add_cs_vserver(self):
         """
-        This function defines that verify all add cs vserver netscaler commands
+        This test case defines that verify all add cs vserver netscaler commands
         which are successful those VS should be created from avi
         object
         :return: None
@@ -267,10 +254,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_add_service(self):
         """
-        This function defines that verify all add service netscaler commands
+        This test case defines that verify all add service netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -291,10 +277,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_add_service_group(self):
         """
-        This function defines that verify all add serviceGroup netscaler commands
+        This test case defines that verify all add serviceGroup netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -315,10 +300,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_set_lb_group(self):
         """
-        This function defines that verify all set lb group netscaler commands
+        This test case defines that verify all set lb group netscaler commands
         which are successful those ssl profile should be created from avi
         object
         :return: None
@@ -340,10 +324,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_bind_lb_vserver(self):
         """
-        This function defines that verify all bind lb vserver netscaler commands
+        This test case defines that verify all bind lb vserver netscaler commands
         which are successful those pool should be created from avi
         object
         :return: None
@@ -364,10 +347,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_set_ssl_service_group(self):
         """
-        This function defines that verify all set ssl service group netscaler commands
+        This test case defines that verify all set ssl service group netscaler commands
         which are successful those ssl profile should be created from avi
         object
         :return: None
@@ -390,10 +372,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_set_ssl_service(self):
         """
-       This function defines that verify all set ssl service netscaler commands
+       This test case defines that verify all set ssl service netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
@@ -416,10 +397,9 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def test_csv_partial_status_set_ssl_vserver(self):
         """
-       This function defines that verify all set ssl vserver netscaler commands
+       This test case defines that verify all set ssl vserver netscaler commands
        which are successful those ssl profile should be created from avi
        object
        :return: None
@@ -442,7 +422,6 @@ class TestCSV(unittest.TestCase):
             for skipped_attribute in skipped_settings:
                 self.assertIn(skipped_attribute, row['Full Command'])
 
-
     def format_string_to_json(self, avi_string):
         """
         This function defines that it convert string into json format to
@@ -455,7 +434,6 @@ class TestCSV(unittest.TestCase):
                 ("None", "null")
         avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
         return avi_string
-
 
     def format_string_to_list(self, avi_string):
         """
