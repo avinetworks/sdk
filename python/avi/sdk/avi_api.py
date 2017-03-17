@@ -4,6 +4,7 @@ import copy
 import json
 import logging
 from datetime import datetime, timedelta
+from requests import ConnectionError
 from requests import Response
 from requests.sessions import Session
 
@@ -132,6 +133,7 @@ class ApiSession(Session):
     AVI_SLUG = 'Slug'
     SESSION_CACHE_EXPIRY = 20*60
     SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id']
+    MAX_API_RETRIES = 3
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None,
@@ -334,27 +336,44 @@ class ApiSession(Session):
         fn = getattr(super(ApiSession, self), api_name)
         api_hdrs = \
             self._get_api_headers(tenant, tenant_uuid, timeout, headers, api_version)
-        if (data is not None) and (type(data) == dict):
-            resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
-                      timeout=timeout, **kwargs)
-        else:
-            resp = fn(fullpath, data=data, headers=api_hdrs, 
-                      timeout=timeout, **kwargs)
-        logger.debug(
-            'path: %s http_method: %s headers: %s params: %s data: %s rsp: %s',
-            fullpath, api_name.upper(), api_hdrs, kwargs, data, resp.text)
-        if resp.status_code in (401, 419):
-            logger.info('received error %d %s so resetting connection',
-                        resp.status_code, resp.text)
+        connection_error = False
+        try:
+            if (data is not None) and (type(data) == dict):
+                resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
+                          timeout=timeout, **kwargs)
+            else:
+                resp = fn(fullpath, data=data, headers=api_hdrs,
+                          timeout=timeout, **kwargs)
+        except ConnectionError as e:
+            logger.warning('Connection error retrying %s', e)
+            connection_error = True
+        except Exception as e:
+            logger.error('Error in Requests library %s', e)
+            raise
+        if not connection_error:
+            logger.debug(
+                'path: %s http_method: %s hdrs: %s params: %s data: %s rsp: %s',
+                fullpath, api_name.upper(), api_hdrs, kwargs, data, resp.text)
+        if connection_error or resp.status_code in (401, 419):
+            if connection_error:
+                logger.warning('Connection failed, retrying.')
+            else:
+                logger.info('received error %d %s so resetting connection',
+                            resp.status_code, resp.text)
             ApiSession.reset_session(self)
             self.num_session_retries += 1
-            if self.num_session_retries > 2:
-                raise APIError("giving up after %d retries" %
-                               self.num_session_retries)
+            if self.num_session_retries > self.MAX_API_RETRIES:
+                # Added this such that any code which re-tries can be
+                # successful eventually.
+                self.num_session_retries = 0
+                raise APIError(
+                    "giving up after %d retries connection failure %s" %
+                    (self.MAX_API_RETRIES, connection_error))
             # should restore the updated_hdrs to one passed down
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
                              headers=headers, timeout=timeout, **kwargs)
             self.num_session_retries = 0
+
         if resp.cookies and 'csrftoken' in resp.cookies:
             csrftoken = resp.cookies['csrftoken']
             self.headers.update({"X-CSRFToken": csrftoken})
