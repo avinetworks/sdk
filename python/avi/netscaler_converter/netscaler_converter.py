@@ -68,7 +68,8 @@ if __name__ == "__main__":
 
     # print avi netscaler converter version
     if args.version:
-        print __version__
+        print "SDK Version: %s\nController Version: %s" % \
+              (__version__, args.controller_version)
         exit(0)
 
     if not os.path.exists(args.output_file_path):
@@ -89,8 +90,10 @@ if __name__ == "__main__":
         is_download_from_host = True
 
     # Add logger and print avi netscaler converter version
-    LOG.info('AVI sdk version: %s' % __version__)
-    print 'AVI sdk version: %s' % __version__
+    LOG.info('AVI sdk version: %s Controller Version: %s'
+             % (__version__, args.controller_version))
+    print 'AVI sdk version: %s Controller Version: %s' \
+          % (__version__, args.controller_version)
 
     if is_download_from_host:
         LOG.debug("Copying files from host")
