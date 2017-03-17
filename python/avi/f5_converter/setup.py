@@ -1,6 +1,5 @@
 import os
 from setuptools import setup, find_packages
-from avi.f5_converter import __version__
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -8,7 +7,7 @@ AVI_PIP_VERSION = ''
 
 setup(
     name='avif5converter',
-    version=__version__,
+    version=AVI_PIP_VERSION,
     # package_dir={'': 'avi/f5_converter'},
     packages=find_packages(exclude=['*sdk*', '*netscaler_converter*']),
     description='Avi F5 Converter.',

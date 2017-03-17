@@ -128,7 +128,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print avi f5 converter version
     if args.version:
-        print __version__
+        print "SDK Version: %s\nController Version: %s" % \
+              (__version__, args.controller_version)
         exit(0)
     tenant = args.tenant
     init_logger_path(args.output_file_path)
@@ -155,8 +156,10 @@ if __name__ == "__main__":
 
     partitions = []
     # Add logger and print avi f5 converter version
-    LOG.info('AVI sdk version: %s' % __version__)
-    print 'AVI sdk version: %s' % __version__
+    LOG.info('AVI sdk version: %s Controller Version: %s'
+             % (__version__, args.controller_version))
+    print 'AVI sdk version: %s Controller Version: %s' \
+          % (__version__, args.controller_version)
 
     if args.partition_config:
         partitions = args.partition_config.split(',')
