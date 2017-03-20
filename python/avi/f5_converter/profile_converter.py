@@ -10,15 +10,12 @@ LOG = logging.getLogger(__name__)
 
 class ProfileConfigConv(object):
     @classmethod
-    def get_instance(cls, version):
+    def get_instance(cls, version, f5_attributes):
+        f5_attributes = f5_attributes
         if version == '10':
-            return ProfileConfigConvV10()
+            return ProfileConfigConvV10(f5_attributes)
         if version in ['11', '12']:
-            return ProfileConfigConvV11()
-
-    supported_types = None
-    ignore_for_defaults = None
-    default_key = None
+            return ProfileConfigConvV11(f5_attributes)
 
     ciphers = 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-' \
               'ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-' \
@@ -158,89 +155,42 @@ class ProfileConfigConv(object):
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
-    supported_types = ["client-ssl", "server-ssl", "http", "dns", "fasthttp",
-                       "web-acceleration", "http-compression", "fastl4", "tcp",
-                       "udp", "one-connect"]
-    ignore_for_defaults = {'app-service': 'none', 'uri-exclude': 'none'}
-    default_key = "defaults-from"
+    def __init__(self, f5_attributes):
+        self.supported_types = \
+            f5_attributes['Profile_supported_types']
+        self.ignore_for_defaults = \
+            f5_attributes['Profile_ignore_for_defaults']
+        self.default_key = "defaults-from"
+        self.na_ssl = f5_attributes['Profile_na_ssl']
+        self.indirect_ssl = f5_attributes['Profile_indirect_ssl']
+        self.supported_ssl = f5_attributes['Profile_supported_ssl']
+        self.na_http = f5_attributes['Profile_na_http']
+        self.supported_http = f5_attributes['Profile_supported_http']
+        self.indirect_http = f5_attributes['Profile_indirect_http']
+        self.na_dns = f5_attributes['Profile_na_dns']
+        self.supported_dns = f5_attributes['Profile_supported_dns']
+        self.indirect_dns = f5_attributes['Profile_indirect_dns']
+        self.supported_hc = f5_attributes['Profile_supported_hc']
+        self.na_hc = f5_attributes['Profile_na_hc']
+        self.indirect_hc = f5_attributes['Profile_indirect_hc']
 
-    na_ssl = ['secure-renegotiation', 'cache-size', 'cache-timeout',
-              'renegotiate-size', 'renegotiate-max-record-delay',
-              'strict-resume', 'renegotiate-period']
-    indirect_ssl = ['renegotiate', 'session-mirroring', 'chain']
-    supported_ssl = ['cert-key-chain', 'cert', 'key', 'ciphers', 'options',
-                     'unclean-shutdown', 'crl-file', 'ca-file', 'defaults-from',
-                     'peer-cert-mode']
+        self.supported_wa = f5_attributes['Profile_supported_wa']
+        self.indirect_wa = f5_attributes['Profile_indirect_wa']
 
-    na_http = ['lws-width', 'lws-separator ']
-    supported_http = ["description", "insert-xforwarded-for", "enforcement",
-                      "xff-alternative-names", "encrypt-cookies",
-                      "defaults-from", "accept-xff", "fallback-host",
-                      "oneconnect-transformations", "basic-auth-realm",
-                      "header-erase", "header-insert"]
-    indirect_http = ["request-chunking", "response-chunking", "sflow",
-                     'response-headers-permitted', 'via-response',
-                     'via-request', 'server-agent-name']
+        self.supported_l4 = f5_attributes['Profile_supported_l4']
+        self.na_l4 = f5_attributes['profile_na_l4']
+        self.indirect_l4 = f5_attributes['Profile_indirect_l4']
 
-    na_dns = ['enable-gtm']
-    supported_dns = ["description", "defaults-from"]
-    indirect_dns = ['avr-dnsstat-sample-rate', 'unhandled-query-action',
-                    'use-local-bind', 'log-profile', 'dns64', 'cache',
-                    'enable-cache', 'process-rd', 'enable-dns-express',
-                    'enable-dnssec', 'dns-security', 'process-xfr',
-                    'enable-dns-firewall', 'enable-rapid-response',
-                    'enable-logging', 'rapid-response-last-action']
+        self.supported_fh = f5_attributes['Profile_supported_fh']
+        self.indirect_fh = f5_attributes['Profile_indirect_fh']
+        self.na_fh = f5_attributes['Profile_na_fh']
 
-    supported_hc = ["description", "content-type-include", "defaults-from",
-                    "keep-accept-encoding", "content-type-exclude"]
-    na_hc = ['cpu-saver-high', 'buffer-size', 'cpu-saver-low']
-    indirect_hc = ['browser-workarounds', 'uri-include', 'gzip-level',
-                   'gzip-window-size', 'gzip-memory-level']
-
-    supported_wa = ["description", "cache-object-min-size", "cache-max-age",
-                    "cache-object-max-size", "cache-insert-age-header",
-                    "defaults-from", "cache-uri-exclude", "cache-uri-include",
-                    "cache-max-entries"]
-    indirect_wa = ["cache-size", "cache-aging-rate"]
-
-    supported_l4 = ["description", "explicit-flow-migration", "idle-timeout",
-                    "software-syn-cookie", "pva-acceleration", "defaults-from"]
-    na_l4 = ["hardware-syn-cookie"]
-    indirect_l4 = ['reset-on-timeout', 'ip-tos-to-server', 'timeout-recovery',
-                   'pva-offload-dynamic', 'tcp-handshake-timeout',
-                   'pva-dynamic-server-packets', 'pva-dynamic-client-packets',
-                   'pva-acceleration', 'tcp-timestamp-mode', 'client-timeout',
-                   'link-qos-to-server', 'tcp-wscale-mode', 'server-timestamp',
-                   'late-binding', 'syn-cookie-whitelist', 'rtt-from-client',
-                   'rtt-from-server', 'link-qos-to-client', 'tcp-generate-isn',
-                   'ip-tos-to-client', 'server-sack', 'receive-window-size']
-
-    supported_fh = ["description", "receive-window-size", "idle-timeout",
-                    "defaults-from", 'max-header-size', 'insert-xforwarded-for']
-    indirect_fh = ['reset-on-timeout',  'unclean-shutdown', 'server-timestamp',
-                   'http-11-close-workarounds', 'force-http-10-response',
-                   'connpool-replenish', 'server-sack']
-    na_fh = ['hardware-syn-cookie']
-
-    supported_tcp = ["description", "idle-timeout", "max-retrans", "nagle",
-                     "syn-max-retrans", "time-wait-recycle", "defaults-from",
-                     "time-wait-timeout", "congestion-control",
-                     "receive-window-size", "ip-tos-to-client"]
-    indirect_tcp = ['reset-on-timeout', 'slow-start', 'minimum-rto', 'mptcp',
-                    'syn-cookie-whitelist', 'max-segment-size',  'mptcp-csum',
-                    'mptcp-csum-verify', 'mptcp-rxmitmin', 'mptcp-fallback',
-                    'mptcp-fastjoin', 'mptcp-debug', 'mptcp-join-max',
-                    'mptcp-makeafterbreak', 'mptcp-nojoindssack', 'dsack',
-                    'mptcp-rtomax', 'mptcp-subflowmax', 'mptcp-timeout',
-                    'send-buffer-size', 'proxy-buffer-high', 'proxy-buffer-low',
-                    'delayed-acks', 'selective-nack', 'early-retransmit']
-    na_tcp = ['hardware-syn-cookie']
-    supported_udp = ["description", "idle-timeout", "datagram-load-balancing",
-                     "defaults-from"]
-    indirect_udp = ['link-qos-to-client', 'proxy-mss', 'ip-tos-to-client',
-                    'allow-no-payload']
-
-    supported_oc = ['defaults-from', 'source-mask']
+        self.supported_tcp = f5_attributes['Profile_supported_tcp']
+        self.indirect_tcp = f5_attributes['Profile_indirect_tcp']
+        self.na_tcp = f5_attributes['Profile_na_tcp']
+        self.supported_udp = f5_attributes['Profile_supported_udp']
+        self.indirect_udp = f5_attributes['Profile_indirect_udp']
+        self.supported_oc = f5_attributes['Profile_supported_oc']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -780,55 +730,34 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    supported_types = ["clientssl", "serverssl", "http", "dns", "persist",
-                       "fastL4", "fasthttp", "tcp", "udp", "oneconnect"]
-    default_key = "defaults from"
+    def __init__(self, f5_attributes):
+        self.supported_types = f5_attributes['Profile_supported_types']
+        self.default_key = "defaults from"
 
-    supported_ssl = ["cert", "key", "ciphers", "unclean shutdown", "crl file",
-                     "ca file", "defaults from", "options", "peer cert mode"]
-    na_ssl = ['secure renegotiation', 'cache size', 'cache timeout',
-              'renegotiate size', 'renegotiate max record delay',
-              'strict resume', 'renegotiate period']
-    indirect_ssl = ['renegotiate', 'session mirroring', 'chain']
-    ignore_for_defaults = {'app service': 'none', 'uri exclude': 'none'}
-    na_http = ['lws width']
-    supported_http = ["insert xforwarded for", "xff alternative names",
-                      "max header size", "ramcache min object size",
-                      "ramcache max age", "ramcache max object size",
-                      "ramcache insert age header", "oneconnect transformations"
-                      "compress keep accept encoding", "ramcache uri exclude",
-                      "compress content type include", "ramcache uri include",
-                      "ramcache size", "encrypt cookies", "fallback",
-                      "defaults from"]
-    indirect_http = ["lws separator", "max requests", "compress uri include",
-                     "compress browser workarounds", "cache size",
-                     "ramcache aging rate", "compress gzip window size",
-                     "compress gzip level", 'compress cpu saver',
-                     'compress cpu saver high', 'compress cpu saver low',
-                     'compress min size', 'compress gzip memory level',
-                     'compress vary header']
+        self.supported_ssl = f5_attributes['Profile_supported_ssl']
+        self.na_ssl = f5_attributes['Profile_na_ssl']
+        self.indirect_ssl = f5_attributes['Profile_indirect_ssl']
+        self.ignore_for_defaults = f5_attributes['Profile_ignore_for_defaults']
+        self.na_http = f5_attributes['Profile_na_http']
+        self.supported_http = f5_attributes['Profile_supported_http']
+        self.indirect_http = f5_attributes['Profile_indirect_http']
 
-    na_dns = []
-    supported_dns = ["description", "defaults from"]
-    indirect_dns = []
+        self.na_dns = []
+        self.supported_dns = f5_attributes['Profile_supported_dns']
+        self.indirect_dns = []
 
-    supported_l4 = ["idle timeout", "software syncookie", "defaults from"]
-    indirect_l4 = ["reset on timeout", "pva acceleration"]
+        self.supported_l4 = f5_attributes['Profile_supported_l4']
+        self.indirect_l4 = f5_attributes['Profile_indirect_l4']
 
-    supported_fh = ["description", "idle timeout", "defaults from",
-                    "max header size", "insert xforwarded for"]
-    indirect_fh = ["reset on timeout"]
+        self.supported_fh = f5_attributes['Profile_supported_fh']
+        self.indirect_fh = f5_attributes['Profile_indirect_fh']
 
-    supported_tcp = ["description", "idle timeout", "nagle", "max retrans syn",
-                     "time wait recycle", "time wait", "congestion control",
-                     "recv window", "max retrans", "defaults from"]
-    indirect_tcp = ["reset on timeout", "slow start", "send buffer",
-                    "proxy buffer high", "proxy buffer low", "dsack",
-                    "delayed acks", "selective acks"]
+        self.supported_tcp = f5_attributes['Profile_supported_tcp']
+        self.indirect_tcp = f5_attributes['Profile_indirect_tcp']
 
-    supported_udp = ["idle timeout", "datagram lb", "defaults from"]
-    indirect_udp = []
-    supported_oc = ['defaults from', 'source mask']
+        self.supported_udp = f5_attributes['Profile_supported_udp']
+        self.indirect_udp = []
+        self.supported_oc = f5_attributes['Profile_supported_oc']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,

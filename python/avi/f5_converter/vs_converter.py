@@ -4,6 +4,7 @@ import random
 import re
 
 import avi.f5_converter.conversion_util as conv_utils
+import avi.f5_converter.converter_constants as final
 
 
 LOG = logging.getLogger(__name__)
@@ -11,11 +12,11 @@ LOG = logging.getLogger(__name__)
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version):
+    def get_instance(cls, version, f5_attributes):
         if version == '10':
-            return VSConfigConvV10()
+            return VSConfigConvV10(f5_attributes)
         if version in ['11', '12']:
-            return VSConfigConvV11()
+            return VSConfigConvV11(f5_attributes)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -23,10 +24,6 @@ class VSConfigConv(object):
     def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
                                skipped):
         pass
-
-    supported_attr = None
-    ignore_for_value = None
-    connection_limit = None
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name):
@@ -350,16 +347,11 @@ class VSConfigConv(object):
         return False
 
 class VSConfigConvV11(VSConfigConv):
-    supported_attr = ['profiles', 'destination', 'pool', 'persist',
-                      'source-address-translation', 'description', 'disabled',
-                      'translate-port', 'source', 'rate-limit',
-                      'connection-limit']
-    ignore_for_value = {'ip-protocol': 'tcp', 'translate-address': 'enabled',
-                        'mask': ['255.255.255.255', 'any']
-                        }
-    unsupported_types = ["l2-forward", "ip-forward", "stateless", "dhcp-relay",
-                         "internal", "reject"]
-    connection_limit = 'connection-limit'
+    def __init__(self, f5_attributes):
+        self.supported_attr = f5_attributes['VS_supported_attr_V11']
+        self.ignore_for_value = f5_attributes['VS_ignore_for_value_V11']
+        self.unsupported_types = f5_attributes['VS_unsupported_types_V11']
+        self.connection_limit = 'connection-limit'
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
@@ -383,13 +375,12 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    supported_attr = ['profiles', 'destination', 'pool', 'persist', 'disabled',
-                      'description', 'snatpool', 'translate service', 'source',
-                      'limit']
-    ignore_for_value = {'ip protocol': 'tcp', 'translate address': 'enabled',
-                        'mask': ['255.255.255.255', 'any']}
-    unsupported_types = ["l2 forward", "ip forward", "stateless", "reject"]
-    connection_limit = 'limit'
+    def __init__(self, f5_attributes):
+        self.supported_attr = f5_attributes['VS_supported_attr']
+        self.ignore_for_value = f5_attributes['VS_ignore_for_value']
+        self.unsupported_types = f5_attributes['VS_unsupported_types']
+        self.connection_limit = 'limit'
+
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
         return persist_ref

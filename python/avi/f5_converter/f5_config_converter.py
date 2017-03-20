@@ -7,6 +7,7 @@ from persistence_converter import PersistenceConfigConv
 from pool_converter import PoolConfigConv
 from profile_converter import ProfileConfigConv
 from vs_converter import VSConfigConv
+import avi.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -34,22 +35,23 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     conv_utils.add_csv_headers(csv_file)
     avi_config_dict = {}
     try:
-        mon_conv = MonitorConfigConv.get_instance(version)
+        f5_attributes = conv_const.init(version)
+        mon_conv = MonitorConfigConv.get_instance(version, f5_attributes)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                          tenant)
 
-        pool_conv = PoolConfigConv.get_instance(version)
+        pool_conv = PoolConfigConv.get_instance(version, f5_attributes)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                           cloud_name)
 
-        profile_conv = ProfileConfigConv.get_instance(version)
+        profile_conv = ProfileConfigConv.get_instance(version, f5_attributes)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant)
 
-        persist_conv = PersistenceConfigConv.get_instance(version)
+        persist_conv = PersistenceConfigConv.get_instance(version, f5_attributes)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
-        vs_conv = VSConfigConv.get_instance(version)
+        vs_conv = VSConfigConv.get_instance(version, f5_attributes)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name)
 

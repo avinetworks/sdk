@@ -9,15 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class PersistenceConfigConv(object):
     @classmethod
-    def get_instance(cls, version):
+    def get_instance(cls, version, f5_attributes):
         if version == '10':
-            return PersistenceConfigConvV10()
+            return PersistenceConfigConvV10(f5_attributes)
         if version in ['11', '12']:
-            return PersistenceConfigConvV11()
-
-    supported_types = None
-    ignore_for_defaults = None
-    indirect = None
+            return PersistenceConfigConvV11(f5_attributes)
 
     def convert_cookie_persistence(self, name, profile):
         pass
@@ -137,9 +133,12 @@ class PersistenceConfigConv(object):
 
 
 class PersistenceConfigConvV11(PersistenceConfigConv):
-
-    indirect = ["hash-length", "hash-offset", "mirror", "method",
-                            "cookie-encryption", 'override-connection-limit']
+    def __init__(self, f5_attributes):
+        self.indirect = f5_attributes['Persistence_indirect']
+        self.supported_attr = f5_attributes['Persistence_supported_attr']
+        self.supported_attr_convert = f5_attributes['Persistence_' \
+                                            'supported_attr_' \
+                                            'convert_source_addr']
 
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('method', 'insert')
@@ -173,9 +172,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect_mappings, tenant):
-        supported_attr = ["defaults-from"]
         skipped += [attr for attr in profile.keys()
-                    if attr not in supported_attr]
+                    if attr not in self.supported_attr]
         indirect_mappings.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -187,7 +185,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         return persist_profile
 
     def convert_source_addr(self, name, profile, skipped, tenant):
-        supported_attr = ["timeout", "defaults-from"]
+        supported_attr = self.supported_attr_convert
         ignore_lst = ['map-proxies']
         supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
@@ -225,11 +223,14 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         conv_utils.add_status_row("persistence", persist_mode, name,
                                               "skipped")
 
+
 class PersistenceConfigConvV10(PersistenceConfigConv):
-
-    indirect = ["cookie hash length", "cookie hash offset", "mirror",
-                'override connection limit']
-
+    def __init__(self, f5_attributes):
+        self.indirect = f5_attributes['Persistence_indirect']
+        self.supported_attr = \
+            f5_attributes['Persistence_supported_attr']
+        self.supported_attr_conver = f5_attributes['Persistence_supported_attr_' \
+                      'convert_source_addr']
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('cookie mode', 'insert')
         if not method == 'insert':
@@ -271,9 +272,9 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect, tenant):
-        supported_attr = ["mode", "defaults from"]
+
         skipped += [attr for attr in profile.keys()
-                    if attr not in supported_attr]
+                    if attr not in self.supported_attr]
         indirect.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -285,7 +286,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_source_addr(self, name, profile, skipped, tenant):
-        supported_attr = ["timeout", "mode", "defaults from"]
+        supported_attr = self.supported_attr_conver
+
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
