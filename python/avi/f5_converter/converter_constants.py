@@ -1,3 +1,6 @@
+import yaml
+import os
+
 DEFAULT_TIMEOUT = 16
 DEFAULT_INTERVAL = 5
 DEFAULT_TIME_UNTIL_UP = 1
@@ -33,3 +36,16 @@ SOURCE_ADDR_TIMEOUT = 180
 MIN_SESSION_TIMEOUT = 60
 MAX_SESSION_TIMEOUT = 1800
 DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain', 'application/pdf', 'text/javascript', 'application/javascript', 'application/x-javascript', 'application/xml', 'text/css']
+
+def init(version):
+    """
+    This function defines that to initialize constant from yaml file
+    :return: None
+    """
+    global f5_command_status
+    f5_command_status = yaml.safe_load(open(os.path.dirname(__file__)
+                                                   + "/command_status.yaml"))
+    if version == '10':
+        return f5_command_status['VERSION_10']
+    else:
+        return f5_command_status['VERSION_11']

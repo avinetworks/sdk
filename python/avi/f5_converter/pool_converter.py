@@ -9,12 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class PoolConfigConv(object):
     @classmethod
-    def get_instance(cls, version):
+    def get_instance(cls, version, f5_attributes):
         if version == '10':
-            return PoolConfigConvV10()
+            return PoolConfigConvV10(f5_attributes)
         if version in ['11', '12']:
-            return PoolConfigConvV11()
-    supported_attr = None
+            return PoolConfigConvV11(f5_attributes)
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -245,9 +244,10 @@ class PoolConfigConv(object):
 
 
 class PoolConfigConvV11(PoolConfigConv):
-    supported_attr = ['members', 'monitor', 'service-down-action',
-                      'load-balancing-mode', 'description', 'slow-ramp-time',
-                      'reselect-tries']
+    def __init__(self, f5):
+        self.supported_attr = f5['Pool_supported_attr']
+        self.supported_attributes = f5['Pool_supported_attr_convert_' \
+                                         'servers_config']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -338,9 +338,6 @@ class PoolConfigConvV11(PoolConfigConv):
         skipped_list = []
         rate_limit = []
         connection_limit = []
-        supported_attributes = ['address', 'state', 'session', 'ratio',
-                                'description', 'connection-limit', 'rate-limit',
-                                'priority-group']
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -400,7 +397,7 @@ class PoolConfigConvV11(PoolConfigConv):
 
             server_list.append(server_obj)
             skipped = [key for key in server.keys()
-                       if key not in supported_attributes]
+                       if key not in self.supported_attributes]
             if skipped:
                 skipped_list.append({server_name: skipped})
         limits = dict()
@@ -412,8 +409,9 @@ class PoolConfigConvV11(PoolConfigConv):
 
 
 class PoolConfigConvV10(PoolConfigConv):
-    supported_attr = ['members', 'monitor', 'action on svcdown', 'lb method',
-                      'description', 'slow ramp time', 'reselect tries']
+    def __init__(self, f5_attributes):
+        self.supported_attr = f5_attributes['Pool_supported_attr_1']
+        self.supported_attributes = f5_attributes['Pool_supported_attr_2']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -500,8 +498,6 @@ class PoolConfigConvV10(PoolConfigConv):
         connection_limit = []
         if isinstance(servers_config, str):
             servers_config = {servers_config.split(' ')[0]: None}
-        supported_attributes = ['session', 'ratio', 'description', 'down',
-                                'limit', 'priority']
         for server_name in servers_config.keys():
             skipped = None
             server = servers_config[server_name]
@@ -527,7 +523,7 @@ class PoolConfigConvV10(PoolConfigConv):
             if server:
                 state = server.get("session", 'enabled')
                 skipped = [key for key in server.keys()
-                           if key not in supported_attributes]
+                           if key not in self.supported_attributes]
                 ratio = server.get("ratio", None)
                 description = server.get('description', None)
                 if state == "user disabled" or 'down' in server.keys():

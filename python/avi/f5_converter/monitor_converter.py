@@ -11,25 +11,11 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConfigConv(object):
     @classmethod
-    def get_instance(cls, version):
+    def get_instance(cls, version, f5_atributes):
         if version == '10':
-            return MonitorConfigConvV10()
+            return MonitorConfigConvV10(f5_atributes)
         if version in ['11', '12']:
-            return MonitorConfigConvV11()
-
-    supported_attributes = None
-    supported_types = None
-    indirect_mappings = None
-    ignore = None
-    dest_key = None
-    tup = None
-    na_http = None
-    na_https = None
-    na_dns = None
-    na_tcp = None
-    na_udp = None
-    na_icmp = None
-    na_external = None
+            return MonitorConfigConvV11(f5_atributes)
 
     def get_defaults(self, monitor_config, key):
         pass
@@ -196,21 +182,27 @@ class MonitorConfigConv(object):
 
 
 class MonitorConfigConvV11(MonitorConfigConv):
-    supported_types = ["http", "https", "dns", "external", "tcp", "udp",
-                       "gateway-icmp", "icmp", "tcp-half-open"]
-    supported_attributes = ["timeout", "interval", "time-until-up",
-                            "description", "defaults-from"]
-    indirect_mappings = ["up-interval", "debug", "ip-dscp"]
-    ignore = {"destination": "*:*", "manual-resume": 'disabled'}
-    tup = "time-until-up"
-    dest_key = "destination"
-    na_http = ['adaptive']
-    na_https = ['adaptive', 'compatibility']
-    na_dns = ['adaptive']
-    na_tcp = ['adaptive']
-    na_udp = ['adaptive']
-    na_icmp = ['adaptive']
-    na_external = ['adaptive']
+    def __init__(self, f5):
+        self.supported_types = f5['Monitor_Supported_Types']
+        self.tup = "time-until-up"
+        self.supported_types = f5['Monitor_Supported_Types']
+        self.supported_attributes = f5['Monitor_Supported_Attributes']
+        self.indirect_mappings = f5['Monitor_Indirect_Mappings']
+        self.ignore = f5['Monitor_Ignore']
+        self.dest_key = "destination"
+        self.na_http = f5['Monitor_Na_Http']
+        self.na_https = f5['Monitor_Na_Https']
+        self.na_dns = f5['Monitor_Na_Dns']
+        self.na_tcp = f5['Monitor_Na_Tcp']
+        self.na_udp = f5['Monitor_Na_Udp']
+        self.na_icmp = f5['Monitor_Na_Icmp']
+        self.na_external = f5['Monitor_Na_External']
+        self.http_attr = f5['Monitor_http_attr']
+        self.https_attr = f5['Monitor_https_attr']
+        self.dns_attr = f5['Monitor_dns_attr']
+        self.tcp_attr = f5['Monitor_tcp_attr']
+        self.udp_attr = f5['Monitor_udp_attr']
+        self.ext_attr = f5['Monitor_ext_attr']
 
     def get_default_monitor(self, monitor_type, monitor_config):
         default_name = "%s %s" % (monitor_type, monitor_type)
@@ -235,8 +227,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return key.split(" ")
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
-        http_attr = ["recv", "recv-disable", "reverse", "send"]
-        skipped = [key for key in skipped if key not in http_attr]
+        skipped = [key for key in skipped if key not in self.http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
@@ -253,8 +244,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
-        https_attr = ["recv", "recv-disable", "reverse", "send"]
-        skipped = [key for key in skipped if key not in https_attr]
+        skipped = [key for key in skipped if key not in self.https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
@@ -269,9 +259,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
-        dns_attr = ["recv", "recv-disable", "reverse", "accept-rcode", "qname",
-                    "answer-contains"]
-        skipped = [key for key in skipped if key not in dns_attr]
+        skipped = [key for key in skipped if key not in self.dns_attr]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         dns_monitor = dict()
         if accept_rcode and accept_rcode == "no-error":
@@ -296,8 +284,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
-        tcp_attr = ["recv-disable", "reverse", "destination", "send", "recv"]
-        skipped = [key for key in skipped if key not in tcp_attr]
+        skipped = [key for key in skipped if key not in self.tcp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -329,8 +316,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
-        udp_attr = ["recv", "recv-disable", "reverse", "destination", "send"]
-        skipped = [key for key in skipped if key not in udp_attr]
+        skipped = [key for key in skipped if key not in self.udp_attr]
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -358,8 +344,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
-        ext_attr = ["run", "args", "user-defined"]
-        skipped = [key for key in skipped if key not in ext_attr]
+        skipped = [key for key in skipped if key not in self.ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         cmd_code = f5_monitor.get("run", 'none')
         user_defined_vars = ""
@@ -407,22 +392,26 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
-    tup = "time until up"
-    supported_types = ["http", "https", "dns", "external", "tcp", "udp",
-                       "gateway_icmp", "icmp", "tcp_half_open"]
-    supported_attributes = ["timeout", "interval", "time until up",
-                            "description", "type", "defaults from"]
-    indirect_mappings = ['up interval', 'debug', 'ip dscp', 'timeoutpackets',
-                         'sendpackets']
-    ignore = {"dest": "*:*", "manual-resume": 'disabled'}
-    dest_key = "dest"
-    na_http = ['adaptive']
-    na_https = ['adaptive', 'compatibility']
-    na_dns = ['adaptive']
-    na_tcp = ['adaptive']
-    na_udp = ['adaptive']
-    na_icmp = ['adaptive']
-    na_external = ['adaptive']
+    def __init__(self, f5):
+        self.supported_types = f5['Monitor_Supported_Types']
+        self.tup = "time until up"
+        self.supported_types = f5['Monitor_Supported_Types']
+        self.supported_attributes =f5['Monitor_Supported_Attributes']
+        self.indirect_mappings = f5['Monitor_Indirect_Mappings']
+        self.ignore = f5['Monitor_Ignore']
+        self.dest_key = "dest"
+        self.na_http = f5['Monitor_Na_Http']
+        self.na_https = f5['Monitor_Na_Https']
+        self.na_dns =  f5['Monitor_Na_Dns']
+        self.na_tcp = f5['Monitor_Na_Tcp']
+        self.na_udp = f5['Monitor_Na_Udp']
+        self.na_icmp = f5['Monitor_Na_Icmp']
+        self.na_external = f5['Monitor_Na_External']
+        self.http_attr = f5['Monitor_http_attr']
+        self.https_attr = f5['Monitor_https_attr']
+        self.tcp_attr = f5['Monitor_tcp_attr']
+        self. udp_attr = f5['Monitor_udp_attr']
+        self.ext_attr = f5['Monitor_ext_attr']
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key
@@ -446,9 +435,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return f5_monitor
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
-        http_attr = ["recv", "recv disable", "reverse", "send"]
+
         ignore_list = ['adaptive']
-        http_attr = http_attr + ignore_list
+        http_attr = self.http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
@@ -464,9 +453,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
-        https_attr = ["recv", "recv disable", "reverse", "send"]
+
         ignore_list = ['compatibility']
-        https_attr = ignore_list + https_attr
+        https_attr = ignore_list + self.https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
@@ -481,8 +470,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
-        tcp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
-        skipped = [key for key in skipped if key not in tcp_attr]
+
+        skipped = [key for key in skipped if key not in self.tcp_attr]
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -514,8 +503,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
-        udp_attr = ["dest", "send", "recv", "recv disable", "reverse"]
-        skipped = [key for key in skipped if key not in udp_attr]
+        skipped = [key for key in skipped if key not in self.udp_attr]
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
         if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
@@ -546,15 +534,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
         script_vars = ""
-        ext_attr = ["run", "args", "user-defined"]
         for key in f5_monitor.keys():
             if key not in ('args', 'run') and '\"' in f5_monitor[key]:
-                ext_attr.append(key)
+                self.ext_attr.append(key)
                 param_value = f5_monitor[key].replace('\"', '')
                 script_vars += "%s=%s," % (key, param_value)
         if script_vars:
             script_vars = script_vars[:-1]
-        skipped = [key for key in skipped if key not in ext_attr]
+        skipped = [key for key in skipped if key not in self.ext_attr]
         cmd_code = f5_monitor.get("run", None)
         cmd_params = f5_monitor.get("args", None)
         cmd_code = cmd_code.replace('\"', '') if cmd_code else None
