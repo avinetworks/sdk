@@ -138,7 +138,7 @@ class ApiSession(Session):
 
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None,
-                 timeout=None):
+                 timeout=None, retry_conxn_errors=False):
         """
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
@@ -167,6 +167,7 @@ class ApiSession(Session):
         self.verify = verify
         self.port = port
         self.key = controller_ip + ":" + username
+        self.retry_conxn_errors = retry_conxn_errors
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -207,7 +208,7 @@ class ApiSession(Session):
     @staticmethod
     def get_session(controller_ip, username, password=None, token=None,
                     tenant=None, tenant_uuid=None, verify=False, port=None,
-                    timeout=None):
+                    timeout=None, retry_conxn_errors=False):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -219,6 +220,7 @@ class ApiSession(Session):
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param port: Rest-API may use a different port other than 443
         :param timeout: timeout for API calls; Default value is 60 seconds
+        :param retry_conxn_errors: retry on connection errors
         """
         key = controller_ip + ":" + username
         try:
@@ -237,10 +239,11 @@ class ApiSession(Session):
             user_session = None
 
         if not user_session:
-            user_session = ApiSession(controller_ip, username, password,
-                                      token=token, tenant=tenant,
-                                      tenant_uuid=tenant_uuid, verify=verify,
-                                      port=port, timeout=timeout)
+            user_session = ApiSession(
+                controller_ip, username, password, token=token, tenant=tenant,
+                tenant_uuid=tenant_uuid, verify=verify, port=port,
+                timeout=timeout,
+                retry_conxn_errors=retry_conxn_errors)
             ApiSession.sessionDict[key] = \
                 {"api": user_session, "last_used": datetime.utcnow()}
         ApiSession._clean_inactive_sessions()
@@ -348,6 +351,8 @@ class ApiSession(Session):
                           timeout=timeout, **kwargs)
         except ConnectionError as e:
             logger.warning('Connection error retrying %s', e)
+            if not self.retry_conxn_errors:
+                raise
             connection_error = True
         except Exception as e:
             logger.error('Error in Requests library %s', e)
@@ -365,8 +370,8 @@ class ApiSession(Session):
             ApiSession.reset_session(self)
             self.num_session_retries += 1
             if self.num_session_retries > self.MAX_API_RETRIES:
-                # Added this such that any code which re-tries can be
-                # successful eventually.
+                # Added this such that any code which re-tries can succeed
+                # eventually.
                 self.num_session_retries = 0
                 raise APIError(
                     "giving up after %d retries connection failure %s" %
