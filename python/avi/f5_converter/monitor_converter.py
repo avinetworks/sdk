@@ -123,7 +123,7 @@ class MonitorConfigConv(object):
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
         tenant, name = conv_utils.get_tenant_ref(name)
-        if not tenant_ref == 'admin':
+        if  tenant_ref != 'admin':
             tenant = tenant_ref
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
