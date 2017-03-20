@@ -58,7 +58,7 @@ class PersistenceConfigConv(object):
                 profile = prof_conv.update_with_default_profile(
                     persist_mode, profile, f5_persistence_dict, name)
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if not tenant_ref == 'admin':
+                if tenant_ref != 'admin':
                     tenant = tenant_ref
                 if persist_mode == "cookie":
                     persist_profile = self.convert_cookie(name, profile,
@@ -89,7 +89,7 @@ class PersistenceConfigConv(object):
                         'profile', "hash-persistence", name, conv_status, msg)
                     continue
                 else:
-                    LOG.warn(
+                    LOG.warning(
                         'persist mode not supported skipping conversion: %s' %
                         name)
                     self.update_conv_status_for_skip(persist_mode, name)

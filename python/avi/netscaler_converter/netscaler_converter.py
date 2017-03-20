@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of VS created', default='disable')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='16.2')
+                        help='Target Avi controller version', default='16.3')
     parser.add_argument('--ns_host_ip', help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
     parser.add_argument('--ns_ssh_password',
