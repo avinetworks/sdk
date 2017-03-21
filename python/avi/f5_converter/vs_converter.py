@@ -12,11 +12,11 @@ LOG = logging.getLogger(__name__)
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_attributes):
+    def get_instance(cls, version, f5_virtualservice_attributes):
         if version == '10':
-            return VSConfigConvV10(f5_attributes)
+            return VSConfigConvV10(f5_virtualservice_attributes)
         if version in ['11', '12']:
-            return VSConfigConvV11(f5_attributes)
+            return VSConfigConvV11(f5_virtualservice_attributes)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -347,10 +347,10 @@ class VSConfigConv(object):
         return False
 
 class VSConfigConvV11(VSConfigConv):
-    def __init__(self, f5_attributes):
-        self.supported_attr = f5_attributes['VS_supported_attr_V11']
-        self.ignore_for_value = f5_attributes['VS_ignore_for_value_V11']
-        self.unsupported_types = f5_attributes['VS_unsupported_types_V11']
+    def __init__(self, f5_virtualservice_attributes):
+        self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
+        self.ignore_for_value = f5_virtualservice_attributes['VS_ignore_for_value']
+        self.unsupported_types = f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'connection-limit'
 
     def get_persist_ref(self, f5_vs):
@@ -375,10 +375,10 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    def __init__(self, f5_attributes):
-        self.supported_attr = f5_attributes['VS_supported_attr']
-        self.ignore_for_value = f5_attributes['VS_ignore_for_value']
-        self.unsupported_types = f5_attributes['VS_unsupported_types']
+    def __init__(self, f5_virtualservice_attributes):
+        self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
+        self.ignore_for_value = f5_virtualservice_attributes['VS_ignore_for_value']
+        self.unsupported_types = f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'limit'
 
     def get_persist_ref(self, f5_vs):

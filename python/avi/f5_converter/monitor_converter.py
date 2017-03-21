@@ -11,11 +11,11 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_atributes):
+    def get_instance(cls, version, f5_monitor_atributes):
         if version == '10':
-            return MonitorConfigConvV10(f5_atributes)
+            return MonitorConfigConvV10(f5_monitor_atributes)
         if version in ['11', '12']:
-            return MonitorConfigConvV11(f5_atributes)
+            return MonitorConfigConvV11(f5_monitor_atributes)
 
     def get_defaults(self, monitor_config, key):
         pass
@@ -182,27 +182,27 @@ class MonitorConfigConv(object):
 
 
 class MonitorConfigConvV11(MonitorConfigConv):
-    def __init__(self, f5):
-        self.supported_types = f5['Monitor_Supported_Types']
+    def __init__(self, f5_monitor_attributes):
+        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
-        self.supported_types = f5['Monitor_Supported_Types']
-        self.supported_attributes = f5['Monitor_Supported_Attributes']
-        self.indirect_mappings = f5['Monitor_Indirect_Mappings']
-        self.ignore = f5['Monitor_Ignore']
+        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
+        self.supported_attributes = f5_monitor_attributes['Monitor_Supported_Attributes']
+        self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
+        self.ignore = f5_monitor_attributes['Monitor_Ignore']
         self.dest_key = "destination"
-        self.na_http = f5['Monitor_Na_Http']
-        self.na_https = f5['Monitor_Na_Https']
-        self.na_dns = f5['Monitor_Na_Dns']
-        self.na_tcp = f5['Monitor_Na_Tcp']
-        self.na_udp = f5['Monitor_Na_Udp']
-        self.na_icmp = f5['Monitor_Na_Icmp']
-        self.na_external = f5['Monitor_Na_External']
-        self.http_attr = f5['Monitor_http_attr']
-        self.https_attr = f5['Monitor_https_attr']
-        self.dns_attr = f5['Monitor_dns_attr']
-        self.tcp_attr = f5['Monitor_tcp_attr']
-        self.udp_attr = f5['Monitor_udp_attr']
-        self.ext_attr = f5['Monitor_ext_attr']
+        self.na_http = f5_monitor_attributes['Monitor_Na_Http']
+        self.na_https = f5_monitor_attributes['Monitor_Na_Https']
+        self.na_dns = f5_monitor_attributes['Monitor_Na_Dns']
+        self.na_tcp = f5_monitor_attributes['Monitor_Na_Tcp']
+        self.na_udp = f5_monitor_attributes['Monitor_Na_Udp']
+        self.na_icmp = f5_monitor_attributes['Monitor_Na_Icmp']
+        self.na_external = f5_monitor_attributes['Monitor_Na_External']
+        self.http_attr = f5_monitor_attributes['Monitor_http_attr']
+        self.https_attr = f5_monitor_attributes['Monitor_https_attr']
+        self.dns_attr = f5_monitor_attributes['Monitor_dns_attr']
+        self.tcp_attr = f5_monitor_attributes['Monitor_tcp_attr']
+        self.udp_attr = f5_monitor_attributes['Monitor_udp_attr']
+        self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
 
     def get_default_monitor(self, monitor_type, monitor_config):
         default_name = "%s %s" % (monitor_type, monitor_type)
@@ -392,26 +392,26 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
-    def __init__(self, f5):
-        self.supported_types = f5['Monitor_Supported_Types']
+    def __init__(self, f5_monitor_attributes):
+        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
-        self.supported_types = f5['Monitor_Supported_Types']
-        self.supported_attributes =f5['Monitor_Supported_Attributes']
-        self.indirect_mappings = f5['Monitor_Indirect_Mappings']
-        self.ignore = f5['Monitor_Ignore']
+        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
+        self.supported_attributes =f5_monitor_attributes['Monitor_Supported_Attributes']
+        self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
+        self.ignore = f5_monitor_attributes['Monitor_Ignore']
         self.dest_key = "dest"
-        self.na_http = f5['Monitor_Na_Http']
-        self.na_https = f5['Monitor_Na_Https']
-        self.na_dns =  f5['Monitor_Na_Dns']
-        self.na_tcp = f5['Monitor_Na_Tcp']
-        self.na_udp = f5['Monitor_Na_Udp']
-        self.na_icmp = f5['Monitor_Na_Icmp']
-        self.na_external = f5['Monitor_Na_External']
-        self.http_attr = f5['Monitor_http_attr']
-        self.https_attr = f5['Monitor_https_attr']
-        self.tcp_attr = f5['Monitor_tcp_attr']
-        self. udp_attr = f5['Monitor_udp_attr']
-        self.ext_attr = f5['Monitor_ext_attr']
+        self.na_http = f5_monitor_attributes['Monitor_Na_Http']
+        self.na_https = f5_monitor_attributes['Monitor_Na_Https']
+        self.na_dns =  f5_monitor_attributes['Monitor_Na_Dns']
+        self.na_tcp = f5_monitor_attributes['Monitor_Na_Tcp']
+        self.na_udp = f5_monitor_attributes['Monitor_Na_Udp']
+        self.na_icmp = f5_monitor_attributes['Monitor_Na_Icmp']
+        self.na_external = f5_monitor_attributes['Monitor_Na_External']
+        self.http_attr = f5_monitor_attributes['Monitor_http_attr']
+        self.https_attr = f5_monitor_attributes['Monitor_https_attr']
+        self.tcp_attr = f5_monitor_attributes['Monitor_tcp_attr']
+        self. udp_attr = f5_monitor_attributes['Monitor_udp_attr']
+        self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key

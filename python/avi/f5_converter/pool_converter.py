@@ -9,11 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class PoolConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_attributes):
+    def get_instance(cls, version, f5_pool_attributes):
         if version == '10':
-            return PoolConfigConvV10(f5_attributes)
+            return PoolConfigConvV10(f5_pool_attributes)
         if version in ['11', '12']:
-            return PoolConfigConvV11(f5_attributes)
+            return PoolConfigConvV11(f5_pool_attributes)
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -244,9 +244,9 @@ class PoolConfigConv(object):
 
 
 class PoolConfigConvV11(PoolConfigConv):
-    def __init__(self, f5):
-        self.supported_attr = f5['Pool_supported_attr']
-        self.supported_attributes = f5['Pool_supported_attr_convert_' \
+    def __init__(self, f5_pool_attributes):
+        self.supported_attr = f5_pool_attributes['Pool_supported_attr']
+        self.supported_attributes = f5_pool_attributes['Pool_supported_attr_convert_' \
                                          'servers_config']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
@@ -409,9 +409,9 @@ class PoolConfigConvV11(PoolConfigConv):
 
 
 class PoolConfigConvV10(PoolConfigConv):
-    def __init__(self, f5_attributes):
-        self.supported_attr = f5_attributes['Pool_supported_attr_1']
-        self.supported_attributes = f5_attributes['Pool_supported_attr_2']
+    def __init__(self, f5_pool_attributes):
+        self.supported_attr = f5_pool_attributes['Pool_supported_attr_1']
+        self.supported_attributes = f5_pool_attributes['Pool_supported_attr_2']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -456,8 +456,9 @@ class PoolConfigConvV10(PoolConfigConv):
         converted_objs = dict()
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         if is_pg:
-            converted_objs = self.convert_for_pg(
-                pg_dict, pool_obj, name, tenant, avi_config)
+            converted_objs = self.convert_for_pg(pg_dict,
+                                                 pool_obj, name,
+                                                 tenant, avi_config,cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
 
