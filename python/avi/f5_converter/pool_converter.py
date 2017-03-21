@@ -193,6 +193,7 @@ class PoolConfigConv(object):
         if skipped:
             status = 'partial'
         conv_status['status'] = status
+
         conv_utils.add_conv_status('pool', None, name, conv_status,
                                    converted_objs)
 
@@ -248,6 +249,7 @@ class PoolConfigConvV11(PoolConfigConv):
         self.supported_attr = f5_pool_attributes['Pool_supported_attr']
         self.supported_attributes = f5_pool_attributes['Pool_supported_attr_convert_' \
                                          'servers_config']
+        self.ignore_for_val = f5_pool_attributes['Pool_ignore_val']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -289,7 +291,15 @@ class PoolConfigConvV11(PoolConfigConv):
             pool_obj["health_monitor_refs"] = monitor_refs
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
-
+        for attr in self.ignore_for_val:
+            ignore_val = self.ignore_for_val[attr]
+            actual_val = f5_pool.get(attr, None)
+            if not actual_val:
+                continue
+            if isinstance(ignore_val, str) and actual_val == ignore_val:
+                skipped_attr.remove(attr)
+            elif isinstance(ignore_val, list) and actual_val in ignore_val:
+                skipped_attr.remove(attr)
         is_pg, pg_dict = self.check_for_pool_group(servers)
         if is_pg:
             converted_objs = self.convert_for_pg(
@@ -412,6 +422,7 @@ class PoolConfigConvV10(PoolConfigConv):
     def __init__(self, f5_pool_attributes):
         self.supported_attr = f5_pool_attributes['Pool_supported_attr_1']
         self.supported_attributes = f5_pool_attributes['Pool_supported_attr_2']
+        self.ignore_for_val = f5_pool_attributes['Pool_ignore_val']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref):
@@ -451,7 +462,15 @@ class PoolConfigConvV10(PoolConfigConv):
 
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
-
+        for attr in self.ignore_for_val:
+            ignore_val = self.ignore_for_val[attr]
+            actual_val = f5_pool.get(attr, None)
+            if not actual_val:
+                continue
+            if isinstance(ignore_val, str) and actual_val == ignore_val:
+                skipped_attr.remove(attr)
+            elif isinstance(ignore_val, list) and actual_val in ignore_val:
+                skipped_attr.remove(attr)
         is_pg, pg_dict = self.check_for_pool_group(servers)
         converted_objs = dict()
         tenant, name = conv_utils.get_tenant_ref(pool_name)

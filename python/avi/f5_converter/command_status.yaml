@@ -131,6 +131,9 @@ VERSION_11:
     - 'rate-limit'
     - 'priority-group'
 
+    Pool_ignore_val:
+        min-active-members: 1
+
     Profile_supported_types:
     - "client-ssl"
     - "server-ssl"
@@ -147,6 +150,7 @@ VERSION_11:
     Profile_ignore_for_defaults:
         'app-service': 'none'
         'uri-exclude': 'none'
+        'allow-non-ssl': 'disabled'
 
 
     Profile_na_ssl:
@@ -157,6 +161,7 @@ VERSION_11:
     - 'renegotiate-max-record-delay'
     - 'strict-resume'
     - 'renegotiate-period'
+    - 'inherit-certkeychain'
 
     Profile_indirect_ssl:
     - 'renegotiate'
@@ -178,6 +183,7 @@ VERSION_11:
     Profile_na_http:
     - 'lws-width'
     - 'lws-separator'
+    - 'allow-http-10'
 
     Profile_supported_http:
     - "description"
@@ -522,6 +528,8 @@ VERSION_10:
     - 'limit'
     - 'priority'
 
+    Pool_ignore_val:
+        min-active-members: '1'
 
     Profile_supported_types:
     - "clientssl"
@@ -554,6 +562,7 @@ VERSION_10:
     - 'renegotiate max record delay'
     - 'strict resume'
     - 'renegotiate period'
+    - 'inherit-certkeychain'
 
     Profile_indirect_ssl:
     - 'renegotiate'
@@ -563,9 +572,11 @@ VERSION_10:
     Profile_ignore_for_defaults:
         'app service': 'none'
         'uri exclude': 'none'
+        'allow-non-ssl': 'disabled'
 
     Profile_na_http:
     - 'lws width'
+    - 'allow-http-10'
 
     Profile_supported_http:
     - "insert xforwarded for"
