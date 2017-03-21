@@ -72,8 +72,10 @@ class ProfileConverter(object):
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
         # ssl cipher yaml
-        ssl_ciphers_dict = yaml.safe_load(open(ssl_ciphers_yaml))
-        self.netscaler_ssl_cipher_to_open_ssl_cipher = ssl_ciphers_dict.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
+        ssl_ciphers_dict = yaml.safe_load(open(os.path.dirname(__file__) + '/%s'
+                                               % ssl_ciphers_yaml))
+        self.netscaler_ssl_cipher_to_open_ssl_cipher = \
+            ssl_ciphers_dict.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
         self.open_ssl_cipher_to_avi_ssl_cipher = ssl_ciphers_dict.get(
             'open_ssl_cipher_to_avi_ssl_cipher', {})
         # list of keys with passphrase provided in YAML.
