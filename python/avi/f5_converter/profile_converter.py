@@ -10,12 +10,14 @@ LOG = logging.getLogger(__name__)
 
 class ProfileConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_attributes):
-        f5_attributes = f5_attributes
+    def get_instance(cls, version, f5_profile_attributes):
+        f5_profile_attributes = f5_profile_attributes
         if version == '10':
-            return ProfileConfigConvV10(f5_attributes)
+            return ProfileConfigConvV10(f5_profile_attributes)
         if version in ['11', '12']:
-            return ProfileConfigConvV11(f5_attributes)
+            return ProfileConfigConvV11(f5_profile_attributes)
+
+    default_key = None
 
     ciphers = 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-' \
               'ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-' \
@@ -155,42 +157,42 @@ class ProfileConfigConv(object):
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
-    def __init__(self, f5_attributes):
+    def __init__(self, f5_profile_attributes):
         self.supported_types = \
-            f5_attributes['Profile_supported_types']
+            f5_profile_attributes['Profile_supported_types']
         self.ignore_for_defaults = \
-            f5_attributes['Profile_ignore_for_defaults']
+            f5_profile_attributes['Profile_ignore_for_defaults']
         self.default_key = "defaults-from"
-        self.na_ssl = f5_attributes['Profile_na_ssl']
-        self.indirect_ssl = f5_attributes['Profile_indirect_ssl']
-        self.supported_ssl = f5_attributes['Profile_supported_ssl']
-        self.na_http = f5_attributes['Profile_na_http']
-        self.supported_http = f5_attributes['Profile_supported_http']
-        self.indirect_http = f5_attributes['Profile_indirect_http']
-        self.na_dns = f5_attributes['Profile_na_dns']
-        self.supported_dns = f5_attributes['Profile_supported_dns']
-        self.indirect_dns = f5_attributes['Profile_indirect_dns']
-        self.supported_hc = f5_attributes['Profile_supported_hc']
-        self.na_hc = f5_attributes['Profile_na_hc']
-        self.indirect_hc = f5_attributes['Profile_indirect_hc']
+        self.na_ssl = f5_profile_attributes['Profile_na_ssl']
+        self.indirect_ssl = f5_profile_attributes['Profile_indirect_ssl']
+        self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
+        self.na_http = f5_profile_attributes['Profile_na_http']
+        self.supported_http = f5_profile_attributes['Profile_supported_http']
+        self.indirect_http = f5_profile_attributes['Profile_indirect_http']
+        self.na_dns = f5_profile_attributes['Profile_na_dns']
+        self.supported_dns = f5_profile_attributes['Profile_supported_dns']
+        self.indirect_dns = f5_profile_attributes['Profile_indirect_dns']
+        self.supported_hc = f5_profile_attributes['Profile_supported_hc']
+        self.na_hc = f5_profile_attributes['Profile_na_hc']
+        self.indirect_hc = f5_profile_attributes['Profile_indirect_hc']
 
-        self.supported_wa = f5_attributes['Profile_supported_wa']
-        self.indirect_wa = f5_attributes['Profile_indirect_wa']
+        self.supported_wa = f5_profile_attributes['Profile_supported_wa']
+        self.indirect_wa = f5_profile_attributes['Profile_indirect_wa']
 
-        self.supported_l4 = f5_attributes['Profile_supported_l4']
-        self.na_l4 = f5_attributes['profile_na_l4']
-        self.indirect_l4 = f5_attributes['Profile_indirect_l4']
+        self.supported_l4 = f5_profile_attributes['Profile_supported_l4']
+        self.na_l4 = f5_profile_attributes['profile_na_l4']
+        self.indirect_l4 = f5_profile_attributes['Profile_indirect_l4']
 
-        self.supported_fh = f5_attributes['Profile_supported_fh']
-        self.indirect_fh = f5_attributes['Profile_indirect_fh']
-        self.na_fh = f5_attributes['Profile_na_fh']
+        self.supported_fh = f5_profile_attributes['Profile_supported_fh']
+        self.indirect_fh = f5_profile_attributes['Profile_indirect_fh']
+        self.na_fh = f5_profile_attributes['Profile_na_fh']
 
-        self.supported_tcp = f5_attributes['Profile_supported_tcp']
-        self.indirect_tcp = f5_attributes['Profile_indirect_tcp']
-        self.na_tcp = f5_attributes['Profile_na_tcp']
-        self.supported_udp = f5_attributes['Profile_supported_udp']
-        self.indirect_udp = f5_attributes['Profile_indirect_udp']
-        self.supported_oc = f5_attributes['Profile_supported_oc']
+        self.supported_tcp = f5_profile_attributes['Profile_supported_tcp']
+        self.indirect_tcp = f5_profile_attributes['Profile_indirect_tcp']
+        self.na_tcp = f5_profile_attributes['Profile_na_tcp']
+        self.supported_udp = f5_profile_attributes['Profile_supported_udp']
+        self.indirect_udp = f5_profile_attributes['Profile_indirect_udp']
+        self.supported_oc = f5_profile_attributes['Profile_supported_oc']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -730,34 +732,28 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    def __init__(self, f5_attributes):
-        self.supported_types = f5_attributes['Profile_supported_types']
+    def __init__(self, f5_profile_attributes):
+        self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
-
-        self.supported_ssl = f5_attributes['Profile_supported_ssl']
-        self.na_ssl = f5_attributes['Profile_na_ssl']
-        self.indirect_ssl = f5_attributes['Profile_indirect_ssl']
-        self.ignore_for_defaults = f5_attributes['Profile_ignore_for_defaults']
-        self.na_http = f5_attributes['Profile_na_http']
-        self.supported_http = f5_attributes['Profile_supported_http']
-        self.indirect_http = f5_attributes['Profile_indirect_http']
-
+        self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
+        self.na_ssl = f5_profile_attributes['Profile_na_ssl']
+        self.indirect_ssl = f5_profile_attributes['Profile_indirect_ssl']
+        self.ignore_for_defaults = f5_profile_attributes['Profile_ignore_for_defaults']
+        self.na_http = f5_profile_attributes['Profile_na_http']
+        self.supported_http = f5_profile_attributes['Profile_supported_http']
+        self.indirect_http = f5_profile_attributes['Profile_indirect_http']
         self.na_dns = []
-        self.supported_dns = f5_attributes['Profile_supported_dns']
+        self.supported_dns = f5_profile_attributes['Profile_supported_dns']
         self.indirect_dns = []
-
-        self.supported_l4 = f5_attributes['Profile_supported_l4']
-        self.indirect_l4 = f5_attributes['Profile_indirect_l4']
-
-        self.supported_fh = f5_attributes['Profile_supported_fh']
-        self.indirect_fh = f5_attributes['Profile_indirect_fh']
-
-        self.supported_tcp = f5_attributes['Profile_supported_tcp']
-        self.indirect_tcp = f5_attributes['Profile_indirect_tcp']
-
-        self.supported_udp = f5_attributes['Profile_supported_udp']
+        self.supported_l4 = f5_profile_attributes['Profile_supported_l4']
+        self.indirect_l4 = f5_profile_attributes['Profile_indirect_l4']
+        self.supported_fh = f5_profile_attributes['Profile_supported_fh']
+        self.indirect_fh = f5_profile_attributes['Profile_indirect_fh']
+        self.supported_tcp = f5_profile_attributes['Profile_supported_tcp']
+        self.indirect_tcp = f5_profile_attributes['Profile_indirect_tcp']
+        self.supported_udp = f5_profile_attributes['Profile_supported_udp']
         self.indirect_udp = []
-        self.supported_oc = f5_attributes['Profile_supported_oc']
+        self.supported_oc = f5_profile_attributes['Profile_supported_oc']
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,

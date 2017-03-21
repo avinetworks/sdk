@@ -812,7 +812,7 @@ def add_vrf(avi_config, vrf):
 
 def get_tenant_ref(name):
     tenant = 'admin'
-    if name.startswith('/'):
+    if name and name.startswith('/'):
         parts = name.split('/', 2)
         tenant = parts[1]
         if not parts[2]:

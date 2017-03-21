@@ -9,11 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class PersistenceConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_attributes):
+    def get_instance(cls, version, f5_persistence_attributes):
         if version == '10':
-            return PersistenceConfigConvV10(f5_attributes)
+            return PersistenceConfigConvV10(f5_persistence_attributes)
         if version in ['11', '12']:
-            return PersistenceConfigConvV11(f5_attributes)
+            return PersistenceConfigConvV11(f5_persistence_attributes)
 
     def convert_cookie_persistence(self, name, profile):
         pass
@@ -133,10 +133,10 @@ class PersistenceConfigConv(object):
 
 
 class PersistenceConfigConvV11(PersistenceConfigConv):
-    def __init__(self, f5_attributes):
-        self.indirect = f5_attributes['Persistence_indirect']
-        self.supported_attr = f5_attributes['Persistence_supported_attr']
-        self.supported_attr_convert = f5_attributes['Persistence_' \
+    def __init__(self, f5_persistence_attributes):
+        self.indirect = f5_persistence_attributes['Persistence_indirect']
+        self.supported_attr = f5_persistence_attributes['Persistence_supported_attr']
+        self.supported_attr_convert = f5_persistence_attributes['Persistence_' \
                                             'supported_attr_' \
                                             'convert_source_addr']
 
@@ -147,13 +147,13 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
                      % name)
             conv_utils.add_status_row('persistence', 'cookie', name, 'skipped')
             return None
-        supported_attr = ["cookie-name", "defaults-from", "expiration",
-                          "method"]
+        #supported_attr = ["cookie-name", "defaults-from", "expiration",
+                          #"method"]
         ignore_lst = ['always-send']
         parent_obj = super(PersistenceConfigConvV11, self)
-        supported_attr += ignore_lst
+        self.supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
-                    if attr not in supported_attr]
+                    if attr not in self.supported_attr]
         cookie_name = profile.get("cookie-name", name+':cookie-name')
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
@@ -172,8 +172,9 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect_mappings, tenant):
+        supported_attr = ['defaults-from']
         skipped += [attr for attr in profile.keys()
-                    if attr not in self.supported_attr]
+                    if attr not in supported_attr]
         indirect_mappings.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -225,11 +226,11 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
 
 
 class PersistenceConfigConvV10(PersistenceConfigConv):
-    def __init__(self, f5_attributes):
-        self.indirect = f5_attributes['Persistence_indirect']
+    def __init__(self, f5_persistence_attributes):
+        self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = \
-            f5_attributes['Persistence_supported_attr']
-        self.supported_attr_conver = f5_attributes['Persistence_supported_attr_' \
+            f5_persistence_attributes['Persistence_supported_attr']
+        self.supported_attr_conver = f5_persistence_attributes['Persistence_supported_attr_' \
                       'convert_source_addr']
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('cookie mode', 'insert')
@@ -238,11 +239,11 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                      % name)
             conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
             return None
-        supported_attr = ["cookie name", "mode", "defaults from", "cookie mode",
-                          "cookie hash offset", "cookie hash length",
-                          "cookie expiration"]
+        #supported_attr = ["cookie name", "mode", "defaults from", "cookie mode",
+                          #"cookie hash offset", "cookie hash length",
+                          #"cookie expiration"]
         skipped += [attr for attr in profile.keys()
-                   if attr not in supported_attr]
+                   if attr not in self.supported_attr]
         cookie_name = profile.get("cookie name", name+':-cookie')
         if not cookie_name:
             LOG.error("Missing Required field cookie name in: %s", name)
@@ -272,9 +273,9 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect, tenant):
-
+        supported_attr = ["mode", 'defaults-from']
         skipped += [attr for attr in profile.keys()
-                    if attr not in self.supported_attr]
+                    if attr not in supported_attr]
         indirect.append("timeout")
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",

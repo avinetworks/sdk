@@ -4,6 +4,7 @@
 # Indirect commands are supported indirectly in AVI
 # Not Supported commands are not supported by this tool yet
 
+# Attributes for f5 version 11
 VERSION_11:
     Monitor_Supported_Types:
      - "http"
@@ -92,6 +93,7 @@ VERSION_11:
     - "run"
     - "args"
     - "user-defined"
+
     Persistence_indirect:
     - "hash-length"
     - "hash-offset"
@@ -101,7 +103,10 @@ VERSION_11:
     - 'override-connection-limit'
 
     Persistence_supported_attr:
+    - "cookie-name"
     - "defaults-from"
+    - "expiration"
+    - "method"
 
     Persistence_supported_attr_convert_source_addr:
     - "timeout"
@@ -142,6 +147,7 @@ VERSION_11:
     Profile_ignore_for_defaults:
         'app-service': 'none'
         'uri-exclude': 'none'
+
 
     Profile_na_ssl:
     - 'secure-renegotiation'
@@ -395,7 +401,7 @@ VERSION_11:
     - "internal"
     - "reject"
 
-
+# Attributes for f5 version 10
 VERSION_10:
     Monitor_Supported_Types:
     - "http"
@@ -486,8 +492,13 @@ VERSION_10:
     - 'override connection limit'
 
     Persistence_supported_attr:
+    - "cookie name"
     - "mode"
     - "defaults from"
+    - "cookie mode"
+    - "cookie hash offset"
+    - "cookie hash length"
+    - "cookie expiration"
 
     Persistence_supported_attr_convert_source_addr:
     - "timeout"
