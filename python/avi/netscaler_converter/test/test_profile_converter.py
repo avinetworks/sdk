@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
         profile_converter = ProfileConverter()
         avi_config = dict()
         ns_config_dict = gSAMPLE_CONFIG["ssl_profile_config"]
-        profile_converter.convert(ns_config_dict, avi_config, "./input_files")
+        profile_converter.convert(ns_config_dict, avi_config, "./certs")
         ssl_profile = avi_config.get('SSLProfile', None)
         ssl_certs = avi_config.get('SSLKeyAndCertificate', None)
         pki_profile = avi_config.get('PKIProfile', None)
@@ -43,7 +43,7 @@ class Test(unittest.TestCase):
         profile_converter = ProfileConverter()
         avi_config = dict()
         ns_config_dict = gSAMPLE_CONFIG["http_profile_config"]
-        profile_converter.convert(ns_config_dict, avi_config, "./input_files")
+        profile_converter.convert(ns_config_dict, avi_config, "./certs")
         http_profiles = avi_config.get('ApplicationProfile', None)
         assert http_profiles[0]
         assert http_profiles[0]['type'] == 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
         profile_converter = ProfileConverter()
         avi_config = dict()
         ns_config_dict = gSAMPLE_CONFIG["tcp_profile_config"]
-        profile_converter.convert(ns_config_dict, avi_config, "./input_files")
+        profile_converter.convert(ns_config_dict, avi_config, "./certs")
         tcp_profiles = avi_config.get('NetworkProfile', None)
         assert tcp_profiles[0]
         assert tcp_profiles[0]['profile']['type'] == 'PROTOCOL_TYPE_TCP_PROXY'

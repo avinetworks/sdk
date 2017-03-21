@@ -3,8 +3,8 @@ This file is used to define constants which are used across code.
 """
 
 import yaml
-import os
 import re
+import os
 # Status Constants which are used in CSV/report generation of the conversion run.
 STATUS_SKIPPED = 'SKIPPED'
 STATUS_SUCCESSFUL = 'SUCCESSFUL'
@@ -29,7 +29,53 @@ OBJECT_TYPE_PKI_PROFILE = 'pkiprofile'
 OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE = 'sslkeyandcertificate'
 OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
 OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
+OBJECT_TYPE_VIRTUAL_SERVICE = 'virtualservice'
+OBJECT_TYPE_STRING_GROUP = 'stringgroup'
 
+# Regex for IPV6
+IPV6_Address = re.compile('^(?:(?:[0-9A-Fa-f]{1,4}:){6}'
+                                      '(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|'
+                                      '(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|'
+                                      '2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|'
+                                      '25[0-5]))|::(?:[0-9A-Fa-f]{1,4}:){5}'
+                                      '(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|'
+                                      '(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|'
+                                      '2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|'
+                                      '25[0-5]))|(?:[0-9A-Fa-f]{1,4})?::(?:'
+                                      '[0-9A-Fa-f]{1,4}:){4}(?:[0-9A-Fa-f]'
+                                      '{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|'
+                                      '25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|'
+                                      '1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0'
+                                      '-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4})?::(?'
+                                      ':[0-9A-Fa-f]{1,4}:){3}(?:[0-9A-Fa-f]'
+                                      '{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|'
+                                      '25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|'
+                                      '1[0-9]{2}|2[0-4][0-9]|25[0-5]))|'
+                                      '(?:(?:[0-9A-Fa-f]{1,4}:){,2}'
+                                      '[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]'
+                                      '{1,4}:){2}(?:[0-9A-Fa-f]{1,4}:'
+                                      '[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9]'
+                                      '[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.)'
+                                      '{3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4]'
+                                      '[0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:)'
+                                      '{,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]'
+                                      '{1,4}:(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]'
+                                      '{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}'
+                                      '|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))'
+                                      '|(?:(?:[0-9A-Fa-f]{1,4}:){,4}[0-9A-Fa-f]'
+                                      '{1,4})?::(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]'
+                                      '{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}'
+                                      '|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|'
+                                      '[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25'
+                                      '[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,5}'
+                                      '[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|'
+                                      '(?:(?:[0-9A-Fa-f]{1,4}:){,6}'
+                                      '[0-9A-Fa-f]{1,4})?::)$')
 
 netscalar_command_status = None
 
@@ -87,5 +133,7 @@ def init():
     :return: None
     """
     global netscalar_command_status
-    netscalar_command_status = yaml.safe_load(
-        open(os.path.dirname(__file__) + "/command_status.yaml"))
+    netscalar_command_status = yaml.safe_load(open(os.path.dirname(__file__)
+                                                   + "/command_status.yaml"))
+
+
