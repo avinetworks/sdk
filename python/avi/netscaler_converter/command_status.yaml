@@ -34,7 +34,6 @@ SupportedCommands:
 - 'add rewrite action'
 - 'add ssl cipher'
 - 'bind ssl cipher'
-- 'add policy expression'
 - 'set ssl serviceGroup'
 - 'bind ssl serviceGroup'
 - 'set ssl service'
@@ -128,6 +127,9 @@ DatascriptCommands:
 - 'set transform action'
 - 'bind transform global'
 - 'add transform policy'
+- 'add policy stringmap'
+- 'bind policy stringmap'
+- 'add policy expression'
 
 NotSupported:
 - 'set channel'

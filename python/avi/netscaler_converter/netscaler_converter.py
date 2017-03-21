@@ -3,11 +3,12 @@ import argparse
 import logging
 import os
 import json
-
 import avi.netscaler_converter.netscaler_parser as ns_parser
 import avi.netscaler_converter.netscaler_config_converter as ns_conf_converter
-from avi.netscaler_converter import upload_config
 import avi.netscaler_converter.scp_util as scp_util
+
+from avi.netscaler_converter import ns_rest_config
+from avi.netscaler_converter import __version__
 
 LOG = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ if __name__ == "__main__":
                         help='absolute path for Netscaler config file')
     parser.add_argument('-l', '--input_folder_location',
                         help='location of extracted backup folder',
-                        default='./test/input_files')
+                        default='./test/certs')
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in',
                         default='output')
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of VS created', default='disable')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='16.2')
+                        help='Target Avi controller version', default='16.3')
     parser.add_argument('--ns_host_ip', help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
     parser.add_argument('--ns_ssh_password',
@@ -57,8 +58,19 @@ if __name__ == "__main__":
     parser.add_argument('--ns_key_file',
                         help='Netscaler host key file location if key based ' +
                              'authentication')
+    parser.add_argument('--ns_passphrase_file',
+                        help='Netscaler key passphrase yaml file')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
 
     args = parser.parse_args()
+
+    # print avi netscaler converter version
+    if args.version:
+        print "SDK Version: %s\nController Version: %s" % \
+              (__version__, args.controller_version)
+        exit(0)
 
     if not os.path.exists(args.output_file_path):
         os.mkdir(args.output_file_path)
@@ -77,8 +89,12 @@ if __name__ == "__main__":
             os.makedirs(output_dir)
         is_download_from_host = True
 
-    # LOG.info('Avi Build version : %s' % AVI_VERSION)
-    # LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
+    # Add logger and print avi netscaler converter version
+    LOG.info('AVI sdk version: %s Controller Version: %s'
+             % (__version__, args.controller_version))
+    print 'AVI sdk version: %s Controller Version: %s' \
+          % (__version__, args.controller_version)
+
     if is_download_from_host:
         LOG.debug("Copying files from host")
         scp_util.get_files_from_ns(input_dir, args.ns_host_ip,
@@ -87,13 +103,13 @@ if __name__ == "__main__":
         source_file = input_dir + os.path.sep + "ns.conf"
     else:
         source_file = args.ns_config_file
-
     ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
     avi_config = ns_conf_converter.convert(ns_config, args.tenant,
                                            args.cloud_name,
                                            args.controller_version, output_dir,
                                            input_dir, skipped_cmds,
-                                           args.vs_state)
+                                           args.vs_state,
+                                           args.ns_passphrase_file)
 
     if args.option == "cli-upload":
         text_file = open(output_dir + os.path.sep + "Output.json", "w")
@@ -102,6 +118,6 @@ if __name__ == "__main__":
         LOG.info('written avi config file ' +
                  output_dir + os.path.sep + "Output.json")
     else:
-        upload_config.upload_config_to_controller(
+        ns_rest_config.upload_config_to_controller(
             avi_config, args.controller_ip,
             args.user, args.password, args.tenant)

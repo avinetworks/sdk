@@ -436,9 +436,10 @@ def is_shared_same_vip(vs, avi_config):
     :return: Bool value
     """
 
-    shared_vip = [v for v in avi_config['VirtualService']
+    shared_vip = [v for v in avi_config
                   if v['ip_address']['addr'] == vs['ip_address']['addr']
                   and v['services'][0]['port'] == vs['services'][0]['port']]
+
     if shared_vip:
         return True
 

@@ -1,9 +1,10 @@
 import os
 from setuptools import setup, find_packages
 
+AVI_PIP_VERSION = ''
+
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
-AVI_PIP_VERSION = ''
 
 setup(
     name='avinetscalerconverter',
@@ -23,7 +24,8 @@ setup(
     ],
     include_package_data=True,
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
-                      'pycrypto', 'ecdsa', 'pyOpenssl'],
+                      'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
+                      'nose-testconfig', 'ConfigParser'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )

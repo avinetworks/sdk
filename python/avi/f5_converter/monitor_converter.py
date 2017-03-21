@@ -88,7 +88,8 @@ class MonitorConfigConv(object):
                                               'skipped')
                     continue
                 avi_monitor = self.convert_monitor(
-                    f5_monitor, key, monitor_config, input_dir, m_user_ignore, tenant)
+                    f5_monitor, key, monitor_config, input_dir, m_user_ignore,
+                    tenant)
                 if not avi_monitor:
                     continue
                 avi_config["HealthMonitor"].append(avi_monitor)
@@ -122,8 +123,9 @@ class MonitorConfigConv(object):
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
         tenant, name = conv_utils.get_tenant_ref(name)
-
-        monitor_dict['tenant_ref'] = tenant_ref
+        if  tenant_ref != 'admin':
+            tenant = tenant_ref
+        monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
         monitor_dict["receive_timeout"] = interval-1
         monitor_dict["failed_checks"] = failed_checks

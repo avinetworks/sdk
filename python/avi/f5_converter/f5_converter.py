@@ -8,8 +8,9 @@ import sys
 from requests.packages import urllib3
 from avi.f5_converter import f5_config_converter, \
     f5_parser, upload_config, scp_util, conversion_util
+from avi.f5_converter import __version__
 
-urllib3.disable_warnings()
+# urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 
 
@@ -95,6 +96,8 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--password',
                         help='controller password for auto upload',
                         default='avi123')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
     parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
                         default='admin')
     parser.add_argument('-c', '--controller_ip',
@@ -113,13 +116,21 @@ if __name__ == "__main__":
                         help='f5 host key file location if key based ' +
                              'authentication')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='16.2')
+                        help='Target Avi controller version', default='16.3')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
     parser.add_argument('--partition_config',
                         help='comma separated partition config files')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
 
     args = parser.parse_args()
+    # print avi f5 converter version
+    if args.version:
+        print "SDK Version: %s\nController Version: %s" % \
+              (__version__, args.controller_version)
+        exit(0)
     tenant = args.tenant
     init_logger_path(args.output_file_path)
     if not os.path.exists(args.output_file_path):
@@ -144,8 +155,12 @@ if __name__ == "__main__":
         user_ignore = json.loads(ignore_conf_str)
 
     partitions = []
-    #LOG.info('Avi Build version : %s' % AVI_VERSION)
-    #LOG.info('Avi pip version : %s' % AVI_PIP_VERSION)
+    # Add logger and print avi f5 converter version
+    LOG.info('AVI sdk version: %s Controller Version: %s'
+             % (__version__, args.controller_version))
+    print 'AVI sdk version: %s Controller Version: %s' \
+          % (__version__, args.controller_version)
+
     if args.partition_config:
         partitions = args.partition_config.split(',')
 
@@ -188,8 +203,8 @@ if __name__ == "__main__":
     dict_merge(f5_defaults_dict, f5_config_dict)
     f5_config_dict = f5_defaults_dict
     avi_config_dict = f5_config_converter.\
-        convert(f5_config_dict, output_dir, args.vs_state,
-                input_dir, args.f5_config_version, user_ignore, tenant)
+        convert(f5_config_dict, output_dir, args.vs_state, input_dir,
+                args.f5_config_version, user_ignore, tenant, args.cloud_name)
 
     avi_config_dict["META"] = {
         "supported_migrations": {
