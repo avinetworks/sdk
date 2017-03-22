@@ -244,9 +244,10 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if dest_str[1] != '*' and len(dest_str) > 1 \
                 and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
-
+        monitor_dict["http_monitor"]["http_response"] = http_rsp
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
@@ -267,8 +268,10 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if dest_str[1] != '*' and len(dest_str) > 1 \
                 and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp,http_rsp = self.get_maintenance_response(f5_monitor)
         monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        monitor_dict["https_monitor"]["http_response"] = http_rsp
         return skipped
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
@@ -292,8 +295,10 @@ class MonitorConfigConvV11(MonitorConfigConv):
         dns_monitor["rcode"] = rcode
         dns_monitor["query_name"] = f5_monitor.get("qname", None)
         monitor_dict["dns_monitor"] = dns_monitor
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         monitor_dict["dns_monitor"]["maintenance_response"] = maintenance_resp
+        monitor_dict["dns_monitor"]["http_response"] = http_rsp
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
@@ -315,12 +320,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
             tcp_monitor["maintenance_response"] = maintenance_resp
+            tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp}
+            tcp_monitor = {"maintenance_response": maintenance_resp,
+                           "http_response": http_rsp}
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp-half-open':
             if tcp_monitor:
@@ -349,11 +356,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if request or response:
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
             udp_monitor["maintenance_response"] = maintenance_resp
+            udp_monitor["http_response"] = http_rsp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp}
+            udp_monitor = {"maintenance_response": maintenance_resp,
+                           "http_response": http_rsp}
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
@@ -397,17 +407,26 @@ class MonitorConfigConvV11(MonitorConfigConv):
         :param f5_monitor: F5 monitor object
         :return: Avi monitor maintenance response value
         """
+        # Addded mapping for http_response.
         maintenance_response = ''
+        http_response = ''
         if "reverse" in f5_monitor:
             maintenance_response = f5_monitor.get("recv", '')
-        elif "recv-disable" in f5_monitor:
-            maintenance_response = f5_monitor["recv-disable"]
+            http_response = f5_monitor.get('recv disable', '')
+        else:
+            http_response = f5_monitor.get("recv", '')
+            maintenance_response = f5_monitor.get('recv disable', '')
         if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
+        if http_response:
+            http_response = \
+                http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
             maintenance_response = ''
-        return maintenance_response
+        if http_response == 'none':
+            http_response = ''
+        return maintenance_response, http_response
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
@@ -473,8 +492,10 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 and len(dest_str) > 1 and \
                 isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
+        monitor_dict["http_monitor"]["http_response"] = http_resp
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped):
@@ -498,8 +519,10 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 and len(dest_str) > 1 and \
                 isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        monitor_dict["https_monitor"]["http_response"] = http_resp
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
@@ -524,11 +547,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
             response = response.replace('\"', '') if response else None
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
             tcp_monitor["maintenance_response"] = maintenance_resp
+            tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp}
+            tcp_monitor = {"maintenance_response": maintenance_resp,
+                           "http_response": http_rsp}
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp_half_open':
             if tcp_monitor:
@@ -559,11 +585,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
             response = response.replace('\"', '') if response else None
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
-        maintenance_resp = self.get_maintenance_response(f5_monitor)
+        # Added mapping for http_response.
+        maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
             udp_monitor["maintenance_response"] = maintenance_resp
+            udp_monitor["http_response"] = http_resp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp}
+            udp_monitor = {"maintenance_response": maintenance_resp,
+                           "http_response": http_resp}
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
@@ -609,16 +638,25 @@ class MonitorConfigConvV10(MonitorConfigConv):
         :param f5_monitor: F5 monitor object
         :return: Avi monitor maintenance response value
         """
+        # Addded mapping for http_response.
         maintenance_response = ''
+        http_response = ''
         if "reverse" in f5_monitor:
             maintenance_response = f5_monitor.get("recv", '')
-        elif "recv disable" in f5_monitor:
-            maintenance_response = f5_monitor["recv disable"]
+            http_response = f5_monitor.get('recv disable', '')
+        else:
+            http_response = f5_monitor.get("recv", '')
+            maintenance_response = f5_monitor.get('recv disable', '')
         if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
+        if http_response:
+            http_response = \
+                http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
             maintenance_response = ''
-        return maintenance_response
+        if http_response == 'none':
+            http_response = ''
+        return maintenance_response, http_response
 
 
