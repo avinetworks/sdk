@@ -237,7 +237,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
-
+        destination = f5_monitor.get("destination", "*:*")
+        dest_str = destination.split(":")
+        # F5 version 11 have destination as port added code.
+        # if * is there then ignore it else add to port.
+        if dest_str[1] != '*' and len(dest_str) > 1 \
+                and isinstance(int(dest_str[1]), numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
         maintenance_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
 
@@ -254,6 +260,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": [
                 {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
             ]}
+        destination = f5_monitor.get("destination", "*:*")
+        dest_str = destination.split(":")
+        # F5 version 11 have destination as port added code.
+        # if * is there then ignore it else add to port.
+        if dest_str[1] != '*' and len(dest_str) > 1 \
+                and isinstance(int(dest_str[1]), numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
         maintenance_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
@@ -285,9 +298,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
         skipped = [key for key in skipped if key not in self.tcp_attr]
+        # F5 version 11 have destination as port added code.
+        # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
-        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+        if dest_str[1] != '*' and len(dest_str) > 1 \
+                and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
@@ -317,9 +333,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
         skipped = [key for key in skipped if key not in self.udp_attr]
+        # F5 version 11 have destination as port added code.
+        # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
-        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+        if dest_str[1] != '*' and len(dest_str) > 1 \
+                and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
@@ -435,7 +454,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return f5_monitor
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
-
         ignore_list = ['adaptive']
         http_attr = self.http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
@@ -447,7 +465,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
-
+        # F5 version 10 have dest as port added code.
+        # if * is there then ignore it else add to port.
+        destination = f5_monitor.get("dest", "*:*")
+        dest_str = destination.split(":")
+        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
+                and len(dest_str) > 1 and \
+                isinstance(int(dest_str[1]), numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
         maintenance_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
@@ -465,16 +490,27 @@ class MonitorConfigConvV10(MonitorConfigConv):
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
+        # F5 version 10 have dest as port added code.
+        # if * is there then ignore it else add to port.
+        destination = f5_monitor.get("dest", "*:*")
+        dest_str = destination.split(":")
+        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
+                and len(dest_str) > 1 and \
+                isinstance(int(dest_str[1]), numbers.Integral):
+            monitor_dict["monitor_port"] = dest_str[1]
         maintenance_resp = self.get_maintenance_response(f5_monitor)
         monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
-
         skipped = [key for key in skipped if key not in self.tcp_attr]
+        # F5 version 10 have dest as port added code.
+        # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
-        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
+                and len(dest_str) > 1 and \
+                isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
@@ -504,9 +540,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
         skipped = [key for key in skipped if key not in self.udp_attr]
+        # F5 version 10 have dest as port added code.
+        # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
-        if len(dest_str) > 1 and isinstance(dest_str[1], numbers.Integral):
+        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
+                and len(dest_str) > 1 and \
+                isinstance(dest_str[1], numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
