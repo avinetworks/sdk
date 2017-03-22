@@ -67,6 +67,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     except:
         LOG.error("Conversion error", exc_info=True)
     datascript_objs = ['data-group']
+    # Added support node as not applicable
+    na_list_objs = ['node']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
@@ -75,6 +77,9 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                 sub_type, key = key.rsplit(' ', 1)
             if f5_type in datascript_objs:
                 conv_utils.add_status_row(f5_type, sub_type, key, 'datascript')
+            elif f5_type in na_list_objs:
+                conv_utils.add_status_row(f5_type, sub_type, key,
+                                          'not applicable')
             else:
                 conv_utils.add_status_row(f5_type, sub_type, key, 'skipped')
     csv_file.close()
