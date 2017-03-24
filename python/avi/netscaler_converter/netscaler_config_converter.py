@@ -1,5 +1,6 @@
 import logging
 import os
+import yaml
 
 LOG = logging.getLogger(__name__)
 
@@ -30,6 +31,9 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
     ssl_ciphers_yaml = 'ssl_ciphers.yaml'
     status_file = output_dir + os.path.sep + "ConversionStatus.csv"
+    # load ssl ciphers
+    ssl_ciphers = yaml.safe_load(open(os.path.dirname(__file__) + '/%s'
+                                      % ssl_ciphers_yaml))
     csv_file = open(status_file, 'w')
     ns_util.add_csv_headers(csv_file)
     LOG.debug('Conversion Started')
@@ -65,7 +69,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         monitor_converter.convert(ns_config_dict, avi_config, input_dir)
 
         profile_converter = ProfileConverter(tenant_name, cloud_name,tenant_ref,
-                                             cloud_ref, ssl_ciphers_yaml,
+                                             cloud_ref, ssl_ciphers,
                                              key_passphrase)
         profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
