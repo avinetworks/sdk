@@ -202,7 +202,6 @@ class VSConfigConv(object):
                 rules = [f5_vs['rules']]
             else:
                 rules = f5_vs['rules'].keys()
-            print vs_name, len(rules)
             ds_ref = self.create_vs_datascript(rules[0], avi_config, tenant)
 
             vs_datascript = {

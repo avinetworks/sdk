@@ -655,16 +655,20 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
                             hash_profiles, persist_config, tenant):
-
+    pool_group_updated = True
     pool_group = [obj for obj in avi_config['PoolGroup']
                   if obj['name'] == pool_ref]
     if pool_group:
         pool_group = pool_group[0]
         for member in pool_group['members']:
             pool_name = get_name_from_ref(member['pool_ref'])
-            update_pool_for_persist(avi_config['Pool'], pool_name,
-                                    persist_profile, hash_profiles,
-                                    persist_config, tenant)
+            pool_updated = update_pool_for_persist(
+                avi_config['Pool'], pool_name, persist_profile, hash_profiles,
+                persist_config, tenant)
+            if not pool_updated:
+                pool_group_updated = False
+    return pool_group_updated
+
 
 
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
