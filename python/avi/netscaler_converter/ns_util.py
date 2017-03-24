@@ -5,7 +5,12 @@ import copy
 import re
 import random
 import avi.netscaler_converter.ns_constants as ns_constants
+import urlparse
+import json
+import pandas
 
+from xlsxwriter import Workbook
+from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
@@ -18,7 +23,8 @@ from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_COMMAND_NOT_SUPPORTED,
                                                   OBJECT_TYPE_POOL_GROUP,
                                                   OBJECT_TYPE_POOL,
-                                                  OBJECT_TYPE_HTTP_POLICY_SET)
+                                                  OBJECT_TYPE_HTTP_POLICY_SET,
+                                                  STATUS_LIST)
 
 LOG = logging.getLogger(__name__)
 
@@ -72,7 +78,7 @@ def add_conv_status(line_no, cmd, object_type, full_command, conv_status,
     csv_writer_dict_list.append(row)
 
 
-def add_complete_conv_status(csv_file, ns_config):
+def add_complete_conv_status(ns_config, output_dir):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -114,8 +120,13 @@ def add_complete_conv_status(csv_file, ns_config):
             if dict_row.get('AVI Object', None):
                 row[0]['AVI Object'] += ' %s' % dict_row['AVI Object']
 
-    for row in row_list:
-        csv_writer.writerow(row)
+    for status in STATUS_LIST:
+        status_list = [row for row in row_list if row['Status'] == status]
+        print '%s: %s' % (status, len(status_list))
+
+    vs_per_skipped_setting_for_references()
+    # Write status report and pivot table in xlsx report
+    write_status_report_and_pivot_table_in_xlsx(row_list, output_dir)
 
 
 def add_status_row(line_no, cmd, object_type, full_command, status,
@@ -820,3 +831,141 @@ def clean_virtual_service_from_avi_config(avi_config):
     avi_config['VirtualService'] = []
     avi_config['VirtualService'] = [vs for vs in vs_list if vs['ip_address']['addr'] != '0.0.0.0']
 
+def get_name(url):
+    """
+    This function defines that return name object from url
+    :param url:
+    :return: Name of object
+    """
+    parsed = urlparse.urlparse(url)
+    return urlparse.parse_qs(parsed.query)['name'][0]
+
+
+def format_string_to_json(avi_string):
+    """
+    This function defines that it convert string into json format to
+    convert into dict
+    :param avi_string: string to be converted
+    :return: Return converted string
+    """
+
+    repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
+            ("None", "null")
+    avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
+    return json.loads(avi_string)
+
+
+def vs_per_skipped_setting_for_references():
+
+    vs_csv_objects = [row for row in csv_writer_dict_list
+                     if row['Status'] == STATUS_PARTIAL
+                     and row['Netscaler Command']
+                     in ['add cs vserver', 'add lb vserver']]
+    print vs_csv_objects
+    for vs_csv_object in vs_csv_objects:
+
+        virtual_service = format_string_to_json(vs_csv_object['AVI Object'])
+        skipped_setting = \
+            {'virtual_service': virtual_service['Skipped settings']}
+        if 'ssl_profile_name' in virtual_service:
+            ssl_profile_name = get_name(virtual_service['ssl_profile_name'])
+            ssl_profile_csv_object = [row for row in csv_writer_dict_list
+                                      if row['Status'] == STATUS_PARTIAL
+                                      and (format_string_to_json
+                                           (row['AVI Object']))['name'] ==
+                                      ssl_profile_name]
+            skipped_setting.update(
+                {'ssl_profile': ssl_profile_csv_object['Skipped settings']})
+
+
+
+
+
+
+
+
+
+# avi_config = {'VirtualService': [
+# {
+#             "name": "stmdev_443_csv",
+#             "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud",
+#             "type": "VS_TYPE_NORMAL",
+#             "tenant_ref": "/api/tenant/?name=admin",
+#             "http_policies": [
+#                 {
+#                     "index": 11,
+#                     "http_policy_set_ref": "/api/httppolicyset/?tenant=admin&name=stmdev_polstmdev_compsso_pol"
+#                 }
+#             ],
+#             "services": [
+#                 {
+#                     "enable_ssl": true,
+#                     "port": "443"
+#                 }
+#             ],
+#             "enabled": false,
+#             "ip_address": {
+#                 "type": "V4",
+#                 "addr": "113.132.232.63"
+#             },
+#             "ssl_key_and_certificate_refs": [
+#                 "/api/sslkeyandcertificate/?tenant=admin&name=stmdev-dummy"
+#             ],
+#             "ssl_profile_name": "/api/sslprofile/?tenant=admin&name=stmdev_443_csv"
+#         }
+#     ],
+#     'hhh': [
+# {
+#             "accepted_versions": [
+#                 {
+#                     "type": "SSL_VERSION_TLS1"
+#                 },
+#                 {
+#                     "type": "SSL_VERSION_TLS1_1"
+#                 }
+#             ],
+#             "accepted_ciphers": "DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA",
+#             "tenant_ref": "/api/tenant/?name=admin",
+#             "name": "stmdev_443_csv"
+#         }
+#     ]
+# }
+# vs_per_skipped_setting_for_references(avi_config)
+
+
+def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
+    # List of fieldnames for headers
+    fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                  'Full Command', 'Status', 'Skipped settings',
+                  'Indirect mapping', 'Not Applicable', 'User Ignored',
+                  'AVI Object']
+    # xlsx workbook
+    status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    # xlsx worksheet
+    status_ws = status_wb.add_worksheet("Status Sheet")
+    first_row = 0
+    for header in fieldnames:
+        col = fieldnames.index(header)
+        status_ws.write(first_row, col, header)
+    row = 1
+    for row_data in row_list:
+        for _key, _value in row_data.items():
+            col = fieldnames.index(_key)
+            status_ws.write(row, col, _value)
+        row += 1
+    status_wb.close()
+    # create dataframe for row list
+    df = pandas.DataFrame(row_list, columns=fieldnames)
+    # create pivot table using pandas
+    pivot_table = pandas.pivot_table(df, index=["Status", "Netscaler Command"],
+                                     values=[], aggfunc=[len], fill_value=0)
+    # create dataframe for pivot table using pandas
+    pivot_df = pandas.DataFrame(pivot_table)
+    master_book = load_workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    master_writer = pandas.ExcelWriter(output_dir + os.path.sep +
+                                       "ConversionStatus.xlsx",
+                                       engine='openpyxl')
+    master_writer.book = master_book
+    # Add pivot table in Pivot sheet
+    pivot_df.to_excel(master_writer, 'Pivot Sheet')
+    master_writer.save()

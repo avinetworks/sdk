@@ -29,9 +29,6 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     """
 
     ssl_ciphers_yaml = 'ssl_ciphers.yaml'
-    status_file = output_dir + os.path.sep + "ConversionStatus.csv"
-    csv_file = open(status_file, 'w')
-    ns_util.add_csv_headers(csv_file)
     LOG.debug('Conversion Started')
     tenant_ref = ns_util.get_object_ref(tenant_name, 'tenant')
     cloud_ref = ns_util.get_object_ref(cloud_name, 'cloud')
@@ -84,7 +81,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
         # Add/update CSV/report
-        ns_util.add_complete_conv_status(csv_file, ns_config_dict)
+        ns_util.add_complete_conv_status(ns_config_dict, output_dir)
 
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
@@ -97,5 +94,4 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     except:
         LOG.error('Error in config conversion', exc_info=True)
 
-    csv_file.close()
     return avi_config
