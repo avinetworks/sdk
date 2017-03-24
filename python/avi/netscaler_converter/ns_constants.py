@@ -32,6 +32,11 @@ OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
 OBJECT_TYPE_VIRTUAL_SERVICE = 'virtualservice'
 OBJECT_TYPE_STRING_GROUP = 'stringgroup'
 
+STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+               STATUS_NOT_APPLICABLE, STATUS_PARTIAL, STATUS_DATASCRIPT,
+               STATUS_EXTERNAL_MONITOR, STATUS_COMMAND_NOT_SUPPORTED,
+               STATUS_INCOMPLETE_CONFIGURATION, STATUS_MISSING_FILE]
+
 # Regex for IPV6
 IPV6_Address = re.compile('^(?:(?:[0-9A-Fa-f]{1,4}:){6}'
                                       '(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|'

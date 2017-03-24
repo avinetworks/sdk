@@ -6,8 +6,7 @@ import os
 import sys
 
 from requests.packages import urllib3
-from avi.f5_converter import f5_config_converter, \
-    f5_parser, upload_config, scp_util, conversion_util
+from avi.f5_converter import f5_config_converter,f5_parser, scp_util, conversion_util
 from avi.f5_converter import __version__
 
 # urllib3.disable_warnings()
@@ -38,7 +37,8 @@ def get_default_config(version, is_download, path, skip_default_file):
         profile_base = open(path+os.path.sep+"profile_base.conf", "r")
         monitor_base = open(path+os.path.sep+"base_monitors.conf", "r")
         if skip_default_file:
-            LOG.warning('Skipped default profile base file : %s\nSkipped default monitor base file : %s'
+            LOG.warning('Skipped default profile base file : %s\nSkipped '
+                        'default monitor base file : %s'
                         % (profile_base.name, monitor_base.name))
             return f5_defaults_dict
 
