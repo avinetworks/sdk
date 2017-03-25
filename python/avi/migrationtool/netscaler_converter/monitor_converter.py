@@ -1,11 +1,11 @@
-import logging
-import avi.netscaler_converter.ns_util as ns_util
 import os
 import re
-import avi.netscaler_converter.ns_constants as ns_constants
+import logging
+import avi.migrationtool.netscaler_converter.ns_util as ns_util
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter.ns_constants import (STATUS_EXTERNAL_MONITOR,
-                                                  STATUS_MISSING_FILE)
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_EXTERNAL_MONITOR, STATUS_MISSING_FILE)
 
 
 LOG = logging.getLogger(__name__)

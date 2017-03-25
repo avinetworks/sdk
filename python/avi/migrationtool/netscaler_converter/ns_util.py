@@ -4,27 +4,21 @@ import os
 import copy
 import re
 import random
-import avi.netscaler_converter.ns_constants as ns_constants
 import urlparse
 import json
 import pandas
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
 
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  STATUS_SUCCESSFUL,
-                                                  STATUS_INDIRECT,
-                                                  STATUS_NOT_APPLICABLE,
-                                                  STATUS_PARTIAL,
-                                                  STATUS_DATASCRIPT,
-                                                  STATUS_INCOMPLETE_CONFIGURATION,
-                                                  STATUS_COMMAND_NOT_SUPPORTED,
-                                                  OBJECT_TYPE_POOL_GROUP,
-                                                  OBJECT_TYPE_POOL,
-                                                  OBJECT_TYPE_HTTP_POLICY_SET,
-                                                  STATUS_LIST)
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+            STATUS_NOT_APPLICABLE, STATUS_PARTIAL, STATUS_DATASCRIPT,
+            STATUS_INCOMPLETE_CONFIGURATION, STATUS_COMMAND_NOT_SUPPORTED,
+            OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_POOL,
+            OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST)
 
 LOG = logging.getLogger(__name__)
 
@@ -120,11 +114,6 @@ def add_complete_conv_status(ns_config, output_dir):
             if dict_row.get('AVI Object', None):
                 row[0]['AVI Object'] += ' %s' % dict_row['AVI Object']
 
-    for status in STATUS_LIST:
-        status_list = [row for row in row_list if row['Status'] == status]
-        print '%s: %s' % (status, len(status_list))
-
-    vs_per_skipped_setting_for_references()
     # Write status report and pivot table in xlsx report
     write_status_report_and_pivot_table_in_xlsx(row_list, output_dir)
 
@@ -853,84 +842,6 @@ def format_string_to_json(avi_string):
             ("None", "null")
     avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
     return json.loads(avi_string)
-
-
-def vs_per_skipped_setting_for_references():
-
-    vs_csv_objects = [row for row in csv_writer_dict_list
-                     if row['Status'] == STATUS_PARTIAL
-                     and row['Netscaler Command']
-                     in ['add cs vserver', 'add lb vserver']]
-    print vs_csv_objects
-    for vs_csv_object in vs_csv_objects:
-
-        virtual_service = format_string_to_json(vs_csv_object['AVI Object'])
-        skipped_setting = \
-            {'virtual_service': virtual_service['Skipped settings']}
-        if 'ssl_profile_name' in virtual_service:
-            ssl_profile_name = get_name(virtual_service['ssl_profile_name'])
-            ssl_profile_csv_object = [row for row in csv_writer_dict_list
-                                      if row['Status'] == STATUS_PARTIAL
-                                      and (format_string_to_json
-                                           (row['AVI Object']))['name'] ==
-                                      ssl_profile_name]
-            skipped_setting.update(
-                {'ssl_profile': ssl_profile_csv_object['Skipped settings']})
-
-
-
-
-
-
-
-
-
-# avi_config = {'VirtualService': [
-# {
-#             "name": "stmdev_443_csv",
-#             "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud",
-#             "type": "VS_TYPE_NORMAL",
-#             "tenant_ref": "/api/tenant/?name=admin",
-#             "http_policies": [
-#                 {
-#                     "index": 11,
-#                     "http_policy_set_ref": "/api/httppolicyset/?tenant=admin&name=stmdev_polstmdev_compsso_pol"
-#                 }
-#             ],
-#             "services": [
-#                 {
-#                     "enable_ssl": true,
-#                     "port": "443"
-#                 }
-#             ],
-#             "enabled": false,
-#             "ip_address": {
-#                 "type": "V4",
-#                 "addr": "113.132.232.63"
-#             },
-#             "ssl_key_and_certificate_refs": [
-#                 "/api/sslkeyandcertificate/?tenant=admin&name=stmdev-dummy"
-#             ],
-#             "ssl_profile_name": "/api/sslprofile/?tenant=admin&name=stmdev_443_csv"
-#         }
-#     ],
-#     'hhh': [
-# {
-#             "accepted_versions": [
-#                 {
-#                     "type": "SSL_VERSION_TLS1"
-#                 },
-#                 {
-#                     "type": "SSL_VERSION_TLS1_1"
-#                 }
-#             ],
-#             "accepted_ciphers": "DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA",
-#             "tenant_ref": "/api/tenant/?name=admin",
-#             "name": "stmdev_443_csv"
-#         }
-#     ]
-# }
-# vs_per_skipped_setting_for_references(avi_config)
 
 
 def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):

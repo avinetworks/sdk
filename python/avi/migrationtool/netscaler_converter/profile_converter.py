@@ -1,17 +1,14 @@
 import logging
-import avi.netscaler_converter.ns_util as ns_util
 import os
 import re
-import yaml
-import avi.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtool.netscaler_converter.ns_util as ns_util
+
 from datetime import datetime
 from OpenSSL import crypto as c
-
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  STATUS_SUCCESSFUL,
-                                                  STATUS_INDIRECT,
-                                                  STATUS_MISSING_FILE,
-                                                  STATUS_COMMAND_NOT_SUPPORTED)
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+            STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 
 LOG = logging.getLogger(__name__)
 
@@ -20,7 +17,7 @@ tmp_pki_profile_list = []
 class ProfileConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 ssl_ciphers_yaml, keypassphrase=None):
+                 ssl_ciphers, keypassphrase=None):
         
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
@@ -72,9 +69,9 @@ class ProfileConverter(object):
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
         # ssl cipher yaml
-        ssl_ciphers_dict = yaml.safe_load(open(ssl_ciphers_yaml))
-        self.netscaler_ssl_cipher_to_open_ssl_cipher = ssl_ciphers_dict.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
-        self.open_ssl_cipher_to_avi_ssl_cipher = ssl_ciphers_dict.get(
+        self.netscaler_ssl_cipher_to_open_ssl_cipher = \
+            ssl_ciphers.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
+        self.open_ssl_cipher_to_avi_ssl_cipher = ssl_ciphers.get(
             'open_ssl_cipher_to_avi_ssl_cipher', {})
         # list of keys with passphrase provided in YAML.
         self.netscalar_passphrase_keys = None

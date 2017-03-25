@@ -5,13 +5,12 @@ import logging
 import re
 import copy
 import random
-import avi.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  STATUS_SUCCESSFUL,
-                                                  STATUS_DATASCRIPT,
-                                                  OBJECT_TYPE_POOL_GROUP)
+from avi.migrationtool.netscaler_converter import ns_util
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_DATASCRIPT,
+            OBJECT_TYPE_POOL_GROUP)
 
 
 
