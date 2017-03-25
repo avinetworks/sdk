@@ -1,20 +1,18 @@
 import logging
 import copy
 import re
-import avi.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.lbvs_converter import (redirect_pools,
-                                                    used_pool_group_ref)
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  OBJECT_TYPE_APPLICATION_PROFILE,
-                                                  OBJECT_TYPE_SSL_PROFILE,
-                                                  OBJECT_TYPE_HTTP_POLICY_SET,
-                                                  OBJECT_TYPE_POOL_GROUP,
-                                                  OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                  OBJECT_TYPE_PKI_PROFILE,
-                                                  OBJECT_TYPE_NETWORK_PROFILE)
-from avi.netscaler_converter.policy_converter import PolicyConverter
+from avi.migrationtool.netscaler_converter import ns_util
+from avi.migrationtool.netscaler_converter.lbvs_converter \
+    import (redirect_pools, used_pool_group_ref)
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_SKIPPED, OBJECT_TYPE_APPLICATION_PROFILE, OBJECT_TYPE_SSL_PROFILE,
+            OBJECT_TYPE_HTTP_POLICY_SET, OBJECT_TYPE_POOL_GROUP,
+            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE, OBJECT_TYPE_PKI_PROFILE,
+            OBJECT_TYPE_NETWORK_PROFILE)
+from avi.migrationtool.netscaler_converter.policy_converter \
+    import PolicyConverter
 
 LOG = logging.getLogger(__name__)
 

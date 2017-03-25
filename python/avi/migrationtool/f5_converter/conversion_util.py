@@ -7,7 +7,7 @@ import urlparse
 from OpenSSL import crypto
 from socket import gethostname
 
-import converter_constants as conv_const
+import avi.migrationtool.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 csv_writer = None

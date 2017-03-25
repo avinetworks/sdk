@@ -1,13 +1,13 @@
 import logging
 import os
 
-import conversion_util as conv_utils
-from monitor_converter import MonitorConfigConv
-from persistence_converter import PersistenceConfigConv
-from pool_converter import PoolConfigConv
-from profile_converter import ProfileConfigConv
-from vs_converter import VSConfigConv
-import avi.f5_converter.converter_constants as conv_const
+import avi.migrationtool.f5_converter.conversion_util as conv_utils
+from avi.migrationtool.f5_converter.monitor_converter import MonitorConfigConv
+from avi.migrationtool.f5_converter.persistence_converter import PersistenceConfigConv
+from avi.migrationtool.f5_converter.pool_converter import PoolConfigConv
+from avi.migrationtool.f5_converter.profile_converter import ProfileConfigConv
+from avi.migrationtool.f5_converter.vs_converter import VSConfigConv
+import avi.migrationtool.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
