@@ -30,9 +30,6 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :return: Converted avi objects
     """
 
-    status_file = output_dir + os.path.sep + "ConversionStatus.csv"
-    csv_file = open(status_file, 'w')
-    conv_utils.add_csv_headers(csv_file)
     avi_config_dict = {}
     try:
         f5_attributes = conv_const.init(version)
@@ -76,11 +73,15 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             if ' ' in key:
                 sub_type, key = key.rsplit(' ', 1)
             if f5_type in datascript_objs:
-                conv_utils.add_status_row(f5_type, sub_type, key, 'datascript')
+                conv_utils.add_status_row(f5_type, sub_type, key,
+                                          conv_const.STATUS_DATASCRIPT)
             elif f5_type in na_list_objs:
                 conv_utils.add_status_row(f5_type, sub_type, key,
-                                          'not applicable')
+                                          conv_const.STATUS_NOT_APPLICABLE)
             else:
-                conv_utils.add_status_row(f5_type, sub_type, key, 'skipped')
-    csv_file.close()
+                conv_utils.add_status_row(f5_type, sub_type, key,
+                                          conv_const.STATUS_SKIPPED)
+
+    # Add f5 converter status report in xslx report
+    conv_utils.add_complete_conv_status(output_dir)
     return avi_config_dict
