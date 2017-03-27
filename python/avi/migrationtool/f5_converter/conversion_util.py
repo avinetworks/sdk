@@ -1,16 +1,16 @@
 import copy
-import csv
 import logging
 import os
 import urlparse
 import pandas
+import avi.migrationtool.f5_converter.converter_constants as conv_const
 
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 
-import avi.f5_converter.converter_constants as conv_const
+
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
@@ -182,6 +182,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
         'Status': status,
     }
     csv_writer_dict_list.append(row)
+
 
 def add_complete_conv_status(output_dir):
     global csv_writer_dict_list

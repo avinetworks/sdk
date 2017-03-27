@@ -1,19 +1,15 @@
 import logging
 import re
-import avi.netscaler_converter.ns_util as ns_util
-import avi.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtool.netscaler_converter.ns_util as ns_util
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
 
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
-                                                  STATUS_SUCCESSFUL,
-                                                  STATUS_INDIRECT,
-                                                  STATUS_INCOMPLETE_CONFIGURATION,
-                                                  OBJECT_TYPE_POOL,
-                                                  OBJECT_TYPE_PKI_PROFILE,
-                                                  OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                  OBJECT_TYPE_SSL_PROFILE,
-                                                  OBJECT_TYPE_HEALTH_MONITOR,
-                                                  OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
-                                                  STATUS_EXTERNAL_MONITOR)
+from avi.migrationtool.netscaler_converter.ns_constants \
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+            STATUS_INCOMPLETE_CONFIGURATION, OBJECT_TYPE_POOL,
+            OBJECT_TYPE_PKI_PROFILE, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+            OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HEALTH_MONITOR,
+            OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
+            STATUS_EXTERNAL_MONITOR)
 
 LOG = logging.getLogger(__name__)
 
