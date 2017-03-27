@@ -22,7 +22,6 @@ from avi.migrationtool.netscaler_converter.ns_constants \
 
 LOG = logging.getLogger(__name__)
 
-csv_writer = None
 csv_writer_dict_list = []
 
 
