@@ -1,8 +1,8 @@
 import logging
+import avi.migrationtool.f5_converter.conversion_util as conv_utils
+import avi.migrationtool.f5_converter.converter_constants as final
 
-import avi.f5_converter.conversion_util as conv_utils
-import avi.f5_converter.converter_constants as final
-from avi.f5_converter.profile_converter import ProfileConfigConv
+from avi.migrationtool.f5_converter.profile_converter import ProfileConfigConv
 
 LOG = logging.getLogger(__name__)
 
@@ -145,7 +145,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
                      % name)
-            conv_utils.add_status_row('persistence', 'cookie', name, 'skipped')
+            conv_utils.add_status_row('persistence', 'cookie', name,
+                                      final.STATUS_SKIPPED)
             return None
         #supported_attr = ["cookie-name", "defaults-from", "expiration",
                           #"method"]
@@ -216,13 +217,14 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
     def update_conv_status_for_error(self, name, persist_mode, key):
         if name:
             conv_utils.add_status_row("persistence", persist_mode, name,
-                                      "error")
+                                      final.STATUS_ERROR)
         else:
-            conv_utils.add_status_row("persistence", key, key, "error")
+            conv_utils.add_status_row("persistence", key, key,
+                                      final.STATUS_ERROR)
 
     def update_conv_status_for_skip(self, persist_mode, name):
         conv_utils.add_status_row("persistence", persist_mode, name,
-                                              "skipped")
+                                  final.STATUS_SKIPPED)
 
 
 class PersistenceConfigConvV10(PersistenceConfigConv):
@@ -248,7 +250,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         if not cookie_name:
             LOG.error("Missing Required field cookie name in: %s", name)
             conv_utils.add_status_row('profile', 'persist-cookie', name,
-                                      'skipped')
+                                      final.STATUS_SKIPPED)
             return None
         timeout = profile.get("cookie expiration", '1')
         if timeout == 'immediate':
@@ -316,9 +318,11 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
     def update_conv_status_for_error(self, name, persist_mode, key):
         if name:
             conv_utils.add_status_row("profile", 'persist', name,
-                                      "error")
+                                      final.STATUS_ERROR)
         else:
-            conv_utils.add_status_row("profile", 'persist', key, "error")
+            conv_utils.add_status_row("profile", 'persist', key,
+                                      final.STATUS_ERROR)
 
     def update_conv_status_for_skip(self, persist_mode, name):
-        conv_utils.add_status_row("profile", 'persist', name, "skipped")
+        conv_utils.add_status_row("profile", 'persist', name,
+                                  final.STATUS_SKIPPED)
