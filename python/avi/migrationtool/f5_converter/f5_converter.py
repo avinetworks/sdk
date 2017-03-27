@@ -4,19 +4,22 @@ import json
 import logging
 import os
 import sys
+import avi.migrationtool
 
 from requests.packages import urllib3
 from avi.migrationtool.f5_converter import (f5_config_converter,
                                             f5_parser, scp_util,
                                             conversion_util)
-from avi.migrationtool.utils import avi_rest_lib
-from avi.migrationtool import __version__
+from avi.migrationtool import avi_rest_lib
+from avi.migrationtool.avi_converter import AviConverter
+
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
+sdk_version = getattr(avi.migrationtool, '__version__', None)
 
 
-class F5Converter():
+class F5Converter(AviConverter):
     def __init__(self, args):
         self.bigip_config_file = args.config_file
         self.skip_default_file = args.skip_default_file
@@ -50,9 +53,9 @@ class F5Converter():
     def print_pip_and_controller_version(self):
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
-                 % (__version__, self.controller_version))
+                 % (sdk_version, self.controller_version))
         print 'AVI sdk version: %s Controller Version: %s' \
-              % (__version__, self.controller_version)
+              % (sdk_version, self.controller_version)
 
     def upload_config_to_controller(self, avi_config):
         avi_rest_lib.upload_config_to_controller(

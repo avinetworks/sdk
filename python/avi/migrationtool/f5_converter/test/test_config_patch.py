@@ -7,7 +7,7 @@ Copyright Avi Networks Inc. 2017
 import json
 import unittest
 import yaml
-from avi.f5_converter.config_patch import ConfigPatch
+from avi.migrationtool.f5_converter.config_patch import ConfigPatch
 
 
 class Test(unittest.TestCase):

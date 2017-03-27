@@ -349,8 +349,10 @@ class VSConfigConv(object):
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
-        self.ignore_for_value = f5_virtualservice_attributes['VS_ignore_for_value']
-        self.unsupported_types = f5_virtualservice_attributes['VS_unsupported_types']
+        self.ignore_for_value = \
+            f5_virtualservice_attributes['VS_ignore_for_value']
+        self.unsupported_types = \
+            f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'connection-limit'
 
     def get_persist_ref(self, f5_vs):
@@ -377,8 +379,10 @@ class VSConfigConvV11(VSConfigConv):
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
-        self.ignore_for_value = f5_virtualservice_attributes['VS_ignore_for_value']
-        self.unsupported_types = f5_virtualservice_attributes['VS_unsupported_types']
+        self.ignore_for_value = \
+            f5_virtualservice_attributes['VS_ignore_for_value']
+        self.unsupported_types = \
+            f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'limit'
 
     def get_persist_ref(self, f5_vs):
