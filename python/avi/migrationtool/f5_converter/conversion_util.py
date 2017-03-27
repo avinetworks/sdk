@@ -3,14 +3,17 @@ import csv
 import logging
 import os
 import urlparse
+import pandas
 
+from xlsxwriter import Workbook
+from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 
-import converter_constants as conv_const
+import avi.migrationtool.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
-csv_writer = None
+csv_writer_dict_list = []
 
 
 def upload_file(file_path):
@@ -71,9 +74,9 @@ def get_conv_status(skipped, indirect_list, ignore_dict, f5_object,
     conv_status['skipped'] = skipped
     conv_status['default_skip'] = default_skip
     if skipped:
-        status = 'partial'
+        status = conv_const.STATUS_PARTIAL
     else:
-        status = 'successful'
+        status = conv_const.STATUS_SUCCESSFUL
     conv_status['status'] = status
     return conv_status
 
@@ -147,7 +150,7 @@ def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
     :param conv_status: dict of conversion status
     :param avi_object: Converted objectconverted avi object
     """
-    global csv_writer
+    global csv_writer_dict_list
     row = {
         'F5 type': f5_type,
         'F5 SubType': f5_sub_type,
@@ -160,7 +163,7 @@ def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
         'User Ignored': str(conv_status.get('user_ignore', '')),
         'Avi Object': str(avi_object)
     }
-    csv_writer.writerow(row)
+    csv_writer_dict_list.append(row)
 
 
 def add_status_row(f5_type, f5_sub_type, f5_id, status):
@@ -171,28 +174,22 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
     :param f5_id: Name of object
     :param status: conversion status
     """
-    global csv_writer
+    global csv_writer_dict_list
     row = {
         'F5 type': f5_type,
         'F5 SubType': f5_sub_type,
         'F5 ID': f5_id,
         'Status': status,
     }
-    csv_writer.writerow(row)
+    csv_writer_dict_list.append(row)
 
 
-def add_csv_headers(csv_file):
-    """
-    Adds header line in conversion status file
-    :param csv_file: File to which header is to be added
-    """
-    global csv_writer
-    fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
-                  'Skipped settings', 'Indirect mapping', 'Not Applicable',
-                  'User Ignored', 'Skipped for defaults', 'Avi Object']
-    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
-                                lineterminator='\n',)
-    csv_writer.writeheader()
+def add_complete_conv_status(output_dir):
+    global csv_writer_dict_list
+    for status in conv_const.STATUS_LIST:
+        status_list = [row for row in csv_writer_dict_list if row['Status'] == status]
+        print '%s: %s' % (status, len(status_list))
+    write_status_report_and_pivot_table_in_xlsx(output_dir)
 
 
 def get_port_by_protocol(protocol):
@@ -983,3 +980,49 @@ def get_object_ref(object_name, object_type, tenant='admin',
     # if cloud_name:
     #     ref += '&cloud=%s' % cloud_name
     return ref
+
+
+def write_status_report_and_pivot_table_in_xlsx(output_dir):
+    """
+    This function defines that add status sheet and pivot table sheet in xlsx
+    format
+    :param output_dir: Path of output directory
+    :return: None
+    """
+
+    # List of fieldnames for headers
+    fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
+                  'Skipped settings', 'Indirect mapping', 'Not Applicable',
+                  'User Ignored', 'Skipped for defaults', 'Avi Object']
+    # xlsx workbook
+    status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    # xlsx worksheet
+    status_ws = status_wb.add_worksheet("Status Sheet")
+    first_row = 0
+    for header in fieldnames:
+        col = fieldnames.index(header)
+        status_ws.write(first_row, col, header)
+    row = 1
+    for row_data in csv_writer_dict_list:
+        for _key, _value in row_data.items():
+            col = fieldnames.index(_key)
+            status_ws.write(row, col, _value)
+        row += 1
+    status_wb.close()
+    # create dataframe for row list
+    df = pandas.DataFrame(csv_writer_dict_list, columns=fieldnames)
+    # create pivot table using pandas
+    pivot_table = \
+        pandas.pivot_table(df, index=["Status", "F5 type", "F5 SubType"],
+                           values=[], aggfunc=[len], fill_value=0)
+    # create dataframe for pivot table using pandas
+    pivot_df = pandas.DataFrame(pivot_table)
+    master_book = \
+        load_workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    master_writer = pandas.ExcelWriter(output_dir + os.path.sep +
+                                       "ConversionStatus.xlsx",
+                                       engine='openpyxl')
+    master_writer.book = master_book
+    # Add pivot table in Pivot sheet
+    pivot_df.to_excel(master_writer, 'Pivot Sheet')
+    master_writer.save()
