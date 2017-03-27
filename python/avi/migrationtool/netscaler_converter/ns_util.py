@@ -81,7 +81,6 @@ def add_complete_conv_status(ns_config, output_dir):
     """
 
     global csv_writer_dict_list
-    global csv_writer
     for config_key in ns_config:
         config_object = ns_config[config_key]
         for element_key in config_object:
