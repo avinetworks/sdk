@@ -3,15 +3,17 @@ import argparse
 import logging
 import os
 import json
+import avi.migrationtool
 import avi.migrationtool.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtool.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
-import avi.migrationtool.utils.scp_util as scp_util
+import avi.migrationtool.netscaler_converter.scp_util as scp_util
 
-from avi.migrationtool.utils import avi_rest_lib
-from avi.migrationtool import __version__
+from avi.migrationtool import avi_rest_lib
 from avi.migrationtool.avi_converter import AviConverter
+
 LOG = logging.getLogger(__name__)
+sdk_version = getattr(avi.migrationtool, '__version__', None)
 
 
 class NetscalerConverter(AviConverter):
@@ -44,9 +46,9 @@ class NetscalerConverter(AviConverter):
     def print_pip_and_controller_version(self):
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
-                 % (__version__, self.controller_version))
+                 % (sdk_version, self.controller_version))
         print 'AVI sdk version: %s Controller Version: %s' \
-              % (__version__, self.controller_version)
+              % (sdk_version, self.controller_version)
 
     def convert(self):
         if not os.path.exists(self.output_file_path):

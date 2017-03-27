@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import argparse
+import avi.migrationtool
 
 from avi.migrationtool.f5_converter.f5_converter import F5Converter
 from avi.migrationtool.netscaler_converter.netscaler_converter \
     import NetscalerConverter
-from avi.migrationtool import __version__
+
+
+sdk_version = getattr(avi.migrationtool, '__version__', None)
 
 
 if __name__ == "__main__":
@@ -63,7 +66,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \
-              (__version__, args.controller_version)
+              (sdk_version, args.controller_version)
         exit(0)
     if args.type == 'f5':
         f5_converter = F5Converter(args)
