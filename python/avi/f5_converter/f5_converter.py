@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import sys
+import upload_config
 
 from requests.packages import urllib3
 from avi.f5_converter import f5_config_converter,f5_parser, scp_util, conversion_util
