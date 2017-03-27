@@ -37,6 +37,31 @@ MIN_SESSION_TIMEOUT = 60
 MAX_SESSION_TIMEOUT = 1800
 DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain', 'application/pdf', 'text/javascript', 'application/javascript', 'application/x-javascript', 'application/xml', 'text/css']
 
+# Status Constants which are used in CSV/report generation of the conversion run.
+STATUS_SKIPPED = 'SKIPPED'
+STATUS_SUCCESSFUL = 'SUCCESSFUL'
+STATUS_ERROR = 'ERROR'
+STATUS_NOT_APPLICABLE = 'NOT APPLICABLE'  # Its specific netscalar commands
+# which are not applicable in AVI
+STATUS_PARTIAL = 'PARTIAL'
+STATUS_DATASCRIPT = 'DATASCRIPT'
+# Object type constant which are used in object reference generation
+OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
+OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
+OBJECT_TYPE_HTTP_POLICY_SET = 'httppolicyset'
+OBJECT_TYPE_POOL_GROUP = 'poolgroup'
+OBJECT_TYPE_POOL = 'pool'
+OBJECT_TYPE_NETWORK_PROFILE = 'networkprofile'
+OBJECT_TYPE_PKI_PROFILE = 'pkiprofile'
+OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE = 'sslkeyandcertificate'
+OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
+OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
+OBJECT_TYPE_VIRTUAL_SERVICE = 'virtualservice'
+OBJECT_TYPE_STRING_GROUP = 'stringgroup'
+
+STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
+               STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
+
 def init(version):
     """
     This function defines that to initialize constant from yaml file

@@ -32,7 +32,8 @@ class PoolConfigConv(object):
             f5_pool = pool_config[pool_name]
             if not f5_pool:
                 LOG.debug("Empty pool skipped for conversion :%s" % pool_name)
-                conv_utils.add_status_row('pool', None, pool_name, 'skipped')
+                conv_utils.add_status_row('pool', None, pool_name,
+                                          conv_const.STATUS_SKIPPED)
                 continue
             try:
                 converted_objs = self.convert_pool(
@@ -45,7 +46,8 @@ class PoolConfigConv(object):
             except:
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
-                conv_utils.add_status_row('pool', None, pool_name, 'Error')
+                conv_utils.add_status_row('pool', None, pool_name,
+                                          conv_const.STATUS_ERROR)
         labels_dict = avi_config.pop('PriorityLabels', None)
         if labels_dict:
             for tenant in labels_dict:
@@ -189,9 +191,9 @@ class PoolConfigConv(object):
         if skipped_monitors and not user_ignore.get('monitor', None):
             skipped.append({"monitor": skipped_monitors})
         conv_status['skipped'] = skipped
-        status = 'successful'
+        status = conv_const.STATUS_SUCCESSFUL
         if skipped:
-            status = 'partial'
+            status = conv_const.STATUS_PARTIAL
         conv_status['status'] = status
 
         conv_utils.add_conv_status('pool', None, name, conv_status,
