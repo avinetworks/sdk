@@ -61,7 +61,8 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
-                conv_utils.add_status_row('monitor', m_type, name, 'skipped')
+                conv_utils.add_status_row('monitor', m_type, name,
+                                          conv_const.STATUS_SKIPPED)
                 LOG.warn("Empty config for monitor: %s " % name)
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
@@ -71,7 +72,7 @@ class MonitorConfigConv(object):
                 if monitor_type not in self.supported_types:
                     LOG.warn("Monitor type not supported by Avi : "+name)
                     conv_utils.add_status_row('monitor', monitor_type, name,
-                                              'skipped')
+                                              conv_const.STATUS_SKIPPED)
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
@@ -84,9 +85,10 @@ class MonitorConfigConv(object):
                 LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
                 if name:
                     conv_utils.add_status_row('monitor', monitor_type, name,
-                                              'error')
+                                              conv_const.STATUS_ERROR)
                 else:
-                    conv_utils.add_status_row('monitor', key, key, 'error')
+                    conv_utils.add_status_row('monitor', key, key,
+                                              conv_const.STATUS_ERROR)
         LOG.debug("Converted %s health monitors" %
                   len(avi_config["HealthMonitor"]))
 
@@ -390,7 +392,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
                 input_dir + os.path.sep + cmd_code)
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            conv_utils.add_status_row("monitor", "external", name, "skipped")
+            conv_utils.add_status_row("monitor", "external", name,
+                                      conv_const.STATUS_SKIPPED)
             monitor_dict['error'] = True
             return None
         ext_monitor = {
@@ -620,7 +623,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
                 input_dir + os.path.sep + cmd_code)
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
-            conv_utils.add_status_row("monitor", "external", name, "skipped")
+            conv_utils.add_status_row("monitor", "external", name,
+                                      conv_const.STATUS_SKIPPED)
             monitor_dict['error'] = True
             return None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"

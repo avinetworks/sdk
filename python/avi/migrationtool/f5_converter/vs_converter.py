@@ -45,7 +45,7 @@ class VSConfigConv(object):
                     LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
                              (vs_type, vs_name))
                     conv_utils.add_status_row('virtual', None, vs_name,
-                                              'skipped')
+                                              final.STATUS_SKIPPED)
                     continue
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
@@ -266,7 +266,7 @@ class VSConfigConv(object):
                     vs_name)
             else:
                 vs_obj["snat_ip"] = snat_list
-            conv_status = {'status': 'successful'}
+            conv_status = {'status': final.STATUS_SUCCESSFUL}
             message = 'Mapped indirectly to VS -> SNAT IP Address'
             conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                        conv_status, message)
@@ -303,9 +303,9 @@ class VSConfigConv(object):
                                       if val in user_ignore]
         skipped = [attr for attr in skipped if attr not in user_ignore]
         conv_status['skipped'] = skipped
-        status = 'successful'
+        status = final.STATUS_SUCCESSFUL
         if skipped:
-            status = 'partial'
+            status = final.STATUS_PARTIAL
         conv_status['status'] = status
         conv_utils.add_conv_status('virtual', None, vs_name,
                                    conv_status, vs_obj)
@@ -334,7 +334,8 @@ class VSConfigConv(object):
         avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
         conv_utils.add_conv_status('rule', None, vs_ds_ref,
-                                   {'status': 'datascript'}, avi_object=vs_ds)
+                                   {'status': final.STATUS_DATASCRIPT},
+                                   avi_object=vs_ds)
 
         return vs_ds_ref
 

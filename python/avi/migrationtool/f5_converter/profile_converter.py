@@ -56,7 +56,7 @@ class ProfileConfigConv(object):
                     LOG.warning("Skipped not supported profile: %s of type: %s"
                                 % (name, profile_type))
                     conv_utils.add_status_row('profile', profile_type, name,
-                                              'skipped')
+                                              final.STATUS_SKIPPED)
                     continue
                 LOG.debug("Converting profile: %s" % name)
                 profile = profile_config[key]
@@ -71,9 +71,10 @@ class ProfileConfigConv(object):
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
                 if name:
                     conv_utils.add_status_row('profile', profile_type, name,
-                                              'error')
+                                              final.STATUS_ERROR)
                 else:
-                    conv_utils.add_status_row('profile', key, key, 'error')
+                    conv_utils.add_status_row('profile', key, key,
+                                              final.STATUS_ERROR)
         count = len(avi_config["SSLProfile"])
         count += len(avi_config["PKIProfile"])
         count += len(avi_config["ApplicationProfile"])
