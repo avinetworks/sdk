@@ -7,14 +7,14 @@ AVI_PIP_VERSION = ''
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='avinetscalerconverter',
+    name='aviconverter',
     version=AVI_PIP_VERSION,
-    packages=find_packages(exclude=['*sdk*', '*f5_converter*']),
-    description='Avi Netscaler Converter.',
+    packages=find_packages(exclude=['*sdk*']),
+    description='Avi Converter.',
     url='http://avinetworks.com/',
     author='Avi Networks',
     author_email='support@avinetworks.com',
-    scripts=['avi/netscaler_converter/netscaler_converter.py'],
+    scripts=['avi/migrationtool/config_converter.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -25,7 +25,8 @@ setup(
     include_package_data=True,
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
-                      'nose-testconfig', 'ConfigParser'],
+                      'nose-testconfig', 'ConfigParser', 'xlsxwriter',
+                      'pandas', 'openpyxl'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )

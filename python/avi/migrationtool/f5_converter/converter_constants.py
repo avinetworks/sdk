@@ -62,7 +62,6 @@ OBJECT_TYPE_STRING_GROUP = 'stringgroup'
 STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
                STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
 
-
 def init(version):
     """
     This function defines that to initialize constant from yaml file

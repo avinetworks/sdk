@@ -3,8 +3,8 @@ import copy
 import random
 import re
 
-import avi.f5_converter.conversion_util as conv_utils
-import avi.f5_converter.converter_constants as final
+import avi.migrationtool.f5_converter.conversion_util as conv_utils
+import avi.migrationtool.f5_converter.converter_constants as final
 
 
 LOG = logging.getLogger(__name__)
@@ -334,7 +334,8 @@ class VSConfigConv(object):
         avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
         conv_utils.add_conv_status('rule', None, vs_ds_ref,
-                                   {'status': final.STATUS_DATASCRIPT}, avi_object=vs_ds)
+                                   {'status': final.STATUS_DATASCRIPT},
+                                   avi_object=vs_ds)
 
         return vs_ds_ref
 

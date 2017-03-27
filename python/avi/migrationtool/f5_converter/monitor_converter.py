@@ -3,8 +3,8 @@ import logging
 import numbers
 import os
 
-import avi.f5_converter.conversion_util as conv_utils
-import avi.f5_converter.converter_constants as conv_const
+import avi.migrationtool.f5_converter.conversion_util as conv_utils
+import avi.migrationtool.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 
@@ -61,7 +61,8 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
-                conv_utils.add_status_row('monitor', m_type, name, conv_const.STATUS_SKIPPED)
+                conv_utils.add_status_row('monitor', m_type, name,
+                                          conv_const.STATUS_SKIPPED)
                 LOG.warn("Empty config for monitor: %s " % name)
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)

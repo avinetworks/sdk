@@ -1,9 +1,11 @@
 import logging
+import avi.migrationtool.netscaler_converter.ns_util as ns_util
+import avi.migrationtool.netscaler_converter.ns_constants as ns_constant
+
 from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
-                       Word, originalTextFor, Optional, ZeroOrMore, Group, SkipTo,
-                       restOfLine, quotedString, LineStart, OneOrMore, Keyword)
-import avi.netscaler_converter.ns_util as ns_util
-import avi.netscaler_converter.ns_constants as ns_constant
+                       Word, originalTextFor, Optional, ZeroOrMore, Group,
+                       SkipTo, restOfLine, quotedString, LineStart, OneOrMore,
+                       Keyword)
 
 ParserElement.enablePackrat()
 

@@ -15,8 +15,8 @@ from avi.netscaler_converter.ns_constants import (OBJECT_TYPE_POOL_GROUP,
                                                   OBJECT_TYPE_POOL,
                                                   OBJECT_TYPE_PKI_PROFILE)
 from testconfig import config
-from avi.netscaler_converter.ns_rest_config import (upload_config_to_controller,
-                                                    get_object_from_controller)
+from avi.utils.avi_rest_lib import (upload_config_to_controller,
+                                    get_object_from_controller)
 
 
 LOG = logging.getLogger(__name__)

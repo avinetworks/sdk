@@ -1,15 +1,22 @@
 import logging
+import yaml
 import os
 
-LOG = logging.getLogger(__name__)
+from avi.migrationtool.netscaler_converter.ns_service_converter \
+    import ServiceConverter
+from avi.migrationtool.netscaler_converter.monitor_converter import \
+    MonitorConverter
+from avi.migrationtool.netscaler_converter.lbvs_converter import \
+    LbvsConverter
+from avi.migrationtool.netscaler_converter.csvs_converter import \
+    CsvsConverter
+from avi.migrationtool.netscaler_converter import ns_util
+from avi.migrationtool.netscaler_converter.profile_converter import \
+    ProfileConverter
+from avi.migrationtool.netscaler_converter.lbvs_converter import \
+    tmp_avi_config
 
-from avi.netscaler_converter.ns_service_converter import ServiceConverter
-from avi.netscaler_converter.monitor_converter import MonitorConverter
-from avi.netscaler_converter.lbvs_converter import LbvsConverter
-from avi.netscaler_converter.csvs_converter import CsvsConverter
-from avi.netscaler_converter import ns_util
-from avi.netscaler_converter.profile_converter import ProfileConverter
-from avi.netscaler_converter.lbvs_converter import tmp_avi_config
+LOG = logging.getLogger(__name__)
 
 
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
@@ -29,6 +36,9 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     """
 
     ssl_ciphers_yaml = 'ssl_ciphers.yaml'
+    # load ssl ciphers
+    ssl_ciphers = yaml.safe_load(open(os.path.dirname(__file__) + '/%s'
+                                      % ssl_ciphers_yaml))
     LOG.debug('Conversion Started')
     tenant_ref = ns_util.get_object_ref(tenant_name, 'tenant')
     cloud_ref = ns_util.get_object_ref(cloud_name, 'cloud')
@@ -62,7 +72,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         monitor_converter.convert(ns_config_dict, avi_config, input_dir)
 
         profile_converter = ProfileConverter(tenant_name, cloud_name,tenant_ref,
-                                             cloud_ref, ssl_ciphers_yaml,
+                                             cloud_ref, ssl_ciphers,
                                              key_passphrase)
         profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
