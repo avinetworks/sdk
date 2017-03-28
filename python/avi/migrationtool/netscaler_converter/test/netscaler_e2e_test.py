@@ -28,8 +28,18 @@ def set_output_dir_in_test_config_ini(ini_file, section, output_dir):
 
 
 if __name__ == "__main__":
+    # Run test complete vs configuration test suite
+    os.system(
+        "nosetests netscaler_converter/test/test_complete_vs_configuration.py -s --with-html "
+        "--html-report=netscaler_converter/test/vs_config_output.html")
+
+    # Run test refernces vs test suite
+    os.system(
+        "nosetests netscaler_converter/test/test_vs_references.py -s --with-html "
+        "--html-report=netscaler_converter/test/vs_references_output.html")
+
     # set INI file path
-    test_config_ini_path = 'test/netscaler_e2e_test_cfg.ini'
+    test_config_ini_path = 'netscaler_converter/test/netscaler_e2e_test_cfg.ini'
 
     # Read INI file
     ini_config = ConfigParser()
@@ -42,7 +52,7 @@ if __name__ == "__main__":
     input_path = ini_config.get('netscaler_e2e_config', 'ns_config_dir')
 
     # File path of test config ini file which used for to
-    test_config_ini_path = 'test/netscaler_e2e_test_cfg.ini'
+    #test_config_ini_path = 'netscaler_converter/test/netscaler_e2e_test_cfg.ini'
     output_dir_path = ini_config.get('netscaler_e2e_config',
                                      'output_dir_path') \
         if ini_config.get('netscaler_e2e_config', 'output_dir_path') \
@@ -63,10 +73,10 @@ if __name__ == "__main__":
         if not os.path.isdir(output_dir):
             os.mkdir(output_dir)
         output_dir += '/output'
-        run_script = 'python netscaler_converter.py -f %s -o %s ' \
+        run_script = 'python config_converter.py --type netscaler -f %s -o %s' \
                      % (input_file, output_dir)
         if ini_config.get('netscaler_e2e_config', 'tenant'):
-            run_script += '-t %s ' % ini_config.get('netscaler_e2e_config',
+            run_script += ' -t %s ' % ini_config.get('netscaler_e2e_config',
                                                     'tenant')
         if ini_config.get('netscaler_e2e_config', 'cloud_name'):
             run_script += '--cloud_name %s ' % \
@@ -84,9 +94,8 @@ if __name__ == "__main__":
         # test config
         set_output_dir_in_test_config_ini(test_config_ini_path,
                                           'netscaler_test_config', output_dir)
-
         # Run test csv status test suite
-        os.system("nosetests test/test_csv_status.py -s --tc-file=%s "
+        os.system("nosetests netscaler_converter/test/test_csv_status.py -s --tc-file=%s "
                   "--with-html --html-report=%s" % (test_config_ini_path,
                                                     test_report_location))
 
@@ -103,14 +112,6 @@ if __name__ == "__main__":
         test_report_location = '%s/log_test_upload.html' % output_dir
 
         # Run test_upload_output test suite
-        os.system("nosetests test/test_upload_output_config.py -s --tc-file=%s "
+        os.system("nosetests netscaler_converter/test/test_upload_output_config.py -s --tc-file=%s "
                   "--with-html --html-report=%s" % (test_config_ini_path,
                                                     test_report_location))
-
-    # Run test complete vs configuration test suite
-    os.system("nosetests test/test_complete_vs_configuration.py -s --with-html "
-              "--html-report=test/vs_config_output.html")
-
-    # Run test refernces vs test suite
-    os.system("nosetests test/test_vs_references.py -s --with-html "
-              "--html-report=test/vs_references_output.html")
