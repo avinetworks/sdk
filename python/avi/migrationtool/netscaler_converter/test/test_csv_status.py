@@ -4,7 +4,7 @@ import unittest
 import json
 import csv
 from testconfig import config
-from avi.netscaler_converter.ns_constants import (STATUS_SKIPPED,
+from avi.migrationtool.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
                                                   STATUS_PARTIAL)
 

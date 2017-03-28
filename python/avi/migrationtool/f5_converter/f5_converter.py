@@ -43,6 +43,7 @@ class F5Converter(AviConverter):
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
+        self.ssl_profile_merge_check = args.profilemerge
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -133,8 +134,8 @@ class F5Converter(AviConverter):
         f5_config_dict = f5_defaults_dict
         avi_config_dict = f5_config_converter. \
             convert(f5_config_dict, output_dir, self.vs_state, input_dir,
-                    self.f5_config_version, user_ignore, self.tenant,
-                    self.cloud_name)
+                    self.f5_config_version, self.ssl_profile_merge_check,
+                    user_ignore, self.tenant, self.cloud_name)
 
         avi_config_dict["META"] = {
             "supported_migrations": {

@@ -10,12 +10,15 @@ LOG = logging.getLogger(__name__)
 
 class ProfileConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_profile_attributes):
+    def get_instance(cls, version, f5_profile_attributes,
+                     ssl_profile_merge_check):
         f5_profile_attributes = f5_profile_attributes
         if version == '10':
-            return ProfileConfigConvV10(f5_profile_attributes)
+            return ProfileConfigConvV10(f5_profile_attributes,
+                                        ssl_profile_merge_check)
         if version in ['11', '12']:
-            return ProfileConfigConvV11(f5_profile_attributes)
+            return ProfileConfigConvV11(f5_profile_attributes,
+                                        ssl_profile_merge_check)
 
     default_key = None
 
@@ -158,7 +161,7 @@ class ProfileConfigConv(object):
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes):
+    def __init__(self, f5_profile_attributes, ssl_profile_merge_check):
         self.supported_types = \
             f5_profile_attributes['Profile_supported_types']
         self.ignore_for_defaults = \
@@ -194,6 +197,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.supported_udp = f5_profile_attributes['Profile_supported_udp']
         self.indirect_udp = f5_profile_attributes['Profile_indirect_udp']
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
+        self.ssl_profile_merge_check = ssl_profile_merge_check
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -271,11 +275,13 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
             if accepted_versions:
                 ssl_profile["accepted_versions"] = accepted_versions
-
-            conv_utils.update_skip_duplicates(
-                ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                converted_objs, name, default_profile_name)
-
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates(ssl_profile,
+                                                  avi_config['SSLProfile'],
+                                                  'ssl_profile', converted_objs,
+                                                  name, default_profile_name)
+            else:
+                avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl-file', None)
             ca_file_name = profile.get('ca-file', None)
             if crl_file_name and crl_file_name != 'none':
@@ -733,7 +739,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes):
+    def __init__(self, f5_profile_attributes, ssl_profile_merge_check):
         self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
         self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
@@ -755,6 +761,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.supported_udp = f5_profile_attributes['Profile_supported_udp']
         self.indirect_udp = []
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
+        self.ssl_profile_merge_check = ssl_profile_merge_check
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -813,9 +820,13 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ssl_profile['send_close_notify'] = True
             else:
                 ssl_profile['send_close_notify'] = False
-            conv_utils.update_skip_duplicates(
-                ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                converted_objs, name, default_profile_name)
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates(ssl_profile,
+                                                  avi_config['SSLProfile'],
+                                                  'ssl_profile',converted_objs,
+                                                  name, default_profile_name)
+            else:
+                avi_config['SSLProfile'].append(ssl_profile)
             options = profile.get("options", "")
             if isinstance(options, dict):
                 opt = []
