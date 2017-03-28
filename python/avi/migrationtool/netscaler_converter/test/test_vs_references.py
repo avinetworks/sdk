@@ -7,9 +7,15 @@ import urlparse
 
 def setUp():
     global avi_config
-    output_file = open('output/Output.json', 'r')
-    output_data = output_file.read()
-    avi_config = json.loads(output_data)
+    output_file = ''
+    try:
+        output_file = open('netscaler_converter/output/Output.json', 'r')
+    except:
+        pass
+    avi_config = {}
+    if output_file:
+        output_data = output_file.read()
+        avi_config = json.loads(output_data)
 
 
 def get_name(url):
@@ -24,8 +30,8 @@ def get_name(url):
 
 class VSReferences(unittest.TestCase):
     def test_run_input_config_over_ns_tool(self):
-        os.system('python netscaler_converter.py -f '
-                  'test/input_vs_configuration.conf')
+        os.system('python config_converter.py --type netscaler -f '
+                  'netscaler_converter/test/input_vs_configuration.conf')
 
     def test_http_policies_references_vs(self):
         """
