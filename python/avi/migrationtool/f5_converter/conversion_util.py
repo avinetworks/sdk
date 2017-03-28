@@ -239,7 +239,7 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
     """
     dup_of = None
     # root default profiles are skipped for merging
-    if not name == default_profile_name:
+    if not name == default_profile_name or obj_type == 'ssl_profile':
         dup_of = check_for_duplicates(obj, obj_list)
     if dup_of:
         converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
@@ -247,7 +247,6 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
     else:
         obj_list.append(obj)
         converted_objs.append({obj_type: obj})
-
 
 def get_content_string_group(name, content_types, tenant):
     """

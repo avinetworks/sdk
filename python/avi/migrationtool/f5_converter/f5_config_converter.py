@@ -14,7 +14,8 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            user_ignore={}, tenant='admin', cloud_name='Default-Cloud'):
+            ssl_profile_merge_check, user_ignore={}, tenant='admin',
+            cloud_name='Default-Cloud'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -41,7 +42,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                           cloud_name)
 
-        profile_conv = ProfileConfigConv.get_instance(version, f5_attributes)
+        profile_conv = ProfileConfigConv.get_instance(version, f5_attributes,
+                                                      ssl_profile_merge_check)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant)
 

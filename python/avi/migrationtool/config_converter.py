@@ -62,6 +62,9 @@ if __name__ == "__main__":
                         action='store_true')
     parser.add_argument('--type', choices=['f5', 'netscaler'],
                         help='Config converter Type ', default='netscaler')
+    parser.add_argument('--profilemerge',
+                        help='Falg for ssl profile merge', default=False)
+
 
     args = parser.parse_args()
     if args.version:
