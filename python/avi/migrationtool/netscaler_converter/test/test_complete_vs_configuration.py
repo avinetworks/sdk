@@ -6,12 +6,18 @@ import re
 
 def setUp():
     global avi_config
-    output_file = open('output/Output.json', 'r')
-    output_data = output_file.read()
-    avi_config = []
+    output_data = ''
+    output_file = ''
+    try:
+        output_file = open('netscaler_converter/output/Output.json', 'r')
+    except:
+        pass
+    if output_file:
+        output_data = output_file.read()
+    avi_config = {}
     if output_data:
         avi_config = json.loads(output_data)
-    cfg_file = open('test/test_complete_vs_configuration.cfg', 'r')
+    cfg_file = open('netscaler_converter/test/test_complete_vs_configuration.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = json.loads(cfg)
@@ -20,8 +26,8 @@ def setUp():
 class VSConfig(unittest.TestCase):
     # Run input vs config over netscaler tool
     def test_run_input_config_over_ns_tool(self):
-        os.system('python netscaler_converter.py -f '
-                  'test/input_vs_configuration.conf')
+        os.system('python config_converter.py --type netscaler -f '
+                  'netscaler_converter/test/input_vs_configuration.conf')
 
     def test_pool_groups(self):
         """
