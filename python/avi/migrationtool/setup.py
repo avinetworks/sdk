@@ -14,7 +14,8 @@ setup(
     url='http://avinetworks.com/',
     author='Avi Networks',
     author_email='support@avinetworks.com',
-    scripts=['avi/migrationtool/config_converter.py'],
+    scripts=['avi/migrationtool/f5_converter/f5_converter.py',
+             'avi/migrationtool/netscaler_converter/netscaler_converter.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',

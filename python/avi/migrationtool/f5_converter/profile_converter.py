@@ -820,13 +820,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ssl_profile['send_close_notify'] = True
             else:
                 ssl_profile['send_close_notify'] = False
-            if self.ssl_profile_merge_check:
-                conv_utils.update_skip_duplicates(ssl_profile,
-                                                  avi_config['SSLProfile'],
-                                                  'ssl_profile',converted_objs,
-                                                  name, default_profile_name)
-            else:
-                avi_config['SSLProfile'].append(ssl_profile)
             options = profile.get("options", "")
             if isinstance(options, dict):
                 opt = []
@@ -842,7 +835,13 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 accepted_versions.append({"type": "SSL_VERSION_TLS1_2"})
             if accepted_versions:
                 ssl_profile["accepted_versions"] = accepted_versions
-
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates(ssl_profile,
+                                                      avi_config['SSLProfile'],
+                                                      'ssl_profile',converted_objs,
+                                                      name, default_profile_name)
+            else:
+                avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl file', None)
             ca_file_name = profile.get('ca file', None)
             if crl_file_name and crl_file_name != 'none':

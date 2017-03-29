@@ -5,14 +5,15 @@ import logging
 import os
 import sys
 import avi.migrationtool
-
+import yaml
+from avi.migrationtool.vs_filter import filter_for_vs
+from avi.migrationtool.config_patch import ConfigPatch
 from requests.packages import urllib3
 from avi.migrationtool.f5_converter import (f5_config_converter,
                                             f5_parser, scp_util,
                                             conversion_util)
 from avi.migrationtool import avi_rest_lib
 from avi.migrationtool.avi_converter import AviConverter
-
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -21,12 +22,12 @@ sdk_version = getattr(avi.migrationtool, '__version__', None)
 
 class F5Converter(AviConverter):
     def __init__(self, args):
-        self.bigip_config_file = args.config_file
+        self.bigip_config_file = args.bigip_config_file
         self.skip_default_file = args.skip_default_file
         self.f5_config_version = args.f5_config_version
         self.input_folder_location = args.input_folder_location
         self.output_file_path = args.output_file_path if args.output_file_path \
-            else 'f5_converter/output'
+            else 'output'
         self.option = args.option
         self.user = args.user
         self.password = args.password
@@ -35,15 +36,18 @@ class F5Converter(AviConverter):
         self.cloud_name = args.cloud_name
         self.vs_state = args.vs_state
         self.controller_version = args.controller_version
-        self.f5_host_ip = args.host_ip
-        self.f5_ssh_user = args.host_ssh_user
-        self.f5_ssh_password = args.host_ssh_password
-        self.f5_key_file = args.host_key_file
-        self.f5_passphrase_file = args.ns_passphrase_file
+        self.f5_host_ip = args.f5_host_ip
+        self.f5_ssh_user = args.f5_ssh_user
+        self.f5_ssh_password = args.f5_ssh_password
+        self.f5_key_file = args.f5_key_file
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
         self.ssl_profile_merge_check = args.profilemerge
+        # config_patch.py args taken into class variable
+        self.patch = args.patch
+        # vs_filter.py args taken into classs variable
+        self.vs_filter = args.vs_filter
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -164,8 +168,32 @@ class F5Converter(AviConverter):
         text_file.close()
         LOG.info('written avi config file ' + output_dir + os.path.sep +
                  "Output.json")
+        # Check if patch args present then execute
+        # the config_patch.py with args.
+        if self.patch:
+            with open(str(self.patch[0])) as f:
+                acfg = json.load(f)
+            with open(str(self.patch[1])) as f:
+                patches = yaml.load(f)
+            cp = ConfigPatch(acfg, patches)
+            patched_cfg = cp.patch()
+            with open(str(self.patch[0]) + '.patched', 'w') as f:
+                f.write(json.dumps(patched_cfg, indent=4))
+        # Check if vs_filter args present then execute vs_filter.py with args
+        if self.vs_filter:
+            vs_filename = output_dir + os.path.sep + "Output.json"
+            avi_config_file = open(vs_filename)
+            old_avi_config = json.loads(avi_config_file.read())
+            new_avi_config = filter_for_vs(old_avi_config, self.vs_filter)
+            text_file = open(output_dir + os.path.sep + "FilterOutput.json",
+                             "w")
+            json.dump(new_avi_config, text_file, indent=4)
+            text_file.close()
+            print 'written Vs Filter file ' + output_dir + \
+                  os.path.sep + "FilterOutput.json"
         if self.option == "auto-upload":
             self.upload_config_to_controller(avi_config_dict)
+
 
     def get_default_config(self, is_download, path):
         f5_defaults_dict = {}
@@ -221,3 +249,73 @@ class F5Converter(AviConverter):
                 self.dict_merge(dct[k], merge_dct[k])
             else:
                 dct[k] = merge_dct[k]
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--bigip_config_file',
+                        help='absolute path for F5 config file')
+    parser.add_argument('--skip_default_file',
+                        help='Falg for skip default file', default=False)
+    parser.add_argument('-v', '--f5_config_version',
+                        help='version of f5 config file', default='11')
+    parser.add_argument('-o', '--output_file_path',
+                        help='Folder path for output files to be created in',
+                        )
+    parser.add_argument('-O', '--option', choices=['cli-upload', 'auto-upload'],
+                        help='Upload option cli-upload genarates Avi config ' +
+                             'file auto upload will upload config to ' +
+                             'controller', default='cli-upload')
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
+    parser.add_argument('-p', '--password',
+                        help='controller password for auto upload',
+                        default='avi123')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
+    parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
+                        default='admin')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
+    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
+                        help='state of VS created', default='disable')
+    parser.add_argument('-l', '--input_folder_location',
+                        help='location of input files like cert files ' +
+                             'external monitor scripts', default='./test/certs')
+    parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
+    parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
+    parser.add_argument('--f5_ssh_password',
+                        help='f5 host ssh password if password based ' +
+                             'authentication')
+    parser.add_argument('--f5_key_file',
+                        help='f5 host key file location if key based ' +
+                             'authentication')
+    parser.add_argument('--controller_version',
+                        help='Target Avi controller version', default='16.3')
+    parser.add_argument('--ignore_config',
+                        help='config json to skip the config in conversion')
+    parser.add_argument('--partition_config',
+                        help='comma separated partition config files')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
+    parser.add_argument('--profilemerge',
+                        help='Falg for ssl profile merge', default=False)
+    # Added command line args to execute config_patch file with related avi
+    # json file location and patch location
+    parser.add_argument('--patch', help='Run config_patch please provide args '
+                                        'in following format args :location'
+                                        'of aviconfigjson '
+                                        'and space separated location of '
+                                        'patchfile', nargs=2)
+    # Added command line args to execute vs_filter.py with vs_name.
+    parser.add_argument('--vs_filter', help='please provide vs name')
+
+    args = parser.parse_args()
+    # print avi f5 converter version
+    if args.version:
+        print "SDK Version: %s\nController Version: %s" % \
+              (sdk_version, args.controller_version)
+        exit(0)
+
+    f5_converter = F5Converter(args)
+    f5_converter.convert()
