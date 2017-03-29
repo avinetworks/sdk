@@ -14,7 +14,11 @@ fi
 cp avi/$PACKAGES/setup.py .
 cp avi/$PACKAGES/MANIFEST.in .
 AVI_PIP_VERSION=`python version.py`
-sed -i s/"AVI_PIP_VERSION =.*$"/"AVI_PIP_VERSION = \'$AVI_PIP_VERSION\'"/g setup.py
+AVI_PIP_VERSION_TAG="$AVI_PIP_VERSION"
+if [ ! -z "$2" ]; then
+    AVI_PIP_VERSION_TAG="$AVI_PIP_VERSION.$2"
+fi
+sed -i s/"AVI_PIP_VERSION =.*$"/"AVI_PIP_VERSION = \'$AVI_PIP_VERSION_TAG\'"/g setup.py
 sed -i s/"__version__ =.*$"/"__version__ = \'$AVI_PIP_VERSION\'"/g avi/$PACKAGES/__init__.py
 echo "copied setup and manifest to top level python directory"
 echo "creating package"
