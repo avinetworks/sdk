@@ -132,7 +132,7 @@ VERSION_11:
     - 'priority-group'
 
     Pool_ignore_val:
-        min-active-members: 1
+        min-active-members: '1'
 
     Profile_supported_types:
     - "client-ssl"
