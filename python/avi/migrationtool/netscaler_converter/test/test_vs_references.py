@@ -9,7 +9,7 @@ def setUp():
     global avi_config
     output_file = ''
     try:
-        output_file = open('netscaler_converter/output/Output.json', 'r')
+        output_file = open('output/Output.json', 'r')
     except:
         pass
     avi_config = {}
