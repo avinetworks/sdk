@@ -298,8 +298,8 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--profilemerge',
-                        help='Falg for ssl profile merge', default=False)
+    parser.add_argument('--profilemerge', action='store_false',
+                        help='Falg for ssl profile merge', default=True)
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide args '
