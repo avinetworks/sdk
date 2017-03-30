@@ -26,7 +26,7 @@ def setUp():
 class VSConfig(unittest.TestCase):
     # Run input vs config over netscaler tool
     def test_run_input_config_over_ns_tool(self):
-        os.system('python config_converter.py --type netscaler -f '
+        os.system('python netscaler_converter/netscaler_converter.py -f '
                   'netscaler_converter/test/input_vs_configuration.conf')
 
     def test_pool_groups(self):
