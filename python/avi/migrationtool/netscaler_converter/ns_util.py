@@ -24,12 +24,12 @@ LOG = logging.getLogger(__name__)
 
 csv_writer_dict_list = []
 skipped_setting = {
-            'virtual_service': '',
-            'ssl key and cert': {},
-            'ssl profile': {},
-            'pool group': {},
-            'health monitor': {},
-            'Httppolicy': {}
+            #'virtual_service': '',
+            #'ssl key and cert': {},
+            #'ssl profile': {},
+            #'pool group': {},
+            #'health monitor': {},
+            #'Httppolicy': {}
         }
 
 def upload_file(file_path):
@@ -849,7 +849,7 @@ def format_string_to_json(avi_string):
     """
     avi_string = avi_string.split('__/__')[0]
     repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
-            ("None", "null")
+            ("None", "null"),('u"','"')
     avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
     return json.loads(avi_string)
 
@@ -882,7 +882,11 @@ def get_csv_skipped_list(csv_object, name_of_object):
             format_string_to_json(each_partial['AVI Object'])
         if avi_object_json.get('name') and \
                         avi_object_json['name'] == name_of_object:
-            skipped_list.append(each_partial['Skipped settings'])
+            repls = ('[', ''), (']', '')
+            skipped_setting_csv = reduce(lambda a, kv: a.replace(*kv), repls,
+                                each_partial['Skipped settings'])
+            if skipped_setting_csv:
+                skipped_list.append(skipped_setting_csv)
     return skipped_list
 
 
@@ -933,40 +937,43 @@ def get_pool_skipped_list(avi_config, pool_group_name, skipped_setting,
                              if pool_group_object_ref['name'] == pool_group_name]
     for pool_group in pool_group_object_ref:
         if 'members' in pool_group:
+            skipped_setting[obj_name] = {}
             for each_pool_ref in pool_group['members']:
                 pool_name = get_name(each_pool_ref['pool_ref'])
                 skipped_list = get_csv_skipped_list(csv_object, pool_name)
-                skipped_setting[obj_name]['pool'] = {}
-                skipped_setting[obj_name]['pool']['name'] = pool_name
-                skipped_setting[obj_name]['pool']['skipped_list'] = skipped_list
+                if len(skipped_list) > 0:
+                    skipped_setting[obj_name]['pool'] = {}
+                    skipped_setting[obj_name]['pool']['name'] = pool_name
+                    skipped_setting[obj_name]['pool']['skipped_list'] = skipped_list
                 for pool_partial in csv_object:
                     avi_object_json = \
                         format_string_to_json(pool_partial['AVI Object'])
-                    if avi_object_json.get('name') and \
-                                    avi_object_json['name'] == pool_name:
-                        if 'health_monitor_refs' in pool_partial:
-                            monitor_name = get_name(
-                                each_pool_ref['health_monitor_refs'])
-                            csv_object = get_csv_object_list(csv_writer_dict_list,
-                                                             ['add lb monitor'])
-                            skipped_list = get_csv_skipped_list(csv_object,
-                                                                monitor_name)
+                    if 'health_monitor_refs' in avi_object_json and \
+                            avi_object_json['health_monitor_refs']:
+                        monitor_name = get_name(
+                            avi_object_json['health_monitor_refs'][0])
+                        csv_object = get_csv_object_list(csv_writer_dict_list,
+                                                         ['add lb monitor'])
+                        skipped_list = get_csv_skipped_list(csv_object,
+                                                            monitor_name)
+                        if skipped_list:
                             skipped_setting[obj_name]['health monitor'] = {}
                             skipped_setting[obj_name]['health monitor']['name'] \
                                 = monitor_name
-                            skipped_setting
-                            [obj_name]['health monitor']['skipped_list'] = \
-                                skipped_list
-                        if 'ssl_key_and_certificate_refs' in pool_partial:
-                            name, skipped = get_ssl_key_and_cert_refs_skipped\
-                                (csv_writer_dict_list, pool_partial)
+                            skipped_setting[obj_name]['health monitor']['skipped_list'] \
+                                = skipped_list
+                    if 'ssl_key_and_certificate_refs' in avi_object_json:
+                        name, skipped = get_ssl_key_and_cert_refs_skipped\
+                            (csv_writer_dict_list, avi_object_json)
+                        if skipped:
                             skipped_setting[obj_name]['ssl key and cert']['name'] \
                                 = name
                             skipped_setting[obj_name]['ssl key and cert']['skipped_list']\
                                 = skipped
-                        if 'ssl_profile_name' in pool_partial:
-                            name, skipped = get_ssl_profile_skipped\
-                                (csv_writer_dict_list, pool_partial)
+                    if 'ssl_profile_name' in avi_object_json:
+                        name, skipped = get_ssl_profile_skipped\
+                            (csv_writer_dict_list, avi_object_json)
+                        if skipped:
                             skipped_setting[obj_name]['ssl profile']['name'] =\
                                 name
                             skipped_setting[obj_name]['ssl profile']['skipped_list']\
@@ -986,19 +993,27 @@ def vs_per_skipped_setting_for_references(avi_config):
                      in ['add cs vserver', 'add lb vserver']]
     for vs_csv_object in vs_csv_objects:
         virtual_service = format_string_to_json(vs_csv_object['AVI Object'])
-        skipped_setting['virtual_service'] = vs_csv_object['Skipped settings']
+        repls = ('[', ''), (']', '')
+        skipped_setting_csv = reduce(lambda a, kv: a.replace(*kv), repls,
+                                     vs_csv_object['Skipped settings'])
+        if skipped_setting_csv:
+            skipped_setting['virtual_service'] = [skipped_setting_csv]
         # Get the skipped list for ssl key and cert
         if 'ssl_key_and_certificate_refs' in virtual_service:
             name, skipped = get_ssl_key_and_cert_refs_skipped\
                 (csv_writer_dict_list, virtual_service)
-            skipped_setting['ssl key and cert']['name'] = name
-            skipped_setting['ssl key and cert']['skipped_list'] = skipped
+            if skipped:
+                skipped_setting['ssl key and cert']={}
+                skipped_setting['ssl key and cert']['name'] = name
+                skipped_setting['ssl key and cert']['skipped_list'] = skipped
         # Get the skipped list for ssl profile name.
         if 'ssl_profile_name' in virtual_service:
             name, skipped = get_ssl_profile_skipped(csv_writer_dict_list,
                                                     virtual_service)
-            skipped_setting['ssl profile']['name'] = name
-            skipped_setting['ssl profile']['skipped_list'] = skipped
+            if skipped:
+                skipped_setting['ssl profile'] = {}
+                skipped_setting['ssl profile']['name'] = name
+                skipped_setting['ssl profile']['skipped_list'] = skipped
         # Get the skipped list for pool group.
         if 'pool_group_ref' in virtual_service:
             pool_group_name = get_name(virtual_service['pool_group_ref'])
@@ -1018,8 +1033,10 @@ def vs_per_skipped_setting_for_references(avi_config):
                                      'add responder policy',
                                      'add rewrite policy'])
                 skipped_list = get_csv_skipped_list(csv_object, http_name)
-                skipped_setting['Httppolicy']['name'] = http_name
-                skipped_setting['Httppolicy']['skipped_list'] = skipped_list
+                if skipped_list:
+                    skipped_setting['Httppolicy'] = {}
+                    skipped_setting['Httppolicy']['name'] = http_name
+                    skipped_setting['Httppolicy']['skipped_list'] = skipped_list
                 # Get the http policy name
                 for each_http_policy in avi_config['HTTPPolicySet']:
                     for http_req in \
@@ -1036,14 +1053,12 @@ def vs_per_skipped_setting_for_references(avi_config):
             {'Vs reference skipped settings': str(skipped_setting)})
 
 
-
-
 def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
     # List of fieldnames for headers
     fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
                   'Full Command', 'Status', 'Skipped settings',
                   'Indirect mapping', 'Not Applicable', 'User Ignored',
-                  'AVI Object', 'Vs reference skipped settings']
+                   'Vs reference skipped settings', 'AVI Object']
     # xlsx workbook
     status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
     # xlsx worksheet

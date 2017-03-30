@@ -132,7 +132,7 @@ if __name__ == "__main__":
                         help='absolute path for Netscaler config file')
     parser.add_argument('-l', '--input_folder_location',
                         help='location of extracted backup folder',
-                        default='./test/certs')
+                        default='netscaler_converter/test/certs')
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in',
                        )
