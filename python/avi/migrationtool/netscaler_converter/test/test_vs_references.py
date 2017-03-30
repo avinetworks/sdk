@@ -9,7 +9,7 @@ def setUp():
     global avi_config
     output_file = ''
     try:
-        output_file = open('netscaler_converter/output/Output.json', 'r')
+        output_file = open('output/Output.json', 'r')
     except:
         pass
     avi_config = {}
@@ -30,7 +30,7 @@ def get_name(url):
 
 class VSReferences(unittest.TestCase):
     def test_run_input_config_over_ns_tool(self):
-        os.system('python config_converter.py --type netscaler -f '
+        os.system('python netscaler_converter/netscaler_converter.py -f '
                   'netscaler_converter/test/input_vs_configuration.conf')
 
     def test_http_policies_references_vs(self):

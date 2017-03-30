@@ -9,7 +9,7 @@ def setUp():
     output_data = ''
     output_file = ''
     try:
-        output_file = open('netscaler_converter/output/Output.json', 'r')
+        output_file = open('output/Output.json', 'r')
     except:
         pass
     if output_file:
@@ -26,8 +26,9 @@ def setUp():
 class VSConfig(unittest.TestCase):
     # Run input vs config over netscaler tool
     def test_run_input_config_over_ns_tool(self):
-        os.system('python config_converter.py --type netscaler -f '
-                  'netscaler_converter/test/input_vs_configuration.conf')
+        os.system('python netscaler_converter/netscaler_converter.py -f '
+                  'netscaler_converter/test/input_vs_configuration.conf -l '
+                  'netscaler_converter/test/certs')
 
     def test_pool_groups(self):
         """

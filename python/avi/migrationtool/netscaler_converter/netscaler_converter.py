@@ -3,12 +3,13 @@ import argparse
 import logging
 import os
 import json
+import yaml
 import avi.migrationtool
 import avi.migrationtool.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtool.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
 import avi.migrationtool.netscaler_converter.scp_util as scp_util
-import yaml
+
 from avi.migrationtool import avi_rest_lib
 from avi.migrationtool.avi_converter import AviConverter
 from avi.migrationtool.vs_filter import filter_for_vs
@@ -134,8 +135,7 @@ if __name__ == "__main__":
                         help='location of extracted backup folder',
                         default='netscaler_converter/test/certs')
     parser.add_argument('-o', '--output_file_path',
-                        help='Folder path for output files to be created in',
-                       )
+                        help='Folder path for output files to be created in')
     parser.add_argument('-O', '--option',
                         choices=['cli-upload', 'auto-upload'],
                         help='Upload option cli-upload genarates Avi config ' +
