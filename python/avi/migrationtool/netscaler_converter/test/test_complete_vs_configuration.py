@@ -9,7 +9,7 @@ def setUp():
     output_data = ''
     output_file = ''
     try:
-        output_file = open('netscaler_converter/output/Output.json', 'r')
+        output_file = open('output/Output.json', 'r')
     except:
         pass
     if output_file:
