@@ -265,6 +265,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
             ]}
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
         if dest_str[1] != '*' and len(dest_str) > 1 \
@@ -309,6 +311,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and len(dest_str) > 1 \
                 and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
@@ -346,6 +350,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and len(dest_str) > 1 \
                 and isinstance(int(dest_str[1]), numbers.Integral):
             monitor_dict["monitor_port"] = dest_str[1]
@@ -413,7 +419,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # Addded mapping for http_response.
         maintenance_response = ''
         http_response = ''
-        if "reverse" in f5_monitor:
+        if "reverse" in f5_monitor and f5_monitor["reverse"] != 'disabled':
             maintenance_response = f5_monitor.get("recv", '')
             http_response = f5_monitor.get('recv disable', '')
         else:
@@ -491,6 +497,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
                 and len(dest_str) > 1 and \
                 isinstance(int(dest_str[1]), numbers.Integral):
@@ -518,6 +526,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
                 and len(dest_str) > 1 and \
                 isinstance(int(dest_str[1]), numbers.Integral):
@@ -534,6 +544,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
                 and len(dest_str) > 1 and \
                 isinstance(int(dest_str[1]), numbers.Integral):
@@ -573,6 +585,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        if dest_str[0] != '*':
+            skipped.append(dest_str)
         if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
                 and len(dest_str) > 1 and \
                 isinstance(dest_str[1], numbers.Integral):

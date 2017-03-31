@@ -16,6 +16,7 @@ VERSION_11:
      - "gateway-icmp"
      - "icmp"
      - "tcp-half-open"
+     - "destination"
 
     Monitor_Supported_Attributes:
      - "timeout"
