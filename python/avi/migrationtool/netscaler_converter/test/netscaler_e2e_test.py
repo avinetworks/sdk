@@ -73,8 +73,8 @@ if __name__ == "__main__":
         if not os.path.isdir(output_dir):
             os.mkdir(output_dir)
         output_dir += '/output'
-        run_script = 'python config_converter.py --type netscaler -f %s -o %s' \
-                     % (input_file, output_dir)
+        run_script = 'python netscaler_converter/netscaler_converter.py -f %s ' \
+                     '-o %s' % (input_file, output_dir)
         if ini_config.get('netscaler_e2e_config', 'tenant'):
             run_script += ' -t %s ' % ini_config.get('netscaler_e2e_config',
                                                     'tenant')
@@ -103,15 +103,16 @@ if __name__ == "__main__":
     upload_inputs = ini_config.get('netscaler_e2e_config', 'upload_inputs')
 
     # Test upload output config on controller
-    for input in upload_inputs.split(','):
-        output_dir = os.path.abspath(output_dir_path + '/' + input + '-output')
-        output_dir += '/output'
-        set_output_dir_in_test_config_ini(test_config_ini_path, 'upload_config',
-                                          output_dir)
+    if upload_inputs:
+        for input in upload_inputs.split(','):
+            output_dir = os.path.abspath(output_dir_path + '/' + input + '-output')
+            output_dir += '/output'
+            set_output_dir_in_test_config_ini(test_config_ini_path, 'upload_config',
+                                              output_dir)
 
-        test_report_location = '%s/log_test_upload.html' % output_dir
+            test_report_location = '%s/log_test_upload.html' % output_dir
 
-        # Run test_upload_output test suite
-        os.system("nosetests netscaler_converter/test/test_upload_output_config.py -s --tc-file=%s "
-                  "--with-html --html-report=%s" % (test_config_ini_path,
-                                                    test_report_location))
+            # Run test_upload_output test suite
+            os.system("nosetests netscaler_converter/test/test_upload_output_config.py -s --tc-file=%s "
+                      "--with-html --html-report=%s" % (test_config_ini_path,
+                                                        test_report_location))
