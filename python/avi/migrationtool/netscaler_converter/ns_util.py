@@ -148,23 +148,6 @@ def add_status_row(line_no, cmd, object_type, full_command, status,
     csv_writer_dict_list.append(row)
 
 
-def add_csv_headers(csv_file):
-    """
-    Adds header line in conversion status file
-    :param csv_file: File to which header is to be added
-    """
-
-    global csv_writer
-    fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
-                  'Full Command', 'Status', 'Skipped settings',
-                  'Indirect mapping', 'Not Applicable', 'User Ignored',
-                  'AVI Object']
-    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames,
-                                lineterminator='\n',)
-
-    csv_writer.writeheader()
-
-
 def get_avi_lb_algorithm(ns_algorithm):
     """
     Converts f5 LB algorithm to equivalent avi LB algorithm
