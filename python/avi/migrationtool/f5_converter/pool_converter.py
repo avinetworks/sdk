@@ -30,7 +30,7 @@ class PoolConfigConv(object):
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
-            if not f5_pool:
+            if not f5_pool or 'gateway-failsafe-device' in f5_pool:
                 LOG.debug("Empty pool skipped for conversion :%s" % pool_name)
                 conv_utils.add_status_row('pool', None, pool_name,
                                           conv_const.STATUS_SKIPPED)
