@@ -7,7 +7,7 @@ AVI_PIP_VERSION = ''
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='aviconverter',
+    name='avimigrationtools',
     version=AVI_PIP_VERSION,
     packages=find_packages(exclude=['*sdk*']),
     description='Avi Converter.',
@@ -17,8 +17,7 @@ setup(
     scripts=['avi/migrationtool/f5_converter/f5_converter.py',
              'avi/migrationtool/netscaler_converter/netscaler_converter.py',
              'avi/migrationtool/vs_filter.py',
-             'avi/migrationtool/config_patch.py',
-             'avi/migrationtool/netscaler_converter/test/netscaler_e2e_test.py'],
+             'avi/migrationtool/config_patch.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
