@@ -6,6 +6,9 @@
 
 # Attributes for f5 version 11
 VERSION_11:
+    na_list_objs:
+     - 'node'
+     - 'virtual-address'
     Monitor_Supported_Types:
      - "http"
      - "https"
@@ -411,6 +414,9 @@ VERSION_11:
 
 # Attributes for f5 version 10
 VERSION_10:
+    na_list_objs:
+    - 'node'
+    - 'virtual address'
     Monitor_Supported_Types:
     - "http"
     - "https"
