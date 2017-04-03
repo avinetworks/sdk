@@ -21,15 +21,19 @@ def get_name_and_entity(url):
     return parsed.path.split('/')[2], urlparse.parse_qs(parsed.query)['name'][0]
 
 
-def filter_for_vs(avi_config, vs_name):
+def filter_for_vs(avi_config, vs_names):
     new_config = dict()
-    vs = [vs for vs in avi_config['VirtualService'] if vs['name'] == vs_name]
-    if not vs:
-        raise 'VS object not found with name %s' % vs_name
-    vs = vs[0]
     new_config['META'] = avi_config['META']
-    new_config['VirtualService'] = [vs]
-    find_and_add_objects(vs, avi_config, new_config)
+    new_config['VirtualService'] = []
+    virtual_services = vs_names.split(',')
+
+    for vs_name in virtual_services:
+        vs = [vs for vs in avi_config['VirtualService'] if vs['name'] == vs_name]
+        if not vs:
+            raise 'VS object not found with name %s' % vs_name
+        vs = vs[0]
+        new_config['VirtualService'].append(vs)
+        find_and_add_objects(vs, avi_config, new_config)
     return new_config
 
 
@@ -75,14 +79,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--avi_config_file', required=True,
                         help='absolute path for avi config file')
-    parser.add_argument('-n', '--vs_name', required=True,
+    parser.add_argument('-n', '--vs_names', required=True,
                         help='Name of VirtualService')
     parser.add_argument('-o', '--output_file_path', default='output',
                         help='folder location for output file')
     args = parser.parse_args()
     avi_config_file = open(args.avi_config_file)
     old_avi_config = json.loads(avi_config_file.read())
-    new_avi_config = filter_for_vs(old_avi_config, args.vs_name)
+    new_avi_config = filter_for_vs(old_avi_config, args.vs_names)
 
     output_dir = os.path.normpath(args.output_file_path)
     text_file = open(output_dir + os.path.sep + "FilterOutput.json", "w")
