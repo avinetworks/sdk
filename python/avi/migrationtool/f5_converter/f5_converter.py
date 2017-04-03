@@ -312,7 +312,6 @@ if __name__ == "__main__":
                                             'virtualservices')
 
     args = parser.parse_args()
-    print 'hello: ', args.profile_merge
     # print avi f5 converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \
