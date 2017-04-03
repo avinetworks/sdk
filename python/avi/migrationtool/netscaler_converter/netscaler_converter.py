@@ -181,7 +181,8 @@ if __name__ == "__main__":
                                         'and space separated location of '
                                         'patchfile', nargs=2)
     # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='please provide vs name')
+    parser.add_argument('--vs_filter', help='comma seperated names of '
+                                            'virtualservices')
 
     args = parser.parse_args()
 

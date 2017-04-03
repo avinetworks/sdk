@@ -43,7 +43,7 @@ class F5Converter(AviConverter):
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
-        self.ssl_profile_merge_check = args.profilemerge
+        self.ssl_profile_merge_check = args.profile_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -298,8 +298,8 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--profilemerge',
-                        help='Flag for ssl profile merge', default=False)
+    parser.add_argument('--profile_merge',
+                        help='Flag for ssl profile merge', action='store_true')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide args '
@@ -308,9 +308,11 @@ if __name__ == "__main__":
                                         'and space separated location of '
                                         'patchfile', nargs=2)
     # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='please provide vs name')
+    parser.add_argument('--vs_filter', help='comma seperated names of '
+                                            'virtualservices')
 
     args = parser.parse_args()
+    print 'hello: ', args.profile_merge
     # print avi f5 converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \
