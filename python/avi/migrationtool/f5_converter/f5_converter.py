@@ -254,7 +254,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('--skip_default_file',
-                        help='Falg for skip default file', default=False)
+                        help='Flag for skip default file', default=False)
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config file', default='11')
     parser.add_argument('-o', '--output_file_path',
