@@ -7,7 +7,6 @@ import avi.migrationtool.f5_converter.converter_constants as final
 
 LOG = logging.getLogger(__name__)
 
-
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
@@ -198,6 +197,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.indirect_udp = f5_profile_attributes['Profile_indirect_udp']
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
         self.ssl_profile_merge_check = ssl_profile_merge_check
+        # added code to handel count of sslmerge, applicationmerge,
+        # networkmergecount
+        self.sslmergecount = 0
+        self.applicationmergecount = 0
+        self.networkmergecount = 0
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -280,6 +284,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                                   avi_config['SSLProfile'],
                                                   'ssl_profile', converted_objs,
                                                   name, default_profile_name)
+                self.sslmergecount += 1
             else:
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl-file', None)
@@ -410,10 +415,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 host = None if host == 'none' else host
                 if host:
                     app_profile['fallback_host'] = host
-
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'],
-                'app_profile', converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile', converted_objs,
+                     name, default_profile_name)
+                self.applicationmergecount += 1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
@@ -428,9 +438,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 tenant, 'tenant')
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             app_profile['description'] = profile.get('description', None)
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount += 1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'web-acceleration':
             supported_attr = self.supported_wa
             indirect = self.indirect_wa
@@ -475,10 +490,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile = dict()
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
-
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile', converted_objs, name, default_profile_name)
+                self.applicationmergecount += 1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'http-compression':
             supported_attr = self.supported_hc
@@ -526,9 +545,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
             http_profile["compression_profile"] = compression_profile
             app_profile["http_profile"] = http_profile
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount +=1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'fastl4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
@@ -576,13 +600,23 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 }}
             }
             app_profile['dos_rl_profile'] = l4_profile
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
-
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount +=1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+                self.networkmergecount +=1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
             indirect = self.indirect_fh
@@ -603,9 +637,14 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile['client_max_header_size'] = \
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount +=1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
             receive_window = profile.get("receive-window-size",
                                          final.DEFAULT_RECV_WIN)
             if not (final.MIN_RECV_WIN <= int(receive_window) <=
@@ -626,9 +665,16 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 tenant, 'tenant')
             ntwk_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+                self.networkmergecount +=1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
+
         elif profile_type == 'one-connect':
             supported_attr = self.supported_oc
             indirect = []
@@ -705,9 +751,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
             ntwk_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs,
+                     name, default_profile_name)
+                self.networkmergecount +=1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'udp':
             supported_attr = self.supported_udp
             indirect = self.indirect_udp
@@ -728,15 +780,19 @@ class ProfileConfigConvV11(ProfileConfigConv):
             }
             ntwk_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
-
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs,
+                     name, default_profile_name)
+                self.networkmergecount +=1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
         conv_utils.add_conv_status('profile', profile_type, name, conv_status,
                                    converted_objs)
-
 
 class ProfileConfigConvV10(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, ssl_profile_merge_check):
@@ -762,7 +818,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.indirect_udp = []
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
         self.ssl_profile_merge_check = ssl_profile_merge_check
-
+        # code to get count to merge profile
+        self.sslmergecount = 0
+        self.applicationmergecount = 0
+        self.networkmergecount = 0
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
                         key_and_cert_mapping_list):
@@ -840,6 +899,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                                                       avi_config['SSLProfile'],
                                                       'ssl_profile',converted_objs,
                                                       name, default_profile_name)
+                self.sslmergecount += 1
             else:
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl file', None)
@@ -892,9 +952,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
             u_ignore = user_ignore.get('http', [])
             na_list = self.na_http
             indirect = self.indirect_http
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile', converted_objs, name, default_profile_name)
+                self.applicationmergecount += 1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
             skipped = [attr for attr in profile.keys()
@@ -905,9 +970,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
             app_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount += 1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'fastL4':
             supported_attr = self.supported_l4
             indirect = self.indirect_l4
@@ -951,13 +1021,23 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 tenant, 'tenant')
             app_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+                self.networkmergecount +=1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile', converted_objs, name, default_profile_name)
+                self.applicationmergecount +=1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
@@ -978,9 +1058,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
             http_profile['client_max_header_size'] = \
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
-            conv_utils.update_skip_duplicates(
-                app_profile, avi_config['ApplicationProfile'], 'app_profile',
-                converted_objs, name, default_profile_name)
+            # code to merge application profile count.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (app_profile, avi_config['ApplicationProfile'],
+                     'app_profile',converted_objs, name, default_profile_name)
+                self.applicationmergecount +=1
+            else:
+                avi_config['ApplicationProfile'].append(app_profile)
             timeout = profile.get("idle-timeout", 0)
             ntwk_profile = {
                 "profile": {
@@ -995,10 +1080,15 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 tenant, 'tenant')
             app_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+                self.networkmergecount += 1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
 
         elif profile_type == 'oneconnect':
             supported_attr = self.supported_oc
@@ -1073,9 +1163,16 @@ class ProfileConfigConvV10(ProfileConfigConv):
                         ip_dscp
             ntwk_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+
+                self.networkmergecount += 1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'udp':
             u_ignore = user_ignore.get('udp', [])
             supported_attr = self.supported_udp
@@ -1095,9 +1192,15 @@ class ProfileConfigConvV10(ProfileConfigConv):
             }
             ntwk_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
-            conv_utils.update_skip_duplicates(
-                ntwk_profile, avi_config['NetworkProfile'], 'network_profile',
-                converted_objs, name, default_profile_name)
+            # code to get merge count of network profile.
+            if self.ssl_profile_merge_check:
+                conv_utils.update_skip_duplicates\
+                    (ntwk_profile, avi_config['NetworkProfile'],
+                     'network_profile',converted_objs, name,
+                     default_profile_name)
+                self.networkmergecount += 1
+            else:
+                avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'persist':
             mode = profile.get("mode").replace(' ', '-')
             f5_config["persistence"]['%s %s' % (mode, name)] = profile

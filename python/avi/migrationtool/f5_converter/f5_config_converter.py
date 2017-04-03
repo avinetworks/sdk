@@ -6,6 +6,7 @@ from avi.migrationtool.f5_converter.monitor_converter import MonitorConfigConv
 from avi.migrationtool.f5_converter.persistence_converter import PersistenceConfigConv
 from avi.migrationtool.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtool.f5_converter.profile_converter import ProfileConfigConv
+from avi.migrationtool.f5_converter import profile_converter
 from avi.migrationtool.f5_converter.vs_converter import VSConfigConv
 import avi.migrationtool.f5_converter.converter_constants as conv_const
 
@@ -33,6 +34,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
     avi_config_dict = {}
     try:
+        # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
         mon_conv = MonitorConfigConv.get_instance(version, f5_attributes)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
@@ -58,6 +60,37 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         for key in avi_config_dict:
             if key != 'META':
+                # Added code to print merged count.
+                if ssl_profile_merge_check and key == 'SSLProfile':
+                    mergedfile = len(avi_config_dict[key]) -\
+                                 profile_conv.sslmergecount
+                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
+                             (key, len(avi_config_dict[key]),
+                              abs(mergedfile)))
+                    print 'Total Objects of %s : %s (%s profile merged)' % \
+                          (key, len(avi_config_dict[key]),
+                           abs(mergedfile))
+                    continue
+                elif ssl_profile_merge_check and key == 'ApplicationProfile':
+                    mergedfile = len(avi_config_dict[key])- \
+                                 profile_conv.applicationmergecount
+                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
+                             (key, len(avi_config_dict[key]),
+                              abs(mergedfile)))
+                    print 'Total Objects of %s : %s (%s profile merged)' % \
+                          (key, len(avi_config_dict[key]),
+                           abs(mergedfile))
+                    continue
+                elif ssl_profile_merge_check and key == 'NetworkProfile':
+                    mergedfile = len(avi_config_dict[key]) - \
+                                 profile_conv.networkmergecount
+                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
+                             (key, len(avi_config_dict[key]),
+                              abs(mergedfile)))
+                    print 'Total Objects of %s : %s (%s profile merged)' % \
+                          (key, len(avi_config_dict[key]),
+                           abs(mergedfile))
+                    continue
                 LOG.info('Total Objects of %s : %s' % (key, len(
                     avi_config_dict[key])))
                 print 'Total Objects of %s : %s' % (key, len(
@@ -67,7 +100,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         LOG.error("Conversion error", exc_info=True)
     datascript_objs = ['data-group']
     # Added support node as not applicable
-    na_list_objs = ['node']
+    na_list_objs = f5_attributes['na_list_objs']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
