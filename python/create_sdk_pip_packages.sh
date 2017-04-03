@@ -27,7 +27,7 @@ echo "cleanup"
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
 elif [ $1 == "config_converter" ]; then
-    rm -rf aviconverter.egg-info
+    rm -rf avimigrationtools.egg-info
 fi
 rm -f setup.py
 rm -f MANIFEST.in
