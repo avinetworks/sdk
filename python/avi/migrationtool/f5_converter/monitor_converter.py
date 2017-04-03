@@ -311,6 +311,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
         if dest_str[1] != '*' and len(dest_str) > 1 \

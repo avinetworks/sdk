@@ -95,8 +95,15 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
+        # added code to get fully converted virtual service.
         for key in avi_config:
             if key != 'META':
+                if key == 'VirtualService':
+                    LOG.info('Total Objects of %s : %s (%s full conversions)'
+                             % (key,len(avi_config[key]), ns_util.count))
+                    print 'Total Objects of %s : %s (%s full conversions)'\
+                          % (key, len(avi_config[key]), ns_util.count)
+                    continue
                 LOG.info('Total Objects of %s : %s' % (key,
                                                        len(avi_config[key])))
                 print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
