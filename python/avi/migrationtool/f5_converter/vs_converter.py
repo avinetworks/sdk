@@ -197,19 +197,20 @@ class VSConfigConv(object):
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
 
+        vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
-                rules = [f5_vs['rules']]
+                vs_ds_rules = [f5_vs['rules']]
             else:
-                rules = f5_vs['rules'].keys()
-            ds_ref = self.create_vs_datascript(rules[0], avi_config, tenant)
-
-            vs_datascript = {
-                'index': 1,
-                'vs_datascript_set_ref': conv_utils.get_object_ref(
-                    ds_ref, 'vsdatascriptset', tenant=tenant)
-            }
-            vs_obj['vs_datascripts'].append(vs_datascript)
+                vs_ds_rules = f5_vs['rules'].keys()
+            for index, rule in enumerate(vs_ds_rules):
+                ds_ref = self.create_vs_datascript(rule, avi_config, tenant)
+                vs_datascript = {
+                    'index': index,
+                    'vs_datascript_set_ref': conv_utils.get_object_ref(
+                        ds_ref, 'vsdatascriptset', tenant=tenant)
+                }
+                vs_obj['vs_datascripts'].append(vs_datascript)
 
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
@@ -301,6 +302,13 @@ class VSConfigConv(object):
         conv_status = dict()
         conv_status['user_ignore'] = [val for val in skipped
                                       if val in user_ignore]
+
+        if vs_ds_rules:
+            skipped_rules = [rule for rule in vs_ds_rules
+                             if rule != '_sys_https_redirect']
+            if skipped_rules:
+                skipped.append('rules: %s' % skipped_rules)
+
         skipped = [attr for attr in skipped if attr not in user_ignore]
         conv_status['skipped'] = skipped
         status = final.STATUS_SUCCESSFUL
@@ -333,9 +341,6 @@ class VSConfigConv(object):
         vs_ds['datascript'].append(datascript)
         avi_config['VSDataScriptSet'].append(vs_ds)
         LOG.info('Add new dummy data script : %s' % vs_ds_ref)
-        conv_utils.add_conv_status('rule', None, vs_ds_ref,
-                                   {'status': final.STATUS_DATASCRIPT},
-                                   avi_object=vs_ds)
 
         return vs_ds_ref
 
