@@ -80,7 +80,7 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--avi_config_file', required=True,
                         help='absolute path for avi config file')
     parser.add_argument('-n', '--vs_names', required=True,
-                        help='Name of VirtualService')
+                        help='comma seperated names of virtualservices')
     parser.add_argument('-o', '--output_file_path', default='output',
                         help='folder location for output file')
     args = parser.parse_args()
