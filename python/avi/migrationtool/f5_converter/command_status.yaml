@@ -394,6 +394,7 @@ VERSION_11:
     - 'source'
     - 'rate-limit'
     - 'connection-limit'
+    - 'rules'
 
     VS_ignore_for_value:
         'ip-protocol': 'tcp'
