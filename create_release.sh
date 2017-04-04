@@ -60,7 +60,7 @@ fi
 if [ -e dist/avimigrationtools-$AVI_VERSION.tar.gz ]; then
     mv dist/avimigrationtools-$AVI_VERSION.tar.gz ../avimigrationtools-$AVI_VERSION.tar.gz
 else
-    echo "Avi avi converter package not found. Aborting"
+    echo "Avi Migration tools package not found. Aborting"
     exit 1
 fi
 
