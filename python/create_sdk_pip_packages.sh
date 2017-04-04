@@ -26,7 +26,7 @@ python setup.py sdist
 echo "cleanup"
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
-elif [ $1 == "config_converter" ]; then
+elif [ $1 == "migrationtools" ]; then
     rm -rf avimigrationtools.egg-info
 fi
 rm -f setup.py
