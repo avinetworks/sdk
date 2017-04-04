@@ -2,7 +2,7 @@ import logging
 import unittest
 import json
 
-from avi.migrationtool.netscaler_converter.ns_constants \
+from avi.migrationtools.netscaler_converter.ns_constants \
     import (OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_HTTP_POLICY_SET,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
             OBJECT_TYPE_NETWORK_PROFILE, OBJECT_TYPE_APPLICATION_PROFILE,
@@ -10,7 +10,7 @@ from avi.migrationtool.netscaler_converter.ns_constants \
             OBJECT_TYPE_STRING_GROUP, OBJECT_TYPE_POOL, OBJECT_TYPE_PKI_PROFILE,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE)
 from testconfig import config
-from avi.migrationtool.avi_rest_lib import (upload_config_to_controller,
+from avi.migrationtools.avi_rest_lib import (upload_config_to_controller,
                                             get_object_from_controller)
 
 
