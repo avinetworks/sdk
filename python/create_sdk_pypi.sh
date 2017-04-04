@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! "$1" ]; then
-    echo "package name {sdk|config_converter} not provided"
+    echo "package name {sdk|migrationtools} not provided"
     exit
 fi
 
@@ -25,7 +25,7 @@ twine upload dist/*
 echo "cleanup"
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
-elif [ $1 == "config_converter" ]; then
+elif [ $1 == "migrationtools" ]; then
     rm -rf avimigrationtools.egg-info
 fi
 rm -f setup.py
