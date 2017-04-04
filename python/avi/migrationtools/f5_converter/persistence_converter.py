@@ -1,8 +1,8 @@
 import logging
-import avi.migrationtool.f5_converter.conversion_util as conv_utils
-import avi.migrationtool.f5_converter.converter_constants as final
+import avi.migrationtools.f5_converter.conversion_util as conv_utils
+import avi.migrationtools.f5_converter.converter_constants as final
 
-from avi.migrationtool.f5_converter.profile_converter import ProfileConfigConv
+from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 
 LOG = logging.getLogger(__name__)
 

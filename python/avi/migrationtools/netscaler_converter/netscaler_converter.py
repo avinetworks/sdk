@@ -4,19 +4,19 @@ import logging
 import os
 import json
 import yaml
-import avi.migrationtool
-import avi.migrationtool.netscaler_converter.netscaler_parser as ns_parser
-import avi.migrationtool.netscaler_converter.netscaler_config_converter \
+import avi.migrationtools
+import avi.migrationtools.netscaler_converter.netscaler_parser as ns_parser
+import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
-import avi.migrationtool.netscaler_converter.scp_util as scp_util
+import avi.migrationtools.netscaler_converter.scp_util as scp_util
 
-from avi.migrationtool import avi_rest_lib
-from avi.migrationtool.avi_converter import AviConverter
-from avi.migrationtool.vs_filter import filter_for_vs
-from avi.migrationtool.config_patch import ConfigPatch
+from avi.migrationtools import avi_rest_lib
+from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.vs_filter import filter_for_vs
+from avi.migrationtools.config_patch import ConfigPatch
 
 LOG = logging.getLogger(__name__)
-sdk_version = getattr(avi.migrationtool, '__version__', None)
+sdk_version = getattr(avi.migrationtools, '__version__', None)
 
 
 class NetscalerConverter(AviConverter):

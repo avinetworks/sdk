@@ -1,0 +1,9 @@
+recursive-include avi/migrationtools *.cfg
+recursive-include avi/migrationtools *.conf
+recursive-include avi/migrationtools *.crt
+recursive-include avi/migrationtools *.json
+recursive-include avi/migrationtools *.key
+recursive-include avi/migrationtools *.pem
+recursive-include avi/migrationtools *.xml
+recursive-include avi/migrationtools *.yaml
+

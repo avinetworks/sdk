@@ -1,6 +1,6 @@
 import logging
-import avi.migrationtool.netscaler_converter.ns_util as ns_util
-import avi.migrationtool.netscaler_converter.ns_constants as ns_constant
+import avi.migrationtools.netscaler_converter.ns_util as ns_util
+import avi.migrationtools.netscaler_converter.ns_constants as ns_constant
 
 from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
                        Word, originalTextFor, Optional, ZeroOrMore, Group,

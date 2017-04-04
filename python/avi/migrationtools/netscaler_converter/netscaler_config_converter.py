@@ -2,18 +2,18 @@ import logging
 import yaml
 import os
 
-from avi.migrationtool.netscaler_converter.ns_service_converter \
+from avi.migrationtools.netscaler_converter.ns_service_converter \
     import ServiceConverter
-from avi.migrationtool.netscaler_converter.monitor_converter import \
+from avi.migrationtools.netscaler_converter.monitor_converter import \
     MonitorConverter
-from avi.migrationtool.netscaler_converter.lbvs_converter import \
+from avi.migrationtools.netscaler_converter.lbvs_converter import \
     LbvsConverter
-from avi.migrationtool.netscaler_converter.csvs_converter import \
+from avi.migrationtools.netscaler_converter.csvs_converter import \
     CsvsConverter
-from avi.migrationtool.netscaler_converter import ns_util
-from avi.migrationtool.netscaler_converter.profile_converter import \
+from avi.migrationtools.netscaler_converter import ns_util
+from avi.migrationtools.netscaler_converter.profile_converter import \
     ProfileConverter
-from avi.migrationtool.netscaler_converter.lbvs_converter import \
+from avi.migrationtools.netscaler_converter.lbvs_converter import \
     tmp_avi_config
 
 LOG = logging.getLogger(__name__)

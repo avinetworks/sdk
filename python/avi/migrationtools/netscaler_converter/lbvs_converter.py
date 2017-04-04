@@ -1,9 +1,9 @@
 import logging
 import re
-import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
-from avi.migrationtool.netscaler_converter import ns_util
-from avi.migrationtool.netscaler_converter.ns_constants \
+from avi.migrationtools.netscaler_converter import ns_util
+from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_INDIRECT, STATUS_INCOMPLETE_CONFIGURATION,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_APPLICATION_PROFILE,
             OBJECT_TYPE_HTTP_POLICY_SET, OBJECT_TYPE_POOL_GROUP,
@@ -11,7 +11,7 @@ from avi.migrationtool.netscaler_converter.ns_constants \
             OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE, OBJECT_TYPE_POOL)
 
-from avi.migrationtool.netscaler_converter.policy_converter \
+from avi.migrationtools.netscaler_converter.policy_converter \
     import PolicyConverter
 
 LOG = logging.getLogger(__name__)

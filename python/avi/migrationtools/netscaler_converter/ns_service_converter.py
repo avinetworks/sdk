@@ -1,9 +1,9 @@
 import logging
 import re
-import avi.migrationtool.netscaler_converter.ns_util as ns_util
-import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtools.netscaler_converter.ns_util as ns_util
+import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
-from avi.migrationtool.netscaler_converter.ns_constants \
+from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
             STATUS_INCOMPLETE_CONFIGURATION, OBJECT_TYPE_POOL,
             OBJECT_TYPE_PKI_PROFILE, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,

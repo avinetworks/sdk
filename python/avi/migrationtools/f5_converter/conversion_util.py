@@ -3,7 +3,7 @@ import logging
 import os
 import urlparse
 import pandas
-import avi.migrationtool.f5_converter.converter_constants as conv_const
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
