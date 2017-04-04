@@ -32,7 +32,7 @@ setup(
     keywords='AVI ADC Loadbalancer automation datacenter SDK',
     license='Avi Networks',
     include_package_data=True,
-    install_requires=['requests', 'appdirs'],
+    install_requires=['requests'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml', '*.rst']},
 )
