@@ -241,7 +241,7 @@ class PoolConfigConv(object):
             'priority_labels_ref': conv_utils.get_object_ref(
                 'numeric_priority_labels', 'prioritylabels', tenant=tenant),
             'members': pg_members,
-            'cloud_ref': cloud_ref
+            'cloud_ref': conv_utils.get_object_ref(cloud_ref, 'cloud')
         }
 
         pg_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
