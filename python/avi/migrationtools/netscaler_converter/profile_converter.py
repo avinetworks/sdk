@@ -597,7 +597,7 @@ class ProfileConverter(object):
         bind_ciphers = cipher_mapping.get(cipher, None)
         add_ssl_cipher_command = 'add ssl cipher'
         bind_ssl_cipher_command = 'bind ssl cipher'
-
+        # added default ssl ciphers
         if not (lb_cipher and bind_ciphers):
             return ['AES:3DES:RC4']
         ciphers = []

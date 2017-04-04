@@ -894,7 +894,7 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
     return ref, is_pool_group
 
 
-def clone_pool_group(pool_group_name, vs_name, avi_config, tenant=None):
+def clone_pool_group(pool_group_name, vs_name, avi_config, tenant='admin'):
     """
     If pool is shared with other VS pool is cloned for other VS as Avi dose not
     support shared pools with new pool name as <pool_name>-<vs_name>

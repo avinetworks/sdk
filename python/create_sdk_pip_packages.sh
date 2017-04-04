@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! "$1" ]; then
-    echo "package name {sdk|config_converter} not provided"
+    echo "package name {sdk|migrationtools} not provided"
     exit
 fi
 
