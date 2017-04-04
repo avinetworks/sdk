@@ -12,7 +12,8 @@ path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                 'applicationprofile': 'ApplicationProfile', 'vsdatascriptset':
                     'VSDataScriptSet', 'networksecuritypolicy':
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
-                    'ApplicationPersistenceProfile'
+                    'ApplicationPersistenceProfile', 'prioritylabels':
+                    'PriorityLabels'
                 }
 
 
