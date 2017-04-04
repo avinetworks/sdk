@@ -234,7 +234,6 @@ class ProfileConverter(object):
             else:
                 ssl_profile['accepted_versions'].append(
                     {'type': 'SSL_VERSION_TLS1_1'})
-
             send_close_notify = ssl_service.get('sendCloseNotify', None)
             if send_close_notify == 'NO':
                 ssl_profile['send_close_notify'] = False
@@ -600,7 +599,7 @@ class ProfileConverter(object):
         bind_ssl_cipher_command = 'bind ssl cipher'
 
         if not (lb_cipher and bind_ciphers):
-            return [cipher]
+            return ['AES:3DES:RC4']
         ciphers = []
         full_add_ssl_cipher_command = \
             ns_util.get_netscalar_full_command(add_ssl_cipher_command,
