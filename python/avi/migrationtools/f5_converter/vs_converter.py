@@ -3,8 +3,8 @@ import copy
 import random
 import re
 
-import avi.migrationtool.f5_converter.conversion_util as conv_utils
-import avi.migrationtool.f5_converter.converter_constants as final
+import avi.migrationtools.f5_converter.conversion_util as conv_utils
+import avi.migrationtools.f5_converter.converter_constants as final
 
 
 LOG = logging.getLogger(__name__)

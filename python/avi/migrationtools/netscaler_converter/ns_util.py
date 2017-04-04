@@ -7,13 +7,13 @@ import random
 import urlparse
 import json
 import pandas
-import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
-from avi.migrationtool.netscaler_converter.ns_constants \
+from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
             STATUS_NOT_APPLICABLE, STATUS_PARTIAL, STATUS_DATASCRIPT,
             STATUS_INCOMPLETE_CONFIGURATION, STATUS_COMMAND_NOT_SUPPORTED,

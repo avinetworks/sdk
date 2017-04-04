@@ -8,7 +8,7 @@ fi
 if [ $1 == "sdk" ]; then
     PACKAGES=sdk
 else
-    PACKAGES=migrationtool
+    PACKAGES=migrationtools
 fi
 
 cp avi/$PACKAGES/setup.py .

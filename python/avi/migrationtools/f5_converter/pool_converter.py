@@ -1,8 +1,8 @@
 import logging
 import copy
 import re
-import avi.migrationtool.f5_converter.conversion_util as conv_utils
-import avi.migrationtool.f5_converter.converter_constants as conv_const
+import avi.migrationtools.f5_converter.conversion_util as conv_utils
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 

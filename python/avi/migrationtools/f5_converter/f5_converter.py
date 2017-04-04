@@ -4,20 +4,20 @@ import json
 import logging
 import os
 import sys
-import avi.migrationtool
+import avi.migrationtools
 import yaml
-from avi.migrationtool.vs_filter import filter_for_vs
-from avi.migrationtool.config_patch import ConfigPatch
+from avi.migrationtools.vs_filter import filter_for_vs
+from avi.migrationtools.config_patch import ConfigPatch
 from requests.packages import urllib3
-from avi.migrationtool.f5_converter import (f5_config_converter,
+from avi.migrationtools.f5_converter import (f5_config_converter,
                                             f5_parser, scp_util,
                                             conversion_util)
-from avi.migrationtool import avi_rest_lib
-from avi.migrationtool.avi_converter import AviConverter
+from avi.migrationtools import avi_rest_lib
+from avi.migrationtools.avi_converter import AviConverter
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
-sdk_version = getattr(avi.migrationtool, '__version__', None)
+sdk_version = getattr(avi.migrationtools, '__version__', None)
 
 
 class F5Converter(AviConverter):

@@ -2,12 +2,12 @@ import logging
 import os
 import re
 import yaml
-import avi.migrationtool.netscaler_converter.ns_constants as ns_constants
-import avi.migrationtool.netscaler_converter.ns_util as ns_util
+import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
+import avi.migrationtools.netscaler_converter.ns_util as ns_util
 
 from datetime import datetime
 from OpenSSL import crypto as c
-from avi.migrationtool.netscaler_converter.ns_constants \
+from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
             STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 

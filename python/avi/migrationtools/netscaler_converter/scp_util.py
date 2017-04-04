@@ -1,6 +1,6 @@
 import logging
 import os
-from avi.migrationtool.scp_util import SCPUtil
+from avi.migrationtools.scp_util import SCPUtil
 
 LOG = logging.getLogger(__name__)
 
