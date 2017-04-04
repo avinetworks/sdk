@@ -37,7 +37,7 @@ do
 done
 
 ./create_sdk_pip_packages.sh sdk
-./create_sdk_pip_packages.sh config_converter
+./create_sdk_pip_packages.sh migrationtools
 ./create_sdk_pypi.sh sdk
 ./create_sdk_pkgs.sh 
 
