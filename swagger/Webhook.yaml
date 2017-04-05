@@ -8,14 +8,14 @@ info:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: Role API documentation
+    description: Webhook API documentation
 securityDefinitions:
     basicAuth:
         type: basic
         description: basic authentication
 basePath: /api
 paths:
-    /role:
+    /webhook:
         get:
             consumes:
                 -   application/json
@@ -48,7 +48,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/RoleApiResponse"
+                        $ref: "#/definitions/WebhookApiResponse"
                 401:
                     description: log in failed
         post:
@@ -74,20 +74,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   in: body
                     name: body
-                    description: Role object creation
+                    description: Webhook object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 401:
                     description: log in failed
-    /role/{uuid}:
+    /webhook/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -125,7 +125,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 401:
                     description: log in failed
         put:
@@ -156,10 +156,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   in: body
                     name: body
-                    description: Role object creation
+                    description: Webhook object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -171,7 +171,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 401:
                     description: log in failed
         patch:
@@ -202,10 +202,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   in: body
                     name: body
-                    description: Role object creation
+                    description: Webhook object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -217,7 +217,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Role"
+                        $ref: "#/definitions/Webhook"
                 401:
                     description: log in failed
         delete:
@@ -262,29 +262,20 @@ paths:
                     description: not found
 
 definitions:
-    Permission:
-        type: object
-        properties:
-            resource:
-                description: "Enum options - PERMISSION_CONTROLLER, PERMISSION_INTERNAL, PERMISSION_VIRTUALSERVICE, PERMISSION_POOL, PERMISSION_HEALTHMONITOR, PERMISSION_NETWORKPROFILE, PERMISSION_APPLICATIONPROFILE, PERMISSION_HTTPPOLICYSET, PERMISSION_IPADDRGROUP, PERMISSION_STRINGGROUP, PERMISSION_SSLPROFILE, PERMISSION_SSLKEYANDCERTIFICATE, PERMISSION_NETWORKSECURITYPOLICY, PERMISSION_APPLICATIONPERSISTENCEPROFILE, PERMISSION_ANALYTICSPROFILE, PERMISSION_VSDATASCRIPTSET, PERMISSION_TENANT, PERMISSION_PKIPROFILE, PERMISSION_AUTHPROFILE, PERMISSION_CLOUD, PERMISSION_SERVICEENGINE, PERMISSION_SERVICEENGINEGROUP, PERMISSION_NETWORK, PERMISSION_SYSTEMCONFIGURATION, PERMISSION_VRFCONTEXT, PERMISSION_USER, PERMISSION_ROLE, PERMISSION_ALERT, PERMISSION_ALERTCONFIG, PERMISSION_ALERTEMAILCONFIG, PERMISSION_ALERTSYSLOGCONFIG, PERMISSION_ACTIONGROUPCONFIG, PERMISSION_SNMPTRAPPROFILE, PERMISSION_UPGRADE, PERMISSION_REBOOT, PERMISSION_TECHSUPPORT, PERMISSION_EXEMPT, PERMISSION_VIRTUALSERVICE_MAINTENANCE, PERMISSION_POOL_MAINTENANCE, PERMISSION_TRAFFIC_CAPTURE, PERMISSION_MICROSERVICEGROUP, PERMISSION_IPAMDNSPROVIDERPROFILE, PERMISSION_CERTIFICATEMANAGEMENTPROFILE, PERMISSION_POOLGROUP, PERMISSION_PRIORITYLABELS, PERMISSION_POOLGROUPDEPLOYMENTPOLICY, PERMISSION_GSLB, PERMISSION_GSLBSERVICE, PERMISSION_GSLBHEALTHMONITOR"
-                type: number
-                format: int64
-            type:
-                description: "Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS"
-                type: number
-                format: int64
-    Role:
+    Webhook:
         type: object
         required:
             -   name
         properties:
-            name:
+            callback_url:
+                description: "Callback URL for the Webhook"
+                type: string
+            description:
                 description: ""
                 type: string
-            privileges:
-                type: array
-                items:
-                    $ref: '#/definitions/Permission'
+            name:
+                description: "The name of the pool group deployment policy"
+                type: string
             tenant_ref:
                 description: " object ref Tenant."
                 type: string
@@ -293,9 +284,12 @@ definitions:
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "UUID of the pool group deployment policy"
                 type: string
-    RoleApiResponse:
+            verification_token:
+                description: "Verification token sent back with the callback asquery parameters"
+                type: string
+    WebhookApiResponse:
         type: object
         required:
             - count
@@ -307,4 +301,4 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/Role"
+                    $ref: "#/definitions/Webhook"
