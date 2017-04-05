@@ -138,7 +138,7 @@ def init():
     :return: None
     """
     global netscalar_command_status
-    netscalar_command_status = yaml.safe_load(open(os.path.dirname(__file__)
-                                                   + "/command_status.yaml"))
+    with open(os.path.dirname(__file__)+ "/command_status.yaml") as stream:
+        netscalar_command_status = yaml.safe_load(stream)
 
 
