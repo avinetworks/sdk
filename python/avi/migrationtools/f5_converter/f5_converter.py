@@ -43,7 +43,7 @@ class F5Converter(AviConverter):
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
-        self.ssl_profile_merge_check = args.profile_merge
+        self.ssl_profile_merge_check = args.no_profile_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -86,10 +86,9 @@ class F5Converter(AviConverter):
             is_download_from_host = True
         user_ignore = {}
         if self.ignore_config:
-            ignore_conf_file = open(self.ignore_config, "r")
-            ignore_conf_str = ignore_conf_file.read()
-            user_ignore = json.loads(ignore_conf_str)
-
+            with open(self.ignore_config, "r") as ignore_conf_file:
+                ignore_conf_str = ignore_conf_file.read()
+                user_ignore = json.loads(ignore_conf_str)
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
@@ -121,8 +120,8 @@ class F5Converter(AviConverter):
         if partitions:
             partition_conf = {}
             for partition in partitions:
-                p_source_file = open(partition, "r")
-                p_src_str = p_source_file.read()
+                with open(partition, "r") as p_source_file:
+                    p_src_str = p_source_file.read()
                 LOG.debug('Parsing partition config file:' + p_source_file.name)
                 partition_dict = f5_parser.parse_config(
                     p_src_str, self.f5_config_version)
@@ -163,52 +162,30 @@ class F5Converter(AviConverter):
             "use_tenant": self.tenant
         }
 
-        text_file = open(output_dir + os.path.sep + "Output.json", "w")
-        json.dump(avi_config_dict, text_file, indent=4)
-        text_file.close()
-        LOG.info('written avi config file ' + output_dir + os.path.sep +
-                 "Output.json")
-        # Check if patch args present then execute
-        # the config_patch.py with args.
-        if self.patch:
-            with open(str(self.patch[0])) as f:
-                acfg = json.load(f)
-            with open(str(self.patch[1])) as f:
-                patches = yaml.load(f)
-            cp = ConfigPatch(acfg, patches)
-            patched_cfg = cp.patch()
-            with open(str(self.patch[0]) + '.patched', 'w') as f:
-                f.write(json.dumps(patched_cfg, indent=4))
-        # Check if vs_filter args present then execute vs_filter.py with args
-        if self.vs_filter:
-            vs_filename = output_dir + os.path.sep + "Output.json"
-            avi_config_file = open(vs_filename)
-            old_avi_config = json.loads(avi_config_file.read())
-            new_avi_config = filter_for_vs(old_avi_config, self.vs_filter)
-            text_file = open(output_dir + os.path.sep + "FilterOutput.json",
-                             "w")
-            json.dump(new_avi_config, text_file, indent=4)
-            text_file.close()
-            print 'written Vs Filter file ' + output_dir + \
-                  os.path.sep + "FilterOutput.json"
-        if self.option == "auto-upload":
-            self.upload_config_to_controller(avi_config_dict)
+        avi_config = self.process_for_utils(avi_config_dict)
+        self.write_output(avi_config, output_dir)
+
+        if self.option == 'auto-upload':
+            self.upload_config_to_controller(avi_config)
 
 
     def get_default_config(self, is_download, path):
         f5_defaults_dict = {}
         if is_download:
-            profile_base = open(path + os.path.sep + "profile_base.conf", "r")
-            monitor_base = open(path + os.path.sep + "base_monitors.conf", "r")
+            with open(path + os.path.sep + "profile_base.conf", "r") as \
+                    profile:
+                profile_base = profile.read()
+            with open(path + os.path.sep + "base_monitors.conf", "r") as \
+                    monitor:
+                monitor_base = monitor.read()
             if bool(self.skip_default_file):
                 LOG.warning('Skipped default profile base file : %s\nSkipped '
                             'default monitor base file : %s'
-                            % (profile_base.name, monitor_base.name))
+                            % (profile.name, monitor.name))
                 return f5_defaults_dict
-
-            profile_dict = f5_parser.parse_config(profile_base.read(),
+            profile_dict = f5_parser.parse_config(profile_base,
                                                   self.f5_config_version)
-            monitor_dict = f5_parser.parse_config(monitor_base.read(),
+            monitor_dict = f5_parser.parse_config(monitor_base,
                                                   self.f5_config_version)
             if int(self.f5_config_version) == 10:
                 default_mon = monitor_dict.get("monitor", {})
@@ -229,16 +206,13 @@ class F5Converter(AviConverter):
             else:
                 # running from source
                 dir_path = conversion_util.get_project_path()
-
-            defaults_file = open(
-                dir_path + os.path.sep + "f5_v%s_defaults.conf" %
-                self.f5_config_version, "r")
-            if bool(self.skip_default_file):
-                LOG.warning('Skipped default file : %s' % defaults_file.name)
-                return f5_defaults_dict
-
-            f5_defaults_dict = f5_parser.parse_config(defaults_file.read(),
-                                                      self.f5_config_version)
+            with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
+                    self.f5_config_version, "r") as defaults_file:
+                if bool(self.skip_default_file):
+                    LOG.warning('Skipped default file : %s' % defaults_file.name)
+                    return f5_defaults_dict
+                f5_defaults_dict = f5_parser.parse_config(defaults_file.read(),
+                                                          self.f5_config_version)
 
         return f5_defaults_dict
 
@@ -298,15 +272,12 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--profile_merge',
-                        help='Flag for ssl profile merge', action='store_true')
+    parser.add_argument('--no_profile_merge',
+                        help='Flag for ssl profile merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
-    parser.add_argument('--patch', help='Run config_patch please provide args '
-                                        'in following format args :location'
-                                        'of aviconfigjson '
-                                        'and space separated location of '
-                                        'patchfile', nargs=2)
+    parser.add_argument('--patch', help='Run config_patch please provide location of '
+                                        'patch.yaml')
     # Added command line args to execute vs_filter.py with vs_name.
     parser.add_argument('--vs_filter', help='comma seperated names of '
                                             'virtualservices')
