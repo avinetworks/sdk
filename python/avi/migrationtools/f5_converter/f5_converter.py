@@ -162,11 +162,11 @@ class F5Converter(AviConverter):
             "use_tenant": self.tenant
         }
 
-        avi_config = super(F5Converter, self).process_for_utils(avi_config_dict)
-        super(F5Converter, self).write_output(avi_config, output_dir)
+        avi_config = self.process_for_utils(avi_config_dict)
+        self.write_output(avi_config, output_dir)
 
         if self.option == 'auto-upload':
-            super(F5Converter, self).upload_config_to_controller(avi_config)
+            self.upload_config_to_controller(avi_config)
 
 
     def get_default_config(self, is_download, path):

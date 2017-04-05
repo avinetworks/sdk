@@ -93,12 +93,12 @@ class NetscalerConverter(AviConverter):
                                                self.vs_state,
                                                self.ns_passphrase_file)
 
-        avi_config = super(NetscalerConverter, self).process_for_utils(
+        avi_config = self.process_for_utils(
             avi_config)
-        super(NetscalerConverter, self).write_output(avi_config, output_dir)
+        self.write_output(avi_config, output_dir)
 
         if self.option == 'auto-upload':
-            super(NetscalerConverter, self).upload_config_to_controller(
+            self.upload_config_to_controller(
                 avi_config)
 
 
