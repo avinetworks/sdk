@@ -10,7 +10,7 @@ import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
 import avi.migrationtools.netscaler_converter.scp_util as scp_util
 
-from avi.migrationtools import avi_rest_lib
+
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
@@ -92,40 +92,16 @@ class NetscalerConverter(AviConverter):
                                                input_dir, skipped_cmds,
                                                self.vs_state,
                                                self.ns_passphrase_file)
-        self.upload_config_to_controller(output_dir, avi_config)
-        # Check if patch args present then execute the config_patch.py with args.
-        if self.patch:
-            with open(str(self.patch[0])) as f:
-                acfg = json.load(f)
-            with open(str(self.patch[1])) as f:
-                patches = yaml.load(f)
-            cp = ConfigPatch(acfg, patches)
-            patched_cfg = cp.patch()
-            with open(str(self.patch[0]) + '.patched', 'w') as f:
-                f.write(json.dumps(patched_cfg, indent=4))
-        # Check if vs_filter args present then execute vs_filter.py with args
-        if self.vs_filter:
-            vs_filename = output_dir + os.path.sep + "Output.json"
-            avi_config_file = open(vs_filename)
-            old_avi_config = json.loads(avi_config_file.read())
-            new_avi_config = filter_for_vs(old_avi_config, self.vs_filter)
-            text_file = open(output_dir + os.path.sep + "FilterOutput.json",
-                             "w")
-            json.dump(new_avi_config, text_file, indent=4)
-            text_file.close()
-            print 'written Vs Filter file ' + output_dir + \
-                  os.path.sep + "FilterOutput.json"
-    def upload_config_to_controller(self, output_dir, avi_config):
-        if self.option == "cli-upload":
-            text_file = open(output_dir + os.path.sep + "Output.json", "w")
-            json.dump(avi_config, text_file, indent=4)
-            text_file.close()
-            LOG.info('written avi config file ' +
-                     output_dir + os.path.sep + "Output.json")
-        else:
-            avi_rest_lib.upload_config_to_controller(
-                avi_config, self.controller_ip, self.user, self.password,
-                self.tenant)
+
+        avi_config = self.process_for_utils(
+            avi_config)
+        self.write_output(avi_config, output_dir)
+
+        if self.option == 'auto-upload':
+            self.upload_config_to_controller(
+                avi_config)
+
+
 
 if __name__ == "__main__":
 
@@ -194,11 +170,8 @@ if __name__ == "__main__":
                         action='store_true')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
-    parser.add_argument('--patch', help='Run config_patch please provide args '
-                                        'in following format args :location'
-                                        'of aviconfigjson '
-                                        'and space separated location of '
-                                        'patchfile', nargs=2)
+    parser.add_argument('--patch', help='Run config_patch please provide '
+                                        'location of patch.yaml')
     # Added command line args to execute vs_filter.py with vs_name.
     parser.add_argument('--vs_filter', help='comma seperated names of '
                                             'virtualservices')
