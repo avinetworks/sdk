@@ -224,7 +224,30 @@ class F5Converter(AviConverter):
             else:
                 dct[k] = merge_dct[k]
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+
+    HELP_STR = '''
+    Converts F5 Config to Avi config.
+    Example: to convert bigip conf file avi config json
+        f5_converter.py -f  bigip.conf
+
+    Example to export a single VS:
+        f5_converter.py -f  bigip.conf --vs_filter cool_vs
+
+    Example to restrict duplicate profiles to merge
+        f5_converter.py -f  bigip.conf --no_profile_merge
+
+    Example to download config from F5 host and convert to avi config:
+        f5_converter.py --f5_host_ip "1.1.1.1" --f5_ssh_user "username" --f5_ssh_password "password"
+
+    Example to auto upload to controller after conversion:
+            f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u username -p password -t tenant
+    '''
+
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
+        description=(HELP_STR))
+
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('--skip_default_file',
