@@ -104,7 +104,36 @@ class NetscalerConverter(AviConverter):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+
+    HELP_STR = '''
+        Converts Netscaler Config to Avi config.
+        Example to convert Netscaler config file to avi config json:
+            netscaler_converter.py -f ns.conf
+
+        Example to export a single VS:
+            netscaler_converter.py -f ns.conf --vs_filter cool_vs
+
+        Example to download config from Netscalet host and convert to avi config:
+            netscaler_converter.py --ns_host_ip "1.1.1.1" --ns_ssh_user username --ns_ssh_password password
+
+        Example to auto upload to controller after conversion:
+            netscaler_converter.py -f ns.conf -O auto-upload -c 2.2.2.2 -u username -p password -t tenant
+
+        Example to provide passpharse of encrypted certs and certkey file location
+            netscaler_converter.py -f ns.conf -l /home/certs/ --ns_passphrase_file passphrase.yaml
+            passphrase.yaml file contains
+            <file_name>:<passphrase>
+            <file_name2>:<passphrase2>
+            Example:
+            mcqcim.key: ZcZawJ7ps0AJ+5TMDi7UA==
+            avi_key.pem : foobar
+
+        '''
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
+        description=(HELP_STR))
+
     parser.add_argument('-f', '--ns_config_file',
                         help='absolute path for Netscaler config file')
     parser.add_argument('-l', '--input_folder_location',
