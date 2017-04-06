@@ -345,8 +345,7 @@ class LbvsConverter(object):
                     tmp_avi_config['VirtualService'].append(vs_obj)
                     # Marked redirect url as status indirect
                     ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
-                                            full_cmd,
-                                            STATUS_INDIRECT, vs_obj)
+                                            full_cmd, STATUS_INDIRECT, vs_obj)
                 else:
                     # Verify that this lb vs has share the same VIP of another
                     # vs If yes then skipped this lb vs
@@ -368,8 +367,7 @@ class LbvsConverter(object):
                         self.lbvs_indirect_list,
                         ignore_for_val=self.lbvs_ignore_vals)
                     ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
-                                            full_cmd,
-                                            conv_status, vs_obj)
+                                            full_cmd, conv_status, vs_obj)
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
                     ssl_bindings = ssl_mappings.get(key, [])
