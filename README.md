@@ -39,7 +39,7 @@ It is recommended to use virtual env based installation if you are just
 experimenting with the SDK or F5 converter.
 
 ```sh
-$ apt-get install python-dev python-pip python-virtualenv python-cffi
+$ apt-get install python-dev python-pip python-virtualenv python-cffi libssl-dev libffi-dev
 $ virtualenv avi
 $ cd avi
 $ source bin/activate
