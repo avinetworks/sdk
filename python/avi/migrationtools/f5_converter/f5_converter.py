@@ -231,7 +231,7 @@ if __name__ == "__main__":
         f5_converter.py -f  bigip.conf
 
     Example to export a single VS:
-        f5_converter.py -f  bigip.conf --vs_filter coolvs
+        f5_converter.py -f  bigip.conf --vs_filter cool_vs
 
     Example to restrict duplicate profiles to merge
         f5_converter.py -f  bigip.conf --no_profile_merge
