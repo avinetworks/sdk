@@ -42,7 +42,7 @@ Usage Examples
 
 - Import Avi API Session::
 
-   from avi.sdk.avi_api import ApiSession::
+   from avi.sdk.avi_api import ApiSession
 
 - create Avi API Session::
 
