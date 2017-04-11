@@ -60,3 +60,4 @@ python/avi/f5_converter/output/
 python/avi/netscaler_converter/output/
 python/avi/netscaler_converter/test/test_output/
 .idea/
+python/avi/migrationtools/output/
