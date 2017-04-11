@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>  </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+
+<h1 class='text-primary'>Changes from previous release</h1>
+<div class="container">
+
+<h3><a href="pool.html">Pool</a></h3>
+<pre><code> 
+    1. Create Pool Group for Pools
+    2. Attach Pool Groups to Virtual Service
+     </code></pre>
+<h3><a href="virtualservice.html">VirtualService</a></h3>
+<pre><code> 
+    1. deletes analytics profile in vs analytics policy
+    2. Copies IPAM subnet and network from vs to IpamNetworkSubnet
+        sub-message field in the vs for Internal and Infoblox
+    @config: configuration dictionary
+     </code></pre>
+<h3><a href="serviceenginegroup.html">ServiceEngineGroup</a></h3>
+<pre><code>  </code></pre>
+
+<h3><a href="systemdefaultobject.html">SystemDefaultObject</a></h3>
+<pre><code> 
+    Remove admin_object_uuid from SystemDefaultObject
+    SystemDefaultObjects not needed in a non-admin tenant
+     </code></pre>
+<h3><a href="securechannelavailablelocalips.html">SecureChannelAvailableLocalIPs</a></h3>
+<pre><code> 
+    1. remove controller free IPs list
+    @config: configuration secure channel
+     </code></pre>
+<h3><a href="securechannelmapping.html">SecureChannelMapping</a></h3>
+<pre><code> 
+    1. delete controller entries in securechannelmapping
+    @config: configuration dictionary
+     </code></pre>
+<h3><a href="analyticsprofile.html">AnalyticsProfile</a></h3>
+<pre><code> 
+    1. set the default value for client_log_config field of analyticsprofile
+     </code></pre>
+<h3><a href="cluster.html">Cluster</a></h3>
+<pre><code> 
+    1. delete cluster from DB
+    @config: configuration dictionary
+     </code></pre>
+<h3><a href="alertconfig.html">AlertConfig</a></h3>
+<pre><code>  </code></pre>
+<h3><a href="cloud.html">Cloud</a></h3>
+<pre><code>  </code></pre>
+<h3><a href="ipamdnsproviderprofile.html">IpamDnsProviderProfile</a></h3>
+<pre><code> 
+    1. Migrate existing DNS provider profiles to new IPAMDNS_TYPE_INTERNAL_DNS profiles
+        retaining same config
+    2. Delete unnecessary fields from Internal profiles to account for new must checks
+    3. Update DNS profile references in Cloud to account the above
+     </code></pre>
+<h3><a href="vimgrvcenterruntime.html">VIMgrVcenterRuntime</a></h3>
+<pre><code>  </code></pre>
+<h3><a href="seruntimeproperties.html">SeRuntimeProperties</a></h3>
+<pre><code>  </code></pre>
+<h3><a href="user.html">User</a></h3>
+<pre><code> 
+    Delete the following from User:
+    1. last_login_ip
+    2. last_login_timestamp
+    3. logged_in
+    @config: configuration dictionary
+     </code></pre>
+</div>
+</body>
+</html>

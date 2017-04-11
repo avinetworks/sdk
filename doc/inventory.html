@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Inventory </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>Inventory APIs</h1>
+Inventory APIs bring together configuration, runtime, health score, alert, and metrics information about objects under 1 API. While the information provided will not be as complete as making a request to each specific endpoint, these APIs provide a good snapshot of your objects with 1 request.
+
+<h2 class='text-primary'>Inventory Query Options</h2>
+<div class='container-fluid'> 
+<table class='table table-bordered table-striped'> 
+<tr> 
+<th>Option</th> 
+<th>Description</th> 
+<th>Defaults</th> 
+</tr>
+<tr>
+<td> include </td>
+<td> Filter for what type of information is returned per object. Eg. include=config,metrics,alert</td>
+<td> </td>
+</tr>
+<tr>
+<td> name </td>
+<td> Name of the object</td>
+<td> </td>
+</tr>
+<tr>
+<td> page_size </td>
+<td> Number of objects to return per page</td>
+<td> 25 </td>
+</tr>
+<tr>
+<td> page </td>
+<td> Page to return</td>
+<td> 1 </td>
+</tr>
+<tr>
+<td> include_name </td>
+<td> Append #&ltname&gt to references</td>
+<td> </td>
+</tr>
+<tr>
+<td> sort </td>
+<td> Parameter to sort results in ascending order. Eg. sort=health_score</td>
+<td> </td>
+</tr>
+<tr>
+<td> duration </td>
+<td> Duration window for alerts </td>
+<td> </td>
+</tr>
+<tr>
+<td> start </td>
+<td> Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00:00:00 </td>
+<td> 1970-01-01T00:00:00 </td>
+</tr>
+<tr>
+<td> stop </td>
+<td> End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12:42:42 </td>
+<td>  </td>
+</tr>
+<tr>
+<td> limit </td>
+<td> Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples </td>
+<td> 60 </td>
+</tr>
+</div></table>
+<h1 class='text-primary'>VirtualServiceInventory</h1>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/virtualservice-inventory
+    GET /api/virtualservice-inventory/&ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=VirtualServiceInventory
+<p><h3 class='text-success'>VirtualServiceInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VirtualServiceInventoryConfig>VirtualServiceInventoryConfig</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Config object of the VirtualService</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>alert</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryAlert>InventoryAlert</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of alerts for this VirtualService</dd></dl><p><strong>health_score</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryHealthScore>InventoryHealthScore</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health score of this VirtualService</dd></dl><p><strong>runtime</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=virtualservice.html#VirtualServiceRuntimeSummary>VirtualServiceRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Runtime information for this Virtual Service</dd></dl>
+<p><strong>metrics</strong><br></p><dl class='dl-horizontal'><dt>Type</dt><dd><a href=metrics_query.html>Metrics</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Metrics infromation for this Virtual Service</dd></dl>
+</div>
+<div class='container'id=VirtualServiceInventoryConfig
+<p><h3 class='text-success'>VirtualServiceInventoryConfig<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the VirtualService.</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name for the Virtual Service.</dd></dl><p><strong>fqdn</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DNS resolvable, fully qualified domain name of the Virtual Service.</dd></dl><p><strong>ip_address</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=virtualservice.html#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>IP Address of the Virtual Service.</dd></dl><p><strong>enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable or disable the Virtual Service.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>services</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=virtualservice.html#Service>Service</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>URL of the VirtualService</dd></dl><p><strong>floating_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=virtualservice.html#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Floating IP to associate with this Virtual Service.</dd></dl><p><strong>pool_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The pool is an object that contains destination servers and related attributes such as load-balancing and persistence.</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service.</dd><dt>Default</dt><dd>VS_TYPE_NORMAL</dd><dt>Choices</dt><dd>VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD, VS_TYPE_NORMAL</dd></dl><p><strong>vh_domain_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS.</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl><p><strong>east_west_placement</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Force placement on all SE's in service group (Mesos mode only)</dd><dt>Default</dt><dd>False</dd></dl><p><strong>se_group_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=serviceenginegroup.html#ServiceEngineGroup>Reference to ServiceEngineGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connection for this VS.</dd></dl><p><strong>vrf_context_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to.</dd></dl></div>
+</div>
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="virtualservice.html">VirtualService</a>
+<a href="vrfcontext.html">VrfContext</a>
+<a href="networkprofile.html">NetworkProfile</a>
+<a href="cloud.html">Cloud</a>
+<a href="serviceenginegroup.html">ServiceEngineGroup</a>
+<a href="serviceengine.html">ServiceEngine</a>
+<a href="pool.html">Pool</a>
+<a href="tenant.html">Tenant</a>
+<a href="network.html">Network</a>
+</p>
+
+<h1 class='text-primary'>PoolInventory</h1>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/pool-inventory
+    GET /api/pool-inventory/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=PoolInventory
+<p><h3 class='text-success'>PoolInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolInventoryConfig>PoolInventoryConfig</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Config object of the Pool</dd></dl><p><strong>virtualservice</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AssignedVirtualService>AssignedVirtualService</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name and UUID of the Virtual Service this Pool is assigned to</dd></dl><p><strong>backup_pools</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Backup Pools assigned to this Pool</dd></dl><p><strong>ab_pools</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>AB Pools assigned to this Pool</dd></dl><p><strong>app_profile_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Application Profile type of the VirtualService using this Pool</dd><dt>Choices</dt><dd>APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_L4</dd></dl><p><strong>alert</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryAlert>InventoryAlert</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of alerts for this Pool</dd></dl><p><strong>health_score</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryHealthScore>InventoryHealthScore</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health score of this Pool</dd></dl><p><strong>runtime</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#PoolRuntimeSummary>PoolRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Runtime information for this Pool</dd></dl>
+<p><strong>metrics</strong><br></p><dl class='dl-horizontal'><dt>Type</dt><dd><a href=metrics_query.html>Metrics</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Metrics infromation for this Pool</dd></dl>
+</div>
+
+<div class='container'id=PoolInventoryConfig
+<p><h3 class='text-success'>PoolInventoryConfig<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the pool</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The name of the pool.</dd></dl><p><strong>url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>URL of the pool</dd></dl><p><strong>num_servers</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>default_server_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Traffic sent to servers will use this destination server port unless overridden by the server's specific port attribute. The SSL checkbox enables Avi to server encryption.</dd><dt>Default</dt><dd>80</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl><p><strong>vrf_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd>Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform.</dd></dl><p><strong>created_by</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl></div>
+<div class='container'id=AssignedVirtualService
+<p><h3 class='text-success'>AssignedVirtualService<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="pool.html">Pool</a>
+<a href="tenant.html">Tenant</a>
+<a href="cloud.html">Cloud</a>
+<a href="vrfcontext.html">VrfContext</a>
+</p>
+
+<h1 class='text-primary'>PoolServerInventory</h1>  
+  
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/pool-inventory/&ltkey&gt/server/&ltkey&gt
+</code></pre>  
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=PoolServerInventory
+<p><h3 class='text-success'>PoolServerInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolServerInventoryConfig>PoolServerInventoryConfig</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>alert</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryAlert>InventoryAlert</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of alerts for this Pool</dd></dl><p><strong>health_score</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryHealthScore>InventoryHealthScore</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health score of this Pool</dd></dl><p><strong>runtime</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#PoolRuntimeSummary>PoolRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Runtime information for this Pool</dd></dl>
+<p><strong>metrics</strong><br></p><dl class='dl-horizontal'><dt>Type</dt><dd><a href=metrics_query.html>Metrics</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Metrics infromation for this Server</dd></dl>
+</div>
+<div class='container'id=PoolServerInventoryConfig
+<p><h3 class='text-success'>PoolServerInventoryConfig<br></h3></p>
+<p><strong>ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP Address of the server.  Required if there is no resolvable host name.</dd></dl><p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Optionally specify the servers port number.  This will override the pool's default server port attribute.</dd></dl><p><strong>hostname</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DNS resolvable name of the server.  May be used in place of the IP address.</dd></dl><p><strong>enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable, Disable or Graceful Disable determine if new or existing connections to the server are allowed.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>ratio</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Overrides the default ratio of 1.  Reduces the percentage the LB algorithm would pick the server in relation to its peers.  Range is 1-20.</dd><dt>Default</dt><dd>1</dd></dl><p><strong>default_server_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Default server port of the Pool using this server</dd><dt>Default</dt><dd>80</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>ServiceEngineInventory</h1>
+  
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>  
+    GET /api/serviceengine-inventory
+    GET /api/serviceengine-inventory/&ltkey&gt  
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=ServiceEngineInventory
+<p><h3 class='text-success'>ServiceEngineInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ServiceEngineInventoryConfig>ServiceEngineInventoryConfig</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>alert</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryAlert>InventoryAlert</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of alerts for this Pool</dd></dl><p><strong>health_score</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryHealthScore>InventoryHealthScore</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health score of this Pool</dd></dl><p><strong>runtime</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=serviceengine.html#ServiceEngineRuntimeSummary>ServiceEngineRuntimeSummary</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Runtime information for this Pool</dd></dl>
+<p><strong>metrics</strong><br></p><dl class='dl-horizontal'><dt>Type</dt><dd><a href=metrics_query.html>Metrics</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Metrics infromation for this Service Engine</dd></dl>
+</div>  
+<div class='container'id=ServiceEngineInventoryConfig
+<p><h3 class='text-success'>ServiceEngineInventoryConfig<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>VM name unknown</dd></dl><p><strong>tenant_ref</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl><p><strong>url</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>URL of the ServiceEngine</dd></dl><p><strong>se_group_ref</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=serviceenginegroup.html#ServiceEngineGroup>Reference to ServiceEngineGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>enable_state</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>inorder to disable SE set this field appropriately</dd><dt>Default</dt><dd>SE_STATE_ENABLED</dd><dt>Choices</dt><dd>SE_STATE_DISABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_ENABLED</dd></dl><p><strong>mgmt_ip_address</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=serviceengine.html#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Management IP address for the Service Engine Group</dd></dl><p><strong>virtualservice_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=virtualservice.html#VirtualService>Reference to VirtualService</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Virtual Services using this Service Engine</dd></dl></div>
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="virtualservice.html">VirtualService</a>
+<a href="tenant.html">Tenant</a>
+<a href="cloud.html">Cloud</a>
+<a href="serviceenginegroup.html">ServiceEngineGroup</a>
+</p>
+
+<h1 class='text-primary'>ServiceEngineGroupInventory</h1>
+  
+<h3 class='text-primary'>API</h3> 
+<div class="container">
+<pre><code>
+    GET /api/serviceenginegroup-inventory
+    GET /api/serviceenginegroup-inventory/&ltkey&gt  
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=ServiceEngineGroupInventory
+<p><h3 class='text-success'>ServiceEngineGroupInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=serviceenginegroup.html#ServiceEngineGroup>ServiceEngineGroup</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>virtualservices</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>References to Virtual Services that are using this Service Engine Group</dd></dl><p><strong>serviceengines</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>References to the Service Engines in this Service Engine Group</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="hardwaresecuritymodulegroup.html">HardwareSecurityModuleGroup</a>
+<a href="network.html">Network</a>
+<a href="vimgrclusterruntime.html">VIMgrClusterRuntime</a>
+<a href="tenant.html">Tenant</a>
+<a href="cloud.html">Cloud</a>
+<a href="vimgrhostruntime.html">VIMgrHostRuntime</a>
+</p>
+
+<h1 class='text-primary'>CloudInventory</h1>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/cloud-inventory
+    GET /api/cloud-inventory/&ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=CloudInventory
+<p><h3 class='text-success'>CloudInventory<br></h3></p>
+<p><strong>config</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Cloud</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>mvrf</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#CloudStatus>CloudStatus</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ipam_provider_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_AWS</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="cloud.html">Cloud</a>
+<a href="ipamdnsproviderprofile.html">IpamDnsProviderProfile</a>
+<a href="tenant.html">Tenant</a>
+<a href="sslkeyandcertificate.html">SSLKeyAndCertificate</a>
+</p>
+
+<h1 class='text-primary'>NetworkInventory</h1>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/network-inventory
+    GET /api/network-inventory/&ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=NetworkInventory
+<p><h3 class='text-success'>NetworkInventory<br></h3></p>
+<p><strong>config</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=network.html#Network>Network</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>runtime</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=networkruntime.html#NetworkRuntime>NetworkRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Runtime information for this Network</dd></dl><p><strong>alert</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryAlert>InventoryAlert</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of alerts for this Network</dd></dl><p><strong>health_score</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#InventoryHealthScore>InventoryHealthScore</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health score of this Network</dd></dl><p><strong>discovery</strong><br></p>  
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrnwruntime.html#VIMgrNWRuntime>VIMgrNWRuntime</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Discovery information for this Network</dd></dl></div>
+
+</div>
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="vrfcontext.html">VrfContext</a>
+<a href="vimgrnwruntime.html">VIMgrNWRuntime</a>
+<a href="cloud.html">Cloud</a>
+<a href="vimgrvmruntime.html">VIMgrVMRuntime</a>
+<a href="tenant.html">Tenant</a>
+<a href="vimgrhostruntime.html">VIMgrHostRuntime</a>
+</p>
+
+<h1 class='text-primary'>Common Inventory Objects</h1>
+<div class='container'id=InventoryAlert
+<p><h3 class='text-success'>InventoryAlert<br></h3></p>
+<p><strong>high</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>medium</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>low</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=InventoryHealthScore
+<p><h3 class='text-success'>InventoryHealthScore<br></h3></p>
+<p><strong>resources_penalty</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>health_score</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>anomaly_penalty</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>performance_score</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>security_penalty</strong><br></p>
+
+</div>
+</body>
+</html>

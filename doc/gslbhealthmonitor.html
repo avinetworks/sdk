@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> GslbHealthMonitor </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>GslbHealthMonitor</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/gslbhealthmonitor
+    PUT /api/gslbhealthmonitor/&ltkey&gt
+    DELETE /api/gslbhealthmonitor/&ltkey&gt
+    GET /api/gslbhealthmonitor
+    GET /api/gslbhealthmonitor/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure gslbhealthmonitor &ltkey&gt
+    show gslbhealthmonitor &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=GslbHealthMonitor
+<p><h3 class='text-success'>GslbHealthMonitor<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the health monitor.</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>A user friendly name for this health monitor.</dd></dl><p><strong>send_interval</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Frequency, in seconds, that monitors are sent to a server.</dd><dt>Default</dt><dd>5</dd></dl><p><strong>receive_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value.</dd><dt>Default</dt><dd>4</dd></dl><p><strong>successful_checks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of continuous successful health checks before server is marked up.</dd><dt>Default</dt><dd>2</dd></dl><p><strong>failed_checks</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of continuous failed health checks before the server is marked down.</dd><dt>Default</dt><dd>2</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the health monitor.</dd><dt>Choices</dt><dd>HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_PING</dd></dl><p><strong>tcp_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorTcp>HealthMonitorTcp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>http_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorHttp>HealthMonitorHttp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>https_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorHttp>HealthMonitorHttp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>external_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorExternal>HealthMonitorExternal</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>udp_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorUdp>HealthMonitorUdp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dns_monitor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HealthMonitorDNS>HealthMonitorDNS</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>monitor_port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool.</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=HealthMonitorTcp
+<p><h3 class='text-success'>HealthMonitorTcp<br></h3></p>
+<p><strong>tcp_request</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Request data to send after completing the TCP handshake.</dd></dl><p><strong>tcp_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for the desired keyword in the first 2Kb of the server's TCP response. If this field is left blank, no server response is required.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>tcp_half_open</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Configure TCP health monitor to use half-open TCP connections to monitor the health of backend servers thereby avoiding consumption of a full fledged server side connection and the overhead and logs associated with it.  This method is light-weight as it makes use of listener in server's kernel layer to measure the health and a child socket or user thread is not created on the server side.</dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=HealthMonitorHttp
+<p><h3 class='text-success'>HealthMonitorHttp<br></h3></p>
+<p><strong>http_request</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host: www.site.com Connection: Close</dd><dt>Default</dt><dd>GET / HTTP/1.0</dd></dl><p><strong>http_response_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of HTTP response codes to match as successful.  Default is 2xx.</dd><dt>Choices</dt><dd>HTTP_1XX, HTTP_3XX, HTTP_2XX, HTTP_5XX, HTTP_4XX, HTTP_ANY</dd></dl><p><strong>http_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for a keyword in the first 2Kb of the server header and body response.</dd></dl><p><strong>maintenance_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
+<div class='container'id=HealthMonitorExternal
+<p><h3 class='text-success'>HealthMonitorExternal<br></h3></p>
+<p><strong>command_path</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Path of external health monitor script.</dd></dl><p><strong>command_parameters</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Optional arguments to feed into the script.</dd></dl><p><strong>command_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Command script provided inline.</dd></dl><p><strong>command_variables</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Environment variables to be fed into the script.</dd></dl></div>
+<div class='container'id=HealthMonitorUdp
+<p><h3 class='text-success'>HealthMonitorUdp<br></h3></p>
+<p><strong>udp_request</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send UDP request.</dd></dl><p><strong>udp_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match for keyword in the UDP response.</dd></dl><p><strong>maintenance_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.</dd></dl></div>
+<div class='container'id=HealthMonitorDNS
+<p><h3 class='text-success'>HealthMonitorDNS<br></h3></p>
+<p><strong>query_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The DNS monitor will query the DNS server for the fully qualified name in this field.</dd></dl><p><strong>qtype</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>  Query_Type: Response has atleast one answer of which      the resource record type matches the query type   Any_Type: Response should contain atleast one answer  AnyThing: An empty answer is enough</dd><dt>Default</dt><dd>DNS_QUERY_TYPE</dd><dt>Choices</dt><dd>DNS_ANY_TYPE, DNS_ANY_THING, DNS_QUERY_TYPE</dd></dl><p><strong>rcode</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses.</dd><dt>Default</dt><dd>RCODE_NO_ERROR</dd><dt>Choices</dt><dd>RCODE_NO_ERROR, RCODE_ANYTHING</dd></dl><p><strong>response_string</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The resource record of the queried DNS server's response for the Request Name must include the IP address defined in this field. </dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+<h2 class='text-primary'>GslbHealthMonitorRuntime </h2>
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/gslbhealthmonitor/&ltkey&gt/runtime/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show gslbhealthmonitor &ltkey&gt runtime
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=GslbHealthMonitorRuntime
+<p><h3 class='text-success'>GslbHealthMonitorRuntime<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ldr_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>flr_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CfgState>CfgState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=CfgState
+<p><h3 class='text-success'>CfgState<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>object-uuid that is being synced to follower. </dd></dl><p><strong>cfg_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>cfg-version synced to follower. </dd></dl><p><strong>cfg_version_in_flight</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>cfg-version in flight to follower. </dd></dl><p><strong>status</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Status of the object. </dd><dt>Choices</dt><dd>SYSERR_RM_NO_DEFAULT_GW_SE_MGMT_NW, SYSERR_DEQUEUE, SYSERR_GSLB_INVALID_OPS, SYSERR_RM_ALL_SE_IN_SE_GRP_NW_ACC_MAX_VS, SYSERR_GSLB_INVALID_MTYPE, SYSERR_RM_VIP_SE_GRP_MISMATCH, SYSERR_VI_MGR_SEVM_NO_AVAILABILITY_ZONE, SYSERR_RM_DEF_GW_INCORRECT, SYSERR_RPC_FAILED, SYSERR_UPGRADE_IN_PROGRESS, SYSERR_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_LEASE, SYSERR_RM_PARENT_SE_NW_ACC, SYSERR_VS_MIGRATE_SCALEOUT_ERROR, SYSERR_OS_AGENT_OPENSTACK_ACCESSERR, SYSERR_VI_MGR_SEVM_CREATE_FAIL_POWER_ON, SYSERR_CC_AGENT_METHOD_NOT_IMPLEMENTED, SYSERR_VS_RPC_FAILURE, SYSERR_RPC_SEND_FAILED, SYSERR_DB_CACHE_OBJ_NOT_FOUND, SYSERR_RM_CANNOT_SPAWN_SE, SYSERR_FAULT, SYSERR_RM_VS_SE_VNIC_IP_IN_PROG, SYSERR_CC_NO_FLAVOR, SYSERR_SE_MGR_VNIC_NOT_FOUND, SYSERR_RM_VIP_SE_NW_ACC, SYSERR_AUTOSCALE_REASON_POOL_STATE_CHANGE, SYSERR_VI_MGR_SEVM_VCENTER_CONN_FAIL, SYSERR_DB_QUERY_QUEUED, SYSERR_SVC_COMMON_OBJECT_NOT_IN_CACHED_VIEW, SYSERR_ANOMALYZER_NOT_ENOUGH_SAMPLES, SYSERR_INVAL, SYSERR_METRICS_TOO_MANY_MSG_ACROSS_ENTITIES, SYSERR_RM_RES_NOT_NEEDED, SYSERR_OUT_OF_MEMORY, SYSERR_VS_INVALID_OBJECT, SYSERR_RM_VS_SE_VNIC_ADD_IN_PROG, SYSERR_RM_RES_VIP_REACH_LOST, SYSERR_NO_MULTICAST_RECEIVERS, SYSERR_RM_AWAIT_VM_CREATE, SYSERR_VI_MGR_SEVM_SET_MGMT_IP_FAILED, SYSERR_AUTOSCALEIN_FAILED_LIMIT_EXCEEDED, SYSERR_DB_UPDATE_FAILED, SYSERR_RM_RES_UNAVAIL_NOTIFY, SYSERR_VS_NOT_PRESENT, SYSERR_TIMEOUT, SYSERR_RM_VIP_NO_NETWORK, SYSERR_CC_AGENT_VNIC_NO_IPS_AVAILABLE, SYSERR_DESERIALIZATION, SYSERR_RM_VIP_SE_MAX_VS, SYSERR_AUTOSCALE_POLICY_NOT_FOUND, SYSERR_SEAGENT_OBJ_GRAPHDB_ERROR, SYSERR_AUTOSCALE_REASON_ALERT, SYSERR_VI_MGR_VCENTER_VERSION_MISMATCH, SYSERR_FLEET_API_ERROR, SYSERR_RM_VS_SE_BOOTUP_IN_PROG, SYSERR_RM_SE_GRP_MAX_VS, SYSERR_SEAGENT_OBJ_DISABLED_RULE_POOL, SYSERR_VS_MIGRATE_ERROR, SYSERR_CC_SVC_Q_FULL, SYSERR_MESOS_DISCOVERY_DEPLOYMENT_FAIL, SYSERR_RM_CONSUMER_NOT_FOUND, SYSERR_VS_SCALEIN_ERROR, SYSERR_VI_MGR_SEVM_VNIC_FAILURE_QUESTION, SYSERR_GSLB_PARTIAL_SUCCESS, SYSERR_RM_REACHABILITY_FAILED, SYSERR_GSLB_INVALID_SITE_CREDENTIALS, SYSERR_AUTOSCALE_IGNORED_AS_WITHIN_COOLDOWN, SYSERR_RM_ALL_SE_IN_SE_GRP_MAX_VS, SYSERR_SE_MGR_UNKNOWN_SE, SYSERR_OS_AGENT_Q_FULL, SYSERR_AUTOSCALE_REASON_ORCHESTRATION_FAILED, SYSERR_RM_QUERY_HOST_IN_PROGRESS, SYSERR_RM_NETWORK_NOT_FOUND, SYSERR_RM_RES_INFRA_DELETED, SYSERR_CC_AGENT_VNIC_NO_SUBNETWORK, SYSERR_RM_ALL_SE_IN_SE_GRP_USED, SYSERR_SEAGENT_OBJ_DP_ERROR, SYSERR_VI_MGR_SEVM_CREATE_FAIL_DUPLICATE_NAME, SYSERR_AUTOSCALE_REASON_INTELLIGENT_AUTOSCALE, SYSERR_VS_NOT_ENOUGH_RESOURCES, SYSERR_VS_NOT_BOUND, SYSERR_VS_SE_NOT_AVAILABLE, SYSERR_DATASTORE_UNKNOWN_FAILURE, SYSERR_INVALID_HEALTH_MONITOR_TYPE, SYSERR_RPC_TIMED_OUT, SYSERR_RM_VNIC_IP_FAILURE, SYSERR_CC_AGENT_VNIC_FAILURE, SYSERR_RM_PARTIAL_SE_FOUND, SYSERR_CC_SVC_INVALID_DATA, SYSERR_RM_NO_SE_IN_SE_GRP, SYSERR_RM_SE_MGMT_NO_STATIC_IPS_CONFIGURED, SYSERR_VI_MGR_SEVM_CREATE_NO_HOST, SYSERR_RM_NO_SUITABLE_HOST, SYSERR_RPC_CANCELED_BY_TRANSACTION_CLEANUP, SYSERR_CC_AGENT_DECONFIG_FAILURE, SYSERR_RM_NO_SE_IN_SE_GRP_VIP_ACC, SYSERR_AUTOSCALE_ORCHESTRATION_TIMEOUT, SYSERR_RM_SE_GRP_NW_ACC, SYSERR_VI_MGR_SEVM_FLAVOR_UNAVAIL, SYSERR_MARATHON_INACCESSIBLE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MGMT_NW, SYSERR_SE_MGR_UNKNOWN_STATE_TRANSITION, SYSERR_SEAGENT_OBJ_AWAITING_DP_PROGRAMMING, SYSERR_CC_AGENT_ABSENT, SYSERR_GSLB_OBJECT_NOT_FOUND, SYSERR_RM_INSUFFICIENT_BUFFER_SE, SYSERR_RM_BOOTUP_FAILURE, SYSERR_RM_CONSUMER_PENDING_TASK, SYSERR_ENQUEUE, SYSERR_RM_ALL_SE_INSE_GRP_DISABLED, SYSERR_SE_UPGRADE_IN_PROGRESS, SYSERR_OS_AGENT_INVALID_DATA, SYSERR_DATASTORE_REFERENCE_DOES_NOT_EXIST, SYSERR_RM_SRVR_NO_NETWORK, SYSERR_CC_OS_AGENT_NEUTRON_HOST_ACCESSERR, SYSERR_RPC_CANCELED_BY_CLIENT, SYSERR_VI_MGR_SEVM_CREATE_NO_IMAGE, SYSERR_RM_CONSUMER_RESOURCES_SATISFIED, SYSERR_MESOS_SSH_CMD_TIMEOUT, SYSERR_VI_MGR_SEVM_TIMED_OUT, SYSERR_DATASTORE_OBJECT_DOES_NOT_EXIST, SYSERR_RM_RELEASE_SE_UNAVAIL, SYSERR_IO, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MGMT_NW_PORTS, SYSERR_RM_RES_CONN_LOST, SYSERR_VS_VNIC_FAILURE, SYSERR_DB_CACHE_TBL_NOT_FOUND, SYSERR_SEAGENT_OBJ_INACTIVE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_CPU, SYSERR_CC_AGENT_GENERIC_FAILURE, SYSERR_MESOS_SSH_FAILURE, SYSERR_OS_AGENT_OPENSTACK_RESOURCEERR, SYSERR_RUM_TOOMANYSAMPLES, SYSERR_NO_ENT, SYSERR_RM_DATA_DHCP_FAILURE, SYSERR_RPC_CONNECT_FAILED, SYSERR_SUCCESS, SYSERR_VS_AWAIT_STATIC_SE, SYSERR_VS_MIGRATE_SCALEIN_ERROR, SYSERR_RM_MULT_SE_CRASH, SYSERR_METRICS_TOO_MANY_MSG, SYSERR_RM_RES_NOT_INUSE, SYSERR_RM_PARENT_SE_MAX_VS, SYSERR_VI_MGR_SEVM_CREATE_FAIL_ABORTED, SYSERR_QUEUE_TRANSPORT_FAILURE, SYSERR_RM_VIP_SE_PENDING_OP, SYSERR_GSLB_CLEANUP_IN_PROGRESS, SYSERR_CC_AGENT_RESOURCEERR, SYSERR_SE_MGR_VNIC_ALLOC_FAIL, SYSERR_DATASTORE_LOCK_FAILURE, SYSERR_AUTOSCALE_REASON_TOO_MANY_SERVERS, SYSERR_RM_VS_SE_CREATE_IN_PROG, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_HW_INFO, SYSERR_VS_DELETE_WHILE_STILL_BEING_REFERRED, SYSERR_VS_SERVICE_ENGINE_DOWN, SYSERR_CC_AGENT_ACCESSERR, SYSERR_QUEUE_RETRY_TASK, SYSERR_RM_VS_PROCESSING, SYSERR_VI_MGR_SEVM_CREATE_LIMIT_REACHED, SYSERR_GSLB_FQDN_CONFLICT, SYSERR_VS_SCALEOUT_ERROR, SYSERR_MESOS_SSH_NOTFOUND, SYSERR_INVALID_METHOD, SYSERR_CONTROLLER_NOT_READY, SYSERR_OS_AGENT_TENANT_ABSENT, SYSERR_RM_UNKNOWN_SE_GROUP, SYSERR_VS_INVALID_METHOD, SYSERR_RM_MULT_MGMT_SUBNET, SYSERR_RM_NO_MGMT_SUBNET, SYSERR_MARATHON_APP_TERMINATED, SYSERR_DB_QUERY_FAILED, SYSERR_CC_AGENT_SCALE_IN_FAILED, SYSERR_AUTOSCALE_REASON_NOT_ENOUGH_SERVERS, SYSERR_RM_STATIC_POOL_EXHAUSTED, SYSERR_VS_INVALID_REQUEST, SYSERR_ACCESS, SYSERR_VS_MIN_SE_NOT_ASSIGNED, SYSERR_CC_AGENT_CONFIG_FAILURE, SYSERR_DATASTORE_TBL_NOT_EXIST, SYSERR_VI_MGR_SEVM_VNIC_MAC_ADDR_ERROR, SYSERR_VI_MGR_SEVM_VNIC_NO_PG_PORTS, SYSERR_MESOS_DISCOVERY_TIMEOUT, SYSERR_SEAGENT_OBJ_ACTIVE, SYSERR_VS_INTERNAL_ERROR, SYSERR_VI_MGR_SEVM_VNIC_FAILURE, SYSERR_RM_MAX_SE_CREATE_ATTEMPTS, SYSERR_VI_MGR_SEVM_INVALID_DATA, SYSERR_WARM_START_IN_PROGRESS, SYSERR_RM_RES_USER_REBOOTED, SYSERR_RM_AWAIT_BOOTUP, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_PROGRESS, SYSERR_RM_VIP_MULT_NETWORKS, SYSERR_RM_SE_MGMT_STATIC_IPS_EXHAUSTED, SYSERR_DATASTORE_TRANSPORT_FAILURE, SYSERR_VERSION_MISMATCH, SYSERR_RM_RESOURCE_NOT_FOUND, SYSERR_NOT_SUPPORTED, SYSERR_AUTOSCALE_REASON_CONFIG_UPDATE, SYSERR_CC_AGENT_UNINITIALIZED, SYSERR_CC_AGENT_TENANT_ABSENT, SYSERR_VI_MGR_SEVM_CREATE_FAIL_MULTIPLE_MGMT_NW, SYSERR_OS_AGENT_OPENSTACK_UNINITIALIZED, SYSERR_RM_NO_SE_IN_SE_GRP_SRVR_ACC, SYSERR_VI_MGR_LOGIN_FAIL_USER_CREDENTIALS, SYSERR_MESOS_SSH_ABORTED, SYSERR_SEAGENT_EASTWEST_VS_SUBNET_ERROR, SYSERR_VI_MGR_SEVM_DELETED, SYSERR_VI_MGR_SEVM_CREATE_ACCESS_ERROR, SYSERR_VI_MGR_SEVM_VNIC_NO_VM, SYSERR_VI_MGR_SEVM_VINFRA_UNINITIALIZED, SYSERR_AUTOSCALE_REASON_MANUAL, SYSERR_SE_MGR_SE_OFFLINE_HB_FAILURE, SYSERR_RM_MAX_SE_IN_GRP, SYSERR_RM_RES_CRASHED, SYSERR_BAD_REQUEST, SYSERR_RM_ALL_SE_IN_SE_GRP_DOWN, SYSERR_DATASTORE_DB_LOCKED, SYSERR_VI_MGR_SEVM_DELETE_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_FAIL_NO_MEM, SYSERR_SERIALIZATION, SYSERR_AUTOSCALEOUT_FAILED_LIMIT_EXCEEDED, SYSERR_CC_AGENT_TENANT_ACCESSERR, SYSERR_RM_RES_UNAVAIL, SYSERR_RM_MGMT_DHCP_FAILURE, SYSERR_VI_MGR_SEVM_NO_SOURCE_CLONE, SYSERR_RM_PENDING_VNIC_OP, SYSERR_RM_MAX_PARALLEL_SE_CREATE, SYSERR_RM_SE_GRP_VIP_NW_ACC, SYSERR_TEST1, SYSERR_RM_CANNOT_ADD_VNICS, SYSERR_TEST2, SYSERR_RM_STATIC_NO_POOL, SYSERR_VS_SE_ASSIGNMENT_FAILED, SYSERR_RM_SE_GRP_PENDING_OP, SYSERR_SE_NOT_CONNECTED, SYSERR_RM_RES_USER_DELETED, SYSERR_NOT_READY, SYSERR_CC_AGENT_NOT_IMPLEMENTED, SYSERR_RM_NO_SE_FOUND, SYSERR_VI_MGR_LOGIN_FAIL_NO_VCENTER, SYSERR_VI_MGR_SEVM_VINFRA_FAILURE, SYSERR_VS_DISABLED, SYSERR_VI_MGR_SEVM_CREATE_FAIL_OVF_ERROR, SYSERR_RM_AWAIT_VNIC_ADD, SYSERR_VI_MGR_SEVM_CREATE_FAILURE, SYSERR_VI_MGR_SEVM_CREATE_NO_HOST_VM_NETWORK, SYSERR_DB_QUERY_BATCHED, SYSERR_RM_SRVR_MULT_NETWORKS, SYSERR_VI_MGR_SEVM_VNIC_SUCCESS, SYSERR_CC_AGENT_NON_INFRA_SEVM, SYSERR_RM_VS_SE_PING_CHECK_IN_PROG, SYSERR_RM_PARENT_SE_GRP_MISMATCH</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>site_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>site_uuid to which the object was synced.</dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=TimeStamp
+<p><h3 class='text-success'>TimeStamp<br></h3></p>
+<p><strong>secs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>usecs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+
+</div>
+
+
+
+</body>
+</html>

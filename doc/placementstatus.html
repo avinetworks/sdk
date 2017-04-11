@@ -41,6 +41,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=PlacementStatus
@@ -53,7 +54,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>reason</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>OPER_RESOURCES</dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_UP, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_DISABLED</dd></dl><p><strong>reason_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>OPER_RESOURCES</dd><dt>Choices</dt><dd>OPER_PROCESSING, OPER_UPGRADING, OPER_CREATING, OPER_RESOURCES, OPER_SE_PROCESSING, OPER_AWAIT_MANUAL_PLACEMENT, OPER_ERROR_DISABLED, OPER_UNKNOWN, OPER_PARTITIONED, OPER_FAILED, OPER_UP, OPER_DISABLING, OPER_UNUSED, OPER_INITIALIZING, OPER_INACTIVE, OPER_DOWN, OPER_UNAVAIL, OPER_DISABLED</dd></dl><p><strong>reason_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>resources</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ResourceStatus>ResourceStatus</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>se_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code_string</strong><br></p>

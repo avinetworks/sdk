@@ -12,7 +12,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='avisdk',
     version=AVI_PIP_VERSION,
-    packages=find_packages(exclude=['*f5_converter*', '*netscaler_converter*',
+    packages=find_packages(exclude=['*migrationtools*',
                                     '*sdk.samples.autoscale*']),
     description='Avi python API SDK for Avi Controller REST API with samples'
                 ' and, utilities',

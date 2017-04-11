@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=HTTPPolicySet
@@ -111,11 +112,7 @@
 <p><h3 class='text-success'>PortMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for port matching the HTTP request</dd><dt>Choices</dt><dd>IS_NOT_IN, IS_IN</dd></dl><p><strong>ports</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TCP port(s) listening for HTTP/HTTPS</dd></dl></div>
-<div class='container'id=Port
-<p><h3 class='text-success'>Port<br></h3></p>
-<p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port number.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TCP port(s) listening for HTTP/HTTPS</dd></dl></div>
 <div class='container'id=ProtocolMatch
 <p><h3 class='text-success'>ProtocolMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
@@ -125,37 +122,25 @@
 <p><h3 class='text-success'>MethodMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for HTTP method matching the method in the HTTP request</dd><dt>Choices</dt><dd>IS_NOT_IN, IS_IN</dd></dl><p><strong>methods</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableHTTPMethod>RepeatableHTTPMethod</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Configure HTTP method(s)</dd></dl></div>
-<div class='container'id=RepeatableHTTPMethod
-<p><h3 class='text-success'>RepeatableHTTPMethod<br></h3></p>
-<p><strong>method</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP methods</dd><dt>Choices</dt><dd>HTTP_METHOD_HEAD, HTTP_METHOD_OPTIONS, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_GET, HTTP_METHOD_TRACE</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Configure HTTP method(s)</dd><dt>Choices</dt><dd>HTTP_METHOD_HEAD, HTTP_METHOD_OPTIONS, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_GET, HTTP_METHOD_TRACE</dd></dl></div>
 <div class='container'id=HTTPVersionMatch
 <p><h3 class='text-success'>HTTPVersionMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for HTTP version matching the version used in the HTTP request</dd><dt>Choices</dt><dd>IS_NOT_IN, IS_IN</dd></dl><p><strong>versions</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableHTTPVersion>RepeatableHTTPVersion</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP protocol version</dd></dl></div>
-<div class='container'id=RepeatableHTTPVersion
-<p><h3 class='text-success'>RepeatableHTTPVersion<br></h3></p>
-<p><strong>version</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP protocol version</dd><dt>Choices</dt><dd>ZERO_NINE, ONE_ZERO, ONE_ONE</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP protocol version</dd><dt>Choices</dt><dd>ZERO_NINE, ONE_ZERO, ONE_ONE</dd></dl></div>
 <div class='container'id=PathMatch
 <p><h3 class='text-success'>PathMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for matching the path in the HTTP request URI</dd><dt>Choices</dt><dd>REGEX_MATCH, DOES_NOT_END_WITH, ENDS_WITH, CONTAINS, EQUALS, DOES_NOT_BEGIN_WITH, DOES_NOT_EQUAL, REGEX_DOES_NOT_MATCH, DOES_NOT_CONTAIN, BEGINS_WITH</dd></dl><p><strong>match_case</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Case sensitivity to use for the matching</dd><dt>Default</dt><dd>INSENSITIVE</dd><dt>Choices</dt><dd>SENSITIVE, INSENSITIVE</dd></dl><p><strong>match_str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String values</dd></dl><p><strong>string_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String values</dd></dl><p><strong>string_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>UUID of the string group(s)</dd></dl></div>
-<div class='container'id=RepeatableString
-<p><h3 class='text-success'>RepeatableString<br></h3></p>
-<p><strong>str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=QueryMatch
 <p><h3 class='text-success'>QueryMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for matching the query in HTTP request URI</dd><dt>Choices</dt><dd>QUERY_MATCH_CONTAINS</dd></dl><p><strong>match_case</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Case sensitivity to use for the match</dd><dt>Default</dt><dd>INSENSITIVE</dd><dt>Choices</dt><dd>SENSITIVE, INSENSITIVE</dd></dl><p><strong>match_str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s)</dd></dl><p><strong>string_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s)</dd></dl><p><strong>string_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>UUID of the string group(s)</dd></dl></div>
 <div class='container'id=HdrMatch
 <p><h3 class='text-success'>HdrMatch<br></h3></p>
@@ -163,7 +148,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for matching headers in the HTTP request</dd><dt>Choices</dt><dd>HDR_ENDS_WITH, HDR_EQUALS, HDR_DOES_NOT_EXIST, HDR_EXISTS, HDR_DOES_NOT_END_WITH, HDR_DOES_NOT_EQUAL, HDR_DOES_NOT_CONTAIN, HDR_CONTAINS, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH</dd></dl><p><strong>hdr</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name of the HTTP header whose value is to be matched</dd></dl><p><strong>match_case</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Case sensitivity to use for the match</dd><dt>Default</dt><dd>INSENSITIVE</dd><dt>Choices</dt><dd>SENSITIVE, INSENSITIVE</dd></dl><p><strong>value</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String values to match in the HTTP header</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String values to match in the HTTP header</dd></dl></div>
 <div class='container'id=CookieMatch
 <p><h3 class='text-success'>CookieMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
@@ -176,13 +161,13 @@
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for the host header value match</dd><dt>Choices</dt><dd>HDR_ENDS_WITH, HDR_EQUALS, HDR_DOES_NOT_EXIST, HDR_EXISTS, HDR_DOES_NOT_END_WITH, HDR_DOES_NOT_EQUAL, HDR_DOES_NOT_CONTAIN, HDR_CONTAINS, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH</dd></dl><p><strong>match_case</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Case sensitivity to use for the match</dd><dt>Default</dt><dd>INSENSITIVE</dd><dt>Choices</dt><dd>SENSITIVE, INSENSITIVE</dd></dl><p><strong>value</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s) in the host header</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s) in the host header</dd></dl></div>
 <div class='container'id=HTTPSecurityAction
 <p><h3 class='text-success'>HTTPSecurityAction<br></h3></p>
 <p><strong>action</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the security action to perform</dd><dt>Choices</dt><dd>HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_CLOSE_CONN</dd></dl><p><strong>status_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP status code to use for local response</dd><dt>Choices</dt><dd>HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_404</dd></dl><p><strong>https_port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Secure SSL/TLS port to redirect the HTTP request to</dd></dl><p><strong>file</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Secure SSL/TLS port to redirect the HTTP request to</dd></dl><p><strong>file</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPLocalFile>HTTPLocalFile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>File to be used for generating HTTP local response</dd></dl><p><strong>rate_limit</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RateProfile>RateProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Rate Limit profile to be used to rate-limit the flow</dd></dl></div>
 <div class='container'id=HTTPLocalFile
@@ -211,7 +196,7 @@
 <p><strong>protocol</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Protocol type</dd><dt>Choices</dt><dd>HTTP, HTTPS</dd></dl><p><strong>host</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host config</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Path config</dd></dl><p><strong>keep_query</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Keep or drop the query of the incoming request URI in the redirected URI</dd><dt>Default</dt><dd>True</dd></dl><p><strong>status_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP redirect status code</dd><dt>Default</dt><dd>HTTP_REDIRECT_STATUS_CODE_302</dd><dt>Choices</dt><dd>HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_307</dd></dl></div>
@@ -258,7 +243,7 @@
 <div class='container'id=HTTPHdrValue
 <p><h3 class='text-success'>HTTPHdrValue<br></h3></p>
 <p><strong>var</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Variable</dd><dt>Choices</dt><dd>HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_PROTOCOL</dd></dl><p><strong>val</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Variable</dd><dt>Choices</dt><dd>HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_PROTOCOL</dd></dl><p><strong>val</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP header value or variable representing an HTTP header</dd></dl></div>
 <div class='container'id=HTTPCookieData
 <p><h3 class='text-success'>HTTPCookieData<br></h3></p>
@@ -279,17 +264,18 @@
 <div class='container'id=HTTPSwitchingAction
 <p><h3 class='text-success'>HTTPSwitchingAction<br></h3></p>
 <p><strong>action</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Content switching action type</dd><dt>Choices</dt><dd>HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOL</dd></dl><p><strong>pool_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Content switching action type</dd><dt>Choices</dt><dd>HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP, HTTP_SWITCHING_SELECT_POOL</dd></dl><p><strong>pool_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>UUID of the pool of servers to serve the request</dd></dl><p><strong>status_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP status code to use when serving local response</dd><dt>Choices</dt><dd>HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_404</dd></dl><p><strong>file</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPLocalFile>HTTPLocalFile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>File from which to serve local response to the request</dd></dl><p><strong>server</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolServer>PoolServer</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specific pool server to select</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolServer>PoolServer</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specific pool server to select</dd></dl><p><strong>pool_group_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=poolgroup.html#PoolGroup>Reference to PoolGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>UUID of the pool group to serve the request</dd></dl></div>
 <div class='container'id=PoolServer
 <p><h3 class='text-success'>PoolServer<br></h3></p>
 <p><strong>ip</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address of the server in the poool</dd></dl><p><strong>hostname</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DNS resolvable name of the server.  May be used in place of the IP address.</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool.</dd></dl></div>
 <div class='container'id=HTTPResponsePolicy
 <p><h3 class='text-success'>HTTPResponsePolicy<br></h3></p>
 <p><strong>rules</strong><br></p>
@@ -326,17 +312,13 @@
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for matching location header value in the HTTP response</dd><dt>Choices</dt><dd>HDR_ENDS_WITH, HDR_EQUALS, HDR_DOES_NOT_EXIST, HDR_EXISTS, HDR_DOES_NOT_END_WITH, HDR_DOES_NOT_EQUAL, HDR_DOES_NOT_CONTAIN, HDR_CONTAINS, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH</dd></dl><p><strong>match_case</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Case sensitivity to use for the match</dd><dt>Default</dt><dd>INSENSITIVE</dd><dt>Choices</dt><dd>SENSITIVE, INSENSITIVE</dd></dl><p><strong>value</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s) in the location header</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>String value(s) in the location header</dd></dl></div>
 <div class='container'id=HTTPStatusMatch
 <p><h3 class='text-success'>HTTPStatusMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for matching the HTTP response status code(s)</dd><dt>Choices</dt><dd>IS_NOT_IN, IS_IN</dd></dl><p><strong>status_codes</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPStatusCode>HTTPStatusCode</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP response status code(s)</dd></dl><p><strong>ranges</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP response status code(s)</dd></dl><p><strong>ranges</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPStatusRange>HTTPStatusRange</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>HTTP response status code range(s)</dd></dl></div>
-<div class='container'id=HTTPStatusCode
-<p><h3 class='text-success'>HTTPStatusCode<br></h3></p>
-<p><strong>status</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP response status code</dd></dl></div>
 <div class='container'id=HTTPStatusRange
 <p><h3 class='text-success'>HTTPStatusRange<br></h3></p>
 <p><strong>begin</strong><br></p>
@@ -346,7 +328,7 @@
 <p><h3 class='text-success'>HTTPRewriteLocHdrAction<br></h3></p>
 <p><strong>protocol</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>HTTP protocol type</dd><dt>Choices</dt><dd>HTTP, HTTPS</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to use in the redirected URI</dd></dl><p><strong>host</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to use in the redirected URI</dd></dl><p><strong>host</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host config</dd></dl><p><strong>path</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Path config</dd></dl><p><strong>keep_query</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Keep or drop the query from the server side redirect URI</dd><dt>Default</dt><dd>True</dd></dl></div>
@@ -357,10 +339,11 @@
 <h1 class='text-primary'>References</h1>
 <p>
 <a href=".html"></a>
+<a href="poolgroup.html">PoolGroup</a>
 <a href="ipaddrgroup.html">IpAddrGroup</a>
+<a href="pool.html">Pool</a>
 <a href="stringgroup.html">StringGroup</a>
 <a href="tenant.html">Tenant</a>
-<a href="pool.html">Pool</a>
 </p>
 
 <h1 class='text-primary'>Sub Objects</h1>

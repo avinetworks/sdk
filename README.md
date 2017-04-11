@@ -29,14 +29,9 @@ Pip packages are hosted on GitHub. They can be installed simply as:
 ```sh
 $ pip install avisdk
 ```
-### Avi F5 Converter Install
+### Avi Migration Tools Install - installs F5 and Netscaler to avi conversion tools
 ```sh
-$ pip install avif5converter
-```
-
-### Avi Netscaler Converter Install
-```sh
-$ pip install avinetscalerconverter
+$ pip install avimigrationtools
 ```
 
 ### Python Virtual Environment based installation
@@ -48,9 +43,7 @@ $ apt-get install python-dev python-pip python-virtualenv python-cffi libssl-dev
 $ virtualenv avi
 $ cd avi
 $ source bin/activate
-$ pip install avisdk
-$ pip install avif5converter
-$ pip install avinetscalerconverter
+$ pip install avimigrationtools avisdk
 $ f5_converter.py -h
 $ netscaler_converter.py -h
 $ deactivate
@@ -78,7 +71,7 @@ for vs in resp.json()['results']:
     print vs['name']
 
 # delete virtualservice
-resp = api.delete_by_name('virtualservice', 'sample_vs')
+resp = api.delete('virtualservice', 'sample_vs')
 ```
 
 If ApiSession is invoked in the context of a control script, then token can be used for authentication.

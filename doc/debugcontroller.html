@@ -42,6 +42,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=DebugController
@@ -49,7 +50,7 @@
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>sub_module</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>trace_level</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, STATECACHE_MGR_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>trace_level</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>TRACE_LEVEL_DEBUG, TRACE_LEVEL_ERROR, TRACE_LEVEL_DISABLED, TRACE_LEVEL_DEBUG_DETAIL</dd></dl><p><strong>log_level</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>LOG_LEVEL_ERROR, LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING</dd></dl><p><strong>filters</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugFilterUnion>DebugFilterUnion</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
@@ -57,7 +58,7 @@
 <div class='container'id=DebugFilterUnion
 <p><h3 class='text-success'>DebugFilterUnion<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>se_mgr_debug_filter</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>VI_MGR_DEBUG, HS_MGR_DEBUG, SE_MGR_DEBUG, SE_AGENT_DEBUG, RPC_INFRA_DEBUG, SE_AGENT_METRICS_DEBUG, TASK_QUEUE_DEBUG, TRANSACTION_DEBUG, METRICS_MANAGER_DEBUG, AUTOSCALE_MGR_DEBUG, RES_MGR_DEBUG, ALERT_MGR_DEBUG, REDIS_INFRA_DEBUG, APIC_AGENT_DEBUG, MESOS_METRICS_DEBUG, CLOUD_CONNECTOR_DEBUG, METRICS_MGR_DEBUG, VIRTUALSERVICE_DEBUG, STATECACHE_MGR_DEBUG, EVENT_API_DEBUG, JOB_MGR_DEBUG</dd></dl><p><strong>se_mgr_debug_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#SeMgrDebugFilter>SeMgrDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vs_debug_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#VsDebugFilter>VsDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>metrics_debug_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#MetricsMgrDebugFilter>MetricsMgrDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>hs_debug_filter</strong><br></p>
@@ -65,7 +66,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AlertMgrDebugFilter>AlertMgrDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>autoscale_mgr_debug_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AutoScaleMgrDebugFilter>AutoScaleMgrDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_connector_debug_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CloudConnectorDebugFilter>CloudConnectorDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>mesos_metrics_debug_filter</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#MesosMetricsDebugFilter>MesosMetricsDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#MesosMetricsDebugFilter>MesosMetricsDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>state_cache_mgr_debug_filter</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#StateCacheMgrDebugFilter>StateCacheMgrDebugFilter</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=SeMgrDebugFilter
 <p><h3 class='text-success'>SeMgrDebugFilter<br></h3></p>
 <p><strong>name</strong><br></p>
@@ -85,7 +87,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>metric_instance_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>skip_cluster_map_check</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>disable_hw_training</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>license_grace_period</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>setting to reduce the grace period for license expiry in hours</dd></dl></div>
 <div class='container'id=HSMgrDebugFilter
 <p><h3 class='text-success'>HSMgrDebugFilter<br></h3></p>
 <p><strong>metric_entity</strong><br></p>
@@ -117,7 +120,13 @@
 <p><strong>metric_entity</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>APPLICATION_METRICS_ENTITY, SE_METRICS_ENTITY, VM_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, TENANT_METRICS_ENTITY, VSERVER_METRICS_ENTITY</dd></dl><p><strong>mesos_master</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>mesos_slave</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>metrics_collection_frq</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl></div>
+<div class='container'id=StateCacheMgrDebugFilter
+<p><h3 class='text-success'>StateCacheMgrDebugFilter<br></h3></p>
+<p><strong>vs_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>VirtualService UUID</dd></dl><p><strong>pool_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Pool UUID</dd></dl></div>
 
 </div>
 

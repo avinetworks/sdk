@@ -41,13 +41,14 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=CloudProperties
 <p><h3 class='text-success'>CloudProperties<br></h3></p>
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>cc_vtypes</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Cloud types supported by CloudConnector</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>hyp_props</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Cloud types supported by CloudConnector</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>hyp_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Hypervisor_Properties>Hypervisor_Properties</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Hypervisor properties</dd></dl><p><strong>cc_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CC_Properties>CC_Properties</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>CloudConnector properties</dd></dl><p><strong>info</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CloudInfo>CloudInfo</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Properties specific to a cloud type</dd></dl></div>
@@ -65,7 +66,7 @@
 <div class='container'id=CloudInfo
 <p><h3 class='text-success'>CloudInfo<br></h3></p>
 <p><strong>vtype</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Cloud type</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>htypes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Cloud type</dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>htypes</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Supported hypervisors</dd><dt>Choices</dt><dd>DEFAULT, VMWARE_VSAN, VMWARE_ESX, KVM</dd></dl><p><strong>flavor_regex_filter</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>flavor_props</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CloudFlavor>CloudFlavor</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Flavor properties specific to this cloud type</dd></dl><p><strong>cca_props</strong><br></p>
@@ -114,7 +115,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>120</dd></dl><p><strong>vs_se_vnic_ip_fail</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>120</dd></dl><p><strong>fatal_error_lease_time</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>120</dd></dl><p><strong>upgrade_lease_time</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>180</dd></dl><p><strong>query_host_fail</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>360</dd></dl><p><strong>query_host_fail</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>180</dd></dl><p><strong>vnic_op_fail_time</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>180</dd></dl><p><strong>dns_refresh_period</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl><p><strong>se_create_timeout</strong><br></p>
@@ -130,7 +131,18 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>3</dd></dl><p><strong>vs_awaiting_se_timeout</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl><p><strong>vs_apic_scaleout_timeout</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only</dd><dt>Default</dt><dd>360</dd></dl><p><strong>secure_channel_cleanup_timeout</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl><p><strong>attach_ip_retry_interval</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>360</dd></dl><p><strong>attach_ip_retry_limit</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>4</dd></dl><p><strong>persistence_key_rotate_period</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl><p><strong>allow_unauthenticated_apis</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allow unauthenticated access for special APIs</dd><dt>Default</dt><dd>False</dd></dl><p><strong>warmstart_se_reconnect_wait_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>300</dd></dl><p><strong>vs_se_ping_fail</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>60</dd></dl><p><strong>se_failover_attempt_interval</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Interval between attempting failovers to an SE</dd><dt>Default</dt><dd>300</dd></dl><p><strong>max_pcap_per_tenant</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of pcap files stored per tenant</dd><dt>Default</dt><dd>4</dd></dl><p><strong>ssl_certificate_expiry_warning_days</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Number of days for SSL Certificate expiry warning</dd></dl><p><strong>seupgrade_fabric_pool_size</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Pool size used for all fabric commands during se upgrade.</dd><dt>Default</dt><dd>20</dd></dl><p><strong>seupgrade_segroup_min_dead_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Time to wait before marking segroup upgrade as stuck.</dd><dt>Default</dt><dd>360</dd></dl></div>
 
 </div>
 

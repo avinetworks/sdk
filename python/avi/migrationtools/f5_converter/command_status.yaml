@@ -1,0 +1,701 @@
+# This fie defines the list of F5 commands.
+# Supported commands defines that these commands are supported by F5 tool
+# Not Applicable commands are not applicable in AVI. Those commands are F5 specific commands
+# Indirect commands are supported indirectly in AVI
+# Not Supported commands are not supported by this tool yet
+
+# Attributes for f5 version 11
+VERSION_11:
+    na_list_objs:
+     - 'node'
+     - 'virtual-address'
+    Monitor_Supported_Types:
+     - "http"
+     - "https"
+     - "dns"
+     - "external"
+     - "tcp"
+     - "udp"
+     - "gateway-icmp"
+     - "icmp"
+     - "tcp-half-open"
+     - "destination"
+
+    Monitor_Supported_Attributes:
+     - "timeout"
+     - "interval"
+     - "time-until-up"
+     - "description"
+     - "defaults-from"
+
+    Monitor_Indirect_Mappings:
+     - "up-interval"
+     - "debug"
+     - "ip-dscp"
+
+    Monitor_Ignore:
+      "destination": "*:*"
+      "manual-resume": 'disabled'
+
+    Monitor_Na_Http:
+    - 'adaptive'
+
+    Monitor_Na_Https:
+    - 'adaptive'
+    - 'compatibility'
+
+    Monitor_Na_Dns:
+    - 'adaptive'
+
+    Monitor_Na_Tcp:
+    - 'adaptive'
+
+    Monitor_Na_Udp:
+    - 'adaptive'
+
+    Monitor_Na_Icmp:
+    - 'adaptive'
+
+    Monitor_Na_External:
+    - 'adaptive'
+
+    Monitor_http_attr:
+    - "recv"
+    - "recv-disable"
+    - "reverse"
+    - "send"
+
+    Monitor_https_attr:
+    - "recv"
+    - "recv-disable"
+    - "reverse"
+    - "send"
+
+    Monitor_dns_attr:
+    - "recv"
+    - "recv-disable"
+    - "reverse"
+    - "accept-rcode"
+    - "qname"
+    - "answer-contains"
+
+    Monitor_tcp_attr:
+    - "recv-disable"
+    - "reverse"
+    - "destination"
+    - "send"
+    - "recv"
+
+    Monitor_udp_attr:
+    - "recv"
+    - "recv-disable"
+    - "reverse"
+    - "destination"
+    - "send"
+
+    Monitor_ext_attr:
+    - "run"
+    - "args"
+    - "user-defined"
+
+    Persistence_indirect:
+    - "hash-length"
+    - "hash-offset"
+    - "mirror"
+    - "method"
+    - "cookie-encryption"
+    - 'override-connection-limit'
+
+    Persistence_supported_attr:
+    - "cookie-name"
+    - "defaults-from"
+    - "expiration"
+    - "method"
+
+    Persistence_supported_attr_convert_source_addr:
+    - "timeout"
+    - "defaults-from"
+
+    Pool_supported_attr:
+    - 'members'
+    - 'monitor'
+    - 'service-down-action'
+    - 'load-balancing-mode'
+    - 'description'
+    - 'slow-ramp-time'
+    - 'reselect-tries'
+
+    Pool_supported_attr_convert_servers_config:
+    - 'address'
+    - 'state'
+    - 'session'
+    - 'ratio'
+    - 'description'
+    - 'connection-limit'
+    - 'rate-limit'
+    - 'priority-group'
+
+    Pool_ignore_val:
+        min-active-members: '1'
+
+    Profile_supported_types:
+    - "client-ssl"
+    - "server-ssl"
+    - "http"
+    - "dns"
+    - "fasthttp"
+    - "web-acceleration"
+    - "http-compression"
+    - "fastl4"
+    - "tcp"
+    - "udp"
+    - "one-connect"
+
+    Profile_ignore_for_defaults:
+        'app-service': 'none'
+        'uri-exclude': 'none'
+        'allow-non-ssl': 'disabled'
+
+
+    Profile_na_ssl:
+    - 'secure-renegotiation'
+    - 'cache-size'
+    - 'cache-timeout'
+    - 'renegotiate-size'
+    - 'renegotiate-max-record-delay'
+    - 'strict-resume'
+    - 'renegotiate-period'
+    - 'inherit-certkeychain'
+
+    Profile_indirect_ssl:
+    - 'renegotiate'
+    - 'session-mirroring'
+    - 'chain'
+
+    Profile_supported_ssl:
+    - 'cert-key-chain'
+    - 'cert'
+    - 'key'
+    - 'ciphers'
+    - 'options'
+    - 'unclean-shutdown'
+    - 'crl-file'
+    - 'ca-file'
+    - 'defaults-from'
+    - 'peer-cert-mode'
+
+    Profile_na_http:
+    - 'lws-width'
+    - 'lws-separator'
+    - 'allow-http-10'
+
+    Profile_supported_http:
+    - "description"
+    - "insert-xforwarded-for"
+    - "enforcement"
+    - "xff-alternative-names"
+    - "encrypt-cookies"
+    - "defaults-from"
+    - "accept-xff"
+    - "fallback-host"
+    - "oneconnect-transformations"
+    - "basic-auth-realm"
+    - "header-erase"
+    - "header-insert"
+
+    Profile_indirect_http:
+    - "request-chunking"
+    - "response-chunking"
+    - "sflow"
+    - 'response-headers-permitted'
+    - 'via-response'
+    - 'via-request'
+    - 'server-agent-name'
+
+    Profile_na_dns:
+    - 'enable-gtm'
+
+    Profile_supported_dns:
+    - "description"
+    - "defaults-from"
+
+    Profile_indirect_dns:
+    - 'avr-dnsstat-sample-rate'
+    - 'unhandled-query-action'
+    - 'use-local-bind'
+    - 'log-profile'
+    - 'dns64'
+    - 'cache'
+    - 'enable-cache'
+    - 'process-rd'
+    - 'enable-dns-express'
+    - 'enable-dnssec'
+    - 'dns-security'
+    - 'process-xfr'
+    - 'enable-dns-firewall'
+    - 'enable-rapid-response'
+    - 'enable-logging'
+    - 'rapid-response-last-action'
+
+    Profile_supported_hc:
+    - "description"
+    - "content-type-include"
+    - "defaults-from"
+    - "keep-accept-encoding"
+    - "content-type-exclude"
+
+    Profile_na_hc:
+    - 'cpu-saver-high'
+    - 'buffer-size'
+    - 'cpu-saver-low'
+
+    Profile_indirect_hc:
+    - 'browser-workarounds'
+    - 'uri-include'
+    - 'gzip-level'
+    - 'gzip-window-size'
+    - 'gzip-memory-level'
+
+    Profile_supported_wa:
+    - "description"
+    - "cache-object-min-size"
+    - "cache-max-age"
+    - "cache-object-max-size"
+    - "cache-insert-age-header"
+    - "defaults-from"
+    - "cache-uri-exclude"
+    - "cache-uri-include"
+    - "cache-max-entries"
+
+    Profile_indirect_wa:
+    - "cache-size"
+    - "cache-aging-rate"
+
+    Profile_supported_l4:
+    - "description"
+    - "explicit-flow-migration"
+    - "idle-timeout"
+    - "software-syn-cookie"
+    - "pva-acceleration"
+    - "defaults-from"
+
+    profile_na_l4:
+    - "hardware-syn-cookie"
+
+    Profile_indirect_l4:
+    - 'reset-on-timeout'
+    - 'ip-tos-to-server'
+    - 'timeout-recovery'
+    - 'pva-offload-dynamic'
+    - 'tcp-handshake-timeout'
+    - 'pva-dynamic-server-packets'
+    - 'pva-dynamic-client-packets'
+    - 'pva-acceleration'
+    - 'tcp-timestamp-mode'
+    - 'client-timeout'
+    - 'link-qos-to-server'
+    - 'tcp-wscale-mode'
+    - 'server-timestamp'
+    - 'late-binding'
+    - 'syn-cookie-whitelist'
+    - 'rtt-from-client'
+    - 'rtt-from-server'
+    - 'link-qos-to-client'
+    - 'tcp-generate-isn'
+    - 'ip-tos-to-client'
+    - 'server-sack'
+    - 'receive-window-size'
+
+    Profile_supported_fh:
+    - "description"
+    - "receive-window-size"
+    - "idle-timeout"
+    - "defaults-from"
+    - 'max-header-size'
+    - 'insert-xforwarded-for'
+
+    Profile_indirect_fh:
+    - 'reset-on-timeout'
+    - 'unclean-shutdown'
+    - 'server-timestamp'
+    - 'http-11-close-workarounds'
+    - 'force-http-10-response'
+    - 'connpool-replenish'
+    - 'server-sack'
+
+    Profile_na_fh:
+    - 'hardware-syn-cookie'
+
+    Profile_supported_tcp:
+    - "description"
+    - "idle-timeout"
+    - "max-retrans"
+    - "nagle"
+    - "syn-max-retrans"
+    - "time-wait-recycle"
+    - "defaults-from"
+    - "time-wait-timeout"
+    - "congestion-control"
+    - "receive-window-size"
+    - "ip-tos-to-client"
+
+    Profile_indirect_tcp:
+    - 'reset-on-timeout'
+    - 'slow-start'
+    - 'minimum-rto'
+    - 'mptcp'
+    - 'syn-cookie-whitelist'
+    - 'max-segment-size'
+    - 'mptcp-csum'
+    - 'mptcp-csum-verify'
+    - 'mptcp-rxmitmin'
+    - 'mptcp-fallback'
+    - 'mptcp-fastjoin'
+    - 'mptcp-debug'
+    - 'mptcp-join-max'
+    - 'mptcp-makeafterbreak'
+    - 'mptcp-nojoindssack'
+    - 'dsack'
+    - 'mptcp-rtomax'
+    - 'mptcp-subflowmax'
+    - 'mptcp-timeout'
+    - 'send-buffer-size'
+    - 'proxy-buffer-high'
+    - 'proxy-buffer-low'
+    - 'delayed-acks'
+    - 'selective-nack'
+    - 'early-retransmit'
+
+    Profile_na_tcp:
+    - 'hardware-syn-cookie'
+
+    Profile_supported_udp:
+    - "description"
+    - "idle-timeout"
+    - "datagram-load-balancing"
+    - "defaults-from"
+
+    Profile_indirect_udp:
+    - 'link-qos-to-client'
+    - 'proxy-mss'
+    - 'ip-tos-to-client'
+    - 'allow-no-payload'
+
+    Profile_supported_oc:
+    - 'defaults-from'
+    - 'source-mask'
+
+    VS_supported_attr:
+    - 'profiles'
+    - 'destination'
+    - 'pool'
+    - 'persist'
+    - 'source-address-translation'
+    - 'description'
+    - 'disabled'
+    - 'translate-port'
+    - 'source'
+    - 'rate-limit'
+    - 'connection-limit'
+    - 'rules'
+
+    VS_ignore_for_value:
+        'ip-protocol': 'tcp'
+        'translate-address': 'enabled'
+        'mask': ['255.255.255.255', 'any']
+
+    VS_unsupported_types:
+    - "l2-forward"
+    - "ip-forward"
+    - "stateless"
+    - "dhcp-relay"
+    - "internal"
+    - "reject"
+
+# Attributes for f5 version 10
+VERSION_10:
+    na_list_objs:
+    - 'node'
+    - 'virtual address'
+    Monitor_Supported_Types:
+    - "http"
+    - "https"
+    - "dns"
+    - "external"
+    - "tcp"
+    - "udp"
+    - "gateway_icmp"
+    - "icmp"
+    - "tcp_half_open"
+
+    Monitor_Supported_Attributes:
+    - "timeout"
+    - "interval"
+    - "time until up"
+    - "description"
+    - "type"
+    - "defaults from"
+
+    Monitor_Indirect_Mappings:
+    - 'up interval'
+    - 'debug'
+    - 'ip dscp'
+    - 'timeoutpackets'
+    - 'sendpackets'
+
+    Monitor_Ignore:
+        "dest": "*:*"
+        "manual-resume": 'disabled'
+
+    Monitor_Na_Http:
+    - 'adaptive'
+
+    Monitor_Na_Https:
+    - 'adaptive'
+    - 'compatibility'
+
+    Monitor_Na_Dns:
+    - 'adaptive'
+
+    Monitor_Na_Tcp:
+    - 'adaptive'
+
+    Monitor_Na_Udp:
+    - 'adaptive'
+
+    Monitor_Na_Icmp:
+    - 'adaptive'
+
+    Monitor_Na_External:
+    - adaptive
+
+    Monitor_http_attr:
+    - "recv"
+    - "recv disable"
+    - "reverse"
+    - "send"
+
+    Monitor_https_attr:
+    - "recv"
+    - "recv disable"
+    - "reverse"
+    - "send"
+
+    Monitor_tcp_attr:
+    - "dest"
+    - "send"
+    - "recv"
+    - "recv disable"
+    - "reverse"
+    Monitor_udp_attr:
+    - "dest"
+    - "send"
+    - "recv"
+    - "recv disable"
+    - "reverse"
+
+    Monitor_ext_attr:
+    - "run"
+    - "args"
+    - "user-defined"
+
+    Persistence_indirect:
+    - "cookie hash length"
+    - "cookie hash offset"
+    - "mirror"
+    - 'override connection limit'
+
+    Persistence_supported_attr:
+    - "cookie name"
+    - "mode"
+    - "defaults from"
+    - "cookie mode"
+    - "cookie hash offset"
+    - "cookie hash length"
+    - "cookie expiration"
+
+    Persistence_supported_attr_convert_source_addr:
+    - "timeout"
+    - "mode"
+    - "defaults from"
+
+    Pool_supported_attr_1:
+    - 'members'
+    - 'monitor'
+    - 'action on svcdown'
+    - 'lb method'
+    - 'description'
+    - 'slow ramp time'
+    - 'reselect tries'
+
+    Pool_supported_attr_2:
+    - 'session'
+    - 'ratio'
+    - 'description'
+    - 'down'
+    - 'limit'
+    - 'priority'
+
+    Pool_ignore_val:
+        min-active-members: '1'
+
+    Profile_supported_types:
+    - "clientssl"
+    - "serverssl"
+    - "http"
+    - "dns"
+    - "persist"
+    - "fastL4"
+    - "fasthttp"
+    - "tcp"
+    - "udp"
+    - "oneconnect"
+
+    Profile_supported_ssl:
+    - "cert"
+    - "key"
+    - "ciphers"
+    - "unclean shutdown"
+    - "crl file"
+    - "ca file"
+    - "defaults from"
+    - "options"
+    - "peer cert mode"
+
+    Profile_na_ssl:
+    - 'secure renegotiation'
+    - 'cache size'
+    - 'cache timeout'
+    - 'renegotiate size'
+    - 'renegotiate max record delay'
+    - 'strict resume'
+    - 'renegotiate period'
+    - 'inherit-certkeychain'
+
+    Profile_indirect_ssl:
+    - 'renegotiate'
+    - 'session mirroring'
+    - 'chain'
+
+    Profile_ignore_for_defaults:
+        'app service': 'none'
+        'uri exclude': 'none'
+        'allow-non-ssl': 'disabled'
+
+    Profile_na_http:
+    - 'lws width'
+    - 'allow-http-10'
+
+    Profile_supported_http:
+    - "insert xforwarded for"
+    - "xff alternative names"
+    - "max header size"
+    - "ramcache min object size"
+    - "ramcache max age"
+    - "ramcache max object size"
+    - "ramcache insert age header"
+    - "oneconnect transformations"
+    - "compress keep accept encoding"
+    - "ramcache uri exclude"
+    - "compress content type include"
+    - "ramcache uri include"
+    - "ramcache size"
+    - "encrypt cookies"
+    - "fallback"
+    - "defaults from"
+
+    Profile_indirect_http:
+    - "lws separator"
+    - "max requests"
+    - "compress uri include"
+    - "compress browser workarounds"
+    - "cache size"
+    - "ramcache aging rate"
+    - "compress gzip window size"
+    - "compress gzip level"
+    - 'compress cpu saver'
+    - 'compress cpu saver high'
+    - 'compress cpu saver low'
+    - 'compress min size'
+    - 'compress gzip memory level'
+    - 'compress vary header'
+
+    Profile_supported_dns:
+    - "description"
+    - "defaults from"
+
+    Profile_supported_l4:
+    - "idle timeout"
+    - "software syncookie"
+    - "defaults from"
+
+    Profile_indirect_l4:
+    - "reset on timeout"
+    - "pva acceleration"
+
+    Profile_supported_fh:
+    - "description"
+    - "idle timeout"
+    - "defaults from"
+    - "max header size"
+    - "insert xforwarded for"
+
+    Profile_indirect_fh:
+    - "reset on timeout"
+
+    Profile_supported_tcp:
+    - "description"
+    - "idle timeout"
+    - "nagle"
+    - "max retrans syn"
+    - "time wait recycle"
+    - "time wait"
+    - "congestion control"
+    - "recv window"
+    - "max retrans"
+    - "defaults from"
+
+    Profile_indirect_tcp:
+    - "reset on timeout"
+    - "slow start"
+    - "send buffer"
+    - "proxy buffer high"
+    - "proxy buffer low"
+    - "dsack"
+    - "delayed acks"
+    - "selective acks"
+
+    Profile_supported_udp:
+    - "idle timeout"
+    - "datagram lb"
+    - "defaults from"
+
+    Profile_supported_oc:
+    - 'defaults from'
+    - 'source mask'
+
+    VS_supported_attr:
+    - 'profiles'
+    - 'destination'
+    - 'pool'
+    - 'persist'
+    - 'disabled'
+    - 'description'
+    - 'snatpool'
+    - 'translate service'
+    - 'source'
+    - 'limit'
+
+    VS_ignore_for_value:
+        'ip protocol': 'tcp'
+        'translate address': 'enabled'
+        'mask': ['255.255.255.255', 'any']
+
+    VS_unsupported_types:
+    - "l2 forward"
+    - "ip forward"
+    - "stateless"
+    - "reject"
+
+
+
