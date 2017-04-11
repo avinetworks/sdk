@@ -41,6 +41,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=DebugVirtualService
@@ -53,12 +54,12 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>capture_params</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugVirtualServiceCapture>DebugVirtualServiceCapture</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>se_params</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DebugVirtualServiceSeParams>DebugVirtualServiceSeParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>debug_hm</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Health Monitor debug options.</dd><dt>Default</dt><dd>DEBUG_VS_HM_NONE</dd><dt>Choices</dt><dd>DEBUG_VS_HM_NONE, DEBUG_VS_HM_INCLUDE, DEBUG_VS_HM_ONLY</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>This option controls the capture of Health Monitor flows.</dd><dt>Default</dt><dd>DEBUG_VS_HM_NONE</dd><dt>Choices</dt><dd>DEBUG_VS_HM_NONE, DEBUG_VS_HM_INCLUDE, DEBUG_VS_HM_ONLY</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=DebugVsDataplane
 <p><h3 class='text-success'>DebugVsDataplane<br></h3></p>
 <p><strong>flag</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>DEBUG_VS_UDP, DEBUG_VS_HTTP_ALL, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_CONNECTION, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_TIMER, DEBUG_VS_EVENTS, DEBUG_VS_HM_EXT, DEBUG_VS_HTTP_RULES, DEBUG_VS_PROXY_ERR, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_HM, DEBUG_VS_CONFIG, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_ALL, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_ALL, DEBUG_VS_HTTP_CORE, DEBUG_VS_HM_ERR, DEBUG_VS_PROXY_PKT, DEBUG_VS_HM_PKT, DEBUG_VS_ERROR, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_NONE, DEBUG_VS_CREDIT, DEBUG_VS_UDP_PKT</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>DEBUG_VS_UDP, DEBUG_VS_HTTP_ALL, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_CONNECTION, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_TIMER, DEBUG_VS_EVENTS, DEBUG_VS_HM_EXT, DEBUG_VS_HTTP_RULES, DEBUG_VS_PROXY_ERR, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_HM, DEBUG_VS_CONFIG, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_ALL, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_ALL, DEBUG_VS_HTTP_CORE, DEBUG_VS_HM_ERR, DEBUG_VS_PROXY_PKT, DEBUG_VS_SSL, DEBUG_VS_HM_PKT, DEBUG_VS_ERROR, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_NONE, DEBUG_VS_CREDIT, DEBUG_VS_UDP_PKT</dd></dl></div>
 <div class='container'id=DebugIpAddr
 <p><h3 class='text-success'>DebugIpAddr<br></h3></p>
 <p><strong>addrs</strong><br></p>

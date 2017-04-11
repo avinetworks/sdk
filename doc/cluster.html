@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Cluster </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>Cluster</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    PUT /api/cluster
+    GET /api/cluster
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure cluster
+    show cluster
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=Cluster
+<p><h3 class='text-success'>Cluster<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>virtual_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>A virtual IP address. This IP address will be dynamically reconfigured so that it always is the IP of the cluster leader.</dd></dl><p><strong>nodes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ClusterNode>ClusterNode</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=IpAddr
+<p><h3 class='text-success'>IpAddr<br></h3></p>
+<p><strong>addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
+<div class='container'id=ClusterNode
+<p><h3 class='text-success'>ClusterNode<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>node</dd></dl><p><strong>ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address of controller VM.</dd></dl><p><strong>vm_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>UUID on the controller VM</dd></dl><p><strong>vm_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name of the controller VM</dd></dl><p><strong>vm_mor</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Managed object reference of this controller VM</dd></dl><p><strong>vm_hostname</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>hostname assigned to this controller VM</dd></dl></div>
+
+</div>
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+<h2 class='text-primary'>ClusterState</h2>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    GET /api/cluster/runtime/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    show cluster status
+</code></pre>
+</div>
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=ClusterState
+<p><h3 class='text-success'>ClusterState<br></h3></p>
+<p><strong>cluster_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ClusterOperationalStatus>ClusterOperationalStatus</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>node_states</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ClusterNodeState>ClusterNodeState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>service_states</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ClusterServiceState>ClusterServiceState</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=ClusterOperationalStatus
+<p><h3 class='text-success'>ClusterOperationalStatus<br></h3></p>
+<p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLUSTER_STARTING_UP, CLUSTER_UP_NO_HA, CLUSTER_REBOOTING, CLUSTER_UP_HA_COMPROMISED, CLUSTER_PROCESSING, CLUSTER_UP_HA_NOT_READY, CLUSTER_UP_HA_ACTIVE</dd></dl><p><strong>reason</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>reason_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>last_changed_time</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TimeStamp>TimeStamp</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>up_since</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>progress</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=TimeStamp
+<p><h3 class='text-success'>TimeStamp<br></h3></p>
+<p><strong>secs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>usecs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=ClusterNodeState
+<p><h3 class='text-success'>ClusterNodeState<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>role</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLUSTER_LEADER, CLUSTER_FOLLOWER</dd></dl><p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLUSTER_COLD_REBOOT, CLUSTER_WARM_REBOOT, CLUSTER_WAITING, CLUSTER_FAILURE, CLUSTER_CLEAN_REBOOT, CLUSTER_STARTING, CLUSTER_INACTIVE, CLUSTER_ACTIVE</dd></dl><p><strong>up_since</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=ClusterServiceState
+<p><h3 class='text-success'>ClusterServiceState<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLUSTER_COLD_REBOOT, CLUSTER_WARM_REBOOT, CLUSTER_WAITING, CLUSTER_FAILURE, CLUSTER_CLEAN_REBOOT, CLUSTER_STARTING, CLUSTER_INACTIVE, CLUSTER_ACTIVE</dd></dl><p><strong>cluster_nodes</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#ClusterNode>ClusterNode</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Nodes participating in the service.</dd></dl><p><strong>roles</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Role of each node participating in the service.</dd><dt>Choices</dt><dd>SERVICE_ROLE_LEADER, SERVICE_ROLE_FOLLOWER</dd></dl></div>
+
+</body>
+</html>

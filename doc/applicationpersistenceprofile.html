@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=ApplicationPersistenceProfile
@@ -75,8 +76,17 @@
 <div class='container'id=HttpCookiePersistenceProfile
 <p><h3 class='text-success'>HttpCookiePersistenceProfile<br></h3></p>
 <p><strong>encryption_key</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Key to use for cookie encryption</dd></dl><p><strong>cookie_name</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP cookie name for cookie persistence</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Key name to use for cookie encryption</dd></dl><p><strong>cookie_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP cookie name for cookie persistence</dd></dl><p><strong>key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HttpCookiePersistenceKey>HttpCookiePersistenceKey</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout.</dd></dl><p><strong>always_send_cookie</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If no persistence cookie was received from the client, always send it.</dd><dt>Default</dt><dd>False</dd></dl></div>
+<div class='container'id=HttpCookiePersistenceKey
+<p><h3 class='text-success'>HttpCookiePersistenceKey<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>name to use for cookie encryption</dd></dl><p><strong>aes_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>hmac_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
 

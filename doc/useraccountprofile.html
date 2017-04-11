@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> UserAccountProfile </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>UserAccountProfile</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/useraccountprofile
+    PUT /api/useraccountprofile/&ltkey&gt
+    DELETE /api/useraccountprofile/&ltkey&gt
+    GET /api/useraccountprofile
+    GET /api/useraccountprofile/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure useraccountprofile &ltkey&gt
+    show useraccountprofile &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=UserAccountProfile
+<p><h3 class='text-success'>UserAccountProfile<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>max_password_history_count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of passwords to be maintained in the password history. Default is 4 passwords.</dd><dt>Default</dt><dd>4</dd></dl><p><strong>max_login_failure_count</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of login attempts before lockout. Default is 3 attempts.</dd><dt>Default</dt><dd>3</dd></dl><p><strong>account_lock_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Lock timeout period (in minutes). Default is 30 minutes.</dd><dt>Default</dt><dd>30</dd></dl><p><strong>max_concurrent_sessions</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum number of concurrent sessions allowed. There are unlimited sessions by default.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>credentials_timeout_threshold</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The time period after which credentials expire. Default is 180 days.</dd><dt>Default</dt><dd>180</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>

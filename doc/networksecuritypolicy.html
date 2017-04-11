@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=NetworkSecurityPolicy
@@ -98,11 +99,7 @@
 <p><h3 class='text-success'>PortMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Criterion to use for port matching the HTTP request</dd><dt>Choices</dt><dd>IS_NOT_IN, IS_IN</dd></dl><p><strong>ports</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TCP port(s) listening for HTTP/HTTPS</dd></dl></div>
-<div class='container'id=Port
-<p><h3 class='text-success'>Port<br></h3></p>
-<p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port number.</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TCP port(s) listening for HTTP/HTTPS</dd></dl></div>
 <div class='container'id=MicroServiceMatch
 <p><h3 class='text-success'>MicroServiceMatch<br></h3></p>
 <p><strong>match_criteria</strong><br></p>
@@ -111,8 +108,8 @@
 <div class='container'id=NetworkSecurityPolicyActionRLParam
 <p><h3 class='text-success'>NetworkSecurityPolicyActionRLParam<br></h3></p>
 <p><strong>max_rate</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>burst_size</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>0</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Maximum number of connections or requests or packets per second.</dd></dl><p><strong>burst_size</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Maximum number of connections or requests or packets to be rate limited instantaneously.</dd><dt>Default</dt><dd>0</dd></dl></div>
 
 </div>
 

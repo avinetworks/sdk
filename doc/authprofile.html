@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=AuthProfile
@@ -50,9 +51,10 @@
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the Auth Profile.</dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name of the Auth Profile.</dd></dl><p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the Auth Profile.</dd><dt>Choices</dt><dd>AUTH_PROFILE_LDAP</dd></dl><p><strong>ldap</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Type of the Auth Profile.</dd><dt>Choices</dt><dd>AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS</dd></dl><p><strong>ldap</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#LdapAuthSettings>LdapAuthSettings</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP server and directory settings.</dd></dl><p><strong>http</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthProfileHTTPClientParams>AuthProfileHTTPClientParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP user authentication params.</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthProfileHTTPClientParams>AuthProfileHTTPClientParams</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP user authentication params.</dd></dl><p><strong>tacacs_plus</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TacacsPlusAuthSettings>TacacsPlusAuthSettings</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>TACACS+ settings</dd></dl><p><strong>description</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=LdapAuthSettings
@@ -62,9 +64,11 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Query the LDAP servers on this port.</dd><dt>Default</dt><dd>389</dd></dl><p><strong>security_mode</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP connection security mode.</dd><dt>Choices</dt><dd>AUTH_LDAP_SECURE_NONE, AUTH_LDAP_SECURE_USE_LDAPS</dd></dl><p><strong>base_dn</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The LDAP base DN.  For example, avinetworks,com would be DC=avinetworks,DC=com</dd></dl><p><strong>bind_as_administrator</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP administrator credentials are used to search for users and group memberships.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>settings</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP administrator credentials are used to search for users and group memberships.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>settings</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#LdapDirectorySettings>LdapDirectorySettings</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP full directory configuration with administrator credentials</dd></dl><p><strong>user_bind</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#LdapUserBindSettings>LdapUserBindSettings</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP anonymous bind configuration</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#LdapUserBindSettings>LdapUserBindSettings</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP anonymous bind configuration</dd></dl><p><strong>email_attribute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP attribute that refers to user email</dd><dt>Default</dt><dd>email</dd></dl><p><strong>full_name_attribute</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>LDAP attribute that refers to user's full name</dd><dt>Default</dt><dd>name</dd></dl></div>
 <div class='container'id=LdapDirectorySettings
 <p><h3 class='text-success'>LdapDirectorySettings<br></h3></p>
 <p><strong>admin_bind_dn</strong><br></p>
@@ -92,12 +96,22 @@
 <p><strong>request_header</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client's HTTP Auth user ID.</dd></dl><p><strong>cache_expiration_time</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The max allowed length of time a clients authentication is cached</dd><dt>Default</dt><dd>5</dd></dl><p><strong>require_user_groups</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>A user should be a member of these groups.  Each group is defined by the DN.  For example, CN=testgroup,OU=groups,dc=example,dc=avinetworks,DC=com</dd></dl><p><strong>group_member_is_full_dn</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>A user should be a member of these groups.  Each group is defined by the DN.  For example, CN=testgroup,OU=groups,dc=example,dc=avinetworks,DC=com</dd></dl><p><strong>group_member_is_full_dn</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Group member entries contain full DNs instead of just user id attribute values</dd><dt>Default</dt><dd>False</dd></dl></div>
-<div class='container'id=RepeatableString
-<p><h3 class='text-success'>RepeatableString<br></h3></p>
-<p><strong>str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=TacacsPlusAuthSettings
+<p><h3 class='text-success'>TacacsPlusAuthSettings<br></h3></p>
+<p><strong>server</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TACACS+ server IP address</dd></dl><p><strong>port</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>TACACS+ server listening port</dd><dt>Default</dt><dd>49</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>TACACS+ server shared secret</dd></dl><p><strong>service</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>TACACS+ service</dd><dt>Default</dt><dd>AUTH_TACACS_PLUS_SERVICE_LOGIN</dd><dt>Choices</dt><dd>AUTH_TACACS_PLUS_SERVICE_LOGIN, AUTH_TACACS_PLUS_SERVICE_NASI, AUTH_TACACS_PLUS_SERVICE_ARAP, AUTH_TACACS_PLUS_SERVICE_X25, AUTH_TACACS_PLUS_SERVICE_PPP, AUTH_TACACS_PLUS_SERVICE_RCMD, AUTH_TACACS_PLUS_SERVICE_FWPROXY, AUTH_TACACS_PLUS_SERVICE_ENABLE, AUTH_TACACS_PLUS_SERVICE_NONE, AUTH_TACACS_PLUS_SERVICE_PT</dd></dl><p><strong>authorization_attrs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#AuthTacacsPlusAttributeValuePair>AuthTacacsPlusAttributeValuePair</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>TACACS+ authorization attribute value pairs</dd></dl></div>
+<div class='container'id=AuthTacacsPlusAttributeValuePair
+<p><h3 class='text-success'>AuthTacacsPlusAttributeValuePair<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>attribute name</dd></dl><p><strong>value</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>attribute value</dd></dl><p><strong>mandatory</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>mandatory</dd></dl></div>
 
 </div>
 

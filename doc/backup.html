@@ -27,30 +27,33 @@
 <h3 class='text-primary'>API</h3>
 <div class="container">
 <pre><code>
-    POST /api/fileservice/backup
-    GET /api/fileservice/backup
-    GET /api/fileservice/backup/&ltkey&gt
+    DELETE /api/backup/&ltkey&gt
+    GET /api/backup
+    GET /api/backup/&ltkey&gt
 </code></pre>
 </div>
 
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    create backup
-    show backups
+    
+    show backup &ltkey&gt
 </code></pre>
 </div>
+
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=Backup
 <p><h3 class='text-success'>Backup<br></h3></p>
 <p><strong>uuid</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>file_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The file name of backup.</dd></dl><p><strong>timestamp</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>Unknown</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Unix Timestamp of when the backup file is created</dd></dl><p><strong>file_url</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>URL to download the backup file</dd></dl><p><strong>username</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>User that run the backup command</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Unix Timestamp of when the backup file is created</dd></dl><p><strong>local_file_url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>URL to download the backup file</dd></dl><p><strong>remote_file_url</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>URL to download the backup file</dd></dl><p><strong>scheduler_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=scheduler.html#Scheduler>Reference to Scheduler</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Scheduler Information</dd></dl><p><strong>backup_config_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=backupconfiguration.html#BackupConfiguration>Reference to BackupConfiguration</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>BackupConfiguration Information</dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
 
 </div>
@@ -60,6 +63,8 @@
 <p>
 <a href=".html"></a>
 <a href="tenant.html">Tenant</a>
+<a href="scheduler.html">Scheduler</a>
+<a href="backupconfiguration.html">BackupConfiguration</a>
 </p>
 
 <h1 class='text-primary'>Sub Objects</h1>

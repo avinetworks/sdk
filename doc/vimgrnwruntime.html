@@ -39,12 +39,13 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=VIMgrNWRuntime
 <p><h3 class='text-success'>VIMgrNWRuntime<br></h3></p>
 <p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>CLOUD_VCENTER, CLOUD_DOCKER_UCP, CLOUD_APIC, CLOUD_OPENSTACK, CLOUD_MESOS, CLOUD_RANCHER, CLOUD_VCA, CLOUD_LINUXSERVER, CLOUD_OSHIFT_K8S, CLOUD_AWS, CLOUD_NONE</dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>managed_object_id</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>datacenter_uuid</strong><br></p>
@@ -61,7 +62,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrvmruntime.html#VIMgrVMRuntime>Reference to VIMgrVMRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>host_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=vimgrhostruntime.html#VIMgrHostRuntime>Reference to VIMgrHostRuntime</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>availability_zone</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>vrf_context_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/vrfcontext?name=global</dd></dl><p><strong>tenant_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=vrfcontext.html#VrfContext>Reference to VrfContext</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/vrfcontext?name=global</dd></dl><p><strong>apic_vrf_context</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/tenant?name=admin</dd></dl><p><strong>cloud_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
@@ -80,7 +82,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fip_available</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Indicates floating/elastic IP association possibility</dd><dt>Default</dt><dd>False</dd></dl><p><strong>fip_subnet_uuids</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list</dd></dl><p><strong>primary</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>True if prefix is primary IP on interface, else false</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=IpAddrPrefix
 <p><h3 class='text-success'>IpAddrPrefix<br></h3></p>
 <p><strong>ip_addr</strong><br></p>

@@ -27,15 +27,24 @@
 <h3 class='text-primary'>API</h3>
 <div class="container">
 <pre><code>
+    POST /api/sslkeyandcertificate
+	Query Params: <a href=#SSLKeyAndCertificateDisplayFilter>SSLKeyAndCertificateDisplayFilter</a>
+    PUT /api/sslkeyandcertificate/&ltkey&gt
+	Query Params: <a href=#SSLKeyAndCertificateDisplayFilter>SSLKeyAndCertificateDisplayFilter</a>
+    DELETE /api/sslkeyandcertificate/&ltkey&gt
+	Query Params: <a href=#SSLKeyAndCertificateDisplayFilter>SSLKeyAndCertificateDisplayFilter</a>
     GET /api/sslkeyandcertificate
+	Query Params: <a href=#SSLKeyAndCertificateDisplayFilter>SSLKeyAndCertificateDisplayFilter</a>
     GET /api/sslkeyandcertificate/&ltkey&gt
+	Query Params: <a href=#SSLKeyAndCertificateDisplayFilter>SSLKeyAndCertificateDisplayFilter</a>
 </code></pre>
 </div>
 
 <h3 class='text-primary'>CLI</h3>
 <div class="container">
 <pre><code>
-    show sslkeyandcertificate &ltkey&gt
+    configure sslkeyandcertificate &ltkey&gt filter [export_key]
+    show sslkeyandcertificate &ltkey&gt filter [export_key]
 </code></pre>
 </div>
 
@@ -79,7 +88,7 @@
 }
  </code></pre>
 <p>  To import a CA-signed certificate  </p>
-<pre><code> <strong>POST /api/sslkeyandcertificate/sslkeyandcertificate-2e25a322-8b92-423b-a987-c88faba51433/importcertificate</strong>
+<pre><code> <strong>POST /api/sslkeyandcertificate/sslkeyandcertificate-6318aec4-461f-4017-833a-d1fe05523d7a/importcertificate</strong>
 
 {
     "certificate": "\n-----BEGIN CERTIFICATE-----\nMIICmTCCAgKgAwIBAgIJAKfrg8i8iZZqMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV\nBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwMQWNtZSBDb21wYW55MR0wGwYD\nVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjAeFw0xNTAxMTkwNzEyNThaFw0xNjAx\nMTkwNzEyNThaMFAxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwM\nQWNtZSBDb21wYW55MR0wGwYDVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjCBnzAN\nBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtT9psNKi/4oImbB4aIJLjJDPwTIAIrQP\nLoC4R/GHrBCByRYVfoyxFrHJU9WSg9KTqxc6Ph6/zK2hoR+MchQStMP+K5W+4HcR\nSW+1MJdMwRhm+egxH7hYwnrfsaQoo0GBPVb48deBB/yKTLj7trdGqWTD5oyZqr/B\nk+kR0kXGzx8CAwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3Bl\nblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNhre4joManxHL+F\nDWzYSVblWVdlMB8GA1UdIwQYMBaAFNhre4joManxHL+FDWzYSVblWVdlMA0GCSqG\nSIb3DQEBCwUAA4GBAINlLdqGJW2Enow2ft+FRMZdo2qwOovuF4smNIFoXmSoywhW\n7dyeAkeCyUjZrbqFRNsCf969aUSIE8pARjSnT9P4otOvIMCaIN215F0nzKKZbsIL\nK4pA6A0h5GSd+aqol6P2vAWzLNE+kUbrE/PcZu9pozWp0GdoiAEu+BnqwWrC\n-----END CERTIFICATE-----\n"
@@ -89,13 +98,13 @@
 <pre><code> <strong>POST /api/sslkeyandcertificate/importkeyandcertificate</strong>
 
 {
-    "certificate": "\n-----BEGIN CERTIFICATE-----\nMIIFcjCCA1oCARswDQYJKoZIhvcNAQELBQAwgZAxCzAJBgNVBAYTAlVTMRMwEQYD\nVQQIEwpDYWxpZm9ybmlhMRIwEAYDVQQHEwlTdW5ueXZhbGUxCzAJBgNVBAoTAkNB\nMREwDwYDVQQLEwhJbnRlcm5hbDERMA8GA1UEAxMIY2EubG9jYWwxJTAjBgkqhkiG\n9w0BCQEWFmRlZmF1bHRlbWFpbEBsb2NhbGhvc3QwHhcNMTYwMTA5MDk1MDU0WhcN\nMjYwMTA2MDk1MDU0WjBtMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5p\nYTEUMBIGA1UEBwwLU2FudGEgQ2xhcmExEzARBgNVBAoMCkNvbnRyb2xsZXIxHjAc\nBgNVBAMMFW5vZGUuY29udHJvbGxlci5sb2NhbDCCAiIwDQYJKoZIhvcNAQEBBQAD\nggIPADCCAgoCggIBALXr3f7mtZdOePRaVJYFFqEuOyyoYsVcufDm0BvW1YAluAmj\n9ztwtCvaczwKVcKpyey5hTQhZnsSEW8Sqxoya7UHPDW6VvSTxtSBzj6btTklX8Q+\nlRsvzVFh5NOXH+pecJgTKZ93wn5xpM6RYNCwoT9IWyUN3ATmg4IHvRe46aP9/V9L\nHQ399ZkWPyz/uJFTVPPkMRWqb+U+12BaKWykcesvk7lGjih97n4w3nbtRRe8MsI5\nkhHy3utUJaYzmizKXbXRSSEdL2QwZxdK2cfFnVMBECkuD5vxifSUk4qlxs3QFIy2\nP83Ghk/ZvwsOEzTO12qmx5Fvr6ObJzzwlykQ26Ayc5piRI6EbkAFrQOU1P12/+qi\ntJ9MYhDuobyKX1P5V6HHTjbvwNItkTbcryVLTiJAMaHGsPBkPYWBntsZdkkUQnph\n3xZnK6cIKNS/HMbaVMO/y2EaqkO1agz0bmH1JR0KRDbgxD+AVC5WxCcylJ2UY+N1\nsbvgVMSD+VIbBermlVeNr06ZJKszbc3AuNgsayAFp5uZ3IJZrSjvuMzV8vKiEXGu\nQDSNSJsmTOZD+iPClMszDwH2UPTpjayOeXdHFZNXgE7q29nvqSvErZokef6gGbp5\nsBVLa1zKh0gCR4vryEKsG4wzDmPwMW+MAXWG8j/s3OdE1f48mKm41GkMbhVbAgMB\nAAEwDQYJKoZIhvcNAQELBQADggIBAG/glm9+1Roez6a16yYb13AZb693nngSZUN4\ndBnyphPE+i8vskazOXM2SjmkVcJzIEFNzytLaqXTuJ4psvcZXZg9YoSVQIKzOaun\n73T2SIxnKSJShi5nVR2+AyymG4MjHveKP/cHruHkBPvmP7CQ6wEhlYjWWPRThIUY\n7uZasHhHb0PmyjsKfuIw943c1a0U+EDcSFNqyBmpUGHw5ahDsn4KXKMACB9iPfZ6\nlu23vKFi3EfgNU8jG0Xiy2ND5bBJVPT7I8JjZql+jl26WQyjpudM9izfzcLWNeHL\npMF+k4cF6ze0GClRSyIQAcgzz6788vovSC/X+9ZFJnSJusXGYXKGPHmPk3/5BDC8\ncfg2DQJ9tLMSQJj/2jvb8SHlofGrYmczxUe8MXrA8WDJEbCo3JEWVQDhtkOOna4z\nSXe7TvpgQZaRHdX5bs/vxjL5D0eFkbGNlkGal3uiPNbUuPkhjHpZLUnj/F83Oxwi\nJQMu3tmu9Tjcv74YTJE3Y70AWTRs1oGsFYTrol9li29OM2lt0c55cwAAMrNFcqcN\ng1K7R08kR+WQFt02jLAgPLj9izdPqpFpFqGwoTTCeas2FQzO6GEdCkBWusAdFdHZ\nZd7LJO+IKACyOEodSYr5TtWNFKgV7FlFXOFoew+2uLM04jZ0YsCvE4QCR2sxvb4N\n7qLODuk0\n-----END CERTIFICATE-----\n", 
+    "key_passphrase": "avi123", 
+    "certificate": "\n-----BEGIN CERTIFICATE-----\nMIIE+DCCAuCgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCkNhbGlmb3JuaWExHTAbBgNVBAMMFEdyZWcgSW50ZXJtZWRpYXRl\nIENBMB4XDTE2MDIxMTE2MjYyNFoXDTE3MDIyMDE2MjYyNFowPDELMAkGA1UEBhMC\nVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNv\nbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM47ljnydqleK3Yapr//\nAEqEdPuduGiqgEcY1qjx1vPwO/TU3iqNIJEUEcu/uvHxXqOmsXGUG9+/xMfsV/Lx\nQAqhneXA2fxZtODmnCWq0SldPQi0mD63ir3jFqI+slS+n9ao20krBBYKpgqjstxh\nbSez59h6Aoup8vM226gieMfw9Fac7govovJFQZ+lYywGbe2hzP3vftEoyO8itwdB\novxXk/fmQSDfDPRGSJ4eSve2o8lP9xRRiyqkRKoNQ3UaJRK9L9JSvzdjbvVmUD5S\n4le7sa6N7VgT73OiUFdwndCQNHN95+BMhGibNury7IXVg+yC94WUmp5L1UX8PixZ\nv78CAwEAAaOB/jCB+zAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIGQDAzBglg\nhkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRl\nMB0GA1UdDgQWBBSqF2GsfFBj6SkSpRjG9oK1cqvm2jBiBgNVHSMEWzBZgBQGr+y3\nQMSnVEKwnT9quMhAYExFEaE9pDswOTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNh\nbGlmb3JuaWExFTATBgNVBAMMDEdyZWcgUm9vdCBDQYICEAAwDgYDVR0PAQH/BAQD\nAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBCwUAA4ICAQAudoCP\nRNq/keBcTcL19UYo8X4tRwm350U5ccKwiKb8caEE2Crh3dyNyKDN3+ZKl8i8OwWN\nx9PpTJANlmWYuOvhjLtvnkGidcxhCmVEpEms2h3+zrRIXijIENqhWpKzcQus7R6F\nmMxW/KPt0rY80rfrZ2ReCkuhBEZzgL5udYL+AEYkvf7oGD/W18nDCUKEsm8T45jI\ndBVs7PeFaEJSAlDW8T3OekV8CETvafwBx4UK9kHo7+mfZSHCiGhzodF3WGzPnLFs\nB4OptAHfXUjIAEZ9pxdr8C/tXU9dVyQVdHjISKQdtWUBoHSwmZnIuEtWADfRjMi8\ne2Le1qiC0IBMc7JAVZXZ1lbs7A5mKgsUy+1rRUVEkVgmgDfr1BcsstOeXpNcQS4K\nebKterF/ZDmVYJdUD6o91xfAAy1onn1mzKhIfqMeCZEcz4nvuaLM2h5HsIOJPgLL\n5LnaQxl+6cNx1u3+X1crPv0k1hs9yqn72LmD65ZqBpamiwJudSpu1RCPCAdNzzcO\n9v2I8JlXhl0IKRXoAZX+VK1PJmZJ8giRTI+92XOWJlryyknm9Znp1djibZAbLnpI\nrorY/feSmoZFEKUv74n7XrgbveEWjMbkZQHrNNPW0VZ3uXM30E81Wt6fCyyX5GO3\ndTPtEDPf9zp/r0AHZKU+4Bg2ZAkrNMltCAjXSg==\n-----END CERTIFICATE-----\n", 
     "name": "mycert3", 
-    "key": "\n-----BEGIN PRIVATE KEY-----\n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\nOHzfkj6M6uSvAtoGadmk48hVzcqRgw==\n-----END PRIVATE KEY-----\n"
+    "key": "\n-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: AES-256-CBC,23E2D6132285630DB8D67E25E465F0A6\n\n9sM1JGQHgo+rwuZ5L9piE7EGpp2fvY9QC8GgxEcdfw9OHfcj7CHRCCfXAUsxfBOe\nTh1aGNH9mCmZ72LdrA9cnS/fwISClUoQe0tmVWRTagQptOZfW20HvHI37HGaZ2s1\nMsqvOaqfQ1ZHa0U6WtzBw5/6PqL9LgDUGoQFSEtMHD06nuYoaynpfDk3eoftFwrx\n0U3u0O5lc0a0VqwSvJynSYO1yaxoTzTEDZws4Cf1scLi/Wx5aBQHb5I3k6Dr1Ipm\n59NCpKxjUI+XFUVMszVyQM6+dUUZ0rRU17f2toZFsGTdQ9M1vJLS1J7Ya2pAhlmm\nX7fzy1NywL5kk+jRPWXRNrSKZg+qnutPSPD1689oDNqu4fwycbC+jZ7zJYXB/vio\nagS3/UI8d2Lxs69IPFxwP0lhYuUiSEGfLwDwqEuRZNbvaZpwtp2kC6sf7xlKbQF7\n24lz/LiL5t7xFsLuruOyWfb1fUwLjTZm4O6y8SI9JTSixPm4NCLGclcaTh33harN\nQhsTf0+qMbovgAUv6myfnI4ajPCcu+Kwn2jMjUjWEFf3oj9A1NUfiT4SqiLcZ4AU\nsvR8kHs0+rUVDiZ8kFXH0HQ+LI7itVCRoCooq3uqpqeZ5J8L+hZEeILjGCVNQluU\nlTcEbAry3WibKzsk2bWARe0v+7i/r09EuwSzJ8+H2BOkrxmTr+WgC2RKBMKV+gLc\nu3rxjeddL6hc0qgo2EN/Hp38FrVBwFLrDYHsBVRwdN6OsDW0OP67EJXikMD+qe2+\nuUcXr00Sno+Wcgbm17m9SghESxXBj1N5eok6MSUZxbNlFNhxu4qbpiBDKZOrJ2e/\nn8rxlg9XmJAQPfhY1EKbX7WFiaSa0y4tvbD2tWZfw8Yt97PRSVxumRWg5pbqRr1i\nl7QTNWfIwk25xtIW5q4WnHjuVynurnREYdlTVd/vBsQcrgV0vaPVYEq+iFzkZBOy\na0Z0001SHqsQE6ThC2+7ap855EKPpU7HxXqOAEas9z4C9HGgPogSFKT9H5MrDY2C\nynuoU44hQ/qmR5TAfjO8OnBeLlAlPk0VpEAaOX5V7t8PWhhkAz3QRbQAPbDQ5BQx\naGnBmi4/12h4EywHUdacj4/9uvUPVd1E476mxePfsDr+E3wtYqUWBzgHtoDxJ9Qn\nSAL5hU3GrL3mEQQ1RK8kITANVXmlFa56XZXqGuYKxUfGGDGhLTE/VYh13I37hVZH\nQ825Y+WqZRiRsRvV9W/Wq8H5I2+QU1flB1+kqpoVTxDhzJ15dOetZDTYXqjs6gMS\nQpr/dYub0yR0zwmV1EKpuqchoYcwHpG4gsX42NRCfcdYoIxoa1Drr/xX4L0si40z\npY00CT/YuCAJFxbhpzlqKnZz3okj8vzPocT8mjFZcajnyOtaWyILnrBKO/93tkEF\nYednFMpQ2xdlq5bebhrZhYkf6XS21N8t1ETropoOX19Eh33yJUHh/rJ67I1ccRvZ\neSI1LDB18B6+k2BdYCfjEhc33WgqUmoHEjxLYEdN0N0qr4ZG2JznQ9R7h/SQusGo\nwG1rwolI5lxqX/M53KXoBoH1UcZp1yg/8qG2e8Ntx41a6j79oPh7YkXvJYHDh/xt\n-----END RSA PRIVATE KEY-----\n"
 }
  </code></pre>
 </div>
-
 
 <h3 class='text-primary'>Data</h3>
 <div class="container">
@@ -113,7 +122,10 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Encrypted private key corresponding to the private key (e.g. those generated by an HSM such as Thales nShield)</dd></dl><p><strong>enckey_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Name of the encrypted private key (e.g. those generated by an HSM such as Thales nShield)</dd></dl><p><strong>hardwaresecuritymodulegroup_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=hardwaresecuritymodulegroup.html#HardwareSecurityModuleGroup>Reference to HardwareSecurityModuleGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>certificate_management_profile_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=certificatemanagementprofile.html#CertificateManagementProfile>Reference to CertificateManagementProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>dynamic_params</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#CustomParams>CustomParams</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Dynamic parameters needed for certificate management profile</dd></dl><p><strong>created_by</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl></div>
 <div class='container'id=SSLCertificate
 <p><h3 class='text-success'>SSLCertificate<br></h3></p>
 <p><strong>version</strong><br></p>
@@ -133,7 +145,9 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>fingerprint</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>expiry_status</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>SSL_CERTIFICATE_GOOD</dd><dt>Choices</dt><dd>SSL_CERTIFICATE_EXPIRED, SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING</dd></dl><p><strong>chain_verified</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>subject_alt_names</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>subjectAltName that provides additional subject identities</dd></dl><p><strong>days_until_expire</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>365</dd></dl></div>
 <div class='container'id=SSLCertificateDescription
 <p><h3 class='text-success'>SSLCertificateDescription<br></h3></p>
 <p><strong>common_name</strong><br></p>
@@ -165,30 +179,21 @@
 <p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>ca_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=sslkeyandcertificate.html#SSLKeyAndCertificate>Reference to SSLKeyAndCertificate</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=CustomParams
+<p><h3 class='text-success'>CustomParams<br></h3></p>
+<p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>value</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>is_sensitive</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl><p><strong>is_dynamic</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>False</dd></dl></div>
 
 </div>
-
-<h3 class='text-primary'>Actions</h3>
-
-<h3 class='text-primary'>API</h3>
-<div class="container">
-<pre><code>
-    POST /api/sslkeyandcertificate/&ltkey&gt
-</code></pre>
-</div>
-
-<h3 class='text-primary'>CLI</h3>
-<div class="container">
-<pre><code>
-    delete sslkeyandcertificate &ltkey&gt
-</code></pre>
-</div>
-
 
 
 <h1 class='text-primary'>References</h1>
 <p>
 <a href=".html"></a>
+<a href="certificatemanagementprofile.html">CertificateManagementProfile</a>
 <a href="hardwaresecuritymodulegroup.html">HardwareSecurityModuleGroup</a>
 <a href="tenant.html">Tenant</a>
 <a href="sslkeyandcertificate.html">SSLKeyAndCertificate</a>
@@ -196,5 +201,12 @@
 
 <h1 class='text-primary'>Sub Objects</h1>
 
+<h1 class='text-primary'>Filters</h1>
+    <div class='container'id=SSLKeyAndCertificateDisplayFilter
+<p><h3 class='text-success'>SSLKeyAndCertificateDisplayFilter<br></h3></p>
+<p><strong>export_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Set export_key to export the private key. By default, the private key is not exported</dd></dl></div>
+
+    
 </body>
 </html>

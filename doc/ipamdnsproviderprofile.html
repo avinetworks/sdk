@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> IpamDnsProviderProfile </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>IpamDnsProviderProfile</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/ipamdnsproviderprofile
+    PUT /api/ipamdnsproviderprofile/&ltkey&gt
+    DELETE /api/ipamdnsproviderprofile/&ltkey&gt
+    GET /api/ipamdnsproviderprofile
+    GET /api/ipamdnsproviderprofile/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure ipamdnsproviderprofile &ltkey&gt
+    show ipamdnsproviderprofile &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=IpamDnsProviderProfile
+<p><h3 class='text-success'>IpamDnsProviderProfile<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the IPAM/DNS Provider profile</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Name for the IPAM/DNS Provider profile</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Provider Type for the IPAM/DNS Provider profile</dd><dt>Choices</dt><dd>IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS</dd></dl><p><strong>infoblox_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpamDnsInfobloxProfile>IpamDnsInfobloxProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provider details if type is Infoblox</dd></dl><p><strong>aws_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpamDnsAwsProfile>IpamDnsAwsProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provider details if type is AWS</dd></dl><p><strong>openstack_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpamDnsOpenstackProfile>IpamDnsOpenstackProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provider details if type is OpenStack</dd></dl><p><strong>internal_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpamDnsInternalProfile>IpamDnsInternalProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provider details if type is Avi</dd></dl><p><strong>gcp_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpamDnsGCPProfile>IpamDnsGCPProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provider details if type is Google Cloud</dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=IpamDnsInfobloxProfile
+<p><h3 class='text-success'>IpamDnsInfobloxProfile<br></h3></p>
+<p><strong>ip_address</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Address of Infoblox appliance</dd></dl><p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Username for API access for Infoblox appliance</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Password for API access for Infoblox appliance</dd></dl><p><strong>wapi_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>WAPI version</dd><dt>Default</dt><dd>2.0</dd></dl><p><strong>dns_view</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>DNS view</dd><dt>Default</dt><dd>default</dd></dl><p><strong>network_view</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Network view</dd><dt>Default</dt><dd>default</dd></dl><p><strong>usable_subnets</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Usable subnets to pick from Infoblox</dd></dl><p><strong>usable_domains</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Usable domains to pick from Infoblox</dd></dl></div>
+<div class='container'id=IpAddr
+<p><h3 class='text-success'>IpAddr<br></h3></p>
+<p><strong>addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>IP address</dd></dl><p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>V4, DNS</dd></dl></div>
+<div class='container'id=IpAddrPrefix
+<p><h3 class='text-success'>IpAddrPrefix<br></h3></p>
+<p><strong>ip_addr</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>mask</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=IpamDnsAwsProfile
+<p><h3 class='text-success'>IpamDnsAwsProfile<br></h3></p>
+<p><strong>region</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>AWS region</dd></dl><p><strong>vpc</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>VPC name</dd></dl><p><strong>vpc_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>VPC ID</dd></dl><p><strong>use_iam_roles</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>access_key_id</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>AWS access key ID</dd></dl><p><strong>secret_access_key</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>AWS secret access key</dd></dl></div>
+<div class='container'id=IpamDnsOpenstackProfile
+<p><h3 class='text-success'>IpamDnsOpenstackProfile<br></h3></p>
+<p><strong>username</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The username Avi Vantage will use when authenticating to Keystone.</dd></dl><p><strong>password</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The password Avi Vantage will use when authenticating to Keystone.</dd></dl><p><strong>tenant</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>OpenStack tenant name</dd></dl><p><strong>keystone_host</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Keystone's hostname or IP address.</dd></dl><p><strong>vip_network_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Network to be used for VIP allocation</dd></dl><p><strong>region</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Region name</dd></dl></div>
+<div class='container'id=IpamDnsInternalProfile
+<p><h3 class='text-success'>IpamDnsInternalProfile<br></h3></p>
+<p><strong>dns_service_domain</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DnsServiceDomain>DnsServiceDomain</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>List of service domains</dd></dl><p><strong>ttl</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain.</dd><dt>Default</dt><dd>300</dd></dl><p><strong>dns_virtualservice_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Avi VirtualService to be used for serving DNS records.</dd></dl><p><strong>usable_network_uuids</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation.</dd></dl></div>
+<div class='container'id=DnsServiceDomain
+<p><h3 class='text-success'>DnsServiceDomain<br></h3></p>
+<p><strong>domain_name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Service domain string used for FQDN</dd></dl><p><strong>record_ttl</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>TTL value for DNS records</dd></dl><p><strong>num_dns_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies the number of A records returned by Avi DNS Service.</dd><dt>Default</dt><dd>1</dd></dl><p><strong>pass_through</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Non Avi Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers.</dd><dt>Default</dt><dd>True</dd></dl></div>
+<div class='container'id=IpamDnsGCPProfile
+<p><h3 class='text-success'>IpamDnsGCPProfile<br></h3></p>
+<p><strong>usable_network_uuids</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation.</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="tenant.html">Tenant</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>

@@ -22,8 +22,8 @@
 
 <h1 class='text-primary'>Overview </h1>
 <p>
-Welcome to Avi Cloud ADC™ by Avi Networks, Inc. 
-This manual covers Avi Controller REST API usage.
+Welcome to Avi Vantage™ by Avi Networks, Inc.
+This manual covers Avi Vantage RESTful Application Programming Interface (API) guide.
 </p>
 
 
@@ -141,15 +141,16 @@ The following example retrieves the cluster version using basic authentication u
 resp = requests.get('https://10.10.1.101/api/cluster/version', verify=False, auth=('admin','adminpassword'))
 
 <h3 class='text-primary'>Session authentication</h3>
-The client performs a login to the controller. After authentication, a session is established and the sessionid is passed back to the client as a cookie. The client returns the sessionid cookie for subsequent requests.
+The client performs a login to the controller. After authentication, a session is established and the sessionid is passed back to the client as a cookie. The client returns the sessionid cookie for subsequent requests. To end the session, the client performs a logout to the controller with the CSRFToken and controller IP in the headers.
 
-The following example retrieves the cluster version after session establishment.
+The following example retrieves the cluster version after session establishment, and then terminates the session.
 
 <div class='container-fluid'>
 <pre><code>
 <strong>
 login = requests.post('https://10.10.1.101/login', verify=False, data={'username': 'admin', 'password': 'adminpassword'})
 resp = requests.get('https://10.10.1.101/api/cluster/version', verify=False, cookies=dict(sessionid= login.cookies['sessionid']))
+logout = requests.post('https://10.10.1.101/logout', verify=False, headers={'X-CSRFToken': login.cookies['csrftoken'], 'Referer':'https://10.10.1.101'}, cookies=login.cookies)
 </strong>
 </code></pre>
 </div>

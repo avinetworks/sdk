@@ -43,6 +43,7 @@
 </code></pre>
 </div>
 
+
 <h3 class='text-primary'>Data</h3>
 <div class="container">
 <div class='container'id=ApplicationProfile
@@ -50,19 +51,22 @@
 <p><strong>uuid</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the application profile.</dd></dl><p><strong>name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The name of the application profile.</dd></dl><p><strong>type</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Specifies which application layer proxy is enabled for the virtual service.</dd><dt>Choices</dt><dd>APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_L4</dd></dl><p><strong>http_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Specifies which application layer proxy is enabled for the virtual service.</dd><dt>Choices</dt><dd>APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_L4</dd></dl><p><strong>http_profile</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPApplicationProfile>HTTPApplicationProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies the HTTP application proxy profile parameters.</dd></dl><p><strong>dos_rl_profile</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DosRateLimitProfile>DosRateLimitProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies various security related controls for virtual service.</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DosRateLimitProfile>DosRateLimitProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies various security related controls for virtual service.</dd></dl><p><strong>tcp_app_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#TCPApplicationProfile>TCPApplicationProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies the TCP application proxy profile parameters.</dd></dl><p><strong>dns_service_profile</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#DnsServiceApplicationProfile>DnsServiceApplicationProfile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies various DNS service related controls for virtual service.</dd></dl><p><strong>preserve_client_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>description</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=HTTPApplicationProfile
 <p><h3 class='text-success'>HTTPApplicationProfile<br></h3></p>
 <p><strong>connection_multiplexing_enabled</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>xff_enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>xff_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The client's original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi's source NAT address used in the Avi to server IP connection.</dd><dt>Default</dt><dd>True</dd></dl><p><strong>xff_alternate_name</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Provide a custom name for the X-Forwarded-For header sent to the servers.</dd><dt>Default</dt><dd>X-Forwarded-For</dd></dl><p><strong>ssl_everywhere_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>hsts_enabled</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTP.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>hsts_max_age</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>hsts_max_age</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Number of days for which the client should regard this virtual service as a known HSTS host.</dd><dt>Default</dt><dd>365</dd></dl><p><strong>secure_cookie_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>httponly_enabled</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>http_to_https</strong><br></p>
@@ -73,8 +77,8 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. </dd><dt>Default</dt><dd>False</dd></dl><p><strong>spdy_fwd_proxy_mode</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable fwd proxy mode with SPDY. This makes the Proxy combine the :host and :uri spdy headers to create a fwd-proxy style request URI</dd><dt>Default</dt><dd>False</dd></dl><p><strong>post_accept_timeout</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request.</dd><dt>Default</dt><dd>30000</dd></dl><p><strong>client_header_timeout</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The max length of time allowed for a client to transmit the entire request headers.  This helps to mitigate various forms of SlowLoris attacks.</dd><dt>Default</dt><dd>10000</dd></dl><p><strong>client_body_timeout</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The max allowed length of time to receive a request body from a client. Default of 0 specifies no timeout.  This setting generally impacts the length of time allowed for a client to send a POST.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>keepalive_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks.</dd><dt>Default</dt><dd>10000</dd></dl><p><strong>client_body_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST.</dd><dt>Default</dt><dd>30000</dd></dl><p><strong>keepalive_timeout</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The max idle time allowed between HTTP requests over a Keep-alive connection.</dd><dt>Default</dt><dd>30000</dd></dl><p><strong>client_max_header_size</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum size in Kbytes of a single HTTP header in the client request.</dd><dt>Default</dt><dd>12</dd></dl><p><strong>client_max_request_size</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum size in Kbytes of all the client HTTP request headers.</dd><dt>Default</dt><dd>48</dd></dl><p><strong>client_max_body_size</strong><br></p>
@@ -91,7 +95,9 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum unknown client IPs per second.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>max_bad_rps_cip</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum bad requests per second per client IP.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>max_bad_rps_uri</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum bad requests per second per URI.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>max_bad_rps_cip_uri</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum bad requests per second per client IP and URI.</dd><dt>Default</dt><dd>0</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Maximum bad requests per second per client IP and URI.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>keepalive_header</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>use_app_keepalive_timeout</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout.</dd><dt>Default</dt><dd>False</dd></dl></div>
 <div class='container'id=CompressionProfile
 <p><h3 class='text-success'>CompressionProfile<br></h3></p>
 <p><strong>compression</strong><br></p>
@@ -111,7 +117,7 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrRange>IpAddrRange</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>ip_addr_prefixes</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddrPrefix>IpAddrPrefix</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>devices_ref</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>user_agent</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>level</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd></dd></dl><p><strong>level</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>NORMAL_COMPRESSION</dd><dt>Choices</dt><dd>NORMAL_COMPRESSION, AGGRESSIVE_COMPRESSION, NO_COMPRESSION</dd></dl></div>
 <div class='container'id=IpAddr
 <p><h3 class='text-success'>IpAddr<br></h3></p>
@@ -128,10 +134,6 @@
 <p><strong>ip_addr</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#IpAddr>IpAddr</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>mask</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
-<div class='container'id=RepeatableString
-<p><h3 class='text-success'>RepeatableString<br></h3></p>
-<p><strong>str</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>
 <div class='container'id=HttpCacheConfig
 <p><h3 class='text-success'>HttpCacheConfig<br></h3></p>
 <p><strong>enabled</strong><br></p>
@@ -145,10 +147,10 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>max_cache_size</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint64</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>query_cacheable</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>mime_types_list</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>mime_types_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>mime_types_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*</dd></dl><p><strong>aggressive</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/disable caching objects without Cache-Control headers</dd><dt>Default</dt><dd>False</dd></dl><p><strong>mime_types_black_list</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#RepeatableString>RepeatableString</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist of non-cacheable mime types</dd></dl><p><strong>mime_types_black_group_refs</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist of non-cacheable mime types</dd></dl><p><strong>mime_types_black_group_refs</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=stringgroup.html#StringGroup>Reference to StringGroup</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Blacklist string group of non-cacheable mime types</dd></dl></div>
 <div class='container'id=SSLClientCertificateAction
 <p><h3 class='text-success'>SSLClientCertificateAction<br></h3></p>
@@ -159,7 +161,7 @@
 <p><h3 class='text-success'>SSLClientRequestHeader<br></h3></p>
 <p><strong>request_header</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>If this header exists, reset the connection. If the ssl variable is specified, add a header with this value</dd></dl><p><strong>request_header_value</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format</dd><dt>Choices</dt><dd>HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_PROTOCOL</dd></dl></div>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format</dd><dt>Choices</dt><dd>HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_PROTOCOL</dd></dl></div>
 <div class='container'id=DosRateLimitProfile
 <p><h3 class='text-success'>DosRateLimitProfile<br></h3></p>
 <p><strong>rl_profile</strong><br></p>
@@ -198,7 +200,7 @@
 <p><strong>protocol</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Protocol type</dd><dt>Choices</dt><dd>HTTP, HTTPS</dd></dl><p><strong>host</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Host config</dd></dl><p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#Port>Port</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Port to which redirect the request</dd></dl><p><strong>path</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd><a href=#URIParam>URIParam</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Path config</dd></dl><p><strong>keep_query</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Keep or drop the query of the incoming request URI in the redirected URI</dd><dt>Default</dt><dd>True</dd></dl><p><strong>status_code</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>HTTP redirect status code</dd><dt>Default</dt><dd>HTTP_REDIRECT_STATUS_CODE_302</dd><dt>Choices</dt><dd>HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_307</dd></dl></div>
@@ -214,10 +216,6 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Index of the starting token in the incoming URI</dd></dl><p><strong>end_index</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Index of the ending token in the incoming URI</dd></dl><p><strong>str_value</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Constant string to use as a token</dd></dl></div>
-<div class='container'id=Port
-<p><h3 class='text-success'>Port<br></h3></p>
-<p><strong>port</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>TCP/UDP port number.</dd></dl></div>
 <div class='container'id=HTTPLocalFile
 <p><h3 class='text-success'>HTTPLocalFile<br></h3></p>
 <p><strong>content_type</strong><br></p>
@@ -234,6 +232,18 @@
 <dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Attack type.</dd><dt>Choices</dt><dd>DOS_REQ_IP_URI_RL_DROP_BAD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, MALFORMED_FLOOD, POLICY_DROPS, IP_FRAG_INCOMPLETE, DOS_CONN_IP_RL_DROP, FAKE_SESSION, DOS_HTTP_ABORT, SMURF, IP_FRAG_TOOSMALL, ICMP_PING_FLOOD, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, LAND, UNKOWN_PROTOCOL, DOS_REQ_IP_RL_DROP_BAD, TCP_NON_SYN_FLOOD, ZERO_WINDOW_STRESS, IP_FRAG_FULL, DOS_REQ_RL_DROP, SMALL_WINDOW_STRESS, BAD_RST_FLOOD, DOS_APP_ERROR, DOS_SSL_ERROR, IP_FRAG_OVERRUN, PORT_SCAN, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP_BAD, TCP_NON_SYN_FLOOD_OLD, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_SLOW_URL, DOS_REQ_URI_RL_DROP, SYN_FLOOD, DOS_HTTP_ERROR, TEARDROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_HTTP_TIMEOUT, DOS_CONN_RL_DROP</dd></dl><p><strong>min_value</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.</dd></dl><p><strong>max_value</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.</dd></dl></div>
+<div class='container'id=TCPApplicationProfile
+<p><h3 class='text-success'>TCPApplicationProfile<br></h3></p>
+<p><strong>proxy_protocol_enabled</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>bool</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy.</dd><dt>Default</dt><dd>False</dd></dl><p><strong>proxy_protocol_version</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Version of proxy protocol to be used to convey client connection information to the back-end servers.</dd><dt>Default</dt><dd>PROXY_PROTOCOL_VERSION_1</dd><dt>Choices</dt><dd>PROXY_PROTOCOL_VERSION_2, PROXY_PROTOCOL_VERSION_1</dd></dl></div>
+<div class='container'id=DnsServiceApplicationProfile
+<p><h3 class='text-success'>DnsServiceApplicationProfile<br></h3></p>
+<p><strong>num_dns_ip</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses</dd><dt>Default</dt><dd>1</dd></dl><p><strong>ttl</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Specifies the TTL value (in seconds) for records served by DNS Service</dd><dt>Default</dt><dd>30</dd></dl><p><strong>error_response</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Error response to the client when the DNS service encounters an error processing the client query</dd><dt>Default</dt><dd>DNS_ERROR_RESPONSE_NONE</dd><dt>Choices</dt><dd>DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE</dd></dl><p><strong>domain_names</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics</dd></dl></div>
 
 </div>
 
@@ -280,7 +290,7 @@
 <p><strong>app_rtm_uuid_l4</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>app_rtm_name_l4</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>app_rtm_type_l4</strong><br></p>
-<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_L4</dd></dl><p><strong>app_rtm_vserver_uuid_l4</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd><dt>Choices</dt><dd>APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_L4</dd></dl><p><strong>app_rtm_vserver_uuid_l4</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>app_rtm_vserver_name_l4</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>app_rtm_ref_l4</strong><br></p>
 <dl class='dl-horizontal'><dt>Type</dt><dd>int32</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl></div>

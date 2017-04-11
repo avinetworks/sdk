@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> PoolGroup </title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<h1 class='text-primary'>PoolGroup</h1>
+
+<h3 class='text-primary'>Description</h3>
+    
+
+<h3 class='text-primary'>API</h3>
+<div class="container">
+<pre><code>
+    POST /api/poolgroup
+    PUT /api/poolgroup/&ltkey&gt
+    DELETE /api/poolgroup/&ltkey&gt
+    GET /api/poolgroup
+    GET /api/poolgroup/&ltkey&gt
+</code></pre>
+</div>
+
+<h3 class='text-primary'>CLI</h3>
+<div class="container">
+<pre><code>
+    configure poolgroup &ltkey&gt
+    show poolgroup &ltkey&gt
+</code></pre>
+</div>
+
+
+<h3 class='text-primary'>Data</h3>
+<div class="container">
+<div class='container'id=PoolGroup
+<p><h3 class='text-success'>PoolGroup<br></h3></p>
+<p><strong>uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the pool group</dd></dl><p><strong>name</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>The name of the pool group.</dd></dl><p><strong>members</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#PoolGroupMember>PoolGroupMember</a></dd><dt>Category</dt><dd>repeated</dd><dt>Description</dt><dd>Member details</dd></dl><p><strong>priority_labels_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=prioritylabels.html#PriorityLabels>Reference to PriorityLabels</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority.</dd></dl><p><strong>min_servers</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>The minimum number of servers to distribute traffic to.</dd><dt>Default</dt><dd>0</dd></dl><p><strong>deployment_policy_uuid</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>When setup autoscale manager will automatically promote new pools into production when deployment goals are met.</dd></dl><p><strong>fail_action</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#FailAction>FailAction</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.</dd></dl><p><strong>created_by</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Creator name</dd></dl><p><strong>cloud_config_cksum</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Checksum of cloud configuration for PoolGroup. Internally set by cloud connector</dd></dl><p><strong>description</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>tenant_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=tenant.html#Tenant>Reference to Tenant</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>cloud_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=cloud.html#Cloud>Reference to Cloud</a></dd><dt>Category</dt><dd>optional,readonly</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>/api/cloud?name=Default-Cloud</dd></dl></div>
+<div class='container'id=PoolGroupMember
+<p><h3 class='text-success'>PoolGroupMember<br></h3></p>
+<p><strong>pool_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>UUID of the pool</dd></dl><p><strong>ratio</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>uint32</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Ratio of selecting eligible pools in the pool group. </dd><dt>Default</dt><dd>1</dd></dl><p><strong>priority_label</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>All pools with same label are treated similarly in a pool group. A pool with a higher priority is selected, as long as the pool is eligible or an explicit policy chooses a different pool.</dd></dl><p><strong>deployment_state</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Pool deployment state used with the PG deployment policy</dd><dt>Choices</dt><dd>EVALUATION_IN_PROGRESS, IN_SERVICE, OUT_OF_SERVICE, EVALUATION_FAILED</dd></dl></div>
+<div class='container'id=FailAction
+<p><h3 class='text-success'>FailAction<br></h3></p>
+<p><strong>type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Enables a response to client when pool experiences a failure. By default TCP connection is closed.</dd><dt>Default</dt><dd>FAIL_ACTION_CLOSE_CONN</dd><dt>Choices</dt><dd>FAIL_ACTION_BACKUP_POOL, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_HTTP_REDIRECT</dd></dl><p><strong>redirect</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#FailActionHTTPRedirect>FailActionHTTPRedirect</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>URL to redirect HTTP requests to when pool experiences a failure</dd></dl><p><strong>local_rsp</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#FailActionHTTPLocalResponse>FailActionHTTPLocalResponse</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Local response to HTTP requests when pool experiences a failure</dd></dl><p><strong>backup_pool</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#FailActionBackupPool>FailActionBackupPool</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd>Backup Pool when pool experiences a failure</dd></dl></div>
+<div class='container'id=FailActionHTTPRedirect
+<p><h3 class='text-success'>FailActionHTTPRedirect<br></h3></p>
+<p><strong>protocol</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>HTTPS</dd><dt>Choices</dt><dd>HTTP, HTTPS</dd></dl><p><strong>host</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd></dd></dl><p><strong>path</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>query</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl><p><strong>status_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>HTTP_REDIRECT_STATUS_CODE_302</dd><dt>Choices</dt><dd>HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_307</dd></dl></div>
+<div class='container'id=FailActionHTTPLocalResponse
+<p><h3 class='text-success'>FailActionHTTPLocalResponse<br></h3></p>
+<p><strong>status_code</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>enum</dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd><dt>Default</dt><dd>FAIL_HTTP_STATUS_CODE_503</dd><dt>Choices</dt><dd>FAIL_HTTP_STATUS_CODE_503, FAIL_HTTP_STATUS_CODE_200</dd></dl><p><strong>file</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=#HTTPLocalFile>HTTPLocalFile</a></dd><dt>Category</dt><dd>optional</dd><dt>Description</dt><dd></dd></dl></div>
+<div class='container'id=HTTPLocalFile
+<p><h3 class='text-success'>HTTPLocalFile<br></h3></p>
+<p><strong>content_type</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Mime-type of the content in the file.</dd></dl><p><strong>file_content</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd>string</dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>File content to used in the local HTTP response body.</dd></dl></div>
+<div class='container'id=FailActionBackupPool
+<p><h3 class='text-success'>FailActionBackupPool<br></h3></p>
+<p><strong>backup_pool_ref</strong><br></p>
+<dl class='dl-horizontal'><dt>Type</dt><dd><a href=pool.html#Pool>Reference to Pool</a></dd><dt>Category</dt><dd>required</dd><dt>Description</dt><dd>Specifies the UUID of the Pool acting as backup pool.</dd></dl></div>
+
+</div>
+
+
+<h1 class='text-primary'>References</h1>
+<p>
+<a href=".html"></a>
+<a href="cloud.html">Cloud</a>
+<a href="prioritylabels.html">PriorityLabels</a>
+<a href="tenant.html">Tenant</a>
+<a href="pool.html">Pool</a>
+</p>
+
+<h1 class='text-primary'>Sub Objects</h1>
+
+</body>
+</html>
