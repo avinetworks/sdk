@@ -77,7 +77,18 @@ def find_and_add_objects(object, avi_config, new_config):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    HELP_STR = '''
+           Filters selected VS config and referenced objects from full config
+           Example to filter single vs:
+               vs_filter.py -f  Output.json -n cool_vs
+
+           Example to filter single multiple vs:
+               vs_filter.py -f  Output.json -n cool_vs,awesome_vs
+           '''
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
+        description=(HELP_STR))
     parser.add_argument('-f', '--avi_config_file', required=True,
                         help='absolute path for avi config file')
     parser.add_argument('-n', '--vs_names', required=True,

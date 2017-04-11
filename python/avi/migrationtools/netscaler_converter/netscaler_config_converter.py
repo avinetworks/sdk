@@ -37,8 +37,8 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
     ssl_ciphers_yaml = 'ssl_ciphers.yaml'
     # load ssl ciphers
-    ssl_ciphers = yaml.safe_load(open(os.path.dirname(__file__) + '/%s'
-                                      % ssl_ciphers_yaml))
+    with open(os.path.dirname(__file__) + '/%s'% ssl_ciphers_yaml) as stream:
+        ssl_ciphers = yaml.safe_load(stream)
     LOG.debug('Conversion Started')
     tenant_ref = ns_util.get_object_ref(tenant_name, 'tenant')
     cloud_ref = ns_util.get_object_ref(cloud_name, 'cloud')
