@@ -400,9 +400,11 @@ def get_vs_if_shared_vip(avi_config):
     vs_list = [v for v in avi_config['VirtualService'] if 'port_range_end' in
                v['services'][0]]
     for vs in vs_list:
+        # Get the list of vs which shared the same vip
         vs_port_list = [int(v['services'][0]['port']) for v in
                         avi_config['VirtualService']
-                        if v['ip_address']['addr'] == vs['ip_address']['addr']
+                        if v['vip'][0]['ip_address']['addr'] ==
+                        vs['vip'][0]['ip_address']['addr']
                         and 'port_range_end' not in v['services'][0]]
         if vs_port_list:
             min_port = min(vs_port_list)
@@ -446,8 +448,9 @@ def is_shared_same_vip(vs, avi_config):
     :return: Bool value
     """
 
+    # Get the list of vs which shared the same vip
     shared_vip = [v for v in avi_config
-                  if v['ip_address']['addr'] == vs['ip_address']['addr']
+                  if v['vip'][0]['ip_address']['addr'] == vs['vip'][0]['ip_address']['addr']
                   and v['services'][0]['port'] == vs['services'][0]['port']]
 
     if shared_vip:
@@ -828,7 +831,7 @@ def clean_virtual_service_from_avi_config(avi_config):
     """
     vs_list = copy.deepcopy(avi_config['VirtualService'])
     avi_config['VirtualService'] = []
-    avi_config['VirtualService'] = [vs for vs in vs_list if vs['ip_address']['addr'] != '0.0.0.0']
+    avi_config['VirtualService'] = [vs for vs in vs_list if vs['vip'][0]['ip_address']['addr'] != '0.0.0.0']
 
 def get_name(url):
     """

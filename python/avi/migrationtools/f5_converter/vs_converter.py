@@ -180,14 +180,20 @@ class VSConfigConv(object):
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
 
-        vs_obj = {
-            'name': vs_name,
-            'description': description,
-            'type': 'VS_TYPE_NORMAL',
+        # VIP object for virtual service
+        vip = {
             'ip_address': {
                 'addr': ip_addr,
                 'type': 'V4'
             },
+            'vip_id': 0
+        }
+
+        vs_obj = {
+            'name': vs_name,
+            'description': description,
+            'type': 'VS_TYPE_NORMAL',
+            'vip': [vip],
             'enabled': enabled,
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
@@ -196,7 +202,6 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
-
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):

@@ -463,7 +463,9 @@ def get_service_obj(destination, vs_list, enable_ssl):
     parts = destination.split(':')
     ip_addr = parts[0]
     port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
-    vs_dup_ips = [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
+    # Get the list of vs which shared the same vip
+    vs_dup_ips = \
+        [vs for vs in vs_list if vs['vip'][0]['ip_address']['addr'] == ip_addr]
 
     if port == 'any':
         port = 0
