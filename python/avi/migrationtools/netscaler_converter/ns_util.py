@@ -1117,3 +1117,24 @@ def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
     # Add pivot table in Pivot sheet
     pivot_df.to_excel(master_writer, 'Pivot Sheet')
     master_writer.save()
+
+def update_skip_duplicates(obj, obj_list, obj_type, merge_profile_mapping, name):
+    """
+    Merge duplicate profiles
+    :param obj: Source object to find duplicates for
+    :param obj_list: List of object to search duplicates in
+    :param obj_type: Type of object to add in converted_objs status
+    :param converted_objs: Converted avi object or merged object name
+    :param name: Name of the object
+    :param default_profile_name : Name of root parent default profile
+    :return:
+    """
+    dup_of = None
+    dup_of = check_for_duplicates(obj, obj_list)
+    merge_profile_mapping[obj_type].update({name: name})
+    if dup_of:
+        # Update value of ssl profile with merged profile
+        merge_profile_mapping[obj_type].update({name: dup_of})
+        return True
+    return False
+

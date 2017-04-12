@@ -1,4 +1,8 @@
-netscaler_ssl_cipher_to_open_ssl_cipher:
+# SSL ciphers config file
+
+#List of netscaler cipher and respective open ssl
+#cipher which are supported by AVI
+supported_netscaler_to_open_ssl_cipher:
   TLS1-AES-256-CBC-SHA: AES256-SHA
   TLS1-AES-128-CBC-SHA: AES128-SHA
   TLS1.2-AES-256-SHA256: AES256-SHA256
@@ -26,11 +30,15 @@ netscaler_ssl_cipher_to_open_ssl_cipher:
   SSL3-DES-CBC3-SHA: DES-CBC3-SHA
   SSL3-RC4-SHA: RC4-SHA
   SSL3-RC4-MD5: RC4-MD5
+  SSL2-DES-CBC-MD5: DHE-DSS-AES128-SHA256
+
+#List of netscaler cipher and respective open ssl
+#cipher which are not supported by AVI
+non_supported_netscaler_to_open_ssl_cipher:
   SSL3-DES-CBC-SHA: DES-CBC-SHA
   SSL3-EXP-RC4-MD5: EXP-RC4-MD5
   SSL3-EXP-DES-CBC-SHA: EXP-DES-CBC-SHA
   SSL3-EXP-RC2-CBC-MD5: EXP-RC2-CBC-MD5
-  SSL2-DES-CBC-MD5: DHE-DSS-AES128-SHA256
   SSL3-EDH-DSS-DES-CBC-SHA: EDH-DSS-DES-CBC-SHA
   SSL3-EXP-EDH-DSS-DES-CBC-SHA: EXP-EDH-DSS-DES-CBC-SHA
   SSL3-EDH-RSA-DES-CBC-SHA: EDH-RSA-DES-CBC-SHA
@@ -45,6 +53,8 @@ netscaler_ssl_cipher_to_open_ssl_cipher:
   SSL3-NULL-MD5: NULL-MD5
   SSL3-NULL-SHA: NULL-SHA
 
+#List of open ssl ciphers to respective AVI ssl cipher
+#cipher which are supported by AVI
 open_ssl_cipher_to_avi_ssl_cipher:
   ECDHE-ECDSA-AES128-GCM-SHA256: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
   ECDHE-ECDSA-AES256-GCM-SHA384: TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
