@@ -15,6 +15,14 @@ class MonitorConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+        """
+        Construct a new 'MonitorConverter' object.
+        :param tenant_name: Name of tenant
+        :param cloud_name: Name of cloud
+        :param tenant_ref: Tenant reference
+        :param cloud_ref: Cloud Reference
+        """
+
         self.monitor_skip_attrs = \
             ns_constants.netscalar_command_status['monitor_skip_attrs']
         self.monitor_na_attrs = \

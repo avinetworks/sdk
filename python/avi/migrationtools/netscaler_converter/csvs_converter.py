@@ -13,6 +13,8 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_NETWORK_PROFILE)
 from avi.migrationtools.netscaler_converter.policy_converter \
     import PolicyConverter
+from avi.migrationtools.netscaler_converter.profile_converter \
+    import merge_profile_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -23,7 +25,17 @@ tmp_policy_ref = []
 class CsvsConverter(object):
 
 
-    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
+                 profile_merge_check):
+        """
+        Construct a new 'CsvsConverter' object.
+        :param tenant_name: Name of tenant
+        :param cloud_name: Name of cloud
+        :param tenant_ref: Tenant reference
+        :param cloud_ref: Cloud Reference
+        :param profile_merge_check: Bool value for profile merge
+        """
+
         self.csvs_skip_attrs = \
             ns_constants.netscalar_command_status['csvs_skip_attrs']
         self.csvs_na_attrs = \
@@ -38,6 +50,7 @@ class CsvsConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        self.profile_merge_check = profile_merge_check
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -142,6 +155,10 @@ class CsvsConverter(object):
 
             http_prof = cs_vs.get('httpProfileName', None)
             if http_prof:
+                # Get the merge application profile name
+                if self.profile_merge_check:
+                    http_prof = merge_profile_mapping['app_profile'].get(
+                        http_prof, None)
                 http_prof = \
                     ns_util.get_object_ref(http_prof,
                                            OBJECT_TYPE_APPLICATION_PROFILE,
@@ -157,6 +174,10 @@ class CsvsConverter(object):
                     LOG.info('Conversion successful : %s' % clt_cmd)
             ntwk_prof = cs_vs.get('tcpProfileName', None)
             if ntwk_prof:
+                # Get the merge network profile name
+                if self.profile_merge_check:
+                    ntwk_prof = merge_profile_mapping['network_profile'].get(
+                        ntwk_prof, None)
                 if ns_util.object_exist('NetworkProfile', ntwk_prof,
                                         avi_config):
                     LOG.info('Conversion successful: Added network profile %s '
@@ -252,6 +273,10 @@ class CsvsConverter(object):
                 ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                 mapping = ssl_vs_mapping.get(key, None)
                 ssl_profile_name = re.sub('[:]', '-', key)
+                # Get the merge ssl profile name
+                if self.profile_merge_check:
+                    ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
+                        ssl_profile_name, None)
                 if mapping and [ssl_profile for ssl_profile in
                                 avi_config["SSLProfile"] if
                                 ssl_profile['name'] == ssl_profile_name]:

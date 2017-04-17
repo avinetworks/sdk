@@ -15,10 +15,30 @@ LOG = logging.getLogger(__name__)
 
 tmp_ssl_key_and_cert_list = []
 tmp_pki_profile_list = []
+# Define Dict of merge_profile_mapping to update the merged profile name of
+# ssl_profile, application_profile, network_profile
+merge_profile_mapping = {
+    'ssl_profile': {},
+    'app_profile': {},
+    'network_profile': {}
+}
+
+
 class ProfileConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 ssl_ciphers, keypassphrase=None):
+                 ssl_ciphers, profile_merge_check, keypassphrase=None):
+        """
+        Construct a new 'ProfileConverter' object.
+        :param tenant_name: Name of tenant
+        :param cloud_name: Name of cloud
+        :param tenant_ref: Tenant reference
+        :param cloud_ref: Cloud Reference
+        :param ssl_ciphers: Object of list of supported and
+        non supported ssl ciphers
+        :param profile_merge_check: Bool value for profile merge
+        :param keypassphrase: path of passphrase yaml file
+        """
         
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
@@ -69,14 +89,20 @@ class ProfileConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        self.profile_merge_check = profile_merge_check
+        # Initialize merge count of ssl, application, network profiles
+        self.ssl_merge_count = 0
+        self.application_merge_count = 0
+        self.network_merge_count = 0
         # ssl cipher yaml
-        self.netscaler_ssl_cipher_to_open_ssl_cipher = \
-            ssl_ciphers.get('netscaler_ssl_cipher_to_open_ssl_cipher', {})
+        self.supported_netscaler_to_open_ssl_cipher = \
+            ssl_ciphers.get('supported_netscaler_to_open_ssl_cipher', {})
+        self.non_supported_netscaler_to_open_ssl_cipher = \
+            ssl_ciphers.get('non_supported_netscaler_to_open_ssl_cipher', {})
         self.open_ssl_cipher_to_avi_ssl_cipher = ssl_ciphers.get(
             'open_ssl_cipher_to_avi_ssl_cipher', {})
         # list of keys with passphrase provided in YAML.
         self.netscalar_passphrase_keys = None
-
 
         if keypassphrase:
             self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
@@ -125,7 +151,22 @@ class ProfileConverter(object):
                                         ns_http_profile_command, key,
                                         ns_http_profile_complete_command,
                                         conv_status, app_profile)
-                avi_config['ApplicationProfile'].append(app_profile)
+                if self.profile_merge_check:
+                    # Check application profile is duplicate of other
+                    # application profile then skipped this application
+                    # profile and increment of count of
+                    # application_merge_count
+                    dup_of = \
+                        ns_util.update_skip_duplicates(
+                            app_profile, avi_config['ApplicationProfile'],
+                            'app_profile', merge_profile_mapping, key)
+                    if dup_of:
+                        self.application_merge_count += 1
+                    else:
+                        avi_config['ApplicationProfile'].append(app_profile)
+
+                else:
+                    avi_config['ApplicationProfile'].append(app_profile)
 
         LOG.debug("HTTP profiles conversion completed")
 
@@ -146,7 +187,21 @@ class ProfileConverter(object):
                                         ns_tcp_profile_command, key,
                                         ns_tcp_profile_complete_command,
                                         conv_status, net_profile)
-                avi_config['NetworkProfile'].append(net_profile)
+                if self.profile_merge_check:
+                    # Check network profile is duplicate of other
+                    # network profile then skipped this application
+                    # profile and increment of count of
+                    # network_merge_count
+                    dup_of = \
+                        ns_util.update_skip_duplicates(
+                            net_profile, avi_config['NetworkProfile'],
+                            'network_profile', merge_profile_mapping, key)
+                    if dup_of:
+                        self.network_merge_count += 1
+                    else:
+                        avi_config['NetworkProfile'].append(net_profile)
+                else:
+                    avi_config['NetworkProfile'].append(net_profile)
         LOG.debug("TCP profiles conversion completed")
 
         LOG.debug("Conversion started for SSL profiles")
@@ -183,7 +238,6 @@ class ProfileConverter(object):
                                          'bind ssl serviceGroup')
 
         LOG.debug("SSL profiles conversion completed")
-
 
     def convert_ssl_service_profile(self, set_ssl_service, bind_ssl_service,
                                     ssl_key_and_cert, input_dir, ns_config,
@@ -254,7 +308,20 @@ class ProfileConverter(object):
             if obj.get('pki', None):
                 avi_config["PKIProfile"].append(obj.get('pki'))
 
-            avi_config["SSLProfile"].append(ssl_profile)
+            if self.profile_merge_check:
+                # Check ssl profile is duplicate of other ssl profile then
+                # skipped this application profile and increment of count
+                # of ssl_merge_count
+                dup_of = \
+                    ns_util.update_skip_duplicates(
+                        ssl_profile, avi_config['SSLProfile'],
+                        'ssl_profile', merge_profile_mapping, ssl_profile_name)
+                if dup_of:
+                    self.ssl_merge_count += 1
+                else:
+                    avi_config['SSLProfile'].append(ssl_profile)
+            else:
+                avi_config['SSLProfile'].append(ssl_profile)
             LOG.info('Conversion successful: %s' % full_set_ssl_service_command)
             conv_status = \
                 ns_util.get_conv_status(ssl_service,
@@ -615,10 +682,28 @@ class ProfileConverter(object):
             full_bind_ssl_cipher_command = ns_util.\
                 get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
-                open_ssl_cipher = self.netscaler_ssl_cipher_to_open_ssl_cipher.get(bind_cipher['cipherName'], None)
-                if open_ssl_cipher:
-                    avi_cipher = {'accepted_ciphers': open_ssl_cipher}
-                    ciphers.append(open_ssl_cipher)
+                not_supported_open_ssl_cipher = \
+                    self.non_supported_netscaler_to_open_ssl_cipher.\
+                        get(bind_cipher['cipherName'], None)
+                if not_supported_open_ssl_cipher:
+                    # Skipped ssl cipher which AVI does not support
+                    skipped_status = \
+                        'Skipped: ssl cipher does not supported by avi: %s' \
+                        % full_bind_ssl_cipher_command
+                    LOG.warning(skipped_status)
+                    # Add skipped status in xlsx/report for add ssl cipher
+                    ns_util.add_status_row(bind_cipher['line_no'],
+                                           bind_ssl_cipher_command, cipher,
+                                           full_bind_ssl_cipher_command,
+                                           STATUS_INDIRECT, skipped_status)
+                    continue
+
+                supported_open_ssl_cipher = \
+                    self.supported_netscaler_to_open_ssl_cipher.\
+                        get(bind_cipher['cipherName'], None)
+                if supported_open_ssl_cipher:
+                    avi_cipher = {'accepted_ciphers': supported_open_ssl_cipher}
+                    ciphers.append(supported_open_ssl_cipher)
                     LOG.info('Conversion successful: %s' %
                              full_bind_ssl_cipher_command)
                     # Add Successful status in CSV/report for add ssl cipher
@@ -627,10 +712,11 @@ class ProfileConverter(object):
                                            full_bind_ssl_cipher_command,
                                            STATUS_SUCCESSFUL, avi_cipher)
                 else:
+                    # Skipped ssl cipher if cipher is None
                     skipped_status = 'Skipped: Cipher not match in avi: %s' \
                                      % full_bind_ssl_cipher_command
                     LOG.warning(skipped_status)
-                    # Add skipped status in CSV/report for add ssl cipher
+                    # Add skipped status in xlsx/report for add ssl cipher
                     ns_util.add_status_row(bind_cipher['line_no'],
                                            bind_ssl_cipher_command, cipher,
                                            full_bind_ssl_cipher_command,

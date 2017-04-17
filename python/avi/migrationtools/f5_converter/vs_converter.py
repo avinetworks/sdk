@@ -6,7 +6,6 @@ import re
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
 
-
 LOG = logging.getLogger(__name__)
 
 
@@ -131,7 +130,7 @@ class VSConfigConv(object):
             if ssl_pool:
                 if is_pool_group:
                     conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
-                                               ssl_pool[0], tenant)
+                                                     ssl_pool[0], tenant)
                     conv_utils.remove_http_mon_from_pool_group(
                         avi_config, pool_ref, tenant)
                 else:
@@ -209,14 +208,45 @@ class VSConfigConv(object):
             else:
                 vs_ds_rules = f5_vs['rules'].keys()
             for index, rule in enumerate(vs_ds_rules):
-                ds_ref = self.create_vs_datascript(rule, avi_config, tenant)
-                vs_datascript = {
-                    'index': index,
-                    'vs_datascript_set_ref': conv_utils.get_object_ref(
-                        ds_ref, 'vsdatascriptset', tenant=tenant)
-                }
-                vs_obj['vs_datascripts'].append(vs_datascript)
-
+                # converted _sys_https_redirect data script to rule in
+                # http policy
+                if rule == '_sys_https_redirect':
+                    policy_name = rule + '-' + vs_name
+                    policy = {
+                        "name": policy_name,
+                        "http_request_policy": {
+                            "rules": [
+                                {
+                                    "index": 1,
+                                    "redirect_action": {
+                                        "keep_query": True,
+                                        "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+                                        "protocol": "HTTPS",
+                                        "port": 443
+                                    },
+                                    "enable": True,
+                                    "name": policy_name + "-Redirect",
+                                    "match": {
+                                        "protocol": {
+                                            "protocols": "HTTP",
+                                            "match_criteria": "IS_IN"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "is_internal_policy": False
+                    }
+                    http_policies = {
+                        'index': 11,
+                        'http_policy_set_ref':
+                            conv_utils.get_object_ref(policy_name,
+                                                      'httppolicyset',
+                                                      tenant=tenant)
+                    }
+                    vs_obj['http_policies'] = []
+                    vs_obj['http_policies'].append(http_policies)
+                    avi_config['HTTPPolicySet'].append(policy)
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
                 pool_ref, 'poolgroup', tenant=tenant)
@@ -325,37 +355,7 @@ class VSConfigConv(object):
 
         return vs_obj
 
-    def create_vs_datascript(self, rule, avi_config, tenant):
-        vs_ds_ref = rule + '-vs-datascript-dummy'
-        if self.check_vs_datascript_ref_already_exist(
-                vs_ds_ref, avi_config['VSDataScriptSet']):
-            return vs_ds_ref
-        vs_ds = {
-            'name': vs_ds_ref,
-            'datascript': [],
-            'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
-        }
-
-        datascript = {
-            'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ',
-            'script': 'host = avi.http.host()'
-        }
-        if rule == '_sys_https_redirect':
-            datascript['script'] = 'avi.http.redirect("https://" .. ' \
-                                   'avi.http.hostname() .. avi.http.get_uri())'
-        vs_ds['datascript'].append(datascript)
-        avi_config['VSDataScriptSet'].append(vs_ds)
-        LOG.info('Add new dummy data script : %s' % vs_ds_ref)
-
-        return vs_ds_ref
-
-    def check_vs_datascript_ref_already_exist(self, vs_ds_ref, datascript_config):
-        ref = [ds['name'] for ds in datascript_config if ds['name'] == vs_ds_ref]
-        if ref:
-            LOG.warning('Already data script present : %s' % vs_ds_ref)
-            return True
-        return False
-
+    
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
@@ -375,15 +375,11 @@ class VSConfigConvV11(VSConfigConv):
                                skipped):
         port_translate = f5_vs.get('translate-port', None)
         if port_translate:
-            vs_type = conv_utils.get_app_profile_type(app_prof, avi_config)
-            l4_type = 'APPLICATION_PROFILE_TYPE_L4'
-            if port_translate == 'disabled' and vs_type == l4_type:
+            if port_translate == 'disabled':
                 conv_utils.update_pool_for_service_port(avi_config['Pool'],
                                                         pool_ref)
             elif port_translate == 'enabled':
                 return
-            else:
-                skipped.append('translate-port')
 
 
 class VSConfigConvV10(VSConfigConv):
@@ -403,12 +399,8 @@ class VSConfigConvV10(VSConfigConv):
                                skipped):
         port_translate = f5_vs.get('translate service', None)
         if port_translate:
-            vs_type = conv_utils.get_app_profile_type(app_prof, avi_config)
-            l4_type = 'APPLICATION_PROFILE_TYPE_L4'
-            if port_translate == 'disabled' and vs_type == l4_type:
+            if port_translate == 'disabled':
                 conv_utils.update_pool_for_service_port(avi_config['Pool'],
                                                         pool_ref)
             elif port_translate == 'enabled':
                 return
-            else:
-                skipped.append('translate service')

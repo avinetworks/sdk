@@ -1,6 +1,7 @@
 import logging
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 
@@ -77,7 +78,7 @@ class PersistenceConfigConv(object):
                              'indirectly to Pool -> Load Balance  Algorithm'
                              % name)
                     conv_status = {
-                        'status' : 'partial',
+                        'status': conv_const.STATUS_PARTIAL,
                         'skipped': skipped
                     }
                     msg = 'Indirectly mapped to Pool -> Load Balance Algorithm'
