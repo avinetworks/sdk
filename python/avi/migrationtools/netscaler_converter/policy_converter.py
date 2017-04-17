@@ -23,6 +23,17 @@ class PolicyConverter(object):
     """
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
                  bind_skipped, na_attrs, ignore_vals):
+        """
+        Construct a new 'PolicyConverter' object.
+        :param tenant_name: Name of tenant
+        :param cloud_name: Name of cloud
+        :param tenant_ref: Tenant reference
+        :param cloud_ref: Cloud Reference
+        :param bind_skipped: list of skipped attributes for profiles
+        :param na_attrs: List of not applicable attributes for profiles
+        :param ignore_vals: Dict of key pair of attribute and value for ignore
+        """
+
         self.policyconverter_policy_types = \
         ns_constants.netscalar_command_status['policyconverter_policy_types']
         self.policyconverter_bind_skipped = \

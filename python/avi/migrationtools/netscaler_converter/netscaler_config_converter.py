@@ -20,7 +20,8 @@ LOG = logging.getLogger(__name__)
 
 
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
-            input_dir, skipped_cmds, vs_state, key_passphrase=None):
+            input_dir, skipped_cmds, vs_state, profile_merge_check,
+            key_passphrase=None):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -86,21 +87,21 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                                              tenant_ref, cloud_ref)
         monitor_converter.convert(ns_config_dict, avi_config, input_dir)
 
-        profile_converter = ProfileConverter(tenant_name, cloud_name,tenant_ref,
-                                             cloud_ref, ssl_ciphers,
-                                             key_passphrase)
+        profile_converter = \
+            ProfileConverter(tenant_name, cloud_name,tenant_ref, cloud_ref,
+                             ssl_ciphers, profile_merge_check, key_passphrase)
         profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
         service_converter = ServiceConverter(tenant_name, cloud_name,tenant_ref,
-                                             cloud_ref)
+                                             cloud_ref, profile_merge_check)
         service_converter.convert(ns_config_dict, avi_config)
 
         lbvs_converter = LbvsConverter(tenant_name, cloud_name, tenant_ref,
-                                       cloud_ref)
+                                       cloud_ref, profile_merge_check)
         lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         csvs_converter = CsvsConverter(tenant_name, cloud_name, tenant_ref,
-                                       cloud_ref)
+                                       cloud_ref, profile_merge_check)
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         # Add status for skipped netscalar commands in CSV/report
@@ -118,6 +119,37 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                              % (key,len(avi_config[key]), ns_util.count))
                     print 'Total Objects of %s : %s (%s full conversions)'\
                           % (key, len(avi_config[key]), ns_util.count)
+                    continue
+                    # Added code to print merged count.
+                elif profile_merge_check and key == 'SSLProfile':
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config[key]),
+                         abs(profile_converter.ssl_merge_count),
+                         abs(profile_converter.ssl_merge_count) +
+                         len(avi_config[key]))
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
+                    continue
+                elif profile_merge_check and key == 'ApplicationProfile':
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config[key]),
+                         abs(profile_converter.application_merge_count),
+                         abs(profile_converter.application_merge_count) +
+                         len(avi_config[key]))
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
+                    continue
+                elif profile_merge_check and key == 'NetworkProfile':
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config[key]),
+                         abs(profile_converter.network_merge_count),
+                         abs(profile_converter.network_merge_count) +
+                         len(avi_config[key]))
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
                     continue
                 LOG.info('Total Objects of %s : %s' % (key,
                                                        len(avi_config[key])))

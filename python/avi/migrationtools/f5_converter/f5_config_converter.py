@@ -64,32 +64,32 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                 if ssl_profile_merge_check and key == 'SSLProfile':
                     mergedfile = len(avi_config_dict[key]) -\
                                  profile_conv.sslmergecount
-                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
-                             (key, len(avi_config_dict[key]),
-                              abs(mergedfile)))
-                    print 'Total Objects of %s : %s (%s profile merged)' % \
-                          (key, len(avi_config_dict[key]),
-                           abs(mergedfile))
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config_dict[key]), abs(mergedfile),
+                         profile_conv.sslmergecount)
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
                     continue
                 elif ssl_profile_merge_check and key == 'ApplicationProfile':
                     mergedfile = len(avi_config_dict[key])- \
                                  profile_conv.applicationmergecount
-                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
-                             (key, len(avi_config_dict[key]),
-                              abs(mergedfile)))
-                    print 'Total Objects of %s : %s (%s profile merged)' % \
-                          (key, len(avi_config_dict[key]),
-                           abs(mergedfile))
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config_dict[key]), abs(mergedfile),
+                         profile_conv.applicationmergecount)
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
                     continue
                 elif ssl_profile_merge_check and key == 'NetworkProfile':
                     mergedfile = len(avi_config_dict[key]) - \
                                  profile_conv.networkmergecount
-                    LOG.info('Total Objects of %s : %s (%s profile merged)' %
-                             (key, len(avi_config_dict[key]),
-                              abs(mergedfile)))
-                    print 'Total Objects of %s : %s (%s profile merged)' % \
-                          (key, len(avi_config_dict[key]),
-                           abs(mergedfile))
+                    profile_merged_message = \
+                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                        (key, len(avi_config_dict[key]), abs(mergedfile),
+                         profile_conv.networkmergecount)
+                    LOG.info(profile_merged_message)
+                    print profile_merged_message
                     continue
                 LOG.info('Total Objects of %s : %s' % (key, len(
                     avi_config_dict[key])))
