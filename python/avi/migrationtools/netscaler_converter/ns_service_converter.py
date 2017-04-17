@@ -10,6 +10,8 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HEALTH_MONITOR,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
             STATUS_EXTERNAL_MONITOR)
+from avi.migrationtools.netscaler_converter.profile_converter \
+    import merge_profile_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -17,7 +19,17 @@ LOG = logging.getLogger(__name__)
 class ServiceConverter(object):
 
 
-    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
+                 profile_merge_check):
+        """
+        Construct a new 'ServiceConverter' object.
+        :param tenant_name: Name of tenant
+        :param cloud_name: Name of cloud
+        :param tenant_ref: Tenant reference
+        :param cloud_ref: Cloud Reference
+        :param profile_merge_check: Bool value for profile merge
+        """
+
         self.nsservice_bind_lb_skipped = \
             ns_constants.netscalar_command_status['nsservice_bind_lb_skipped']
         self.nsservice_service_skip = \
@@ -38,6 +50,7 @@ class ServiceConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        self.profile_merge_check = profile_merge_check
 
     def convert(self, ns_config, avi_config):
         """
@@ -329,6 +342,11 @@ class ServiceConverter(object):
                         pool_obj['ssl_key_and_certificate_ref'] = \
                             ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', key)
+                if self.profile_merge_check:
+                    # Get the merge ssl profile name
+                    ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
+                        ssl_profile_name, None)
+
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile']
                     if ssl_prof['name'] == ssl_profile_name]:
                     updated_ssl_profile_ref = \
