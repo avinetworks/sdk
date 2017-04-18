@@ -366,7 +366,7 @@ class LbvsConverter(object):
                     avi_config['VirtualService'].append(vs_obj)
                     tmp_avi_config['VirtualService'].append(vs_obj)
                     # Marked redirect url as status indirect
-                    ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
+                    ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                             full_cmd, STATUS_INDIRECT, vs_obj)
                 else:
                     # Verify that this lb vs has share the same VIP of another

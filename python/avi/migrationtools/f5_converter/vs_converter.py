@@ -229,6 +229,8 @@ class VSConfigConv(object):
                                 }
                             ]
                         },
+                        'tenant_ref': conv_utils.get_object_ref(tenant,
+                                                                'tenant'),
                         "is_internal_policy": False
                     }
                     http_policies = {
