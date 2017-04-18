@@ -431,7 +431,7 @@ class ApiSession(Session):
             params = {}
         params['name'] = name
         resp = self.get(path, tenant, tenant_uuid, timeout=timeout,
-                        params=params, **kwargs)
+                        params=params, api_version=api_version, **kwargs)
         if resp.status_code in (401, 419):
             ApiSession.reset_session(self)
             resp = self.get_object_by_name(

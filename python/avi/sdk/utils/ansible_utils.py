@@ -207,6 +207,8 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
         x.pop('_last_modified', None)
         x.pop('tenant', None)
         y.pop('_last_modified', None)
+        x.pop('api_version', None)
+        y.pop('api_verison', None)
         d_xks = []
         for k, v in x.iteritems():
             if ((k in sensitive_fields) or
@@ -264,9 +266,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             tenant=module.params['tenant'])
     state = module.params['state']
     # Get the api version.
-    api_version = module.params.get('api_version', None)
-    if not api_version:
-        api_version = '16.4'
+    api_version = module.params.get('api_version', '16.4')
     name = module.params.get('name', None)
     check_mode = module.check_mode
     obj_path = None
@@ -299,11 +299,10 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     log.info('passed object %s ', obj)
 
     if name is not None:
-        # added api version to avi api call.
         existing_obj = api.\
             get_object_by_name(obj_type, name, tenant=tenant,
                                tenant_uuid=tenant_uuid,
-                               params={'include_refs': '','include_name': ''},
+                               params={'include_refs': '', 'include_name': ''},
                                api_version=api_version)
     else:
         # added api version to avi api call.
@@ -352,7 +351,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                 # No need to process any further.
                 rsp = AviCheckModeResponse(obj=existing_obj)
             else:
-                # added api version to avi api call.
                 rsp = api.put(obj_path, data=req, tenant=tenant,
                               tenant_uuid=tenant_uuid, api_version=api_version)
         elif check_mode:
@@ -363,7 +361,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         if check_mode:
             rsp = AviCheckModeResponse(obj=None)
         else:
-            # added api version to avi api call.
             rsp = api.post(obj_type, data=obj, tenant=tenant,
                            tenant_uuid=tenant_uuid, api_version=api_version)
     if rsp is None:
