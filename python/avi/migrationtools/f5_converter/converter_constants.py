@@ -45,6 +45,7 @@ STATUS_NOT_APPLICABLE = 'NOT APPLICABLE'  # Its specific netscalar commands
 # which are not applicable in AVI
 STATUS_PARTIAL = 'PARTIAL'
 STATUS_DATASCRIPT = 'DATASCRIPT'
+STATUS_NOT_IN_USED = 'NOT IN USED'
 # Object type constant which are used in object reference generation
 OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
 OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
@@ -58,7 +59,9 @@ OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE = 'applicationpersistenceprofile'
 OBJECT_TYPE_HEALTH_MONITOR = 'healthmonitor'
 OBJECT_TYPE_VIRTUAL_SERVICE = 'virtualservice'
 OBJECT_TYPE_STRING_GROUP = 'stringgroup'
-
+# Complexity status constant
+COMPLEXITY_ADVANCED = 'ADVANCED'
+COMPLEXITY_BASIC = 'BASIC'
 STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
                STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
 
