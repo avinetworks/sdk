@@ -68,6 +68,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                         "16_3_4",
                         "16_4_1",
                         "16_4_2",
+                        "17_1_1",
                         "current_version"
                     ]
                 },
