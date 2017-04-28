@@ -161,7 +161,7 @@ if __name__ == "__main__":
                         help='state of VS created', default='disable')
     parser.add_argument('--controller_version',
                         help='Target Avi controller version',
-                        default='16.4')
+                        default='17.1')
     parser.add_argument('--ns_host_ip',
                         help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
