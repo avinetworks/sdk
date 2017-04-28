@@ -1437,7 +1437,7 @@ def vs_per_skipped_setting_for_references(avi_config):
     # VS directly or indirectly
     for row in csv_objects:
         if 'VS Reference' not in row or row['VS Reference'] == '':
-            row['VS Reference'] = conv_const.STATUS_NOT_IN_USED
+            row['VS Reference'] = conv_const.STATUS_NOT_IN_USE
 
 
 def update_vs_complexity_level(vs_csv_row, virtual_service):
