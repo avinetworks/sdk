@@ -1,14 +1,13 @@
 import logging
-import os
-
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
+
 from avi.migrationtools.f5_converter.monitor_converter import MonitorConfigConv
 from avi.migrationtools.f5_converter.persistence_converter import PersistenceConfigConv
 from avi.migrationtools.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
-from avi.migrationtools.f5_converter import profile_converter
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
-import avi.migrationtools.f5_converter.converter_constants as conv_const
+
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -47,7 +46,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         profile_conv = ProfileConfigConv.get_instance(version, f5_attributes,
                                                       ssl_profile_merge_check)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
-                             tenant)
+                             tenant, cloud_name)
 
         persist_conv = PersistenceConfigConv.get_instance(version, f5_attributes)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
@@ -118,5 +117,50 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                           conv_const.STATUS_SKIPPED)
 
     # Add f5 converter status report in xslx report
-    conv_utils.add_complete_conv_status(output_dir)
+    conv_utils.add_complete_conv_status(output_dir, avi_config_dict)
+    for key in avi_config_dict:
+        if key != 'META':
+            if key == 'VirtualService':
+                LOG.info('Total Objects of %s : %s (%s full conversions)'
+                         % (key, len(avi_config_dict[key]),
+                            conv_utils.fully_migrated))
+                print 'Total Objects of %s : %s (%s full conversions)' \
+                      % (
+                      key, len(avi_config_dict[key]), conv_utils.fully_migrated)
+                continue
+            # Added code to print merged count.
+            elif ssl_profile_merge_check and key == 'SSLProfile':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.sslmergecount
+                profile_merged_message = \
+                    'Total Objects of %s : %s (%s/%s profile merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.sslmergecount)
+                LOG.info(profile_merged_message)
+                print profile_merged_message
+                continue
+            elif ssl_profile_merge_check and key == 'ApplicationProfile':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.applicationmergecount
+                profile_merged_message = \
+                    'Total Objects of %s : %s (%s/%s profile merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.applicationmergecount)
+                LOG.info(profile_merged_message)
+                print profile_merged_message
+                continue
+            elif ssl_profile_merge_check and key == 'NetworkProfile':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.networkmergecount
+                profile_merged_message = \
+                    'Total Objects of %s : %s (%s/%s profile merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.networkmergecount)
+                LOG.info(profile_merged_message)
+                print profile_merged_message
+                continue
+            LOG.info('Total Objects of %s : %s' % (key, len(
+                avi_config_dict[key])))
+            print 'Total Objects of %s : %s' % (key, len(
+                avi_config_dict[key]))
     return avi_config_dict
