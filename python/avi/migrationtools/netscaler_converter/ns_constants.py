@@ -18,7 +18,7 @@ STATUS_COMMAND_NOT_SUPPORTED = 'NOT SUPPORTED'  # Commands are not supported in
 # AVI yet
 STATUS_INCOMPLETE_CONFIGURATION = 'INCOMPLETE CONFIGURATION'
 STATUS_MISSING_FILE = 'MISSING FILE'
-STATUS_NOT_IN_USED = 'NOT IN USED'
+STATUS_NOT_IN_USE = 'NOT IN USE'
 # Object type constant which are used in object reference generation
 OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
 OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
