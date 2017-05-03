@@ -376,7 +376,8 @@ class ApiSession(Session):
                     (self.MAX_API_RETRIES, connection_error))
             # should restore the updated_hdrs to one passed down
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
-                             headers=headers, timeout=timeout, **kwargs)
+                             headers=headers, api_version=api_version,
+                             timeout=timeout, **kwargs)
             self.num_session_retries = 0
 
         if resp.cookies and 'csrftoken' in resp.cookies:
