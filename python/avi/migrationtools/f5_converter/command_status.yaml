@@ -413,9 +413,13 @@ VERSION_11:
     - 'rules'
     - "partition"
 
+    VS_na_attr:
+    - 'vs-index'
+
     VS_ignore_for_value:
         'ip-protocol': 'tcp'
         'translate-address': 'enabled'
+        'source-port': 'change'
         'mask': ['255.255.255.255', 'any']
 
     VS_unsupported_types:
@@ -701,6 +705,9 @@ VERSION_10:
     - 'translate service'
     - 'source'
     - 'limit'
+
+    VS_na_attr:
+    - 'vs index'
 
     VS_ignore_for_value:
         'ip protocol': 'tcp'

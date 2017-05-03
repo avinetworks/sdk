@@ -1066,7 +1066,7 @@ def format_string_to_json(avi_string):
     try:
         return json.loads(avi_string)
     except Exception as e:
-        print e
+        LOG.error(e)
         pass
 
 
@@ -1121,6 +1121,8 @@ def get_csv_skipped_list(csv_objects, name_of_object, vs_ref, field_key=None):
         avi_objects = format_string_to_json(csv_object['Avi Object'])
         if isinstance(avi_objects, dict):
             avi_objects = [avi_objects]
+        if not avi_objects:
+            avi_objects = []
         for avi_object_json in avi_objects:
             object_found = False
             if field_key:
