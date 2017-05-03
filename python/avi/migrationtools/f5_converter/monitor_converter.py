@@ -236,9 +236,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "http_request": send,
-            "http_response_code": [
-                {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
-            ]}
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         # F5 version 11 have destination as port added code.
@@ -260,9 +258,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "http_request": send,
-            "http_response_code": [
-                {"code": "HTTP_2XX"}, {"code": "HTTP_3XX"}
-            ]}
+            "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
         if dest_str[0] != '*':
