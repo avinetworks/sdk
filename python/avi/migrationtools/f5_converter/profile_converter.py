@@ -113,15 +113,20 @@ class ProfileConfigConv(object):
         """
 
         next_hop_ip = route.get('gw', None)
-        gateway = route.get('network', None)
-        ip_addr = gateway
-        # set subnet mask to 0.0.0.0 if its equal to default
-        if gateway == 'default':
-            ip_addr = '0.0.0.0'
+        ip_addr = route.get('network', None)
 
         # Get the mask from subnet mask
+        if '%' in ip_addr:
+            ip_addr = ip_addr.split('%')[0]
+        if '/' in ip_addr:
+            ip_addr = ip_addr.split('/')[0]
+
+        # set subnet mask to 0.0.0.0 if its equal to default
+        if ip_addr == 'default':
+            ip_addr = '0.0.0.0'
+
         mask = sum([bin(int(x)).count('1') for x in ip_addr.split('.')])
-        if next_hop_ip and gateway:
+        if next_hop_ip and ip_addr:
             static_route = {
                 "route_id": 1,
                 "prefix": {
