@@ -163,6 +163,7 @@ class F5Converter(AviConverter):
                     "16_3_4",
                     "16_4_1",
                     "16_4_2",
+                    "17_1_1",
                     "current_version"
                 ]
             },
@@ -301,7 +302,7 @@ if __name__ == "__main__":
                         help='f5 host key file location if key based ' +
                              'authentication')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='16.4')
+                        help='Target Avi controller version', default='17.1')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
     parser.add_argument('--partition_config',
