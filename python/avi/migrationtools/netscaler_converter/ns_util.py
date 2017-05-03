@@ -1278,7 +1278,7 @@ def vs_per_skipped_setting_for_references(avi_config):
     # Update the vs reference not in used if objects are not attached to
     # VS directly or indirectly
     for csv_object in csv_objects:
-        csv_object['VS Reference'] = STATUS_NOT_IN_USED
+        csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
 
 def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
