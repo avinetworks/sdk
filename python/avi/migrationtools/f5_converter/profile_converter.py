@@ -213,6 +213,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         u_ignore = []
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
+
         tenant, name = conv_utils.get_tenant_ref(name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -229,8 +230,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             u_ignore += user_ignore.get('server-ssl', [])
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
-            original_prof = profile_config.get('%s %s' % (profile_type, name),
-                                               None)
+            original_prof = profile_config.get(key, None)
             inherit_key = original_prof.get('inherit-certkeychain', 'true')
             if inherit_key == 'false':
                 profile['cert-key-chain'] = original_prof.get(

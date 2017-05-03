@@ -822,6 +822,12 @@ def get_tenant_ref(name):
         if not parts[2]:
             LOG.warning('Invalid tenant ref : %s' % name)
         name = parts[2]
+    elif name and '/' in name:
+        parts = name.split('/')
+        tenant = parts[0]
+        name = parts[1]
+    if tenant.lower() == 'common':
+        tenant = 'admin'
 
     return tenant, name
 
