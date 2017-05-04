@@ -56,6 +56,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                         tenant, cloud_name)
 
         conv_utils.cleanup_config(avi_config_dict)
+        conv_utils.add_tenants(avi_config_dict)
 
         for key in avi_config_dict:
             if key != 'META':
