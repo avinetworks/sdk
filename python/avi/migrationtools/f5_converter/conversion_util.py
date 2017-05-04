@@ -15,6 +15,7 @@ from socket import gethostname
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
+tenants = []
 
 def upload_file(file_path):
     """
@@ -974,6 +975,7 @@ def get_object_ref(object_name, object_type, tenant='admin',
     :param cloud_name: Name of cloud
     :return: Return generated object ref
     """
+    global tenants
 
     cloud_supported_types = ['pool', 'poolgroup']
     if not cloud_name:
@@ -981,6 +983,8 @@ def get_object_ref(object_name, object_type, tenant='admin',
 
     if object_type == 'tenant':
         ref = '/api/tenant/?name=%s' % object_name
+        if object_name not in tenants:
+            tenants.append(object_name)
     elif object_type == 'cloud':
         ref = '/api/cloud/?tenant=admin&name=%s' % object_name
     elif object_type in cloud_supported_types:
@@ -991,6 +995,17 @@ def get_object_ref(object_name, object_type, tenant='admin',
     # if cloud_name:
     #     ref += '&cloud=%s' % cloud_name
     return ref
+
+
+def add_tenants(avi_config_dict):
+    global tenants
+    if tenants:
+        avi_config_dict['Tenant'] = []
+        for tenant in tenants:
+            avi_config_dict['Tenant'].append({
+                'name': tenant,
+                'local': True
+            })
 
 
 def write_status_report_and_pivot_table_in_xlsx(output_dir):
