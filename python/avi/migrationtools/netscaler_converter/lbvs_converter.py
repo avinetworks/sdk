@@ -450,8 +450,9 @@ class LbvsConverter(object):
                                 LOG.warning(
                                     'Could not find ssl key cert, so adding '
                                     'default cert as system default insted')
-                                vs_obj[avi_ssl_ref] = [
-                                    'admin:System-Default-Cert']
+                                vs_obj[avi_ssl_ref] = [ns_util.get_object_ref(
+                                'System-Default-Cert', 'sslkeyandcertificate',
+                                'admin')]
                                 continue
                             vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
