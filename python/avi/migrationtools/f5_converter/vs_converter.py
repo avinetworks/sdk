@@ -17,6 +17,7 @@ class VSConfigConv(object):
         if version in ['11', '12']:
             return VSConfigConvV11(f5_virtualservice_attributes)
 
+
     def get_persist_ref(self, f5_vs):
         pass
 
@@ -220,7 +221,8 @@ class VSConfigConv(object):
                                     "index": 1,
                                     "redirect_action": {
                                         "keep_query": True,
-                                        "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+                                        "status_code":
+                                            "HTTP_REDIRECT_STATUS_CODE_302",
                                         "protocol": "HTTPS",
                                         "port": 443
                                     },
@@ -345,13 +347,16 @@ class VSConfigConv(object):
                              if rule != '_sys_https_redirect']
             if skipped_rules:
                 skipped.append('rules: %s' % skipped_rules)
-
+        conv_status['na_list'] = [val for val in skipped if
+                                  val in self.vs_na_attr]
+        skipped = [attr for attr in skipped if attr not in self.vs_na_attr]
         skipped = [attr for attr in skipped if attr not in user_ignore]
         conv_status['skipped'] = skipped
         status = final.STATUS_SUCCESSFUL
         if skipped:
             status = final.STATUS_PARTIAL
         conv_status['status'] = status
+
         conv_utils.add_conv_status('virtual', None, vs_name,
                                    conv_status, vs_obj)
 
@@ -365,6 +370,8 @@ class VSConfigConvV11(VSConfigConv):
             f5_virtualservice_attributes['VS_ignore_for_value']
         self.unsupported_types = \
             f5_virtualservice_attributes['VS_unsupported_types']
+        self.vs_na_attr = \
+            f5_virtualservice_attributes['VS_na_attr']
         self.connection_limit = 'connection-limit'
 
     def get_persist_ref(self, f5_vs):
@@ -389,6 +396,8 @@ class VSConfigConvV10(VSConfigConv):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
+        self.vs_na_attr = \
+            f5_virtualservice_attributes['VS_na_attr']
         self.unsupported_types = \
             f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'limit'

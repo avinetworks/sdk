@@ -469,7 +469,8 @@ def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name):
     policy_name = policy['name']
     clone_policy = copy.deepcopy(policy)
     for rule in clone_policy['http_request_policy']['rules']:
-        if rule.get('switching_action', None):
+        if rule.get('switching_action', None) and \
+                rule['switching_action'].get('pool_group_ref'):
             pool_group_ref = \
                 rule['switching_action']['pool_group_ref'].split('&')[1].split(
                     '=')[1]
@@ -1228,7 +1229,8 @@ def vs_per_skipped_setting_for_references(avi_config):
                         for http_req in \
                                 each_http_policy['http_request_policy'][
                                     'rules']:
-                            if http_req.get('switching_action'):
+                            if http_req.get('switching_action') and \
+                                    http_req['switching_action'].get('pool_group_ref'):
                                 pool_group_name = \
                                     get_name(http_req['switching_action']
                                              ['pool_group_ref'])
@@ -1278,7 +1280,7 @@ def vs_per_skipped_setting_for_references(avi_config):
     # Update the vs reference not in used if objects are not attached to
     # VS directly or indirectly
     for csv_object in csv_objects:
-        csv_object['VS Reference'] = STATUS_NOT_IN_USED
+        csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
 
 def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
