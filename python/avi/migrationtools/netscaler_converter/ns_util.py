@@ -1229,8 +1229,9 @@ def vs_per_skipped_setting_for_references(avi_config):
                         for http_req in \
                                 each_http_policy['http_request_policy'][
                                     'rules']:
-                            if http_req.get('switching_action') and \
-                                    http_req['switching_action'].get('pool_group_ref'):
+                            if http_req.get('switching_action', None) and \
+                                    http_req['switching_action'].get(
+                                        'pool_group_ref', None):
                                 pool_group_name = \
                                     get_name(http_req['switching_action']
                                              ['pool_group_ref'])

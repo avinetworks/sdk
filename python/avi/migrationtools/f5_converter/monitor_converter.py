@@ -71,8 +71,9 @@ class MonitorConfigConv(object):
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
                     LOG.warn("Monitor type not supported by Avi : "+name)
-                    conv_utils.add_status_row('monitor', monitor_type, name,
-                                              conv_const.STATUS_EXTERNAL)
+                    conv_utils.add_status_row(
+                        'monitor', monitor_type, name,
+                        conv_const.STATUS_EXTERNAL_MONITOR)
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
@@ -238,10 +239,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
-        if dest_str[1] != '*' and len(dest_str) > 1 \
-                and isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
@@ -260,12 +263,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
-        if dest_str[1] != '*' and len(dest_str) > 1 \
-                and isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp,http_rsp = self.get_maintenance_response(f5_monitor)
@@ -311,8 +316,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and len(dest_str) > 1 \
-                and isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
@@ -348,10 +352,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("destination", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and len(dest_str) > 1 \
-                and isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
@@ -397,7 +403,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name,
-                                      conv_const.STATUS_SKIPPED)
+                                      conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
             return None
         ext_monitor = {
@@ -494,11 +500,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        # some config . is appear with port ex: *.80
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
-                and len(dest_str) > 1 and \
-                isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
@@ -523,11 +530,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
-                and len(dest_str) > 1 and \
-                isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
@@ -541,11 +549,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
-                and len(dest_str) > 1 and \
-                isinstance(int(dest_str[1]), numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
@@ -582,11 +591,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get("dest", "*:*")
         dest_str = destination.split(":")
+        # some config . appear with port. ex '*.80'
+        if '.' in destination:
+            dest_str = destination.split('.')
         if dest_str[0] != '*':
             skipped.append(dest_str)
-        if dest_str[1] != '*' and str(dest_str[1]).isdigit() \
-                and len(dest_str) > 1 and \
-                isinstance(dest_str[1], numbers.Integral):
+        if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
@@ -635,7 +645,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         else:
             LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name,
-                                      conv_const.STATUS_SKIPPED)
+                                      conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
             return None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"

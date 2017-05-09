@@ -254,8 +254,8 @@ class PoolConfigConv(object):
 class PoolConfigConvV11(PoolConfigConv):
     def __init__(self, f5_pool_attributes):
         self.supported_attr = f5_pool_attributes['Pool_supported_attr']
-        self.supported_attributes = f5_pool_attributes['Pool_supported_attr_convert_' \
-                                         'servers_config']
+        self.supported_attributes = f5_pool_attributes[
+            'Pool_supported_attr_convert_servers_config']
         self.ignore_for_val = f5_pool_attributes['Pool_ignore_val']
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
@@ -383,18 +383,20 @@ class PoolConfigConvV11(PoolConfigConv):
             ip_addr = ip_addr.strip()
             matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
             if not matches:
-                LOG.warning('Avi does not support IPv6. Replace 1.1.1.1 ipv4 for : %s' % ip_addr)
+                LOG.warning('Avi does not support IPv6. Replace 1.1.1.1 '
+                            'ipv4 for : %s' % ip_addr)
                 ip_addr = '1.1.1.1'
-
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
                     'type': 'V4'
                 },
-                'port': port,
                 'enabled': enabled,
                 'description': description,
             }
+            # Check if port is present
+            if port:
+                server_obj['port'] = port
             if priority:
                 server_obj['priority'] = priority
             ratio = server.get("ratio", None)
@@ -407,7 +409,9 @@ class PoolConfigConvV11(PoolConfigConv):
             if c_lim > 0:
                 connection_limit.append(c_lim)
 
-            server_obj_list = [s for s in server_list if s['ip']['addr'] == server_obj['ip']['addr'] and s['port'] == server_obj['port']]
+            server_obj_list = [s for s in server_list if s['ip']['addr']
+                               == server_obj['ip']['addr'] and
+                               s['port'] == server_obj['port']]
             if server_obj_list:
                 LOG.warning('Skipped duplicate server %s' % ip_addr)
                 continue
@@ -564,10 +568,12 @@ class PoolConfigConvV10(PoolConfigConv):
                     'addr': ip_addr,
                     'type': 'V4'
                 },
-                'port': port,
                 'enabled': enabled,
                 'description': description,
             }
+            # Check if port is present
+            if port:
+                server_obj['port'] = port
             if priority:
                 server_obj['priority'] = priority
             if ratio:
