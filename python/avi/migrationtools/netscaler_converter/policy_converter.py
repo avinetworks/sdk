@@ -10,7 +10,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_DATASCRIPT,
-            OBJECT_TYPE_POOL_GROUP)
+            OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_STRING_GROUP)
 
 
 
@@ -509,7 +509,7 @@ class PolicyConverter(object):
                                 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' \
                                 in query.upper():
                     element = re.sub('[\\\/]', '', element)
-                    match["query"]["match_str"].append(element)
+                match["query"]["match_str"].append(element)
 
         elif 'REQ.IP.SOURCEIP' in query.upper():
             match = {"client_ip": client_ip}
@@ -614,7 +614,9 @@ class PolicyConverter(object):
                 regex_match.append(regex)
             string_group_ref = self.add_string_group_for_policy(
                 '%s-string_group_object' % policy_name, regex_match, avi_config)
-            match["path"]["string_group_refs"].append(string_group_ref)
+            updated_string_group_ref = ns_util.get_object_ref(
+                string_group_ref, OBJECT_TYPE_STRING_GROUP, self.tenant_name)
+            match["path"]["string_group_refs"].append(updated_string_group_ref)
 
         elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
             match = {"path": path_query}
@@ -1113,11 +1115,10 @@ class PolicyConverter(object):
                     }
                 }
                 policy_rule['redirect_action'] = redirect_action
-            elif policy_action['attrs'][3] in ['403', '429', '200', '404']:
+            elif attrs[1] in ['403', '429', '200', '404']:
                 switching_action ={
                     'action': 'HTTP_SWITCHING_SELECT_LOCAL',
-                    'status_code': 'HTTP_LOCAL_RESPONSE_STATUS_CODE_' +
-                                   policy_action['attrs'][3]
+                    'status_code': 'HTTP_LOCAL_RESPONSE_STATUS_CODE_' + attrs[1]
                 }
                 policy_rule['switching_action'] = switching_action
 

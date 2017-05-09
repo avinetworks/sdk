@@ -27,6 +27,7 @@ VERSION_11:
      - "time-until-up"
      - "description"
      - "defaults-from"
+     - "partition"
 
     Monitor_Indirect_Mappings:
      - "up-interval"
@@ -111,6 +112,7 @@ VERSION_11:
     - "defaults-from"
     - "expiration"
     - "method"
+    - "partition"
 
     Persistence_supported_attr_convert_source_addr:
     - "timeout"
@@ -124,6 +126,7 @@ VERSION_11:
     - 'description'
     - 'slow-ramp-time'
     - 'reselect-tries'
+    - "partition"
 
     Pool_supported_attr_convert_servers_config:
     - 'address'
@@ -183,6 +186,7 @@ VERSION_11:
     - 'ca-file'
     - 'defaults-from'
     - 'peer-cert-mode'
+    - "partition"
 
     Profile_na_http:
     - 'lws-width'
@@ -202,6 +206,7 @@ VERSION_11:
     - "basic-auth-realm"
     - "header-erase"
     - "header-insert"
+    - "partition"
 
     Profile_indirect_http:
     - "request-chunking"
@@ -218,6 +223,7 @@ VERSION_11:
     Profile_supported_dns:
     - "description"
     - "defaults-from"
+    - "partition"
 
     Profile_indirect_dns:
     - 'avr-dnsstat-sample-rate'
@@ -243,6 +249,7 @@ VERSION_11:
     - "defaults-from"
     - "keep-accept-encoding"
     - "content-type-exclude"
+    - "partition"
 
     Profile_na_hc:
     - 'cpu-saver-high'
@@ -266,6 +273,7 @@ VERSION_11:
     - "cache-uri-exclude"
     - "cache-uri-include"
     - "cache-max-entries"
+    - "partition"
 
     Profile_indirect_wa:
     - "cache-size"
@@ -278,6 +286,7 @@ VERSION_11:
     - "software-syn-cookie"
     - "pva-acceleration"
     - "defaults-from"
+    - "partition"
 
     profile_na_l4:
     - "hardware-syn-cookie"
@@ -313,6 +322,7 @@ VERSION_11:
     - "defaults-from"
     - 'max-header-size'
     - 'insert-xforwarded-for'
+    - "partition"
 
     Profile_indirect_fh:
     - 'reset-on-timeout'
@@ -338,6 +348,7 @@ VERSION_11:
     - "congestion-control"
     - "receive-window-size"
     - "ip-tos-to-client"
+    - "partition"
 
     Profile_indirect_tcp:
     - 'reset-on-timeout'
@@ -374,6 +385,7 @@ VERSION_11:
     - "idle-timeout"
     - "datagram-load-balancing"
     - "defaults-from"
+    - "partition"
 
     Profile_indirect_udp:
     - 'link-qos-to-client'
@@ -384,6 +396,7 @@ VERSION_11:
     Profile_supported_oc:
     - 'defaults-from'
     - 'source-mask'
+    - "partition"
 
     VS_supported_attr:
     - 'profiles'
@@ -398,10 +411,15 @@ VERSION_11:
     - 'rate-limit'
     - 'connection-limit'
     - 'rules'
+    - "partition"
+
+    VS_na_attr:
+    - 'vs-index'
 
     VS_ignore_for_value:
         'ip-protocol': 'tcp'
         'translate-address': 'enabled'
+        'source-port': 'change'
         'mask': ['255.255.255.255', 'any']
 
     VS_unsupported_types:
@@ -435,6 +453,8 @@ VERSION_10:
     - "description"
     - "type"
     - "defaults from"
+    - "partition"
+
 
     Monitor_Indirect_Mappings:
     - 'up interval'
@@ -685,6 +705,9 @@ VERSION_10:
     - 'translate service'
     - 'source'
     - 'limit'
+
+    VS_na_attr:
+    - 'vs index'
 
     VS_ignore_for_value:
         'ip protocol': 'tcp'
