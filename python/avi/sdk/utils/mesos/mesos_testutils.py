@@ -348,7 +348,7 @@ class MesosTestUtils(object):
 
     def updateApp(self, marathon_url, app_id, vs_obj=None,
                   auth_type=None, auth_token=None, username=None, password=None,
-                  **kwargs):
+                  avi_version=None, **kwargs):
         app_obj = self.getAppInfo(marathon_url, app_id, auth_type, auth_token, username, password)
         app_obj = app_obj['app']
         # see https://github.com/mesosphere/marathon/issues/3054
@@ -366,6 +366,8 @@ class MesosTestUtils(object):
         if not 'labels' in app_obj:
             app_obj['labels'] = {}
 
+        if avi_version:
+            avi_proxy['version'] = avi_version
         avi_proxy['virtualservice'] = vs_cfg
         app_obj['labels']['avi_proxy']= json.dumps(avi_proxy)
         del app_obj['version']
