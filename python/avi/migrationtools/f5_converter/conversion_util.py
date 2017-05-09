@@ -859,7 +859,8 @@ def get_project_path():
     return os.path.abspath(os.path.dirname(__file__))
 
 
-def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
+def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
+                         cloud_name='Default-Cloud'):
     """
     clones pool or pool group if its shard between multiple VS or partitions
     in F5
@@ -880,35 +881,40 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant):
         is_pool_group = True
     if p_tenant:
         shared_vs = [obj for obj in avi_config['VirtualService']
-                     if obj.get("pool_ref", "") ==
-                     get_object_ref(ref, 'pool', tenant=p_tenant)]
+                     if obj.get("pool_ref", "") == get_object_ref(
+                ref, 'pool', tenant=p_tenant, cloud_name=cloud_name)]
         if not shared_vs:
             shared_vs = [obj for obj in avi_config['VirtualService']
-                         if obj.get("pool_group_ref", "") ==
-                         get_object_ref(ref, 'poolgroup', tenant=p_tenant)]
+                         if obj.get("pool_group_ref", "") == get_object_ref(
+                    ref, 'poolgroup', tenant=p_tenant, cloud_name=cloud_name)]
     else:
         shared_vs = [obj for obj in avi_config['VirtualService']
-                     if obj.get("pool_ref", "") ==
-                     get_object_ref(ref, 'pool', tenant=tenant)]
+                     if obj.get("pool_ref", "") == get_object_ref(
+                ref, 'pool', tenant=tenant, cloud_name=cloud_name)]
         if not shared_vs:
             shared_vs = [obj for obj in avi_config['VirtualService']
-                         if obj.get("pool_group_ref", "") ==
-                         get_object_ref(ref, 'poolgroup', tenant=tenant)]
+                         if obj.get("pool_group_ref", "") == get_object_ref(
+                    ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)]
     if not tenant == p_tenant:
         if is_pool_group:
-            ref = clone_pool_group(ref, vs_name, avi_config, tenant)
+            ref = clone_pool_group(
+                ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
         else:
-            ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+            ref = clone_pool(
+                ref, vs_name, avi_config['Pool'], tenant, cloud_name=cloud_name)
     if shared_vs:
         if is_pool_group:
-            ref = clone_pool_group(ref, vs_name, avi_config)
+            ref = clone_pool_group(
+                ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
         else:
-            ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+            ref = clone_pool(
+                ref, vs_name, avi_config['Pool'], tenant, cloud_name=cloud_name)
 
     return ref, is_pool_group
 
 
-def clone_pool_group(pool_group_name, vs_name, avi_config, tenant='admin'):
+def clone_pool_group(pool_group_name, vs_name, avi_config, tenant='admin',
+                     cloud_name='Default-Cloud'):
     """
     If pool is shared with other VS pool is cloned for other VS as Avi dose not
     support shared pools with new pool name as <pool_name>-<vs_name>
@@ -933,8 +939,8 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant='admin'):
             pool_name = get_name_from_ref(member['pool_ref'])
             pool_name = clone_pool(pool_name, vs_name, avi_config['Pool'],
                                    tenant)
-            member['pool_ref'] = get_object_ref(pool_name, 'pool',
-                                                tenant=tenant)
+            member['pool_ref'] = get_object_ref(
+                pool_name, 'pool', tenant=tenant, cloud_name=cloud_name)
     return pg_ref
 
 

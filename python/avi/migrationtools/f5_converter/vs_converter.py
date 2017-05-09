@@ -125,7 +125,8 @@ class VSConfigConv(object):
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
             # TODO: need to revisit after shared pool support implemented
             pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
-                pool_ref, avi_config, vs_name, tenant, p_tenant)
+                pool_ref, avi_config, vs_name, tenant, p_tenant,
+                cloud_name=cloud_name)
 
             if ssl_pool:
                 if is_pool_group:
@@ -252,10 +253,10 @@ class VSConfigConv(object):
                     avi_config['HTTPPolicySet'].append(policy)
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
-                pool_ref, 'poolgroup', tenant=tenant)
+                pool_ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)
         elif pool_ref:
             vs_obj['pool_ref'] = conv_utils.get_object_ref(
-                pool_ref, 'pool', tenant=tenant)
+                pool_ref, 'pool', tenant=tenant, cloud_name=cloud_name)
 
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
