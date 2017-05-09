@@ -116,13 +116,13 @@ class ProfileConfigConv(object):
         ip_addr = route.get('network', None)
 
         # Get the mask from subnet mask
-        if '%' in ip_addr:
+        if ip_addr and '%' in ip_addr:
             ip_addr = ip_addr.split('%')[0]
-        if '/' in ip_addr:
+        if ip_addr and '/' in ip_addr:
             ip_addr = ip_addr.split('/')[0]
 
         # set subnet mask to 0.0.0.0 if its equal to default
-        if ip_addr == 'default':
+        if not ip_addr or ip_addr == 'default':
             ip_addr = '0.0.0.0'
 
         mask = sum([bin(int(x)).count('1') for x in ip_addr.split('.')])

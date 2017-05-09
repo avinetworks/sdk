@@ -846,7 +846,8 @@ def get_app_profile_type(profile_name, avi_config):
 
 def update_pool_for_service_port(pool_list, pool_name):
     pool = [obj for obj in pool_list if obj['name'] == pool_name]
-    pool[0]['use_service_port'] = True
+    if pool:
+        pool[0]['use_service_port'] = True
 
 
 def rreplace(s, old, new, occurrence):

@@ -32,15 +32,13 @@ class VSConfigConv(object):
         avi_config['VirtualService'] = []
         avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
-        unsupported_types = ["l2-forward", "ip-forward", "stateless",
-                             "dhcp-relay", "internal", "reject"]
 
         for vs_name in vs_config.keys():
             try:
                 LOG.debug("Converting VS: %s" % vs_name)
                 f5_vs = vs_config[vs_name]
                 vs_type = [key for key in f5_vs.keys()
-                           if key in unsupported_types]
+                           if key in self.unsupported_types]
                 if vs_type:
                     LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
                              (vs_type, vs_name))
@@ -50,7 +48,8 @@ class VSConfigConv(object):
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
                                          cloud_name)
-                avi_config['VirtualService'].append(vs_obj)
+                if vs_obj:
+                    avi_config['VirtualService'].append(vs_obj)
                 LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
@@ -112,8 +111,8 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
-
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
+        # if destination is not present then skip vs.
         services_obj, ip_addr = conv_utils.get_service_obj(
             destination, avi_config['VirtualService'], enable_ssl)
 
@@ -361,6 +360,7 @@ class VSConfigConv(object):
                                    conv_status, vs_obj)
 
         return vs_obj
+
 
     
 class VSConfigConvV11(VSConfigConv):
