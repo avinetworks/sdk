@@ -5,7 +5,7 @@ import copy
 import re
 import random
 import urlparse
-import json
+import ast
 import pandas
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
@@ -441,21 +441,34 @@ def object_exist(object_type, name, avi_config):
     return False
 
 
-def is_shared_same_vip(vs, avi_config):
+def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
+                       tenant_ref, cloud_ref):
     """
     This function check for vs sharing same vip
-    :param vs: name of vs
-    :param avi_config:  avi config dict
-    :return: Bool value
+    :param vs: Name of vs
+    :param cs_vs_list: List of vs
+    :param avi_config: avi config dict
+    :param tenant_name: Name of tenant
+    :param cloud_name: Name of cloud
+    :param tenant_ref: Reference of tenant
+    :param cloud_ref: Reference of cloud
+    :return: None
     """
 
     # Get the list of vs which shared the same vip
-    shared_vip = [v for v in avi_config
+    shared_vip = [v for v in cs_vs_list
                   if v['vip'][0]['ip_address']['addr'] == vs['vip'][0]['ip_address']['addr']
                   and v['services'][0]['port'] == vs['services'][0]['port']]
 
     if shared_vip:
         return True
+    else:
+        vsvip = vs['vip'][0]['ip_address']['addr']
+        create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref, cloud_ref)
+        updated_vsvip_ref = get_object_ref(vsvip + '-vsvip', 'vsvip', tenant_name,
+                                           cloud_name)
+        vs['vsvip_ref'] = updated_vsvip_ref
+
 
 def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name):
     """
@@ -576,7 +589,7 @@ def get_object_ref(object_name, object_type, tenant=None, cloud_name=None):
     :return: Return generated object ref
     """
 
-    cloud_supported_types = ['pool', 'poolgroup']
+    cloud_supported_types = ['pool', 'poolgroup', 'vsvip']
     if not cloud_name:
         cloud_name = "Default-Cloud"
 
@@ -768,7 +781,8 @@ def update_status_target_lb_vs_to_indirect(larget_lb_vs):
         row[0]['Status'] = STATUS_INDIRECT
 
 
-def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config, tenant_name, tenant_ref):
+def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config,
+                                            tenant_name, tenant_ref):
     """
     This function defines that create http policy for redirect url
     :param vs_obj: object of VS
@@ -856,10 +870,7 @@ def format_string_to_json(avi_string):
     :return: Return converted string
     """
     avi_string = avi_string.split('__/__')[0]
-    repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
-            ("None", "null"),('u"','"')
-    avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
-    return json.loads(avi_string)
+    return ast.literal_eval(avi_string)
 
 
 def get_csv_object_list(csv_writer_dict_list, command_list):
@@ -937,7 +948,8 @@ def get_ssl_profile_skipped(csv_writer_dict_list, ssl_profile_ref, vs_ref):
     skipped_list = get_csv_skipped_list(csv_object, ssl_profile_name, vs_ref)
     return ssl_profile_name, skipped_list
 
-def get_application_profile_skipped(csv_writer_dict_list, name_of_object, vs_ref):
+def get_application_profile_skipped(csv_writer_dict_list, name_of_object,
+                                    vs_ref):
     """
     This functions defines that get the skipped list of CSV row
     :param csv_writer_dict_list: CSV row of object from xlsx report
@@ -965,7 +977,8 @@ def get_network_profile_skipped(csv_writer_dict_list, name_of_object, vs_ref):
     skipped_list = get_csv_skipped_list(csv_object, ssl_profile_name, vs_ref)
     return ssl_profile_name, skipped_list
 
-def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object, vs_ref):
+def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object,
+                                        vs_ref):
     """
     This functions defines that get the skipped list of CSV row
     :param csv_writer_dict_list: List of set lb group netscaler command rows
@@ -977,7 +990,8 @@ def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object, vs
     csv_object = \
         get_csv_object_list(csv_writer_dict_list,
                             ['set lb group'])
-    skipped_list = get_csv_skipped_list(csv_object, app_persistence_profile_name, vs_ref)
+    skipped_list = get_csv_skipped_list(
+        csv_object, app_persistence_profile_name, vs_ref)
     return app_persistence_profile_name, skipped_list
 
 
@@ -1008,7 +1022,8 @@ def get_network_profile_skipped(csv_writer_dict_list, name_of_object, vs_ref):
     network_profile_name = get_name(name_of_object['network_profile_ref'])
     csv_object = \
         get_csv_object_list(csv_writer_dict_list, ['add ns tcpProfile'])
-    skipped_list = get_csv_skipped_list(csv_object, network_profile_name, vs_ref)
+    skipped_list = get_csv_skipped_list(
+        csv_object, network_profile_name, vs_ref)
     return network_profile_name, skipped_list
 
 
@@ -1025,7 +1040,8 @@ def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object,
     csv_object = \
         get_csv_object_list(csv_writer_dict_list,
                             ['set lb group'])
-    skipped_list = get_csv_skipped_list(csv_object, app_persistence_profile_name, vs_ref)
+    skipped_list = get_csv_skipped_list(
+        csv_object, app_persistence_profile_name, vs_ref)
     return app_persistence_profile_name, skipped_list
 
 
@@ -1362,3 +1378,35 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
         vs_csv_row['Complexity Level'] = COMPLEXITY_ADVANCED
     else:
         vs_csv_row['Complexity Level'] = COMPLEXITY_BASIC
+
+
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
+    """
+    This functions defines that create or update VSVIP object.
+    :param vip: vip of VS
+    :param vsvip_config: List of vs object
+    :param tenant_ref: tenant reference
+    :param cloud_ref: cloud reference
+    :return: None
+    """
+
+    # Get the exsting vsvip object list if present
+    vsvip = [vip_obj for vip_obj in vsvip_config
+             if vip_obj['name'] == vip +'-vsvip']
+    # If VSVIP object not present then create new VSVIP object.
+    if not vsvip:
+        vsvip_object = {
+            "name": vip + '-vsvip',
+            "tenant_ref": tenant_ref,
+            "cloud_ref": cloud_ref,
+            "vip": [
+                {
+                    "vip_id": "0",
+                    "ip_address": {
+                        "type": "V4",
+                        "addr": vip
+                    }
+                }
+            ],
+        }
+        vsvip_config.append(vsvip_object)

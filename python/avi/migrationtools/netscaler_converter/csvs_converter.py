@@ -384,7 +384,9 @@ class CsvsConverter(object):
                                         conv_status, vs_obj)
             # Verify that this cs vs has share the same VIP of another vs
             # If yes then skipped this cs vs
-            is_shared = ns_util.is_shared_same_vip(vs_obj, cs_vs_list)
+            is_shared = ns_util.is_shared_same_vip(
+                vs_obj, cs_vs_list, avi_config, self.tenant_name,
+                self.cloud_name, self.tenant_ref, self.cloud_ref)
             if is_shared:
                 skipped_status = 'Skipped: %s Same vip shared by another ' \
                                  'virtual service' % vs_name
