@@ -72,7 +72,7 @@ class MonitorConfigConv(object):
                 if monitor_type not in self.supported_types:
                     LOG.warn("Monitor type not supported by Avi : "+name)
                     conv_utils.add_status_row('monitor', monitor_type, name,
-                                              conv_const.STATUS_SKIPPED)
+                                              conv_const.STATUS_EXTERNAL)
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
@@ -187,7 +187,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
     def __init__(self, f5_monitor_attributes):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
-        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.supported_attributes = f5_monitor_attributes['Monitor_Supported_Attributes']
         self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
         self.ignore = f5_monitor_attributes['Monitor_Ignore']
@@ -441,7 +440,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def __init__(self, f5_monitor_attributes):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
-        self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.supported_attributes =f5_monitor_attributes['Monitor_Supported_Attributes']
         self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
         self.ignore = f5_monitor_attributes['Monitor_Ignore']

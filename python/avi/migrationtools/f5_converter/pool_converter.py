@@ -95,13 +95,12 @@ class PoolConfigConv(object):
                 monitor_obj = [obj for obj in monitor_config_list
                                if obj["name"] == monitor]
 
-                if not tenant_ref == 'admin':
-                    tenant = tenant_ref
                 if monitor_obj:
-                    if tenant:
-                        monitor_refs.append(conv_utils.get_object_ref(
-                            monitor_obj[0]['name'], 'healthmonitor',
-                            tenant=tenant))
+                    tenant = conv_utils.get_name_from_ref(
+                        monitor_obj[0]['tenant_ref'])
+                    monitor_refs.append(conv_utils.get_object_ref(
+                        monitor_obj[0]['name'], 'healthmonitor',
+                        tenant=tenant))
                 else:
                     LOG.warning("Monitor not found: %s for pool %s" %
                                 (monitor, pool_name))
