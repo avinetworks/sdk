@@ -56,44 +56,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                         tenant, cloud_name)
 
         conv_utils.cleanup_config(avi_config_dict)
-
-        for key in avi_config_dict:
-            if key != 'META':
-                # Added code to print merged count.
-                if ssl_profile_merge_check and key == 'SSLProfile':
-                    mergedfile = len(avi_config_dict[key]) -\
-                                 profile_conv.sslmergecount
-                    profile_merged_message = \
-                        'Total Objects of %s : %s (%s/%s profile merged)' % \
-                        (key, len(avi_config_dict[key]), abs(mergedfile),
-                         profile_conv.sslmergecount)
-                    LOG.info(profile_merged_message)
-                    print profile_merged_message
-                    continue
-                elif ssl_profile_merge_check and key == 'ApplicationProfile':
-                    mergedfile = len(avi_config_dict[key])- \
-                                 profile_conv.applicationmergecount
-                    profile_merged_message = \
-                        'Total Objects of %s : %s (%s/%s profile merged)' % \
-                        (key, len(avi_config_dict[key]), abs(mergedfile),
-                         profile_conv.applicationmergecount)
-                    LOG.info(profile_merged_message)
-                    print profile_merged_message
-                    continue
-                elif ssl_profile_merge_check and key == 'NetworkProfile':
-                    mergedfile = len(avi_config_dict[key]) - \
-                                 profile_conv.networkmergecount
-                    profile_merged_message = \
-                        'Total Objects of %s : %s (%s/%s profile merged)' % \
-                        (key, len(avi_config_dict[key]), abs(mergedfile),
-                         profile_conv.networkmergecount)
-                    LOG.info(profile_merged_message)
-                    print profile_merged_message
-                    continue
-                LOG.info('Total Objects of %s : %s' % (key, len(
-                    avi_config_dict[key])))
-                print 'Total Objects of %s : %s' % (key, len(
-                    avi_config_dict[key]))
+        conv_utils.add_tenants(avi_config_dict)
 
     except:
         LOG.error("Conversion error", exc_info=True)

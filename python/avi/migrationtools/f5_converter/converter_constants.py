@@ -46,6 +46,8 @@ STATUS_NOT_APPLICABLE = 'NOT APPLICABLE'  # Its specific netscalar commands
 STATUS_PARTIAL = 'PARTIAL'
 STATUS_DATASCRIPT = 'DATASCRIPT'
 STATUS_NOT_IN_USE = 'NOT IN USE'
+# External status which are not supported Health monitors
+STATUS_EXTERNAL = 'EXTERNAL'
 # Object type constant which are used in object reference generation
 OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
 OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
