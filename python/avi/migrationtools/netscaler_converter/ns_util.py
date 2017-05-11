@@ -9,6 +9,7 @@ import ast
 import pandas
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
+from pkg_resources import parse_version
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from OpenSSL import crypto
@@ -299,7 +300,8 @@ def update_status_for_skipped(skipped_cmds):
 
     na_cmds = ns_constants.netscalar_command_status['NotApplicableCommands']
     indirect_cmds = ns_constants.netscalar_command_status['IndirectCommands']
-    datascript_cmds = ns_constants.netscalar_command_status['DatascriptCommands']
+    datascript_cmds = \
+        ns_constants.netscalar_command_status['DatascriptCommands']
     not_supported = ns_constants.netscalar_command_status['NotSupported']
     if not skipped_cmds:
         return
@@ -391,7 +393,7 @@ def clone_pool(pool_name, prefix, avi_config):
         return pool_obj['name']
     return None
 
-def get_vs_if_shared_vip(avi_config):
+def get_vs_if_shared_vip(avi_config, controller_version):
     """
     This function checks if same vip is used for other vs
     :param avi_config: avi config dict
@@ -402,11 +404,18 @@ def get_vs_if_shared_vip(avi_config):
                v['services'][0]]
     for vs in vs_list:
         # Get the list of vs which shared the same vip
-        vs_port_list = [int(v['services'][0]['port']) for v in
-                        avi_config['VirtualService']
-                        if v['vip'][0]['ip_address']['addr'] ==
-                        vs['vip'][0]['ip_address']['addr']
-                        and 'port_range_end' not in v['services'][0]]
+        if parse_version(controller_version) >= parse_version('17.1'):
+            vs_port_list = [int(v['services'][0]['port']) for v in
+                            avi_config['VirtualService']
+                            if v['vip'][0]['ip_address']['addr'] ==
+                            vs['vip'][0]['ip_address']['addr']
+                            and 'port_range_end' not in v['services'][0]]
+        else:
+            vs_port_list = [int(v['services'][0]['port']) for v in
+                            avi_config['VirtualService'] if v['ip_address'][
+                                'addr'] == vs['ip_address']['addr'] and
+                            'port_range_end' not in v['services'][0]]
+
         if vs_port_list:
             min_port = min(vs_port_list)
             max_port = max(vs_port_list)
@@ -442,7 +451,7 @@ def object_exist(object_type, name, avi_config):
 
 
 def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
-                       tenant_ref, cloud_ref):
+                       tenant_ref, cloud_ref, controller_version):
     """
     This function check for vs sharing same vip
     :param vs: Name of vs
@@ -455,18 +464,23 @@ def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
     :return: None
     """
 
-    # Get the list of vs which shared the same vip
-    shared_vip = [v for v in cs_vs_list
-                  if v['vip'][0]['ip_address']['addr'] == vs['vip'][0]['ip_address']['addr']
-                  and v['services'][0]['port'] == vs['services'][0]['port']]
+    if parse_version(controller_version) >= parse_version('17.1'):
+        # Get the list of vs which shared the same vip
+        shared_vip = [v for v in cs_vs_list if v['vip'][0]['ip_address'][
+            'addr'] == vs['vip'][0]['ip_address']['addr'] and v['services'][0][
+            'port'] == vs['services'][0]['port']]
+    else:
+        shared_vip = [v for v in cs_vs_list if v['ip_address']['addr'] ==
+                      vs['ip_address']['addr'] and v['services'][0]['port'] ==
+                      vs['services'][0]['port']]
 
     if shared_vip:
         return True
-    else:
+    elif parse_version(controller_version) >= parse_version('17.1'):
         vsvip = vs['vip'][0]['ip_address']['addr']
         create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref, cloud_ref)
-        updated_vsvip_ref = get_object_ref(vsvip + '-vsvip', 'vsvip', tenant_name,
-                                           cloud_name)
+        updated_vsvip_ref = get_object_ref(
+            vsvip + '-vsvip', 'vsvip', tenant_name, cloud_name)
         vs['vsvip_ref'] = updated_vsvip_ref
 
 
@@ -540,7 +554,8 @@ def clone_pool_group(pg_name, prefix, avi_config, tenant_name, cloud_name):
     :param avi_config: avi config dict
     :return: None
     """
-    pool_groups = [pg for pg in avi_config['PoolGroup'] if pg['name'] == pg_name]
+    pool_groups = [pg for pg in avi_config['PoolGroup']
+                   if pg['name'] == pg_name]
     if pool_groups:
         pool_group = copy.deepcopy(pool_groups[0])
         pool_group_name = re.sub('[:]', '-', prefix + pg_name)
@@ -573,8 +588,8 @@ def remove_http_mon_from_pool(avi_config, pool):
             hm = [h for h in avi_config['HealthMonitor'] if h['name'] == hm_ref]
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                 pool['health_monitor_refs'].remove(hm_ref)
-                LOG.warning('Skipping %s this reference from %s pool because of '
-                            'health monitor type is HTTPS and VS has no ssl '
+                LOG.warning('Skipping %s this reference from %s pool because '
+                            'of health monitor type is HTTPS and VS has no ssl '
                             'profile.' % (hm_ref, pool['name']))
 
 
@@ -769,7 +784,8 @@ def convert_persistance_prof(vs, name, tenant_ref):
 
 def update_status_target_lb_vs_to_indirect(larget_lb_vs):
     """
-    This function defines that update status for the target lb vserver as Indirect
+    This function defines that update status for the target lb vserver as
+    Indirect
     :param larget_lb_vs: name of target lb vserver
     :return: None
     """
@@ -839,7 +855,7 @@ def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config,
     avi_config['HTTPPolicySet'].append(policy_obj)
 
 
-def clean_virtual_service_from_avi_config(avi_config):
+def clean_virtual_service_from_avi_config(avi_config, controller_version):
     """
     This function defines that clean up vs which has vip 0.0.0.0
     :param avi_config: dict of AVI
@@ -847,9 +863,14 @@ def clean_virtual_service_from_avi_config(avi_config):
     """
     vs_list = copy.deepcopy(avi_config['VirtualService'])
     avi_config['VirtualService'] = []
-    avi_config['VirtualService'] = \
-        [vs for vs in vs_list
-         if vs['vip'][0]['ip_address']['addr'] != '0.0.0.0']
+    if parse_version(controller_version) >= parse_version('17.1'):
+        avi_config['VirtualService'] = \
+            [vs for vs in vs_list
+             if vs['vip'][0]['ip_address']['addr'] != '0.0.0.0']
+    else:
+        avi_config['VirtualService'] = \
+            [vs for vs in vs_list
+             if vs['ip_address']['addr'] != '0.0.0.0']
 
 
 def get_name(url):
@@ -1058,10 +1079,9 @@ def get_pool_skipped_list(avi_config, pool_group_name, skipped_setting,
     :return: List of skipped settings
     """
 
-    pool_group_object_ref = [pool_group_object_ref
-                             for pool_group_object_ref
-                             in avi_config['PoolGroup']
-                             if pool_group_object_ref['name'] == pool_group_name]
+    pool_group_object_ref = [pool_group_object_ref for pool_group_object_ref
+                             in avi_config['PoolGroup'] if
+                             pool_group_object_ref['name'] == pool_group_name]
     for pool_group in pool_group_object_ref:
         if 'members' in pool_group:
             for each_pool_ref in pool_group['members']:
@@ -1156,18 +1176,22 @@ def get_pool_skipped_list(avi_config, pool_group_name, skipped_setting,
                                     'skipped_list'] = skipped
                         #Get the skipped settings of application persistence
                         # profile ref.
-                        if 'application_persistence_profile_ref' in avi_object_json:
-                            name, skipped = get_app_persistence_profile_skipped\
-                                (csv_writer_dict_list, avi_object_json, vs_ref)
+                        if 'application_persistence_profile_ref' \
+                                in avi_object_json:
+                            name, skipped = get_app_persistence_profile_skipped(
+                                csv_writer_dict_list, avi_object_json, vs_ref)
                             if skipped:
                                 skipped_setting[obj_name] = {}
                                 skipped_setting[obj_name]['pool'] = {}
                                 skipped_setting[obj_name]['pool'][
                                     'pool_name'] = pool_name
-                                skipped_setting[obj_name]['pool']['Application Persistence profile'] = {}
-                                skipped_setting[obj_name]['pool']['Application Persistence profile'][
+                                skipped_setting[obj_name]['pool'][
+                                    'Application Persistence profile'] = {}
+                                skipped_setting[obj_name]['pool'][
+                                    'Application Persistence profile'][
                                     'name'] = name
-                                skipped_setting[obj_name]['pool']['Application Persistence profile'][
+                                skipped_setting[obj_name]['pool'][
+                                    'Application Persistence profile'][
                                     'skipped_list'] = skipped
 
 
@@ -1305,8 +1329,8 @@ def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
     fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
                   'Full Command', 'Status', 'Skipped settings',
                   'Indirect mapping', 'Not Applicable', 'User Ignored',
-                  'Overall skipped settings', 'Complexity Level', 'VS Reference',
-                  'AVI Object']
+                  'Overall skipped settings', 'Complexity Level',
+                  'VS Reference', 'AVI Object']
     # xlsx workbook
     status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
     # xlsx worksheet
