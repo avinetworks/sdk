@@ -724,6 +724,16 @@ class PolicyConverter(object):
                 element = re.sub('[\\\/]', '', element)
                 match["query"]["match_str"].append(element)
 
+        elif 'REQ.HTTP.HEADER' in query.upper() and '==' in query.upper():
+            match = {"hdrs": [header]}
+            match["hdrs"][0]["match_criteria"] = "HDR_EQUALS"
+            matches = re.findall('\s(.+?)\s==\s(.+?)$', query)
+            if not matches or len(matches[0]) < 2:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            match["hdrs"][0]["hdr"] = matches[0][0]
+            match["hdrs"][0]["value"].append(matches[0][1])
+
         else:
             LOG.warning("%s Rule is not supported" % query)
             return None
