@@ -168,7 +168,8 @@ class LbvsConverter(object):
                     'enabled': enabled,
                     'services': [],
                 }
-                if parse_version('16.4') >= parse_version('17.1'):
+                if parse_version(self.controller_version) >= \
+                        parse_version('17.1'):
                     vs_obj['vip'] = [vip]
                 else:
                     vs_obj['ip_address'] = vip['ip_address']
