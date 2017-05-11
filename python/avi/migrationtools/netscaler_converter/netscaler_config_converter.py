@@ -2,6 +2,7 @@ import logging
 import yaml
 import os
 
+from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.ns_service_converter \
     import ServiceConverter
 from avi.migrationtools.netscaler_converter.monitor_converter import \
@@ -68,8 +69,6 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                         "16_3_4",
                         "16_4_1",
                         "16_4_2",
-                        "17_1_1",
-                        "current_version"
                     ]
                 },
                 "version": {
@@ -83,6 +82,12 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
             }
         }
+
+        if parse_version(version) >= parse_version('17.1'):
+            avi_config['META']['supported_migrations']['versions'].append(
+                '17_1_1')
+        avi_config['META']['supported_migrations']['versions'].append(
+            'current_version')
 
         monitor_converter = MonitorConverter(tenant_name, cloud_name,
                                              tenant_ref, cloud_ref)
@@ -98,11 +103,11 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         service_converter.convert(ns_config_dict, avi_config)
 
         lbvs_converter = LbvsConverter(tenant_name, cloud_name, tenant_ref,
-                                       cloud_ref, profile_merge_check)
+                                       cloud_ref, profile_merge_check, version)
         lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         csvs_converter = CsvsConverter(tenant_name, cloud_name, tenant_ref,
-                                       cloud_ref, profile_merge_check)
+                                       cloud_ref, profile_merge_check, version)
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         # Add status for skipped netscalar commands in CSV/report
