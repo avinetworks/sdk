@@ -2,6 +2,7 @@ import logging
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
+from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_INDIRECT, STATUS_INCOMPLETE_CONFIGURATION,
@@ -26,7 +27,7 @@ class LbvsConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check):
+                 profile_merge_check, controller_version):
         """
         Construct a new 'LbvsConverter' object.
         :param tenant_name: Name of tenant
@@ -43,7 +44,8 @@ class LbvsConverter(object):
         self.lbvs_indirect_list = \
             ns_constants.netscalar_command_status['lbvs_indirect_list']
         self.lbvs_supported_persist_types = \
-            ns_constants.netscalar_command_status['lbvs_supported_persist_types']
+            ns_constants.netscalar_command_status[
+                'lbvs_supported_persist_types']
         self.lbvs_ignore_vals = \
             ns_constants.netscalar_command_status['lbvs_ignore_vals']
         self.tenant_name = tenant_name
@@ -51,6 +53,7 @@ class LbvsConverter(object):
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
         self.profile_merge_check = profile_merge_check
+        self.controller_version = controller_version
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -68,7 +71,8 @@ class LbvsConverter(object):
         avi_config['VirtualService'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['HTTPPolicySet'] = []
-        avi_config['VsVip'] = []
+        if parse_version(self.controller_version) >= parse_version('17.1'):
+            avi_config['VsVip'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
                            'SSL_TCP', 'DNS', 'DNS_TCP']
 
@@ -161,10 +165,14 @@ class LbvsConverter(object):
                     'type': 'VS_TYPE_NORMAL',
                     'tenant_ref': self.tenant_ref,
                     'cloud_ref': self.cloud_ref,
-                    'vip': [vip],
                     'enabled': enabled,
                     'services': [],
                 }
+                if parse_version(self.controller_version) >= \
+                        parse_version('17.1'):
+                    vs_obj['vip'] = [vip]
+                else:
+                    vs_obj['ip_address'] = vip['ip_address']
                 bind_conf_list = bind_lb_vs_config.get(key, None)
                 # Skipped this lb vs if it doen not have any bind lb vserver
                 if (not bind_conf_list) and (not redirect_url):
@@ -353,8 +361,8 @@ class LbvsConverter(object):
                 if ntwk_prof:
                     # Get the merge network profile name
                     if self.profile_merge_check:
-                        ntwk_prof = merge_profile_mapping['network_profile'].get(
-                            ntwk_prof, None)
+                        ntwk_prof = merge_profile_mapping[
+                            'network_profile'].get(ntwk_prof, None)
                     if ns_util.object_exist('NetworkProfile', ntwk_prof,
                                             avi_config):
                         LOG.info('Conversion successful: Added network profile '
@@ -371,13 +379,15 @@ class LbvsConverter(object):
                         vs_obj, redirect_url, avi_config, self.tenant_name,
                         self.tenant_ref)
                 if redirect_url:
-                    ns_util.create_update_vsvip(
-                        ip_addr, avi_config['VsVip'], self.tenant_ref,
-                        self.cloud_ref)
-                    updated_vsvip_ref = ns_util.get_object_ref(
-                        ip_addr + '-vsvip', 'vsvip', self.tenant_name,
-                        self.cloud_name)
-                    vs_obj['vsvip_ref'] = updated_vsvip_ref
+                    if parse_version(self.controller_version) >= parse_version(
+                            '17.1'):
+                        ns_util.create_update_vsvip(
+                            ip_addr, avi_config['VsVip'], self.tenant_ref,
+                            self.cloud_ref)
+                        updated_vsvip_ref = ns_util.get_object_ref(
+                            ip_addr + '-vsvip', 'vsvip', self.tenant_name,
+                            self.cloud_name)
+                        vs_obj['vsvip_ref'] = updated_vsvip_ref
                     avi_config['VirtualService'].append(vs_obj)
                     tmp_avi_config['VirtualService'].append(vs_obj)
                     # Marked redirect url as status indirect
@@ -389,7 +399,7 @@ class LbvsConverter(object):
                     is_shared = ns_util.is_shared_same_vip(
                         vs_obj, avi_config['VirtualService'], avi_config,
                         self.tenant_name, self.cloud_name, self.tenant_ref,
-                        self.cloud_ref)
+                        self.cloud_ref, self.controller_version)
                     if is_shared:
                         skipped_status = 'Skipped: %s Same vip shared by ' \
                                          'another virtual service' % vs_name
@@ -469,8 +479,9 @@ class LbvsConverter(object):
                     ssl_profile_name = re.sub('[:]', '-', key)
                     # Get the merge ssl profile name
                     if self.profile_merge_check:
-                        ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
-                            ssl_profile_name, None)
+                        ssl_profile_name = \
+                            merge_profile_mapping['ssl_profile'].get(
+                                ssl_profile_name, None)
                     if mapping and [ssl_profile for ssl_profile in
                                     avi_config["SSLProfile"] if
                                     ssl_profile['name'] == ssl_profile_name]:
