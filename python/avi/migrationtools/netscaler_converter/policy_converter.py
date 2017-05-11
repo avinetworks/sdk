@@ -109,12 +109,11 @@ class PolicyConverter(object):
                     if targetVserver:
                         # Add status successful in CSV/report for bind if it has
                         # targetVserver
-                        ns_util.add_status_row(policyLabels[0]['line_no'],
-                                               policy_label_netscalar_command,
-                                               policyLabelName,
-                                               policy_label_netscalar_full_command,
-                                               STATUS_SUCCESSFUL,
-                                               policyLabels[0])
+                        ns_util.add_status_row(
+                            policyLabels[0]['line_no'],
+                            policy_label_netscalar_command, policyLabelName,
+                            policy_label_netscalar_full_command,
+                            STATUS_SUCCESSFUL, policyLabels[0])
                         LOG.info('Conversion successful : %s %s' %
                                  (policy_label_netscalar_command,
                                   policyLabelName))
@@ -123,11 +122,11 @@ class PolicyConverter(object):
                         skipped_status = 'Skipped: Do not have target vserver' \
                                          ' %s %s' % (
                             policy_label_netscalar_command, policyLabelName)
-                        ns_util.add_status_row(policyLabels[0]['line_no'],
-                                               policy_label_netscalar_command,
-                                               policyLabelName,
-                                               policy_label_netscalar_full_command,
-                                               STATUS_SKIPPED, skipped_status)
+                        ns_util.add_status_row(
+                            policyLabels[0]['line_no'],
+                            policy_label_netscalar_command, policyLabelName,
+                            policy_label_netscalar_full_command, STATUS_SKIPPED,
+                            skipped_status)
                         LOG.warning(skipped_status)
             if 'policyName' in bind_conf:
                 policy_name = bind_conf['policyName']
@@ -166,16 +165,11 @@ class PolicyConverter(object):
                                        bind_lb_netscalar_complete_command,
                                        STATUS_SKIPPED, skipped_status)
                 continue
-            rule, rule_index = self.rule_converter(policy, policy_type,
-                                                   priority_index,
-                                                   redirect_pools, bind_patset,
-                                                   patset_config,
-                                                   rewrite_action_config,
-                                                   responder_action_config,
-                                                   policy_expression_config,
-                                                   avi_config, tmp_pool_ref,
-                                                   targetLBVserver,
-                                                   case_sensitive)
+            rule, rule_index = self.rule_converter(
+                policy, policy_type, priority_index, redirect_pools,
+                bind_patset, patset_config, rewrite_action_config,
+                responder_action_config, policy_expression_config, avi_config,
+                tmp_pool_ref, targetLBVserver, case_sensitive)
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
                 ignore_for_val=self.ignore_vals)
@@ -575,14 +569,16 @@ class PolicyConverter(object):
                 element = re.sub('[\\\/]', '', element)
                 match["host_hdr"]["value"].append(element)
 
-        elif ('HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper()) \
-                or ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
+        elif ('HTTP.REQ.COOKIE' in query.upper()
+              and 'CONTAINS' in query.upper()) or \
+                ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
             match = {"cookie": cookie}
             matches = re.findall('\\\\(.+?)\\\\', query)
             if len(matches) != 2:
                 LOG.warning('No Matches found for %s' % query)
                 return None
-            if 'HTTP.REQ.COOKIE' in query.upper() and 'CONTAINS' in query.upper():
+            if 'HTTP.REQ.COOKIE' in query.upper() \
+                    and 'CONTAINS' in query.upper():
                 match["cookie"]["match_criteria"] = "HDR_CONTAINS"
             elif 'HTTP.REQ.COOKIE' in query.upper() and 'EQ' in query.upper():
                 match["cookie"]["match_criteria"] = "HDR_EQUALS"
@@ -618,7 +614,8 @@ class PolicyConverter(object):
                 string_group_ref, OBJECT_TYPE_STRING_GROUP, self.tenant_name)
             match["path"]["string_group_refs"].append(updated_string_group_ref)
 
-        elif 'HTTP.REQ.URL.PATH.GET' in query.upper() and 'EQ(' in query.upper():
+        elif 'HTTP.REQ.URL.PATH.GET' in query.upper() \
+                and 'EQ(' in query.upper():
             match = {"path": path_query}
             match["path"]["match_criteria"] = "EQUALS"
             match["path"]["match_str"] = []
@@ -725,6 +722,15 @@ class PolicyConverter(object):
             for element in matches:
                 element = re.sub('[\\\/]', '', element)
                 match["query"]["match_str"].append(element)
+        elif 'REQ.HTTP.HEADER' in query.upper() and '==' in query.upper():
+            match = {"hdrs": [header]}
+            match["hdrs"][0]["match_criteria"] = "HDR_EQUALS"
+            matches = re.findall('\s(.+?)\s==\s(.+?)$', query)
+            if not matches or len(matches[0]) < 2:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            match["hdrs"][0]["hdr"] = matches[0][0]
+            match["hdrs"][0]["value"].append(matches[0][1])
 
         else:
             LOG.warning("%s Rule is not supported" % query)

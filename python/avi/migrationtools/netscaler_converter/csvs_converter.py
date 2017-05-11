@@ -3,14 +3,15 @@ import copy
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
+from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.lbvs_converter \
     import (redirect_pools, used_pool_group_ref)
 from avi.migrationtools.netscaler_converter.ns_constants \
-    import (STATUS_SKIPPED, OBJECT_TYPE_APPLICATION_PROFILE, OBJECT_TYPE_SSL_PROFILE,
-            OBJECT_TYPE_HTTP_POLICY_SET, OBJECT_TYPE_POOL_GROUP,
-            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE, OBJECT_TYPE_PKI_PROFILE,
-            OBJECT_TYPE_NETWORK_PROFILE)
+    import (STATUS_SKIPPED, OBJECT_TYPE_APPLICATION_PROFILE,
+            OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HTTP_POLICY_SET,
+            OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+            OBJECT_TYPE_PKI_PROFILE, OBJECT_TYPE_NETWORK_PROFILE)
 from avi.migrationtools.netscaler_converter.policy_converter \
     import PolicyConverter
 from avi.migrationtools.netscaler_converter.profile_converter \
@@ -26,7 +27,7 @@ class CsvsConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check):
+                 profile_merge_check, controller_version):
         """
         Construct a new 'CsvsConverter' object.
         :param tenant_name: Name of tenant
@@ -51,6 +52,7 @@ class CsvsConverter(object):
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
         self.profile_merge_check = profile_merge_check
+        self.controller_version = controller_version
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -143,10 +145,14 @@ class CsvsConverter(object):
                 'tenant_ref': self.tenant_ref,
                 'cloud_ref': self.cloud_ref,
                 'type': 'VS_TYPE_NORMAL',
-                'vip': [vip],
                 'enabled': enabled,
                 'services': []
             }
+            if parse_version('16.4') >= parse_version('17.1'):
+                vs_obj['vip'] = [vip]
+            else:
+                vs_obj['ip_address'] = vip['ip_address']
+
             service = {'port': port, 'enable_ssl': enable_ssl}
             if port in ("0", "*"):
                 service['port'] = "1"
@@ -386,7 +392,8 @@ class CsvsConverter(object):
             # If yes then skipped this cs vs
             is_shared = ns_util.is_shared_same_vip(
                 vs_obj, cs_vs_list, avi_config, self.tenant_name,
-                self.cloud_name, self.tenant_ref, self.cloud_ref)
+                self.cloud_name, self.tenant_ref, self.cloud_ref,
+                self.controller_version)
             if is_shared:
                 skipped_status = 'Skipped: %s Same vip shared by another ' \
                                  'virtual service' % vs_name
@@ -409,7 +416,8 @@ class CsvsConverter(object):
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
-        ns_util.get_vs_if_shared_vip(avi_config)
+        ns_util.get_vs_if_shared_vip(avi_config, self.controller_version)
         # Update the index value of all policy rules as per their priority
         ns_util.set_rules_index_for_http_policy_set(avi_config)
-        ns_util.clean_virtual_service_from_avi_config(avi_config)
+        ns_util.clean_virtual_service_from_avi_config(
+            avi_config, self.controller_version)
