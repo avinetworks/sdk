@@ -22,7 +22,7 @@ class PolicyConverter(object):
     This class is used to convert the policy
     """
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 bind_skipped, na_attrs, ignore_vals):
+                 bind_skipped, na_attrs, ignore_vals, user_ignore):
         """
         Construct a new 'PolicyConverter' object.
         :param tenant_name: Name of tenant
@@ -32,6 +32,7 @@ class PolicyConverter(object):
         :param bind_skipped: list of skipped attributes for profiles
         :param na_attrs: List of not applicable attributes for profiles
         :param ignore_vals: Dict of key pair of attribute and value for ignore
+        :param user_ignore_val: List of user ignore attributes
         """
 
         self.policyconverter_policy_types = \
@@ -45,6 +46,8 @@ class PolicyConverter(object):
         self.bind_skipped = bind_skipped
         self.na_attrs = na_attrs
         self.ignore_vals = ignore_vals
+        # List of ignore val attributes for policy netscaler command.
+        self.user_ignore = user_ignore
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, netscalar_command, case_sensitive):
@@ -172,7 +175,8 @@ class PolicyConverter(object):
                 tmp_pool_ref, targetLBVserver, case_sensitive)
             conv_status = ns_util.get_conv_status(
                 bind_conf, self.bind_skipped, self.na_attrs, [],
-                ignore_for_val=self.ignore_vals)
+                ignore_for_val=self.ignore_vals,
+                user_ignore_val=self.user_ignore)
             # TODO add support for || and + rules as datascript
             if rule == STATUS_DATASCRIPT:
                 # Add status datascript in CSV/report if policy has status
@@ -491,7 +495,6 @@ class PolicyConverter(object):
                         'HTTP.REQ.URL.STARTSWITH' in query.upper():
             match = {"query": path_query}
             match["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
-
             matches = re.findall('\\\\(.+?)\\\\', query)
             if len(matches) == 0:
                 LOG.warning('No Matches found for %s' % query)
@@ -1177,5 +1180,3 @@ class PolicyConverter(object):
         if responder_policy:
             return responder_policy, 'responder'
         return None, None
-
-

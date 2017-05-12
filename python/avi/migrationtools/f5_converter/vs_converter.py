@@ -2,9 +2,10 @@ import logging
 import copy
 import random
 import re
-
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
+
+from pkg_resources import parse_version
 
 LOG = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ class VSConfigConv(object):
         pass
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
-                cloud_name):
+                cloud_name, controller_version):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
@@ -47,7 +48,7 @@ class VSConfigConv(object):
                     continue
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
-                                         cloud_name)
+                                         cloud_name, controller_version)
                 if vs_obj:
                     avi_config['VirtualService'].append(vs_obj)
                 LOG.debug("Conversion successful for VS: %s" % vs_name)
@@ -58,7 +59,7 @@ class VSConfigConv(object):
         f5_config.pop("virtual", {})
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
-                   user_ignore, tenant_ref, cloud_name):
+                   user_ignore, tenant_ref, cloud_name, controller_version):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -114,7 +115,8 @@ class VSConfigConv(object):
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         # if destination is not present then skip vs.
         services_obj, ip_addr = conv_utils.get_service_obj(
-            destination, avi_config['VirtualService'], enable_ssl)
+            destination, avi_config['VirtualService'], enable_ssl,
+            controller_version)
 
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
@@ -193,7 +195,6 @@ class VSConfigConv(object):
             'name': vs_name,
             'description': description,
             'type': 'VS_TYPE_NORMAL',
-            'vip': [vip],
             'enabled': enabled,
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
@@ -202,6 +203,10 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+        if parse_version(controller_version) >= parse_version('17.1'):
+            vs_obj['vip'] = [vip]
+        else:
+            vs_obj['ip_address'] = vip['ip_address']
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):

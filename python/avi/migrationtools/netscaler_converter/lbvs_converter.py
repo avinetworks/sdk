@@ -27,7 +27,7 @@ class LbvsConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check, controller_version):
+                 profile_merge_check, controller_version, user_ignore):
         """
         Construct a new 'LbvsConverter' object.
         :param tenant_name: Name of tenant
@@ -35,6 +35,7 @@ class LbvsConverter(object):
         :param tenant_ref: Tenant reference
         :param cloud_ref: Cloud Reference
         :param profile_merge_check: Bool value for profile merge
+        :param user_ignore: Dict of user ignore attributes
         """
 
         self.lbvs_skip_attrs = \
@@ -54,6 +55,8 @@ class LbvsConverter(object):
         self.cloud_ref = cloud_ref
         self.profile_merge_check = profile_merge_check
         self.controller_version = controller_version
+        # List of ignore val attributes for add lbvs netscaler command.
+        self.lbvs_user_ignore = user_ignore.get('lbvs', [])
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -76,11 +79,10 @@ class LbvsConverter(object):
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
                            'SSL_TCP', 'DNS', 'DNS_TCP']
 
-        policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
-                                           self.tenant_ref, self.cloud_ref,
-                                           self.lbvs_skip_attrs,
-                                           self.lbvs_na_attrs,
-                                           self.lbvs_ignore_vals)
+        policy_converter = PolicyConverter(
+            self.tenant_name, self.cloud_name, self.tenant_ref, self.cloud_ref,
+            self.lbvs_skip_attrs, self.lbvs_na_attrs, self.lbvs_ignore_vals,
+            self.lbvs_user_ignore)
         tmp_policy_ref = []
         for key in lb_vs_conf.keys():
             try:
@@ -413,7 +415,8 @@ class LbvsConverter(object):
                     conv_status = ns_util.get_conv_status(
                         lb_vs, self.lbvs_skip_attrs, self.lbvs_na_attrs,
                         self.lbvs_indirect_list,
-                        ignore_for_val=self.lbvs_ignore_vals)
+                        ignore_for_val=self.lbvs_ignore_vals,
+                        user_ignore_val=self.lbvs_user_ignore)
                     ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
                                             full_cmd, conv_status, vs_obj)
                 if enable_ssl:

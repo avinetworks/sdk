@@ -1,0 +1,88 @@
+# Sample yaml file for ignore attributes while Netscaler conversion.
+  lbvs:
+  - 'persistenceBackup'
+  - 'rule'
+
+  csvs:
+  - 'td'
+  - 'IPPattern'
+  - 'IPMask'
+  - 'dnsProfileName'
+
+  csvs_bind:
+  - 'type'
+
+  monitor:
+  - 'vendorSpecificAcctApplicationIds'
+  - 'storefrontcheckbackendservices'
+
+  nsservice_bind_lb:
+  - 'type'
+  - 'invoke'
+
+  nsservice_service:
+  - 'clearTextPort'
+  - 'cacheType'
+
+  nsservice_bind_sg:
+  - 'passive'
+  - 'CustomServerID'
+  - 'hashId'
+  - 'weight'
+
+  nsservice_server:
+  - 'comment'
+  - 'td'
+
+  policyconverter_bind:
+  - 'vServer'
+  - 'type'
+  - 'cookieDomain'
+  - 'cookieTimeout'
+
+  profile_http:
+  - 'dropInvalReqs'
+
+  profile_tcp:
+  - 'pktPerRetx'
+  - 'minRTO'
+  - 'slowStartIncr'
+
+  profile_ssl_prof:
+  - 'eRSA'
+  - 'sslTriggerTimeout'
+  - 'clientAuthUseBoundCAChain'
+
+  profile_add_key_cert:
+  - 'fipsKey'
+  - 'hsmKey'
+  - 'bundle'
+  - 'passplain'
+
+  profile_bind_sslvs:
+  - 'priority'
+  - 'gotoPriorityExpression'
+
+  profile_set_ssl_vserver:
+  - 'dtlsProfileName'
+  - 'eRSA'
+  - 'clientAuthUseBoundCAChain'
+
+  profile_set_ssl_service:
+  - 'cipherRedirect'
+  - 'pushEncTrigger'
+  - 'dtlsProfileName'
+
+  profile_bind_ssl_service:
+  - 'policyName'
+
+  gslb_service:
+  - 'cip'
+
+  bind_gslb:
+  - 'cookieDomain'
+
+  gslb_vserver:
+  - 'v6netmasklen'
+  - 'soThreshold'
+  - 'soBackupAction'
