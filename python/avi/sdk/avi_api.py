@@ -203,7 +203,7 @@ class ApiSession(Session):
     @staticmethod
     def get_session(controller_ip, username, password=None, token=None,
                     tenant=None, tenant_uuid=None, verify=False, port=None,
-                    timeout=60, retry_conxn_errors=False):
+                    timeout=60, retry_conxn_errors=False, api_version=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -215,6 +215,7 @@ class ApiSession(Session):
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param port: Rest-API may use a different port other than 443
         :param timeout: timeout for API calls; Default value is 60 seconds
+        :param api_version: Controller API version
         """
         key = controller_ip + ":" + username
         try:
@@ -223,7 +224,8 @@ class ApiSession(Session):
             if (user_session.password != password or
                     user_session.keystone_token != token or
                     user_session.tenant != tenant or
-                    user_session.tenant_uuid != tenant_uuid):
+                    user_session.tenant_uuid != tenant_uuid or
+                    user_session.api_version != api_version):
                 logger.debug('Api Session auth credential mismatch %s', key)
                 del ApiSession.sessionDict[key]
                 user_session = None
@@ -236,8 +238,8 @@ class ApiSession(Session):
             user_session = ApiSession(
                 controller_ip, username, password, token=token, tenant=tenant,
                 tenant_uuid=tenant_uuid, verify=verify, port=port,
-                timeout=timeout,
-                retry_conxn_errors=retry_conxn_errors)
+                timeout=timeout, retry_conxn_errors=retry_conxn_errors,
+                api_version=api_version)
             ApiSession.sessionDict[key] = \
                 {"api": user_session, "last_used": datetime.utcnow()}
         ApiSession._clean_inactive_sessions()
@@ -246,7 +248,6 @@ class ApiSession(Session):
     def reset_session(self):
         """
         resets and re-authenticates the current session.
-        :param api: ApiSession object
         """
         logger.info('resetting session for %s', self.key)
         self.headers = {}
@@ -286,7 +287,8 @@ class ApiSession(Session):
                      self.username, self.headers)
         return
 
-    def _get_api_headers(self, tenant, tenant_uuid, timeout, headers, api_version):
+    def _get_api_headers(self, tenant, tenant_uuid, timeout, headers,
+                         api_version):
         """
         returns the headers that are passed to the requests.Session api calls.
         """
@@ -338,7 +340,8 @@ class ApiSession(Session):
         fullpath = self._get_api_path(path)
         fn = getattr(super(ApiSession, self), api_name)
         api_hdrs = \
-            self._get_api_headers(tenant, tenant_uuid, timeout, headers, api_version)
+            self._get_api_headers(tenant, tenant_uuid, timeout, headers,
+                                  api_version)
         connection_error = False
         try:
             if (data is not None) and (type(data) == dict):
@@ -409,7 +412,8 @@ class ApiSession(Session):
                          params=params, api_version=api_version, **kwargs)
 
     def get_object_by_name(self, path, name, tenant='', tenant_uuid='',
-                           timeout=None, params=None, api_version=None, **kwargs):
+                           timeout=None, params=None, api_version=None,
+                           **kwargs):
         """
         Helper function to access Avi REST Objects using object
         type and name. It behaves like python dictionary interface where it
@@ -472,7 +476,8 @@ class ApiSession(Session):
             headers[self.AVI_SLUG] = force_uuid
             kwargs['headers'] = headers
         return self._api('post', path, tenant, tenant_uuid, data=data,
-                         timeout=timeout, params=params, api_version=api_version, **kwargs)
+                         timeout=timeout, params=params,
+                         api_version=api_version, **kwargs)
 
     def put(self, path, data=None, tenant='', tenant_uuid='',
             timeout=None, params=None, api_version=None, **kwargs):
@@ -495,7 +500,8 @@ class ApiSession(Session):
         returns session's response object
         """
         return self._api('put', path, tenant, tenant_uuid, data=data,
-                         timeout=timeout, params=params, api_version=api_version, **kwargs)
+                         timeout=timeout, params=params,
+                         api_version=api_version, **kwargs)
 
     def patch(self, path, data=None, tenant='', tenant_uuid='',
               timeout=None, params=None, api_version=None, **kwargs):
@@ -518,10 +524,12 @@ class ApiSession(Session):
         returns session's response object
         """
         return self._api('patch', path, tenant, tenant_uuid, data=data,
-                         timeout=timeout, params=params, api_version=api_version, **kwargs)
+                         timeout=timeout, params=params,
+                         api_version=api_version, **kwargs)
 
     def put_by_name(self, path, name, data=None, tenant='',
-                    tenant_uuid='', timeout=None, params=None, api_version=None, **kwargs):
+                    tenant_uuid='', timeout=None, params=None,
+                    api_version=None, **kwargs):
         """
         Helper function to perform HTTP PUT on Avi REST Objects using object
         type and name.
@@ -566,10 +574,11 @@ class ApiSession(Session):
         returns session's response object
         """
         return self._api('delete', path, tenant, tenant_uuid, data=data,
-                         timeout=timeout, params=params, api_version=api_version, **kwargs)
+                         timeout=timeout, params=params,
+                         api_version=api_version, **kwargs)
 
-    def delete_by_name(self, path, name, tenant='', tenant_uuid='', timeout=None,
-                       params=None, api_version=None, **kwargs):
+    def delete_by_name(self, path, name, tenant='', tenant_uuid='',
+                       timeout=None, params=None, api_version=None, **kwargs):
         """
         Helper function to perform HTTP DELETE on Avi REST Objects using object
         type and name.Internally, it transforms the request to
