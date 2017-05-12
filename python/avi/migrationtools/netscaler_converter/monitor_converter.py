@@ -14,13 +14,15 @@ LOG = logging.getLogger(__name__)
 class MonitorConverter(object):
 
 
-    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref):
+    def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
+                 user_ignore):
         """
         Construct a new 'MonitorConverter' object.
         :param tenant_name: Name of tenant
         :param cloud_name: Name of cloud
         :param tenant_ref: Tenant reference
         :param cloud_ref: Cloud Reference
+        :param user_ignore: Dict of user ignore attributes
         """
 
         self.monitor_skip_attrs = \
@@ -35,6 +37,8 @@ class MonitorConverter(object):
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
+        # List of ignore val attributes for add lb monitor netscaler command.
+        self.user_ignore = user_ignore.get('monitor', [])
 
     def convert(self, ns_config, avi_config, input_dir):
         """
@@ -74,7 +78,8 @@ class MonitorConverter(object):
             conv_status = ns_util.get_conv_status(
                 ns_monitor, self.monitor_skip_attrs, self.monitor_na_attrs,
                 self.monitor_indirect_list,
-                ignore_for_val=self.monitor_ignore_vals)
+                ignore_for_val=self.monitor_ignore_vals,
+                user_ignore_val=self.user_ignore)
             ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command,
                                     name, ns_monitor_complete_command,
                                     conv_status, avi_monitor)

@@ -14,6 +14,7 @@ from avi.migrationtools.f5_converter import (f5_config_converter,
                                             conversion_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
+from pkg_resources import parse_version
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -85,10 +86,10 @@ class F5Converter(AviConverter):
                 os.makedirs(output_dir)
             is_download_from_host = True
         user_ignore = {}
+        # Read the attributes for user ignore val
         if self.ignore_config:
-            with open(self.ignore_config, "r") as ignore_conf_file:
-                ignore_conf_str = ignore_conf_file.read()
-                user_ignore = json.loads(ignore_conf_str)
+            with open(self.ignore_config) as stream:
+                user_ignore = yaml.safe_load(stream)
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
@@ -135,10 +136,10 @@ class F5Converter(AviConverter):
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
-        avi_config_dict = f5_config_converter. \
-            convert(f5_config_dict, output_dir, self.vs_state, input_dir,
-                    self.f5_config_version, self.ssl_profile_merge_check,
-                    user_ignore, self.tenant, self.cloud_name)
+        avi_config_dict = f5_config_converter.convert(
+            f5_config_dict, output_dir, self.vs_state, input_dir,
+            self.f5_config_version, self.ssl_profile_merge_check,
+            self.controller_version, user_ignore, self.tenant, self.cloud_name)
 
         avi_config_dict["META"] = {
             "supported_migrations": {
@@ -162,9 +163,7 @@ class F5Converter(AviConverter):
                     "16_3_2",
                     "16_3_4",
                     "16_4_1",
-                    "16_4_2",
-                    "17_1_1",
-                    "current_version"
+                    "16_4_2"
                 ]
             },
             "version": {
@@ -176,6 +175,12 @@ class F5Converter(AviConverter):
             "upgrade_mode": False,
             "use_tenant": self.tenant
         }
+
+        if parse_version(self.controller_version) >= parse_version('17.1'):
+            avi_config_dict['META']['supported_migrations']['versions'].append(
+                '17_1_1')
+        avi_config_dict['META']['supported_migrations']['versions'].append(
+            'current_version')
 
         avi_config = self.process_for_utils(avi_config_dict)
         self.write_output(avi_config, output_dir)

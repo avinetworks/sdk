@@ -25,9 +25,9 @@ merge_profile_mapping = {
 
 
 class ProfileConverter(object):
-
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 ssl_ciphers, profile_merge_check, keypassphrase=None):
+                 ssl_ciphers, profile_merge_check, user_ignore,
+                 keypassphrase=None):
         """
         Construct a new 'ProfileConverter' object.
         :param tenant_name: Name of tenant
@@ -37,16 +37,17 @@ class ProfileConverter(object):
         :param ssl_ciphers: Object of list of supported and
         non supported ssl ciphers
         :param profile_merge_check: Bool value for profile merge
+        :param user_ignore: Dict of user ignore attributes
         :param keypassphrase: path of passphrase yaml file
         """
-        
+
         self.profile_http_skip = \
             ns_constants.netscalar_command_status['profile_http_skip']
         self.profile_http_indirect = \
             ns_constants.netscalar_command_status['profile_http_indirect']
         self.profile_tcp_skip = \
             ns_constants.netscalar_command_status['profile_tcp_skip']
-        self.profile_tcp_indirect =\
+        self.profile_tcp_indirect = \
             ns_constants.netscalar_command_status['profile_tcp_indirect']
         self.profile_ssl_prof_indirect = \
             ns_constants.netscalar_command_status['profile_ssl_prof_indirect']
@@ -61,16 +62,19 @@ class ProfileConverter(object):
         self.profile_bind_sslvs_skip = \
             ns_constants.netscalar_command_status['profile_bind_sslvs_skip']
         self.profile_set_ssl_vserver_skip = \
-            ns_constants.netscalar_command_status['profile_set_ssl_vserver_skip']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_vserver_skip']
         self.profile_set_ssl_vserver_ignore = \
-            ns_constants.netscalar_command_status['profile_set_ssl_vserver_ignore']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_vserver_ignore']
         self.profile_set_ssl_vserver_indirect = \
             ns_constants.netscalar_command_status[
                 'profile_set_ssl_vserver_indirect']
         self.profile_set_ssl_vserver_na = \
             ns_constants.netscalar_command_status['profile_set_ssl_vserver_na']
         self.profile_set_ssl_service_skip = \
-            ns_constants.netscalar_command_status['profile_set_ssl_service_skip']
+            ns_constants.netscalar_command_status[
+                'profile_set_ssl_service_skip']
         self.profile_set_ssl_service_indirect = \
             ns_constants.netscalar_command_status[
                 'profile_set_ssl_service_indirect']
@@ -78,7 +82,8 @@ class ProfileConverter(object):
             ns_constants.netscalar_command_status[
                 'profile_set_ssl_service_ignore']
         self.profile_bind_ssl_service_skip = \
-            ns_constants.netscalar_command_status['profile_bind_ssl_service_skip']
+            ns_constants.netscalar_command_status[
+                'profile_bind_ssl_service_skip']
         self.profile_bind_ssl_service_indirect = \
             ns_constants.netscalar_command_status[
                 'profile_bind_ssl_service_indirect']
@@ -103,6 +108,29 @@ class ProfileConverter(object):
             'open_ssl_cipher_to_avi_ssl_cipher', {})
         # list of keys with passphrase provided in YAML.
         self.netscalar_passphrase_keys = None
+        # List of ignore val attributes for add ns httpProfile
+        # netscaler command.
+        self.profile_http_user_ignore = user_ignore.get('profile_http', [])
+        # List of ignore val attributes for add ns tcpProfile netscaler command.
+        self.profile_tcp_user_ignore = user_ignore.get('profile_tcp', [])
+        # List of ignore val attributes for add ssl profile netscaler command.
+        self.profile_ssl_prof_user_ignore = user_ignore.get(
+            'profile_ssl_prof', [])
+        # List of ignore val attributes for add ssl certkey netscaler command.
+        self.profile_add_key_cert_user_ignore = user_ignore.get(
+            'profile_add_key_cert', [])
+        # List of ignore val attributes for bind ssl vserver netscaler command.
+        self.profile_bind_sslvs_user_ignore = user_ignore.get(
+            'profile_bind_sslvs', [])
+        # List of ignore val attributes for set ssl vserver netscaler command.
+        self.profile_set_ssl_vserver_user_ignore = user_ignore.get(
+            'profile_set_ssl_vserver', [])
+        # List of ignore val attributes for set ssl service netscaler command.
+        self.profile_set_ssl_service_user_ignore = user_ignore.get(
+            'profile_set_ssl_service', [])
+        # List of ignore val attributes for bind ssl service netscaler command.
+        self.profile_bind_ssl_service_user_ignore = user_ignore.get(
+            'profile_bind_ssl_service', [])
 
         if keypassphrase:
             self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
@@ -139,13 +167,14 @@ class ProfileConverter(object):
         for key in http_profiles.keys():
             ns_http_profile_command = 'add ns httpProfile'
             profile = http_profiles[key]
-            ns_http_profile_complete_command = ns_util.\
+            ns_http_profile_complete_command = ns_util. \
                 get_netscalar_full_command(ns_http_profile_command, profile)
             app_profile = self.convert_http_profile(profile)
             if app_profile:
-                conv_status = \
-                    ns_util.get_conv_status(profile, self.profile_http_skip, [],
-                                            self.profile_http_indirect)
+                conv_status = ns_util.get_conv_status(
+                    profile, self.profile_http_skip, [],
+                    self.profile_http_indirect,
+                    user_ignore_val=self.profile_http_user_ignore)
                 # Add summery in CSV/report for http profile
                 ns_util.add_conv_status(profile['line_no'],
                                         ns_http_profile_command, key,
@@ -180,9 +209,10 @@ class ProfileConverter(object):
             net_profile = self.convert_tcp_profile(profile)
             if net_profile:
                 # Add summery in CSV/report for tcp profile
-                conv_status = \
-                    ns_util.get_conv_status(profile, self.profile_tcp_skip,
-                                            [], self.profile_tcp_indirect)
+                conv_status = ns_util.get_conv_status(
+                    profile, self.profile_tcp_skip, [],
+                    self.profile_tcp_indirect,
+                    user_ignore_val=self.profile_tcp_user_ignore)
                 ns_util.add_conv_status(profile['line_no'],
                                         ns_tcp_profile_command, key,
                                         ns_tcp_profile_complete_command,
@@ -323,11 +353,10 @@ class ProfileConverter(object):
             else:
                 avi_config['SSLProfile'].append(ssl_profile)
             LOG.info('Conversion successful: %s' % full_set_ssl_service_command)
-            conv_status = \
-                ns_util.get_conv_status(ssl_service,
-                                        self.profile_set_ssl_service_skip,
-                                        self.profile_set_ssl_service_indirect,
-                                        [])
+            conv_status = ns_util.get_conv_status(
+                ssl_service, self.profile_set_ssl_service_skip,
+                self.profile_set_ssl_service_indirect, [],
+                user_ignore_val=self.profile_set_ssl_service_user_ignore)
             # Add summery in CSV/report for ssl service
             ns_util.add_conv_status(ssl_service['line_no'],
                                     set_ssl_service_command, key,
@@ -335,7 +364,6 @@ class ProfileConverter(object):
                                     conv_status, ssl_profile)
 
         LOG.debug("SSL profiles conversion completed")
-
 
     def convert_http_profile(self, profile):
         """
@@ -368,7 +396,6 @@ class ProfileConverter(object):
             LOG.error("Error in convertion of httpProfile", exc_info=True)
 
         return app_profile
-
 
     def convert_tcp_profile(self, profile):
         """
@@ -427,7 +454,8 @@ class ProfileConverter(object):
 
         conv_status = ns_util.get_conv_status(
             profile, self.profile_ssl_prof_skip, self.profile_ssl_prof_indirect,
-            self.profile_ssl_prof_na)
+            self.profile_ssl_prof_na,
+            user_ignore_val=self.profile_ssl_prof_user_ignore)
         ns_full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, profile)
         # Add summery in CSV/report for ssl profile
         ns_util.add_conv_status(profile['line_no'], netscalar_cmd,
@@ -519,7 +547,8 @@ class ProfileConverter(object):
                     bind_ssl_success = True
                     LOG.info('Conversion successful: %s' % full_cmd)
                     conv_status = ns_util.get_conv_status(
-                        key_cert, self.profile_add_key_cert_skip, [], [])
+                        key_cert, self.profile_add_key_cert_skip, [], [],
+                        user_ignore_val=self.profile_add_key_cert_user_ignore)
                     # Add summery in CSV/report for PKI
                     ns_util.add_conv_status(key_cert['line_no'], netscalar_cmd,
                                             key_cert['attrs'][0], full_cmd,
@@ -559,10 +588,10 @@ class ProfileConverter(object):
                         input_dir + os.path.sep + key_file_name)
                 if cert and key:
                     cert_date = c.load_certificate(c.FILETYPE_PEM,
-                                              file(input_dir + os.path.sep
-                                                   + cert_file_name).read())
+                                                   file(input_dir + os.path.sep
+                                                        + cert_file_name).read())
                     expiry_date = datetime.strptime(cert_date.get_notAfter(),
-                                                     "%Y%m%d%H%M%SZ")
+                                                    "%Y%m%d%H%M%SZ")
                     present_date = datetime.now()
                     if expiry_date < present_date:
                         cert, key = None, None
@@ -572,7 +601,7 @@ class ProfileConverter(object):
                     name = key_cert['attrs'][0]
                     # Get the key passphrase for key_file
                     if self.netscalar_passphrase_keys:
-                        key_passphrase = self.netscalar_passphrase_keys.get\
+                        key_passphrase = self.netscalar_passphrase_keys.get \
                             (key_file_name, None)
                 # Skipped this certificate if already exist
                 if name in tmp_ssl_key_and_cert_list:
@@ -606,8 +635,8 @@ class ProfileConverter(object):
                     output = ssl_kc_obj
                     # Add ssummery in CSV/report for ssl service
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
-                                            key_cert['attrs'][0], full_cmd,
-                                            STATUS_INDIRECT)
+                                           key_cert['attrs'][0], full_cmd,
+                                           STATUS_INDIRECT)
                     bind_ssl_success = True
                 else:
                     skipped_status = 'Skipped: Key and certificate not ' \
@@ -632,7 +661,8 @@ class ProfileConverter(object):
                 continue
 
             conv_status = ns_util.get_conv_status(
-                mapping, self.profile_bind_sslvs_skip, [], [])
+                mapping, self.profile_bind_sslvs_skip, [], [],
+                user_ignore_val=self.profile_bind_sslvs_user_ignore)
             if not bind_ssl_success:
                 LOG.warning(skipped_status)
                 # Add skipped status in CSV/report for bind ssl service
@@ -648,7 +678,6 @@ class ProfileConverter(object):
                                     conv_status, output)
 
         return obj
-
 
     def get_ciphers(self, cipher, ns_config):
         """
@@ -679,11 +708,11 @@ class ProfileConverter(object):
         if isinstance(bind_ciphers, dict):
             bind_ciphers = [bind_ciphers]
         for bind_cipher in bind_ciphers:
-            full_bind_ssl_cipher_command = ns_util.\
+            full_bind_ssl_cipher_command = ns_util. \
                 get_netscalar_full_command(bind_ssl_cipher_command, bind_cipher)
             if bind_cipher.get('cipherName', None):
                 not_supported_open_ssl_cipher = \
-                    self.non_supported_netscaler_to_open_ssl_cipher.\
+                    self.non_supported_netscaler_to_open_ssl_cipher. \
                         get(bind_cipher['cipherName'], None)
                 if not_supported_open_ssl_cipher:
                     # Skipped ssl cipher which AVI does not support
@@ -699,7 +728,7 @@ class ProfileConverter(object):
                     continue
 
                 supported_open_ssl_cipher = \
-                    self.supported_netscaler_to_open_ssl_cipher.\
+                    self.supported_netscaler_to_open_ssl_cipher. \
                         get(bind_cipher['cipherName'], None)
                 if supported_open_ssl_cipher:
                     avi_cipher = {'accepted_ciphers': supported_open_ssl_cipher}
@@ -736,4 +765,3 @@ class ProfileConverter(object):
             return [cipher]
 
         return ciphers
-
