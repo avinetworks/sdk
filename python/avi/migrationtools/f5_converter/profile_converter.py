@@ -58,11 +58,11 @@ class ProfileConfigConv(object):
         for key in net_config:
             route = net_config.get(key, {})
             # Get static route
-            static_route = self.update_static_route(route)
-            if static_route:
-                vrf_context['static_routes'].append(static_route)
-        if vrf_context['static_routes']:
-            avi_config["VrfContext"].append(vrf_context)
+        #     static_route = self.update_static_route(route)
+        #     if static_route:
+        #         vrf_context['static_routes'].append(static_route)
+        # if vrf_context['static_routes']:
+        #     avi_config["VrfContext"].append(vrf_context)
 
         if not persistence:
             f5_config['persistence'] = {}
