@@ -21,7 +21,7 @@ LOG = logging.getLogger(__name__)
 
 
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
-            input_dir, skipped_cmds, vs_state, profile_merge_check,
+            input_dir, skipped_cmds, vs_state, profile_merge_check, report_name,
             key_passphrase=None, user_ignore={}):
     """
     This functions defines that it convert service/servicegroup to pool
@@ -119,7 +119,8 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
         # Add/update CSV/report
-        ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config)
+        ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
+                                         report_name)
 
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
