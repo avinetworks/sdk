@@ -52,9 +52,15 @@ class F5Converter(AviConverter):
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
+        if self.bigip_config_file:
+            report_name = '%s-converter.log' % os.path.splitext(
+                os.path.basename(self.bigip_config_file))[0]
+        else:
+            report_name = 'converter.log'
         formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
-        logging.basicConfig(filename=os.path.join(self.output_file_path, 'converter.log'),
-                            level=logging.DEBUG, format=formatter)
+        logging.basicConfig(
+            filename=os.path.join(self.output_file_path, report_name),
+            level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
         # Add logger and print avi netscaler converter version
@@ -109,6 +115,9 @@ class F5Converter(AviConverter):
                     partitions.append(input_dir + os.path.sep + f)
         else:
             source_file = open(self.bigip_config_file, "r")
+        if not source_file:
+            print 'Not found ns configuration file'
+            return
         source_str = source_file.read()
         LOG.debug('Parsing config file:' + source_file.name)
         f5_config_dict = f5_parser.parse_config(source_str,
@@ -136,10 +145,12 @@ class F5Converter(AviConverter):
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
+        report_name = os.path.splitext(os.path.basename(self.bigip_config_file))[0]
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
             self.f5_config_version, self.ssl_profile_merge_check,
-            self.controller_version, user_ignore, self.tenant, self.cloud_name)
+            self.controller_version, report_name, user_ignore, self.tenant,
+            self.cloud_name)
 
         avi_config_dict["META"] = {
             "supported_migrations": {
@@ -183,7 +194,7 @@ class F5Converter(AviConverter):
             'current_version')
 
         avi_config = self.process_for_utils(avi_config_dict)
-        self.write_output(avi_config, output_dir)
+        self.write_output(avi_config, output_dir, '%s-Output.json' % report_name)
 
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
