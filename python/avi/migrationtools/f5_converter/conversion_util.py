@@ -188,14 +188,14 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
     csv_writer_dict_list.append(row)
 
 
-def add_complete_conv_status(output_dir, avi_config):
+def add_complete_conv_status(output_dir, avi_config, report_name):
     global csv_writer_dict_list
     for status in conv_const.STATUS_LIST:
         status_list = [row for row in csv_writer_dict_list if
                        row['Status'] == status]
         print '%s: %s' % (status, len(status_list))
     vs_per_skipped_setting_for_references(avi_config)
-    write_status_report_and_pivot_table_in_xlsx(output_dir)
+    write_status_report_and_pivot_table_in_xlsx(output_dir, report_name)
 
 
 def get_port_by_protocol(protocol):
@@ -1020,7 +1020,7 @@ def add_tenants(avi_config_dict):
             })
 
 
-def write_status_report_and_pivot_table_in_xlsx(output_dir):
+def write_status_report_and_pivot_table_in_xlsx(output_dir, report_name):
     """
     This function defines that add status sheet and pivot table sheet in xlsx
     format
@@ -1035,7 +1035,9 @@ def write_status_report_and_pivot_table_in_xlsx(output_dir):
                   'VS Reference', 'Overall skipped settings', 'Avi Object']
 
     # xlsx workbook
-    status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    report_path = output_dir + os.path.sep + "%s-ConversionStatus.xlsx" % \
+                                             report_name
+    status_wb = Workbook(report_path)
     # xlsx worksheet
     status_ws = status_wb.add_worksheet("Status Sheet")
     first_row = 0
@@ -1058,10 +1060,8 @@ def write_status_report_and_pivot_table_in_xlsx(output_dir):
     # create dataframe for pivot table using pandas
     pivot_df = pandas.DataFrame(pivot_table)
     master_book = \
-        load_workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
-    master_writer = pandas.ExcelWriter(output_dir + os.path.sep +
-                                       "ConversionStatus.xlsx",
-                                       engine='openpyxl')
+        load_workbook(report_path)
+    master_writer = pandas.ExcelWriter(report_path, engine='openpyxl')
     master_writer.book = master_book
     # Add pivot table in Pivot sheet
     pivot_df.to_excel(master_writer, 'Pivot Sheet')
