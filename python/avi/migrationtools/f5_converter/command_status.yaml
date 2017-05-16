@@ -44,6 +44,7 @@ VERSION_11:
 
     Monitor_Na_Https:
     - 'compatibility'
+    - 'adaptive'
 
     Monitor_Na_Dns:
     - 'adaptive'
