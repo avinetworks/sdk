@@ -22,7 +22,7 @@ def DisableVirtualService(vs_name):
 
             # Save the object
             resp = session.put('virtualservice/%s' %vs_obj['uuid'], data=vs_obj)
-            print resp.status_code, resp.json()
+            print(resp.status_code, resp.json())
 
 if __name__ == "__main__":
     DisableVirtualService('myVirtualService')

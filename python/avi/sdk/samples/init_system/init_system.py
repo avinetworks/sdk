@@ -7,7 +7,7 @@ Created on May 07, 2015
 
 import argparse
 import copy
-import commands
+import subprocess
 import os
 import json
 import requests
@@ -30,7 +30,7 @@ from avi.util.login import login
 def ordered(obj):
     """ Sort JSON blob by keys """
     if isinstance(obj, dict):
-        return sorted((k, ordered(v)) for k, v in obj.items())
+        return sorted((k, ordered(v)) for k, v in list(obj.items()))
     if isinstance(obj, list):
         return sorted(ordered(x) for x in obj)
     else:
@@ -121,13 +121,13 @@ class AviController:
         """ Return configs keys in lower case """
         if not self.configs:
             return list()
-        return [key.lower() for key in self.configs.keys()]
+        return [key.lower() for key in list(self.configs.keys())]
 
     def __get_config(self, config):
         """ Return configs keys in lower case """
         if not self.configs:
             return dict()
-        for key, values in self.configs.items():
+        for key, values in list(self.configs.items()):
             if key.lower() == config:
                 for val in values:
                     return val
@@ -180,7 +180,7 @@ class AviController:
 
     def __get_my_ip(self):
         """ Return list of Ips associated with VM"""
-        ips = commands.getoutput('hostname -I')
+        ips = subprocess.getoutput('hostname -I')
         return ips.split(' ')
 
     def __get_ref(self, uri):
@@ -237,7 +237,7 @@ class AviController:
             return
 
         cloud_id = source['uuid']
-        for key in json_config.keys():
+        for key in list(json_config.keys()):
             source[key] = json_config[key]
 
         # check for vcenter configuration. If so then we need to perform
@@ -329,7 +329,7 @@ class AviController:
         if ordered(json_config) == ordered(source):
             return
 
-        for key in json_config.keys():
+        for key in list(json_config.keys()):
             source[key] = json_config[key]
 
         # source = {"url": "https://10.10.24.3/api/systemconfiguration", "uuid": "default", "email_configuration": {"mail_server_name": "localhost", "smtp_type": "SMTP_NONE", "mail_server_port": 25}, "global_tenant_config": {"per_tenant_vrf": False, "per_tenant_default_profiles": False}, "dns_configuration": {"search_domain": "", "server_list": [{"type": "V4", "addr": "8.8.8.8"}]}, "tech_support_uploader_configuration": {"auto_upload": False}, "openstack_configuration": {"username": "admin", "import_keystone_tenants": True, "region_name": "RegionOne", "admin_tenant": "admin", "hypervisor": "KVM", "mgmt_network_name": "avi-mgmt", "nuage_port": 8443, "tenant_se": True, "contrail_plugin": False, "keystone_host": "10.10.184.2", "anti_affinity": True, "privilege": "WRITE_ACCESS", "use_keystone_auth": False}, "dhcp_enabled": True, "prefer_static_routes": False, "portal_configuration": {"use_uuid_from_input": False, "redirect_to_https": True, "sslprofile_ref": "https://10.10.24.3/api/sslprofile/sslprofile-f2e675fd-017d-4ec0-b178-8260f0d1b374", "enable_https": True, "sslkeyandcertificate_ref": "https://10.10.24.3/api/sslkeyandcertificate/sslkeyandcertificate-2f13fe71-94c8-4f00-aae1-e07f52479914", "enable_http": False}, "ntp_configuration": {"ntp_server_list": [{"type": "DNS", "addr": "0.us.pool.ntp.org"}]}, "docker_mode": False, "enable_vip_static_routes": False, "apic_mode": False}
@@ -356,12 +356,12 @@ class AviController:
 
         json_config = self.__get_config('cluster')
         source = json.loads(response.content)
-        if 'nodes' in json_config.keys() and 'nodes' in source.keys() and \
+        if 'nodes' in list(json_config.keys()) and 'nodes' in list(source.keys()) and \
                 ordered(json_config['nodes']) == ordered(source['nodes']):
             log.debug('Node config not changed')
             return
 
-        for key in json_config.keys():
+        for key in list(json_config.keys()):
             source[key] = json_config[key]
 
         response = self.client.put(
@@ -385,7 +385,7 @@ class AviController:
         source = json.loads(response.content)
         se_group = source['results'][0]
 
-        for key in json_config.keys():
+        for key in list(json_config.keys()):
             se_group[key] = json_config[key]
 
         uri = '/api/serviceenginegroup/%s' % se_group['uuid']
@@ -426,9 +426,9 @@ class AviController:
 
         json_config = self.__get_config('serviceengineproperties')
         source = json.loads(response.content)
-        for key, value in json_config.items():
+        for key, value in list(json_config.items()):
             if isinstance(value, dict):
-                for _key in value.keys():
+                for _key in list(value.keys()):
                     source[key][_key] = json_config[key][_key]
             else:
                 source[key] = json_config[key]
@@ -460,7 +460,7 @@ class AviController:
         for res in results:
             roles[res['name']] = res
 
-        for key, value in json_config.items():
+        for key, value in list(json_config.items()):
             if value not in roles:
                 raise RuntimeError("mapped-to role %s does not exist on "
                                    "Avi" % value)

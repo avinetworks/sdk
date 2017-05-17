@@ -54,5 +54,5 @@ if __name__ == '__main__':
 
     ssl_certs = get_all_sslkeyandcertificate_w_alt_names(api)
     for ssl_cert in ssl_certs:
-        print ssl_cert['name']
-        print '   Alternate Subject Names:', ssl_cert['certificate'].get('subject_alt_names', [])
+        print(ssl_cert['name'])
+        print('   Alternate Subject Names:', ssl_cert['certificate'].get('subject_alt_names', []))
