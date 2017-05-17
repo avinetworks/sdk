@@ -5,7 +5,7 @@ import sys
 
 sys.path.insert(1,  '../')
 
-from apic_client import APICClient
+from .apic_client import APICClient
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.utils.api_utils import ApiUtils
 
@@ -19,8 +19,8 @@ def load_tenant_config():
     with open( 'apic_tenant_config.json', 'r' ) as f:
         try:
             tenant_config = json.load(f)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             sys.exit(0)
 
 def get_avi_controller_config():
@@ -84,15 +84,15 @@ def get_apic_graphs():
 
 def create_apic_topology():
 
-    print ('------------------------------------------------------')
-    print ('Creating objects in APIC for Tenant : %s' %(tenant_config['Tenant']))
-    print ('------------------------------------------------------')
+    print('------------------------------------------------------')
+    print('Creating objects in APIC for Tenant : %s' % tenant_config['Tenant'])
+    print('------------------------------------------------------')
     # Setup the Bridge Domains
     apic_bds = get_apic_bd()
     for bd in apic_bds:
         for subnet in bd['subnets']:
-            print ('Creating BD : %s Subnet : %s ...'%
-                      (bd['name'],subnet['gateway']))
+            print('Creating BD : %s Subnet : %s ...' %
+                bd['name'], subnet['gateway'])
             apic_session.createTenantBD(tenant_config['Tenant'],
                            bd['name'],
                            subnet['gateway'],
@@ -102,7 +102,7 @@ def create_apic_topology():
     apic_graphs = get_apic_graphs()
     apic_config = get_avi_apic_config()
     for graph in apic_graphs:
-        print ('Creating Graph : %s ...' %(graph['name']))
+        print('Creating Graph : %s ...' %(graph['name']))
         apic_session.createGraph(tenant_config['Tenant'],
                 apic_config['vendor'],
                 apic_config['product'],
@@ -113,7 +113,7 @@ def create_apic_topology():
     # Setup the Contracts
     apic_contracts = get_apic_contract()
     for contract in apic_contracts:
-        print ('Creating Contract : %s ...' %(contract['name']))
+        print(('Creating Contract : %s ...' %(contract['name'])))
         apic_session.createTenantContract(tenant_config['Tenant'],
                              contract['name'],
                              contract['subject']['graph'],
@@ -123,8 +123,8 @@ def create_apic_topology():
     apic_apps = get_apic_app_profile()
     for app in apic_apps:
         for epg in app['EpgConfig']:
-            print ('Creating Application Profile : %s Epg : %s...' %
-                  (app['name'],epg['name']))
+            print('Creating Application Profile : %s Epg : %s...' %
+                  app['name'],epg['name'])
             apic_session.createAppEpg(tenant_config['Tenant'],
                  app['name'],
                  epg['name'],
@@ -145,7 +145,7 @@ def create_apic_topology():
 def create_avi_ipaddrgroup(session):
     ipaddrgroup_config = get_avi_ipaddrgroup()
     for group in ipaddrgroup_config:
-        print ('Creating IP Address Group : %s...' %(group['name']))
+        print('Creating IP Address Group : %s...' %(group['name']))
         group_obj = None
         if 'epg' in group:
             group_obj = {
@@ -170,7 +170,7 @@ def create_avi_ipaddrgroup(session):
 def create_avi_pool(session):
     pool_config = get_avi_pool()
     for pool in pool_config:
-        print ('Creating Pool : %s...' %(pool['name']))
+        print('Creating Pool : %s...' %(pool['name']))
         pool_obj = {
             'name' : pool['name'],
             'apic_epg_name' : pool['pool_epg']
@@ -240,7 +240,7 @@ def create_avi_virtualservice(session, app_profile_name):
                         'applicationprofile', 
                         app_profile_name)
     for vs in vs_config: 
-        print ('Creating VirtualService : %s...' %(vs['name']))
+        print('Creating VirtualService : %s...' %(vs['name']))
         vs_obj = None
         pool_ref = session.get_object_uri('pool', vs['pool'])
         service_objs = []
@@ -286,8 +286,8 @@ def create_avi_virtualservice(session, app_profile_name):
 
 def create_avi_endpoint(tenant):
     controller_config = get_avi_controller_config()
-    print ('Connecting to Avi Controller %s...'%(controller_config['ip']))
-    print ('User : %s Tenant : %s' %(controller_config['username'],tenant))
+    print('Connecting to Avi Controller %s...'%(controller_config['ip']))
+    print('User : %s Tenant : %s' %(controller_config['username'], tenant))
     return ApiSession.get_session(controller_config['ip'],
                        controller_config['username'], 
                        controller_config['password'], tenant=tenant)
@@ -385,9 +385,9 @@ if __name__ == '__main__':
                      apic_config['password'])
     create_apic_topology()
 
-    print ('------------------------------------------------------')
-    print ('Creating objects in Avi for Tenant %s' %(tenant_config['Tenant']))
-    print ('------------------------------------------------------')
+    print('------------------------------------------------------')
+    print('Creating objects in Avi for Tenant %s' %(tenant_config['Tenant']))
+    print('------------------------------------------------------')
     avi_tenant_session = create_avi_endpoint(tenant=tenant_config['Tenant'])
     # Create Ip Address Group if present
     create_avi_ipaddrgroup(avi_tenant_session)
@@ -396,4 +396,4 @@ if __name__ == '__main__':
     create_avi_pool(avi_tenant_session)
     create_avi_virtualservice(avi_tenant_session, 'MyAppProfile')
 
-    print ('Finished creating Tenant %s' %(tenant_config['Tenant']))
+    print('Finished creating Tenant %s' %(tenant_config['Tenant']))

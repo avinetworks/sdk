@@ -22,14 +22,14 @@ class VirtualserviceSDKExample(object):
         for server in servers:
             parts = server.split(':')
             ip_addr = parts[0]
-            print parts[1]
+            print(parts[1])
             port = parts[1] if len(parts) == 2 else 80
             server_proto = pool_pb.servers.add()
             ip = IpAddr()
             ip.addr = ip_addr
             ip.type = IpAddrType.Value('V4')
             server_proto.ip.CopyFrom(ip)
-            print port
+            print(port)
             server_proto.port = int(port)
 
         # post the pool protobuf with pool resource
@@ -50,7 +50,7 @@ class VirtualserviceSDKExample(object):
         # post vs protobuf using vs resource
         vs_obj = vs_resource.post(vs_pb)
 
-        print 'Virtual service created successfully'
+        print('Virtual service created successfully')
 
 
     def scaleout_vs(self, vs_name):
@@ -58,11 +58,11 @@ class VirtualserviceSDKExample(object):
         vs_obj = vs_resource.get_by_name(vs_name)
         # avi object will have the actions for the entities hence scaleout can be called on vs_obj
         new_vs_obj = vs_obj.scaleout()
-        print 'Virtual service scaled out successfully'
+        print('Virtual service scaled out successfully')
 
     def delete_vs(self, name):
         vs_resource.delete(name=name)
-        print 'Virtual service deleted successfully'
+        print('Virtual service deleted successfully')
 
     def get_metrics(self, metric_entity, metric_entity_uuid, metric_ids):
         # To get the metric data need to create metric query object
@@ -76,13 +76,13 @@ class VirtualserviceSDKExample(object):
         # metric data can be fetched from analytics resource
         analytics_resource = sdk.resource(AviObjectType.ANALYTICS)
         metric_obj = analytics_resource.get(mq_req)
-        print metric_obj
+        print(metric_obj)
 
     def get_vs_inventory(self, name):
         vs_obj = vs_resource.get_by_name()
         # inventory for every entity is available in the avi object of that entity
         return vs_obj.inventory()
-        print inventory
+        print(inventory)
 
 
 

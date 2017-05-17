@@ -89,11 +89,11 @@ def create_aws_connection(aws_settings):
     aws_access_key_id = aws_settings['aws_access_key_id']
     aws_secret_access_key = aws_settings['aws_secret_access_key']
     ec2_region = aws_settings.get('ec2_region', 'us-west-2')
-    print 'using: ', aws_access_key_id, aws_secret_access_key, ec2_region
+    print('using: ', aws_access_key_id, aws_secret_access_key, ec2_region)
     conn = boto.ec2.connect_to_region(
         ec2_region, aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key)
-    print 'connection obj', conn
+    print('connection obj', conn)
     return conn
 
 
@@ -124,14 +124,14 @@ def create_aws_instance(aws_settings):
                                           instance_type=instance_type,
                                           subnet_id=aws_settings['subnet_id'])
     if not reservations.instances:
-        print 'Did not get AMI'
+        print('Did not get AMI')
         raise Exception('Instance creation failed AMI %s %s' %
                         ami_id, instance_type)
     instance = reservations.instances[0]
     # Wait for the instance to enter the running state
     # check for instance is running
     rc = ''
-    for _ in xrange(25):
+    for _ in range(25):
         # try for 2mins
         time.sleep(5)
         rc = instance.update()
@@ -139,7 +139,7 @@ def create_aws_instance(aws_settings):
             break
         time.sleep(5)
     if rc != 'running':
-        print 'instance', instance.id, ' is still not running', rc
+        print('instance', instance.id, ' is still not running', rc)
 
     tag = '-'.join([aws_settings.get('tag', 'avidemo'),
                     instance.id])
@@ -152,7 +152,7 @@ def create_aws_instance(aws_settings):
         result = AviInstanceInfo(instance_id=instance.id,
                                  ip_address=instance.private_ip_address,
                                  hostname=tag)
-    print 'created instance', result
+    print('created instance', result)
     if not result.ip_address:
         instance_ids = [instance.id]
         delete_aws_instance(aws_settings, instance_ids)
@@ -171,12 +171,12 @@ def delete_aws_instance(aws_settings, instance_ids):
     :param instance_ids: list of instance ids to delete. These are typically
     stored in the external uuid of the server.
     """
-    print 'deleting instances ', instance_ids
+    print('deleting instances ', instance_ids)
     conn = create_aws_connection(aws_settings)
     rc = conn.stop_instances(instance_ids=instance_ids)
-    print 'stopping instances ', instance_ids, rc
+    print('stopping instances ', instance_ids, rc)
     rc = conn.terminate_instances(instance_ids=instance_ids)
-    print 'terminating instances ', instance_ids, rc
+    print('terminating instances ', instance_ids, rc)
 
 
 def scaleout(aws_settings, *args):
@@ -197,7 +197,7 @@ def scaleout(aws_settings, *args):
     pool_name, pool_uuid, pool_obj, num_scaleout = \
         scaleout_params('scaleout', alert_info, api=api, tenant=tenant)
     # create AWS instance using these two ids.
-    print pool_name, 'scaleout', num_scaleout
+    print(pool_name, 'scaleout', num_scaleout)
     insid, ip_addr, hostname = create_aws_instance(aws_settings)
 
     new_server = {
@@ -210,11 +210,11 @@ def scaleout(aws_settings, *args):
     # add new server to the pool
     pool_obj['servers'].append(new_server)
     # call controller API to update the pool
-    print 'new pool obj', pool_obj
+    print('new pool obj', pool_obj)
     api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid, tenant=tenant,
                    data=json.dumps(pool_obj))
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
 
 
 def scalein(aws_settings, *args):
@@ -232,7 +232,7 @@ def scalein(aws_settings, *args):
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scalein', alert_info, api=api, tenant=tenant)
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
+    print((pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale))
     scalein_server = pool_obj['servers'][-1]
     try:
         instance_ids = [scalein_server['external_uuid']]
@@ -243,13 +243,13 @@ def scalein(aws_settings, *args):
         instance_ids = [vm_uuid]
     pool_obj['servers'] = pool_obj['servers'][:-1]
     # call controller API to update the pool
-    print 'pool %s scalein server %s' % (pool_name, scalein_server)
+    print('pool %s scalein server %s' % (pool_name, scalein_server))
     api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid,
                    tenant=tenant, data=json.dumps(pool_obj))
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
     if resp.status_code in (200, 201, 204):
-        print 'deleting the instance from the aws - ', instance_ids
+        print('deleting the instance from the aws - ', instance_ids)
         delete_aws_instance(aws_settings, instance_ids)
 
 if __name__ == '__main__':
