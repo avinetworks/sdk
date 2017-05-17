@@ -14,8 +14,8 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            ssl_profile_merge_check, user_ignore={}, tenant='admin',
-            cloud_name='Default-Cloud'):
+            ssl_profile_merge_check, controller_version, user_ignore={},
+            tenant='admin', cloud_name='Default-Cloud'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -25,6 +25,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param vs_state: State of created Avi VS object
     :param input_dir: Location of cert and external monitor script files
     :param version: Version of F5 config
+    :param ssl_profile_merge_check: Flag for ssl profile merge
+    :param controller_version: Version of controller
     :param user_ignore: Ignore config defined by user
     :param tenant: Tenant for which config need to be converted
     :param cloud_name: cloud for which config need to be converted
@@ -53,7 +55,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
-                        tenant, cloud_name)
+                        tenant, cloud_name, controller_version)
 
         conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)

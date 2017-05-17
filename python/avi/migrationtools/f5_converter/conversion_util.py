@@ -11,6 +11,7 @@ from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
+from pkg_resources import parse_version
 
 
 LOG = logging.getLogger(__name__)
@@ -457,20 +458,26 @@ def update_service(port, vs, enable_ssl):
     return service_updated
 
 
-def get_service_obj(destination, vs_list, enable_ssl):
+def get_service_obj(destination, vs_list, enable_ssl, controller_version):
     """
     Checks port overlapping scenario for port value 0 in F5 config
     :param destination: IP and Port destination of VS
     :param vs_list: List of existing vs converted to avi config
     :param enable_ssl: value to put in service objects
+    :param controller_version: Version of controller
     :return: List of services for VS
     """
     parts = destination.split(':')
     ip_addr = parts[0]
     port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
     # Get the list of vs which shared the same vip
-    vs_dup_ips = \
-        [vs for vs in vs_list if vs['vip'][0]['ip_address']['addr'] == ip_addr]
+    if parse_version(controller_version) >= parse_version('17.1'):
+        vs_dup_ips = \
+            [vs for vs in vs_list if vs['vip'][0]['ip_address']['addr'] ==
+             ip_addr]
+    else:
+        vs_dup_ips = \
+            [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
 
     if port == 'any':
         port = 0
@@ -900,15 +907,13 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
             ref = clone_pool_group(
                 ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
         else:
-            ref = clone_pool(
-                ref, vs_name, avi_config['Pool'], tenant, cloud_name=cloud_name)
+            ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
     if shared_vs:
         if is_pool_group:
             ref = clone_pool_group(
                 ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
         else:
-            ref = clone_pool(
-                ref, vs_name, avi_config['Pool'], tenant, cloud_name=cloud_name)
+            ref = clone_pool(ref, vs_name, avi_config['Pool'], tenant)
 
     return ref, is_pool_group
 

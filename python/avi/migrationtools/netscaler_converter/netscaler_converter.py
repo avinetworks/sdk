@@ -10,7 +10,6 @@ import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
 import avi.migrationtools.netscaler_converter.scp_util as scp_util
 
-
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
@@ -44,6 +43,7 @@ class NetscalerConverter(AviConverter):
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
         self.vs_filter = args.vs_filter
+        self.ignore_config = args.ignore_config
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -86,10 +86,15 @@ class NetscalerConverter(AviConverter):
         else:
             source_file = self.ns_config_file
         ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
+        user_ignore = {}
+        # Read the attributes for user ignore val
+        if self.ignore_config:
+            with open(self.ignore_config) as stream:
+                user_ignore = yaml.safe_load(stream)
         avi_config = ns_conf_converter.convert(
             ns_config, self.tenant, self.cloud_name, self.controller_version,
             output_dir, input_dir, skipped_cmds, self.vs_state,
-            self.profile_merge_check, self.ns_passphrase_file)
+            self.profile_merge_check, self.ns_passphrase_file, user_ignore)
 
         avi_config = self.process_for_utils(
             avi_config)
@@ -185,6 +190,8 @@ if __name__ == "__main__":
     # Added command line args to execute vs_filter.py with vs_name.
     parser.add_argument('--vs_filter', help='comma seperated names of '
                                             'virtualservices')
+    parser.add_argument('--ignore_config',
+                        help='config json to skip the config in conversion')
 
     args = parser.parse_args()
 

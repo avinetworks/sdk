@@ -20,7 +20,7 @@ class ServiceConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check):
+                 profile_merge_check, user_ignore):
         """
         Construct a new 'ServiceConverter' object.
         :param tenant_name: Name of tenant
@@ -28,6 +28,7 @@ class ServiceConverter(object):
         :param tenant_ref: Tenant reference
         :param cloud_ref: Cloud Reference
         :param profile_merge_check: Bool value for profile merge
+        :param user_ignore: Dict of user ignore attributes
         """
 
         self.nsservice_bind_lb_skipped = \
@@ -51,6 +52,18 @@ class ServiceConverter(object):
         self.tenant_ref = tenant_ref
         self.cloud_ref = cloud_ref
         self.profile_merge_check = profile_merge_check
+        # List of ignore val attributes for bind service netscaler command.
+        self.nsservice_bind_lb_user_ignore = \
+            user_ignore.get('nsservice_bind_lb', [])
+        # List of ignore val attributes for add service netscaler command.
+        self.nsservice_service_user_ignore = \
+            user_ignore.get('nsservice_service', [])
+        # List of ignore val attributes for bind servicegroup netscaler command.
+        self.nsservice_bind_sg_user_ignore = \
+            user_ignore.get('nsservice_bind_sg', [])
+        # List of ignore val attributes for add servicegroup netscaler command.
+        self.nsservice_server_user_ignore = \
+            user_ignore.get('nsservice_server', [])
 
     def convert(self, ns_config, avi_config):
         """
@@ -116,11 +129,11 @@ class ServiceConverter(object):
                         ns_bind_lb_vserver_complete_command = \
                             ns_util.get_netscalar_full_command(
                                 ns_bind_lb_vserver_command, element)
-                        ns_util.add_status_row(element['line_no'],
-                                               ns_bind_lb_vserver_command,
-                                               element['attrs'][0],
-                                               ns_bind_lb_vserver_complete_command,
-                                               STATUS_INCOMPLETE_CONFIGURATION)
+                        ns_util.add_status_row(
+                            element['line_no'], ns_bind_lb_vserver_command,
+                            element['attrs'][0],
+                            ns_bind_lb_vserver_complete_command,
+                            STATUS_INCOMPLETE_CONFIGURATION)
                         LOG.warning(skipped_status)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
@@ -150,10 +163,10 @@ class ServiceConverter(object):
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report
-                        conv_status = \
-                            ns_util.get_conv_status(
-                                element, self.nsservice_bind_lb_skipped, [], [],
-                                ignore_for_val=self.nsservice_bind_lb_ignore_val)
+                        conv_status = ns_util.get_conv_status(
+                            element, self.nsservice_bind_lb_skipped, [], [],
+                            ignore_for_val=self.nsservice_bind_lb_ignore_val,
+                            user_ignore_val=self.nsservice_bind_lb_user_ignore)
                         ns_util.add_conv_status(
                             element['line_no'], ns_bind_lb_vserver_command,
                             element['attrs'][0],
@@ -333,7 +346,8 @@ class ServiceConverter(object):
                     if service_conf.get('certkeyName', None) \
                             and [key_cert for key_cert
                                  in avi_config['SSLKeyAndCertificate']
-                                 if key_cert['name'] == service_conf.get('certkeyName') + '-dummy']:
+                                 if key_cert['name'] == service_conf.get(
+                                    'certkeyName') + '-dummy']:
                         ssl_key_cert_ref = \
                             ns_util.get_object_ref(
                                 service_conf.get('certkeyName') + '-dummy',
@@ -373,12 +387,12 @@ class ServiceConverter(object):
             LOG.warning('Conversion successful: %s' %
                         service_netscalar_full_command)
             # Add summery of this service in CSV/report
-            conv_status = ns_util.\
-                get_conv_status(service, self.nsservice_bind_lb_skipped, [], [])
-            ns_util.add_conv_status(service['line_no'], service_command,
-                                    service_name,
-                                    service_netscalar_full_command, conv_status,
-                                    pool_obj)
+            conv_status = ns_util.get_conv_status(
+                service, self.nsservice_bind_lb_skipped, [], [],
+                user_ignore_val=self.nsservice_bind_lb_user_ignore)
+            ns_util.add_conv_status(
+                service['line_no'], service_command, service_name,
+                service_netscalar_full_command, conv_status, pool_obj)
 
         for group_key in ns_service_groups:
             service_group_command = 'add serviceGroup'
@@ -437,7 +451,8 @@ class ServiceConverter(object):
                     if ssl_service_conf.get('certkeyName', None) \
                             and [key_cert for key_cert
                                  in avi_config['SSLKeyAndCertificate']
-                                 if key_cert['name'] == ssl_service_conf.get('certkeyName') + '-dummy']:
+                                 if key_cert['name'] == ssl_service_conf.get(
+                                    'certkeyName') + '-dummy']:
                         ssl_key_cert_ref = \
                             ns_util.get_object_ref(
                                 ssl_service_conf.get('certkeyName') + '-dummy',
@@ -477,9 +492,9 @@ class ServiceConverter(object):
             LOG.warning('Conversion successful: %s' %
                         service_group_netscalar_full_command)
             # Add summery of this service group in CSV/report
-            conv_status = ns_util.\
-                get_conv_status(service_group, self.nsservice_bind_lb_skipped,
-                                [], [])
+            conv_status = ns_util.get_conv_status(
+                service_group, self.nsservice_bind_lb_skipped, [], [],
+                user_ignore_val=self.nsservice_bind_lb_user_ignore)
             ns_util.add_conv_status(service_group['line_no'],
                                     service_group_command, service_group_name,
                                     service_group_netscalar_full_command,
@@ -556,8 +571,9 @@ class ServiceConverter(object):
         if not server:
             return []
         ns_add_server_command = 'add server'
-        status = ns_util.get_conv_status(server, self.nsservice_server_skip,
-                                         [], [])
+        status = ns_util.get_conv_status(
+            server, self.nsservice_server_skip, [], [],
+            user_ignore_val=self.nsservice_server_user_ignore)
         ns_add_server_complete_command = \
             ns_util.get_netscalar_full_command(ns_add_server_command, server)
         ip_addr = server['attrs'][1]
@@ -620,8 +636,9 @@ class ServiceConverter(object):
             attrs = server_binding.get('attrs')
             ns_bind_service_group_command = 'bind serviceGroup'
             group_status = \
-                ns_util.get_conv_status(server_binding,
-                                        self.nsservice_bind_sg_skip, [], [])
+                ns_util.get_conv_status(
+                    server_binding, self.nsservice_bind_sg_skip, [], [],
+                    user_ignore_val=self.nsservice_bind_sg_user_ignore)
             ns_bind_service_group_complete_command = \
                 ns_util.get_netscalar_full_command(
                     ns_bind_service_group_command, server_binding)
@@ -661,8 +678,9 @@ class ServiceConverter(object):
             ns_add_server_complete_command = \
                 ns_util.get_netscalar_full_command(
                     ns_add_server_command, server)
-            status = ns_util.get_conv_status(server, self.nsservice_server_skip,
-                                             [], [])
+            status = ns_util.get_conv_status(
+                server, self.nsservice_server_skip, [], [],
+                user_ignore_val=self.nsservice_server_user_ignore)
             ip_addr = server['attrs'][1]
             if ip_addr in ns_dns:
                 if isinstance(ns_dns[ip_addr], list):
