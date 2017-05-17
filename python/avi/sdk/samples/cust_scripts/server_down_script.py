@@ -39,11 +39,11 @@ def ParseAviParams(argv):
     server_ip = alert_dict['server_ip']
     pool = alert_dict['pool']
     server = alert_dict['server']
-    print ('Alert Name : %s' % (alert_name))
-    print ('Virtual Service Name : %s' % (virtualservice))
-    print ('Pool Name : %s' % (pool))
-    print ('Server Name : %s' % (server))
-    print ('Server IP : %s' % (server_ip))
+    print('Alert Name : %s' % (alert_name))
+    print('Virtual Service Name : %s' % (virtualservice))
+    print('Pool Name : %s' % (pool))
+    print('Server Name : %s' % (server))
+    print('Server IP : %s' % (server_ip))
 
 class LoginUnknownError(Exception):
     pass
@@ -124,7 +124,7 @@ def _Api(ws_addr, method, uri, params={}, data={}, headers={}, timeout=10):
     _headers = copy.copy(session['headers'])
     if headers:
         _headers.update(headers)
-    print '%s %s data=%s' % (method, uri, data)
+    print('%s %s data=%s' % (method, uri, data))
     try:
         if method == 'GET':
             rsp = requests.get(uri, params=params,
@@ -151,10 +151,10 @@ def _Api(ws_addr, method, uri, params={}, data={}, headers={}, timeout=10):
         else:
             raise Exception('Unknown http request %s' % method)
     except requests.exceptions.Timeout:
-        print 'Timeout in handling the request %s %s' % (method, uri)
+        print('Timeout in handling the request %s %s' % (method, uri))
         raise
     except requests.exceptions.ConnectionError as err:
-        print 'Error in contacting the controller %s' % err
+        print('Error in contacting the controller %s' % err)
         raise
 
     return rsp

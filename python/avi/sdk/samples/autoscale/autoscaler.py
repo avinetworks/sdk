@@ -240,5 +240,5 @@ if __name__ == '__main__':
     aascaler = AnalyticsAutoScaler(reactor, args.controller_ip, args.user,
                                    args.password, args.tenant,
                                    args.virtualservice)
-    print 'started autoscaler'
+    print('started autoscaler')
     reactor.run()

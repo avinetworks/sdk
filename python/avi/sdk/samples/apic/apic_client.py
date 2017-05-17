@@ -47,7 +47,7 @@ class APICClient(object):
                                        verify=False)
                     break;
                 except Exception:
-                    print traceback.format_exc()
+                    print(traceback.format_exc())
             status = r.status_code
             #print r.text
             self.cookies = r.cookies
@@ -78,7 +78,7 @@ class APICClient(object):
     def createTenantConfig(self, Tenant, AppProfile, PrivateNetwork=''):
         if not PrivateNetwork:
             PrivateNetwork = Tenant + 'ctx1'
-        for xml_file, dvalue_list in tenant_config_xml.iteritems():
+        for xml_file, dvalue_list in tenant_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -101,7 +101,7 @@ class APICClient(object):
     def createTenantBD(self, Tenant, Bd, Subnet, PrivateNetwork=''):
         if not PrivateNetwork:
             PrivateNetwork = Tenant + 'ctx1'
-        for xml_file, dvalue_list in bd_config_xml.iteritems():
+        for xml_file, dvalue_list in bd_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -124,7 +124,7 @@ class APICClient(object):
             self.sendAPICPostRequest(data)
 
     def addTenantBDSubnet(self, Tenant, Bd, Subnet):
-        for xml_file, dvalue_list in bd_subnet_config_xml.iteritems():
+        for xml_file, dvalue_list in bd_subnet_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -145,7 +145,7 @@ class APICClient(object):
             self.sendAPICPostRequest(data)
 
     def createTenantContract(self, Tenant, Contract, Graph, Filter):
-        for xml_file, dvalue_list in contract_config_xml.iteritems():
+        for xml_file, dvalue_list in contract_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -168,7 +168,7 @@ class APICClient(object):
             self.sendAPICPostRequest(data)
 
     def createAppEpg(self, Tenant, AppProfile, Epg, Domain, Bd, Subnet=''):
-        for xml_file, dvalue_list in epg_config_xml.iteritems():
+        for xml_file, dvalue_list in epg_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -193,7 +193,7 @@ class APICClient(object):
             self.sendAPICPostRequest(data)
 
     def addEpgContractProv(self, Tenant, AppProfile, Epg, Contract):
-        for xml_file, dvalue_list in epg_contract_prov_xml.iteritems():
+        for xml_file, dvalue_list in epg_contract_prov_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -216,7 +216,7 @@ class APICClient(object):
             self.sendAPICPostRequest(data)
 
     def addEpgContractCons(self, Tenant, AppProfile, Epg, Contract):
-        for xml_file, dvalue_list in epg_contract_cons_xml.iteritems():
+        for xml_file, dvalue_list in epg_contract_cons_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'
@@ -239,7 +239,7 @@ class APICClient(object):
         self.sendAPICPostRequest(data)
 
     def createGraph(self, Tenant, Vendor, Product, Graph, conn_out, conn_ins):
-        for xml_file, dvalue_list in graph_config_xml.iteritems():
+        for xml_file, dvalue_list in graph_config_xml.items():
             #print '--------------------'
             #print xml_file
             #print '--------------------'

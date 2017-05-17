@@ -176,8 +176,8 @@ class MesosTestUtils(object):
 
         marathon_uri = marathon_url + '/v2/apps'
         app_ids = []
-        print 'type', app_type, 'name', app_name, 'instances', num_instances
-        print 'service_port count', num_service_ports, 'ns', northsouth, 'vip', vips
+        print('type', app_type, 'name', app_name, 'instances', num_instances)
+        print('service_port count', num_service_ports, 'ns', northsouth, 'vip', vips)
         for index in range(num_apps):
             app_id = (app_name + '-' + str(index + 1)
                       if num_apps > 1 else app_name)
@@ -203,7 +203,7 @@ class MesosTestUtils(object):
             app_obj['id'] = app_id
             app_ids.append(app_id)
             avi_proxy_json = app_obj['labels']['avi_proxy']
-            print ' proxy json-', avi_proxy_json
+            print(' proxy json-', avi_proxy_json)
             avi_proxy = json.loads(avi_proxy_json)
             if tenant:
                 avi_proxy['tenant'] = tenant
@@ -211,7 +211,7 @@ class MesosTestUtils(object):
                 if 'virtualservice' not in avi_proxy:
                     avi_proxy['virtualservice'] = virtualservice
                 else:
-                    for k, v in virtualservice.iteritems():
+                    for k, v in virtualservice.items():
                         avi_proxy['virtualservice'][k] = v
             if northsouth and vips and (index % math.ceil(float(num_apps)/northsouth) == 0):
                 app_obj['labels']['FE-Proxy'] = 'Yes'
@@ -228,7 +228,7 @@ class MesosTestUtils(object):
                 if 'pool' not in avi_proxy:
                     avi_proxy['pool'] = pool
                 else:
-                    for k, v in pool.iteritems():
+                    for k, v in pool.items():
                         avi_proxy['pool'][k] = v
             app_obj['labels']['avi_proxy'] = json.dumps(avi_proxy)
 
@@ -246,7 +246,7 @@ class MesosTestUtils(object):
                 app_obj['constraints'] = []
                 for constraint in constraints:
                     app_obj['constraints'].append(constraint)
-                print 'constraints:', app_obj['constraints']
+                print('constraints:', app_obj['constraints'])
 
             headers = self.MARATHON_HDRS
             auth = None
@@ -257,13 +257,13 @@ class MesosTestUtils(object):
             rsp = requests.post(marathon_uri, data=json.dumps(app_obj),
                                 auth = auth, headers=headers)
             if rsp.status_code == 409:
-                print 'got response %s, retrying with force=true' %rsp.text
+                print('got response %s, retrying with force=true' %rsp.text)
                 marathon_uri = marathon_uri + '?force=true'
                 rsp = requests.post(marathon_uri, data=json.dumps(app_obj),
                                     auth = auth, headers=headers)
             if rsp.status_code >= 300:
                 raise RuntimeError('failed to create app %s; got response code %s: %s' %(app_id, str(rsp.status_code), rsp.text))
-            print 'created app', app_id, app_obj, ' response ', rsp.text
+            print('created app', app_id, app_obj, ' response ', rsp.text)
         return app_ids
 
     def getInfo(self, marathon_uri, auth_type=None, auth_token=None, username=None, password=None):
@@ -276,7 +276,7 @@ class MesosTestUtils(object):
         rsp = requests.get(marathon_uri, auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to get ' + marathon_uri + ', got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'response: ', rsp.text
+        print('response: ', rsp.text)
         info = json.loads(rsp.text) if rsp.text else {}
         log.debug('info %s', info)
         return info
@@ -303,7 +303,7 @@ class MesosTestUtils(object):
         # could also do it on uri to be forwards compatible rather than backwards
         app_obj.pop('fetch', None)
 
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             app_obj[k] = v
         del app_obj['version']
 
@@ -318,7 +318,7 @@ class MesosTestUtils(object):
                            auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to update app config, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'updated app', app_id, ' response ', rsp.text
+        print('updated app', app_id, ' response ', rsp.text)
         return rsp
 
     def updateAviProxy(self, marathon_url, app_id, avi_proxy,
@@ -343,7 +343,7 @@ class MesosTestUtils(object):
                            auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to update app avi proxy, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'updated app', app_id, ' response ', rsp.text
+        print('updated app', app_id, ' response ', rsp.text)
         return rsp
 
     def updateApp(self, marathon_url, app_id, vs_obj=None,
@@ -360,7 +360,7 @@ class MesosTestUtils(object):
             vs_cfg = avi_proxy.get('virtualservice')
         else:
             vs_cfg = vs_obj
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             vs_cfg[k] = v
 
         if not 'labels' in app_obj:
@@ -383,7 +383,7 @@ class MesosTestUtils(object):
                            auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to update app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'updated app', app_id, ' response ', rsp.text
+        print('updated app', app_id, ' response ', rsp.text)
         return app_obj
 
     def restartApp(self, marathon_url, app_id,
@@ -398,7 +398,7 @@ class MesosTestUtils(object):
         rsp = requests.post(marathon_uri, auth=auth, headers=headers)
         if rsp.status_code >= 300:
             raise RuntimeError('failed to restart app, got response code' + str(rsp.status_code) + ': '+ rsp.text)
-        print 'restarted app', app_id, ' rsp ', rsp.text
+        print('restarted app', app_id, ' rsp ', rsp.text)
 
     def deleteApp(self, marathon_url, app_name, num_apps,
                   auth_type=None, auth_token=None, username=None, password=None):
@@ -419,7 +419,7 @@ class MesosTestUtils(object):
                 raise RuntimeError(
                     'failed to delete app, got response code %d:%s' %
                     (rsp.status_code, rsp.text))
-            print ' deleted app', app_id, ' rsp ', rsp.text
+            print(' deleted app', app_id, ' rsp ', rsp.text)
             app_ids.append(app_id)
         return app_ids
 
@@ -429,14 +429,14 @@ class MesosTestUtils(object):
         @param api
         '''
         cloud_data = api.get_object_by_name('cloud', 'Default-Cloud')
-        print 'current cloud', cloud_data
+        print('current cloud', cloud_data)
         cloud_data['vtype'] = 'CLOUD_MESOS'
         cloud_data['mesos_configuration'] = \
             self.mesosCloudObj(marathon_ip, fleet_endpoint, sefolder,
                                ew_subnet)
         cloud_data = api.put('cloud/%s' % cloud_data['uuid'],
                                     data=json.dumps(cloud_data))
-        print 'updated cloud', cloud_data
+        print('updated cloud', cloud_data)
 
 if __name__ == '__main__':
     mapp_utils = MesosTestUtils()
@@ -460,7 +460,7 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--east_west_subnet',
                         help='east west subnet. It assumes mask 24')
     parser.add_argument('-t', '--app_type',
-                        help='type of app: ' + str(mapp_utils.MARATHON_APP_TEMPLATES.keys()),
+                        help='type of app: ' + str(list(mapp_utils.MARATHON_APP_TEMPLATES.keys())),
                         default='default')
     parser.add_argument('-r', '--controller_ip', help='controller_ip',
                         default='127.0.0.1')
@@ -477,7 +477,7 @@ if __name__ == '__main__':
                         default=0, type=int)
     args = parser.parse_args()
 
-    print 'parsed args', args
+    print('parsed args', args)
 
     if args.command == 'create-app':
         if not args.marathon_url:
@@ -510,10 +510,10 @@ if __name__ == '__main__':
         if not args.marathon_url:
             raise Exception('marathon URL is required')
         app_info = mapp_utils.getAppInfo(args.marathon_url, args.app_name)
-        print app_info
+        print(app_info)
     elif args.command == 'show-apps':
         if not args.marathon_url:
             raise Exception('marathon URL is required')
         app_infos = mapp_utils.getAppInfos(args.marathon_url)
-        print app_infos
+        print(app_infos)
 
