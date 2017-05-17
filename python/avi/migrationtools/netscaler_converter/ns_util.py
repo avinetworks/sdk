@@ -210,7 +210,8 @@ def get_avi_resp_code(respCode):
 
 
 def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
-                    ignore_for_val=None, indirect_commands = None):
+                    ignore_for_val=None, indirect_commands = None,
+                    user_ignore_val=[]):
     """
     This function used for getting status detail for command like
     skipped or indirect.
@@ -220,12 +221,17 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
     :param indirect_list: indirect command list
     :param ignore_for_val: optional field
     :param indirect_commands: indirect commands
+    :param user_ignore_val: List of user ignore attributes
     :return: returns dict of coversion status.
     """
 
     skipped = [attr for attr in ns_object.keys() if attr in skipped_list]
     na = [attr for attr in ns_object.keys() if attr in na_list]
     indirect = [attr for attr in ns_object.keys() if attr in indirect_list]
+    # List of ignore attributes which are present in skipped
+    user_ignore = [val for val in skipped if val in user_ignore_val]
+    # Removed the attributes from skipped which are in user ignore list
+    skipped = [attr for attr in skipped if attr not in user_ignore_val]
     if ignore_for_val:
         for key in ignore_for_val.keys():
             if key not in ns_object:
@@ -243,7 +249,8 @@ def get_conv_status(ns_object, skipped_list, na_list, indirect_list,
         'skipped': skipped,
         'indirect': indirect,
         'na_list': na,
-        'status': status
+        'status': status,
+        'user_ignore': user_ignore
     }
     return conv_status
 

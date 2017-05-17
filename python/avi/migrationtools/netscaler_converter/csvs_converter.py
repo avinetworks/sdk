@@ -27,7 +27,7 @@ class CsvsConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check, controller_version):
+                 profile_merge_check, controller_version, user_ignore):
         """
         Construct a new 'CsvsConverter' object.
         :param tenant_name: Name of tenant
@@ -35,6 +35,7 @@ class CsvsConverter(object):
         :param tenant_ref: Tenant reference
         :param cloud_ref: Cloud Reference
         :param profile_merge_check: Bool value for profile merge
+        :param user_ignore: Dict of user ignore attributes
         """
 
         self.csvs_skip_attrs = \
@@ -53,6 +54,10 @@ class CsvsConverter(object):
         self.cloud_ref = cloud_ref
         self.profile_merge_check = profile_merge_check
         self.controller_version = controller_version
+        # List of ignore val attributes for add csvs netscaler command.
+        self.csvs_user_ignore = user_ignore.get('csvs', [])
+        # List of ignore val attributes for bind csvs netscaler comma
+        self.csvs_bind_user_ignore = user_ignore.get('csvs_bind', [])
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -64,11 +69,10 @@ class CsvsConverter(object):
         :param vs_state: state of vs
         :return: None
         """
-        policy_converter = PolicyConverter(self.tenant_name, self.cloud_name,
-                                           self.tenant_ref, self.cloud_ref,
-                                           self.csvs_bind_skipped,
-                                           self.csvs_na_attrs,
-                                           self.csvs_ignore_vals)
+        policy_converter = PolicyConverter(
+            self.tenant_name, self.cloud_name, self.tenant_ref, self.cloud_ref,
+            self.csvs_bind_skipped, self.csvs_na_attrs, self.csvs_ignore_vals,
+            self.csvs_bind_user_ignore)
         cs_vs_conf = ns_config.get('add cs vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
@@ -125,11 +129,10 @@ class CsvsConverter(object):
                 skipped_status = "Skipped:IPV6 not Supported %s" \
                                  % ns_add_cs_vserver_command
                 LOG.warning(skipped_status)
-                ns_util.add_status_row(cs_vs['line_no'],
-                                       ns_add_cs_vserver_command,
-                                       key, ns_add_cs_vserver_complete_command,
-                                       STATUS_SKIPPED,
-                                       skipped_status)
+                ns_util.add_status_row(
+                    cs_vs['line_no'], ns_add_cs_vserver_command,
+                    key, ns_add_cs_vserver_complete_command, STATUS_SKIPPED,
+                    skipped_status)
                 continue
 
             # VIP object for virtual service
@@ -382,7 +385,8 @@ class CsvsConverter(object):
                 LOG.debug('Conversion successful : %s' %
                           bind_cs_vserver_complete_command)
                 conv_status = ns_util.get_conv_status(
-                    bind_conf, self.csvs_bind_skipped, [], [])
+                    bind_conf, self.csvs_bind_skipped, [], [],
+                    user_ignore_val=self.csvs_bind_user_ignore)
                 ns_util.add_conv_status(lb_vserver_bind_conf['line_no'],
                                         bind_cs_vserver_command,
                                         lb_vserver_bind_conf['attrs'][0],
@@ -407,7 +411,8 @@ class CsvsConverter(object):
             # Add summery of this cs vs in CSV/report
             conv_status = ns_util.get_conv_status(
                 cs_vs, self.csvs_skip_attrs, self.csvs_na_attrs, [],
-                ignore_for_val=self.csvs_ignore_vals)
+                ignore_for_val=self.csvs_ignore_vals,
+                user_ignore_val=self.csvs_user_ignore)
             ns_util.add_conv_status(cs_vs['line_no'], ns_add_cs_vserver_command,
                                     key, ns_add_cs_vserver_complete_command,
                                     conv_status, vs_obj)

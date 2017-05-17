@@ -1,0 +1,50 @@
+# Sample yaml file for ignore attributes while F5 conversion.
+    monitor:
+      https:
+      - 'destination'
+      gateway-icmp:
+      - 'destination'
+      - 'adaptive'
+
+    pool:
+      members:
+      - 'rate-limit'
+      - 'priority-group'
+      - 'session'
+      - 'description'
+      pool:
+      - 'min-active-members'
+      - 'reselect-tries'
+      monitor: []
+
+    profile:
+      tcp:
+      - 'ack-on-push'
+      - 'proxy-buffer-low'
+      - 'hardware-syn-cookie'
+      - 'selective-nack'
+      - 'zero-window-timeout'
+      - 'app-service'
+      - 'verified-accept'
+      udp:
+      - 'datagram-load-balancing'
+      server-ssl:
+      - 'authenticate'
+      - 'ssl-forward-proxy-bypass'
+      - 'server-name'
+      client-ssl:
+      - 'ca-file'
+      web-acceleration:
+      - 'app-service'
+      - 'cache-client-cache-control-mode'
+      - 'cache-uri-include-override'
+      dns:
+      - 'app-service'
+      http-compression:
+      - 'min-size'
+      - 'app-service'
+      - 'vary-header'
+      fastl4:
+      - 'loose-close'
+      - 'mss-override'
+      - 'app-service'
