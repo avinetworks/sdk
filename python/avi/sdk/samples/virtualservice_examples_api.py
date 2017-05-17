@@ -56,7 +56,7 @@ class VirtualServiceExample(object):
 
         # post VS data in json format to avi api
         resp = self.api.post('virtualservice', data=json.dumps(vs_obj))
-        if resp.status_code in xrange(200, 299):
+        if resp.status_code in range(200, 299):
             logger.debug('Virtual service created successfully %s' % vs_name)
         else:
             logger.debug('Error creating virtual service : %s' % resp.text)
@@ -185,7 +185,7 @@ class VirtualServiceExample(object):
             # this is case of inventory for a specific object
             inventory_path = inventory_path + '/' + obj_uuid
         resp = self.api.get(inventory_path, params=params)
-        if resp.status_code in xrange(200, 299):
+        if resp.status_code in range(200, 299):
             return json.loads(resp.text)
         else:
             return 'Error in getting inventory for %s, Error :%s' % (
@@ -193,10 +193,10 @@ class VirtualServiceExample(object):
 
     def delete(self, name, entity_type):
         resp = self.api.delete_by_name(entity_type, name)
-        if resp.status_code in xrange(200, 299):
-            print '%s name: %s deleted successfully' % (entity_type, name)
+        if resp.status_code in range(200, 299):
+            print('%s name: %s deleted successfully' % (entity_type, name))
         else:
-            print 'Error in deleting virtual service :%s' % resp.text
+            print('Error in deleting virtual service :%s' % resp.text)
 
     def get_metrics(self, name, metric_id, entity_type='virtualservice'):
         resp = self.api.get_object_by_name(entity_type, name)
@@ -204,7 +204,7 @@ class VirtualServiceExample(object):
         path = 'analytics/metrics/%s/%s/?metric_id=%s&step=300&limit=12' % (
                                                 entity_type, uuid, metric_id)
         resp = self.api.get(path)
-        if resp.status_code in xrange(200, 299):
+        if resp.status_code in range(200, 299):
             metrics_dict = json.loads(resp.text)
             logger.debug('%s', metrics_dict)
             return metrics_dict
@@ -218,8 +218,8 @@ class VirtualServiceExample(object):
         cert, key, _, _ = get_sample_ssl_params()
         # upload the key and cert to the controller with name ssl_cert_name
         resp = self.api_utils.import_ssl_certificate(ssl_cert_name, key, cert)
-        if resp.status_code not in xrange(200, 299):
-            print 'Error in uploading certs : %s' % resp.text
+        if resp.status_code not in range(200, 299):
+            print('Error in uploading certs : %s' % resp.text)
             exit(0)
         ssl_kc_ref = self.api.get_obj_ref(resp)
         return ssl_kc_ref
@@ -250,7 +250,7 @@ class VirtualServiceExample(object):
                 health_monitor_tcp = self.api.get_object_by_name('healthmonitor',
                                                                  monitor_name)
                 health_monitors.append(self.api.get_obj_ref(health_monitor_tcp))
-        print health_monitors
+        print(health_monitors)
         pool_name = name
         pool_obj = {
             "lb_algorithm": lb_algorithm,
@@ -260,10 +260,10 @@ class VirtualServiceExample(object):
             'health_monitor_refs': health_monitors
         }
         resp = self.api.post('pool', data=json.dumps(pool_obj))
-        if resp.status_code in xrange(200, 299):
+        if resp.status_code in range(200, 299):
             return resp
         else:
-            print 'Error in creating pool :%s' % resp.text
+            print('Error in creating pool :%s' % resp.text)
             exit(0)
 
     def update_password(self, resource_name, new_val):
@@ -279,7 +279,7 @@ class VirtualServiceExample(object):
             exit(0)
         obj['password'] = new_val
         resp = self.api.put('user/%s' % obj['uuid'], data=obj)
-        if resp.status_code in xrange(200, 299):
+        if resp.status_code in range(200, 299):
             logger.debug('User %s updated successfully' % resource_name)
         else:
             logger.error('Error updating user : %s' % resp.text)
@@ -390,7 +390,7 @@ class VirtualServiceExample(object):
         r = self.api.post('pool', p_obj)
         if r.status_code < 300:
             new_pool = r.json()
-            print 'new pool ', new_pool
+            print('new pool ', new_pool)
         else:
             raise Exception('pool %s not created %d' % (p_obj['name'],
                                                         r.status_code))
@@ -406,7 +406,7 @@ class VirtualServiceExample(object):
         v_obj['ip_address']['addr'] = new_vip
         r = self.api.post('virtualservice', v_obj)
         if r.status_code < 299:
-            print 'new_vs created ', r.json()
+            print('new_vs created ', r.json())
 
 
 if __name__ == '__main__':
@@ -453,7 +453,7 @@ if __name__ == '__main__':
                         default='l4_client.avg_bandwidth')
 
     args = parser.parse_args()
-    print 'parsed args', args
+    print('parsed args', args)
     api = ApiSession.get_session(args.controller_ip, args.user, args.password,
                  tenant=args.tenant, tenant_uuid=args.tenant_uuid)
     servers = [server.strip() for server in args.server_ips.split(',')]
@@ -477,13 +477,13 @@ if __name__ == '__main__':
         vse.create_policy_vs(vs_name, vip, servers)
     elif args.option == 'show-vs-inventory':
         rsp = vse.get_inventory('virtualservice-inventory')
-        print rsp
+        print(rsp)
     elif args.option == 'show-pool-inventory':
         rsp = vse.get_inventory('pool-inventory')
-        print rsp
+        print(rsp)
     elif args.option == 'show-se-inventory':
         rsp = vse.get_inventory('serviceengine-inventory')
-        print rsp
+        print(rsp)
     elif args.option == 'delete-vs':
         vse.delete(args.resource_name, 'virtualservice')
     elif args.option == 'delete-pool':

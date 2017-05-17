@@ -77,7 +77,7 @@ def create_vmware_connection(vmware_settings):
                        vmware_settings['user'],
                        vmware_settings['password'])
     except:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         raise
     return server
 
@@ -98,7 +98,7 @@ def create_vmware_instance(vmware_settings, pool_name):
                       resourcepool=vmware_settings.get('resourcepool', None),
                       datastore=vmware_settings.get('datastore', None))
     ip_address = ''
-    for _ in xrange(20):
+    for _ in range(20):
         # try for 5mins
         if (new_vm.is_powered_on() and new_vm.get_property('net', False)):
             net_intfs = new_vm.get_property('net', False)
@@ -112,7 +112,7 @@ def create_vmware_instance(vmware_settings, pool_name):
         time.sleep(15)
 
     if not ip_address:
-        print 'instance', new_vm.get_property('name'), ' is still not running'
+        print('instance', new_vm.get_property('name'), ' is still not running')
         new_vm.power_off()
         new_vm.destroy()
         return '', ''
@@ -127,7 +127,7 @@ def delete_vmware_instance(vmware_settings, instance_ids):
     :param instance_ids: list of instance ids to delete. These are typically
     stored as hostname
     """
-    print 'deleting instances ', instance_ids
+    print('deleting instances ', instance_ids)
     conn = create_vmware_connection(vmware_settings)
     for host in instance_ids:
         try:
@@ -135,10 +135,10 @@ def delete_vmware_instance(vmware_settings, instance_ids):
             vm.power_off()
             vm = conn.get_vm_by_name(host)
             vm.destroy()
-            print 'terminated instance', host
+            print('terminated instance', host)
         except Exception as e:
-            print traceback.format_exc()
-            print e
+            print(traceback.format_exc())
+            print(e)
 
 
 def scaleout(vmware_settings, *args):
@@ -158,10 +158,10 @@ def scaleout(vmware_settings, *args):
     pool_name, pool_uuid, pool_obj, num_scaleout = \
         scaleout_params('scaleout', alert_info, api=api)
     # create vmware instance using these two ids.
-    print pool_name, 'scaleout', num_scaleout
+    print(pool_name, 'scaleout', num_scaleout)
     hostname, ip_addr = create_vmware_instance(vmware_settings, pool_name)
     if not (hostname or ip_addr):
-        print 'not performing scaleout as could not create vm'
+        print('not performing scaleout as could not create vm')
     new_server = {
         'ip': {'addr': ip_addr, 'type': 'V4'},
         'port': 0,
@@ -170,9 +170,9 @@ def scaleout(vmware_settings, *args):
     # add new server to the pool
     pool_obj['servers'].append(new_server)
     # call controller API to update the pool
-    print 'new pool obj', pool_obj
+    print('new pool obj', pool_obj)
     resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
 
 
 def scalein(vmware_settings, *args):
@@ -189,16 +189,16 @@ def scalein(vmware_settings, *args):
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scalein', alert_info, api=api)
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
+    print((pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale))
     scalein_server = pool_obj['servers'][-1]
     instance_ids = [scalein_server['hostname']]
     pool_obj['servers'] = pool_obj['servers'][:-1]
     # call controller API to update the pool
-    print 'new pool obj', pool_obj
+    print('new pool obj', pool_obj)
     resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
     if resp.status_code in (200, 201, 204):
-        print 'deleting the instance from the vmware - ', instance_ids
+        print('deleting the instance from the vmware - ', instance_ids)
         delete_vmware_instance(vmware_settings, instance_ids)
 
 if __name__ == '__main__':
