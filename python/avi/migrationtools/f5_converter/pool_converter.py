@@ -54,26 +54,26 @@ class PoolConfigConv(object):
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name,
                                           conv_const.STATUS_ERROR)
-        labels_dict = avi_config.pop('PriorityLabels', None)
-        if labels_dict:
-            for tenant in labels_dict:
-                labels = labels_dict[tenant]
-                if not tenant_ref == 'admin':
-                    tenant = tenant_ref
-                labels = list(set(labels))
-                labels = map(int, labels)
-                labels.sort(reverse=True)
-                labels = map(str, labels)
-                priority_labels = {
-                    "name": "numeric_priority_labels",
-                    "equivalent_labels": [
-                        {
-                            "labels": labels
-                        }
-                    ],
-                    'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
-                }
-                avi_config['PriorityLabels'] = [priority_labels]
+        # labels_dict = avi_config.pop('PriorityLabels', None)
+        # if labels_dict:
+        #     for tenant in labels_dict:
+        #         labels = labels_dict[tenant]
+        #         if not tenant_ref == 'admin':
+        #             tenant = tenant_ref
+        #         labels = list(set(labels))
+        #         labels = map(int, labels)
+        #         labels.sort(reverse=True)
+        #         labels = map(str, labels)
+        #         priority_labels = {
+        #             "name": "numeric_priority_labels",
+        #             "equivalent_labels": [
+        #                 {
+        #                     "labels": labels
+        #                 }
+        #             ],
+        #             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
+        #         }
+        #         avi_config['PriorityLabels'] = [priority_labels]
 
         avi_config['Pool'] = pool_list
         LOG.debug("Converted %s pools" % len(pool_list))
@@ -225,20 +225,13 @@ class PoolConfigConv(object):
             pools.append(priority_pool)
             if priority_pool_ref:
                 member = {
-                    'priority_label': priority,
                     'pool_ref': conv_utils.get_object_ref(
                         priority_pool_ref, 'pool', tenant=tenant,
                         cloud_name=cloud_ref)
                 }
                 pg_members.append(member)
-
-            priority_list = avi_config['PriorityLabels'].get(tenant,[])
-            priority_list.append(priority)
-            avi_config['PriorityLabels'][tenant] = priority_list
         pg_obj = {
             'name': name,
-            'priority_labels_ref': conv_utils.get_object_ref(
-                'numeric_priority_labels', 'prioritylabels', tenant=tenant),
             'members': pg_members,
             'cloud_ref': conv_utils.get_object_ref(cloud_ref, 'cloud')
         }

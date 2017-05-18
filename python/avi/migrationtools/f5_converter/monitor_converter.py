@@ -406,12 +406,19 @@ class MonitorConfigConvV11(MonitorConfigConv):
                                       conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
             return None
-        ext_monitor = {
-            "command_code": cmd_code,
-            "command_parameters": f5_monitor.get("args", None),
-            "command_variables": user_defined_vars
-        }
-        monitor_dict["external_monitor"] = ext_monitor
+        if cmd_code:
+            ext_monitor = {
+                "command_code": cmd_code,
+                "command_parameters": f5_monitor.get("args", None),
+                "command_variables": user_defined_vars
+            }
+            monitor_dict["external_monitor"] = ext_monitor
+        else:
+            LOG.warn("MISSING File: %s" % name)
+            conv_utils.add_status_row("monitor", "external", name,
+                                      conv_const.STATUS_MISSING_FILE)
+            monitor_dict['error'] = True
+            return None
         return skipped
 
     def get_maintenance_response(self, f5_monitor):
@@ -649,12 +656,20 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict['error'] = True
             return None
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
-        ext_monitor = {
-            "command_code": cmd_code,
-            "command_parameters": cmd_params,
-            "command_variables": script_vars
-        }
-        monitor_dict["external_monitor"] = ext_monitor
+        if cmd_code:
+            ext_monitor = {
+                "command_code": cmd_code,
+                "command_parameters": cmd_params,
+                "command_variables": script_vars
+            }
+            monitor_dict["external_monitor"] = ext_monitor
+        else:
+            LOG.warn("MISSING File: %s" % name)
+            conv_utils.add_status_row("monitor", "external", name,
+                                      conv_const.STATUS_MISSING_FILE)
+            monitor_dict['error'] = True
+            return None
+
         return skipped
 
     def get_maintenance_response(self, f5_monitor):

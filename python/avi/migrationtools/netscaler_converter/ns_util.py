@@ -80,7 +80,7 @@ def add_conv_status(line_no, cmd, object_type, full_command, conv_status,
     csv_writer_dict_list.append(row)
 
 
-def add_complete_conv_status(ns_config, output_dir, avi_config):
+def add_complete_conv_status(ns_config, output_dir, avi_config, report_name):
     """
     Adds as status row in conversion status csv
     :param cmd: netscaler command
@@ -127,7 +127,8 @@ def add_complete_conv_status(ns_config, output_dir, avi_config):
     # add skipped list of each object at vs level
     vs_per_skipped_setting_for_references(avi_config)
     # Write status report and pivot table in xlsx report
-    write_status_report_and_pivot_table_in_xlsx(row_list, output_dir)
+    write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
+                                                report_name)
 
 
 def add_status_row(line_no, cmd, object_type, full_command, status,
@@ -1331,15 +1332,18 @@ def vs_per_skipped_setting_for_references(avi_config):
         csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
 
-def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
+def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
+                                                report_name):
     # List of fieldnames for headers
     fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
                   'Full Command', 'Status', 'Skipped settings',
                   'Indirect mapping', 'Not Applicable', 'User Ignored',
                   'Overall skipped settings', 'Complexity Level',
                   'VS Reference', 'AVI Object']
+    xlsx_report = output_dir + os.path.sep + ("%s-ConversionStatus.xlsx" %
+                                              report_name)
     # xlsx workbook
-    status_wb = Workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
+    status_wb = Workbook(xlsx_report)
     # xlsx worksheet
     status_ws = status_wb.add_worksheet("Status Sheet")
     first_row = 0
@@ -1360,11 +1364,8 @@ def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir):
                                      values=[], aggfunc=[len], fill_value=0)
     # create dataframe for pivot table using pandas
     pivot_df = pandas.DataFrame(pivot_table)
-    master_book = \
-        load_workbook(output_dir + os.path.sep + "ConversionStatus.xlsx")
-    master_writer = pandas.ExcelWriter(output_dir + os.path.sep +
-                                       "ConversionStatus.xlsx",
-                                       engine='openpyxl')
+    master_book = load_workbook(xlsx_report)
+    master_writer = pandas.ExcelWriter(xlsx_report, engine='openpyxl')
     master_writer.book = master_book
     # Add pivot table in Pivot sheet
     pivot_df.to_excel(master_writer, 'Pivot Sheet')

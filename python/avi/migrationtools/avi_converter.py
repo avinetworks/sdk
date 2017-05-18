@@ -39,9 +39,8 @@ class AviConverter(object):
             avi_config, self.controller_ip, self.user, self.password,
             self.tenant)
 
-    def write_output(self, avi_config, output_dir):
-        with open(output_dir + os.path.sep + "Output.json", "w") as \
-                text_file:
+    def write_output(self, avi_config, output_dir, report_name):
+        report_path = output_dir + os.path.sep + report_name
+        with open(report_path, "w") as text_file:
             json.dump(avi_config, text_file, indent=4)
-        LOG.info('written avi config file ' +
-                 output_dir + os.path.sep + "Output.json")
+        LOG.info('written avi config file %s' % report_path)
