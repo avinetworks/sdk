@@ -77,7 +77,7 @@ def add_ns_rules_dos(session, dos_params):
         print ('DOS ATTACK is not SYN_FLOOD. Ignoring')
         return
 
-    print ('VS name : ' + vs_name + ' VS UUID : ' + vs_uuid + ' Client IPs : ' + str(client_ips))
+    print('VS name : ' + vs_name + ' VS UUID : ' + vs_uuid + ' Client IPs : ' + str(client_ips))
     ip_list = []
     for ip in client_ips:
         ip_addr_obj = {
@@ -106,20 +106,20 @@ def add_ns_rules_dos(session, dos_params):
             ns_rule_dos_obj,
         ]
     }
-    print ('ns_policy_dos_obj : ' + str(ns_policy_dos_obj))
+    print('ns_policy_dos_obj : ' + str(ns_policy_dos_obj))
     try :
         session.post(path='networksecuritypolicydos?action=block',
                  data=ns_policy_dos_obj)
     except Exception as e:
-        print (str(e))
-    print ('Added Client IPs ' + str(client_ips) + \
-           ' in the blocked list for VS : ' + vs_name)
+        print(str(e))
+    print(('Added Client IPs ' + str(client_ips) + \
+           ' in the blocked list for VS : ' + vs_name))
 
 if __name__ == "__main__":
     alert_dict = ParseAviParams(sys.argv)
     try :
         admin_session = create_avi_endpoint()
     except Exception as e:
-        print ('login failed to Avi Controller!' + str(e))
+        print('login failed to Avi Controller!' + str(e))
         sys.exit(0)
     add_ns_rules_dos(admin_session, alert_dict)
