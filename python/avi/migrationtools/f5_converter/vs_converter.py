@@ -318,7 +318,7 @@ class VSConfigConv(object):
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
-            vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
+            vs_obj['ssl_profile_ref'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
