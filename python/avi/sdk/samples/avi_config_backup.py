@@ -14,7 +14,7 @@ def backup_configuration(api, args):
     rsp = api.post('configuration/export', params=params, data=json.dumps(data))
     with open(filename, 'w') as f:
         f.write(rsp.text)
-    print 'Configuration successfully saved in %s' % filename
+    print('Configuration successfully saved in %s' % filename)
 
 def main(args):
     api = ApiSession.get_session(args.controller, args.username, args.password)

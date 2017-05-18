@@ -75,7 +75,7 @@ class ApiResponse(Response):
     """
     def __init__(self, rsp):
         super(ApiResponse, self).__init__()
-        for k, v in rsp.__dict__.iteritems():
+        for k, v in list(rsp.__dict__.items()):
             setattr(self, k, v)
 
     def json(self):
@@ -215,6 +215,7 @@ class ApiSession(Session):
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param port: Rest-API may use a different port other than 443
         :param timeout: timeout for API calls; Default value is 60 seconds
+        :param retry_conxn_errors: retry on connection errors
         """
         key = controller_ip + ":" + username
         try:
@@ -654,7 +655,7 @@ class ApiSession(Session):
         logger.debug("cleaning inactive sessions in pid %d num elem %d",
                      os.getpid(), len(session_cache))
         keys_to_delete = []
-        for key, session in session_cache.iteritems():
+        for key, session in list(session_cache.items()):
             tdiff = avi_timedelta(session["last_used"] - datetime.utcnow())
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue

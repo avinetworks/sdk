@@ -148,4 +148,4 @@ if __name__ == '__main__':
     policyset = {'name': 'HTTP-Policy-Set',
                  'http_request_policy': rules}
 
-    print policyset
+    print(policyset)
