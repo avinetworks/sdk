@@ -19,9 +19,9 @@ class Test(unittest.TestCase):
             'enabled': True,
             'capacity_estimation': False,
             'fewest_tasks_feedback_delay': 10,
-            '_last_modified': u'1471377748747040',
-            'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
-            'vrf_ref': u'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
+            '_last_modified': '1471377748747040',
+            'cloud_ref': 'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
+            'vrf_ref': 'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
             'inline_health_monitor': True,
             'default_server_port': 80,
             'request_queue_depth': 128,
@@ -29,11 +29,11 @@ class Test(unittest.TestCase):
             'server_count': 0,
             'sni_enabled': True,
             'request_queue_enabled': False,
-            'name': u'testpool',
+            'name': 'testpool',
             'max_concurrent_connections_per_server': 0,
             'url': 'https://10.130.2.252/api/pool/pool-20084ee1-872e-4103-98e1-899103e2242a',
-            'tenant_ref': u'https://10.130.2.252/api/tenant/admin',
-            'uuid': u'pool-20084ee1-872e-4103-98e1-899103e2242a',
+            'tenant_ref': 'https://10.130.2.252/api/tenant/admin',
+            'uuid': 'pool-20084ee1-872e-4103-98e1-899103e2242a',
             'connection_ramp_duration': 10}
 
         diff = avi_obj_cmp(obj, existing_obj)
@@ -53,9 +53,9 @@ class Test(unittest.TestCase):
             'enabled': True,
             'capacity_estimation': False,
             'fewest_tasks_feedback_delay': 10,
-            '_last_modified': u'1471377748747040',
-            'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
-            'vrf_ref': u'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
+            '_last_modified': '1471377748747040',
+            'cloud_ref': 'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
+            'vrf_ref': 'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
             'inline_health_monitor': True,
             'default_server_port': 80,
             'request_queue_depth': 128,
@@ -63,11 +63,11 @@ class Test(unittest.TestCase):
             'server_count': 0,
             'sni_enabled': True,
             'request_queue_enabled': False,
-            'name': u'testpool',
+            'name': 'testpool',
             'max_concurrent_connections_per_server': 0,
             'url': 'https://10.130.2.252/api/pool/pool-20084ee1-872e-4103-98e1-899103e2242a',
-            'tenant_ref': u'https://10.130.2.252/api/tenant/admin',
-            'uuid': u'pool-20084ee1-872e-4103-98e1-899103e2242a',
+            'tenant_ref': 'https://10.130.2.252/api/tenant/admin',
+            'uuid': 'pool-20084ee1-872e-4103-98e1-899103e2242a',
             'connection_ramp_duration': 10,
             'health_monitor_refs': [
                 "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP"
@@ -116,9 +116,9 @@ class Test(unittest.TestCase):
             'enabled': True,
             'capacity_estimation': False,
             'fewest_tasks_feedback_delay': 10,
-            '_last_modified': u'1471377748747040',
-            'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
-            'vrf_ref': u'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
+            '_last_modified': '1471377748747040',
+            'cloud_ref': 'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
+            'vrf_ref': 'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
             'inline_health_monitor': True,
             'default_server_port': 80,
             'request_queue_depth': 128,
@@ -126,11 +126,11 @@ class Test(unittest.TestCase):
             'server_count': 0,
             'sni_enabled': True,
             'request_queue_enabled': False,
-            'name': u'testpool',
+            'name': 'testpool',
             'max_concurrent_connections_per_server': 0,
             'url': 'https://10.130.2.252/api/pool/pool-20084ee1-872e-4103-98e1-899103e2242a',
-            'tenant_ref': u'https://10.130.2.252/api/tenant/admin',
-            'uuid': u'pool-20084ee1-872e-4103-98e1-899103e2242a',
+            'tenant_ref': 'https://10.130.2.252/api/tenant/admin',
+            'uuid': 'pool-20084ee1-872e-4103-98e1-899103e2242a',
             'connection_ramp_duration': 10
             }
         diff = avi_obj_cmp(obj, existing_obj)
@@ -144,9 +144,9 @@ class Test(unittest.TestCase):
             'enabled': True,
             'capacity_estimation': False,
             'fewest_tasks_feedback_delay': 10,
-            '_last_modified': u'1471377748747040',
-            'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
-            'vrf_ref': u'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
+            '_last_modified': '1471377748747040',
+            'cloud_ref': 'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9',
+            'vrf_ref': 'https://10.130.2.252/api/vrfcontext/vrfcontext-0e8ce760-fed2-4650-9397-5b3e4966376e',
             'inline_health_monitor': True,
             'default_server_port': 80,
             'request_queue_depth': 128,
@@ -154,11 +154,11 @@ class Test(unittest.TestCase):
             'server_count': 0,
             'sni_enabled': True,
             'request_queue_enabled': False,
-            'name': u'testpool',
+            'name': 'testpool',
             'max_concurrent_connections_per_server': 0,
             'url': 'https://10.130.2.252/api/pool/pool-20084ee1-872e-4103-98e1-899103e2242a',
-            'tenant_ref': u'https://10.130.2.252/api/tenant/admin',
-            'uuid': u'pool-20084ee1-872e-4103-98e1-899103e2242a',
+            'tenant_ref': 'https://10.130.2.252/api/tenant/admin',
+            'uuid': 'pool-20084ee1-872e-4103-98e1-899103e2242a',
             'connection_ramp_duration': 10,
             'health_monitor_refs': [
                 "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP",
@@ -186,7 +186,7 @@ class Test(unittest.TestCase):
                    'https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc9#System-HTTP',
                    "https://10.130.2.252/api/healthmonitor/healthmonitor-6d07b57f-126b-476c-baba-a8c8c8b06dc8#System-HTTP2"],
                'server_count': 0,
-               'cloud_ref': u'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9#Default-Cloud',
+               'cloud_ref': 'https://10.130.2.252/api/cloud/cloud-afe8bf2c-9821-4272-9bc6-67634c84bec9#Default-Cloud',
                }
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
@@ -243,63 +243,73 @@ class Test(unittest.TestCase):
         assert not diff
 
     def test_cleanup_abset(self):
-        obj = {'x': 10, 'y': {'state': 'absent'},
-               'z': {'a': {'state': 'absent'}}}
-        cleanup_absent_fields(obj)
+        obj = {'x': 10,
+               'y': {'state': 'absent'},
+               'z': {'a': {'state': 'absent'}},
+               'l': [{'y1': {'state': 'absent'}}],
+               'z1': {'a': {'state': 'absent'}, 'b': {}, 'c': 42},
+               'empty': []}
+
+        obj = cleanup_absent_fields(obj)
 
         assert 'y' not in obj
-        assert 'a' not in obj['z']
+        assert 'z' not in obj
+        assert 'l' not in obj
+        assert 'z1' in obj
+        assert 'b' not in obj['z1']
+        assert 'a' not in obj['z1']
+        assert 'empty' not in obj
 
     def test_complex_obj(self):
 
         obj = {
-            u'lb_algorithm': u'LB_ALGORITHM_ROUND_ROBIN',
-            u'use_service_port': False, u'server_auto_scale': False,
-            u'host_check_enabled': False,
-            u'tenant_ref': u'https://10.10.25.42/api/tenant/admin#admin',
-            u'capacity_estimation': False,
-            u'servers': [
-                {u'hostname': u'grastogi-server6', u'ratio': 1,
-                 u'ip': {u'type': u'V4', u'addr': u'10.90.64.62'},
-                 u'discovered_networks': [
-                     {u'subnet': [
-                         {u'ip_addr': {
-                             u'type': u'V4', u'addr': u'10.90.64.0'},
-                          u'mask': 24}],
-                      u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}],
-                 u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.61'}, u'discovered_networks': [{u'subnet': [{u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}, u'mask': 24}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.65'}, u'discovered_networks': [{u'subnet': [{u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}, u'mask': 24}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], u'enabled': True, u'verify_network': False, u'static': False, u'resolve_server_by_dns': False}], u'fewest_tasks_feedback_delay': 10, u'_last_modified': u'1473292763246107', u'cloud_ref': u'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489#Default-Cloud', u'vrf_ref': u'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d#global', u'inline_health_monitor': True, u'default_server_port': 8000, u'request_queue_depth': 128, u'graceful_disable_timeout': 1, u'sni_enabled': True, u'server_count': 3, u'uuid': u'pool-09201181-747e-41ea-872d-e9a7df71b726', u'request_queue_enabled': False, u'name': u'p1', u'max_concurrent_connections_per_server': 0, u'url': u'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726#p1',
-            u'enabled': True,
-            u'connection_ramp_duration': 10}
+            'lb_algorithm': 'LB_ALGORITHM_ROUND_ROBIN',
+            'use_service_port': False, 'server_auto_scale': False,
+            'host_check_enabled': False,
+            'tenant_ref': 'https://10.10.25.42/api/tenant/admin#admin',
+            'capacity_estimation': False,
+            'servers': [
+                {'hostname': 'grastogi-server6', 'ratio': 1,
+                 'ip': {'type': 'V4', 'addr': '10.90.64.62'},
+                 'discovered_networks': [
+                     {'subnet': [
+                         {'ip_addr': {
+                             'type': 'V4', 'addr': '10.90.64.0'},
+                          'mask': 24}],
+                      'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}],
+                 'enabled': True, 'nw_ref': 'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', 'verify_network': False, 'static': False, 'resolve_server_by_dns': False, 'external_uuid': 'vm-4230615e-bc0b-3d33-3929-1c7328575993', 'vm_ref': 'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {'hostname': 'grastogi-server6', 'ratio': 1, 'ip': {'type': 'V4', 'addr': '10.90.64.61'}, 'discovered_networks': [{'subnet': [{'ip_addr': {'type': 'V4', 'addr': '10.90.64.0'}, 'mask': 24}], 'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], 'enabled': True, 'nw_ref': 'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10#PG-964', 'verify_network': False, 'static': False, 'resolve_server_by_dns': False, 'external_uuid': 'vm-4230615e-bc0b-3d33-3929-1c7328575993', 'vm_ref': 'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993#grastogi-server6'}, {'hostname': 'grastogi-server6', 'ratio': 1, 'ip': {'type': 'V4', 'addr': '10.90.64.65'}, 'discovered_networks': [{'subnet': [{'ip_addr': {'type': 'V4', 'addr': '10.90.64.0'}, 'mask': 24}], 'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10#PG-964'}], 'enabled': True, 'verify_network': False, 'static': False, 'resolve_server_by_dns': False}], 'fewest_tasks_feedback_delay': 10, '_last_modified': '1473292763246107', 'cloud_ref': 'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489#Default-Cloud', 'vrf_ref': 'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d#global', 'inline_health_monitor': True, 'default_server_port': 8000, 'request_queue_depth': 128, 'graceful_disable_timeout': 1, 'sni_enabled': True, 'server_count': 3, 'uuid': 'pool-09201181-747e-41ea-872d-e9a7df71b726', 'request_queue_enabled': False, 'name': 'p1', 'max_concurrent_connections_per_server': 0, 'url': 'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726#p1',
+            'enabled': True,
+            'connection_ramp_duration': 10}
 
         existing_obj = {
-            u'lb_algorithm': u'LB_ALGORITHM_ROUND_ROBIN',
-            u'use_service_port': False,
-            u'server_auto_scale': False,
-            u'host_check_enabled': False,
-            u'tenant_ref': u'https://10.10.25.42/api/tenant/admin',
-            u'capacity_estimation': False,
-            u'servers': [
-                {u'hostname': u'grastogi-server6', u'ratio': 1,
-                 u'ip': {u'type': u'V4', u'addr': u'10.90.64.62'},
-                 u'discovered_networks': [
-                     {u'subnet': [
-                         {u'mask': 24,
-                          u'ip_addr': {
-                              u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.61'}, u'discovered_networks': [{u'subnet': [{u'mask': 24, u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {u'hostname': u'grastogi-server6', u'ratio': 1, u'ip': {u'type': u'V4', u'addr': u'10.90.64.65'}, u'discovered_networks': [{u'subnet': [{u'mask': 24, u'ip_addr': {u'type': u'V4', u'addr': u'10.90.64.0'}}], u'network_ref': u'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], u'enabled': True, u'nw_ref': u'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', u'verify_network': False, u'static': False, u'resolve_server_by_dns': False, u'external_uuid': u'vm-4230615e-bc0b-3d33-3929-1c7328575993', u'vm_ref': u'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}], u'fewest_tasks_feedback_delay': 10, u'cloud_ref': u'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489', u'vrf_ref': u'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d', u'inline_health_monitor': True, u'default_server_port': 8000, u'request_queue_depth': 128, u'graceful_disable_timeout': 1, u'sni_enabled': True, u'server_count': 3, u'uuid': u'pool-09201181-747e-41ea-872d-e9a7df71b726', u'request_queue_enabled': False, u'name': u'p1', u'max_concurrent_connections_per_server': 0,
-                        u'url': u'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726',
-                        u'enabled': True,
-                        u'connection_ramp_duration': 10}
+            'lb_algorithm': 'LB_ALGORITHM_ROUND_ROBIN',
+            'use_service_port': False,
+            'server_auto_scale': False,
+            'host_check_enabled': False,
+            'tenant_ref': 'https://10.10.25.42/api/tenant/admin',
+            'capacity_estimation': False,
+            'servers': [
+                {'hostname': 'grastogi-server6', 'ratio': 1,
+                 'ip': {'type': 'V4', 'addr': '10.90.64.62'},
+                 'discovered_networks': [
+                     {'subnet': [
+                         {'mask': 24,
+                          'ip_addr': {
+                              'type': 'V4', 'addr': '10.90.64.0'}}], 'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], 'enabled': True, 'nw_ref': 'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', 'verify_network': False, 'static': False, 'resolve_server_by_dns': False, 'external_uuid': 'vm-4230615e-bc0b-3d33-3929-1c7328575993', 'vm_ref': 'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {'hostname': 'grastogi-server6', 'ratio': 1, 'ip': {'type': 'V4', 'addr': '10.90.64.61'}, 'discovered_networks': [{'subnet': [{'mask': 24, 'ip_addr': {'type': 'V4', 'addr': '10.90.64.0'}}], 'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], 'enabled': True, 'nw_ref': 'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', 'verify_network': False, 'static': False, 'resolve_server_by_dns': False, 'external_uuid': 'vm-4230615e-bc0b-3d33-3929-1c7328575993', 'vm_ref': 'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}, {'hostname': 'grastogi-server6', 'ratio': 1, 'ip': {'type': 'V4', 'addr': '10.90.64.65'}, 'discovered_networks': [{'subnet': [{'mask': 24, 'ip_addr': {'type': 'V4', 'addr': '10.90.64.0'}}], 'network_ref': 'https://10.10.25.42/api/network/dvportgroup-53975-10.10.2.10'}], 'enabled': True, 'nw_ref': 'https://10.10.25.42/api/vimgrnwruntime/dvportgroup-53975-10.10.2.10', 'verify_network': False, 'static': False, 'resolve_server_by_dns': False, 'external_uuid': 'vm-4230615e-bc0b-3d33-3929-1c7328575993', 'vm_ref': 'https://10.10.25.42/api/vimgrvmruntime/vm-4230615e-bc0b-3d33-3929-1c7328575993'}], 'fewest_tasks_feedback_delay': 10, 'cloud_ref': 'https://10.10.25.42/api/cloud/cloud-e0696a58-8b72-4026-923c-9a87c38a2489', 'vrf_ref': 'https://10.10.25.42/api/vrfcontext/vrfcontext-33dfbcd7-867c-4e3e-acf7-96bf679d5a0d', 'inline_health_monitor': True, 'default_server_port': 8000, 'request_queue_depth': 128, 'graceful_disable_timeout': 1, 'sni_enabled': True, 'server_count': 3, 'uuid': 'pool-09201181-747e-41ea-872d-e9a7df71b726', 'request_queue_enabled': False, 'name': 'p1', 'max_concurrent_connections_per_server': 0,
+                        'url': 'https://10.10.25.42/api/pool/pool-09201181-747e-41ea-872d-e9a7df71b726',
+                        'enabled': True,
+                        'connection_ramp_duration': 10}
 
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
 
     def testAWSVs(self):
-        existing_obj = {u'network_profile_ref': u'https://12.97.16.202/api/networkprofile/networkprofile-9a0a9896-6876-44c8-a3ee-512a968905f2#System-TCP-Proxy', u'port_uuid': u'eni-4144e73c', u'weight': 1, u'availability_zone': u'us-west-2a', u'enabled': True, u'flow_dist': u'LOAD_AWARE', u'subnet_uuid': u'subnet-91f0b6f4', u'delay_fairness': False, u'avi_allocated_vip': True,
-                        u'vrf_context_ref': u'https://12.97.16.202/api/vrfcontext/vrfcontext-722b280d-b555-4d82-9b35-af9442c0cb86#global',
-                        u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.144.0.0'}, u'mask': 24},
-                        u'cloud_type': u'CLOUD_AWS', u'uuid': u'virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e',
-                        u'network_ref': u'https://12.97.16.202/api/network/subnet-91f0b6f4',
-                        u'cloud_ref': u'https://12.97.16.202/api/cloud/cloud-49829414-c704-43ca-9dff-05b9e8474dcb#AWS Cloud', u'avi_allocated_fip': False, u'se_group_ref': u'https://12.97.16.202/api/serviceenginegroup/serviceenginegroup-3bef6320-5a2d-4801-85c4-ef4f9841f235#Default-Group', u'scaleout_ecmp': False, u'max_cps_per_client': 0, u'type': u'VS_TYPE_NORMAL', u'analytics_profile_ref': u'https://12.97.16.202/api/analyticsprofile/analyticsprofile-70f8b06f-7b6a-4500-b829-c869bbca2009#System-Analytics-Profile', u'use_bridge_ip_as_vip': False, u'application_profile_ref': u'https://12.97.16.202/api/applicationprofile/applicationprofile-103cbc31-cac5-46ab-8e66-bbbb2c8f551f#System-HTTP', u'auto_allocate_floating_ip': False, u'services': [{u'enable_ssl': False, u'port_range_end': 80, u'port': 80}], u'active_standby_se_tag': u'ACTIVE_STANDBY_SE_1', u'ip_address': {u'type': u'V4', u'addr': u'10.144.0.33'}, u'ign_pool_net_reach': False, u'east_west_placement': False, u'limit_doser': False, u'name': u'wwwawssit.ebiz.verizon.com', u'url': u'https://12.97.16.202/api/virtualservice/virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e#wwwawssit.ebiz.verizon.com', u'ssl_sess_cache_avg_size': 1024, u'enable_autogw': True, u'auto_allocate_ip': True, u'tenant_ref': u'https://12.97.16.202/api/tenant/tenant-f52f7a3e-6876-4bb9-b8f7-3cab636dadf2#Sales', u'remove_listening_port_on_vs_down': False
+        existing_obj = {'network_profile_ref': 'https://12.97.16.202/api/networkprofile/networkprofile-9a0a9896-6876-44c8-a3ee-512a968905f2#System-TCP-Proxy', 'port_uuid': 'eni-4144e73c', 'weight': 1, 'availability_zone': 'us-west-2a', 'enabled': True, 'flow_dist': 'LOAD_AWARE', 'subnet_uuid': 'subnet-91f0b6f4', 'delay_fairness': False, 'avi_allocated_vip': True,
+                        'vrf_context_ref': 'https://12.97.16.202/api/vrfcontext/vrfcontext-722b280d-b555-4d82-9b35-af9442c0cb86#global',
+                        'subnet': {'ip_addr': {'type': 'V4', 'addr': '10.144.0.0'}, 'mask': 24},
+                        'cloud_type': 'CLOUD_AWS', 'uuid': 'virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e',
+                        'network_ref': 'https://12.97.16.202/api/network/subnet-91f0b6f4',
+                        'cloud_ref': 'https://12.97.16.202/api/cloud/cloud-49829414-c704-43ca-9dff-05b9e8474dcb#AWS Cloud', 'avi_allocated_fip': False, 'se_group_ref': 'https://12.97.16.202/api/serviceenginegroup/serviceenginegroup-3bef6320-5a2d-4801-85c4-ef4f9841f235#Default-Group', 'scaleout_ecmp': False, 'max_cps_per_client': 0, 'type': 'VS_TYPE_NORMAL', 'analytics_profile_ref': 'https://12.97.16.202/api/analyticsprofile/analyticsprofile-70f8b06f-7b6a-4500-b829-c869bbca2009#System-Analytics-Profile', 'use_bridge_ip_as_vip': False, 'application_profile_ref': 'https://12.97.16.202/api/applicationprofile/applicationprofile-103cbc31-cac5-46ab-8e66-bbbb2c8f551f#System-HTTP', 'auto_allocate_floating_ip': False, 'services': [{'enable_ssl': False, 'port_range_end': 80, 'port': 80}], 'active_standby_se_tag': 'ACTIVE_STANDBY_SE_1', 'ip_address': {'type': 'V4', 'addr': '10.144.0.33'}, 'ign_pool_net_reach': False, 'east_west_placement': False, 'limit_doser': False, 'name': 'wwwawssit.ebiz.verizon.com', 'url': 'https://12.97.16.202/api/virtualservice/virtualservice-a5f49b99-22c8-42e6-aa65-3ca5f1e36b9e#wwwawssit.ebiz.verizon.com', 'ssl_sess_cache_avg_size': 1024, 'enable_autogw': True, 'auto_allocate_ip': True, 'tenant_ref': 'https://12.97.16.202/api/tenant/tenant-f52f7a3e-6876-4bb9-b8f7-3cab636dadf2#Sales', 'remove_listening_port_on_vs_down': False
                         }
         obj = {'auto_allocate_ip': True, 'subnet_uuid': 'subnet-91f0b6f4', 'cloud_ref': '/api/cloud?name=AWS Cloud', 'services': [{'port': 80}],
                'name': 'wwwawssit.ebiz.verizon.com'}
@@ -375,6 +385,7 @@ class Test(unittest.TestCase):
         cleanup_absent_fields(obj)
         assert 'scalar_field' not in obj
         for elem in obj['list_fields']:
+            print elem
             assert 'y' not in elem
 
 if __name__ == "__main__":

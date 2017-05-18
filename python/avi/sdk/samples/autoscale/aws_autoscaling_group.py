@@ -79,7 +79,7 @@ def create_autoscale_connection(aws_settings):
     conn = boto.ec2.autoscale.connect_to_region(
         ec2_region, aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key)
-    print 'using: ', aws_access_key_id, aws_secret_access_key, ec2_region
+    print('using: ', aws_access_key_id, aws_secret_access_key, ec2_region)
     return conn
 
 
@@ -110,8 +110,8 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
         array of tuples [insid, hostname, ip_addr]
     """
     new_instances = []
-    print ('For ', autoscaling_group, 'setting desired capacity',
-           desired_capacity)
+    print('For ', autoscaling_group, 'setting desired capacity',
+        desired_capacity)
     aws_asconn = create_autoscale_connection(aws_settings)
 
     ec2_conn = create_aws_connection(aws_settings)
@@ -130,7 +130,7 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
         pool_server_ids.add(instance_id)
 
     new_instances = []
-    for _ in xrange(25):
+    for _ in range(25):
         # try for 2mins
         time.sleep(10)
         asg_group = aws_asconn.get_all_groups([autoscaling_group])[0]
@@ -141,8 +141,8 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
                 if (instance.health_status == 'Healthy' and
                     instance.lifecycle_state == 'InService')]
         if len(new_instances) == nscaleout:
-            print ('Autoscaling group %s has %s new instances %s'
-                   % (autoscaling_group, len(new_instances), new_instances))
+            print(('Autoscaling group %s has %s new instances %s'
+                   % (autoscaling_group, len(new_instances), new_instances)))
             break
         time.sleep(10)
 
@@ -165,7 +165,7 @@ def aws_autoscaling_scaleout(aws_settings, pool_obj, autoscaling_group,
         avi_inst_info = AviInstanceInfo(
             instance_id=ins.id, ip_address=ip_address, hostname=tag)
         new_avi_servers.append(avi_inst_info)
-        print 'Adding new instance ', avi_inst_info
+        print('Adding new instance ', avi_inst_info)
     return new_avi_servers
 
 
@@ -187,7 +187,7 @@ def scaleout(aws_settings, *args):
     pool_name, pool_uuid, pool_obj, num_scaleout = \
         scaleout_params('scaleout', alert_info, api=api, tenant=tenant)
     # create AWS instance using these two ids.
-    print pool_name, 'scaleout', num_scaleout
+    print(pool_name, 'scaleout', num_scaleout)
     autoscaling_group = get_autoscaling_group(api, pool_obj)
     desired_capacity = len(pool_obj['servers']) + num_scaleout
     new_instances = aws_autoscaling_scaleout(
@@ -205,11 +205,11 @@ def scaleout(aws_settings, *args):
         # add new server to the pool
         pool_obj['servers'].append(new_server)
     # call controller API to update the pool
-    print 'new pool obj', pool_obj
+    print('new pool obj', pool_obj)
     api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid, tenant=tenant,
                    data=json.dumps(pool_obj))
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
 
 
 def delete_aws_autoscaling_instance(
@@ -222,11 +222,11 @@ def delete_aws_autoscaling_instance(
     :param instance_ids: list of instance ids to delete. These are typically
     stored in the external uuid of the server.
     """
-    print 'deleting instances ', instance_ids
+    print('deleting instances ', instance_ids)
     aws_asconn = create_autoscale_connection(aws_settings)
     for instance in instance_ids:
         rc = aws_asconn.terminate_instance(instance)
-        print 'terminating instance', instance, 'status', rc
+        print('terminating instance', instance, 'status', rc)
     # conn = create_aws_connection(aws_settings)
     # rc = conn.stop_instances(instance_ids=instance_ids)
     # print 'stopping instances ', instance_ids, rc
@@ -248,7 +248,7 @@ def scalein(aws_settings, *args):
     # Perform actual scaleout
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scalein', alert_info, api=api, tenant=tenant)
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
+    print((pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale))
     scalein_server = pool_obj['servers'][-1]
     autoscaling_group = get_autoscaling_group(api, pool_obj)
     try:
@@ -260,12 +260,12 @@ def scalein(aws_settings, *args):
         instance_ids = [vm_uuid]
     pool_obj['servers'] = pool_obj['servers'][:-1]
     # call controller API to update the pool
-    print 'pool %s scalein server %s' % (pool_name, scalein_server)
+    print('pool %s scalein server %s' % (pool_name, scalein_server))
     api = getAviApiSession()
     resp = api.put('pool/%s' % pool_uuid, tenant=tenant, data=pool_obj)
-    print 'updated pool', pool_obj['name'], resp.status_code
+    print('updated pool', pool_obj['name'], resp.status_code)
     if resp.status_code in (200, 201, 204):
-        print 'deleting the instance from the aws - ', instance_ids
+        print('deleting the instance from the aws - ', instance_ids)
         delete_aws_autoscaling_instance(
             aws_settings, autoscaling_group, instance_ids)
 

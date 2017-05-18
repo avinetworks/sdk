@@ -41,7 +41,7 @@ import os
 
 
 def get_ssl_params_from_path(folder_path=''):
-    print folder_path
+    print(folder_path)
     with open(folder_path + 'samples/certs/server.crt') as f:
         server_crt = f.read()
     with open(folder_path + 'samples/certs/server.key') as f:
@@ -63,12 +63,12 @@ HEAT_KWARGS = {'image': 'cirros', 'flavor': 'm1.tiny',
 
 
 def autoscale_dump(*args):
-    print 'SCALEOUT: Num Args ', len(args), ' Args: ', args
+    print('SCALEOUT: Num Args ', len(args), ' Args: ', args)
     f = open('/tmp/scaleout.log', 'a')
     f.write('Num Args %d Args %s' % (len(args), str(args)))
     f.write('\n')
     alert_info = json.loads(args[1])
-    print alert_info
+    print(alert_info)
     pool_uuid = ''
     for events in alert_info.get('events', []):
         event_details = events.get('event_details')
@@ -93,9 +93,9 @@ def autoscale_dump(*args):
 
 def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
     pool_name = alert_info.get('obj_name')
-    print ' get pool obj for ', pool_name
+    print(' get pool obj for ', pool_name)
     pool_obj = api.get_object_by_name('pool', pool_name, tenant=tenant)
-    print 'returned pool obj', pool_obj
+    print('returned pool obj', pool_obj)
     pool_uuid = pool_obj['uuid']
     num_autoscale = 0
     for events in alert_info.get('events', []):
@@ -109,17 +109,17 @@ def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
         num_autoscale_field = 'num_%s_servers' % scaleout_type
         num_autoscale = autoscale_info.get(num_autoscale_field)
 
-    print (' Calling scaleout for ', pool_name, ':', pool_uuid,
-           ' num scaleout', num_autoscale)
+    print((' Calling scaleout for ', pool_name, ':', pool_uuid,
+           ' num scaleout', num_autoscale))
     return pool_name, pool_uuid, pool_obj, num_autoscale
 
 
 def server_autoscale(api, pool_uuid, pool_obj, num_autoscale, action):
     for server in pool_obj['servers']:
-        print ' checking server for autoscale', server
+        print(' checking server for autoscale', server)
         if not num_autoscale:
             break
-        print 'pool %s server %s' % (pool_obj['name'], server)
+        print('pool %s server %s' % (pool_obj['name'], server))
         if action == 'scaleout' and not server.get('enabled', True):
             server['enabled'] = True
         elif action == 'scalein' and server.get('enabled', True):
@@ -151,10 +151,10 @@ def scaleout(*args):
         hkwargs = copy.deepcopy(HEAT_KWARGS)
         hkwargs['lbpool'] = pool_uuid.split('pool-')[1]
         hkwargs['name'] = pool_name + pool_uuid
-        print 'calling heat'
+        print('calling heat')
         heat_stack_scale(up=True, **hkwargs)
     elif pool_name.find('autoscale-alertscript') != -1:
-        print pool_name, 'enabling disabled pool members'
+        print(pool_name, 'enabling disabled pool members')
         server_autoscale(api, pool_uuid, pool_obj, num_autoscale,
                          'scaleout')
     elif pool_name.find('launch') != -1:
@@ -167,8 +167,8 @@ def scaleout(*args):
         astatus.ip.type = V4
         astatus.action = SCALEOUT
         astatus.nscaleout = 1
-        print '##########################################'
-        print pool_uuid, 'calling scaleout launch done '
+        print('##########################################')
+        print(pool_uuid, 'calling scaleout launch done ')
         AutoScaleService_Stub(RpcChannel()).NotifyAutoScaleStatus(
             RpcController(), astatus)
 
@@ -182,15 +182,15 @@ def scalein(*args):
     pool_name, pool_uuid, pool_obj, num_autoscale = \
         scaleout_params('scalein', alert_info, api=api, tenant=tenant)
 
-    print (pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale)
+    print((pool_name, ':', pool_uuid, ' num_scaleout', num_autoscale))
     if pool_name.find('heat') != -1:
         hkwargs = copy.deepcopy(HEAT_KWARGS)
         hkwargs['lbpool'] = pool_uuid.split('pool-')[1]
         hkwargs['name'] = pool_name + pool_uuid
-        print pool_uuid, 'calling heat'
+        print(pool_uuid, 'calling heat')
         heat_stack_scale(up=False, **hkwargs)
     elif pool_name.find('autoscale-alertscript') != -1:
-        print pool_name, 'disabling enabled pool members'
+        print(pool_name, 'disabling enabled pool members')
         server_autoscale(api, pool_uuid, pool_obj, num_autoscale,
                          'scalein')
     elif pool_name.find('launch') != -1:
@@ -203,8 +203,8 @@ def scalein(*args):
         astatus.ip.type = V4
         astatus.action = SCALEIN
         astatus.nscalein = 1
-        print '##########################################'
-        print pool_uuid, 'calling scalein termination done '
+        print('##########################################')
+        print(pool_uuid, 'calling scalein termination done ')
         AutoScaleService_Stub(RpcChannel()).NotifyAutoScaleStatus(
             RpcController(), astatus)
         time.sleep(1)
