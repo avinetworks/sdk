@@ -65,8 +65,8 @@ def gcp_program_route(gcp, event_id, project, network, inst_ip, vip):
                                    filter='destRange eq %s' % vip).execute()
     if (('items' not in result or len(result['items']) == 0) 
         and event_id == 'CC_IP_DETACHED'):
-        print('Project %s destRange %s route not found' % 
-              (project, vip))
+        print(('Project %s destRange %s route not found' % 
+              (project, vip)))
         return
 
     if event_id == 'CC_IP_DETACHED':
@@ -76,25 +76,25 @@ def gcp_program_route(gcp, event_id, project, network, inst_ip, vip):
                 r['nextHopIp'] == inst_ip):
                 result = gcp.routes().delete(project=project, 
                                              route=r['name']).execute()
-                print('Route %s delete result %s' % (r['name'], str(result)))
+                print(('Route %s delete result %s' % (r['name'], str(result))))
                 # Wait until done or retries exhausted
                 if 'name' in result:
                     start = int(time.time())
-                    for i in xrange(0, 20):
+                    for i in range(0, 20):
                         op_result = gcp.globalOperations().get(project=project,
                                 operation=result['name']).execute()
-                        print('op_result %s' % str(op_result))
+                        print(('op_result %s' % str(op_result)))
                         if op_result['status'] == 'DONE':
                             if 'error' in result:
-                                print('WARNING: Route delete had errors '
-                                      'result %s' % str(op_result))
+                                print(('WARNING: Route delete had errors '
+                                      'result %s' % str(op_result)))
                             else:
-                                print('Route delete done result %s' % 
-                                      str(op_result))
+                                print(('Route delete done result %s' % 
+                                      str(op_result)))
                             break
                         if int(time.time()) - start > 20:
-                            print('WARNING: Wait exhausted last op_result %s' %
-                                  str(op_result))
+                            print(('WARNING: Wait exhausted last op_result %s' %
+                                  str(op_result)))
                             break
                         else:
                             time.sleep(1)
@@ -110,12 +110,12 @@ def gcp_program_route(gcp, event_id, project, network, inst_ip, vip):
             'nextHopIp': inst_ip}
         result = gcp.routes().insert(project=project,
                                          body=route).execute()
-        print('Route VIP %s insert result %s' % 
-                (vip, str(result)))
+        print(('Route VIP %s insert result %s' % 
+                (vip, str(result))))
         
 def handle_cc_alert(session, gcp, script_parms):
     se_name = script_parms['obj_name']
-    print ('Event Se %s %s' % (se_name, str(script_parms)))
+    print(('Event Se %s %s' % (se_name, str(script_parms))))
     if len(script_parms['events']) == 0:
         print ('WARNING: No events in alert')
         return
@@ -123,42 +123,42 @@ def handle_cc_alert(session, gcp, script_parms):
     # GET SE object from Avi for instance IP address and SE Group link
     rsp = session.get('serviceengine?uuid=%s' % 
                       script_parms['events'][0]['event_details']['cc_ip_details']['se_vm_uuid'])
-    if rsp.status_code in xrange(200, 299):
+    if rsp.status_code in range(200, 299):
         se = json.loads(rsp.text)
         if se['count'] == 0 or len(se['results']) == 0:
-            print ('WARNING: SE %s no results' % 
-                script_parms['events'][0]['event_details']['cc_ip_details']['se_vm_uuid'])
+            print(('WARNING: SE %s no results' % 
+                script_parms['events'][0]['event_details']['cc_ip_details']['se_vm_uuid']))
             return
         inst_ip = next((v['ip']['ip_addr']['addr'] for v in 
                 se['results'][0]['mgmt_vnic']['vnic_networks'] 
                 if v['ip']['mask'] == 32 and v['mode'] != 'VIP'), '')
         if not inst_ip:
-            print('WARNING: Unable to find IP with mask 32 SE %s' % str(se['results'][0]))
+            print(('WARNING: Unable to find IP with mask 32 SE %s' % str(se['results'][0])))
             return
 
         # GET SE Group object for GCP project, zones and network
         # https://localhost/api/serviceenginegroup/serviceenginegroup-99f78850-4d1f-4b7b-9027-311ad1f8c60e
         seg_ref_list = se['results'][0]['se_group_ref'].split('/api/')
         seg_rsp = session.get(seg_ref_list[1])
-        if seg_rsp.status_code in xrange(200, 299):
+        if seg_rsp.status_code in range(200, 299):
             vip = '%s/32' % script_parms['events'][0]['event_details']['cc_ip_details']['ip']['addr']
             seg = json.loads(seg_rsp.text)
             descr = json.loads(seg.get('description', '{}'))
             project = descr.get('project', '')
             network = descr.get('network', '')
             if not project or not network:
-                print('WARNING: Project, Network is required descr %s' %
-                      str(descr))
+                print(('WARNING: Project, Network is required descr %s' %
+                      str(descr)))
                 return
             gcp_program_route(gcp, script_parms['events'][0]['event_id'],
                               project, network, inst_ip, vip)
         else:
-            print('WARNING: Unable to retrieve SE Group %s status %d' % 
-                  (se['results'][0]['se_group_ref'], seg_rsp.status_code))
+            print(('WARNING: Unable to retrieve SE Group %s status %d' % 
+                  (se['results'][0]['se_group_ref'], seg_rsp.status_code)))
             return
     else:
-        print ('WARNING: Unable to retrieve SE %s' % 
-               script_parms['events'][0]['obj_uuid'])
+        print(('WARNING: Unable to retrieve SE %s' % 
+               script_parms['events'][0]['obj_uuid']))
 
 
 # Script entry
@@ -170,5 +170,5 @@ if __name__ == "__main__":
         gcp = google_compute()
         handle_cc_alert(admin_session, gcp, script_parms)
     except Exception:
-        print ('WARNING: Exception with Avi/Gcp route %s' % 
-               traceback.format_exc())
+        print(('WARNING: Exception with Avi/Gcp route %s' % 
+               traceback.format_exc()))

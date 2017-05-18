@@ -27,9 +27,9 @@ def test_multi_tenant(args, tenants):
         api = ApiSession.get_session(args.controller_ip, args.user, args.password,
                      tenant=tenant)
         t_apis.append(api)
-        print ' created api for teant %s api %s' % (tenant, api)
+        print(' created api for teant %s api %s' % (tenant, api))
 
-    for _ in xrange(5):
+    for _ in range(5):
         for api in t_apis:
             r = api.get('virtualservice')
             results = json.loads(r.text)['results']

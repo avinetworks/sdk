@@ -78,13 +78,13 @@ def heat_stack_scale(name, image, flavor, networks, passwd, key, lbpool,
             elif i.logical_resource_id == 'scale_down_policy':
                 sdn = i
         if up and sup:
-            print 'triggering scale_up'
+            print('triggering scale_up')
             hc.resources.signal(stk.id, sup.logical_resource_id)
         elif not up and sdn:
-            print 'triggering scale_down'        
+            print('triggering scale_down')        
             hc.resources.signal(stk.id, sdn.logical_resource_id)
         else:
-            print 'scaling policy not found for stack %s' % name
+            print('scaling policy not found for stack %s' % name)
     return
 
 if __name__ == '__main__':
@@ -97,15 +97,15 @@ if __name__ == '__main__':
             'lbpool'  : 'b2c15882-a253-4208-b530-e9b5150ccd61',
             'metadata': {'name':'siva','test':'heat trials'},
             'userdata': 'user=root;data=blah'}
-    print 'create and scale up stack'
+    print('create and scale up stack')
     heat_stack_scale(up=True, **args)
     for i in hc.stacks.list():
-      print i
-    print 'sleep and scale down stack'
+      print(i)
+    print('sleep and scale down stack')
     time.sleep(120)    
     heat_stack_scale(up=False, **args)
-    print 'sleep and tear down stack'
+    print('sleep and tear down stack')
     time.sleep(120)    
     heat_stack_delete(hc, name)
     for i in hc.stacks.list():
-      print i
+      print(i)
