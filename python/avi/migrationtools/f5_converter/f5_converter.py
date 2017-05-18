@@ -14,12 +14,20 @@ from avi.migrationtools.f5_converter import (f5_config_converter,
                                             conversion_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from pkg_resources import parse_version
+
+
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
 
+DEFAULT_SKIP_TYPES = [
+    'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
+    'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
+    'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
+    'SeProperties', 'ControllerProperties', 'CloudProperties']
 
 class F5Converter(AviConverter):
     def __init__(self, args):
@@ -49,6 +57,8 @@ class F5Converter(AviConverter):
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
         self.vs_filter = args.vs_filter
+        self.ansible_skip_types = args.ansible_skip_types
+        self.ansible_filter_types = args.ansible_filter_types
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -195,7 +205,11 @@ class F5Converter(AviConverter):
 
         avi_config = self.process_for_utils(avi_config_dict)
         self.write_output(avi_config, output_dir, '%s-Output.json' % report_name)
-
+        avi_traffic= AviAnsibleConverter(avi_config, output_dir,
+                                         skip_types=self.ansible_skip_types,
+                                         filter_types=self.ansible_filter_types)
+        avi_traffic.write_ansible_playbook(self.f5_host_ip, self.f5_ssh_user,
+                                           self.f5_ssh_password)
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
 
@@ -335,6 +349,18 @@ if __name__ == "__main__":
     # Added command line args to execute vs_filter.py with vs_name.
     parser.add_argument('--vs_filter', help='comma seperated names of '
                                             'virtualservices')
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_skip_types',
+                        help='Comma separated list of Avi Object types to skip '
+                             'during conversion.\n  Eg. -s DebugController,'
+                             'ServiceEngineGroup will skip debugcontroller and '
+                             'serviceengine objects',default=DEFAULT_SKIP_TYPES)
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_filter_types',
+                        help='Comma separated list of Avi Objects types to '
+                             'include during conversion.\n Eg. -f VirtualService'
+                             ',Pool will do ansible conversion only for '
+                             'Virtualservice and Pool objects',default=[])
 
     args = parser.parse_args()
     # print avi f5 converter version
