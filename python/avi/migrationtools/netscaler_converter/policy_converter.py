@@ -466,7 +466,11 @@ class PolicyConverter(object):
             "match_criteria": ''
         }
 
-        if 'REQ.HTTP.URL ==' in query.upper():
+        if 'true' == query.lower():
+            match = {"path": path_query}
+            match["path"]["match_str"].append('/')
+            match["path"]["match_criteria"] = "CONTAINS"
+        elif 'REQ.HTTP.URL ==' in query.upper():
             match = {"query": path_query}
             match["query"]["match_criteria"] = "EQUALS"
             matches = query.split('||')

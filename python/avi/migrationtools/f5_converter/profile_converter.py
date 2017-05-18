@@ -58,11 +58,11 @@ class ProfileConfigConv(object):
         for key in net_config:
             route = net_config.get(key, {})
             # Get static route
-            static_route = self.update_static_route(route)
-            if static_route:
-                vrf_context['static_routes'].append(static_route)
-        if vrf_context['static_routes']:
-            avi_config["VrfContext"].append(vrf_context)
+        #     static_route = self.update_static_route(route)
+        #     if static_route:
+        #         vrf_context['static_routes'].append(static_route)
+        # if vrf_context['static_routes']:
+        #     avi_config["VrfContext"].append(vrf_context)
 
         if not persistence:
             f5_config['persistence'] = {}
@@ -271,7 +271,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
         u_ignore = []
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
-
         tenant, name = conv_utils.get_tenant_ref(name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -826,6 +825,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram-load-balancing", 'disabled')
             timeout = profile.get("idle-timeout", 0)
+            if not timeout.isdigit():
+                timeout = 0
             ntwk_profile = {
                 "profile": {
                     "type": "PROTOCOL_TYPE_UDP_FAST_PATH",
@@ -1238,6 +1239,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram lb", 'disable')
             timeout = profile.get("idle timeout", 0)
+            if not timeout.isdigit():
+                timeout = 0
             ntwk_profile = {
                 "profile": {
                     "type": "PROTOCOL_TYPE_UDP_FAST_PATH",

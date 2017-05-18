@@ -48,8 +48,15 @@ class NetscalerConverter(AviConverter):
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
         formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
-        logging.basicConfig(filename=os.path.join(self.output_file_path, 'converter.log'),
-                            level=logging.DEBUG, format=formatter)
+        if self.ns_config_file:
+            report_name = '%s-converter.log' % os.path.splitext(
+                os.path.basename(self.ns_config_file))[0]
+        else:
+            report_name = 'converter.log'
+
+        logging.basicConfig(
+            filename=os.path.join(self.output_file_path, report_name),
+            level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
         # Add logger and print avi netscaler converter version
@@ -85,20 +92,26 @@ class NetscalerConverter(AviConverter):
             source_file = input_dir + os.path.sep + "ns.conf"
         else:
             source_file = self.ns_config_file
+        if not source_file:
+            print 'Not found ns configuration file'
+            return
         ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
         user_ignore = {}
         # Read the attributes for user ignore val
         if self.ignore_config:
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
+        report_name = os.path.splitext(os.path.basename(self.ns_config_file))[0]
         avi_config = ns_conf_converter.convert(
             ns_config, self.tenant, self.cloud_name, self.controller_version,
             output_dir, input_dir, skipped_cmds, self.vs_state,
-            self.profile_merge_check, self.ns_passphrase_file, user_ignore)
+            self.profile_merge_check, report_name, self.ns_passphrase_file,
+            user_ignore)
 
         avi_config = self.process_for_utils(
             avi_config)
-        self.write_output(avi_config, output_dir)
+        self.write_output(
+            avi_config, output_dir, '%s-Output.json' % report_name)
 
         if self.option == 'auto-upload':
             self.upload_config_to_controller(
