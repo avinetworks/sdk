@@ -7,6 +7,8 @@ Created on September 15, 2016
 
 import json
 from copy import deepcopy
+
+import logging
 import yaml
 import argparse
 import re
@@ -24,6 +26,7 @@ from avi.migrationtools.ansible.ansible_constant import \
      AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE)
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
+LOG = logging.getLogger(__name__)
 
 
 class AviAnsibleConverter(object):
@@ -70,7 +73,7 @@ class AviAnsibleConverter(object):
             x = ''.join(ref_parts)
             x = x.split('&cloud=Default-Cloud')[0]
         else:
-            print x, 'did not match ref'
+            LOG.info('%s did not match ref' % x)
         return x
 
     def transform_obj_refs(self, obj):
