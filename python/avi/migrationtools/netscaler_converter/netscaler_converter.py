@@ -117,7 +117,6 @@ class NetscalerConverter(AviConverter):
         if self.option == 'auto-upload':
             self.upload_config_to_controller(
                 avi_config)
-
         return avi_config
 
 
