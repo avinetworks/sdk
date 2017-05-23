@@ -970,7 +970,7 @@ def create_self_signed_cert():
     cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
     cert.set_issuer(cert.get_subject())
     cert.set_pubkey(key)
-    cert.sign(key, 'sha1')
+    cert.sign(key, 'sha256')
     cert = crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
     key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
     return key, cert
