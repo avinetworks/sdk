@@ -388,6 +388,54 @@ class Test(unittest.TestCase):
             print elem
             assert 'y' not in elem
 
+    def testGSLB(self):
+        obj = {
+            'domain_names': ['cloud5.avi.com', 'cloud6.avi.com'],
+            'health_monitor_scope': 'GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS',
+            'groups': [{'priority': 20,
+                       'members': [{'ip': {'type': 'V4', 'addr': '10.30.10.1'},
+                                    'enabled': True, 'ratio': 1},
+                                   {'ip': {'type': 'V4', 'addr': '10.30.10.10'},
+                                    'enabled': True, 'ratio': 1}],
+                        'algorithm': 'GSLB_ALGORITHM_CONSISTENT_HASH', 'name': 'sc'},
+                        {'priority': 14, 'members': [{'ip': {'type': 'V4', 'addr': '10.30.10.2'},
+                                                    'enabled': True, 'ratio': 1}],
+                        'algorithm': 'GSLB_ALGORITHM_ROUND_ROBIN', 'name': 'cn'},
+                        {'priority': 15,
+                        'members': [{'ip': {'type': 'V4', 'addr': '10.30.10.3'},
+                                    'enabled': True, 'ratio': 1}],
+                        'algorithm': 'GSLB_ALGORITHM_ROUND_ROBIN', 'name': 'in'}],
+           'name': 'gs-3',
+           'num_dns_ip': 2}
+        existing_obj = {
+            u'controller_health_status_enabled': True,
+            u'uuid': u'gslbservice-ab9b36bd-3e95-4c2e-80f8-92905c2eccb2',
+            u'wildcard_match': False,
+            u'url': u'https://10.10.25.20/api/gslbservice/gslbservice-ab9b36bd-3e95-4c2e-80f8-92905c2eccb2#gs-3',
+            u'tenant_ref': u'https://10.10.25.20/api/tenant/admin#admin',
+            u'enabled': True,
+            u'domain_names': [u'cloud5.avi.com', u'cloud6.avi.com'],
+            u'use_edns_client_subnet': True,
+            u'groups': [{u'priority': 20,
+                         u'members': [{u'ip': {u'type': u'V4', u'addr': u'10.30.10.1'},
+                                       u'ratio': 1, u'enabled': True},
+                                      {u'ip': {u'type': u'V4', u'addr': u'10.30.10.10'},
+                                       u'ratio': 1, u'enabled': True}], u'name': u'sc',
+                         u'algorithm': u'GSLB_ALGORITHM_CONSISTENT_HASH'},
+                        {u'priority': 14,
+                         u'members': [{u'ip': {u'type': u'V4', u'addr': u'10.30.10.2'},
+                                       u'ratio': 1, u'enabled': True}],
+                         u'name': u'cn', u'algorithm': u'GSLB_ALGORITHM_ROUND_ROBIN'},
+                        {u'priority': 15, u'members': [{u'ip': {u'type': u'V4', u'addr': u'10.30.10.3'},
+                                                        u'ratio': 1, u'enabled': True}],
+                         u'name': u'in', u'algorithm': u'GSLB_ALGORITHM_ROUND_ROBIN'}],
+            u'num_dns_ip': 2,
+            u'health_monitor_scope': u'GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS',
+            u'name': u'gs-3'}
+
+        diff = avi_obj_cmp(obj, existing_obj)
+        assert diff
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
