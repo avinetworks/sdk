@@ -137,11 +137,11 @@ def ref_n_str_cmp(x, y):
     if (type(y) in (int, float, bool, int, complex)):
         y = str(y)
         x = str(x)
-    if not ((isinstance(x, str) or isinstance(x, str)) and
-            (isinstance(y, str) or isinstance(y, str))):
+    if not ((isinstance(x, str) or isinstance(x, unicode)) and
+            (isinstance(y, str) or isinstance(y, unicode))):
         return False
-
-    y_uuid = y_name = y
+    y_uuid = y_name = str(y)
+    x = str(x)
     if RE_REF_MATCH.match(x):
         x = x.split('name=')[1]
     elif HTTP_REF_MATCH.match(x):
@@ -255,14 +255,14 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
         x_keys = set(x.keys())
         y_keys = set(y.keys())
         if not x_keys.issubset(y_keys):
-            #log.debug('x has %s and y has %s keys', len(x_keys), len(y_keys))
+            # log.debug('x has %s and y has %s keys', len(x_keys), len(y_keys))
             return False
         for k, v in x.items():
             if k not in y:
-                #log.debug('k %s is not in y %s', k, y)
+                # log.debug('k %s is not in y %s', k, y)
                 return False
             if not avi_obj_cmp(v, y[k], sensitive_fields=sensitive_fields):
-                #log.debug('k %s v %s did not match in y %s', k, v, y[k])
+                # log.debug('k %s v %s did not match in y %s', k, v, y[k])
                 return False
     return True
 
@@ -358,10 +358,11 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
-        log.error('EXISTING OBJ %s', existing_obj)
         changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
         obj = cleanup_absent_fields(obj)
         if changed:
+            log.debug('EXISTING OBJ %s', existing_obj)
+            log.debug('NEW OBJ %s', obj)
             if name is not None:
                 obj_uuid = existing_obj['uuid']
                 obj_path = '%s/%s' % (obj_type, obj_uuid)
