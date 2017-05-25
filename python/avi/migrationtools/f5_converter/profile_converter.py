@@ -10,14 +10,14 @@ LOG = logging.getLogger(__name__)
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
-                     ssl_profile_merge_check):
+                     ssl_profile_merge_check, prefix):
         f5_profile_attributes = f5_profile_attributes
         if version == '10':
             return ProfileConfigConvV10(f5_profile_attributes,
-                                        ssl_profile_merge_check)
+                                        ssl_profile_merge_check, prefix)
         if version in ['11', '12']:
             return ProfileConfigConvV11(f5_profile_attributes,
-                                        ssl_profile_merge_check)
+                                        ssl_profile_merge_check, prefix)
 
     default_key = None
 
@@ -80,6 +80,9 @@ class ProfileConfigConv(object):
                     conv_utils.add_status_row('profile', profile_type, name,
                                               final.STATUS_SKIPPED)
                     continue
+                # Added prefix for objects
+                if self.prefix:
+                    name = self.prefix + '-' + name
                 LOG.debug("Converting profile: %s" % name)
                 profile = profile_config[key]
                 profile = self.update_with_default_profile(
@@ -218,7 +221,7 @@ class ProfileConfigConv(object):
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes, ssl_profile_merge_check):
+    def __init__(self, f5_profile_attributes, ssl_profile_merge_check, prefix):
         self.supported_types = \
             f5_profile_attributes['Profile_supported_types']
         self.ignore_for_defaults = \
@@ -260,6 +263,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.sslmergecount = 0
         self.applicationmergecount = 0
         self.networkmergecount = 0
+        # Added prefix for objects
+        self.prefix = prefix
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -274,6 +279,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
         tenant, name = conv_utils.get_tenant_ref(name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
+        # Added prefix for objects
+        if self.prefix:
+            name = self.prefix + '-' + name
         default_profile_name = '%s %s' % (profile_type,
                                           profile_type.replace('-', ''))
         default_ignore = f5_config['profile'].get(default_profile_name, {})
@@ -854,7 +862,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                    converted_objs)
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes, ssl_profile_merge_check):
+    def __init__(self, f5_profile_attributes, ssl_profile_merge_check, prefix):
         self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
         self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
@@ -881,6 +889,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.sslmergecount = 0
         self.applicationmergecount = 0
         self.networkmergecount = 0
+        # Added prefix for objects
+        self.prefix = prefix
+
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
                         key_and_cert_mapping_list):
@@ -897,6 +908,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
         tenant, name = conv_utils.get_tenant_ref(name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
+        old_name = name
+        # Added prefix for objects
+        if self.prefix:
+            name = self.prefix + '-' + name
         default_profile_name = profile_type
         if profile_type in ("clientssl", "serverssl"):
             supported_attr = self.supported_ssl
@@ -906,8 +921,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
             u_ignore += user_ignore.get('serverssl', [])
             na_list = self.na_ssl
             indirect = self.indirect_ssl
-            original_prof = profile_config.get('%s %s' % (profile_type, name),
-                                               None)
+            original_prof = profile_config.get('%s %s' % (profile_type,
+                                                          old_name), None)
             inherit_key = original_prof.get('inherit-certkeychain', 'true')
             if inherit_key == 'false':
                 profile['key'] = original_prof.get("key", None)

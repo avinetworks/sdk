@@ -27,7 +27,7 @@ class LbvsConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check, controller_version, user_ignore):
+                 profile_merge_check, controller_version, user_ignore, prefix):
         """
         Construct a new 'LbvsConverter' object.
         :param tenant_name: Name of tenant
@@ -36,6 +36,7 @@ class LbvsConverter(object):
         :param cloud_ref: Cloud Reference
         :param profile_merge_check: Bool value for profile merge
         :param user_ignore: Dict of user ignore attributes
+        :param prefix: prefix for objects
         """
 
         self.lbvs_skip_attrs = \
@@ -57,6 +58,8 @@ class LbvsConverter(object):
         self.controller_version = controller_version
         # List of ignore val attributes for add lbvs netscaler command.
         self.lbvs_user_ignore = user_ignore.get('lbvs', [])
+        # Added prefix for objects
+        self.prefix = prefix
 
     def convert(self, ns_config, avi_config, vs_state):
         """
@@ -82,7 +85,7 @@ class LbvsConverter(object):
         policy_converter = PolicyConverter(
             self.tenant_name, self.cloud_name, self.tenant_ref, self.cloud_ref,
             self.lbvs_skip_attrs, self.lbvs_na_attrs, self.lbvs_ignore_vals,
-            self.lbvs_user_ignore)
+            self.lbvs_user_ignore, self.prefix)
         tmp_policy_ref = []
         for key in lb_vs_conf.keys():
             try:
@@ -113,6 +116,9 @@ class LbvsConverter(object):
                     enabled = False
 
                 pool_group_name = '%s-poolgroup' % vs_name
+                # Added prefix for objects
+                if self.prefix:
+                    pool_group_name = self.prefix + '-' + pool_group_name
                 pool_group_name = re.sub('[:]', '-', pool_group_name)
                 pool_group = [pool_group for pool_group in
                               avi_config.get("PoolGroup", [])
@@ -120,14 +126,6 @@ class LbvsConverter(object):
                 pool_group_ref = None
                 if pool_group:
                     pool_group_ref = pool_group_name
-                # else:
-                #     # Skipped this lb vs if pool group not found in AVI config
-                #     LOG.warning('Pool group not found in avi config for LB VS '
-                #                 '%s' % key)
-                #     ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd,
-                #                            STATUS_INCOMPLETE_CONFIGURATION)
-                #     continue
-
                 redirect_url = lb_vs.get('redirectURL', None)
 
                 http_prof = lb_vs.get('httpProfileName', None)
@@ -143,7 +141,9 @@ class LbvsConverter(object):
                         LOG.info('Conversion successful : %s' % clt_cmd)
 
                 updated_vs_name = re.sub('[:]', '-', vs_name)
-
+                # Added prefix for objects
+                if self.prefix:
+                    updated_vs_name = self.prefix + '-' + updated_vs_name
                 # Regex to check Vs has IPV6 address if yes the Skipped
                 if re.findall(ns_constants.IPV6_Address, ip_addr):
                     skipped_status = "Skipped:IPV6 not Supported %s" %full_cmd
@@ -190,7 +190,6 @@ class LbvsConverter(object):
                                                       avi_config, [],
                                                       redirect_pools,
                                                       'bind lb vserver', True)
-
                 # TODO move duplicate code for adding policy to vs in ns_util
                 # Convert netscalar policy to AVI http policy set
                 if policy:
@@ -199,7 +198,8 @@ class LbvsConverter(object):
                                                                updated_vs_name,
                                                                avi_config,
                                                                self.tenant_name,
-                                                               self.cloud_name)
+                                                               self.cloud_name,
+                                                               userprefix=self.prefix)
                     tmp_policy_ref.append(policy['name'])
                     updated_http_policy_ref = \
                         ns_util.get_object_ref(policy['name'],
@@ -218,6 +218,9 @@ class LbvsConverter(object):
                     if self.profile_merge_check:
                         app_profile = merge_profile_mapping['app_profile'].get(
                             app_profile, None)
+                    # Added prefix for objects
+                    if self.prefix:
+                        app_profile = self.prefix + '-' + app_profile
                     app_profile = \
                         ns_util.get_object_ref(app_profile,
                                                OBJECT_TYPE_APPLICATION_PROFILE,
@@ -245,7 +248,8 @@ class LbvsConverter(object):
                             ns_util.clone_pool_group(pool_group_ref, vs_name,
                                                      avi_config,
                                                      self.tenant_name,
-                                                     self.cloud_name)
+                                                     self.cloud_name,
+                                                     userprefix=self.prefix)
                     pool_group_ref = re.sub('[:]', '-', pool_group_ref)
                     used_pool_group_ref.append(pool_group_ref)
                     updated_pool_group = [pg for pg in
@@ -292,6 +296,10 @@ class LbvsConverter(object):
                         backup_pool_group_ref = backup_server + '-poolgroup'
                         backup_pool_group_ref = re.sub('[:]', '-',
                                                        backup_pool_group_ref)
+                        # Added prefix for objects
+                        if self.prefix:
+                            backup_pool_group_ref = self.prefix + '-' + \
+                                                    backup_pool_group_ref
                         backup_pool_group = [pool_group for pool_group in
                                              avi_config.get("PoolGroup", [])
                                              if pool_group['name'] ==
@@ -308,7 +316,8 @@ class LbvsConverter(object):
                             if pool:
                                 new_backup_pool_ref = \
                                     ns_util.clone_pool(backup_pool_ref, index,
-                                                       avi_config)
+                                                       avi_config,
+                                                       userprefix=self.prefix)
                                 new_backup_pool_ref = \
                                     ns_util.get_object_ref(new_backup_pool_ref,
                                                            OBJECT_TYPE_POOL,
@@ -349,6 +358,9 @@ class LbvsConverter(object):
                         self.lbvs_supported_persist_types:
 
                     profile_name = '%s-persistance-profile' % vs_name
+                    # Added prefix for objects
+                    if self.prefix:
+                        profile_name = self.prefix + '-' + profile_name
                     persist_profile = \
                         ns_util.convert_persistance_prof(lb_vs, profile_name,
                                                          self.tenant_ref)
@@ -365,6 +377,9 @@ class LbvsConverter(object):
                     if self.profile_merge_check:
                         ntwk_prof = merge_profile_mapping[
                             'network_profile'].get(ntwk_prof, None)
+                    # Added prefix for objects
+                    if self.prefix:
+                        ntwk_prof = self.prefix + '-' + ntwk_prof
                     if ns_util.object_exist('NetworkProfile', ntwk_prof,
                                             avi_config):
                         LOG.info('Conversion successful: Added network profile '
@@ -385,7 +400,10 @@ class LbvsConverter(object):
                             '17.1'):
                         ns_util.create_update_vsvip(
                             ip_addr, avi_config['VsVip'], self.tenant_ref,
-                            self.cloud_ref)
+                            self.cloud_ref, prefix=self.prefix)
+                        # Added prefix for objects
+                        if self.prefix:
+                            ip_addr = self.prefix + '-' + ip_addr
                         updated_vsvip_ref = ns_util.get_object_ref(
                             ip_addr + '-vsvip', 'vsvip', self.tenant_name,
                             self.cloud_name)
@@ -401,7 +419,7 @@ class LbvsConverter(object):
                     is_shared = ns_util.is_shared_same_vip(
                         vs_obj, avi_config['VirtualService'], avi_config,
                         self.tenant_name, self.cloud_name, self.tenant_ref,
-                        self.cloud_ref, self.controller_version)
+                        self.cloud_ref, self.controller_version, self.prefix)
                     if is_shared:
                         skipped_status = 'Skipped: %s Same vip shared by ' \
                                          'another virtual service' % vs_name
@@ -426,6 +444,10 @@ class LbvsConverter(object):
                         ssl_bindings = [ssl_bindings]
                     for mapping in ssl_bindings:
                         if 'CA' in mapping:
+                            # Added prefix for objects
+                            if self.prefix:
+                                mapping['attrs'][0] = self.prefix + '-' + \
+                                                      mapping['attrs'][0]
                             pki_ref = mapping['attrs'][0]
                             if [pki_profile for pki_profile in
                                 avi_config["PKIProfile"] if
@@ -449,6 +471,9 @@ class LbvsConverter(object):
                                     'Added: %s PKI profile %s' % (pki_ref, key))
                         elif 'certkeyName' in mapping:
                             avi_ssl_ref = 'ssl_key_and_certificate_refs'
+                            if self.prefix:
+                                mapping['certkeyName'] = self.prefix + '-' + \
+                                                         mapping['certkeyName']
                             if [obj for obj in
                                 avi_config['SSLKeyAndCertificate']
                                 if obj['name'] == mapping['certkeyName']]:
@@ -480,6 +505,9 @@ class LbvsConverter(object):
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
                     mapping = ssl_vs_mapping.get(key, None)
                     ssl_profile_name = re.sub('[:]', '-', key)
+                    # Added prefix for objects
+                    if self.prefix:
+                        ssl_profile_name = self.prefix + '-' + ssl_profile_name
                     # Get the merge ssl profile name
                     if self.profile_merge_check:
                         ssl_profile_name = \
@@ -510,7 +538,6 @@ class LbvsConverter(object):
         :param profile_name: Name of persistent profile ref
         :return: None
         """
-
         for pool_ref in pool_group['members']:
             pool_ref = pool_ref['pool_ref'].split('&')[1].split('=')[1]
             pool = [pool for pool in avi_config['Pool'] if

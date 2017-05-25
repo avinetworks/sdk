@@ -5,6 +5,7 @@ import urlparse
 import pandas
 import json
 import re
+import random
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from xlsxwriter import Workbook
@@ -17,6 +18,7 @@ from pkg_resources import parse_version
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
 tenants = []
+
 
 def upload_file(file_path):
     """
@@ -275,12 +277,13 @@ def get_content_string_group(name, content_types, tenant):
     return sg_obj
 
 
-def get_vs_ssl_profiles(profiles, avi_config):
+def get_vs_ssl_profiles(profiles, avi_config, prefix):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
     :param profiles: profiles in f5 config assigned to VS
     :param avi_config: converted avi config
+    :param prefix: prefix for objects
     :return: returns list of profile refs assigned to VS in avi config
     """
     vs_ssl_profile_names = []
@@ -292,6 +295,9 @@ def get_vs_ssl_profiles(profiles, avi_config):
         profiles = {profiles: None}
     for key in profiles.keys():
         tenant, name = get_tenant_ref(key)
+        # Added prefix for objects
+        if prefix:
+            name = prefix + '-' + name
         ssl_profile_list = avi_config.get("SSLProfile", [])
         ssl_profiles = [obj for obj in ssl_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
@@ -341,12 +347,13 @@ def get_vs_ssl_profiles(profiles, avi_config):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config, tenant_ref):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
     :param profiles: profiles in f5 config assigned to VS
     :param avi_config: converted avi config
+    :param: prefix: prefix for objects
     :return: returns list of profile refs assigned to VS in avi config
     """
     app_profile_refs = []
@@ -360,6 +367,9 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref):
         profiles = profiles.replace(" {}", "")
         profiles = {profiles: None}
     for name in profiles.keys():
+        # Added prefix for objects
+        if prefix:
+            name = prefix + '-' + name
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
@@ -394,20 +404,25 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref):
                     "realm": app_profiles[0].pop('realm')
                 }
     if not app_profile_refs:
+        value = 'http'
+        # Added prefix for objects
+        if prefix:
+            value = prefix + '-' + 'http'
         default_app_profile = [obj for obj in app_profile_list if (
-            obj['name'] == 'http' or 'http' in obj.get("dup_of", []))]
+            obj['name'] == value or value in obj.get("dup_of", []))]
         tenant = get_name_from_ref(default_app_profile[0]['tenant_ref'])
         app_profile_refs.append(get_object_ref("http", 'applicationprofile',
-                                               tenant=tenant))
+                                               tenant=tenant, prefix=prefix))
     return app_profile_refs, f_host, realm,  policy_set
 
 
-def get_vs_ntwk_profiles(profiles, avi_config):
+def get_vs_ntwk_profiles(profiles, avi_config, prefix):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
     :param profiles: profiles in f5 config assigned to VS
     :param avi_config: converted avi config
+    :param: prefix: prefix for objects
     :return: returns list of profile refs assigned to VS in avi config
     """
     network_profile_names = []
@@ -418,6 +433,9 @@ def get_vs_ntwk_profiles(profiles, avi_config):
         profiles = {profiles: None}
     for name in profiles.keys():
         tenant, name = get_tenant_ref(name)
+        # Added prefix for objects
+        if prefix:
+            name = prefix + '-' + name
         ntwk_prof_lst = avi_config.get("NetworkProfile")
         network_profiles = [obj for obj in ntwk_prof_lst if (
             obj['name'] == name or name in obj.get("dup_of", []))]
@@ -458,26 +476,38 @@ def update_service(port, vs, enable_ssl):
     return service_updated
 
 
-def get_service_obj(destination, vs_list, enable_ssl, controller_version):
+def get_service_obj(destination, avi_config, enable_ssl, controller_version,
+                    tenant_name, cloud_name):
     """
     Checks port overlapping scenario for port value 0 in F5 config
     :param destination: IP and Port destination of VS
-    :param vs_list: List of existing vs converted to avi config
+    :param avi_config: Dict of avi config
     :param enable_ssl: value to put in service objects
     :param controller_version: Version of controller
-    :return: List of services for VS
+    :param tenant_name: Name of tenant
+    :param cloud_name: Name of cloud
+    :return: services_obj, ip_addr of vs and ref of vsvip
     """
+    
     parts = destination.split(':')
     ip_addr = parts[0]
+    ip_addr = ip_addr.strip()
+    # Added check for IP V4
+    matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
+    if not matches or ip_addr == '0.0.0.0':
+        LOG.warning('Avi does not support IPv6 Generated random ipv4 for vs:'
+                    ' %s' % (ip_addr))
+        ip_addr = ".".join(map(str, (
+            random.randint(0, 255) for _ in range(4))))
     port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
     # Get the list of vs which shared the same vip
     if parse_version(controller_version) >= parse_version('17.1'):
         vs_dup_ips = \
-            [vs for vs in vs_list if vs['vip'][0]['ip_address']['addr'] ==
+            [vs for vs in avi_config['VirtualService'] if vs['vip'][0]['ip_address']['addr'] ==
              ip_addr]
     else:
         vs_dup_ips = \
-            [vs for vs in vs_list if vs['ip_address']['addr'] == ip_addr]
+            [vs for vs in avi_config['VirtualService'] if vs['ip_address']['addr'] == ip_addr]
 
     if port == 'any':
         port = 0
@@ -513,7 +543,14 @@ def get_service_obj(destination, vs_list, enable_ssl, controller_version):
         else:
             services_obj = [{'port': 1, 'port_range_end': conv_const.PORT_END,
                              'enable_ssl': enable_ssl}]
-    return services_obj, ip_addr
+
+    updated_vsvip_ref = None
+    if parse_version(controller_version) >= parse_version('17.1'):
+        create_update_vsvip(ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'), get_object_ref(
+                cloud_name, 'cloud', tenant=tenant_name))
+        updated_vsvip_ref = get_object_ref(
+            ip_addr + '-vsvip', 'vsvip', tenant_name, cloud_name)
+    return services_obj, ip_addr, updated_vsvip_ref
 
 
 def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
@@ -867,7 +904,7 @@ def get_project_path():
 
 
 def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
-                         cloud_name='Default-Cloud'):
+                         cloud_name='Default-Cloud', prefix=None):
     """
     clones pool or pool group if its shard between multiple VS or partitions
     in F5
@@ -880,6 +917,9 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
     """
     is_pool_group = False
     pool_group_obj = None
+    # Added prefix for objects
+    if prefix:
+        ref = prefix + '-' + ref
     pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref]
     if not pool_obj:
         pool_group_obj = [pool for pool in avi_config['PoolGroup']
@@ -977,7 +1017,7 @@ def create_self_signed_cert():
 
 
 def get_object_ref(object_name, object_type, tenant='admin',
-                   cloud_name='Default-Cloud'):
+                   cloud_name='Default-Cloud', prefix=None):
     """
     This function defines that to genarte object ref in the format of
     /api/object_type/?tenant=tenant_name&name=object_name&cloud=cloud_name
@@ -985,11 +1025,15 @@ def get_object_ref(object_name, object_type, tenant='admin',
     :param object_type: Type of object
     :param tenant: Name of tenant
     :param cloud_name: Name of cloud
+    :param prefix : Prefix for objects
     :return: Return generated object ref
     """
     global tenants
+    # Added prefix for objects
+    if prefix:
+        object_name = prefix + '-' + object_name
 
-    cloud_supported_types = ['pool', 'poolgroup']
+    cloud_supported_types = ['pool', 'poolgroup', 'vsvip']
     if not cloud_name:
         cloud_name = "Default-Cloud"
 
@@ -1493,3 +1537,35 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
         vs_csv_row['Complexity Level'] = conv_const.COMPLEXITY_ADVANCED
     else:
         vs_csv_row['Complexity Level'] = conv_const.COMPLEXITY_BASIC
+
+
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
+    """
+    This functions defines that create or update VSVIP object.
+    :param vip: vip of VS
+    :param vsvip_config: List of vs object
+    :param tenant_ref: tenant reference
+    :param cloud_ref: cloud reference
+    :return: None
+    """
+
+    # Get the exsting vsvip object list if present
+    vsvip = [vip_obj for vip_obj in vsvip_config
+             if vip_obj['name'] == vip + '-vsvip']
+    # If VSVIP object not present then create new VSVIP object.
+    if not vsvip:
+        vsvip_object = {
+            "name": vip + '-vsvip',
+            "tenant_ref": tenant_ref,
+            "cloud_ref": cloud_ref,
+            "vip": [
+                {
+                    "vip_id": "0",
+                    "ip_address": {
+                        "type": "V4",
+                        "addr": vip
+                    }
+                }
+            ],
+        }
+        vsvip_config.append(vsvip_object)

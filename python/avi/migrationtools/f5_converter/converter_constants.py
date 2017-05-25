@@ -74,7 +74,7 @@ def init(version):
     :return: None
     """
     global f5_command_status
-    with open(os.path.dirname(__file__) +  "/command_status.yaml") as stream:
+    with open(os.path.dirname(__file__) + "/command_status.yaml") as stream:
         f5_command_status = yaml.safe_load(stream)
     if version == '10':
         return f5_command_status['VERSION_10']

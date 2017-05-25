@@ -7,6 +7,7 @@ import random
 import urlparse
 import ast
 import pandas
+import pexpect
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
 from pkg_resources import parse_version
@@ -381,23 +382,24 @@ def cleanup_config(config):
 
     del config
 
-def clone_pool(pool_name, prefix, avi_config):
+def clone_pool(pool_name, cloned_for, avi_config, userprefix=None):
     """
     This function used for cloning shared pools in netscaler.
     :param pool_name: name of pool
-    :param prefix: cloned for
+    :param cloned_for: cloned for
     :param avi_config: avi config dict
+    :param userprefix: prefix for objects
     :return: None
     """
-
     pools = [pool for pool in avi_config['Pool'] if pool['name'] == pool_name]
     if pools:
         pool_obj = copy.deepcopy(pools[0])
-        pool_name = re.sub('[:]', '-', prefix + pool_obj['name'])
+        pname = pool_obj['name']
+        pool_name = re.sub('[:]', '-', '%s-%s' % (pname, cloned_for))
         pool_obj['name'] = pool_name
         avi_config['Pool'].append(pool_obj)
         LOG.info("Same pool reference to other object. Clone Pool %s for %s" %
-                 (pool_name, prefix))
+                 (pool_name, cloned_for))
         return pool_obj['name']
     return None
 
@@ -459,7 +461,7 @@ def object_exist(object_type, name, avi_config):
 
 
 def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
-                       tenant_ref, cloud_ref, controller_version):
+                       tenant_ref, cloud_ref, controller_version, prefix):
     """
     This function check for vs sharing same vip
     :param vs: Name of vs
@@ -469,6 +471,8 @@ def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
     :param cloud_name: Name of cloud
     :param tenant_ref: Reference of tenant
     :param cloud_ref: Reference of cloud
+    :param controller_version: controller version
+    :param: prefix: prefix for objects
     :return: None
     """
 
@@ -486,18 +490,25 @@ def is_shared_same_vip(vs, cs_vs_list, avi_config, tenant_name, cloud_name,
         return True
     elif parse_version(controller_version) >= parse_version('17.1'):
         vsvip = vs['vip'][0]['ip_address']['addr']
-        create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref, cloud_ref)
+        create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref, cloud_ref,
+                            prefix=prefix)
+        name = vsvip + '-vsvip'
+        # Added prefix for objects
+        if prefix:
+            name = prefix + '-' + vsvip + '-vsvip'
         updated_vsvip_ref = get_object_ref(
-            vsvip + '-vsvip', 'vsvip', tenant_name, cloud_name)
+            name, 'vsvip', tenant_name, cloud_name)
         vs['vsvip_ref'] = updated_vsvip_ref
 
 
-def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name):
+def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name,
+                          userprefix=None):
     """
     This function clone pool reused in context switching rule
     :param policy: name of policy
     :param prefix: clone for
     :param avi_config: avi config dict
+    :param userprefix: prefix for objects
     :return:None
     """
 
@@ -511,7 +522,7 @@ def clone_http_policy_set(policy, prefix, avi_config, tenant_name, cloud_name):
                     '=')[1]
             pool_group_ref = clone_pool_group(pool_group_ref, policy_name,
                                               avi_config, tenant_name,
-                                              cloud_name)
+                                              cloud_name, userprefix=userprefix)
             if pool_group_ref:
                 updated_pool_group_ref = get_object_ref(pool_group_ref,
                                                         OBJECT_TYPE_POOL_GROUP,
@@ -554,30 +565,33 @@ def get_netscalar_full_command(netscalar_command, obj):
         netscalar_command += ' -%s %s' % (key, obj[key])
     return netscalar_command
 
-def clone_pool_group(pg_name, prefix, avi_config, tenant_name, cloud_name):
+def clone_pool_group(pg_name, cloned_for, avi_config, tenant_name, cloud_name,
+                     userprefix=None):
     """
     Used for cloning shared pool group.
     :param pg_name: pool group name
-    :param prefix: clone for
+    :param cloned_for: clone for
     :param avi_config: avi config dict
+    :param userprefix: prefix for objects
     :return: None
     """
     pool_groups = [pg for pg in avi_config['PoolGroup']
                    if pg['name'] == pg_name]
     if pool_groups:
         pool_group = copy.deepcopy(pool_groups[0])
-        pool_group_name = re.sub('[:]', '-', prefix + pg_name)
+        pool_group_name = re.sub('[:]', '-', '%s-%s' % (pg_name, cloned_for))
         pool_group['name'] = pool_group_name
         for member in pool_group.get('members', []):
-            pool_ref = (member['pool_ref']).split('&')[1].split('=')[1]
-            pool_ref = clone_pool(pool_ref, prefix, avi_config)
+            pool_ref = get_name(member['pool_ref'])
+            pool_ref = clone_pool(pool_ref, cloned_for, avi_config,
+                                  userprefix=userprefix)
             if pool_ref:
                 updated_pool_ref = get_object_ref(pool_ref, OBJECT_TYPE_POOL,
                                                   tenant_name, cloud_name)
                 member['pool_ref'] = updated_pool_ref
         avi_config['PoolGroup'].append(pool_group)
         LOG.info("Same pool group reference to other object. Clone Pool group "
-                 "%s for %s" % (pg_name, prefix))
+                 "%s for %s" % (pg_name, cloned_for))
         return pool_group['name']
     return None
 
@@ -611,7 +625,6 @@ def get_object_ref(object_name, object_type, tenant=None, cloud_name=None):
     :param cloud_name: Name of cloud
     :return: Return generated object ref
     """
-
     cloud_supported_types = ['pool', 'poolgroup', 'vsvip']
     if not cloud_name:
         cloud_name = "Default-Cloud"
@@ -1411,24 +1424,29 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
     else:
         vs_csv_row['Complexity Level'] = COMPLEXITY_BASIC
 
-
-def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
+        
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix=None):
     """
     This functions defines that create or update VSVIP object.
     :param vip: vip of VS
     :param vsvip_config: List of vs object
     :param tenant_ref: tenant reference
     :param cloud_ref: cloud reference
+    :param prefix: prefix for objects
     :return: None
     """
 
     # Get the exsting vsvip object list if present
+    name = vip + '-vsvip'
+    # Added prefix for objects
+    if prefix:
+        name = prefix + '-' + name
     vsvip = [vip_obj for vip_obj in vsvip_config
-             if vip_obj['name'] == vip +'-vsvip']
+             if vip_obj['name'] == name]
     # If VSVIP object not present then create new VSVIP object.
     if not vsvip:
         vsvip_object = {
-            "name": vip + '-vsvip',
+            "name": name,
             "tenant_ref": tenant_ref,
             "cloud_ref": cloud_ref,
             "vip": [
@@ -1442,3 +1460,21 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
             ],
         }
         vsvip_config.append(vsvip_object)
+
+
+def is_certificate_key_protected(key_file):
+    """
+    This functions defines that whether key is passphrase protected or not
+    :param key_file: Path of key file
+    :return: Return True if key is passphrase protected else return False
+    """
+    try:
+        child = pexpect.spawn(
+            'openssl rsa -in %s -check -noout' % key_file)
+        # Expect for enter pass phrase if key is protected else it will raise
+        # an exception
+        child.expect('Enter pass phrase for')
+        return True
+    except:
+        return False
+
