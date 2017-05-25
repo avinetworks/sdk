@@ -22,7 +22,7 @@ class PolicyConverter(object):
     This class is used to convert the policy
     """
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 bind_skipped, na_attrs, ignore_vals, user_ignore):
+                 bind_skipped, na_attrs, ignore_vals, user_ignore, prefix):
         """
         Construct a new 'PolicyConverter' object.
         :param tenant_name: Name of tenant
@@ -33,6 +33,7 @@ class PolicyConverter(object):
         :param na_attrs: List of not applicable attributes for profiles
         :param ignore_vals: Dict of key pair of attribute and value for ignore
         :param user_ignore_val: List of user ignore attributes
+        :param prefix: prefix for objects
         """
 
         self.policyconverter_policy_types = \
@@ -48,6 +49,9 @@ class PolicyConverter(object):
         self.ignore_vals = ignore_vals
         # List of ignore val attributes for policy netscaler command.
         self.user_ignore = user_ignore
+        # Added prefix for objects
+        self.prefix = prefix
+
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, netscalar_command, case_sensitive):
@@ -148,7 +152,9 @@ class PolicyConverter(object):
             targetLBVserver = bind_conf.get('targetLBVserver', )
             if not targetLBVserver and targetVserver:
                 targetLBVserver = targetVserver
-
+                # Added prefix for objects
+                if self.prefix:
+                    targetLBVserver = self.prefix + '-' + targetLBVserver
             priority_index = int(bind_conf.get('priority', rule_index))
             policy, policy_type = \
                 self.get_policy_from_policy_name(policy_name, policy_config,
@@ -226,6 +232,9 @@ class PolicyConverter(object):
             policy_obj['http_request_policy'] = http_security_policy
             is_policy_obj = True
         if is_policy_obj:
+            # Added prefix for objects
+            if self.prefix:
+                vs_policy_name = self.prefix + '-' + vs_policy_name
             policy_obj['name'] = vs_policy_name
             return policy_obj
 
@@ -336,7 +345,6 @@ class PolicyConverter(object):
                                    rule_name, ns_policy_complete_cmd,
                                    STATUS_SKIPPED, skipped_status)
             return None, priority_index
-
         policy_rules = {
             'name': name,
             "index": priority_index,
@@ -756,7 +764,8 @@ class PolicyConverter(object):
         :param avi_config: dict of AVI
         :return: StringGroup object
         """
-
+        if self.prefix:
+            string_group_name = self.prefix + '-' + string_group_name
         if not matches:
             return None
         stringgroup_object = {
@@ -801,7 +810,9 @@ class PolicyConverter(object):
         :param avi_config: dict of AVI
         :return: http policy action
         """
-
+        # Added prefix for objects
+        if self.prefix:
+            targetLBVserver = self.prefix + '-' + targetLBVserver
         if targetLBVserver in redirect_pools:
             action = {
                 'protocol': 'HTTP',
@@ -825,12 +836,9 @@ class PolicyConverter(object):
                           if pg['name'] == pool_group_ref]
             index = int(random.random() * 10000)
             if pool_group and pool_group_ref in tmp_pool_ref:
-                pool_group_ref = ns_util.clone_pool_group(pool_group_ref,
-                                                          name + '-%s-' % index,
-                                                          avi_config,
-                                                          self.tenant_name,
-                                                          self.cloud_name)
-
+                pool_group_ref = ns_util.clone_pool_group(
+                    pool_group_ref, name + '-%s' % index, avi_config,
+                    self.tenant_name, self.cloud_name, userprefix=self.prefix)
             updated_pool_group_ref = \
                 ns_util.get_object_ref(pool_group_ref, OBJECT_TYPE_POOL_GROUP,
                                        self.tenant_name, self.cloud_name)

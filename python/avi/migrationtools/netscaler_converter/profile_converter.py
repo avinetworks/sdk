@@ -26,7 +26,7 @@ merge_profile_mapping = {
 
 class ProfileConverter(object):
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 ssl_ciphers, profile_merge_check, user_ignore,
+                 ssl_ciphers, profile_merge_check, user_ignore, prefix,
                  keypassphrase=None):
         """
         Construct a new 'ProfileConverter' object.
@@ -38,6 +38,7 @@ class ProfileConverter(object):
         non supported ssl ciphers
         :param profile_merge_check: Bool value for profile merge
         :param user_ignore: Dict of user ignore attributes
+        :param prefix: prefix for objects
         :param keypassphrase: path of passphrase yaml file
         """
 
@@ -131,9 +132,10 @@ class ProfileConverter(object):
         # List of ignore val attributes for bind ssl service netscaler command.
         self.profile_bind_ssl_service_user_ignore = user_ignore.get(
             'profile_bind_ssl_service', [])
-
         if keypassphrase:
             self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
+        # Added prefix for objects
+        self.prefix = prefix
 
     def convert(self, ns_config, avi_config, input_dir):
         """
@@ -294,8 +296,13 @@ class ProfileConverter(object):
                                                    ssl_service)
             ssl_profile_name = ssl_service['attrs'][0]
             ssl_profile_name = re.sub('[:]', '-', ssl_profile_name)
+            # Added prefix for objects
+            if self.prefix:
+                updated_ssl_profile_name = self.prefix + '-' + ssl_profile_name
+            else:
+                updated_ssl_profile_name = ssl_profile_name
             ssl_profile = {
-                'name': ssl_profile_name,
+                'name': updated_ssl_profile_name,
                 'tenant_ref': self.tenant_ref,
                 'accepted_versions': []
             }
@@ -321,11 +328,11 @@ class ProfileConverter(object):
             send_close_notify = ssl_service.get('sendCloseNotify', None)
             if send_close_notify == 'NO':
                 ssl_profile['send_close_notify'] = False
-
             # bind ssl service
             binding_mapping = bind_ssl_service.get(ssl_profile_name, [])
             if isinstance(binding_mapping, dict):
                 binding_mapping = [binding_mapping]
+
             obj = self.get_key_cert(binding_mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config,
                                     bind_ssl_service_command)
@@ -337,11 +344,13 @@ class ProfileConverter(object):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
                 avi_config["PKIProfile"].append(obj.get('pki'))
-
             if self.profile_merge_check:
                 # Check ssl profile is duplicate of other ssl profile then
                 # skipped this application profile and increment of count
                 # of ssl_merge_count
+                # Added prefix for objects
+                if self.prefix:
+                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
                 dup_of = \
                     ns_util.update_skip_duplicates(
                         ssl_profile, avi_config['SSLProfile'],
@@ -374,6 +383,9 @@ class ProfileConverter(object):
 
         app_profile = dict()
         try:
+            # Added prefix for objects
+            if self.prefix:
+                profile['attrs'][0] = self.prefix + '-' + profile['attrs'][0]
             LOG.debug("Converting httpProfile: %s" % profile['attrs'][0])
             app_profile['name'] = profile['attrs'][0]
             app_profile['tenant_ref'] = self.tenant_ref
@@ -406,11 +418,14 @@ class ProfileConverter(object):
 
         ntwk_profile = None
         try:
+            # Added prefix for objects
+            if self.prefix:
+                profile['attrs'][0] = self.prefix + '-' + profile['attrs'][0]
             nagle = profile.get("nagle", 'DISABLED')
             nagle = False if nagle == 'DISABLED' else True
             mss = profile.get("mss", 0)
             mtu = True if int(mss) > 0 else False
-            window = profile.get("bufferSize", 8190)
+            window = profile.get("bufferSize", 32768)
             ntwk_profile = {
                 "profile": {
                     "tcp_proxy_profile": {
@@ -438,6 +453,9 @@ class ProfileConverter(object):
         avi_ssl_prof = dict()
         netscalar_cmd = 'add ssl profile'
         profile_name = re.sub('[:]', '-', profile['attrs'][0])
+        # Added prefix for objects
+        if self.prefix:
+            profile_name = self.prefix + '-' + profile_name
         avi_ssl_prof['name'] = profile_name
         avi_ssl_prof['tenant_ref'] = self.tenant_ref
         scn = profile.get('sendCloseNotify', 'NO')
@@ -486,7 +504,6 @@ class ProfileConverter(object):
                                                                    mapping)
             bind_ssl_success = False
             skipped_status = None
-
             if 'policyName' in mapping.keys():
                 skipped_status = 'Not supported: %s' % bind_ssl_full_cmd
                 LOG.warning(skipped_status)
@@ -497,7 +514,7 @@ class ProfileConverter(object):
                 continue
             elif 'CA' in mapping.keys():
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
-                if not key_cert or name in tmp_pki_profile_list:
+                if not key_cert or mapping['attrs'][0] in tmp_pki_profile_list:
                     continue
                 key_file_name = key_cert.get('key')
                 cert_file_name = key_cert.get('cert')
@@ -506,7 +523,6 @@ class ProfileConverter(object):
                 netscalar_cmd = 'add ssl certKey'
                 full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd,
                                                               key_cert)
-
                 if not (key_file_name and cert_file_name):
                     skipped_status = 'Missing key or cert file: %s' \
                                      % full_cmd
@@ -526,10 +542,10 @@ class ProfileConverter(object):
                     continue
                 if key_file_name:
                     ca_str = ns_util.upload_file(
-                        input_dir + os.path.sep + key_file_name)
+                        'test/certs' + os.path.sep + key_file_name)
                 if cert_file_name:
                     crl_str = ns_util.upload_file(
-                        input_dir + os.path.sep + cert_file_name)
+                        'test/certs' + os.path.sep + cert_file_name)
                 if ca_str:
                     pki_profile = dict()
                     pki_profile["ca_certs"] = [{'certificate': ca_str}]
@@ -540,6 +556,10 @@ class ProfileConverter(object):
                         pki_profile['crl_check'] = False
                     if crl_str:
                         pki_profile["crls"] = [{'body': crl_str}]
+                    # Added prefix for objects
+                    if self.prefix:
+                        mapping['attrs'][0] = self.prefix + '-' + \
+                                              mapping['attrs'][0]
                     pki_profile["name"] = mapping['attrs'][0]
                     pki_profile["tenant_ref"] = self.tenant_ref
                     obj['pki'] = pki_profile
@@ -586,6 +606,12 @@ class ProfileConverter(object):
                         input_dir + os.path.sep + cert_file_name)
                     key = ns_util.upload_file(
                         input_dir + os.path.sep + key_file_name)
+                is_key_protected = False
+                if key:
+                    # Check kay is passphrase protected or not
+                    is_key_protected = ns_util.is_certificate_key_protected(
+                        input_dir + os.path.sep + key_file_name)
+
                 if cert and key:
                     cert_date = c.load_certificate(c.FILETYPE_PEM,
                                                    file(input_dir + os.path.sep
@@ -599,10 +625,18 @@ class ProfileConverter(object):
                     name = key_cert['attrs'][0] + '-dummy'
                 else:
                     name = key_cert['attrs'][0]
+                # Added prefix for objects
+                if self.prefix:
+                    name = self.prefix + '-' + name
                     # Get the key passphrase for key_file
+                    key_passphrase = None
                     if self.netscalar_passphrase_keys:
                         key_passphrase = self.netscalar_passphrase_keys.get \
                             (key_file_name, None)
+                    # if key is protected and does not find passphrase key
+                    # then none the key
+                    if is_key_protected and not key_passphrase:
+                        key = None
                 # Skipped this certificate if already exist
                 if name in tmp_ssl_key_and_cert_list:
                     ns_util.add_status_row(key_cert['line_no'], netscalar_cmd,
@@ -616,7 +650,7 @@ class ProfileConverter(object):
                 # Generate dummy cert and key
                 if not cert or not key:
                     key, cert = ns_util.create_self_signed_cert()
-                LOG.warning('Create self cerificate and key for : %s' % name)
+                    LOG.warning('Create self cerificate and key for : %s' % name)
                 ssl_kc_obj = None
                 if key and cert:
                     cert = {"certificate": cert}

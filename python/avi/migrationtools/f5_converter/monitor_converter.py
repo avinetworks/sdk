@@ -11,11 +11,11 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_monitor_atributes):
+    def get_instance(cls, version, f5_monitor_atributes, prefix):
         if version == '10':
-            return MonitorConfigConvV10(f5_monitor_atributes)
+            return MonitorConfigConvV10(f5_monitor_atributes, prefix)
         if version in ['11', '12']:
-            return MonitorConfigConvV11(f5_monitor_atributes)
+            return MonitorConfigConvV11(f5_monitor_atributes, prefix)
 
     def get_defaults(self, monitor_config, key):
         pass
@@ -67,6 +67,9 @@ class MonitorConfigConv(object):
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
+            # Added prefix for objects
+            if self.prefix:
+                name = self.prefix + '-' + name
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
@@ -112,7 +115,10 @@ class MonitorConfigConv(object):
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
         tenant, name = conv_utils.get_tenant_ref(name)
-        if  tenant_ref != 'admin':
+        # Added prefix for objects
+        if self.prefix:
+            name = self.prefix + '-' + name
+        if tenant_ref != 'admin':
             tenant = tenant_ref
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
@@ -185,7 +191,7 @@ class MonitorConfigConv(object):
 
 
 class MonitorConfigConvV11(MonitorConfigConv):
-    def __init__(self, f5_monitor_attributes):
+    def __init__(self, f5_monitor_attributes, prefix):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
         self.supported_attributes = f5_monitor_attributes['Monitor_Supported_Attributes']
@@ -205,6 +211,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         self.tcp_attr = f5_monitor_attributes['Monitor_tcp_attr']
         self.udp_attr = f5_monitor_attributes['Monitor_udp_attr']
         self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
+        # Added prefix for objects
+        self.prefix = prefix
 
     def get_default_monitor(self, monitor_type, monitor_config):
         default_name = "%s %s" % (monitor_type, monitor_type)
@@ -450,7 +458,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
-    def __init__(self, f5_monitor_attributes):
+    def __init__(self, f5_monitor_attributes, prefix):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
         self.supported_attributes =f5_monitor_attributes['Monitor_Supported_Attributes']
@@ -469,6 +477,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         self.tcp_attr = f5_monitor_attributes['Monitor_tcp_attr']
         self. udp_attr = f5_monitor_attributes['Monitor_udp_attr']
         self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
+        # Added prefix for objects
+        self.prefix = prefix
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key

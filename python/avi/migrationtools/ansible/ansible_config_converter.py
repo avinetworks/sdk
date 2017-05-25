@@ -36,14 +36,16 @@ class AviAnsibleConverter(object):
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     REL_REF_MATCH = re.compile('^/api/.*/?tenant=admin')
 
-    def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None):
+    def __init__(self, avi_cfg, outdir, prefix, skip_types=None,
+                 filter_types=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
+        # Added prefix flag for object
+        self.prefix = prefix
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
-        if skip_types:
-            self.skip_types = (skip_types if type(skip_types) == list
+        self.skip_types = (skip_types if type(skip_types) == list
                                else skip_types.split(','))
         if filter_types:
             self.filter_types = \
@@ -114,6 +116,8 @@ class AviAnsibleConverter(object):
         """
         for obj in objs:
             task = deepcopy(obj)
+            if isinstance(task, str):
+                continue
             for skip_field in self.skip_fields:
                 task.pop(skip_field, None)
             self.transform_obj_refs(task)
@@ -130,15 +134,28 @@ class AviAnsibleConverter(object):
                 })
         return ansible_dict
 
+    def remove_prefix(self, vs_name):
+        """
+        This function used to remove prefix from name
+        :param vs_name: name of virtualservice
+        :return: virtualservice name
+        """
+        prefix = self.prefix + '-'
+        if vs_name.startswith(prefix):
+            return vs_name[len(prefix):]
+        return vs_name
+
     def get_status_vs(self, vs_name, f5server, username, password):
         """
         This function is used for getting status for F5 virtualservice.
         :param vs_name: virtualservice name
+        :param f5server: f5 server
         :param username: f5 username
         :param password: f5 password
-        :param f5server: f5 server
         :return: if enabled tag present.
         """
+        if self.prefix:
+            vs_name = self.remove_prefix(vs_name)
         url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
         status = requests.get(url, verify=False, auth=(username, password))
         status = json.loads(status.content)
@@ -152,7 +169,7 @@ class AviAnsibleConverter(object):
         and user name.
         It adds related parameters for f5 yaml generation.
         :param vs_dict: contains all virtualservice list.
-        :return:
+        :return: None
         """
         f5_dict = deepcopy(vs_dict)
         f5_dict.pop(VIP)
@@ -172,11 +189,14 @@ class AviAnsibleConverter(object):
         This function used to disabled f5 virtualservice.
         :param f5_dict: contains f5 related attributes.
         :param ansible_dict: used for playbook generation.
-        :return:
+        :return: None
         """
         f5_disable = deepcopy(f5_dict)
         f5_disable[STATE] = DISABLE
-        name = "Disable F5 virtualservice: %s" % f5_dict[NAME]
+        # Remove prefix from vs name of big ip.
+        if self.prefix:
+            f5_disable[NAME] = self.remove_prefix(f5_dict[NAME])
+        name = "Disable F5 virtualservice: %s" % f5_disable[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
@@ -190,7 +210,7 @@ class AviAnsibleConverter(object):
         This function is used to enable the avi virtual service.
         :param vs_dict: avi virtualservice related parameters.
         :param ansible_dict: used for playbook generation.
-        :return:
+        :return: None
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = True
@@ -210,7 +230,7 @@ class AviAnsibleConverter(object):
         :param ansible_dict: used for playbook generation.
         :param application_profile: dict used to for request type
         eg: request type : dns, http, https.
-        :return:
+        :return: None
         """
         avi_traffic_dict = dict()
         avi_traffic_dict[REQEST_TYPE] = \
@@ -237,7 +257,7 @@ class AviAnsibleConverter(object):
         This function is used to disable the avi virtual service.
         :param vs_dict: avi virtualservice attributes.
         :param ansible_dict: used for playbook generation.
-        :return:
+        :return: None
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
@@ -255,12 +275,16 @@ class AviAnsibleConverter(object):
         This function is used to enable the f5 virtualservice.
         :param f5_dict: f5 attributes
         :param ansible_dict: used for playbook generation.
-        :return:
+        :return: None
         """
+
         f5_values = deepcopy(f5_dict)
         f5_values[STATE] = ENABLE
         f5_values[WHEN] = RESULT
-        name = "Enable F5 virtualservice: %s" % f5_dict[NAME]
+        # Remove prefix from vs name of big ip.
+        if self.prefix:
+            f5_values[NAME] = self.remove_prefix(f5_dict[NAME])
+        name = "Enable F5 virtualservice: %s" % f5_values[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
@@ -294,7 +318,7 @@ class AviAnsibleConverter(object):
         :param f5server: Instance ip of f5
         :param: f5usename: username of f5server
         :param: f5password: password of f5server
-        :return:
+        :return: None
         """
         for vs in self.avi_cfg['VirtualService']:
             if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
@@ -326,6 +350,10 @@ class AviAnsibleConverter(object):
                                f5password=None):
         """
         Create the ansible playbook based on output json
+        :param f5server:  Ip of f5 server
+        :param f5user: username for f5
+        :param f5password: password for f5
+        :return: None
         """
         ad = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']

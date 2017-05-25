@@ -20,7 +20,7 @@ class ServiceConverter(object):
 
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 profile_merge_check, user_ignore):
+                 profile_merge_check, user_ignore, prefix):
         """
         Construct a new 'ServiceConverter' object.
         :param tenant_name: Name of tenant
@@ -29,6 +29,7 @@ class ServiceConverter(object):
         :param cloud_ref: Cloud Reference
         :param profile_merge_check: Bool value for profile merge
         :param user_ignore: Dict of user ignore attributes
+        :param prefix: prefix for objects
         """
 
         self.nsservice_bind_lb_skipped = \
@@ -64,6 +65,8 @@ class ServiceConverter(object):
         # List of ignore val attributes for add servicegroup netscaler command.
         self.nsservice_server_user_ignore = \
             user_ignore.get('nsservice_server', [])
+        # Added prefix for objects
+        self.prefix = prefix
 
     def convert(self, ns_config, avi_config):
         """
@@ -148,12 +151,16 @@ class ServiceConverter(object):
                             ns_bind_lb_vserver_command, element)
                     service = element['attrs'][1]
                     pool_name = re.sub('[:]', '-', service + '-pool')
+                    # Added prefix for objects
+                    if self.prefix:
+                        pool_name = self.prefix + '-' + pool_name
                     pool = [pool for pool in avi_config['Pool']
                             if pool['name'] == pool_name]
                     if pool:
                         if pool_name in used_pool_ref:
                             pool_name = ns_util.clone_pool(pool_name, group_key,
-                                                           avi_config)
+                                                           avi_config,
+                                                           userprefix=self.prefix)
                         pool[0]['lb_algorithm'] = algo
                         updated_pool_ref = \
                             ns_util.get_object_ref(pool_name, OBJECT_TYPE_POOL,
@@ -185,6 +192,9 @@ class ServiceConverter(object):
 
                 pg_name = group_key + '-poolgroup'
                 pg_name = re.sub('[:]', '-', pg_name)
+                # Added prefix for objects
+                if self.prefix:
+                    pg_name = self.prefix + '-' + pg_name
                 if pg_members:
                     pool_group = {
                         'name': pg_name,
@@ -209,6 +219,9 @@ class ServiceConverter(object):
             ns_set_lb_group_complate_command = \
                 ns_util.get_netscalar_full_command(ns_set_lb_group_command,
                                                    set_lb_group)
+            # Added prefix before object
+            if self.prefix:
+                profile_name = self.prefix + '-' + profile_name
             if persistenceType in self.lbvs_supported_persist_types:
                 application_persistence_profile = \
                     ns_util.convert_persistance_prof(set_lb_group, profile_name,
@@ -249,6 +262,9 @@ class ServiceConverter(object):
                     ns_util.get_netscalar_full_command(ns_bind_lb_group_command,
                                                        bind_lb_group)
                 pool_group_name = bind_lb_group['attrs'][1] + '-poolgroup'
+                # Added prefix for objects
+                if self.prefix:
+                    pool_group_name = self.prefix + '-' + pool_group_name
                 pool_group = [pool_group for pool_group in
                               avi_config['PoolGroup'] if pool_group['name'] ==
                               pool_group_name]
@@ -317,7 +333,9 @@ class ServiceConverter(object):
                                        STATUS_INCOMPLETE_CONFIGURATION)
                 continue
             pool_name = re.sub('[:]', '-', service_name + '-pool')
-
+            # Addded prefix for objects
+            if self.prefix:
+                pool_name = self.prefix + '-' + pool_name
             pool_obj = {
                 'name': pool_name,
                 'servers': [server],
@@ -343,19 +361,27 @@ class ServiceConverter(object):
                             service_conf.get('CA'), OBJECT_TYPE_PKI_PROFILE,
                             self.tenant_name)
                         pool_obj['pki_profile_ref'] = updated_pki_ref
+                    # Added prefix for objects
+                    if self.prefix and service_conf.get('certkeyName', None):
+                        certname = self.prefix + '-' + \
+                                   service_conf.get('certkeyName') + '-dummy'
+                    elif service_conf.get('certkeyName', None):
+                        certname = service_conf.get('certkeyName') + '-dummy'
                     if service_conf.get('certkeyName', None) \
                             and [key_cert for key_cert
                                  in avi_config['SSLKeyAndCertificate']
-                                 if key_cert['name'] == service_conf.get(
-                                    'certkeyName') + '-dummy']:
+                                 if key_cert['name'] == certname]:
                         ssl_key_cert_ref = \
                             ns_util.get_object_ref(
-                                service_conf.get('certkeyName') + '-dummy',
+                                certname,
                                 OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                 self.tenant_name)
                         pool_obj['ssl_key_and_certificate_ref'] = \
                             ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', key)
+                # Added prefix for objects
+                if self.prefix:
+                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
                 if self.profile_merge_check:
                     # Get the merge ssl profile name
                     ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
@@ -418,6 +444,9 @@ class ServiceConverter(object):
                 continue
 
             pool_name = re.sub('[:]', '-', service_group_name + '-pool')
+            # Added prefix for objects
+            if self.prefix:
+                pool_name = self.prefix + '-' + pool_name
             pool_obj = {
                 'name': pool_name,
                 'servers': servers,
@@ -523,6 +552,9 @@ class ServiceConverter(object):
                                                        service)
                 if service and service.get('monitorName', None):
                     monitor_name = service.get('monitorName')
+                    # Added prefix for objects
+                    if self.prefix:
+                        monitor_name = self.prefix + '-' + monitor_name
                     if not [monitor for monitor in avi_config['HealthMonitor']
                             if monitor['name'] == monitor_name]:
                         skipped_status = 'External Monitor : Not supported ' \
@@ -644,6 +676,9 @@ class ServiceConverter(object):
                     ns_bind_service_group_command, server_binding)
             if server_binding.get('monitorName', None):
                 monitor_name = server_binding.get('monitorName')
+                # Added prefix for objects
+                if self.prefix:
+                    monitor_name = self.prefix + '-' + monitor_name
                 monitor = [monitor for monitor in avi_config['HealthMonitor']
                            if monitor['name'] == monitor_name]
                 if monitor:
