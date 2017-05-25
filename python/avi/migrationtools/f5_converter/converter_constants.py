@@ -35,9 +35,13 @@ HR_IN_DAY = 24
 SOURCE_ADDR_TIMEOUT = 180
 MIN_SESSION_TIMEOUT = 60
 MAX_SESSION_TIMEOUT = 1800
-DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain', 'application/pdf', 'text/javascript', 'application/javascript', 'application/x-javascript', 'application/xml', 'text/css']
+DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain',
+                        'application/pdf', 'text/javascript',
+                        'application/javascript', 'application/x-javascript',
+                        'application/xml', 'text/css']
 
-# Status Constants which are used in CSV/report generation of the conversion run.
+# Status Constants which are used in CSV/report generation of the conversion
+# run.
 STATUS_SKIPPED = 'SKIPPED'
 STATUS_SUCCESSFUL = 'SUCCESSFUL'
 STATUS_ERROR = 'ERROR'
