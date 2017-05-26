@@ -4,7 +4,8 @@ import os
 from ConfigParser import ConfigParser
 
 
-def set_output_dir_in_test_config_ini(ini_file, section, output_dir):
+def set_output_dir_in_test_config_ini(ini_file, section, output_dir,
+                                      config_file_name):
     """
     Parse and collapse a ConfigParser-Style ini file into a nested,
     eval'ing the individual values, as they are assumed to be valid
@@ -23,22 +24,13 @@ def set_output_dir_in_test_config_ini(ini_file, section, output_dir):
     except:
         pass
     ini_config.set(section, 'output_dir', output_dir)
+    ini_config.set(section, 'config_file_name', config_file_name)
 
     with open(ini_file, 'w') as configfile:  # save
         ini_config.write(configfile)
 
 
 if __name__ == "__main__":
-    # Run test complete vs configuration test suite
-    os.system(
-        "nosetests netscaler_converter/test/test_complete_vs_configuration.py -s --with-html "
-        "--html-report=netscaler_converter/test/vs_config_output.html")
-
-    # Run test refernces vs test suite
-    os.system(
-        "nosetests netscaler_converter/test/test_vs_references.py -s --with-html "
-        "--html-report=netscaler_converter/test/vs_references_output.html")
-
     # set INI file path
     test_config_ini_path = 'netscaler_converter/test/netscaler_e2e_test_cfg.ini'
 
@@ -66,7 +58,7 @@ if __name__ == "__main__":
     for input in input_files:
         # Set the input file to convert
         input_file = os.path.abspath(input_path + '/' + input)
-
+        input = os.path.splitext(os.path.basename(input))[0]
         # Set the output directory path to be create
         output_dir = os.path.abspath(output_dir_path + '/' + input + '-output')
 
@@ -89,15 +81,15 @@ if __name__ == "__main__":
         os.system(run_script)
 
         # Location path for html log report
-        test_report_location = '%s/log_test_csv_status.html' % output_dir
+        test_report_location = '%s/log_test_csv_status.xml' % output_dir
 
         # Set the output directory location in INI file which will be read by
         # test config
-        set_output_dir_in_test_config_ini(test_config_ini_path,
-                                          'netscaler_test_config', output_dir)
+        set_output_dir_in_test_config_ini(
+            test_config_ini_path, 'netscaler_test_config', output_dir, input)
         # Run test csv status test suite
         os.system("nosetests netscaler_converter/test/test_csv_status.py -s --tc-file=%s "
-                  "--with-html --html-report=%s" % (test_config_ini_path,
+                  "--with-xunit --xunit-file=%s" % (test_config_ini_path,
                                                     test_report_location))
 
     # Get the upload inputs from INI file
@@ -106,14 +98,15 @@ if __name__ == "__main__":
     # Test upload output config on controller
     if upload_inputs:
         for input in upload_inputs.split(','):
+            input = os.path.splitext(os.path.basename(input))[0]
             output_dir = os.path.abspath(output_dir_path + '/' + input + '-output')
             output_dir += '/output'
             set_output_dir_in_test_config_ini(test_config_ini_path, 'upload_config',
-                                              output_dir)
+                                              output_dir, input)
 
-            test_report_location = '%s/log_test_upload.html' % output_dir
+            test_report_location = '%s/log_test_upload.xml' % output_dir
 
             # Run test_upload_output test suite
             os.system("nosetests netscaler_converter/test/test_upload_output_config.py -s --tc-file=%s "
-                      "--with-html --html-report=%s" % (test_config_ini_path,
+                      "--with-xunit --xunit-file=%s" % (test_config_ini_path,
                                                         test_report_location))
