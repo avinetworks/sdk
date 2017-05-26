@@ -18,7 +18,6 @@ class VSConfigConv(object):
         if version in ['11', '12']:
             return VSConfigConvV11(f5_virtualservice_attributes, prefix)
 
-
     def get_persist_ref(self, f5_vs):
         pass
 
@@ -120,7 +119,8 @@ class VSConfigConv(object):
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         # if destination is not present then skip vs.
         services_obj, ip_addr, vsvip_ref = conv_utils.get_service_obj(
-            destination, avi_config, enable_ssl, controller_version, tenant, cloud_name)
+            destination, avi_config, enable_ssl, controller_version, tenant,
+            cloud_name, self.prefix)
 
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
@@ -375,7 +375,6 @@ class VSConfigConv(object):
         return vs_obj
 
 
-    
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
@@ -418,7 +417,6 @@ class VSConfigConvV10(VSConfigConv):
         self.connection_limit = 'limit'
         # Added prefix for objects
         self.prefix = prefix
-
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)

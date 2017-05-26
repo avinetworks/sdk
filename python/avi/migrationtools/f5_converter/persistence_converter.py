@@ -235,8 +235,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = \
             f5_persistence_attributes['Persistence_supported_attr']
-        self.supported_attr_conver = f5_persistence_attributes['Persistence_supported_attr_' \
-                      'convert_source_addr']
+        self.supported_attr_conver = f5_persistence_attributes[
+            'Persistence_supported_attr_convert_source_addr']
         # Added prefix for objects
         self.prefix = prefix
 

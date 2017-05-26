@@ -113,7 +113,7 @@ class NetscalerConverter(AviConverter):
         avi_config = self.process_for_utils(
             avi_config)
         self.write_output(
-            avi_config, output_dir, '%s-Output.json' % report_name, self.prefix)
+            avi_config, output_dir, '%s-Output.json' % report_name)
         if self.option == 'auto-upload':
             self.upload_config_to_controller(
                 avi_config)
@@ -132,13 +132,17 @@ if __name__ == "__main__":
             netscaler_converter.py -f ns.conf --vs_filter cool_vs
 
         Example to download config from Netscalet host and convert to avi config:
-            netscaler_converter.py --ns_host_ip "1.1.1.1" --ns_ssh_user username --ns_ssh_password password
+            netscaler_converter.py --ns_host_ip "1.1.1.1" --ns_ssh_user
+            username --ns_ssh_password password
 
         Example to auto upload to controller after conversion:
-            netscaler_converter.py -f ns.conf -O auto-upload -c 2.2.2.2 -u username -p password -t tenant
+            netscaler_converter.py -f ns.conf -O auto-upload -c 2.2.2.2 -u
+            username -p password -t tenant
 
-        Example to provide passpharse of encrypted certs and certkey file location
-            netscaler_converter.py -f ns.conf -l /home/certs/ --ns_passphrase_file passphrase.yaml
+        Example to provide passpharse of encrypted certs and certkey file
+        location
+            netscaler_converter.py -f ns.conf -l /home/certs/
+            --ns_passphrase_file passphrase.yaml
             passphrase.yaml file contains
             <file_name>:<passphrase>
             <file_name2>:<passphrase2>
@@ -161,8 +165,8 @@ if __name__ == "__main__":
                         help='Folder path for output files to be created in')
     parser.add_argument('-O', '--option',
                         choices=['cli-upload', 'auto-upload'],
-                        help='Upload option cli-upload genarates Avi config ' +
-                             'file auto upload will upload config to ' +
+                        help='Upload option cli-upload genarates Avi config '
+                             'file auto upload will upload config to '
                              'controller', default='cli-upload')
     parser.add_argument('-u', '--user',
                         help='controller username for auto upload',
@@ -186,10 +190,10 @@ if __name__ == "__main__":
                         help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
     parser.add_argument('--ns_ssh_password',
-                        help='Netscaler host ssh password if password based ' +
+                        help='Netscaler host ssh password if password based '
                              'authentication')
     parser.add_argument('--ns_key_file',
-                        help='Netscaler host key file location if key based ' +
+                        help='Netscaler host key file location if key based '
                              'authentication')
     parser.add_argument('--ns_passphrase_file',
                         help='Netscaler key passphrase yaml file')

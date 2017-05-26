@@ -2,8 +2,10 @@ import logging
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 
-from avi.migrationtools.f5_converter.monitor_converter import MonitorConfigConv
-from avi.migrationtools.f5_converter.persistence_converter import PersistenceConfigConv
+from avi.migrationtools.f5_converter.monitor_converter \
+    import MonitorConfigConv
+from avi.migrationtools.f5_converter.persistence_converter \
+    import PersistenceConfigConv
 from avi.migrationtools.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
@@ -38,7 +40,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     try:
         # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
-        mon_conv = MonitorConfigConv.get_instance(version, f5_attributes, prefix)
+        mon_conv = MonitorConfigConv.get_instance(
+            version, f5_attributes, prefix)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                          tenant)
 
@@ -46,14 +49,13 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                           cloud_name)
 
-        profile_conv = ProfileConfigConv.get_instance(version, f5_attributes,
-                                                      ssl_profile_merge_check,
-                                                      prefix)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
-                             tenant, cloud_name)
+        profile_conv = ProfileConfigConv.get_instance(
+            version, f5_attributes, ssl_profile_merge_check, prefix)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir,
+                             user_ignore, tenant, cloud_name)
 
-        persist_conv = PersistenceConfigConv.get_instance(version, f5_attributes,
-                                                          prefix)
+        persist_conv = PersistenceConfigConv.get_instance(
+            version, f5_attributes, prefix)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix)
