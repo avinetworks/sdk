@@ -36,11 +36,12 @@ def setUp():
     global aviconfig
     LOG.setLevel(logging.DEBUG)
     output_dir = config['netscaler_test_config']['output_dir']
-    xlsx_file = '%s/ConversionStatus.xlsx' % output_dir
-    output_file = open('%s/Output.json' % output_dir, 'r')
+    config_file_name = config['netscaler_test_config']['config_file_name']
+    xlsx_file = '%s/%s-ConversionStatus.xlsx' % (output_dir, config_file_name)
+    output_file = open('%s/%s-Output.json' % (output_dir, config_file_name), 'r')
     csv_path = '%s/ConversionStatus.csv' % output_dir
     Excel2CSV(xlsx_file, "Status Sheet", csv_path)
-    csv_file = open('%s/ConversionStatus.csv' % output_dir, 'r')
+    csv_file = open(csv_path, 'r')
     csv_reader = csv.DictReader(csv_file, )
     output_data = output_file.read()
     aviconfig = json.loads(output_data)
