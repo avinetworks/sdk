@@ -14,7 +14,6 @@ from OpenSSL import crypto
 from socket import gethostname
 from pkg_resources import parse_version
 
-
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
 tenants = []
@@ -256,6 +255,7 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
         obj_list.append(obj)
         converted_objs.append({obj_type: obj})
 
+
 def get_content_string_group(name, content_types, tenant):
     """
     Creates Avi String group object
@@ -264,7 +264,7 @@ def get_content_string_group(name, content_types, tenant):
     :param tenant: tenant name to add tenant reference
     :return:
     """
-    sg_obj = {"name": name+"-content_type", "type": "SG_TYPE_STRING"}
+    sg_obj = {"name": name + "-content_type", "type": "SG_TYPE_STRING"}
     kv = []
     for content_type in content_types:
         if content_type is None:
@@ -304,13 +304,13 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
         if ssl_profiles:
             ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
             key_cert = [obj for obj in ssl_key_cert_list if
-                        (obj['name'] == name or obj['name'] == name+'-dummy'
+                        (obj['name'] == name or obj['name'] == name + '-dummy'
                          or name in obj.get("dup_of", []))]
             # key_cert = key_cert[0]['name'] if key_cert else None
             if key_cert:
-               key_cert = get_object_ref(
-                   key_cert[0]['name'], 'sslkeyandcertificate',
-                   tenant=get_name_from_ref(key_cert[0]['tenant_ref']))
+                key_cert = get_object_ref(
+                    key_cert[0]['name'], 'sslkeyandcertificate',
+                    tenant=get_name_from_ref(key_cert[0]['tenant_ref']))
             profile = profiles.get(key, None)
             context = profile.get("context", None)
             if (not context) and isinstance(profile, dict):
@@ -382,7 +382,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
                 policy_name = app_profiles[0].pop('HTTPPolicySet')
                 policy_set_list = avi_config.get('HTTPPolicySet', [])
                 policy_set_obj = [p for p in policy_set_list if
-                                   p['name'] == policy_name]
+                                  p['name'] == policy_name]
                 policy_set.append(
                     {
                         "index": 12,
@@ -413,7 +413,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
         tenant = get_name_from_ref(default_app_profile[0]['tenant_ref'])
         app_profile_refs.append(get_object_ref("http", 'applicationprofile',
                                                tenant=tenant, prefix=prefix))
-    return app_profile_refs, f_host, realm,  policy_set
+    return app_profile_refs, f_host, realm, policy_set
 
 
 def get_vs_ntwk_profiles(profiles, avi_config, prefix):
@@ -462,8 +462,8 @@ def update_service(port, vs, enable_ssl):
         if port_end and (service['port'] <= int(port) <= port_end):
             if port not in [conv_const.PORT_START, conv_const.PORT_END]:
                 new_end = service['port_range_end']
-                service['port_range_end'] = int(port)-1
-                new_service = {'port': int(port)+1,
+                service['port_range_end'] = int(port) - 1
+                new_service = {'port': int(port) + 1,
                                'port_range_end': new_end,
                                'enable_ssl': enable_ssl}
                 vs['services'].append(new_service)
@@ -477,7 +477,7 @@ def update_service(port, vs, enable_ssl):
 
 
 def get_service_obj(destination, avi_config, enable_ssl, controller_version,
-                    tenant_name, cloud_name):
+                    tenant_name, cloud_name, prefix):
     """
     Checks port overlapping scenario for port value 0 in F5 config
     :param destination: IP and Port destination of VS
@@ -488,7 +488,7 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     :param cloud_name: Name of cloud
     :return: services_obj, ip_addr of vs and ref of vsvip
     """
-    
+
     parts = destination.split(':')
     ip_addr = parts[0]
     ip_addr = ip_addr.strip()
@@ -503,11 +503,13 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     # Get the list of vs which shared the same vip
     if parse_version(controller_version) >= parse_version('17.1'):
         vs_dup_ips = \
-            [vs for vs in avi_config['VirtualService'] if vs['vip'][0]['ip_address']['addr'] ==
+            [vs for vs in avi_config['VirtualService'] if
+             vs['vip'][0]['ip_address']['addr'] ==
              ip_addr]
     else:
         vs_dup_ips = \
-            [vs for vs in avi_config['VirtualService'] if vs['ip_address']['addr'] == ip_addr]
+            [vs for vs in avi_config['VirtualService'] if
+             vs['ip_address']['addr'] == ip_addr]
 
     if port == 'any':
         port = 0
@@ -535,21 +537,22 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
                 if start == used_ports[i]:
                     start += 1
                     continue
-                end = int(used_ports[i])-1
+                end = int(used_ports[i]) - 1
                 services_obj.append({'port': start,
                                      'port_range_end': end,
                                      'enable_ssl': enable_ssl})
-                start = int(used_ports[i])+1
+                start = int(used_ports[i]) + 1
         else:
             services_obj = [{'port': 1, 'port_range_end': conv_const.PORT_END,
                              'enable_ssl': enable_ssl}]
 
     updated_vsvip_ref = None
     if parse_version(controller_version) >= parse_version('17.1'):
-        create_update_vsvip(ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'), get_object_ref(
-                cloud_name, 'cloud', tenant=tenant_name))
+        create_update_vsvip(
+            ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'),
+            get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix)
         updated_vsvip_ref = get_object_ref(
-            ip_addr + '-vsvip', 'vsvip', tenant_name, cloud_name)
+            ip_addr + '-vsvip', 'vsvip', tenant_name, cloud_name, prefix)
     return services_obj, ip_addr, updated_vsvip_ref
 
 
@@ -570,7 +573,7 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
             new_pool = copy.deepcopy(pool)
             break
     if new_pool:
-        new_pool["name"] = pool_name+"-"+vs_name
+        new_pool["name"] = pool_name + "-" + vs_name
         if tenant:
             new_pool["tenant_ref"] = get_object_ref(tenant, 'tenant')
         # removing config added from VS config to pool
@@ -655,7 +658,7 @@ def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant='admin'):
 
 def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool, tenant_ref):
     pool_group = [obj for obj in avi_config['PoolGroup']
-                          if obj['name'] == pool_group_ref]
+                  if obj['name'] == pool_group_ref]
     if pool_group:
         pool_group = pool_group[0]
         for member in pool_group['members']:
@@ -701,7 +704,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
-                            hash_profiles, persist_config, tenant):
+                                  hash_profiles, persist_config, tenant):
     pool_group_updated = True
     pool_group = [obj for obj in avi_config['PoolGroup']
                   if obj['name'] == pool_ref]
@@ -717,7 +720,6 @@ def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
     return pool_group_updated
 
 
-
 def update_pool_for_fallback(host, avi_pool_list, pool_ref):
     """
     Update pool for fallback host config
@@ -730,11 +732,11 @@ def update_pool_for_fallback(host, avi_pool_list, pool_ref):
         pool_obj = pool_obj[0]
         fail_action = {
             "redirect":
-            {
-              "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
-              "host": host,
-              "protocol": "HTTPS"
-            },
+                {
+                    "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
+                    "host": host,
+                    "protocol": "HTTPS"
+                },
             "type": "FAIL_ACTION_HTTP_REDIRECT"
         }
         pool_obj["fail_action"] = fail_action
@@ -750,15 +752,15 @@ def get_snat_list_for_vs(snat_pool):
     members = snat_pool.get("members")
     ips = []
     if isinstance(members, dict):
-        ips = members.keys()+members.values()
+        ips = members.keys() + members.values()
     elif isinstance(members, str):
         ips = [members]
     if None in ips:
         ips.remove(None)
     for ip in ips:
         snat_obj = {
-          "type": "V4",
-          "addr": ip
+            "type": "V4",
+            "addr": ip
         }
         snat_list.append(snat_obj)
     return snat_list
@@ -820,34 +822,35 @@ def create_network_security_rule(name, ip, mask, tenant):
     if '%' in ip:
         ip = ip.split('%')[0]
     rule = {
-      "name": name,
-      "tenant_ref": get_object_ref(tenant, 'tenant'),
-      "rules": [
-        {
-          "index": 1,
-          "enable": True,
-          "name": "Rule 1",
-          "age": 0,
-          "action": "NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY",
-          "match": {
-            "client_ip": {
-              "prefixes": [
-                {
-                  "ip_addr": {
-                    "type": "V4",
-                    "addr": ip
-                  },
-                  "mask": mask
-                }
-              ],
-              "match_criteria": "IS_NOT_IN"
+        "name": name,
+        "tenant_ref": get_object_ref(tenant, 'tenant'),
+        "rules": [
+            {
+                "index": 1,
+                "enable": True,
+                "name": "Rule 1",
+                "age": 0,
+                "action": "NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY",
+                "match": {
+                    "client_ip": {
+                        "prefixes": [
+                            {
+                                "ip_addr": {
+                                    "type": "V4",
+                                    "addr": ip
+                                },
+                                "mask": mask
+                            }
+                        ],
+                        "match_criteria": "IS_NOT_IN"
+                    }
+                },
+                "log": False
             }
-          },
-          "log": False
-        }
-      ]
+        ]
     }
     return rule
+
 
 def add_vrf(avi_config, vrf):
     vrf_name = 'vrf-%s' % vrf
@@ -976,14 +979,14 @@ def clone_pool_group(pool_group_name, vs_name, avi_config, tenant='admin',
             new_pool_group = copy.deepcopy(pool_group)
             break
     if new_pool_group:
-        new_pool_group["name"] = pool_group_name+"-"+vs_name
+        new_pool_group["name"] = pool_group_name + "-" + vs_name
         pg_ref = new_pool_group["name"]
         new_pool_group["tenant_ref"] = get_object_ref(tenant, 'tenant')
         avi_config['PoolGroup'].append(new_pool_group)
         for member in new_pool_group['members']:
             pool_name = get_name_from_ref(member['pool_ref'])
-            pool_name = clone_pool(pool_name, vs_name, avi_config['Pool'],
-                                   tenant)
+            pool_name = clone_pool(
+                pool_name, vs_name, avi_config['Pool'], tenant)
             member['pool_ref'] = get_object_ref(
                 pool_name, 'pool', tenant=tenant, cloud_name=cloud_name)
     return pg_ref
@@ -995,7 +998,6 @@ def get_name_from_ref(url):
 
 
 def create_self_signed_cert():
-
     # create a key pair
     key = crypto.PKey()
     key.generate_key(crypto.TYPE_RSA, 2048)
@@ -1044,8 +1046,8 @@ def get_object_ref(object_name, object_type, tenant='admin',
     elif object_type == 'cloud':
         ref = '/api/cloud/?tenant=admin&name=%s' % object_name
     elif object_type in cloud_supported_types:
-        ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (object_type, tenant,
-                                                       object_name, cloud_name)
+        ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (
+            object_type, tenant, object_name, cloud_name)
     else:
         ref = '/api/%s/?tenant=%s&name=%s' % (object_type, tenant, object_name)
     # if cloud_name:
@@ -1132,7 +1134,7 @@ def format_string_to_json(avi_string):
     avi_string = avi_string.split('__/__')[0]
     avi_string = re.sub(r"\"(.)+\"", "''", avi_string)
     repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
-            ("None", "null"),('u"','"')
+            ("None", "null"), ('u"', '"')
     avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
     try:
         return json.loads(avi_string)
@@ -1171,9 +1173,8 @@ def get_and_update_csv_row(csv_object, vs_ref):
     else:
         csv_object['VS Reference'] = vs_ref
     repls = ('[', ''), (']', '')
-    skipped_setting_csv = reduce(lambda a, kv: a.replace(*kv),
-                                 repls,
-                                 csv_object['Skipped settings'])
+    skipped_setting_csv = reduce(
+        lambda a, kv: a.replace(*kv), repls, csv_object['Skipped settings'])
     if skipped_setting_csv:
         return [skipped_setting_csv]
 
@@ -1221,9 +1222,8 @@ def get_ssl_profile_skipped(profile_csv_list, ssl_profile_ref, vs_ref):
     """
 
     ssl_profile_name = get_name(ssl_profile_ref)
-    skipped_list = \
-        get_csv_skipped_list(profile_csv_list, ssl_profile_name, vs_ref,
-                             field_key='ssl_profile')
+    skipped_list = get_csv_skipped_list(
+        profile_csv_list, ssl_profile_name, vs_ref, field_key='ssl_profile')
     return ssl_profile_name, skipped_list
 
 
@@ -1282,12 +1282,12 @@ def get_app_persistence_profile_skipped(csv_writer_dict_list, pool_object,
     :return: profile name and skipped attribute list
     """
 
-    app_persistence_profile_name = \
-        get_name(pool_object['application_persistence_profile_ref'])
-    csv_object = \
-        get_csv_object_list(csv_writer_dict_list, ['persistence'])
-    skipped_list = \
-        get_csv_skipped_list(csv_object, app_persistence_profile_name, vs_ref)
+    app_persistence_profile_name = get_name(
+        pool_object['application_persistence_profile_ref'])
+    csv_object = get_csv_object_list(
+        csv_writer_dict_list, ['persistence'])
+    skipped_list = get_csv_skipped_list(
+        csv_object, app_persistence_profile_name, vs_ref)
     return app_persistence_profile_name, skipped_list
 
 
@@ -1343,8 +1343,8 @@ def get_pool_skipped_list(avi_config, pool_group_name, csv_pool_rows,
             health_monitor_skipped_setting = []
             for health_monitor_ref in pool_object[0]['health_monitor_refs']:
                 health_monitor_ref = get_name(health_monitor_ref)
-                monitor_csv_object = \
-                    get_csv_object_list(csv_writer_dict_list, ['monitor'])
+                monitor_csv_object = get_csv_object_list(
+                    csv_writer_dict_list, ['monitor'])
                 skipped_list = get_csv_skipped_list(
                     monitor_csv_object, health_monitor_ref, vs_ref)
                 if skipped_list:
@@ -1357,8 +1357,8 @@ def get_pool_skipped_list(avi_config, pool_group_name, csv_pool_rows,
                     health_monitor_skipped_setting
         if 'ssl_key_and_certificate_ref' in pool_object[0] and \
                 pool_object[0]['ssl_key_and_certificate_ref']:
-            ssl_key_cert = \
-                get_name(pool_object[0]['ssl_key_and_certificate_ref'])
+            ssl_key_cert = get_name(
+                pool_object[0]['ssl_key_and_certificate_ref'])
             get_csv_skipped_list(profile_csv_list, ssl_key_cert, vs_ref,
                                  field_key='key_cert')
         if 'ssl_profile_ref' in pool_object[0] and \
@@ -1373,8 +1373,8 @@ def get_pool_skipped_list(avi_config, pool_group_name, csv_pool_rows,
 
         if 'application_persistence_profile_ref' in pool_object[0] and \
                 pool_object[0]['application_persistence_profile_ref']:
-            name, skipped = get_app_persistence_profile_skipped\
-                                (csv_writer_dict_list, pool_object[0], vs_ref)
+            name, skipped = get_app_persistence_profile_skipped(
+                csv_writer_dict_list, pool_object[0], vs_ref)
             if skipped:
                 pool_skipped_setting['pool_name'] = pool_name
                 pool_skipped_setting['Application Persistence profile'] = {}
@@ -1400,9 +1400,9 @@ def vs_per_skipped_setting_for_references(avi_config):
     fully_migrated = 0
     # Get the VS object list which is having status successful and partial.
     vs_csv_objects = [row for row in csv_writer_dict_list
-                     if row['Status'] in [conv_const.STATUS_PARTIAL,
-                                          conv_const.STATUS_SUCCESSFUL]
-                     and row['F5 type'] == 'virtual']
+                      if row['Status'] in [conv_const.STATUS_PARTIAL,
+                                           conv_const.STATUS_SUCCESSFUL]
+                      and row['F5 type'] == 'virtual']
     # Get the list of csv rows which has profile as F5 Type
     profile_csv_list = get_csv_object_list(
         csv_writer_dict_list, ['profile'])
@@ -1438,9 +1438,9 @@ def vs_per_skipped_setting_for_references(avi_config):
         if 'pool_group_ref' in virtual_service:
             pool_group_name = get_name(virtual_service['pool_group_ref'])
             csv_pool_rows = get_csv_object_list(csv_writer_dict_list, ['pool'])
-            pool_group_skipped_settings = get_pool_skipped_list \
-                (avi_config, pool_group_name,
-                 csv_pool_rows, csv_writer_dict_list, vs_ref, profile_csv_list)
+            pool_group_skipped_settings = get_pool_skipped_list(
+                avi_config, pool_group_name, csv_pool_rows,
+                csv_writer_dict_list, vs_ref, profile_csv_list)
             if pool_group_skipped_settings:
                 skipped_setting['Pool Group'] = pool_group_skipped_settings
         # Get the skipepd list for http policy.
@@ -1462,17 +1462,16 @@ def vs_per_skipped_setting_for_references(avi_config):
                                     'rules']:
                             if http_req.get('switching_action'):
                                 pool_group_name = \
-                                get_name(http_req['switching_action']
-                                         ['pool_group_ref'])
+                                    get_name(http_req['switching_action']
+                                             ['pool_group_ref'])
                                 pool_group_skipped_settings = \
                                     get_pool_skipped_list(
                                         avi_config, pool_group_name,
                                         pool_csv_rows, csv_writer_dict_list,
                                         vs_ref, profile_csv_list)
                                 if pool_group_skipped_settings:
-                                    skipped_setting['Httppolicy']['Pool Group']\
+                                    skipped_setting['Httppolicy']['Pool Group'] \
                                         = pool_group_skipped_settings
-
 
         # # Get the skipped list for application_profile_ref.
         if 'application_profile_ref' in virtual_service and 'admin:System' \
@@ -1539,7 +1538,7 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
         vs_csv_row['Complexity Level'] = conv_const.COMPLEXITY_BASIC
 
 
-def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
     """
     This functions defines that create or update VSVIP object.
     :param vip: vip of VS
@@ -1549,13 +1548,17 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref):
     :return: None
     """
 
+    name = vip + '-vsvip'
+    # Added prefix for objects
+    if prefix:
+        name = '%s-%s' % (prefix, name)
     # Get the exsting vsvip object list if present
     vsvip = [vip_obj for vip_obj in vsvip_config
-             if vip_obj['name'] == vip + '-vsvip']
+             if vip_obj['name'] == name]
     # If VSVIP object not present then create new VSVIP object.
     if not vsvip:
         vsvip_object = {
-            "name": vip + '-vsvip',
+            "name": name,
             "tenant_ref": tenant_ref,
             "cloud_ref": cloud_ref,
             "vip": [

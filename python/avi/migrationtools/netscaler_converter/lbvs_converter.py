@@ -99,9 +99,9 @@ class LbvsConverter(object):
                     skipped_status = 'Skipped:Unsupported type %s of LB VS: ' \
                                      '%s' % (type, key)
                     LOG.warning(skipped_status)
-                    ns_util.add_status_row(lb_vs['line_no'], cmd, key,
-                                           full_cmd, STATUS_SKIPPED,
-                                           skipped_status)
+                    ns_util.add_status_row(
+                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
+                        skipped_status)
                     continue
                 enable_ssl = False
                 if type in ['SSL', 'SSL_BRIDGE', 'SSL_TCP']:
@@ -148,9 +148,9 @@ class LbvsConverter(object):
                 if re.findall(ns_constants.IPV6_Address, ip_addr):
                     skipped_status = "Skipped:IPV6 not Supported %s" %full_cmd
                     LOG.warning(skipped_status)
-                    ns_util.add_status_row(lb_vs['line_no'], cmd, key,
-                                           full_cmd, STATUS_SKIPPED,
-                                           skipped_status)
+                    ns_util.add_status_row(
+                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
+                        skipped_status)
                     continue
 
                 # VIP object for virtual service
@@ -186,25 +186,21 @@ class LbvsConverter(object):
 
                 if bind_conf_list:
                     # Convert netscalar policy to AVI http policy set
-                    policy = policy_converter.convert(bind_conf_list, ns_config,
-                                                      avi_config, [],
-                                                      redirect_pools,
-                                                      'bind lb vserver', True)
+                    policy = policy_converter.convert(
+                        bind_conf_list, ns_config, avi_config, [],
+                        redirect_pools, 'bind lb vserver', True)
                 # TODO move duplicate code for adding policy to vs in ns_util
                 # Convert netscalar policy to AVI http policy set
                 if policy:
                     if policy['name'] in tmp_policy_ref:
-                        policy = ns_util.clone_http_policy_set(policy,
-                                                               updated_vs_name,
-                                                               avi_config,
-                                                               self.tenant_name,
-                                                               self.cloud_name,
-                                                               userprefix=self.prefix)
+                        policy = ns_util.clone_http_policy_set(
+                            policy, updated_vs_name, avi_config,
+                            self.tenant_name, self.cloud_name,
+                            userprefix=self.prefix)
                     tmp_policy_ref.append(policy['name'])
-                    updated_http_policy_ref = \
-                        ns_util.get_object_ref(policy['name'],
-                                               OBJECT_TYPE_HTTP_POLICY_SET,
-                                               self.tenant_name)
+                    updated_http_policy_ref = ns_util.get_object_ref(
+                        policy['name'], OBJECT_TYPE_HTTP_POLICY_SET,
+                        self.tenant_name)
                     http_policies = {
                         'index': 11,
                         'http_policy_set_ref': updated_http_policy_ref
@@ -244,12 +240,10 @@ class LbvsConverter(object):
                     # clone the pool group if it is referenced to other
                     # VS ot http policy set
                     if pool_group_ref in used_pool_group_ref:
-                        pool_group_ref = \
-                            ns_util.clone_pool_group(pool_group_ref, vs_name,
-                                                     avi_config,
-                                                     self.tenant_name,
-                                                     self.cloud_name,
-                                                     userprefix=self.prefix)
+                        pool_group_ref = ns_util.clone_pool_group(
+                            pool_group_ref, vs_name, avi_config,
+                            self.tenant_name, self.cloud_name,
+                            userprefix=self.prefix)
                     pool_group_ref = re.sub('[:]', '-', pool_group_ref)
                     used_pool_group_ref.append(pool_group_ref)
                     updated_pool_group = [pg for pg in
@@ -257,11 +251,9 @@ class LbvsConverter(object):
                                                          [])
                                           if pg['name'] == pool_group_ref]
 
-                    vs_obj['pool_group_ref'] = \
-                        ns_util.get_object_ref(pool_group_ref,
-                                               OBJECT_TYPE_POOL_GROUP,
-                                               self.tenant_name,
-                                               self.cloud_name)
+                    vs_obj['pool_group_ref'] = ns_util.get_object_ref(
+                        pool_group_ref, OBJECT_TYPE_POOL_GROUP,
+                        self.tenant_name, self.cloud_name)
                     pool_group = updated_pool_group[0]
 
                 backup_server = lb_vs.get('backupVServer', None)
@@ -318,11 +310,9 @@ class LbvsConverter(object):
                                     ns_util.clone_pool(backup_pool_ref, index,
                                                        avi_config,
                                                        userprefix=self.prefix)
-                                new_backup_pool_ref = \
-                                    ns_util.get_object_ref(new_backup_pool_ref,
-                                                           OBJECT_TYPE_POOL,
-                                                           self.tenant_name,
-                                                           self.cloud_name)
+                                new_backup_pool_ref = ns_util.get_object_ref(
+                                    new_backup_pool_ref, OBJECT_TYPE_POOL,
+                                    self.tenant_name, self.cloud_name)
                                 backup_pool = {
                                     'type': 'FAIL_ACTION_BACKUP_POOL',
                                     'backup_pool': {
@@ -452,10 +442,9 @@ class LbvsConverter(object):
                             if [pki_profile for pki_profile in
                                 avi_config["PKIProfile"] if
                                 pki_profile['name'] == pki_ref]:
-                                pki_ref = \
-                                    ns_util.get_object_ref(
-                                        pki_ref, OBJECT_TYPE_PKI_PROFILE,
-                                        self.tenant_name)
+                                pki_ref = ns_util.get_object_ref(
+                                    pki_ref, OBJECT_TYPE_PKI_PROFILE,
+                                    self.tenant_name)
                                 app_profile_with_pki_profile = \
                                     ns_util.update_application_profile(
                                         http_prof, pki_ref, self.tenant_ref,
@@ -477,21 +466,19 @@ class LbvsConverter(object):
                             if [obj for obj in
                                 avi_config['SSLKeyAndCertificate']
                                 if obj['name'] == mapping['certkeyName']]:
-                                updated_ssl_ref = \
-                                    ns_util.get_object_ref(
-                                        mapping['certkeyName'],
-                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                        self.tenant_name)
+                                updated_ssl_ref = ns_util.get_object_ref(
+                                    mapping['certkeyName'],
+                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                    self.tenant_name)
                                 vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                             elif [obj for obj in
                                   avi_config['SSLKeyAndCertificate']
                                   if obj['name'] == mapping['certkeyName'] +
                                         '-dummy']:
-                                updated_ssl_ref = \
-                                    ns_util.get_object_ref(
-                                        mapping['certkeyName'] + '-dummy',
-                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                        self.tenant_name)
+                                updated_ssl_ref = ns_util.get_object_ref(
+                                    mapping['certkeyName'] + '-dummy',
+                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                    self.tenant_name)
                                 vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                             else:
                                 LOG.warning(
@@ -516,10 +503,9 @@ class LbvsConverter(object):
                     if mapping and [ssl_profile for ssl_profile in
                                     avi_config["SSLProfile"] if
                                     ssl_profile['name'] == ssl_profile_name]:
-                        updated_ssl_profile_ref = \
-                            ns_util.get_object_ref(ssl_profile_name,
-                                                   OBJECT_TYPE_SSL_PROFILE,
-                                                   self.tenant_name)
+                        updated_ssl_profile_ref = ns_util.get_object_ref(
+                            ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
+                            self.tenant_name)
                         vs_obj['ssl_profile_name'] = updated_ssl_profile_ref
                         LOG.debug('Added: %s SSL profile %s' % (key, key))
 

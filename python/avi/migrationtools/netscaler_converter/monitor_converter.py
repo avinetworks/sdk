@@ -66,15 +66,15 @@ class MonitorConverter(object):
             ns_monitor_type = ns_monitor['attrs'][1]
             if ns_monitor_type not in supported_types:
                 # Skipped health monitor if type is not supported
-                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command,
-                                       name, ns_monitor_complete_command,
-                                       STATUS_EXTERNAL_MONITOR)
+                ns_util.add_status_row(
+                    ns_monitor['line_no'], netscalar_command,
+                    name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR)
                 LOG.warning('Monitor type %s not supported skipped:%s' %
                          (ns_monitor_type, name))
                 continue
-            avi_monitor = self.convert_monitor(ns_monitor, input_dir,
-                                               netscalar_command,
-                                               ns_monitor_complete_command)
+            avi_monitor = self.convert_monitor(
+                 ns_monitor, input_dir, netscalar_command,
+                ns_monitor_complete_command)
             if not avi_monitor:
                 continue
             # Add summery of this lb vs in CSV/report
@@ -83,9 +83,9 @@ class MonitorConverter(object):
                 self.monitor_indirect_list,
                 ignore_for_val=self.monitor_ignore_vals,
                 user_ignore_val=self.user_ignore)
-            ns_util.add_conv_status(ns_monitor['line_no'], netscalar_command,
-                                    name, ns_monitor_complete_command,
-                                    conv_status, avi_monitor)
+            ns_util.add_conv_status(
+                ns_monitor['line_no'], netscalar_command, name,
+                ns_monitor_complete_command, conv_status, avi_monitor)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 
@@ -156,17 +156,16 @@ class MonitorConverter(object):
                 avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
                 file_name = ns_monitor.get('scriptName')
                 cmd_code = ns_util.upload_file(
-                    'test/certs' + os.path.sep + file_name)
+                    input_dir + os.path.sep + file_name)
                 if not cmd_code:
                     skipped_status = 'File not found %s : %s' % \
-                                     ('test/certs' + os.path.sep + file_name,
+                                     (input_dir + os.path.sep + file_name,
                                       ns_monitor_complete_command)
                     LOG.warning(skipped_status)
-                    ns_util.add_status_row(ns_monitor['line_no'],
-                                           netscalar_command,
-                                           avi_monitor["name"],
-                                           ns_monitor_complete_command,
-                                           STATUS_MISSING_FILE, skipped_status)
+                    ns_util.add_status_row(
+                        ns_monitor['line_no'], netscalar_command,
+                        avi_monitor["name"], ns_monitor_complete_command,
+                        STATUS_MISSING_FILE, skipped_status)
                     return None
                 ext_monitor = {
                     "command_code": cmd_code,

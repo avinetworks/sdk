@@ -54,39 +54,59 @@ class PoolConfigConv(object):
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name,
                                           conv_const.STATUS_ERROR)
-                
+            # labels_dict = avi_config.pop('PriorityLabels', None)
+            # if labels_dict:
+            #     for tenant in labels_dict:
+            #         labels = labels_dict[tenant]
+            #         if not tenant_ref == 'admin':
+            #             tenant = tenant_ref
+            #         labels = list(set(labels))
+            #         labels = map(int, labels)
+            #         labels.sort(reverse=True)
+            #         labels = map(str, labels)
+            #         priority_labels = {
+            #             "name": "numeric_priority_labels",
+            #             "equivalent_labels": [
+            #                 {
+            #                     "labels": labels
+            #                 }
+            #             ],
+            #             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
+            #         }
+            #         avi_config['PriorityLabels'] = [priority_labels]
+
         avi_config['Pool'] = pool_list
         LOG.debug("Converted %s pools" % len(pool_list))
         f5_config.pop('pool', {})
 
     def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name,
                          tenant_ref):
-            skipped_monitors = []
-            monitors = monitor_names.split(" ")
-            monitor_refs = []
-            garbage_val = ["and", "all", "min", "of", "{", "}", "none"]
-            for monitor in monitors:
-                monitor = monitor.strip()
-                if not monitor or monitor in garbage_val or \
-                        monitor.isdigit():
-                    continue
-                if self.prefix:
-                    monitor = '%s-%s' % (self.prefix, monitor)
+        skipped_monitors = []
+        monitors = monitor_names.split(" ")
+        monitor_refs = []
+        garbage_val = ["and", "all", "min", "of", "{", "}", "none"]
+        for monitor in monitors:
+            monitor = monitor.strip()
+            if not monitor or monitor in garbage_val or \
+                    monitor.isdigit():
+                continue
+            if self.prefix:
+                monitor = '%s-%s' % (self.prefix, monitor)
 
-                tenant, monitor = conv_utils.get_tenant_ref(monitor)
-                monitor_obj = [obj for obj in monitor_config_list
-                               if obj["name"] == monitor]
-                if monitor_obj:
-                    tenant = conv_utils.get_name_from_ref(
-                        monitor_obj[0]['tenant_ref'])
-                    monitor_refs.append(conv_utils.get_object_ref(
-                        monitor_obj[0]['name'], 'healthmonitor',
-                        tenant=tenant))
-                else:
-                    LOG.warning("Monitor not found: %s for pool %s" %
-                                (monitor, pool_name))
-                    skipped_monitors.append(monitor)
-            return skipped_monitors, monitor_refs
+            tenant, monitor = conv_utils.get_tenant_ref(monitor)
+            monitor_obj = [obj for obj in monitor_config_list
+                           if obj["name"] == monitor]
+            if monitor_obj:
+                tenant = conv_utils.get_name_from_ref(
+                    monitor_obj[0]['tenant_ref'])
+                monitor_refs.append(conv_utils.get_object_ref(
+                    monitor_obj[0]['name'], 'healthmonitor',
+                    tenant=tenant))
+            else:
+                LOG.warning("Monitor not found: %s for pool %s" %
+                            (monitor, pool_name))
+                skipped_monitors.append(monitor)
+        return skipped_monitors, monitor_refs
 
     def create_pool_object(self, name, desc, servers, pd_action, algo,
                            ramp_time, limits, tenant_ref, cloud_ref):
@@ -272,7 +292,7 @@ class PoolConfigConvV11(PoolConfigConv):
                 },
                 "num_retries": num_retries,
                 "enabled": True
-              }
+            }
             pool_obj['server_reselect'] = server_reselect
         monitor_names = f5_pool.get("monitor", None)
         skipped_monitors = []
@@ -366,7 +386,8 @@ class PoolConfigConvV11(PoolConfigConv):
             priority = server.get('priority-group', None)
 
             ip_addr = ip_addr.strip()
-            matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
+            matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$',
+                                 ip_addr)
             if not matches:
                 LOG.warning('Avi does not support IPv6. Replace 1.1.1.1 '
                             'ipv4 for : %s' % ip_addr)
@@ -455,7 +476,7 @@ class PoolConfigConvV10(PoolConfigConv):
                 },
                 "num_retries": num_retries,
                 "enabled": True
-              }
+            }
             pool_obj['server_reselect'] = server_reselect
 
         skipped_attr = [key for key in f5_pool.keys() if
@@ -475,7 +496,7 @@ class PoolConfigConvV10(PoolConfigConv):
         if is_pg:
             converted_objs = self.convert_for_pg(pg_dict,
                                                  pool_obj, name,
-                                                 tenant, avi_config,cloud_ref)
+                                                 tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
 

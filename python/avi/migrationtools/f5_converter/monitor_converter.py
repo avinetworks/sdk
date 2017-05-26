@@ -1,6 +1,5 @@
 import copy
 import logging
-import numbers
 import os
 
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
@@ -194,8 +193,10 @@ class MonitorConfigConvV11(MonitorConfigConv):
     def __init__(self, f5_monitor_attributes, prefix):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
-        self.supported_attributes = f5_monitor_attributes['Monitor_Supported_Attributes']
-        self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
+        self.supported_attributes = \
+            f5_monitor_attributes['Monitor_Supported_Attributes']
+        self.indirect_mappings = \
+            f5_monitor_attributes['Monitor_Indirect_Mappings']
         self.ignore = f5_monitor_attributes['Monitor_Ignore']
         self.dest_key = "destination"
         self.na_http = f5_monitor_attributes['Monitor_Na_Http']
@@ -461,8 +462,10 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def __init__(self, f5_monitor_attributes, prefix):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
-        self.supported_attributes =f5_monitor_attributes['Monitor_Supported_Attributes']
-        self.indirect_mappings = f5_monitor_attributes['Monitor_Indirect_Mappings']
+        self.supported_attributes =\
+            f5_monitor_attributes['Monitor_Supported_Attributes']
+        self.indirect_mappings = \
+            f5_monitor_attributes['Monitor_Indirect_Mappings']
         self.ignore = f5_monitor_attributes['Monitor_Ignore']
         self.dest_key = "dest"
         self.na_http = f5_monitor_attributes['Monitor_Na_Http']

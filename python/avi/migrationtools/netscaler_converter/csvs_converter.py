@@ -311,10 +311,9 @@ class CsvsConverter(object):
                 if mapping and [ssl_profile for ssl_profile in
                                 avi_config["SSLProfile"] if
                                 ssl_profile['name'] == ssl_profile_name]:
-                    updated_ssl_profile_ref = \
-                        ns_util.get_object_ref(ssl_profile_name,
-                                               OBJECT_TYPE_SSL_PROFILE,
-                                               self.tenant_name)
+                    updated_ssl_profile_ref = ns_util.get_object_ref(
+                        ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
+                        self.tenant_name)
                     vs_obj['ssl_profile_name'] = updated_ssl_profile_ref
                     LOG.debug('Added: %s SSL profile %s' % (key, key))
 
@@ -344,22 +343,17 @@ class CsvsConverter(object):
                 if cs_vs.get('caseSensitive', '') == 'OFF' else True
 
             # Convert netscalar policy to AVI http policy set
-            policy = policy_converter.convert(bind_conf_list, ns_config,
-                                              avi_config,
-                                              tmp_used_pool_group_ref,
-                                              redirect_pools,
-                                              'bind cs vserver', case_sensitive)
+            policy = policy_converter.convert(
+                bind_conf_list, ns_config, avi_config, tmp_used_pool_group_ref,
+                redirect_pools, 'bind cs vserver', case_sensitive)
             # TODO move duplicate code for adding policy to vs in ns_util
             # Add the http policy set reference to VS in AVI
             if policy:
                 if policy['name'] in tmp_policy_ref:
                     # clone the http policy set if it is referenced to other VS
-                    policy = ns_util.clone_http_policy_set(policy,
-                                                           updated_vs_name,
-                                                           avi_config,
-                                                           self.tenant_name,
-                                                           self.cloud_name,
-                                                           userprefix=self.prefix)
+                    policy = ns_util.clone_http_policy_set(
+                        policy, updated_vs_name, avi_config, self.tenant_name,
+                        self.cloud_name, userprefix=self.prefix)
                 updated_http_policy_ref = \
                     ns_util.get_object_ref(policy['name'],
                                            OBJECT_TYPE_HTTP_POLICY_SET,
@@ -389,17 +383,13 @@ class CsvsConverter(object):
                     # clone the pool group if it is referenced to other VS ot
                     # http policy set
                     if updated_pool_group_ref in tmp_used_pool_group_ref:
-                        updated_pool_group_ref = \
-                            ns_util.clone_pool_group(updated_pool_group_ref,
-                                                      vs_name, avi_config,
-                                                      self.tenant_name,
-                                                      self.cloud_name,
-                                                     userprefix=self.prefix)
-                    avi_pool_group_ref = \
-                        ns_util.get_object_ref(updated_pool_group_ref,
-                                               OBJECT_TYPE_POOL_GROUP,
-                                               self.tenant_name,
-                                               self.cloud_name)
+                        updated_pool_group_ref = ns_util.clone_pool_group(
+                            updated_pool_group_ref, vs_name, avi_config,
+                            self.tenant_name, self.cloud_name,
+                            userprefix=self.prefix)
+                    avi_pool_group_ref = ns_util.get_object_ref(
+                        updated_pool_group_ref, OBJECT_TYPE_POOL_GROUP,
+                        self.tenant_name, self.cloud_name)
                     vs_obj['pool_group_ref'] = avi_pool_group_ref
                     tmp_used_pool_group_ref.append(updated_pool_group_ref)
             if lb_vserver_bind_conf:
@@ -412,11 +402,10 @@ class CsvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.csvs_bind_skipped, [], [],
                     user_ignore_val=self.csvs_bind_user_ignore)
-                ns_util.add_conv_status(lb_vserver_bind_conf['line_no'],
-                                        bind_cs_vserver_command,
-                                        lb_vserver_bind_conf['attrs'][0],
-                                        bind_cs_vserver_complete_command,
-                                        conv_status, vs_obj)
+                ns_util.add_conv_status(
+                    lb_vserver_bind_conf['line_no'], bind_cs_vserver_command,
+                    lb_vserver_bind_conf['attrs'][0],
+                    bind_cs_vserver_complete_command, conv_status, vs_obj)
             # Verify that this cs vs has share the same VIP of another vs
             # If yes then skipped this cs vs
             is_shared = ns_util.is_shared_same_vip(
@@ -427,10 +416,10 @@ class CsvsConverter(object):
                 skipped_status = 'Skipped: %s Same vip shared by another ' \
                                  'virtual service' % vs_name
                 LOG.warning(skipped_status)
-                ns_util.add_status_row(cs_vs['line_no'],
-                                       ns_add_cs_vserver_command, key,
-                                       ns_add_cs_vserver_complete_command,
-                                       STATUS_SKIPPED, skipped_status)
+                ns_util.add_status_row(
+                    cs_vs['line_no'], ns_add_cs_vserver_command, key,
+                    ns_add_cs_vserver_complete_command, STATUS_SKIPPED,
+                    skipped_status)
                 continue
             cs_vs_list.append(vs_obj)
             # Add summery of this cs vs in CSV/report
@@ -438,9 +427,9 @@ class CsvsConverter(object):
                 cs_vs, self.csvs_skip_attrs, self.csvs_na_attrs, [],
                 ignore_for_val=self.csvs_ignore_vals,
                 user_ignore_val=self.csvs_user_ignore)
-            ns_util.add_conv_status(cs_vs['line_no'], ns_add_cs_vserver_command,
-                                    key, ns_add_cs_vserver_complete_command,
-                                    conv_status, vs_obj)
+            ns_util.add_conv_status(
+                cs_vs['line_no'], ns_add_cs_vserver_command,
+                key, ns_add_cs_vserver_complete_command, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
