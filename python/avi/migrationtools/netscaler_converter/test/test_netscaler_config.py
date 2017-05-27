@@ -18,7 +18,7 @@ def netscaler_converter(config_file_name):
         controller_ip=None, vs_state='disable', controller_version='17.1',
         ns_host_ip=None, ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
-        patch=None, vs_filter=None, ignore_config=None)
+        patch=None, vs_filter=None, ignore_config=None, prefix=None)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
