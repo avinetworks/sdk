@@ -103,7 +103,7 @@ class NetscalerConverter(AviConverter):
         if self.ignore_config:
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
-        report_name = os.path.splitext(os.path.basename(self.ns_config_file))[0]
+        report_name = os.path.splitext(os.path.basename(source_file))[0]
         avi_config = ns_conf_converter.convert(
             ns_config, self.tenant, self.cloud_name, self.controller_version,
             output_dir, input_dir, skipped_cmds, self.vs_state,
