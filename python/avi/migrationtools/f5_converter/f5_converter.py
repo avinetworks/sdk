@@ -159,11 +159,7 @@ class F5Converter(AviConverter):
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
-        if self.bigip_config_file:
-            report_name = os.path.splitext(os.path.basename(
-                self.bigip_config_file))[0]
-        else:
-            report_name = 'converter.log'
+        report_name = os.path.splitext(os.path.basename(source_file))[0]
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
             self.f5_config_version, self.ssl_profile_merge_check,
