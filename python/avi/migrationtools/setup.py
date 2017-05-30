@@ -30,7 +30,7 @@ setup(
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
                       'nose-testconfig', 'ConfigParser', 'xlsxwriter',
                       'pandas', 'openpyxl', 'appdirs', 'pytest-cov', 'xlrd',
-                      'pytest-cov', 'pytest-html', 'pexpect'],
+                      'pytest-html', 'pexpect'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )
