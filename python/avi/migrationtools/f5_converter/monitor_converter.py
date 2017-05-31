@@ -105,11 +105,13 @@ class MonitorConfigConv(object):
         interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
         time_until_up = int(f5_monitor.get(self.tup,
                                            conv_const.DEFAULT_TIME_UNTIL_UP))
-        successful_checks = int(timeout/interval)
-        failed_checks = conv_const.DEFAULT_FAILED_CHECKS
+        # Fixed Successful interval and failed checks
+        failed_checks = int(timeout/interval)
+        successful_checks = conv_const.DEFAULT_FAILED_CHECKS
         if time_until_up > 0:
-            failed_checks = int(time_until_up/interval)
-            failed_checks = 1 if failed_checks == 0 else failed_checks
+            successful_checks = int(time_until_up/interval)
+            successful_checks = 1 \
+                if successful_checks == 0 else successful_checks
 
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
