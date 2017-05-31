@@ -57,13 +57,14 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref
-                if persist_mode == "cookie":
-                    persist_profile = self.convert_cookie(name, profile,
-                                                          skipped, tenant)
-                    if not persist_profile:
-                        continue
-                    u_ignore = user_ignore.get('cookie', [])
-                elif persist_mode == "ssl":
+                # TODO: Should be enabled after controller app cookie issue is fixed
+                # if persist_mode == "cookie":
+                #     persist_profile = self.convert_cookie(name, profile,
+                #                                           skipped, tenant)
+                #     if not persist_profile:
+                #         continue
+                #     u_ignore = user_ignore.get('cookie', [])
+                if persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
                         name, profile, skipped, self.indirect, tenant)
                     u_ignore = user_ignore.get('ssl', [])

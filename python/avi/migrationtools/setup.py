@@ -31,5 +31,5 @@ setup(
                       'nose-testconfig', 'ConfigParser', 'xlsxwriter',
                       'pandas', 'openpyxl', 'appdirs', 'pexpect', 'xlrd'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
-                          '*.key', '*.pem', '*.xml', '*.yaml']},
+                          '*.key', '*.pem', '*.xml', '*.yaml', '*.yml']},
 )
