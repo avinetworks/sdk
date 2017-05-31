@@ -29,8 +29,7 @@ setup(
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
                       'nose-testconfig', 'ConfigParser', 'xlsxwriter',
-                      'pandas', 'openpyxl', 'appdirs', 'pytest-cov', 'xlrd',
-                      'pytest-html', 'pexpect'],
+                      'pandas', 'openpyxl', 'appdirs', 'xlrd', 'pexpect'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.key', '*.pem', '*.xml', '*.yaml']},
 )
