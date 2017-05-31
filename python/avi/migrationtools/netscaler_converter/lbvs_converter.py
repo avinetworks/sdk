@@ -147,7 +147,7 @@ class LbvsConverter(object):
                 # Regex to check Vs has IPV6 address if yes the Skipped
                 if re.findall(ns_constants.IPV6_Address, ip_addr) or \
                                 ip_addr == '0.0.0.0':
-                    skipped_status = "Skipped:IPV6 not Supported %s" %full_cmd
+                    skipped_status = "Skipped:Invalid VIP %s" % full_cmd
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(
                         lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
