@@ -35,9 +35,13 @@ HR_IN_DAY = 24
 SOURCE_ADDR_TIMEOUT = 180
 MIN_SESSION_TIMEOUT = 60
 MAX_SESSION_TIMEOUT = 1800
-DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain', 'application/pdf', 'text/javascript', 'application/javascript', 'application/x-javascript', 'application/xml', 'text/css']
+DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain',
+                        'application/pdf', 'text/javascript',
+                        'application/javascript', 'application/x-javascript',
+                        'application/xml', 'text/css']
 
-# Status Constants which are used in CSV/report generation of the conversion run.
+# Status Constants which are used in CSV/report generation of the conversion
+# run.
 STATUS_SKIPPED = 'SKIPPED'
 STATUS_SUCCESSFUL = 'SUCCESSFUL'
 STATUS_ERROR = 'ERROR'
@@ -47,7 +51,8 @@ STATUS_PARTIAL = 'PARTIAL'
 STATUS_DATASCRIPT = 'DATASCRIPT'
 STATUS_NOT_IN_USE = 'NOT IN USE'
 # External status which are not supported Health monitors
-STATUS_EXTERNAL = 'EXTERNAL'
+STATUS_EXTERNAL_MONITOR = 'EXTERNAL MONITOR'
+STATUS_MISSING_FILE = 'MISSING FILE'
 # Object type constant which are used in object reference generation
 OBJECT_TYPE_SSL_PROFILE = 'sslprofile'
 OBJECT_TYPE_APPLICATION_PROFILE = 'applicationprofile'
@@ -73,7 +78,7 @@ def init(version):
     :return: None
     """
     global f5_command_status
-    with open(os.path.dirname(__file__) +  "/command_status.yaml") as stream:
+    with open(os.path.dirname(__file__) + "/command_status.yaml") as stream:
         f5_command_status = yaml.safe_load(stream)
     if version == '10':
         return f5_command_status['VERSION_10']
