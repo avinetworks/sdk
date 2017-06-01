@@ -22,7 +22,7 @@ type PoolClient struct {
 	AviSession *avi_session
 }
 
-func (client PoolClient) GetApiPath(uuid string) string {
+func (client *PoolClient) GetApiPath(uuid string) string {
 	path = "api/" + strings.ToLower(OBJ_TYPE)
 	if uuid {
 		path += "/" + uuid
@@ -31,7 +31,7 @@ func (client PoolClient) GetApiPath(uuid string) string {
 }
 
 // Collection API to get list of Pools
-func (client PoolClient) GetAll() ([]*models.Pool, session.AviError) {
+func (client *PoolClient) GetAll() ([]*models.Pool, session.AviError) {
 	res, err := client.avi_session.Get(client.GetApiPath(""))
 	if err != nil {
 		return nil, err
@@ -40,12 +40,12 @@ func (client PoolClient) GetAll() ([]*models.Pool, session.AviError) {
 }
 
 // Get Pool by uuid
-func (client PoolClient) Get(uuid string) (*models.Pool, session.AviError)  {
+func (client *PoolClient) Get(uuid string) (*models.Pool, session.AviError)  {
 	return client.avi_session.Get(client.GetApiPath(uuid))
 }
 
 // Get Pool by name
-func (client PoolClient) GetByName(name string) (*models.Pool, session.AviError) {
+func (client *PoolClient) GetByName(name string) (*models.Pool, session.AviError) {
 	path = client.GetApiPath("") + "?name=" + name
 	res, err := client.avi_session.Get(client.GetApiPath(""))
 	if err != nil {
@@ -58,25 +58,25 @@ func (client PoolClient) GetByName(name string) (*models.Pool, session.AviError)
 }
 
 // Get Pool by uuid
-func (client PoolClient) Create(obj *models.Pool) (*models.Pool, session.AviError) {
+func (client *PoolClient) Create(obj *models.Pool) (*models.Pool, session.AviError) {
 	return client.avi_session.Post(client.GetApiPath(""), obj)
 }
 
 // Modify Pool and updates the pool object passed down
-func (client PoolClient) Update(obj *models.Pool) (*models.Pool, session.AviError) {
+func (client *PoolClient) Update(obj *models.Pool) (*models.Pool, session.AviError) {
 	return client.avi_session.Put(client.GetApiPath(obj["uuid"]), obj)
 }
 
 // Modify Pool and updates the pool object passed down
-func (client PoolClient) Delete(uuid string) (session.AviError) {
+func (client *PoolClient) Delete(uuid string) (session.AviError) {
 	return client.avi_session.Delete(client.GetApiPath(uuid))
 }
 
 // Delete Pool object by name
-func (client PoolClient) DeleteByName(name string) (session.AviError) {
+func (client *PoolClient) DeleteByName(name string) (session.AviError) {
 	res, err = client.GetByName(name)
 	if err != nil {
-		return nil
+		return err
 	}
 	return client.Delete(res["uuid"])
 }
