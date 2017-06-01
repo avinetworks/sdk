@@ -127,12 +127,11 @@ class F5Converter(AviConverter):
             for f in files:
                 if f.endswith('_bigip.conf'):
                     partitions.append(input_dir + os.path.sep + f)
-        else:
-            source_file = self.bigip_config_file
+        elif self.bigip_config_file:
+            source_file = open(self.bigip_config_file, "r")
         if not source_file:
             print 'Not found ns configuration file'
             return
-        source_file = open(self.bigip_config_file, "r")
         source_str = source_file.read()
         LOG.debug('Parsing config file:' + source_file.name)
         f5_config_dict = f5_parser.parse_config(source_str,

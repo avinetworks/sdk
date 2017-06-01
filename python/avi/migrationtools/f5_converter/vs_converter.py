@@ -54,7 +54,10 @@ class VSConfigConv(object):
                                          cloud_name, controller_version)
                 if vs_obj:
                     avi_config['VirtualService'].append(vs_obj)
-                LOG.debug("Conversion successful for VS: %s" % vs_name)
+                    LOG.debug("Conversion successful for VS: %s" % vs_name)
+                else:
+                    LOG.debug("Failed to convert L4 VS dont have "
+                              "pool or pool group ref: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
 
@@ -88,7 +91,7 @@ class VSConfigConv(object):
         # If one connect profile is not assigned to f5 VS and avi app profile
         # assigned to VS has connection_multiplexing_enabled value True then
         # clone profile and make connection_multiplexing_enabled as False
-
+        pool_ref = f5_vs.get("pool", None)
         app_prof_obj = [obj for obj in avi_config['ApplicationProfile']
                         if obj['name'] == app_prof[0]]
         cme = True
@@ -98,7 +101,6 @@ class VSConfigConv(object):
         if app_prof_type == 'APPLICATION_PROFILE_TYPE_HTTP':
             cme = app_prof_obj[0]['http_profile'].get(
                 'connection_multiplexing_enabled', False)
-
         if not (cme or oc_prof):
             # Check if already cloned profile present
             app_prof_cmd = [obj for obj in avi_config['ApplicationProfile']
@@ -125,7 +127,6 @@ class VSConfigConv(object):
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
             conv_utils.add_vrf(avi_config, vrf)
-        pool_ref = f5_vs.get("pool", None)
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
@@ -175,7 +176,6 @@ class VSConfigConv(object):
             if f_host:
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
-
         ip_addr = ip_addr.strip()
         matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
         if not matches or ip_addr == '0.0.0.0':
@@ -192,7 +192,6 @@ class VSConfigConv(object):
             },
             'vip_id': 0
         }
-
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -340,6 +339,21 @@ class VSConfigConv(object):
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
                         ssl_vs[0]["pki"]
 
+        # Added code to skipped L4 VS if pool or pool group not present
+        if vs_obj['application_profile_ref']:
+            app_profile_name = \
+                str(vs_obj['application_profile_ref']).split(
+                    '&name=')[1]
+            application_profile_obj = \
+                [obj for obj in avi_config['ApplicationProfile']
+                 if obj['name'] == app_profile_name]
+            if application_profile_obj[0]['type'] == \
+                    'APPLICATION_PROFILE_TYPE_L4':
+                if not 'pool_ref' or not 'pool_group_ref' in vs_obj:
+                    conv_utils.add_status_row('virtual', None,
+                                              vs_name,
+                                              final.STATUS_SKIPPED)
+                    return
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]
             actual_val = f5_vs.get(attr, None)
@@ -349,7 +363,6 @@ class VSConfigConv(object):
                 skipped.remove(attr)
             elif isinstance(ignore_val, list) and actual_val in ignore_val:
                 skipped.remove(attr)
-
         conv_status = dict()
         conv_status['user_ignore'] = [val for val in skipped
                                       if val in user_ignore]
