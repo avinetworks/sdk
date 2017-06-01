@@ -14,11 +14,20 @@ from avi.migrationtools.f5_converter import (f5_config_converter,
                                             conversion_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
+from pkg_resources import parse_version
+
+
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
 
+DEFAULT_SKIP_TYPES = [
+    'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
+    'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
+    'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
+    'SeProperties', 'ControllerProperties', 'CloudProperties']
 
 class F5Converter(AviConverter):
     def __init__(self, args):
@@ -48,12 +57,24 @@ class F5Converter(AviConverter):
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
         self.vs_filter = args.vs_filter
+        self.ansible_skip_types = args.ansible_skip_types
+        self.ansible_filter_types = args.ansible_filter_types
+        self.create_ansible = args.ansible
+        # Prefix for objects
+        self.prefix = args.prefix
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
-        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
-        logging.basicConfig(filename=os.path.join(self.output_file_path, 'converter.log'),
-                            level=logging.DEBUG, format=formatter)
+        if self.bigip_config_file:
+            report_name = '%s-converter.log' % os.path.splitext(
+                os.path.basename(self.bigip_config_file))[0]
+        else:
+            report_name = 'converter.log'
+        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] ' \
+                    '%(message)s'
+        logging.basicConfig(
+            filename=os.path.join(self.output_file_path, report_name),
+            level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
         # Add logger and print avi netscaler converter version
@@ -85,10 +106,10 @@ class F5Converter(AviConverter):
                 os.makedirs(output_dir)
             is_download_from_host = True
         user_ignore = {}
+        # Read the attributes for user ignore val
         if self.ignore_config:
-            with open(self.ignore_config, "r") as ignore_conf_file:
-                ignore_conf_str = ignore_conf_file.read()
-                user_ignore = json.loads(ignore_conf_str)
+            with open(self.ignore_config) as stream:
+                user_ignore = yaml.safe_load(stream)
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
@@ -108,6 +129,9 @@ class F5Converter(AviConverter):
                     partitions.append(input_dir + os.path.sep + f)
         else:
             source_file = open(self.bigip_config_file, "r")
+        if not source_file:
+            print 'Not found ns configuration file'
+            return
         source_str = source_file.read()
         LOG.debug('Parsing config file:' + source_file.name)
         f5_config_dict = f5_parser.parse_config(source_str,
@@ -135,10 +159,12 @@ class F5Converter(AviConverter):
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
-        avi_config_dict = f5_config_converter. \
-            convert(f5_config_dict, output_dir, self.vs_state, input_dir,
-                    self.f5_config_version, self.ssl_profile_merge_check,
-                    user_ignore, self.tenant, self.cloud_name)
+        report_name = os.path.splitext(os.path.basename(source_file.name))[0]
+        avi_config_dict = f5_config_converter.convert(
+            f5_config_dict, output_dir, self.vs_state, input_dir,
+            self.f5_config_version, self.ssl_profile_merge_check,
+            self.controller_version, report_name, self.prefix, user_ignore,
+            self.tenant, self.cloud_name)
 
         avi_config_dict["META"] = {
             "supported_migrations": {
@@ -162,9 +188,7 @@ class F5Converter(AviConverter):
                     "16_3_2",
                     "16_3_4",
                     "16_4_1",
-                    "16_4_2",
-                    "17_1_1",
-                    "current_version"
+                    "16_4_2"
                 ]
             },
             "version": {
@@ -177,9 +201,20 @@ class F5Converter(AviConverter):
             "use_tenant": self.tenant
         }
 
-        avi_config = self.process_for_utils(avi_config_dict)
-        self.write_output(avi_config, output_dir)
+        if parse_version(self.controller_version) >= parse_version('17.1'):
+            avi_config_dict['META']['supported_migrations']['versions'].append(
+                '17_1_1')
+        avi_config_dict['META']['supported_migrations']['versions'].append(
+            'current_version')
 
+        avi_config = self.process_for_utils(avi_config_dict)
+        self.write_output(avi_config, output_dir, '%s-Output.json' %
+                          report_name)
+        if self.create_ansible:
+            avi_traffic = AviAnsibleConverter(
+                avi_config, output_dir, self.prefix)
+            avi_traffic.write_ansible_playbook(
+                self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password)
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
 
@@ -224,10 +259,11 @@ class F5Converter(AviConverter):
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
                 if bool(self.skip_default_file):
-                    LOG.warning('Skipped default file : %s' % defaults_file.name)
+                    LOG.warning(
+                        'Skipped default file : %s' % defaults_file.name)
                     return f5_defaults_dict
-                f5_defaults_dict = f5_parser.parse_config(defaults_file.read(),
-                                                          self.f5_config_version)
+                f5_defaults_dict = f5_parser.parse_config(
+                    defaults_file.read(), self.f5_config_version)
 
         return f5_defaults_dict
 
@@ -252,10 +288,12 @@ if __name__ == "__main__":
         f5_converter.py -f  bigip.conf --no_profile_merge
 
     Example to download config from F5 host and convert to avi config:
-        f5_converter.py --f5_host_ip "1.1.1.1" --f5_ssh_user "username" --f5_ssh_password "password"
+        f5_converter.py --f5_host_ip "1.1.1.1" --f5_ssh_user
+        "username" --f5_ssh_password "password"
 
     Example to auto upload to controller after conversion:
-            f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u username -p password -t tenant
+            f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
+            username -p password -t tenant
     '''
 
 
@@ -292,7 +330,7 @@ if __name__ == "__main__":
                         help='state of VS created', default='disable')
     parser.add_argument('-l', '--input_folder_location',
                         help='location of input files like cert files ' +
-                             'external monitor scripts', default='./test/certs')
+                             'external monitor scripts', default='./')
     parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
     parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
     parser.add_argument('--f5_ssh_password',
@@ -314,11 +352,30 @@ if __name__ == "__main__":
                         help='Flag for ssl profile merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
-    parser.add_argument('--patch', help='Run config_patch please provide location of '
-                                        'patch.yaml')
+    parser.add_argument('--patch', help='Run config_patch please provide '
+                                        'location of patch.yaml')
     # Added command line args to execute vs_filter.py with vs_name.
     parser.add_argument('--vs_filter', help='comma seperated names of '
                                             'virtualservices')
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_skip_types',
+                        help='Comma separated list of Avi Object types to skip '
+                             'during conversion.\n  Eg. -s DebugController,'
+                             'ServiceEngineGroup will skip debugcontroller and '
+                             'serviceengine objects',default=DEFAULT_SKIP_TYPES)
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_filter_types',
+                        help='Comma separated list of Avi Objects types to '
+                             'include during conversion.\n Eg. -f '
+                             'VirtualService, Pool will do ansible conversion '
+                             'only for Virtualservice and Pool objects',
+                        default=[])
+    # Create Ansible Script based on Flag
+    parser.add_argument('--ansible',
+                        help='Flag for create ansible file', default=False)
+    # Added prefix for objects
+    parser.add_argument('--prefix', help='Prefix for objects')
+
 
     args = parser.parse_args()
     # print avi f5 converter version
