@@ -55,9 +55,6 @@ class VSConfigConv(object):
                 if vs_obj:
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
-                else:
-                    LOG.debug("Failed to convert L4 VS dont have "
-                              "pool or pool group ref: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
 
@@ -123,7 +120,12 @@ class VSConfigConv(object):
         services_obj, ip_addr, vsvip_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
             cloud_name, self.prefix)
-
+        # Added Check for if port is no digit skip vs.
+        if not services_obj and not ip_addr and not vsvip_ref:
+            LOG.debug("Skipped: Vs port is not digit: %s" % vs_name)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED)
+            return
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
             conv_utils.add_vrf(avi_config, vrf)
@@ -350,6 +352,8 @@ class VSConfigConv(object):
             if application_profile_obj[0]['type'] == \
                     'APPLICATION_PROFILE_TYPE_L4':
                 if not 'pool_ref' or not 'pool_group_ref' in vs_obj:
+                    LOG.debug("Failed to convert L4 VS dont have "
+                              "pool or pool group ref: %s" % vs_name)
                     conv_utils.add_status_row('virtual', None,
                                               vs_name,
                                               final.STATUS_SKIPPED)

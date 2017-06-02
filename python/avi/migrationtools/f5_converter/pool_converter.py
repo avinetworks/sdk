@@ -378,6 +378,8 @@ class PoolConfigConvV11(PoolConfigConv):
                     ip_addr = parts[0]
             description = server.get('description', '')
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
+            if not port.isdigit():
+                port = conv_utils.get_port_by_protocol(port)
             enabled = True
             state = server.get("state", 'enabled')
             session = server.get("session", 'enabled')
@@ -400,8 +402,8 @@ class PoolConfigConvV11(PoolConfigConv):
                 'enabled': enabled,
                 'description': description,
             }
-            # Check if port is present
-            if port:
+            # Check if port is present and added check for port is digit.
+            if port and str(port).isdigit():
                 server_obj['port'] = port
             if priority:
                 server_obj['priority'] = priority
@@ -414,10 +416,11 @@ class PoolConfigConvV11(PoolConfigConv):
             c_lim = int(server.get("connection-limit", '0'))
             if c_lim > 0:
                 connection_limit.append(c_lim)
-
-            server_obj_list = [s for s in server_list if s['ip']['addr']
-                               == server_obj['ip']['addr'] and
-                               s['port'] == server_obj['port']]
+            server_obj_list = [
+                s for s in server_list if s['ip']['addr'] ==
+                server_obj['ip']['addr'] and
+                ('port' in s and 'port' in server_obj)and
+                (s['port'] == server_obj['port'])]
             if server_obj_list:
                 LOG.warning('Skipped duplicate server %s' % ip_addr)
                 continue
@@ -579,8 +582,8 @@ class PoolConfigConvV10(PoolConfigConv):
                 'enabled': enabled,
                 'description': description,
             }
-            # Check if port is present
-            if port:
+            # Check if port is present and added check for port is digit.
+            if port and str(port).isdigit():
                 server_obj['port'] = port
             if priority:
                 server_obj['priority'] = priority
