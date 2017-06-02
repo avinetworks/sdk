@@ -206,7 +206,7 @@ def get_port_by_protocol(protocol):
     :param protocol: protocol name
     :return: integer value for protocol
     """
-    port = conv_const.DEFAULT_PORT
+
     if protocol == "https":
         port = conv_const.HTTPS_PORT
     elif protocol == "ftp":
@@ -229,6 +229,8 @@ def get_port_by_protocol(protocol):
         port = conv_const.MACROMEDIA_FCS_PORT
     elif protocol == "any":
         port = None
+    else:
+        return None
     return port
 
 
@@ -518,7 +520,9 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         port = 0
     if isinstance(port, str) and (not port.isdigit()):
         port = get_port_by_protocol(port)
-
+    # Port is None then skip vs
+    if not port:
+        return None, None, None
     if int(port) > 0:
         for vs in vs_dup_ips:
             service_updated = update_service(port, vs, enable_ssl)
