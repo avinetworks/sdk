@@ -1,4 +1,4 @@
-package avi
+package session
 
 import (
 	"bytes"

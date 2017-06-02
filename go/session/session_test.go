@@ -1,11 +1,11 @@
-package avi
+package session
 
 import (
 	"github.com/avinetworks/sdk/go/models"
 	"log"
 	"reflect"
 	"testing"
-        "encoding/json"
+	"encoding/json"
 )
 
 func TestAviSession(t *testing.T) {
