@@ -2,8 +2,10 @@ import logging
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 
-from avi.migrationtools.f5_converter.monitor_converter import MonitorConfigConv
-from avi.migrationtools.f5_converter.persistence_converter import PersistenceConfigConv
+from avi.migrationtools.f5_converter.monitor_converter \
+    import MonitorConfigConv
+from avi.migrationtools.f5_converter.persistence_converter \
+    import PersistenceConfigConv
 from avi.migrationtools.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
@@ -14,8 +16,8 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            ssl_profile_merge_check, user_ignore={}, tenant='admin',
-            cloud_name='Default-Cloud'):
+            ssl_profile_merge_check, controller_version, report_name, prefix,
+            user_ignore, tenant='admin', cloud_name='Default-Cloud'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -25,9 +27,12 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param vs_state: State of created Avi VS object
     :param input_dir: Location of cert and external monitor script files
     :param version: Version of F5 config
+    :param ssl_profile_merge_check: Flag for ssl profile merge
+    :param controller_version: Version of controller
     :param user_ignore: Ignore config defined by user
     :param tenant: Tenant for which config need to be converted
     :param cloud_name: cloud for which config need to be converted
+    :param prefix : prefix for objects
     :return: Converted avi objects
     """
 
@@ -35,25 +40,27 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     try:
         # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
-        mon_conv = MonitorConfigConv.get_instance(version, f5_attributes)
+        mon_conv = MonitorConfigConv.get_instance(
+            version, f5_attributes, prefix)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                          tenant)
 
-        pool_conv = PoolConfigConv.get_instance(version, f5_attributes)
+        pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                           cloud_name)
 
-        profile_conv = ProfileConfigConv.get_instance(version, f5_attributes,
-                                                      ssl_profile_merge_check)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
-                             tenant, cloud_name)
+        profile_conv = ProfileConfigConv.get_instance(
+            version, f5_attributes, ssl_profile_merge_check, prefix)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir,
+                             user_ignore, tenant, cloud_name)
 
-        persist_conv = PersistenceConfigConv.get_instance(version, f5_attributes)
+        persist_conv = PersistenceConfigConv.get_instance(
+            version, f5_attributes, prefix)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
-        vs_conv = VSConfigConv.get_instance(version, f5_attributes)
+        vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
-                        tenant, cloud_name)
+                        tenant, cloud_name, controller_version)
 
         conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
@@ -80,7 +87,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                           conv_const.STATUS_SKIPPED)
 
     # Add f5 converter status report in xslx report
-    conv_utils.add_complete_conv_status(output_dir, avi_config_dict)
+    conv_utils.add_complete_conv_status(
+        output_dir, avi_config_dict, report_name)
     for key in avi_config_dict:
         if key != 'META':
             if key == 'VirtualService':

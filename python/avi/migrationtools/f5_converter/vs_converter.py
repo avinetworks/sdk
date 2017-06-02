@@ -2,21 +2,21 @@ import logging
 import copy
 import random
 import re
-
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
+
+from pkg_resources import parse_version
 
 LOG = logging.getLogger(__name__)
 
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_virtualservice_attributes):
+    def get_instance(cls, version, f5_virtualservice_attributes, prefix):
         if version == '10':
-            return VSConfigConvV10(f5_virtualservice_attributes)
+            return VSConfigConvV10(f5_virtualservice_attributes, prefix)
         if version in ['11', '12']:
-            return VSConfigConvV11(f5_virtualservice_attributes)
-
+            return VSConfigConvV11(f5_virtualservice_attributes, prefix)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -26,31 +26,34 @@ class VSConfigConv(object):
         pass
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
-                cloud_name):
+                cloud_name, controller_version):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
         avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
-        unsupported_types = ["l2-forward", "ip-forward", "stateless",
-                             "dhcp-relay", "internal", "reject"]
+        avi_config['VsVip'] = []
 
         for vs_name in vs_config.keys():
             try:
                 LOG.debug("Converting VS: %s" % vs_name)
                 f5_vs = vs_config[vs_name]
                 vs_type = [key for key in f5_vs.keys()
-                           if key in unsupported_types]
+                           if key in self.unsupported_types]
                 if vs_type:
                     LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
                              (vs_type, vs_name))
                     conv_utils.add_status_row('virtual', None, vs_name,
                                               final.STATUS_SKIPPED)
                     continue
+                # Added prefix for objects
+                if self.prefix:
+                    vs_name = self.prefix + '-' + vs_name
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
-                                         cloud_name)
-                avi_config['VirtualService'].append(vs_obj)
+                                         cloud_name, controller_version)
+                if vs_obj:
+                    avi_config['VirtualService'].append(vs_obj)
                 LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
@@ -59,7 +62,7 @@ class VSConfigConv(object):
         f5_config.pop("virtual", {})
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
-                   user_ignore, tenant_ref, cloud_name):
+                   user_ignore, tenant_ref, cloud_name, controller_version):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -71,11 +74,12 @@ class VSConfigConv(object):
         if enabled:
             enabled = False if "disabled" in f5_vs.keys() else True
         profiles = f5_vs.get("profiles", {})
-        ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config)
+        ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config,
+                                                          self.prefix)
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config, tenant)
-        ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config)
-
+            profiles, avi_config, tenant, self.prefix)
+        ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
+                                                    self.prefix)
         oc_prof = False
         for prof in profiles:
             if prof in avi_config.get('OneConnect', []):
@@ -112,10 +116,11 @@ class VSConfigConv(object):
         if ssl_vs:
             enable_ssl = True
         destination = f5_vs.get("destination", None)
-
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
-        services_obj, ip_addr = conv_utils.get_service_obj(
-            destination, avi_config['VirtualService'], enable_ssl)
+        # if destination is not present then skip vs.
+        services_obj, ip_addr, vsvip_ref = conv_utils.get_service_obj(
+            destination, avi_config, enable_ssl, controller_version, tenant,
+            cloud_name, self.prefix)
 
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
@@ -126,8 +131,8 @@ class VSConfigConv(object):
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
             # TODO: need to revisit after shared pool support implemented
             pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
-                pool_ref, avi_config, vs_name, tenant, p_tenant)
-
+                pool_ref, avi_config, vs_name, tenant, p_tenant,
+                cloud_name=cloud_name, prefix=self.prefix)
             if ssl_pool:
                 if is_pool_group:
                     conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
@@ -173,13 +178,12 @@ class VSConfigConv(object):
 
         ip_addr = ip_addr.strip()
         matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
-        if not matches:
+        if not matches or ip_addr == '0.0.0.0':
             LOG.warning('Avi does not support IPv6 : %s. '
                         'Generated random ipv4 for vs: %s' % (ip_addr, vs_name))
             vs_name += '-needs-ipv6-ip'
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
-
         # VIP object for virtual service
         vip = {
             'ip_address': {
@@ -193,7 +197,6 @@ class VSConfigConv(object):
             'name': vs_name,
             'description': description,
             'type': 'VS_TYPE_NORMAL',
-            'vip': [vip],
             'enabled': enabled,
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
@@ -202,6 +205,11 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+        if parse_version(controller_version) >= parse_version('17.1'):
+            vs_obj['vip'] = [vip]
+            vs_obj['vsvip_ref'] = vsvip_ref
+        else:
+            vs_obj['ip_address'] = vip['ip_address']
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
@@ -212,7 +220,11 @@ class VSConfigConv(object):
                 # converted _sys_https_redirect data script to rule in
                 # http policy
                 if rule == '_sys_https_redirect':
-                    policy_name = rule + '-' + vs_name
+                    # Added prefix for objects
+                    if self.prefix:
+                        policy_name = self.prefix + '-' + rule + '-' + vs_name
+                    else:
+                        policy_name = rule + '-' + vs_name
                     policy = {
                         "name": policy_name,
                         "http_request_policy": {
@@ -253,10 +265,10 @@ class VSConfigConv(object):
                     avi_config['HTTPPolicySet'].append(policy)
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
-                pool_ref, 'poolgroup', tenant=tenant)
+                pool_ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)
         elif pool_ref:
             vs_obj['pool_ref'] = conv_utils.get_object_ref(
-                pool_ref, 'pool', tenant=tenant)
+                pool_ref, 'pool', tenant=tenant, cloud_name=cloud_name)
 
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
@@ -313,7 +325,7 @@ class VSConfigConv(object):
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
-            vs_obj['ssl_profile_name'] = ssl_vs[0]["profile"]
+            vs_obj['ssl_profile_ref'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
             if ssl_vs[0]["pki"] and app_prof[0] != "http":
@@ -362,9 +374,9 @@ class VSConfigConv(object):
 
         return vs_obj
 
-    
+
 class VSConfigConvV11(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes):
+    def __init__(self, f5_virtualservice_attributes, prefix):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -373,6 +385,8 @@ class VSConfigConvV11(VSConfigConv):
         self.vs_na_attr = \
             f5_virtualservice_attributes['VS_na_attr']
         self.connection_limit = 'connection-limit'
+        # Added prefix for objects
+        self.prefix = prefix
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
@@ -392,7 +406,7 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes):
+    def __init__(self, f5_virtualservice_attributes, prefix):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -401,6 +415,8 @@ class VSConfigConvV10(VSConfigConv):
         self.unsupported_types = \
             f5_virtualservice_attributes['VS_unsupported_types']
         self.connection_limit = 'limit'
+        # Added prefix for objects
+        self.prefix = prefix
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)

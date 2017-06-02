@@ -28,7 +28,8 @@ def setUp():
 
     LOG.setLevel(logging.DEBUG)
     output_dir = config['upload_config']['output_dir']
-    output_file = open('%s/Output.json' % output_dir, 'r')
+    config_file_name = config['upload_config']['config_file_name']
+    output_file = open('%s/%s-Output.json' % (output_dir, config_file_name), 'r')
     controller_ip = config['upload_config']['controller_ip']
     user_name = config['upload_config']['user_name']
     password = config['upload_config']['password']
