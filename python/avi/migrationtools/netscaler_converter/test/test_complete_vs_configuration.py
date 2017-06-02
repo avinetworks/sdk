@@ -9,7 +9,7 @@ def setUp():
     output_data = ''
     output_file = ''
     try:
-        output_file = open('output/Output.json', 'r')
+        output_file = open('output/input_vs_configuration-Output.json', 'r')
     except:
         pass
     if output_file:
@@ -28,7 +28,7 @@ class VSConfig(unittest.TestCase):
     def test_run_input_config_over_ns_tool(self):
         os.system('python netscaler_converter/netscaler_converter.py -f '
                   'netscaler_converter/test/input_vs_configuration.conf -l '
-                  'netscaler_converter/test/certs')
+                  'netscaler_converter/test/certs --no_profile_merge')
 
     def test_pool_groups(self):
         """
@@ -47,18 +47,20 @@ class VSConfig(unittest.TestCase):
         for cfg_pool_group in cfg_pool_groups:
             pool_group_name = cfg_pool_group['name']
             if 'http_policy' in pool_group_name:
-                pg_name = re.search(r"test_target.*\-poolgroup",
-                                    pool_group_name).group(0)
-                avi_config_pool_group = \
-                    [pool_group for pool_group in avi_config_pool_groups
-                     if pg_name in pool_group['name']]
+                # pg_name = re.search(r"test_target.*\-poolgroup",
+                #                     pool_group_name).group(0)
+                # avi_config_pool_group = \
+                #     [pool_group for pool_group in avi_config_pool_groups
+                #      if pg_name in pool_group['name']]
+                continue
             elif 'rule' in pool_group_name:
-                pg_name = re.search(r"rule.*\-poolgroup",
-                                    pool_group_name).group(0)
-                pg_name = pg_name[-20:]
-                avi_config_pool_group = \
-                    [pool_group for pool_group in avi_config_pool_groups
-                     if pg_name in pool_group['name']]
+                # pg_name = re.search(r"rule.*\-poolgroup",
+                #                     pool_group_name).group(0)
+                # pg_name = pg_name[-20:]
+                # avi_config_pool_group = \
+                #     [pool_group for pool_group in avi_config_pool_groups
+                #      if pg_name in pool_group['name']]
+                continue
             else:
                 avi_config_pool_group = \
                     [pool_group for pool_group in avi_config_pool_groups
@@ -202,14 +204,16 @@ class VSConfig(unittest.TestCase):
         for cfg_pool in cfg_pools:
             pool_name = cfg_pool['name']
             if 'http_policy' in pool_name:
-                name = re.search(r"test_target.*\-pool", pool_name).group(0)
-                avi_config_pool = [pool for pool in avi_config_pools
-                                   if name in pool['name']]
+                # name = re.search(r"test_target.*\-pool", pool_name).group(0)
+                # avi_config_pool = [pool for pool in avi_config_pools
+                #                    if name in pool['name']]
+                continue
             elif 'rule' in pool_name:
-                name = re.search(r"rule.*\-pool", pool_name).group(0)
-                name = name[-15:]
-                avi_config_pool = [pool for pool in avi_config_pools
-                                   if name in pool['name']]
+                # name = re.search(r"rule.*\-pool", pool_name).group(0)
+                # name = name[-15:]
+                # avi_config_pool = [pool for pool in avi_config_pools
+                #                    if name in pool['name']]
+                continue
 
             else:
                 avi_config_pool = [pool for pool in avi_config_pools

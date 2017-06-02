@@ -33,6 +33,7 @@ VERSION_11:
      - "up-interval"
      - "debug"
      - "ip-dscp"
+     - "transparent"
 
     Monitor_Ignore:
       "destination": "*:*"
@@ -42,8 +43,8 @@ VERSION_11:
     - 'adaptive'
 
     Monitor_Na_Https:
-    - 'adaptive'
     - 'compatibility'
+    - 'adaptive'
 
     Monitor_Na_Dns:
     - 'adaptive'
@@ -58,7 +59,6 @@ VERSION_11:
     - 'adaptive'
 
     Monitor_Na_External:
-    - 'adaptive'
 
     Monitor_http_attr:
     - "recv"
@@ -106,6 +106,7 @@ VERSION_11:
     - "method"
     - "cookie-encryption"
     - 'override-connection-limit'
+    - 'timeout'
 
     Persistence_supported_attr:
     - "cookie-name"
@@ -152,12 +153,69 @@ VERSION_11:
     - "fastl4"
     - "tcp"
     - "udp"
-    - "one-connect"
 
     Profile_ignore_for_defaults:
         'app-service': 'none'
         'uri-exclude': 'none'
         'allow-non-ssl': 'disabled'
+        'proxy-type': 'reverse'
+        'connpool-max-size': '2048'
+        'header-insert': 'none'
+        'max-requests': '0'
+        'server-close-timeout': '5'
+        'connpool-step': '4'
+        'layer-7': 'enabled'
+        'client-close-timeout': '5'
+        'connpool-max-reuse': '0'
+        'connpool-min-size': '0'
+        'connpool-idle-timeout-override': '0'
+        'mss-override': '0'
+        'deferred accept': 'disabled'
+        'delayed-acks': 'enabled'
+        'fin-wait-timeout': '5'
+        'ecn': 'disabled'
+        'proxy-options': 'disabled'
+        'proxy-mss': 'disabled'
+        'send-buffer-size': '65535'
+        'close-wait-timeout': '5'
+        'selective-acks': 'enabled'
+        'proxy-buffer-high': '49152'
+        'proxy-buffer-low': '32768'
+        'ack-on-push': 'enabled'
+        'keep-alive-interval': 'disabled'
+        'timestamps': 'enabled'
+        'zero-window-timeout': '20000'
+        'limited-transmit': 'enabled'
+        'cert-extension-includes': 'none'
+        'cert-lifespan': '30'
+        'authenticate': 'once'
+        'passphrase': 'none'
+        'session-mirroring': 'disabled'
+        'sni-default': 'false'
+        'authenticate-depth': '9'
+        'peer-no-renegotiate-timeout': '10'
+        'generic-alert': 'enabled'
+        'proxy-ca-key': 'none'
+        'mod-ssl-methods': 'disabled'
+        'max-renegotiations-per-minute': '5'
+        'alert-timeout': '10'
+        'proxy-ca-cert': 'none'
+        'proxy-ssl': 'disabled'
+        'peer-cert-mode': 'ignore'
+        'cert-lookup-by-ipaddr-port': 'disabled'
+        'ssl-forward-proxy': 'disabled'
+        'proxy-ssl-passthrough': 'disabled'
+        'handshake-timeout': '10'
+        'sni-require': 'false'
+        'client-cert-ca': 'none'
+        'retain-certificate': 'true'
+        'ssl-sign-hash': 'any'
+        'server-name': 'none'
+        'inherit-certkeychain': 'false'
+        'mode': 'enabled'
+        'session-ticket': 'disabled'
+        'ssl-forward-proxy-bypass': 'disabled'
+        'authenticate-name': 'none'
 
 
     Profile_na_ssl:
@@ -169,11 +227,11 @@ VERSION_11:
     - 'strict-resume'
     - 'renegotiate-period'
     - 'inherit-certkeychain'
+    - 'chain'
+    - 'renegotiation'
 
     Profile_indirect_ssl:
-    - 'renegotiate'
     - 'session-mirroring'
-    - 'chain'
 
     Profile_supported_ssl:
     - 'cert-key-chain'
@@ -332,6 +390,7 @@ VERSION_11:
     - 'force-http-10-response'
     - 'connpool-replenish'
     - 'server-sack'
+    - 'hardware-syn-cookie'
 
     Profile_na_fh:
     - 'hardware-syn-cookie'
@@ -392,6 +451,7 @@ VERSION_11:
     - 'proxy-mss'
     - 'ip-tos-to-client'
     - 'allow-no-payload'
+    - 'datagram-load-balancing'
 
     Profile_supported_oc:
     - 'defaults-from'
@@ -462,6 +522,7 @@ VERSION_10:
     - 'ip dscp'
     - 'timeoutpackets'
     - 'sendpackets'
+    - "transparent"
 
     Monitor_Ignore:
         "dest": "*:*"
@@ -471,7 +532,6 @@ VERSION_10:
     - 'adaptive'
 
     Monitor_Na_Https:
-    - 'adaptive'
     - 'compatibility'
 
     Monitor_Na_Dns:
@@ -487,7 +547,7 @@ VERSION_10:
     - 'adaptive'
 
     Monitor_Na_External:
-    - adaptive
+
 
     Monitor_http_attr:
     - "recv"
@@ -520,10 +580,13 @@ VERSION_10:
     - "user-defined"
 
     Persistence_indirect:
-    - "cookie hash length"
-    - "cookie hash offset"
+    - "hash length"
+    - "hash offset"
     - "mirror"
     - 'override connection limit'
+    - 'timeout'
+    - 'cookie encryption'
+    - 'method'
 
     Persistence_supported_attr:
     - "cookie name"
@@ -569,7 +632,6 @@ VERSION_10:
     - "fasthttp"
     - "tcp"
     - "udp"
-    - "oneconnect"
 
     Profile_supported_ssl:
     - "cert"
@@ -591,16 +653,74 @@ VERSION_10:
     - 'strict resume'
     - 'renegotiate period'
     - 'inherit-certkeychain'
+    - 'chain'
+    - 'renegotiation'
 
     Profile_indirect_ssl:
-    - 'renegotiate'
     - 'session mirroring'
-    - 'chain'
 
     Profile_ignore_for_defaults:
         'app service': 'none'
         'uri exclude': 'none'
         'allow-non-ssl': 'disabled'
+        'proxy type': 'reverse'
+        'connpool max size': '2048'
+        'header insert': 'none'
+        'max requests': '0'
+        'server close timeout': '5'
+        'connpool step': '4'
+        'layer-7': 'enabled'
+        'client close timeout': '5'
+        'connpool max reuse': '0'
+        'connpool min size': '0'
+        'connpool idle timeout override': '0'
+        'mss override': '0'
+        'deferred-accept': 'disabled'
+        'delayed acks': 'enabled'
+        'fin wait timeout': '5'
+        'ecn': 'disabled'
+        'proxy options': 'disabled'
+        'proxy mss': 'disabled'
+        'send buffer size': '65535'
+        'close wait timeout': '5'
+        'selective acks': 'enabled'
+        'proxy buffer high': '49152'
+        'proxy buffer low': '32768'
+        'ack on push': 'enabled'
+        'keep alive interval': 'disabled'
+        'timestamps': 'enabled'
+        'zero window timeout': '20000'
+        'limited transmit': 'enabled'
+        'cert extension includes': 'none'
+        'cert lifespan': '30'
+        'authenticate': 'once'
+        'passphrase': 'none'
+        'session mirroring': 'disabled'
+        'sni default': 'false'
+        'authenticate depth': '9'
+        'peer no renegotiate timeout': '10'
+        'generic alert': 'enabled'
+        'proxy ca key': 'none'
+        'mod ssl methods': 'disabled'
+        'max renegotiations per minute': '5'
+        'alert timeout': '10'
+        'proxy ca cert': 'none'
+        'proxy ssl': 'disabled'
+        'peer cert mode': 'ignore'
+        'cert lookup by ipaddr port': 'disabled'
+        'ssl forward proxy': 'disabled'
+        'proxy ssl passthrough': 'disabled'
+        'handshake timeout': '10'
+        'sni require': 'false'
+        'client cert ca': 'none'
+        'retain certificate': 'true'
+        'ssl sign hash': 'any'
+        'server name': 'none'
+        'inherit certkeychain': 'false'
+        'mode': 'enabled'
+        'session ticket': 'disabled'
+        'ssl forward proxy bypass': 'disabled'
+        'authenticate name': 'none'
 
     Profile_na_http:
     - 'lws width'
@@ -652,6 +772,29 @@ VERSION_10:
     Profile_indirect_l4:
     - "reset on timeout"
     - "pva acceleration"
+    - 'ip tos to server'
+    - 'timeout recovery'
+    - 'pva offload dynamic'
+    - 'tcp handshake timeout'
+    - 'pva dynamic server packets'
+    - 'pva dynamic client packets'
+    - 'tcp timestamp mode'
+    - 'client timeout'
+    - 'link qos to server'
+    - 'tcp wscale mode'
+    - 'server timestamp'
+    - 'late binding'
+    - 'syn cookie whitelist'
+    - 'rtt from client'
+    - 'rtt from server'
+    - 'link qos to client'
+    - 'tcp generate isn'
+    - 'ip tos to client'
+    - 'server sack'
+    - 'receive window size'
+
+    profile_na_l4:
+    - "hardware syn cookie"
 
     Profile_supported_fh:
     - "description"
@@ -661,7 +804,14 @@ VERSION_10:
     - "insert xforwarded for"
 
     Profile_indirect_fh:
-    - "reset on timeout"
+    - 'reset on timeout'
+    - 'unclean shutdown'
+    - 'server timestamp'
+    - 'http 11 close workarounds'
+    - 'force http 10 response'
+    - 'connpool replenish'
+    - 'server sack'
+    - 'hardware syn cookie'
 
     Profile_supported_tcp:
     - "description"
@@ -684,6 +834,31 @@ VERSION_10:
     - "dsack"
     - "delayed acks"
     - "selective acks"
+    - 'minimum rto'
+    - 'mptcp'
+    - 'syn cookie whitelist'
+    - 'max segment size'
+    - 'mptcp csum'
+    - 'mptcp csum verify'
+    - 'mptcp rxmitmin'
+    - 'mptcp fallback'
+    - 'mptcp fastjoin'
+    - 'mptcp debug'
+    - 'mptcp join max'
+    - 'mptcp makeafterbreak'
+    - 'mptcp nojoindssack'
+    - 'mptcp rtomax'
+    - 'mptcp subflowmax'
+    - 'mptcp timeout'
+    - 'send buffer size'
+    - 'early retransmit'
+
+    Profile_indirect_udp:
+    - 'link qos to client'
+    - 'proxy mss'
+    - 'ip tos to client'
+    - 'allow no payload'
+    - 'datagram load balancing'
 
     Profile_supported_udp:
     - "idle timeout"
@@ -719,6 +894,3 @@ VERSION_10:
     - "ip forward"
     - "stateless"
     - "reject"
-
-
-
