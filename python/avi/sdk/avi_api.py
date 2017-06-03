@@ -167,6 +167,7 @@ class ApiSession(Session):
         self.key = controller_ip + ":" + username
         self.api_version = api_version
         self.retry_conxn_errors = retry_conxn_errors
+        self.remote_api_version = None
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -253,6 +254,18 @@ class ApiSession(Session):
         self.headers = {}
         self.authenticate_session()
 
+    def get_remote_api_version(self, rsp):
+        """
+        Retrieves the remote api version from the login-data.
+        """
+        login_data = rsp.json()
+        controller_info = login_data.get('version', None)
+        if controller_info:
+            version = controller_info.get('Version', None)
+            if version:
+                self.remote_api_version = str(version)
+        return
+
     def authenticate_session(self):
         """
         Performs session authentication with Avi controller and stores
@@ -268,9 +281,11 @@ class ApiSession(Session):
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
+            self.remote_api_version = None
             raise Exception(
                 "Authentication failed with code %d reason msg: %s" %
                 (rsp.status_code, rsp.text))
+        self.get_remote_api_version(rsp)
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
             "Referer": self.prefix,
