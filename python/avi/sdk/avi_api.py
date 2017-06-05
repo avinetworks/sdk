@@ -167,6 +167,7 @@ class ApiSession(Session):
         self.key = controller_ip + ":" + username
         self.api_version = api_version
         self.retry_conxn_errors = retry_conxn_errors
+        self.remote_api_version = {}
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -269,9 +270,11 @@ class ApiSession(Session):
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
+            self.remote_api_version = {}
             raise Exception(
                 "Authentication failed with code %d reason msg: %s" %
                 (rsp.status_code, rsp.text))
+        self.remote_api_version = rsp.json().get('version', {})
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
             "Referer": self.prefix,
