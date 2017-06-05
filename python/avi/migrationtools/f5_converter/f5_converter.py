@@ -17,8 +17,6 @@ from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from pkg_resources import parse_version
 
-
-
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -62,6 +60,8 @@ class F5Converter(AviConverter):
         self.create_ansible = args.ansible
         # Prefix for objects
         self.prefix = args.prefix
+        # Setting snat conversion flag using args
+        self.con_snatpool = args.convertsnat
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -163,7 +163,7 @@ class F5Converter(AviConverter):
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
             self.f5_config_version, self.ssl_profile_merge_check,
-            self.controller_version, report_name, self.prefix, user_ignore,
+            self.controller_version, report_name, self.prefix, self.con_snatpool, user_ignore,
             self.tenant, self.cloud_name)
 
         avi_config_dict["META"] = {
@@ -375,6 +375,11 @@ if __name__ == "__main__":
                         help='Flag for create ansible file', default=False)
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
+
+    # Added snatpool conversion option
+    parser.add_argument('--convertsnat',
+                        help='Flag for converting snatpool into individual addresses',
+                        action = "store_true")
 
 
     args = parser.parse_args()
