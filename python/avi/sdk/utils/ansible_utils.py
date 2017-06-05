@@ -241,7 +241,8 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
                     d_x_absent_ks.append(k)
             elif isinstance(v, list) and not v:
                 d_x_absent_ks.append(k)
-            elif isinstance(v, str) or isinstance(y[k], str):
+            # Added condition to check key in dict.
+            elif isinstance(v, str) or (k in y and isinstance(y[k], str)):
                 # this is the case when ansible converts the dictionary into a
                 # string.
                 if v == "{'state': 'absent'}" and k not in y:
