@@ -158,8 +158,16 @@ class MonitorConfigConv(object):
         elif monitor_type == "dns":
             na_list = self.na_dns
             u_ignore = user_ignore.get("dns", [])
-            skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
-            ignore_for_defaults.update({'qtype': 'a'})
+            if f5_monitor.get('qname', None) and (not f5_monitor.get(
+                    'qname') == 'none'):
+                skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
+                ignore_for_defaults.update({'qtype': 'a'})
+            else:
+                LOG.warning('No value for mandatory field query_name, skipped '
+                            'DNS Monitor %s' % key)
+                conv_utils.add_status_row('monitor', monitor_type, name,
+                                          conv_const.STATUS_SKIPPED)
+                return None
         elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
             u_ignore = user_ignore.get("tcp", [])
