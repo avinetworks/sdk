@@ -497,6 +497,10 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     # Removed unwanted string from ip address
     if '%' in ip_addr:
         ip_addr = ip_addr.split('%')[0]
+    # Added support to skip virtualservice with ip address any
+    if ip_addr == 'any':
+        LOG.debug("Skipped:VS with IP address: %s" % str(destination))
+        return None, None, None
     # Added check for IP V4
     matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
     if not matches or ip_addr == '0.0.0.0':
