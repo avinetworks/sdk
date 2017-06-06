@@ -12,11 +12,11 @@ LOG = logging.getLogger(__name__)
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_virtualservice_attributes, prefix):
+    def get_instance(cls, version, f5_virtualservice_attributes, prefix, con_snatpool):
         if version == '10':
-            return VSConfigConvV10(f5_virtualservice_attributes, prefix)
+            return VSConfigConvV10(f5_virtualservice_attributes, prefix, con_snatpool)
         if version in ['11', '12']:
-            return VSConfigConvV11(f5_virtualservice_attributes, prefix)
+            return VSConfigConvV11(f5_virtualservice_attributes, prefix, con_snatpool)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -303,26 +303,29 @@ class VSConfigConv(object):
             vs_obj['network_security_policy_ref'] = conv_utils.get_object_ref(
                 policy_name, 'networksecuritypolicy', tenant=tenant)
 
+        # Checking snat conversion flag and snat info for creating snat ip object
         snat = f5_vs.get("source-address-translation", {})
-        snat_pool_name = snat.get("pool", None)
-        if not snat_pool_name:
-            snat_pool_name = f5_vs.get("snatpool", None)
-        snat_pool = None
-        if snat_pool_name:
-            snat_pool = snat_config.pop(snat_pool_name, None)
+        snat_pool_name = snat.get("pool", f5_vs.get("snatpool", None))
+        snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
-            snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
-            if len(snat_list) > 32:
-                vs_obj["snat_ip"] = snat_list[0:32]
-                LOG.warning(
-                    'Ignore the snat IPs, its count is beyond 32 for vs : %s' %
-                    vs_name)
+            if self.con_snatpool:
+                LOG.debug("Converting the snat as input flag and snat information is set")
+                snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
+                if len(snat_list) > 32:
+                    vs_obj["snat_ip"] = snat_list[0:32]
+                    LOG.warning(
+                        'Ignore the snat IPs, its count is beyond 32 for vs : %s' %
+                        vs_name)
+                else:
+                    vs_obj["snat_ip"] = snat_list
+                conv_status = {'status': final.STATUS_SUCCESSFUL}
+                message = 'Mapped indirectly to VS -> SNAT IP Address'
+                conv_utils.add_conv_status('snatpool', '', snat_pool_name,
+                                           conv_status, message)
             else:
-                vs_obj["snat_ip"] = snat_list
-            conv_status = {'status': final.STATUS_SUCCESSFUL}
-            message = 'Mapped indirectly to VS -> SNAT IP Address'
-            conv_utils.add_conv_status('snatpool', '', snat_pool_name,
-                                       conv_status, message)
+                LOG.debug("Skipped: snat conversion as input flag is not set for vs : %s" % vs_name)
+                skipped.append("source-address-translation")
+
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -393,7 +396,7 @@ class VSConfigConv(object):
 
 
 class VSConfigConvV11(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -404,6 +407,8 @@ class VSConfigConvV11(VSConfigConv):
         self.connection_limit = 'connection-limit'
         # Added prefix for objects
         self.prefix = prefix
+        # Added flag for snat conversion
+        self.con_snatpool = con_snatpool
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
@@ -423,7 +428,7 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -434,6 +439,8 @@ class VSConfigConvV10(VSConfigConv):
         self.connection_limit = 'limit'
         # Added prefix for objects
         self.prefix = prefix
+        # Added flag for snat conversion
+        self.con_snatpool = con_snatpool
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
