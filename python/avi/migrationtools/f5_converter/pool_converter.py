@@ -585,6 +585,8 @@ class PoolConfigConvV10(PoolConfigConv):
             # Check if port is present and added check for port is digit.
             if port and str(port).isdigit():
                 server_obj['port'] = port
+            else:
+                LOG.debug("Pool server port is not digit %s" % str(parts[1]))
             if priority:
                 server_obj['priority'] = priority
             if ratio:
