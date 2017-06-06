@@ -78,6 +78,14 @@ class VSConfigConv(object):
                                                           self.prefix)
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
             profiles, avi_config, tenant, self.prefix)
+
+        if not app_prof:
+            LOG.warning('Profile type not supported by Avi Skipping VS : %s'
+                        % vs_name)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED)
+            return None
+
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
                                                     self.prefix)
         oc_prof = False
