@@ -4,6 +4,7 @@
 #
 # !/usr/bin/python
 from ansible.module_utils.basic import *
+from avi.sdk.avi_api import ApiSession
 
 try:
     import requests
@@ -27,7 +28,8 @@ def main():
             vs_name=dict(required=True),
             controller=dict(required=True),
             username=dict(required=True),
-            password=dict(required=True)
+            password=dict(required=True),
+            tenant=dict()
         )
     )
 
@@ -42,28 +44,36 @@ def main():
     controller = module.params.get('controller', None)
     password = module.params.get('password', None)
     username = module.params.get('username', None)
-    path = '/api/virtualservice?name='
-    # Get the UUID OF virtualservice for runtime status.
-    response = requests.get(request_type + '://' + controller + path +
-                            virtualservice_name, verify=False,
-                            auth=(username, password))
-    if response.status_code >= 200 and response.status_code <= 299:
-        response = response.json()
-        uuid = response['results'][0]['uuid']
+    tenant = module.params.get('tenant', None)
+    OBJECT_TYPE = 'virtualservice'
+    try:
+        # Creating Api session
+        session = ApiSession.get_session(controller, username, password=password,
+                                         tenant=tenant)
+    except:
+        module.exit_json(
+            stderr='Virtualservice Session is not created',
+            changed=False,
+            success=1
+        )
+    # Get the vs parameter for getting vs state
+    response = session.get_object_by_name(OBJECT_TYPE, virtualservice_name)
+    if response:
+        uuid = response['uuid']
         vs_up = False
+        # If uuid the check the state of virtualservice
         if uuid:
-            status_path = '/api/virtualservice/%s/runtime/detail/' % uuid
+            status_path = 'virtualservice-inventory/%s' % uuid
             for i in range(0, 10):
                 # Check if virtualservice is up
-                response = requests.get(request_type + '://' + controller +
-                                        status_path, verify=False,
-                                        auth=(username, password))
+                response = session.get(status_path)
                 response = response.json()
-                if 'OPER_UP' == response[0]['oper_status']['state']:
+                if 'OPER_UP' == response['runtime']['oper_status']['state']:
                     vs_up = True
                     break
                 else:
                     time.sleep(0.2)
+        # If virtualservice is up then send traffic
         if vs_up:
             # Send http get requests to generate traffic
             if request_type == 'http' or request_type == 'https':
@@ -79,7 +89,6 @@ def main():
                     else:
                         module.fail_json(msg='Virtualservice is down')
                         break
-
                 if response.status_code >= 200 and \
                                 response.status_code <= 299:
                     module.exit_json(
@@ -130,14 +139,13 @@ def main():
                     )
         else:
             module.exit_json(
-                stderr='Virtualservice is not enabled',
+                stderr='Virtualservice is not UP',
                 changed=False,
                 success=1
             )
-
     else:
         module.exit_json(
-            stderr='Virtualservice api is not reachable',
+            stderr='Virtualservice is not configured',
             changed=False,
             success=1
         )
