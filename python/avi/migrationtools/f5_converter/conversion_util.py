@@ -363,6 +363,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     f_host = None
     realm = None
     app_profile_list = avi_config.get("ApplicationProfile", [])
+    unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
     if not profiles:
         profiles = {}
     if isinstance(profiles, str):
@@ -371,7 +372,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     for name in profiles.keys():
         # Added prefix for objects
         if prefix:
-            name = prefix + '-' + name
+            name = '%s-%s' % (prefix, name)
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
@@ -405,7 +406,13 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
                             app_profiles[0]['tenant_ref'])),
                     "realm": app_profiles[0].pop('realm')
                 }
+
     if not app_profile_refs:
+        not_supported = [key for key in profiles.keys() if
+                         key in unsupported_profiles]
+        if not_supported:
+            LOG.warning('Profiles not supported by Avi : %s' % not_supported)
+            return app_profile_refs, f_host, realm, policy_set
         value = 'http'
         # Added prefix for objects
         if prefix:
@@ -784,6 +791,7 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["SSLProfile"])
     avi_config.pop('hash_algorithm', [])
     avi_config.pop('OneConnect', [])
+    avi_config.pop('UnsupportedProfileType',[])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
