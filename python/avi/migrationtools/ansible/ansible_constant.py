@@ -142,6 +142,7 @@ REGISTER = 'register'
 VALUE = 'result'
 RESULT = "result.success!=0"
 VS_NAME = 'virtualservice_name'
+TENANT = 'tenant'
 HELP_STR = '''
 Converts Avi Config JSON to Ansible Playbooks.
 Please ensure configuration is exported with options

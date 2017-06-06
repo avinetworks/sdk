@@ -23,7 +23,7 @@ from avi.migrationtools.ansible.ansible_constant import \
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
-     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE)
+     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT)
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
@@ -223,13 +223,14 @@ class AviAnsibleConverter(object):
             })
 
     def generate_avi_vs_traffic(self, vs_dict, ansible_dict,
-                                application_profile):
+                                application_profile, tenant='admin'):
         """
         This function is used for generating tags for avi traffic.
         :param vs_dict: avi virtualservice attributes.
         :param ansible_dict: used for playbook generation.
         :param application_profile: dict used to for request type
         eg: request type : dns, http, https.
+        :param tenant: name of tenant
         :return: None
         """
         avi_traffic_dict = dict()
@@ -244,6 +245,7 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[USERNAME] = USER_NAME
             avi_traffic_dict[PASSWORD] = PASSWORD_NAME
             avi_traffic_dict[REGISTER] = VALUE
+            avi_traffic_dict[TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {
@@ -322,6 +324,7 @@ class AviAnsibleConverter(object):
         """
         for vs in self.avi_cfg['VirtualService']:
             if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
+                tenant = 'admin'
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
                 vs_dict[VIP] = vs[VIP]
@@ -330,6 +333,9 @@ class AviAnsibleConverter(object):
                 vs_dict[USERNAME] = USER_NAME
                 vs_dict[PASSWORD] = PASSWORD_NAME
                 vs_dict[API_VERSION] = self.api_version
+                # Added tenant in playbook for avi api calls.
+                if 'tenant_ref' in vs:
+                    tenant = str(vs['tenant_ref']).split('=')[-1]
                 if POOL_REF in vs:
                     sep_ele = vs[POOL_REF].split('&')
                     removed_ref = sep_ele[0].split('?')
@@ -341,7 +347,8 @@ class AviAnsibleConverter(object):
                 if APPLICATION_PROFILE_REF in vs:
                     self.generate_avi_vs_traffic(
                                                  vs_dict, ansible_dict,
-                                                 vs[APPLICATION_PROFILE_REF]
+                                                 vs[APPLICATION_PROFILE_REF],
+                                                 tenant=tenant
                                                 )
                 self.create_avi_ansible_disable(vs_dict, ansible_dict)
                 self.create_f5_ansible_enable(f5_dict, ansible_dict)

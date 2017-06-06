@@ -522,6 +522,7 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         port = get_port_by_protocol(port)
     # Port is None then skip vs
     if not port:
+        LOG.debug("Skipped:Port not supported %s" % str(parts[1]))
         return None, None, None
     if int(port) > 0:
         for vs in vs_dup_ips:
@@ -762,8 +763,7 @@ def get_snat_list_for_vs(snat_pool):
         ips = members.keys() + members.values()
     elif isinstance(members, str):
         ips = [members]
-    if None in ips:
-        ips = filter(None, ips)
+    ips = [ip for ip in ips if ip]
     for ip in ips:
         # Removed unwanted string from ip address
         if '/' in ip or '%' in ip:
