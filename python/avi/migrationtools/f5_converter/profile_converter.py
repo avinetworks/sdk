@@ -66,6 +66,7 @@ class ProfileConfigConv(object):
 
         if not persistence:
             f5_config['persistence'] = {}
+        avi_config['UnsupportedProfiles'] = []
         for key in profile_config.keys():
             profile_type = None
             name = None
@@ -79,6 +80,7 @@ class ProfileConfigConv(object):
                                 % (name, profile_type))
                     conv_utils.add_status_row('profile', profile_type, name,
                                               final.STATUS_SKIPPED)
+                    avi_config['UnsupportedProfiles'].append(name)
                     continue
                 # Added prefix for objects
                 if self.prefix:

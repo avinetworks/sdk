@@ -105,11 +105,13 @@ class MonitorConfigConv(object):
         interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
         time_until_up = int(f5_monitor.get(self.tup,
                                            conv_const.DEFAULT_TIME_UNTIL_UP))
-        successful_checks = int(timeout/interval)
-        failed_checks = conv_const.DEFAULT_FAILED_CHECKS
+        # Fixed Successful interval and failed checks
+        failed_checks = int(timeout/interval)
+        successful_checks = conv_const.DEFAULT_FAILED_CHECKS
         if time_until_up > 0:
-            failed_checks = int(time_until_up/interval)
-            failed_checks = 1 if failed_checks == 0 else failed_checks
+            successful_checks = int(time_until_up/interval)
+            successful_checks = 1 \
+                if successful_checks == 0 else successful_checks
 
         description = f5_monitor.get("description", None)
         monitor_dict = dict()
@@ -156,8 +158,16 @@ class MonitorConfigConv(object):
         elif monitor_type == "dns":
             na_list = self.na_dns
             u_ignore = user_ignore.get("dns", [])
-            skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
-            ignore_for_defaults.update({'qtype': 'a'})
+            if f5_monitor.get('qname', None) and (not f5_monitor.get(
+                    'qname') == 'none'):
+                skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
+                ignore_for_defaults.update({'qtype': 'a'})
+            else:
+                LOG.warning('No value for mandatory field query_name, skipped '
+                            'DNS Monitor %s' % key)
+                conv_utils.add_status_row('monitor', monitor_type, name,
+                                          conv_const.STATUS_SKIPPED)
+                return None
         elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
             u_ignore = user_ignore.get("tcp", [])
