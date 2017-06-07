@@ -132,7 +132,7 @@ class ApiSession(Session):
     # a new cache for that process.
     AVI_SLUG = 'Slug'
     SESSION_CACHE_EXPIRY = 20*60
-    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id']
+    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer']
     MAX_API_RETRIES = 3
 
     def __init__(self, controller_ip, username, password=None, token=None,
