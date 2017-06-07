@@ -206,7 +206,7 @@ def get_port_by_protocol(protocol):
     :param protocol: protocol name
     :return: integer value for protocol
     """
-    port = conv_const.DEFAULT_PORT
+
     if protocol == "https":
         port = conv_const.HTTPS_PORT
     elif protocol == "ftp":
@@ -229,6 +229,8 @@ def get_port_by_protocol(protocol):
         port = conv_const.MACROMEDIA_FCS_PORT
     elif protocol == "any":
         port = None
+    else:
+        return None
     return port
 
 
@@ -361,6 +363,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     f_host = None
     realm = None
     app_profile_list = avi_config.get("ApplicationProfile", [])
+    unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
     if not profiles:
         profiles = {}
     if isinstance(profiles, str):
@@ -369,7 +372,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     for name in profiles.keys():
         # Added prefix for objects
         if prefix:
-            name = prefix + '-' + name
+            name = '%s-%s' % (prefix, name)
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
@@ -403,7 +406,13 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
                             app_profiles[0]['tenant_ref'])),
                     "realm": app_profiles[0].pop('realm')
                 }
+
     if not app_profile_refs:
+        not_supported = [key for key in profiles.keys() if
+                         key in unsupported_profiles]
+        if not_supported:
+            LOG.warning('Profiles not supported by Avi : %s' % not_supported)
+            return app_profile_refs, f_host, realm, policy_set
         value = 'http'
         # Added prefix for objects
         if prefix:
@@ -492,6 +501,13 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     parts = destination.split(':')
     ip_addr = parts[0]
     ip_addr = ip_addr.strip()
+    # Removed unwanted string from ip address
+    if '%' in ip_addr:
+        ip_addr = ip_addr.split('%')[0]
+    # Added support to skip virtualservice with ip address any
+    if ip_addr == 'any':
+        LOG.debug("Skipped:VS with IP address: %s" % str(destination))
+        return None, None, None
     # Added check for IP V4
     matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
     if not matches or ip_addr == '0.0.0.0':
@@ -515,7 +531,10 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         port = 0
     if isinstance(port, str) and (not port.isdigit()):
         port = get_port_by_protocol(port)
-
+    # Port is None then skip vs
+    if not port:
+        LOG.debug("Skipped:Port not supported %s" % str(parts[1]))
+        return None, None, None
     if int(port) > 0:
         for vs in vs_dup_ips:
             service_updated = update_service(port, vs, enable_ssl)
@@ -755,9 +774,12 @@ def get_snat_list_for_vs(snat_pool):
         ips = members.keys() + members.values()
     elif isinstance(members, str):
         ips = [members]
-    if None in ips:
-        ips.remove(None)
+    ips = [ip for ip in ips if ip]
     for ip in ips:
+        # Removed unwanted string from ip address
+        if '/' in ip or '%' in ip:
+            ip = ip.split('/')[-1]
+            ip = ip.split('%')[-2]
         snat_obj = {
             "type": "V4",
             "addr": ip
@@ -773,6 +795,7 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["SSLProfile"])
     avi_config.pop('hash_algorithm', [])
     avi_config.pop('OneConnect', [])
+    avi_config.pop('UnsupportedProfiles',[])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])

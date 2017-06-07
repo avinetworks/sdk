@@ -153,6 +153,7 @@ VERSION_11:
     - "fastl4"
     - "tcp"
     - "udp"
+    - "one-connect"
 
     Profile_ignore_for_defaults:
         'app-service': 'none'
@@ -632,6 +633,7 @@ VERSION_10:
     - "fasthttp"
     - "tcp"
     - "udp"
+    - "oneconnect"
 
     Profile_supported_ssl:
     - "cert"
