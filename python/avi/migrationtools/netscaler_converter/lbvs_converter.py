@@ -281,10 +281,9 @@ class LbvsConverter(object):
                             if pool:
                                 pool[0]["fail_action"] = fail_action
 
-                elif ip_addr == '0.0.0.0' and not redirect_url \
-                        and backup_server:
-                    # Add baclup pool of poolgroup if this lb vs has an ip
-                    # 0.0.0.0 with backup vserver
+                if backup_server:
+                    # Add backup pool of poolgroup if this lb vs has an ip
+                    # backup vserver
                     try:
                         backup_pool_group_ref = backup_server + '-poolgroup'
                         backup_pool_group_ref = re.sub('[:]', '-',
@@ -293,17 +292,15 @@ class LbvsConverter(object):
                         if self.prefix:
                             backup_pool_group_ref = self.prefix + '-' + \
                                                     backup_pool_group_ref
-                        backup_pool_group = [pool_group for pool_group in
-                                             avi_config.get("PoolGroup", [])
-                                             if pool_group['name'] ==
-                                             backup_pool_group_ref]
-                        backup_pool_ref = backup_pool_group[0]['members']
-                        [0]['pool_ref']
-                        backup_pool_ref = \
-                            backup_pool_group[0]['members'][0]['pool_ref']. \
-                                split('&')[1].split('=')[1]
+                        backup_pool_group = [
+                            pg for pg in avi_config.get("PoolGroup", [])
+                            if pg['name'] == backup_pool_group_ref]
+
+                        backup_pool_ref = ns_util.get_name(
+                            backup_pool_group[0]['members'][0]['pool_ref']
+                        )
                         for index, pool_ref in enumerate(pool_group['members']):
-                            pool_ref = pool_ref.split('&')[1].split('=')[1]
+                            pool_ref = ns_util.get_name(pool_ref['pool_ref'])
                             pool = [pool for pool in avi_config['Pool']
                                     if pool['name'] == pool_ref]
                             if pool:
