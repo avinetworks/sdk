@@ -127,6 +127,16 @@ class Test(unittest.TestCase):
         resp = api.delete_by_name('sslkeyandcertificate', 'ssl-vs-kc')
         assert resp.status_code in (200, 204)
 
+    def test_cloned_session_headers(self):
+        api2 = ApiSession(api.controller_ip, api.username, api.password,
+                          tenant=api.tenant, tenant_uuid=api.tenant_uuid,
+                          api_version=api.api_version, verify=False)
+        SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer']
+        for hdr in SHARED_USER_HDRS:
+            if hdr in api.headers:
+                assert api.headers[hdr] == api2.headers[hdr]
+
+
     def reset_connection(self):
         login_info = gSAMPLE_CONFIG["User2"]
         old_password = login_info["password"]
