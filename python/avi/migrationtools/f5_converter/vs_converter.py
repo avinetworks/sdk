@@ -332,7 +332,9 @@ class VSConfigConv(object):
                                            conv_status, message)
             else:
                 LOG.debug("Skipped: snat conversion as input flag is not set for vs : %s" % vs_name)
-                skipped.append("source-address-translation")
+                skipped.append("source-address-translation" if f5_vs.get(
+                    "source-address-translation") else "snatpool" if f5_vs.get(
+                    "snatpool") else None)
 
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
