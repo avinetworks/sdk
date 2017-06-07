@@ -24,13 +24,13 @@ type Server struct {
 	Description string `json:"description,omitempty"`
 
 	// (internal-use) Discovered network for this server. This field is deprecated. It is a reference to an object of type Network. Field deprecated in 17.1.1.
-	DiscoveredNetworkRef []string `json:"discovered_network_ref"`
+	DiscoveredNetworkRef []string `json:"discovered_network_ref,omitempty"`
 
 	// (internal-use) Discovered networks providing reachability for server IP. This field is used internally by Avi, not editable by the user.
-	DiscoveredNetworks []*DiscoveredNetwork `json:"discovered_networks"`
+	DiscoveredNetworks []*DiscoveredNetwork `json:"discovered_networks,omitempty"`
 
 	// (internal-use) Discovered subnet for this server. This field is deprecated. Field deprecated in 17.1.1.
-	DiscoveredSubnet []*IPAddrPrefix `json:"discovered_subnet"`
+	DiscoveredSubnet []*IPAddrPrefix `json:"discovered_subnet,omitempty"`
 
 	// Enable, Disable or Graceful Disable determine if new or existing connections to the server are allowed.
 	Enabled *bool `json:"enabled,omitempty"`

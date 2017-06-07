@@ -23,7 +23,7 @@ type PoolAPIResponse struct {
 
 	// results
 	// Required: true
-	Results []*Pool `json:"results"`
+	Results []*Pool `json:"results,omitempty"`
 }
 
 // Validate validates this pool Api response

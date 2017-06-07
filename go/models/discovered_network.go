@@ -22,7 +22,7 @@ type DiscoveredNetwork struct {
 	NetworkRef *string `json:"network_ref"`
 
 	// Discovered subnet for this IP.
-	Subnet []*IPAddrPrefix `json:"subnet"`
+	Subnet []*IPAddrPrefix `json:"subnet,omitempty"`
 }
 
 // Validate validates this discovered network

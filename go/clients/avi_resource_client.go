@@ -4,13 +4,11 @@ package clients
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"../session"
+	"strings"
 	// Change this to objects when we move to use objects rather than
 	// models
-	"../models"
-	"container/vector"
-	"strings"
-	"fmt"
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
 )
 
 const (
@@ -19,65 +17,67 @@ const (
 
 // AviPool is a client for avi pool
 type PoolClient struct {
-	AviSession *avi_session
+	avi_session *session.AviSession
+}
+
+func NewPoolClient(avi_session *session.AviSession) *PoolClient {
+	return &PoolClient{avi_session: avi_session}
 }
 
 func (client *PoolClient) GetApiPath(uuid string) string {
-	path = "api/" + strings.ToLower(OBJ_TYPE)
-	if uuid {
+	path := "api/" + strings.ToLower(OBJ_TYPE)
+	if uuid != "" {
 		path += "/" + uuid
 	}
 	return path
 }
 
 // Collection API to get list of Pools
-func (client *PoolClient) GetAll() ([]*models.Pool, session.AviError) {
-	res, err := client.avi_session.Get(client.GetApiPath(""))
-	if err != nil {
-		return nil, err
-	}
-	return res["results"], err
+func (client *PoolClient) GetAll() ([]*models.Pool, error) {
+	var plist []*models.Pool
+	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	return plist, err
 }
 
 // Get Pool by uuid
-func (client *PoolClient) Get(uuid string) (*models.Pool, session.AviError)  {
-	return client.avi_session.Get(client.GetApiPath(uuid))
+func (client *PoolClient) Get(uuid string) (*models.Pool, error) {
+	var obj *models.Pool
+	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	return obj, err
 }
 
 // Get Pool by name
-func (client *PoolClient) GetByName(name string) (*models.Pool, session.AviError) {
-	path = client.GetApiPath("") + "?name=" + name
-	res, err := client.avi_session.Get(client.GetApiPath(""))
-	if err != nil {
-		return nil, err
-	}
-	if res["count"] >= 0 {
-		return res["results"][0], nil
-	}
-	return nil, session.AviError{httpStatusCode: 404}
+func (client *PoolClient) GetByName(name string) (*models.Pool, error) {
+	var obj *models.Pool
+	err := client.avi_session.GetObjectByName(strings.ToLower(OBJ_TYPE), name, &obj)
+	return obj, err
 }
 
 // Get Pool by uuid
-func (client *PoolClient) Create(obj *models.Pool) (*models.Pool, session.AviError) {
-	return client.avi_session.Post(client.GetApiPath(""), obj)
+func (client *PoolClient) Create(obj *models.Pool) (*models.Pool, error) {
+	var robj *models.Pool
+	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	return robj, err
 }
 
 // Modify Pool and updates the pool object passed down
-func (client *PoolClient) Update(obj *models.Pool) (*models.Pool, session.AviError) {
-	return client.avi_session.Put(client.GetApiPath(obj["uuid"]), obj)
+func (client *PoolClient) Update(obj *models.Pool) (*models.Pool, error) {
+	var robj *models.Pool
+	path := client.GetApiPath(obj.UUID)
+	err := client.avi_session.Put(path, obj, &robj)
+	return robj, err
 }
 
 // Modify Pool and updates the pool object passed down
-func (client *PoolClient) Delete(uuid string) (session.AviError) {
+func (client *PoolClient) Delete(uuid string) error {
 	return client.avi_session.Delete(client.GetApiPath(uuid))
 }
 
 // Delete Pool object by name
-func (client *PoolClient) DeleteByName(name string) (session.AviError) {
-	res, err = client.GetByName(name)
+func (client *PoolClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
 	if err != nil {
 		return err
 	}
-	return client.Delete(res["uuid"])
+	return client.Delete(res.UUID)
 }
-

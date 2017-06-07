@@ -20,10 +20,10 @@ type HTTPReselectRespCode struct {
 	Codes []int64 `json:"codes,omitempty"`
 
 	// HTTP response code ranges to match.
-	Ranges []*HttpstatusRange `json:"ranges"`
+	Ranges []*HttpstatusRange `json:"ranges,omitempty"`
 
 	// Block of HTTP response codes to match for server reselect. Enum options - HTTP_RSP_4XX, HTTP_RSP_5XX.
-	RespCodeBlock []string `json:"resp_code_block"`
+	RespCodeBlock []string `json:"resp_code_block,omitempty"`
 }
 
 // Validate validates this HTTP reselect resp code

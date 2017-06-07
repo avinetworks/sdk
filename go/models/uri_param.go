@@ -18,7 +18,7 @@ import (
 type URIParam struct {
 
 	// Token config either for the URI components or a constant string.
-	Tokens []*URIParamToken `json:"tokens"`
+	Tokens []*URIParamToken `json:"tokens,omitempty"`
 
 	// URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED.
 	// Required: true

@@ -1,11 +1,11 @@
 package session
 
 import (
+	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
 	"log"
 	"reflect"
 	"testing"
-	"encoding/json"
 )
 
 func TestAviSession(t *testing.T) {
@@ -71,19 +71,18 @@ func TestAviPool(t *testing.T) {
 	avisess.InitiateSession()
 
 	tpool := models.Pool{}
-        pname := "testpool"
+	pname := "testpool"
 	tpool.Name = &pname
 	res, err := avisess.Post("api/pool", tpool)
 	log.Println("res: ", res, " err:", err)
 	if err != nil {
 		t.Error("Pool Creation failed: ", err)
 	}
-        
-        var npool2 models.Pool
-        err = avisess.GetObjectByName("pool", "testpool", &npool2)
 
- 
+	var npool2 models.Pool
+	err = avisess.GetObjectByName("pool", "testpool", &npool2)
+
 	log.Printf("npool: %+v err: %+v", npool2, err)
-        log.Println("name: ", *npool2.Name)
+	log.Println("name: ", *npool2.Name)
 	t.Error("Just to force output")
 }

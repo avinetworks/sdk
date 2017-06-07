@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -11,7 +12,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"reflect"
-	"errors"
 
 	"github.com/golang/glog"
 )
@@ -61,6 +61,10 @@ func (err AviError) Error() string {
 
 	return fmt.Sprintf("Encountered an error on %s request to URL %s: %s",
 		err.verb, err.url, msg)
+}
+
+func NewAviError(verb string, url string, status_code int) AviError {
+	return AviError{verb: verb, url: url, httpStatusCode: status_code}
 }
 
 type AviSession struct {
@@ -113,13 +117,14 @@ func (avisession *AviSession) InitiateSession() error {
 
 	// initiate http session here
 	// first set the csrf token
-	res, rerror := avisession.Get("")
+	var res interface{}
+	rerror := avisession.Get("", res)
 
 	// now login to get session_id
 	cred := make(map[string]string)
 	cred["username"] = avisession.username
 	cred["password"] = avisession.password
-	res, rerror = avisession.Post("login", cred)
+	rerror = avisession.Post("login", cred, res)
 	// now session id is set too
 
 	log.Println("response: ", res)
@@ -220,8 +225,8 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 		log.Println("Error: ", resp)
 		bres, berr := ioutil.ReadAll(resp.Body)
 		if berr == nil {
-		    mres, _ := ConvertAviResponseToMapInterface(bres)
-		    log.Println("Error resp: ", mres)
+			mres, _ := ConvertAviResponseToMapInterface(bres)
+			log.Println("Error resp: ", mres)
 		}
 		return result, errorResult
 	}
@@ -243,11 +248,11 @@ func ConvertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
 
 type AviCollectionResult struct {
 	Count   int
-	Results []json.RawMessage
+	Results json.RawMessage
 }
 
 func ConvertBytesToSpecificInterface(resbytes []byte, result interface{}) error {
-	err := json.Unmarshal(resbytes, result)
+	err := json.Unmarshal(resbytes, &result)
 	return err
 }
 
@@ -260,36 +265,36 @@ func debug(data []byte, err error) {
 }
 
 func (avi *AviSession) rest_request_interface_response(verb string, url string,
-	payload interface{}) (interface{}, error) {
+	payload interface{}, response interface{}) error {
 	res, rerror := avi.rest_request(verb, url, payload)
 	if rerror != nil || res == nil {
-		return res, rerror
+		return rerror
 	}
-	return ConvertAviResponseToMapInterface(res)
+	return json.Unmarshal(res, &response)
 }
 
 // get issues a GET request against the avi REST API.
-func (avi *AviSession) Get(uri string) (interface{}, error) {
-	return avi.rest_request_interface_response("GET", uri, nil)
+func (avi *AviSession) Get(uri string, response interface{}) error {
+	return avi.rest_request_interface_response("GET", uri, nil, response)
 }
 
 // post issues a POST request against the avi REST API.
-func (avi *AviSession) Post(uri string, payload interface{}) (interface{}, error) {
-	return avi.rest_request_interface_response("POST", uri, payload)
+func (avi *AviSession) Post(uri string, payload interface{}, response interface{}) error {
+	return avi.rest_request_interface_response("POST", uri, payload, response)
 }
 
 // put issues a PUT request against the avi REST API.
-func (avi *AviSession) Put(uri string, payload interface{}) (interface{}, error) {
-	return avi.rest_request_interface_response("PUT", uri, payload)
+func (avi *AviSession) Put(uri string, payload interface{}, response interface{}) error {
+	return avi.rest_request_interface_response("PUT", uri, payload, response)
 }
 
 // delete issues a DELETE request against the avi REST API.
-func (avi *AviSession) Delete(uri string) (interface{}, error) {
-	return avi.rest_request_interface_response("DELETE", uri, nil)
+func (avi *AviSession) Delete(uri string) error {
+	return avi.rest_request_interface_response("DELETE", uri, nil, nil)
 }
 
 // get issues a GET request against the avi REST API.
-func (avi *AviSession) GetCollection(uri string) (AviCollectionResult, error) {
+func (avi *AviSession) GetCollectionRaw(uri string) (AviCollectionResult, error) {
 	var result AviCollectionResult
 	res, rerror := avi.rest_request("GET", uri, nil)
 	if rerror != nil || res == nil {
@@ -297,6 +302,17 @@ func (avi *AviSession) GetCollection(uri string) (AviCollectionResult, error) {
 	}
 	err := json.Unmarshal(res, &result)
 	return result, err
+}
+
+func (avi *AviSession) GetCollection(uri string, obj_list interface{}) error {
+	result, err := avi.GetCollectionRaw(uri)
+	if err != nil {
+		return err
+	}
+	if result.Count == 0 {
+		return nil
+	}
+	return json.Unmarshal(result.Results, &obj_list)
 }
 
 func (avi *AviSession) GetRaw(uri string) ([]byte, error) {
@@ -309,15 +325,19 @@ func (avi *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) 
 
 func (avi *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
 	uri := "api/" + obj + "?name=" + name
-	res_col, err := avi.GetCollection(uri)
+	res, err := avi.GetCollectionRaw(uri)
 	if err != nil {
 		return err
 	}
-	if res_col.Count == 0 {
+	if res.Count == 0 {
 		return errors.New("No object of type " + obj + " with name " + name + "is found")
-	} else if res_col.Count > 1 {
+	} else if res.Count > 1 {
 		return errors.New("More than one object of type " + obj + " with name " + name + "is found")
 	}
-
-	return json.Unmarshal(res_col.Results[0], result)
+	elems := make([]json.RawMessage, 1)
+	err = json.Unmarshal(res.Results, &elems)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(elems[0], &result)
 }

@@ -20,7 +20,7 @@ type ServerScaleInParams struct {
 	Reason string `json:"reason,omitempty"`
 
 	// List of server IDs that should be scaled in.
-	Servers []*ServerID `json:"servers"`
+	Servers []*ServerID `json:"servers,omitempty"`
 }
 
 // Validate validates this server scale in params

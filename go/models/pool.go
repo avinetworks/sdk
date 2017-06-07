@@ -73,7 +73,7 @@ type Pool struct {
 	EastWest bool `json:"east_west,omitempty"`
 
 	// Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled bool `json:"enabled,omitempty"`
 
 	// Name of external auto-scale group for pool servers. Currently available only for AWS. Field introduced in 17.1.2.
 	ExternalAutoscaleGroup string `json:"external_autoscale_group,omitempty"`
