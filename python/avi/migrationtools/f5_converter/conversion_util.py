@@ -791,7 +791,7 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["SSLProfile"])
     avi_config.pop('hash_algorithm', [])
     avi_config.pop('OneConnect', [])
-    avi_config.pop('UnsupportedProfileType',[])
+    avi_config.pop('UnsupportedProfiles',[])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
