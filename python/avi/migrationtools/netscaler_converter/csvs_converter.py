@@ -350,6 +350,8 @@ class CsvsConverter(object):
             # TODO move duplicate code for adding policy to vs in ns_util
             # Add the http policy set reference to VS in AVI
             if policy:
+                # Added fix for same policy refferred in multiple vs
+                policy['name'] = policy['name'] + vs_name
                 if policy['name'] in tmp_policy_ref:
                     # clone the http policy set if it is referenced to other VS
                     policy = ns_util.clone_http_policy_set(
