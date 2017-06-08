@@ -299,25 +299,20 @@ class LbvsConverter(object):
                         backup_pool_ref = ns_util.get_name(
                             backup_pool_group[0]['members'][0]['pool_ref']
                         )
-                        for index, pool_ref in enumerate(pool_group['members']):
-                            pool_ref = ns_util.get_name(pool_ref['pool_ref'])
-                            pool = [pool for pool in avi_config['Pool']
-                                    if pool['name'] == pool_ref]
-                            if pool:
-                                new_backup_pool_ref = \
-                                    ns_util.clone_pool(backup_pool_ref, index,
-                                                       avi_config,
-                                                       userprefix=self.prefix)
-                                new_backup_pool_ref = ns_util.get_object_ref(
-                                    new_backup_pool_ref, OBJECT_TYPE_POOL,
-                                    self.tenant_name, self.cloud_name)
-                                backup_pool = {
-                                    'type': 'FAIL_ACTION_BACKUP_POOL',
-                                    'backup_pool': {
-                                        'backup_pool_uuid': new_backup_pool_ref
-                                    }
-                                }
-                                pool[0]['fail_action'] = backup_pool
+                        # Added backupvserver to poolgroup
+                        new_backup_pool_ref = ns_util.clone_pool(
+                            backup_pool_ref, pool_group['name'], avi_config,
+                            userprefix=self.prefix)
+                        new_backup_pool_ref = ns_util.get_object_ref(
+                            new_backup_pool_ref, OBJECT_TYPE_POOL,
+                            self.tenant_name, self.cloud_name)
+                        backup_pool = {
+                            'type': 'FAIL_ACTION_BACKUP_POOL',
+                            'backup_pool': {
+                                'backup_pool_ref': new_backup_pool_ref
+                            }
+                        }
+                        pool_group['fail_action'] = backup_pool
                     except Exception as e:
                         # Skipped lb vs if backup pool is found in AVI
                         LOG.error('No Backup pool found: %s' % full_cmd)
