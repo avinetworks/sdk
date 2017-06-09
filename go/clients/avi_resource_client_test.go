@@ -18,7 +18,7 @@ func TestAviPoolClient(t *testing.T) {
 
 	obj := models.Pool{}
 	name := "testpool"
-	obj.Name = &name
+	obj.Name = name
 	objp, err := pclient.Create(&obj)
 	// seems like create doesn't return the object!
 	//log.Println("res: ", *objp, " err: ", err)
