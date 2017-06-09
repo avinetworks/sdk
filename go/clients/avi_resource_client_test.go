@@ -17,15 +17,14 @@ func TestAviPoolClient(t *testing.T) {
 	pclient := NewPoolClient(avi_sess)
 
 	obj := models.Pool{}
-	name := "testpool"
-	obj.Name = name
+	obj.Name = "testpool"
 	objp, err := pclient.Create(&obj)
-	// seems like create doesn't return the object!
-	//log.Println("res: ", *objp, " err: ", err)
+	log.Println("res: ", *objp, " err: ", err)
+
 	lobjp, err := pclient.GetAll()
 	log.Println("res: ", lobjp[0], " err: ", err)
 
-	objp, err = pclient.GetByName(name)
+	objp, err = pclient.GetByName("testpool")
 	log.Println("res: ", *objp, " err: ", err)
 
 	objp, err = pclient.Get(objp.UUID)
