@@ -210,21 +210,30 @@ class CsvsConverter(object):
 
                     vs_obj['network_profile_ref'] = ntwk_prof
                 else:
-                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+                    vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-TCP-Proxy', 'networkprofile', tenant='admin')
                     LOG.error('Error: Not found Network profile %s for %s' %
                               (ntwk_prof, vs_name))
 
             if not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS':
-                vs_obj['application_profile_ref'] = 'admin:System-DNS'
-                vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
+                vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                    'System-DNS', 'applicationprofile', tenant='admin')
+                vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-UDP-Per-Pkt', 'networkprofile', tenant='admin')
             elif not http_prof and (cs_vs['attrs'][1]).upper() == 'UDP':
                 vs_obj[
-                    'application_profile_ref'] = 'admin:System-L4-Application'
-                vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
+                    'application_profile_ref'] = ns_util.get_object_ref(
+                    'System-L4-Application', 'applicationprofile',
+                    tenant='admin')
+                vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
             elif not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS_TCP':
                 vs_obj[
-                    'application_profile_ref'] = 'admin:System-L4-Application'
-                vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+                    'application_profile_ref'] = ns_util.get_object_ref(
+                    'System-L4-Application', 'applicationprofile',
+                    tenant='admin')
+                vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-TCP-Proxy', 'networkprofile', tenant='admin')
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
