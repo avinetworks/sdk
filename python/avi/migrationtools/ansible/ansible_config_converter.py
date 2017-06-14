@@ -23,7 +23,8 @@ from avi.migrationtools.ansible.ansible_constant import \
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
-     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT)
+     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
+     ANSIBLE_STR)
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
@@ -34,7 +35,8 @@ class AviAnsibleConverter(object):
     skip_types = set(DEFAULT_SKIP_TYPES)
     default_meta_order = DEFAULT_META_ORDER
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
-    REL_REF_MATCH = re.compile('^/api/.*/?tenant=admin')
+    # Modified REGEX
+    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, skip_types=None,
                  filter_types=None):
@@ -65,15 +67,24 @@ class AviAnsibleConverter(object):
             return x
         if x == '/api/tenant/admin':
             x = '/api/tenant/admin#admin'
+        # Added REGEX
         if self.REF_MATCH.match(x):
             name = x.rsplit('#', 1)[1]
             obj_type = x.split('/api/')[1].split('/')[0]
             # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
         elif self.REL_REF_MATCH.match(x):
-            ref_parts = x.split('tenant=admin&')
-            x = ''.join(ref_parts)
-            x = x.split('&cloud=Default-Cloud')[0]
+            ref_parts = x.split('?')
+            for p in ref_parts[1].split('&'):
+                k, v = p.split('=')
+                # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
+                if k.strip() == 'cloud' or 'cloud' in ref_parts[0]:
+                    obj['cloud_ref'] = '/api/cloud?name=%s' % v.strip()
+                elif k.strip() == 'tenant' or 'tenant' in ref_parts[0]:
+                    obj['tenant_ref'] = '/api/tenant?name=%s' % v.strip()
+                # Added value of keyname
+                if k.strip() == 'name':
+                    x = '%s?name=%s' % (ref_parts[0], v)
         else:
             LOG.info('%s did not match ref' % x)
         return x
@@ -81,7 +92,7 @@ class AviAnsibleConverter(object):
     def transform_obj_refs(self, obj):
         if type(obj) != dict:
             return
-        for k, v in obj.iteritems():
+        for k, v in obj.items():
             if type(v) == dict:
                 self.transform_obj_refs(v)
                 continue
@@ -96,7 +107,7 @@ class AviAnsibleConverter(object):
                         if type(item) == dict:
                             self.transform_obj_refs(item)
                         elif (isinstance(item, basestring) or
-                                  isinstance(item, unicode)):
+                              isinstance(item, unicode)):
                             new_list.append(self.transform_ref(item, obj))
                     if new_list:
                         obj[k] = new_list
@@ -362,7 +373,12 @@ class AviAnsibleConverter(object):
         :param f5password: password for f5
         :return: None
         """
+        ansible_traffic_path = '%s/avi_migrate_and_verfiy_traffic.yml' \
+                               % self.outdir
+        ansible_create_object_path = '%s/avi_config_create_object.yml'\
+                                     % self.outdir
         ad = deepcopy(ansible_dict)
+        generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']
         if 'order' not in meta:
             meta['order'] = self.default_meta_order
@@ -375,9 +391,18 @@ class AviAnsibleConverter(object):
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
         if f5server and f5user and f5password:
-            self.generate_traffic(ad, f5server, f5user, f5password)
-        with open('%s/avi_config.yml' % self.outdir, "w+") as outf:
-            outf.write('# Auto-generated from Avi Configuration\n')
+            self.generate_traffic(generate_traffic_dict, f5server, f5user,
+                                  f5password)
+            # Generate traffic file separately
+            with open(ansible_traffic_path, "w+") as outf:
+                outf.write(ANSIBLE_STR)
+                outf.write('---\n')
+                yaml.safe_dump(
+                               [generate_traffic_dict], outf,
+                               default_flow_style=False, indent=2
+                               )
+        with open(ansible_create_object_path, "w+") as outf:
+            outf.write(ANSIBLE_STR)
             outf.write('---\n')
             yaml.safe_dump([ad], outf, default_flow_style=False, indent=2)
 
