@@ -12,7 +12,7 @@ def upload_config_to_controller(avi_config_dict, controller_ip,
     try:
         d = {'configuration': avi_config_dict}
         path = 'configuration/import'
-        resp = session.post(path, data=d)
+        resp = session.post(path, data=d, timeout=7200)
         if resp.status_code < 300:
             LOG.info("Config uploaded to controller successfully")
         else:
