@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import sys
 import json
 import yaml
 import avi.migrationtools
@@ -61,6 +62,8 @@ class NetscalerConverter(AviConverter):
             level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
@@ -214,7 +217,6 @@ if __name__ == "__main__":
     parser.add_argument('--prefix', help='Prefix for objects')
 
     args = parser.parse_args()
-
     # print avi netscaler converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \

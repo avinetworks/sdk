@@ -77,6 +77,8 @@ class F5Converter(AviConverter):
             level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
