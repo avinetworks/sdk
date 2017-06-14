@@ -567,11 +567,12 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
 
     updated_vsvip_ref = None
     if parse_version(controller_version) >= parse_version('17.1'):
-        create_update_vsvip(
+        vs_vip_name = create_update_vsvip(
             ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'),
             get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix)
-        updated_vsvip_ref = get_object_ref(
-            ip_addr + '-vsvip', 'vsvip', tenant_name, cloud_name, prefix)
+        # VS VIP object to be put in admin tenant to shared across tenants
+        updated_vsvip_ref = get_object_ref(vs_vip_name, 'vsvip', 'admin',
+                                           cloud_name, prefix)
     return services_obj, ip_addr, updated_vsvip_ref
 
 
@@ -946,10 +947,14 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
     # Added prefix for objects
     if prefix:
         ref = prefix + '-' + ref
-    pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref]
+    # Search the pool or pool group with name in avi config for the same
+    # tenant as VS
+    pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref
+                and pool['tenant_ref'] == get_object_ref(tenant,'tenant')]
     if not pool_obj:
         pool_group_obj = [pool for pool in avi_config['PoolGroup']
-                          if pool['name'] == ref]
+                          if pool['name'] == ref and
+                          pool['tenant_ref'] == get_object_ref(tenant,'tenant')]
     if pool_group_obj:
         is_pool_group = True
     if p_tenant:
@@ -1582,7 +1587,7 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
     if not vsvip:
         vsvip_object = {
             "name": name,
-            "tenant_ref": tenant_ref,
+            "tenant_ref": get_object_ref('admin', 'tenant'),
             "cloud_ref": cloud_ref,
             "vip": [
                 {
@@ -1595,3 +1600,5 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
             ],
         }
         vsvip_config.append(vsvip_object)
+
+    return name
