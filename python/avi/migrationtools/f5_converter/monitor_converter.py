@@ -256,7 +256,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["http_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
-        destination = f5_monitor.get("destination", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
@@ -265,6 +265,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # if * is there then ignore it else add to port.
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
+        if dest_str[0] != '*':
+            skipped.append(self.dest_key)
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
@@ -280,13 +282,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["https_monitor"] = {
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
-        destination = f5_monitor.get("destination", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
         if dest_str[1].isdigit():
@@ -328,13 +330,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.tcp_attr]
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("destination", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
@@ -369,13 +371,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.udp_attr]
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("destination", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
@@ -528,13 +530,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         }
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("dest", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . is appear with port ex: *.80
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
@@ -558,13 +560,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         }
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("dest", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
@@ -577,13 +579,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.tcp_attr]
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("dest", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
@@ -619,13 +621,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.udp_attr]
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
-        destination = f5_monitor.get("dest", "*:*")
+        destination = f5_monitor.get(self.dest_key, "*:*")
         dest_str = destination.split(":")
         # some config . appear with port. ex '*.80'
         if '.' in destination:
             dest_str = destination.split('.')
         if dest_str[0] != '*':
-            skipped.append(dest_str)
+            skipped.append(self.dest_key)
         if dest_str[1].isdigit():
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
