@@ -372,7 +372,7 @@ if __name__ == "__main__":
                         default=[])
     # Create Ansible Script based on Flag
     parser.add_argument('--ansible',
-                        help='Flag for create ansible file', default=False)
+                        help='Flag for create ansible file', action='store_true')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
 
