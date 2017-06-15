@@ -134,6 +134,7 @@ class MonitorConverter(object):
             elif mon_type == 'HTTP':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get('httpRequest', None)
+                send = send.replace('\"', '').strip()
                 respCode = ns_monitor.get('respCode', None)
                 if respCode:
                     respCode = ns_util.get_avi_resp_code(respCode)
