@@ -76,8 +76,12 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config,
                                                           self.prefix)
+        oc_prof = False
+        for prof in profiles:
+            if prof in avi_config.get('OneConnect', []):
+                oc_prof = True
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config, tenant, self.prefix)
+            profiles, avi_config, tenant, self.prefix, oc_prof)
 
         if not app_prof:
             LOG.warning('Profile type not supported by Avi Skipping VS : %s'
@@ -88,10 +92,6 @@ class VSConfigConv(object):
 
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
                                                     self.prefix)
-        oc_prof = False
-        for prof in profiles:
-            if prof in avi_config.get('OneConnect', []):
-                oc_prof = True
 
         # If one connect profile is not assigned to f5 VS and avi app profile
         # assigned to VS has connection_multiplexing_enabled value True then
@@ -362,8 +362,8 @@ class VSConfigConv(object):
             application_profile_obj = \
                 [obj for obj in avi_config['ApplicationProfile']
                  if obj['name'] == app_profile_name]
-            if application_profile_obj[0]['type'] == \
-                    'APPLICATION_PROFILE_TYPE_L4':
+            if application_profile_obj and application_profile_obj[0]['type'] \
+                    == 'APPLICATION_PROFILE_TYPE_L4':
                 if not 'pool_ref' or not 'pool_group_ref' in vs_obj:
                     LOG.debug("Failed to convert L4 VS dont have "
                               "pool or pool group ref: %s" % vs_name)
