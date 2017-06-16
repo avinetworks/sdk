@@ -13,7 +13,7 @@ import yaml
 import argparse
 import re
 import requests
-from avi.migrationtools.ansible.ansible_tag_filter import filter_for_vs
+from avi.migrationtools.avi_orphan_object import filter_for_vs
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -38,13 +38,14 @@ class AviAnsibleConverter(object):
     # Modified REGEX
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
-    def __init__(self, avi_cfg, outdir, prefix, skip_types=None,
+    def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
         # Added prefix flag for object
         self.prefix = prefix
+        self.not_in_use = not_in_use
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -141,7 +142,7 @@ class AviAnsibleConverter(object):
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
             name = '%s-%s'%(obj['name'], obj_type)
-            if name not in inuse_list:
+            if inuse_list and name not in inuse_list:
                 used_tag = 'not_in_use'
             ansible_dict[TASKS].append(
                 {
@@ -384,7 +385,9 @@ class AviAnsibleConverter(object):
         ansible_create_object_path = '%s/avi_config_create_object.yml'\
                                      % self.outdir
         # Get the reference object list for not_in_use tag.
-        inuse_list = filter_for_vs(self.avi_cfg)
+        inuse_list = []
+        if not self.not_in_use:
+            inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']

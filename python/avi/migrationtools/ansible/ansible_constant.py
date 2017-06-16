@@ -144,17 +144,6 @@ RESULT = "result.success!=0"
 VS_NAME = 'virtualservice_name'
 TENANT = 'tenant'
 ANSIBLE_STR = '# Auto-generated from Avi Configuration\n'
-PATH_KEY_MAP = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
-                'sslprofile': 'SSLProfile', 'httppolicyset': 'HTTPPolicySet',
-                'sslkeyandcertificate': 'SSLKeyAndCertificate', 'pool': 'Pool',
-                'networkprofile': 'NetworkProfile', 'pkiprofile': 'PKIProfile',
-                'stringgroup': 'StringGroup', 'vrfcontext': 'VrfContext',
-                'applicationprofile': 'ApplicationProfile', 'vsdatascriptset':
-                    'VSDataScriptSet', 'networksecuritypolicy':
-                    'NetworkSecurityPolicy', 'applicationpersistenceprofile':
-                    'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels', 'vsvip': 'VsVip', 'tenant': "Tenant"
-                }
 
 HELP_STR = '''
 Converts Avi Config JSON to Ansible Playbooks.
