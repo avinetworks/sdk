@@ -1,0 +1,853 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi ControllerProperties Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi ControllerProperties Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure controller properties - show controller properties ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#controllerpropertiesGet"><code><span class="http-method">get</span> /controllerproperties</code></a></li>
+  <li><a href="#controllerpropertiesPost"><code><span class="http-method">post</span> /controllerproperties</code></a></li>
+  <li><a href="#controllerpropertiesUuidDelete"><code><span class="http-method">delete</span> /controllerproperties/{uuid}</code></a></li>
+  <li><a href="#controllerpropertiesUuidGet"><code><span class="http-method">get</span> /controllerproperties/{uuid}</code></a></li>
+  <li><a href="#controllerpropertiesUuidPatch"><code><span class="http-method">patch</span> /controllerproperties/{uuid}</code></a></li>
+  <li><a href="#controllerpropertiesUuidPut"><code><span class="http-method">put</span> /controllerproperties/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="controllerpropertiesGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /controllerproperties</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ControllerPropertiesApiResponse">ControllerPropertiesApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "attach_ip_retry_limit" : 123,
+    "upgrade_lease_time" : 123,
+    "vs_se_vnic_fail" : 123,
+    "allow_unauthenticated_apis" : true,
+    "se_create_timeout" : 123,
+    "upgrade_dns_ttl" : 123,
+    "allow_ip_forwarding" : true,
+    "attach_ip_retry_interval" : 123,
+    "query_host_fail" : 123,
+    "unresponsive_se_reboot" : 123,
+    "ssl_certificate_expiry_warning_days" : [ "" ],
+    "se_offline_del" : 123,
+    "uuid" : "aeiou",
+    "warmstart_se_reconnect_wait_time" : 123,
+    "fatal_error_lease_time" : 123,
+    "vnic_op_fail_time" : 123,
+    "dummy" : 123,
+    "secure_channel_se_token_timeout" : 123,
+    "seupgrade_fabric_pool_size" : 123,
+    "max_dead_se_in_grp" : 123,
+    "vs_key_rotate_period" : 123,
+    "portal_token" : "aeiou",
+    "vs_se_create_fail" : 123,
+    "seupgrade_segroup_min_dead_timeout" : 123,
+    "se_vnic_cooldown" : 123,
+    "secure_channel_cleanup_timeout" : 123,
+    "vs_apic_scaleout_timeout" : 123,
+    "crashed_se_reboot" : 123,
+    "max_seq_vnic_failures" : 123,
+    "appviewx_compat_mode" : true,
+    "url" : "aeiou",
+    "cluster_ip_gratuitous_arp_period" : 123,
+    "max_pcap_per_tenant" : 123,
+    "se_failover_attempt_interval" : 123,
+    "vs_se_ping_fail" : 123,
+    "dead_se_detection_timer" : 123,
+    "vs_se_vnic_ip_fail" : 123,
+    "persistence_key_rotate_period" : 123,
+    "secure_channel_controller_token_timeout" : 123,
+    "vs_awaiting_se_timeout" : 123,
+    "api_idle_timeout" : 123,
+    "allow_unauthenticated_nodes" : true,
+    "dns_refresh_period" : 123,
+    "vs_se_bootup_fail" : 123
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ControllerPropertiesApiResponse">ControllerPropertiesApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="controllerpropertiesPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /controllerproperties</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerProperties object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ControllerProperties">ControllerProperties</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "attach_ip_retry_limit" : 123,
+  "upgrade_lease_time" : 123,
+  "vs_se_vnic_fail" : 123,
+  "allow_unauthenticated_apis" : true,
+  "se_create_timeout" : 123,
+  "upgrade_dns_ttl" : 123,
+  "allow_ip_forwarding" : true,
+  "attach_ip_retry_interval" : 123,
+  "query_host_fail" : 123,
+  "unresponsive_se_reboot" : 123,
+  "ssl_certificate_expiry_warning_days" : [ "" ],
+  "se_offline_del" : 123,
+  "uuid" : "aeiou",
+  "warmstart_se_reconnect_wait_time" : 123,
+  "fatal_error_lease_time" : 123,
+  "vnic_op_fail_time" : 123,
+  "dummy" : 123,
+  "secure_channel_se_token_timeout" : 123,
+  "seupgrade_fabric_pool_size" : 123,
+  "max_dead_se_in_grp" : 123,
+  "vs_key_rotate_period" : 123,
+  "portal_token" : "aeiou",
+  "vs_se_create_fail" : 123,
+  "seupgrade_segroup_min_dead_timeout" : 123,
+  "se_vnic_cooldown" : 123,
+  "secure_channel_cleanup_timeout" : 123,
+  "vs_apic_scaleout_timeout" : 123,
+  "crashed_se_reboot" : 123,
+  "max_seq_vnic_failures" : 123,
+  "appviewx_compat_mode" : true,
+  "url" : "aeiou",
+  "cluster_ip_gratuitous_arp_period" : 123,
+  "max_pcap_per_tenant" : 123,
+  "se_failover_attempt_interval" : 123,
+  "vs_se_ping_fail" : 123,
+  "dead_se_detection_timer" : 123,
+  "vs_se_vnic_ip_fail" : 123,
+  "persistence_key_rotate_period" : 123,
+  "secure_channel_controller_token_timeout" : 123,
+  "vs_awaiting_se_timeout" : 123,
+  "api_idle_timeout" : 123,
+  "allow_unauthenticated_nodes" : true,
+  "dns_refresh_period" : 123,
+  "vs_se_bootup_fail" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ControllerProperties">ControllerProperties</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="controllerpropertiesUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /controllerproperties/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="controllerpropertiesUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /controllerproperties/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ControllerProperties">ControllerProperties</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "attach_ip_retry_limit" : 123,
+  "upgrade_lease_time" : 123,
+  "vs_se_vnic_fail" : 123,
+  "allow_unauthenticated_apis" : true,
+  "se_create_timeout" : 123,
+  "upgrade_dns_ttl" : 123,
+  "allow_ip_forwarding" : true,
+  "attach_ip_retry_interval" : 123,
+  "query_host_fail" : 123,
+  "unresponsive_se_reboot" : 123,
+  "ssl_certificate_expiry_warning_days" : [ "" ],
+  "se_offline_del" : 123,
+  "uuid" : "aeiou",
+  "warmstart_se_reconnect_wait_time" : 123,
+  "fatal_error_lease_time" : 123,
+  "vnic_op_fail_time" : 123,
+  "dummy" : 123,
+  "secure_channel_se_token_timeout" : 123,
+  "seupgrade_fabric_pool_size" : 123,
+  "max_dead_se_in_grp" : 123,
+  "vs_key_rotate_period" : 123,
+  "portal_token" : "aeiou",
+  "vs_se_create_fail" : 123,
+  "seupgrade_segroup_min_dead_timeout" : 123,
+  "se_vnic_cooldown" : 123,
+  "secure_channel_cleanup_timeout" : 123,
+  "vs_apic_scaleout_timeout" : 123,
+  "crashed_se_reboot" : 123,
+  "max_seq_vnic_failures" : 123,
+  "appviewx_compat_mode" : true,
+  "url" : "aeiou",
+  "cluster_ip_gratuitous_arp_period" : 123,
+  "max_pcap_per_tenant" : 123,
+  "se_failover_attempt_interval" : 123,
+  "vs_se_ping_fail" : 123,
+  "dead_se_detection_timer" : 123,
+  "vs_se_vnic_ip_fail" : 123,
+  "persistence_key_rotate_period" : 123,
+  "secure_channel_controller_token_timeout" : 123,
+  "vs_awaiting_se_timeout" : 123,
+  "api_idle_timeout" : 123,
+  "allow_unauthenticated_nodes" : true,
+  "dns_refresh_period" : 123,
+  "vs_se_bootup_fail" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ControllerProperties">ControllerProperties</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="controllerpropertiesUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /controllerproperties/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerProperties object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ControllerProperties">ControllerProperties</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "attach_ip_retry_limit" : 123,
+  "upgrade_lease_time" : 123,
+  "vs_se_vnic_fail" : 123,
+  "allow_unauthenticated_apis" : true,
+  "se_create_timeout" : 123,
+  "upgrade_dns_ttl" : 123,
+  "allow_ip_forwarding" : true,
+  "attach_ip_retry_interval" : 123,
+  "query_host_fail" : 123,
+  "unresponsive_se_reboot" : 123,
+  "ssl_certificate_expiry_warning_days" : [ "" ],
+  "se_offline_del" : 123,
+  "uuid" : "aeiou",
+  "warmstart_se_reconnect_wait_time" : 123,
+  "fatal_error_lease_time" : 123,
+  "vnic_op_fail_time" : 123,
+  "dummy" : 123,
+  "secure_channel_se_token_timeout" : 123,
+  "seupgrade_fabric_pool_size" : 123,
+  "max_dead_se_in_grp" : 123,
+  "vs_key_rotate_period" : 123,
+  "portal_token" : "aeiou",
+  "vs_se_create_fail" : 123,
+  "seupgrade_segroup_min_dead_timeout" : 123,
+  "se_vnic_cooldown" : 123,
+  "secure_channel_cleanup_timeout" : 123,
+  "vs_apic_scaleout_timeout" : 123,
+  "crashed_se_reboot" : 123,
+  "max_seq_vnic_failures" : 123,
+  "appviewx_compat_mode" : true,
+  "url" : "aeiou",
+  "cluster_ip_gratuitous_arp_period" : 123,
+  "max_pcap_per_tenant" : 123,
+  "se_failover_attempt_interval" : 123,
+  "vs_se_ping_fail" : 123,
+  "dead_se_detection_timer" : 123,
+  "vs_se_vnic_ip_fail" : 123,
+  "persistence_key_rotate_period" : 123,
+  "secure_channel_controller_token_timeout" : 123,
+  "vs_awaiting_se_timeout" : 123,
+  "api_idle_timeout" : 123,
+  "allow_unauthenticated_nodes" : true,
+  "dns_refresh_period" : 123,
+  "vs_se_bootup_fail" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ControllerProperties">ControllerProperties</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="controllerpropertiesUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /controllerproperties/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">controllerpropertiesUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerProperties object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ControllerProperties">ControllerProperties</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "attach_ip_retry_limit" : 123,
+  "upgrade_lease_time" : 123,
+  "vs_se_vnic_fail" : 123,
+  "allow_unauthenticated_apis" : true,
+  "se_create_timeout" : 123,
+  "upgrade_dns_ttl" : 123,
+  "allow_ip_forwarding" : true,
+  "attach_ip_retry_interval" : 123,
+  "query_host_fail" : 123,
+  "unresponsive_se_reboot" : 123,
+  "ssl_certificate_expiry_warning_days" : [ "" ],
+  "se_offline_del" : 123,
+  "uuid" : "aeiou",
+  "warmstart_se_reconnect_wait_time" : 123,
+  "fatal_error_lease_time" : 123,
+  "vnic_op_fail_time" : 123,
+  "dummy" : 123,
+  "secure_channel_se_token_timeout" : 123,
+  "seupgrade_fabric_pool_size" : 123,
+  "max_dead_se_in_grp" : 123,
+  "vs_key_rotate_period" : 123,
+  "portal_token" : "aeiou",
+  "vs_se_create_fail" : 123,
+  "seupgrade_segroup_min_dead_timeout" : 123,
+  "se_vnic_cooldown" : 123,
+  "secure_channel_cleanup_timeout" : 123,
+  "vs_apic_scaleout_timeout" : 123,
+  "crashed_se_reboot" : 123,
+  "max_seq_vnic_failures" : 123,
+  "appviewx_compat_mode" : true,
+  "url" : "aeiou",
+  "cluster_ip_gratuitous_arp_period" : 123,
+  "max_pcap_per_tenant" : 123,
+  "se_failover_attempt_interval" : 123,
+  "vs_se_ping_fail" : 123,
+  "dead_se_detection_timer" : 123,
+  "vs_se_vnic_ip_fail" : 123,
+  "persistence_key_rotate_period" : 123,
+  "secure_channel_controller_token_timeout" : 123,
+  "vs_awaiting_se_timeout" : 123,
+  "api_idle_timeout" : 123,
+  "allow_unauthenticated_nodes" : true,
+  "dns_refresh_period" : 123,
+  "vs_se_bootup_fail" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ControllerProperties">ControllerProperties</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#ControllerProperties"><code>ControllerProperties</code></a></li>
+    <li><a href="#ControllerPropertiesApiResponse"><code>ControllerPropertiesApiResponse</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="ControllerProperties">ControllerProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
+<div class="param">allow_unauthenticated_apis (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow unauthenticated access for special APIs. </div>
+<div class="param">allow_unauthenticated_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean </div>
+<div class="param">api_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 0-1440. format: int32</div>
+<div class="param">appviewx_compat_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Export configuration in appviewx compatibility mode. Field introduced in 17.1.1. </div>
+<div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_interval. format: int32</div>
+<div class="param">attach_ip_retry_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_limit. format: int32</div>
+<div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of cluster_ip_gratuitous_arp_period. format: int32</div>
+<div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of crashed_se_reboot. format: int32</div>
+<div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dead_se_detection_timer. format: int32</div>
+<div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dns_refresh_period. format: int32</div>
+<div class="param">dummy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dummy. format: int32</div>
+<div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of fatal_error_lease_time. format: int32</div>
+<div class="param">max_dead_se_in_grp (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_dead_se_in_grp. format: int32</div>
+<div class="param">max_pcap_per_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of pcap files stored per tenant. format: int32</div>
+<div class="param">max_seq_vnic_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_seq_vnic_failures. format: int32</div>
+<div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 17.1.2. </div>
+<div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of query_host_fail. format: int32</div>
+<div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_create_timeout. format: int32</div>
+<div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. format: int32</div>
+<div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_offline_del. format: int32</div>
+<div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_vnic_cooldown. format: int32</div>
+<div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_cleanup_timeout. format: int32</div>
+<div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_controller_token_timeout. format: int32</div>
+<div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_se_token_timeout. format: int32</div>
+<div class="param">seupgrade_fabric_pool_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool size used for all fabric commands during se upgrade. format: int32</div>
+<div class="param">seupgrade_segroup_min_dead_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking segroup upgrade as stuck. format: int32</div>
+<div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. </div>
+<div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of unresponsive_se_reboot. format: int32</div>
+<div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. format: int32</div>
+<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upgrade_lease_time. format: int32</div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+<div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vnic_op_fail_time. format: int32</div>
+<div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. format: int32</div>
+<div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_awaiting_se_timeout. format: int32</div>
+<div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_bootup_fail. format: int32</div>
+<div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_create_fail. format: int32</div>
+<div class="param">vs_se_ping_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_ping_fail. format: int32</div>
+<div class="param">vs_se_vnic_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_fail. format: int32</div>
+<div class="param">vs_se_vnic_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_ip_fail. format: int32</div>
+<div class="param">warmstart_se_reconnect_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of warmstart_se_reconnect_wait_time. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ControllerPropertiesApiResponse">ControllerPropertiesApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ControllerProperties">array[ControllerProperties]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
