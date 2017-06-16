@@ -372,7 +372,7 @@ class VSConfigConv(object):
                  if obj['name'] == app_profile_name]
             if application_profile_obj and application_profile_obj[0]['type'] \
                     == 'APPLICATION_PROFILE_TYPE_L4':
-                if not 'pool_ref' or not 'pool_group_ref' in vs_obj:
+                if not 'pool_ref' and not 'pool_group_ref' in vs_obj:
                     LOG.debug("Failed to convert L4 VS dont have "
                               "pool or pool group ref: %s" % vs_name)
                     conv_utils.add_status_row('virtual', None,
