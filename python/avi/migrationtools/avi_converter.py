@@ -48,7 +48,7 @@ class AviConverter(object):
 
         avi_rest_lib.upload_config_to_controller(
             avi_config, self.controller_ip, self.user, self.password,
-            self.tenant)
+            self.tenant, self.controller_version)
 
     def write_output(self, avi_config, output_dir, report_name):
         """

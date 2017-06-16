@@ -299,8 +299,16 @@ class VSConfigConv(object):
             vs_obj['http_policies'] = policy_set
 
         source = f5_vs.get('source', '0.0.0.0/0')
-        if not source == '0.0.0.0/0':
+        if '%' in source:
+            s_parts = source.split('%')
+        elif '/' in source:
+            s_parts = source.split('/')
+        else:
+            s_parts = [source]
+        if not s_parts[0] == '0.0.0.0':
             parts = source.split('/')
+            if '%' in parts[0]:
+                parts[0] = parts[0].split('%')[0]
             mask = 24
             if len(parts) > 1:
                 mask = parts[1]
