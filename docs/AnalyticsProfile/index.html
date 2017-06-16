@@ -1,0 +1,1143 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi AnalyticsProfile Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi AnalyticsProfile Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#analyticsprofileGet"><code><span class="http-method">get</span> /analyticsprofile</code></a></li>
+  <li><a href="#analyticsprofilePost"><code><span class="http-method">post</span> /analyticsprofile</code></a></li>
+  <li><a href="#analyticsprofileUuidDelete"><code><span class="http-method">delete</span> /analyticsprofile/{uuid}</code></a></li>
+  <li><a href="#analyticsprofileUuidGet"><code><span class="http-method">get</span> /analyticsprofile/{uuid}</code></a></li>
+  <li><a href="#analyticsprofileUuidPatch"><code><span class="http-method">patch</span> /analyticsprofile/{uuid}</code></a></li>
+  <li><a href="#analyticsprofileUuidPut"><code><span class="http-method">put</span> /analyticsprofile/{uuid}</code></a></li>
+  <li><a href="#analyticsprofileUuidRuntimeInternalGet"><code><span class="http-method">get</span> /analyticsprofile/{uuid}/runtime/internal/</code></a></li>
+  </ol>
+
+  <div class="method"><a name="analyticsprofileGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /analyticsprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#AnalyticsProfileApiResponse">AnalyticsProfileApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
+    "apdex_rum_threshold" : 123,
+    "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
+    "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_weak_signature_algo_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_encalgo_score_none" : 1.3579000000000001069366817318950779736042022705078125,
+    "apdex_server_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+    "uuid" : "aeiou",
+    "conn_server_lossy_ooo_threshold" : 123,
+    "hs_security_selfsignedcert_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "apdex_server_response_threshold" : 123,
+    "exclude_no_dns_record_as_error" : true,
+    "exclude_client_close_before_request_as_error" : true,
+    "apdex_response_threshold" : 123,
+    "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+    "conn_server_lossy_zero_win_size_event_threshold" : 123,
+    "exclude_syn_retransmit_as_error" : true,
+    "hs_performance_boost" : 123,
+    "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
+    "client_log_streaming_config" : {
+      "external_server" : "aeiou",
+      "log_types_to_send" : "aeiou",
+      "external_server_port" : 123,
+      "max_logs_per_second" : 123
+    },
+    "exclude_invalid_dns_domain_as_error" : true,
+    "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+    "conn_lossy_ooo_threshold" : 123,
+    "conn_server_lossy_total_rexmt_threshold" : 123,
+    "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
+    "conn_lossy_timeo_rexmt_threshold" : 123,
+    "hs_event_throttle_window" : 123,
+    "resp_code_block" : [ "aeiou" ],
+    "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "exclude_gs_down_as_error" : true,
+    "disable_se_analytics" : true,
+    "exclude_persistence_change_as_error" : true,
+    "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+    "name" : "aeiou",
+    "hs_max_security_penalty" : 123,
+    "exclude_unsupported_dns_query_as_error" : true,
+    "conn_lossy_zero_win_size_event_threshold" : 123,
+    "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "ranges" : [ {
+      "end" : 123,
+      "begin" : 123
+    } ],
+    "client_log_config" : {
+      "filtered_log_processing" : "aeiou",
+      "non_significant_log_processing" : "aeiou",
+      "significant_log_processing" : "aeiou",
+      "enable_significant_log_collection" : true
+    },
+    "exclude_server_tcp_reset_as_error" : true,
+    "exclude_http_error_codes" : [ "" ],
+    "hs_min_dos_rate" : 123,
+    "description" : "aeiou",
+    "apdex_server_rtt_threshold" : 123,
+    "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_max_resources_penalty" : 123,
+    "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_max_anomaly_penalty" : 123,
+    "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "exclude_tcp_reset_as_error" : true,
+    "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
+    "exclude_invalid_dns_query_as_error" : true,
+    "exclude_server_dns_error_as_error" : true,
+    "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
+    "apdex_rtt_threshold" : 123,
+    "exclude_no_valid_gs_member_as_error" : true,
+    "url" : "aeiou",
+    "disable_server_analytics" : true,
+    "hs_security_ssl30_score" : 1.3579000000000001069366817318950779736042022705078125,
+    "conn_server_lossy_timeo_rexmt_threshold" : 123,
+    "tenant_ref" : "aeiou",
+    "hs_pscore_traffic_threshold_l4_server" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_certscore_le07d" : 1.3579000000000001069366817318950779736042022705078125,
+    "conn_lossy_total_rexmt_threshold" : 123
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#AnalyticsProfileApiResponse">AnalyticsProfileApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofilePost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /analyticsprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofilePost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AnalyticsProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#AnalyticsProfile">AnalyticsProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rum_threshold" : 123,
+  "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_weak_signature_algo_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_encalgo_score_none" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "uuid" : "aeiou",
+  "conn_server_lossy_ooo_threshold" : 123,
+  "hs_security_selfsignedcert_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_threshold" : 123,
+  "exclude_no_dns_record_as_error" : true,
+  "exclude_client_close_before_request_as_error" : true,
+  "apdex_response_threshold" : 123,
+  "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_zero_win_size_event_threshold" : 123,
+  "exclude_syn_retransmit_as_error" : true,
+  "hs_performance_boost" : 123,
+  "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "client_log_streaming_config" : {
+    "external_server" : "aeiou",
+    "log_types_to_send" : "aeiou",
+    "external_server_port" : 123,
+    "max_logs_per_second" : 123
+  },
+  "exclude_invalid_dns_domain_as_error" : true,
+  "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_ooo_threshold" : 123,
+  "conn_server_lossy_total_rexmt_threshold" : 123,
+  "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_timeo_rexmt_threshold" : 123,
+  "hs_event_throttle_window" : 123,
+  "resp_code_block" : [ "aeiou" ],
+  "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_gs_down_as_error" : true,
+  "disable_se_analytics" : true,
+  "exclude_persistence_change_as_error" : true,
+  "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
+  "hs_max_security_penalty" : 123,
+  "exclude_unsupported_dns_query_as_error" : true,
+  "conn_lossy_zero_win_size_event_threshold" : 123,
+  "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "ranges" : [ {
+    "end" : 123,
+    "begin" : 123
+  } ],
+  "client_log_config" : {
+    "filtered_log_processing" : "aeiou",
+    "non_significant_log_processing" : "aeiou",
+    "significant_log_processing" : "aeiou",
+    "enable_significant_log_collection" : true
+  },
+  "exclude_server_tcp_reset_as_error" : true,
+  "exclude_http_error_codes" : [ "" ],
+  "hs_min_dos_rate" : 123,
+  "description" : "aeiou",
+  "apdex_server_rtt_threshold" : 123,
+  "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_resources_penalty" : 123,
+  "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_anomaly_penalty" : 123,
+  "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_tcp_reset_as_error" : true,
+  "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_invalid_dns_query_as_error" : true,
+  "exclude_server_dns_error_as_error" : true,
+  "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rtt_threshold" : 123,
+  "exclude_no_valid_gs_member_as_error" : true,
+  "url" : "aeiou",
+  "disable_server_analytics" : true,
+  "hs_security_ssl30_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_timeo_rexmt_threshold" : 123,
+  "tenant_ref" : "aeiou",
+  "hs_pscore_traffic_threshold_l4_server" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le07d" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_total_rexmt_threshold" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#AnalyticsProfile">AnalyticsProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofileUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /analyticsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofileUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /analyticsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#AnalyticsProfile">AnalyticsProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rum_threshold" : 123,
+  "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_weak_signature_algo_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_encalgo_score_none" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "uuid" : "aeiou",
+  "conn_server_lossy_ooo_threshold" : 123,
+  "hs_security_selfsignedcert_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_threshold" : 123,
+  "exclude_no_dns_record_as_error" : true,
+  "exclude_client_close_before_request_as_error" : true,
+  "apdex_response_threshold" : 123,
+  "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_zero_win_size_event_threshold" : 123,
+  "exclude_syn_retransmit_as_error" : true,
+  "hs_performance_boost" : 123,
+  "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "client_log_streaming_config" : {
+    "external_server" : "aeiou",
+    "log_types_to_send" : "aeiou",
+    "external_server_port" : 123,
+    "max_logs_per_second" : 123
+  },
+  "exclude_invalid_dns_domain_as_error" : true,
+  "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_ooo_threshold" : 123,
+  "conn_server_lossy_total_rexmt_threshold" : 123,
+  "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_timeo_rexmt_threshold" : 123,
+  "hs_event_throttle_window" : 123,
+  "resp_code_block" : [ "aeiou" ],
+  "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_gs_down_as_error" : true,
+  "disable_se_analytics" : true,
+  "exclude_persistence_change_as_error" : true,
+  "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
+  "hs_max_security_penalty" : 123,
+  "exclude_unsupported_dns_query_as_error" : true,
+  "conn_lossy_zero_win_size_event_threshold" : 123,
+  "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "ranges" : [ {
+    "end" : 123,
+    "begin" : 123
+  } ],
+  "client_log_config" : {
+    "filtered_log_processing" : "aeiou",
+    "non_significant_log_processing" : "aeiou",
+    "significant_log_processing" : "aeiou",
+    "enable_significant_log_collection" : true
+  },
+  "exclude_server_tcp_reset_as_error" : true,
+  "exclude_http_error_codes" : [ "" ],
+  "hs_min_dos_rate" : 123,
+  "description" : "aeiou",
+  "apdex_server_rtt_threshold" : 123,
+  "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_resources_penalty" : 123,
+  "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_anomaly_penalty" : 123,
+  "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_tcp_reset_as_error" : true,
+  "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_invalid_dns_query_as_error" : true,
+  "exclude_server_dns_error_as_error" : true,
+  "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rtt_threshold" : 123,
+  "exclude_no_valid_gs_member_as_error" : true,
+  "url" : "aeiou",
+  "disable_server_analytics" : true,
+  "hs_security_ssl30_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_timeo_rexmt_threshold" : 123,
+  "tenant_ref" : "aeiou",
+  "hs_pscore_traffic_threshold_l4_server" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le07d" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_total_rexmt_threshold" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#AnalyticsProfile">AnalyticsProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofileUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /analyticsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AnalyticsProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#AnalyticsProfile">AnalyticsProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rum_threshold" : 123,
+  "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_weak_signature_algo_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_encalgo_score_none" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "uuid" : "aeiou",
+  "conn_server_lossy_ooo_threshold" : 123,
+  "hs_security_selfsignedcert_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_threshold" : 123,
+  "exclude_no_dns_record_as_error" : true,
+  "exclude_client_close_before_request_as_error" : true,
+  "apdex_response_threshold" : 123,
+  "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_zero_win_size_event_threshold" : 123,
+  "exclude_syn_retransmit_as_error" : true,
+  "hs_performance_boost" : 123,
+  "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "client_log_streaming_config" : {
+    "external_server" : "aeiou",
+    "log_types_to_send" : "aeiou",
+    "external_server_port" : 123,
+    "max_logs_per_second" : 123
+  },
+  "exclude_invalid_dns_domain_as_error" : true,
+  "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_ooo_threshold" : 123,
+  "conn_server_lossy_total_rexmt_threshold" : 123,
+  "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_timeo_rexmt_threshold" : 123,
+  "hs_event_throttle_window" : 123,
+  "resp_code_block" : [ "aeiou" ],
+  "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_gs_down_as_error" : true,
+  "disable_se_analytics" : true,
+  "exclude_persistence_change_as_error" : true,
+  "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
+  "hs_max_security_penalty" : 123,
+  "exclude_unsupported_dns_query_as_error" : true,
+  "conn_lossy_zero_win_size_event_threshold" : 123,
+  "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "ranges" : [ {
+    "end" : 123,
+    "begin" : 123
+  } ],
+  "client_log_config" : {
+    "filtered_log_processing" : "aeiou",
+    "non_significant_log_processing" : "aeiou",
+    "significant_log_processing" : "aeiou",
+    "enable_significant_log_collection" : true
+  },
+  "exclude_server_tcp_reset_as_error" : true,
+  "exclude_http_error_codes" : [ "" ],
+  "hs_min_dos_rate" : 123,
+  "description" : "aeiou",
+  "apdex_server_rtt_threshold" : 123,
+  "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_resources_penalty" : 123,
+  "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_anomaly_penalty" : 123,
+  "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_tcp_reset_as_error" : true,
+  "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_invalid_dns_query_as_error" : true,
+  "exclude_server_dns_error_as_error" : true,
+  "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rtt_threshold" : 123,
+  "exclude_no_valid_gs_member_as_error" : true,
+  "url" : "aeiou",
+  "disable_server_analytics" : true,
+  "hs_security_ssl30_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_timeo_rexmt_threshold" : 123,
+  "tenant_ref" : "aeiou",
+  "hs_pscore_traffic_threshold_l4_server" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le07d" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_total_rexmt_threshold" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#AnalyticsProfile">AnalyticsProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofileUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /analyticsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AnalyticsProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#AnalyticsProfile">AnalyticsProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rum_threshold" : 123,
+  "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_weak_signature_algo_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_encalgo_score_none" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "uuid" : "aeiou",
+  "conn_server_lossy_ooo_threshold" : 123,
+  "hs_security_selfsignedcert_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_server_response_threshold" : 123,
+  "exclude_no_dns_record_as_error" : true,
+  "exclude_client_close_before_request_as_error" : true,
+  "apdex_response_threshold" : 123,
+  "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_zero_win_size_event_threshold" : 123,
+  "exclude_syn_retransmit_as_error" : true,
+  "hs_performance_boost" : 123,
+  "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "client_log_streaming_config" : {
+    "external_server" : "aeiou",
+    "log_types_to_send" : "aeiou",
+    "external_server_port" : 123,
+    "max_logs_per_second" : 123
+  },
+  "exclude_invalid_dns_domain_as_error" : true,
+  "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_ooo_threshold" : 123,
+  "conn_server_lossy_total_rexmt_threshold" : 123,
+  "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_timeo_rexmt_threshold" : 123,
+  "hs_event_throttle_window" : 123,
+  "resp_code_block" : [ "aeiou" ],
+  "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_gs_down_as_error" : true,
+  "disable_se_analytics" : true,
+  "exclude_persistence_change_as_error" : true,
+  "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
+  "name" : "aeiou",
+  "hs_max_security_penalty" : 123,
+  "exclude_unsupported_dns_query_as_error" : true,
+  "conn_lossy_zero_win_size_event_threshold" : 123,
+  "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "ranges" : [ {
+    "end" : 123,
+    "begin" : 123
+  } ],
+  "client_log_config" : {
+    "filtered_log_processing" : "aeiou",
+    "non_significant_log_processing" : "aeiou",
+    "significant_log_processing" : "aeiou",
+    "enable_significant_log_collection" : true
+  },
+  "exclude_server_tcp_reset_as_error" : true,
+  "exclude_http_error_codes" : [ "" ],
+  "hs_min_dos_rate" : 123,
+  "description" : "aeiou",
+  "apdex_server_rtt_threshold" : 123,
+  "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_resources_penalty" : 123,
+  "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_max_anomaly_penalty" : 123,
+  "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_tcp_reset_as_error" : true,
+  "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
+  "exclude_invalid_dns_query_as_error" : true,
+  "exclude_server_dns_error_as_error" : true,
+  "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "apdex_rtt_threshold" : 123,
+  "exclude_no_valid_gs_member_as_error" : true,
+  "url" : "aeiou",
+  "disable_server_analytics" : true,
+  "hs_security_ssl30_score" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_server_lossy_timeo_rexmt_threshold" : 123,
+  "tenant_ref" : "aeiou",
+  "hs_pscore_traffic_threshold_l4_server" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_certscore_le07d" : 1.3579000000000001069366817318950779736042022705078125,
+  "conn_lossy_total_rexmt_threshold" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#AnalyticsProfile">AnalyticsProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsprofileUuidRuntimeInternalGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /analyticsprofile/{uuid}/runtime/internal/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsprofileUuidRuntimeInternalGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#AnalyticsProfile"><code>AnalyticsProfile</code></a></li>
+    <li><a href="#AnalyticsProfileApiResponse"><code>AnalyticsProfileApiResponse</code></a></li>
+    <li><a href="#ClientLogConfiguration"><code>ClientLogConfiguration</code></a></li>
+    <li><a href="#ClientLogStreamingConfig"><code>ClientLogStreamingConfig</code></a></li>
+    <li><a href="#HTTPStatusRange"><code>HTTPStatusRange</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="AnalyticsProfile">AnalyticsProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">apdex_response_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client&#39;s request is considered Frustrated. Allowed values are 1-30000. format: int32</div>
+<div class="param">apdex_response_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Client tolerated response latency factor. Client must receive a response within this factor times the satisfactory threshold (apdex_response_threshold) to be considered tolerated. Allowed values are 1-1000. format: double</div>
+<div class="param">apdex_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. format: int32</div>
+<div class="param">apdex_rtt_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000. format: double</div>
+<div class="param">apdex_rum_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client&#39;s request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000. format: int32</div>
+<div class="param">apdex_rum_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Virtual service threshold factor for tolerated Page Load Time (PLT) as multiple of apdex_rum_threshold. Allowed values are 1-1000. format: double</div>
+<div class="param">apdex_server_response_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000. format: int32</div>
+<div class="param">apdex_server_response_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Server tolerated response latency factor. Servermust response within this factor times the satisfactory threshold (apdex_server_response_threshold) to be considered tolerated. Allowed values are 1-1000. format: double</div>
+<div class="param">apdex_server_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. format: int32</div>
+<div class="param">apdex_server_rtt_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000. format: double</div>
+<div class="param">client_log_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientLogConfiguration">ClientLogConfiguration</a></span> Configure which logs are sent to the Avi Controller from SEs and how they are processed. </div>
+<div class="param">client_log_streaming_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientLogStreamingConfig">ClientLogStreamingConfig</a></span> Configure to stream logs to an external server. Field introduced in 17.1.1. </div>
+<div class="param">conn_lossy_ooo_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_lossy_timeo_rexmt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_lossy_total_rexmt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_lossy_zero_win_size_event_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. format: int32</div>
+<div class="param">conn_server_lossy_ooo_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_server_lossy_timeo_rexmt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_server_lossy_total_rexmt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. format: int32</div>
+<div class="param">conn_server_lossy_zero_win_size_event_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. format: int32</div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">disable_se_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable node (service engine) level analytics forvs metrics. </div>
+<div class="param">disable_server_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers. </div>
+<div class="param">exclude_client_close_before_request_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude client closed connection before an HTTP request could be completed from being classified as an error. </div>
+<div class="param">exclude_gs_down_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to GSLB services that are operationally down from the list of errors. </div>
+<div class="param">exclude_http_error_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of HTTP status codes to be excluded from being classified as an error.  Error connections or responses impacts health score, are included as significant logs, and may be classified as part of a DoS attack. </div>
+<div class="param">exclude_invalid_dns_domain_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude dns queries to domains outside the domains configured in the DNS application profile from the list of errors. </div>
+<div class="param">exclude_invalid_dns_query_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude invalid dns queries from the list of errors. </div>
+<div class="param">exclude_no_dns_record_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to domains that did not have configured services/records from the list of errors. </div>
+<div class="param">exclude_no_valid_gs_member_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to GSLB services that have no available members from the list of errors. </div>
+<div class="param">exclude_persistence_change_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude persistence server changed while load balancing&#39; from the list of errors. </div>
+<div class="param">exclude_server_dns_error_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server dns error response from the list of errors. </div>
+<div class="param">exclude_server_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server TCP reset from errors.  It is common for applications like MS Exchange. </div>
+<div class="param">exclude_syn_retransmit_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude &#39;server unanswered syns&#39; from the list of errors. </div>
+<div class="param">exclude_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude TCP resets by client from the list of potential errors. </div>
+<div class="param">exclude_unsupported_dns_query_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude unsupported dns queries from the list of errors. </div>
+<div class="param">hs_event_throttle_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time window (in secs) within which only unique health change events should occur. format: int32</div>
+<div class="param">hs_max_anomaly_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum penalty that may be deducted from health score for anomalies. Allowed values are 0-100. format: int32</div>
+<div class="param">hs_max_resources_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum penalty that may be deducted from health score for high resource utilization. Allowed values are 0-100. format: int32</div>
+<div class="param">hs_max_security_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum penalty that may be deducted from health score based on security assessment. Allowed values are 0-100. format: int32</div>
+<div class="param">hs_min_dos_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DoS connection rate below which the DoS security assessment will not kick in. format: int32</div>
+<div class="param">hs_performance_boost (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Adds free performance score credits to health score. It can be used for compensating health score for known slow applications. Allowed values are 0-100. format: int32</div>
+<div class="param">hs_pscore_traffic_threshold_l4_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Threshold number of connections in 5min, below which apdexr, apdexc, rum_apdex, and other network quality metrics are not computed. format: double</div>
+<div class="param">hs_pscore_traffic_threshold_l4_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Threshold number of connections in 5min, below which apdexr, apdexc, rum_apdex, and other network quality metrics are not computed. format: double</div>
+<div class="param">hs_security_certscore_expired (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the certificate has expired. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_certscore_gt30d (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the certificate expires in more than 30 days. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_certscore_le07d (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the certificate expires in less than or equal to 7 days. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_certscore_le30d (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the certificate expires in less than or equal to 30 days. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_chain_invalidity_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing certificates with invalid chain. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_cipherscore_eq000b (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the minimum cipher strength is 0 bits. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_cipherscore_ge128b (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the minimum cipher strength is greater than equal to 128 bits. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_cipherscore_lt128b (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when the minimum cipher strength is less than 128 bits. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_encalgo_score_none (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when no algorithm is used for encryption. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_encalgo_score_rc4 (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when RC4 algorithm is used for encryption. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_hsts_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for not enabling HSTS. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_nonpfs_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing non-PFS handshakes. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_selfsignedcert_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Deprecated. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_ssl30_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting SSL3.0 encryption protocol. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_tls10_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.0 encryption protocol. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_tls11_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.1 encryption protocol. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_tls12_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.2 encryption protocol. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_weak_signature_algo_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing weak signature algorithm(s). Allowed values are 0-5. format: double</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the analytics profile. </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusRange">array[HTTPStatusRange]</a></span> List of HTTP status code ranges to be excluded from being classified as an error. </div>
+<div class="param">resp_code_block (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the analytics profile. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AnalyticsProfileApiResponse">AnalyticsProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#AnalyticsProfile">array[AnalyticsProfile]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ClientLogConfiguration">ClientLogConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enable_significant_log_collection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable significant log collection. By default, this flag is enabled, which means that Avi SEs collect significant logs and forward them to Controller for further processing. For example, these logs correspond to error conditions such as when the response code for a request is 500. Users can disable this flag to turn off default significant log collection. </div>
+<div class="param">filtered_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (Note  Only sync_and_index_on_demand is implemented at this time) Filtered logs are logs that match any client log filters or rules with logging enabled. Such logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
+<div class="param">non_significant_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (Note  Only sync_and_index_on_demand is implemented at this time) Logs that are neither significant nor filtered, are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
+<div class="param">significant_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Significant logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ClientLogStreamingConfig">ClientLogStreamingConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">external_server </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The destination server IP address or hostname. If a name is provided, this should be resolvable on Avi Service Engines. Field introduced in 17.1.1. </div>
+<div class="param">external_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The destination server&#39;s service port. Field introduced in 17.1.1. format: int32</div>
+<div class="param">log_types_to_send (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of logs to stream to the external server. Default is LOGS_ALL, i.e., send all logs. Enum options - LOGS_SIGNIFICANT_ONLY, LOGS_UDF_ONLY, LOGS_UDF_SIGNIFICANT, LOGS_ALL. Field introduced in 17.1.1. </div>
+<div class="param">max_logs_per_second (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPStatusRange">HTTPStatusRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Starting HTTP response status code. format: int32</div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ending HTTP response status code. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
