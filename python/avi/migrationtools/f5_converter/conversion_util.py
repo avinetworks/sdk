@@ -349,7 +349,7 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -413,15 +413,19 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
         if not_supported:
             LOG.warning('Profiles not supported by Avi : %s' % not_supported)
             return app_profile_refs, f_host, realm, policy_set
-        value = 'http'
+        if oc_prof:
+            value = 'http'
+        else:
+            value = 'fastL4'
         # Added prefix for objects
         if prefix:
-            value = prefix + '-' + 'http'
+            value = '%s-%s' % (prefix, value)
         default_app_profile = [obj for obj in app_profile_list if (
             obj['name'] == value or value in obj.get("dup_of", []))]
-        tenant = get_name_from_ref(default_app_profile[0]['tenant_ref'])
-        app_profile_refs.append(get_object_ref("http", 'applicationprofile',
-                                               tenant=tenant, prefix=prefix))
+        tenant = get_name_from_ref(default_app_profile[0]['tenant_ref']) if \
+            default_app_profile else '/api/tenant/?name=admin'
+        app_profile_refs.append(get_object_ref(value, 'applicationprofile',
+                                               tenant=tenant))
     return app_profile_refs, f_host, realm, policy_set
 
 

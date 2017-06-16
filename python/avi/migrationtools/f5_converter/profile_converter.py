@@ -281,14 +281,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
         tenant, name = conv_utils.get_tenant_ref(name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
-        # Added prefix for objects
-        if self.prefix:
-            name = self.prefix + '-' + name
         default_profile_name = '%s %s' % (profile_type,
                                           profile_type.replace('-', ''))
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         default_profile_name = profile_type.replace('-', '')
+        # Added prefix for objects
+        if self.prefix:
+            name = '%s-%s' % (self.prefix, name)
+            default_profile_name = '%s-%s' % (self.prefix, default_profile_name)
         if profile_type in ('client-ssl', 'server-ssl'):
             supported_attr = self.supported_ssl
             na_list = self.na_ssl
@@ -910,10 +911,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         old_name = name
+        default_profile_name = profile_type
         # Added prefix for objects
         if self.prefix:
-            name = self.prefix + '-' + name
-        default_profile_name = profile_type
+            name = '%s-%s' % (self.prefix, name)
+            default_profile_name = '%s-%s' % (self.prefix, default_profile_name)
         if profile_type in ("clientssl", "serverssl"):
             supported_attr = self.supported_ssl
             skipped = [attr for attr in profile.keys()
