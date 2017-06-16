@@ -130,6 +130,27 @@ and it supports several query options described in detail below.
 <th>Description</th>
 </tr>
 <tr>
+<th rowspan=5> String </th>
+<td> sw </td>
+<td> starts with </td>
+</tr>
+<tr>
+<td> nc </td>
+<td> not contains keyword </td>
+</tr>
+<tr>
+<td> eq </td>
+<td> == </td>
+</tr>
+<tr>
+<td> ne </td>
+<td> != </td>
+</tr>
+<tr>
+<td> co </td>
+<td> contains keyword </td>
+</tr>
+<tr>
 <th rowspan=6> Integer </th>
 <td> gt </td>
 <td> > </td>
@@ -155,13 +176,9 @@ and it supports several query options described in detail below.
 <td> == </td>
 </tr>
 <tr>
-<th rowspan=5> IP Address </th>
+<th rowspan=3> IP Address </th>
 <td> sw </td>
 <td> starts with </td>
-</tr>
-<tr>
-<td> nc </td>
-<td> not contains keyword </td>
 </tr>
 <tr>
 <td> eq </td>
@@ -172,8 +189,29 @@ and it supports several query options described in detail below.
 <td> != </td>
 </tr>
 <tr>
-<td> co </td>
-<td> contains keyword </td>
+<th rowspan=6> Enumeration String </th>
+<td> gt </td>
+<td> > </td>
+</tr>
+<tr>
+<td> ge </td>
+<td> >= </td>
+</tr>
+<tr>
+<td> ne </td>
+<td> != </td>
+</tr>
+<tr>
+<td> lt </td>
+<td> < </td>
+</tr>
+<tr>
+<td> le </td>
+<td> <= </td>
+</tr>
+<tr>
+<td> eq </td>
+<td> == </td>
 </tr>
 <tr>
 <th rowspan=2> Boolean </th>
@@ -185,25 +223,29 @@ and it supports several query options described in detail below.
 <td> != </td>
 </tr>
 <tr>
-<th rowspan=5> String </th>
-<td> sw </td>
-<td> starts with </td>
+<th rowspan=6> Message </th>
+<td> gt </td>
+<td> > </td>
 </tr>
 <tr>
-<td> nc </td>
-<td> not contains keyword </td>
-</tr>
-<tr>
-<td> eq </td>
-<td> == </td>
+<td> ge </td>
+<td> >= </td>
 </tr>
 <tr>
 <td> ne </td>
 <td> != </td>
 </tr>
 <tr>
-<td> co </td>
-<td> contains keyword </td>
+<td> lt </td>
+<td> < </td>
+</tr>
+<tr>
+<td> le </td>
+<td> <= </td>
+</tr>
+<tr>
+<td> eq </td>
+<td> == </td>
 </tr>
 </table>
 </div>
@@ -274,7 +316,7 @@ and it supports several query options described in detail below.
 <tr>
 <td> client_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -496,7 +538,7 @@ and it supports several query options described in detail below.
 <tr>
 <td> server_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -508,7 +550,7 @@ and it supports several query options described in detail below.
 <tr>
 <td> server_conn_src_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -603,20 +645,20 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> compression </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_insights </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> connection_error_info </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
@@ -639,14 +681,14 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> request_state </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> datascript_error_trace </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
@@ -669,8 +711,8 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> significant_log </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td> List of enums which indicate why a log is significant </td>
 </tr>
 <tr>
@@ -702,6 +744,36 @@ and it supports several query options described in detail below.
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
 <td> Response headers received from backend server </td>
+</tr>
+<tr>
+<td> server_ssl_session_id </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> SSL session id for the backend connection. </td>
+</tr>
+<tr>
+<td> server_connection_reused </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Flag to indicate if connection from the connection pool was reused </td>
+</tr>
+<tr>
+<td> server_ssl_session_reused </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Flag to indicate if SSL session was reused. </td>
+</tr>
+<tr>
+<td> vs_ip </td>
+<td> IP Address </td>
+<td> sw,eq,ne </td>
+<td>  </td>
+</tr>
+<tr>
+<td> body_updated </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td>  </td>
 </tr>
 </table>
 </div>
@@ -745,9 +817,15 @@ and it supports several query options described in detail below.
 <td>  </td>
 </tr>
 <tr>
+<td> vs_ip </td>
+<td> IP Address </td>
+<td> sw,eq,ne </td>
+<td>  </td>
+</tr>
+<tr>
 <td> client_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -903,7 +981,7 @@ and it supports several query options described in detail below.
 <tr>
 <td> server_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -915,7 +993,7 @@ and it supports several query options described in detail below.
 <tr>
 <td> server_conn_src_ip </td>
 <td> IP Address </td>
-<td> sw,nc,eq,ne,co </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -998,8 +1076,8 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> significant_log </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td> List of enums which indicate why a log is significant </td>
 </tr>
 <tr>
@@ -1046,8 +1124,8 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> proxy_protocol </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td> Version of proxy protocol used to convey client connection information to the back-end servers.  A value of 0 indicates that proxy protocol is not used.  A value of 1 or 2 indicates the version of proxy protocol used. </td>
 </tr>
 <tr>
@@ -1076,14 +1154,14 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> dns_ips </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> IP Address </td>
+<td> sw,eq,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_qtype </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
@@ -1106,20 +1184,26 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> dns_response </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_etype </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> protocol </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td>  </td>
+</tr>
+<tr>
+<td> dns_request </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 </table>
@@ -1141,32 +1225,32 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> obj_type </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> event_id </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> module </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> internal </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
 <td> context </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
@@ -1183,14 +1267,14 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> reason_code </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Enumeration String </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td> Reason code for generating the event. This would be added to the alert where it would say alert generated  on event with reason <reason code> </td>
 </tr>
 <tr>
 <td> event_details </td>
-<td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
 <tr>
