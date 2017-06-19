@@ -13,7 +13,7 @@ path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                     'VSDataScriptSet', 'networksecuritypolicy':
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
                     'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels'
+                    'PriorityLabels', 'vsvip': 'VsVip'
                 }
 
 

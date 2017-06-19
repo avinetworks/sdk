@@ -65,12 +65,14 @@ VERSION_11:
     - "recv-disable"
     - "reverse"
     - "send"
+    - "destination"
 
     Monitor_https_attr:
     - "recv"
     - "recv-disable"
     - "reverse"
     - "send"
+    - "destination"
 
     Monitor_dns_attr:
     - "recv"
