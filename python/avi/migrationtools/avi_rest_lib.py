@@ -4,15 +4,15 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-def upload_config_to_controller(avi_config_dict, controller_ip,
-                                username, password, tenant):
+def upload_config_to_controller(avi_config_dict, controller_ip, username,
+                                password, tenant, api_version='17.1.1'):
     LOG.debug("Uploading config to controller")
-    session = ApiSession.get_session(controller_ip, username,
-                                     password=password, tenant=tenant)
+    session = ApiSession.get_session(controller_ip, username, password=password,
+                                     tenant=tenant, api_version=api_version)
     try:
         d = {'configuration': avi_config_dict}
         path = 'configuration/import'
-        resp = session.post(path, data=d)
+        resp = session.post(path, data=d, timeout=7200)
         if resp.status_code < 300:
             LOG.info("Config uploaded to controller successfully")
         else:

@@ -77,6 +77,8 @@ class F5Converter(AviConverter):
             level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
@@ -340,7 +342,7 @@ if __name__ == "__main__":
                         help='f5 host key file location if key based ' +
                              'authentication')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='17.1')
+                        help='Target Avi controller version', default='17.1.1')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
     parser.add_argument('--partition_config',
