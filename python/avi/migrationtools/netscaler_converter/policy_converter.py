@@ -352,6 +352,8 @@ class PolicyConverter(object):
             cs_action, redirect_uri = self.get_cs_policy_action(
                 name, targetLBVserver, redirect_pools,
                 avi_config, tmp_pool_ref)
+            targetLBVserver_name = [lb_name for lb_name in avi_config['Lbvs']
+                                    if targetLBVserver in lb_name]
             if cs_action:
                 if redirect_uri:
                     policy_rules['redirect_action'] = cs_action
@@ -366,6 +368,24 @@ class PolicyConverter(object):
                 ns_util.add_status_row(
                     policy['line_no'], netscalar_command, rule_name,
                     ns_policy_complete_cmd, STATUS_SUCCESSFUL, policy_rules)
+            # lbvs present then add redirect url to csvs
+            elif targetLBVserver_name:
+                targetLBVserver_name = targetLBVserver_name[0]
+                if 'redirect_url' in targetLBVserver_name[targetLBVserver]:
+                    policy_rules['redirect_action'] = \
+                        str(targetLBVserver_name[targetLBVserver]['redirect_url']).\
+                            replace('"', '')
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        targetLBVserver)
+                elif 'backupvserver' in targetLBVserver_name[targetLBVserver]:
+                    tmp_pool_ref.append(str(targetLBVserver_name
+                                            [targetLBVserver]['backupvserver']))
+                    cs_action, redirect_uri = self.get_cs_policy_action(
+                        name, targetLBVserver, redirect_pools,
+                        avi_config, tmp_pool_ref)
+                    policy_rules['switching_action'] = cs_action
+                LOG.info('Conversion successful : %s %s' % (netscalar_command,
+                                                            rule_name))
             else:
                 skipped_status = 'Skipped:PoolGroup not found : %s %s %s ' \
                                  '-PoolGroup' % (netscalar_command,
