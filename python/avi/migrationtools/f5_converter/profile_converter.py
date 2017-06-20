@@ -35,7 +35,6 @@ class ProfileConfigConv(object):
     def convert(self, f5_config, avi_config, input_dir, user_ignore,
                 tenant_ref, cloud_ref):
         profile_config = f5_config.get("profile", {})
-        net_config = f5_config.get('route', {})
         avi_config["SSLKeyAndCertificate"] = []
         avi_config["SSLProfile"] = []
         avi_config["PKIProfile"] = []
@@ -46,24 +45,6 @@ class ProfileConfigConv(object):
         avi_config['OneConnect'] = []
         key_and_cert_mapping_list = []
         persistence = f5_config.get("persistence", None)
-        # Initialize Global vrf context object
-        vrf_context = {
-            "name": 'global',
-            "system_default": True,
-            "tenant_ref": conv_utils.get_object_ref(tenant_ref, 'tenant'),
-            "cloud_ref": conv_utils.get_object_ref(cloud_ref, 'cloud'),
-            "static_routes": []
-        }
-        # Convert net static route to vrf static route
-        for key in net_config:
-            route = net_config.get(key, {})
-            # Get static route
-        #     static_route = self.update_static_route(route)
-        #     if static_route:
-        #         vrf_context['static_routes'].append(static_route)
-        # if vrf_context['static_routes']:
-        #     avi_config["VrfContext"].append(vrf_context)
-
         if not persistence:
             f5_config['persistence'] = {}
         avi_config['UnsupportedProfiles'] = []
@@ -110,43 +91,6 @@ class ProfileConfigConv(object):
         f5_config.pop("profile")
         del key_and_cert_mapping_list
 
-    def update_static_route(self, route):
-        """
-        This function defines that convert convert static routes
-        :param route: Object of net static route
-        :return: Return static route object
-        """
-
-        next_hop_ip = route.get('gw', None)
-        ip_addr = route.get('network', None)
-
-        # Get the mask from subnet mask
-        if ip_addr and '%' in ip_addr:
-            ip_addr = ip_addr.split('%')[0]
-        if ip_addr and '/' in ip_addr:
-            ip_addr = ip_addr.split('/')[0]
-
-        # set subnet mask to 0.0.0.0 if its equal to default
-        if not ip_addr or ip_addr == 'default':
-            ip_addr = '0.0.0.0'
-
-        mask = sum([bin(int(x)).count('1') for x in ip_addr.split('.')])
-        if next_hop_ip and ip_addr:
-            static_route = {
-                "route_id": 1,
-                "prefix": {
-                    "ip_addr": {
-                        "type": "V4",
-                        "addr": ip_addr
-                    },
-                    "mask": mask
-                },
-                "next_hop": {
-                    "type": "V4",
-                    "addr": next_hop_ip
-                }
-            }
-            return static_route
 
     def update_with_default_profile(self, profile_type, profile,
                                     profile_config, profile_name):
