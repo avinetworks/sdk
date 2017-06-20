@@ -372,9 +372,14 @@ class PolicyConverter(object):
             elif targetLBVserver_name:
                 targetLBVserver_name = targetLBVserver_name[0]
                 if 'redirect_url' in targetLBVserver_name[targetLBVserver]:
-                    policy_rules['redirect_action'] = \
-                        str(targetLBVserver_name[targetLBVserver]['redirect_url']).\
-                            replace('"', '')
+                    # Added targetlvsever to pool list for redirect action.
+                    redirect_pools[targetLBVserver] = str(
+                        targetLBVserver_name[targetLBVserver]['redirect_url']
+                    ).replace('"', '')
+                    cs_action, redirect_uri = self.get_cs_policy_action(
+                        name, targetLBVserver, redirect_pools, avi_config,
+                        tmp_pool_ref)
+                    policy_rules['redirect_action'] = cs_action
                     ns_util.update_status_target_lb_vs_to_indirect(
                         targetLBVserver)
                 elif 'backupvserver' in targetLBVserver_name[targetLBVserver]:
