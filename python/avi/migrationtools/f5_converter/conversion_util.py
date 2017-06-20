@@ -170,7 +170,7 @@ def add_conv_status(f5_type, f5_sub_type, f5_id, conv_status, avi_object=None):
     csv_writer_dict_list.append(row)
 
 
-def add_status_row(f5_type, f5_sub_type, f5_id, status):
+def add_status_row(f5_type, f5_sub_type, f5_id, status, avi_object=None):
     """
     Adds as status row in conversion status csv
     :param f5_type: Object type
@@ -185,6 +185,7 @@ def add_status_row(f5_type, f5_sub_type, f5_id, status):
         'F5 SubType': f5_sub_type if f5_sub_type else ' ',
         'F5 ID': f5_id,
         'Status': status,
+        'Avi Object': str(avi_object)
     }
     csv_writer_dict_list.append(row)
 

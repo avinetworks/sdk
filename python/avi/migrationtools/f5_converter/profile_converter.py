@@ -76,10 +76,12 @@ class ProfileConfigConv(object):
                 if not tenant_ref == 'admin':
                     tenant = tenant_ref
                 if profile_type not in self.supported_types:
-                    LOG.warning("Skipped not supported profile: %s of type: %s"
-                                % (name, profile_type))
+                    msg = "Skipped not supported profile: %s of type: %s"\
+                                % (name, profile_type)
+                    LOG.warning(msg)
                     conv_utils.add_status_row('profile', profile_type, name,
-                                              final.STATUS_SKIPPED)
+                                              final.STATUS_SKIPPED,
+                                              avi_object=msg)
                     avi_config['UnsupportedProfiles'].append(name)
                     continue
                 # Added prefix for objects
@@ -634,11 +636,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             timeout = profile.get("idle-timeout", final.MIN_SESSION_TIMEOUT)
             if timeout < 60:
                 timeout = final.MIN_SESSION_TIMEOUT
-                LOG.warn("idle-timeout for profile: %s is less" % name +
+                LOG.warning("idle-timeout for profile: %s is less" % name +
                          " than minimum, changed to Avis minimum value")
             elif timeout > final.MAX_SESSION_TIMEOUT:
                 timeout = final.MAX_SESSION_TIMEOUT
-                LOG.warn("idle-timeout for profile: %s  is grater" % name +
+                LOG.warning("idle-timeout for profile: %s  is grater" % name +
                          " than maximum, changed to Avis maximum value")
             description = profile.get('description', None)
             ntwk_profile = {
@@ -752,8 +754,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 skipped.append('source-mask')
             converted_objs = \
                 'Maps Indirectly to : HTTP Profile -> Connection Multiplex'
-            LOG.warn('one-connect profile %s will be mapped indirectly to HTTP '
-                     'Profile -> Connection Multiplex of the same VS if '
+            LOG.warning('one-connect profile %s will be mapped indirectly to '
+                     'HTTP Profile -> Connection Multiplex of the same VS if '
                      'oneconnect-transformations is enabled' % name)
             avi_config['OneConnect'].append(name)
 
@@ -1070,11 +1072,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
             timeout = profile.get("idle timeout", final.MIN_SESSION_TIMEOUT)
             if timeout < 60:
                 timeout = final.MIN_SESSION_TIMEOUT
-                LOG.warn("idle-timeout for profile: %s is less" % name +
+                LOG.warning("idle-timeout for profile: %s is less" % name +
                          " than minimum, changed to Avis minimum value")
             elif timeout > final.MAX_SESSION_TIMEOUT:
                 timeout = final.MAX_SESSION_TIMEOUT
-                LOG.warn("idle-timeout for profile: %s  is grater" % name +
+                LOG.warning("idle-timeout for profile: %s  is grater" % name +
                          " than maximum, changed to Avis maximum value")
             ntwk_profile = {
                 "profile": {
@@ -1176,8 +1178,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 skipped.append('source-mask')
             converted_objs = \
                 'Maps Indirectly to : HTTP Profile -> Connection Multiplex'
-            LOG.warn('oneconnect profile %s will be mapped indirectly to HTTP '
-                     'Profile -> Connection Multiplex of the same VS if '
+            LOG.warning('oneconnect profile %s will be mapped indirectly to '
+                     'HTTP Profile -> Connection Multiplex of the same VS if '
                      'oneconnect-transformations is enabled' % name)
             avi_config['OneConnect'].append(name)
         elif profile_type == 'tcp':

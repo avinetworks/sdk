@@ -60,9 +60,11 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
+                msg = "Skipping: Empty config for monitor: %s " % name
+                LOG.warning(msg)
                 conv_utils.add_status_row('monitor', m_type, name,
-                                          conv_const.STATUS_SKIPPED)
-                LOG.warn("Empty config for monitor: %s " % name)
+                                          conv_const.STATUS_SKIPPED,
+                                          avi_object=msg)
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
@@ -72,7 +74,7 @@ class MonitorConfigConv(object):
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
-                    LOG.warn("Monitor type not supported by Avi : "+name)
+                    LOG.warning("Monitor type not supported by Avi : "+name)
                     conv_utils.add_status_row(
                         'monitor', monitor_type, name,
                         conv_const.STATUS_EXTERNAL_MONITOR)
@@ -163,10 +165,12 @@ class MonitorConfigConv(object):
                 skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
                 ignore_for_defaults.update({'qtype': 'a'})
             else:
-                LOG.warning('No value for mandatory field query_name, skipped '
-                            'DNS Monitor %s' % key)
+                msg = ('Skipping : No value for mandatory field query_name in'
+                       'DNS Monitor %s' % key)
+                LOG.warning(msg)
                 conv_utils.add_status_row('monitor', monitor_type, name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED,
+                                          avi_object=msg)
                 return None
         elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
@@ -422,7 +426,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             cmd_code = conv_utils.upload_file(
                 input_dir + os.path.sep + cmd_code)
         else:
-            LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
+            LOG.warning("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name,
                                       conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
@@ -435,7 +439,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             }
             monitor_dict["external_monitor"] = ext_monitor
         else:
-            LOG.warn("MISSING File: %s" % name)
+            LOG.warning("MISSING File: %s" % name)
             conv_utils.add_status_row("monitor", "external", name,
                                       conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
@@ -675,7 +679,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             cmd_code = conv_utils.upload_file(
                 input_dir + os.path.sep + cmd_code)
         else:
-            LOG.warn("Skipped monitor: %s for no value in run attribute" % name)
+            LOG.warning("Skipped monitor: %s for no value in run attribute" % name)
             conv_utils.add_status_row("monitor", "external", name,
                                       conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True
@@ -689,7 +693,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             }
             monitor_dict["external_monitor"] = ext_monitor
         else:
-            LOG.warn("MISSING File: %s" % name)
+            LOG.warning("MISSING File: %s" % name)
             conv_utils.add_status_row("monitor", "external", name,
                                       conv_const.STATUS_MISSING_FILE)
             monitor_dict['error'] = True

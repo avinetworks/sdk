@@ -41,10 +41,12 @@ class VSConfigConv(object):
                 vs_type = [key for key in f5_vs.keys()
                            if key in self.unsupported_types]
                 if vs_type:
-                    LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
-                             (vs_type, vs_name))
+                    msg = "VS type: %s not supported by Avi skipped VS: %s" %\
+                             (vs_type, vs_name)
+                    LOG.warning(msg)
                     conv_utils.add_status_row('virtual', None, vs_name,
-                                              final.STATUS_SKIPPED)
+                                              final.STATUS_SKIPPED,
+                                              avi_object=msg)
                     continue
                 # Added prefix for objects
                 if self.prefix:
@@ -84,10 +86,12 @@ class VSConfigConv(object):
             profiles, avi_config, tenant, self.prefix, oc_prof)
 
         if not app_prof:
-            LOG.warning('Profile type not supported by Avi Skipping VS : %s'
-                        % vs_name)
+            msg = 'Profile type not supported by Avi Skipping VS : %s'\
+                        % vs_name
+            LOG.warning(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
-                                      final.STATUS_SKIPPED)
+                                      final.STATUS_SKIPPED,
+                                      avi_object=msg)
             return None
 
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
@@ -130,9 +134,11 @@ class VSConfigConv(object):
             cloud_name, self.prefix)
         # Added Check for if port is no digit skip vs.
         if not services_obj and not ip_addr and not vsvip_ref:
-            LOG.debug("Skipped: Virtualservice: %s" % vs_name)
+            msg = "Skipped: Virtualservice: %s" % vs_name
+            LOG.debug(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
-                                      final.STATUS_SKIPPED)
+                                      final.STATUS_SKIPPED,
+                                      avi_object=msg)
             return
         if '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
@@ -373,11 +379,13 @@ class VSConfigConv(object):
             if application_profile_obj and application_profile_obj[0]['type'] \
                     == 'APPLICATION_PROFILE_TYPE_L4':
                 if not 'pool_ref' and not 'pool_group_ref' in vs_obj:
-                    LOG.debug("Failed to convert L4 VS dont have "
-                              "pool or pool group ref: %s" % vs_name)
+                    msg = "Failed to convert L4 VS dont have "\
+                              "pool or pool group ref: %s" % vs_name
+                    LOG.debug(msg)
                     conv_utils.add_status_row('virtual', None,
                                               vs_name,
-                                              final.STATUS_SKIPPED)
+                                              final.STATUS_SKIPPED,
+                                              avi_object=msg)
                     return
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]

@@ -141,7 +141,7 @@ def parse_config(source_str, version=11):
         last_end = end
 
     for skipped in skipped_list:
-        LOG.warn("Skipped for parse unmatched from offset:%s to offset:%s" %
+        LOG.warning("Skipped for parse unmatched from offset:%s to offset:%s" %
                  (skipped["start"], skipped["end"]))
     result_dict = convert_to_dict(result)
     LOG.debug("Parsing complete...")

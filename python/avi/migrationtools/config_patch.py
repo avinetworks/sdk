@@ -174,7 +174,7 @@ class ConfigPatch(object):
         """
         cfg_objs = new_cfg.get(obj_type, [])
         if not cfg_objs:
-            log.warn('Could not apply patch %s: %s as no matching obj found',
+            log.warning('Could not apply patch %s: %s as no matching obj found',
                      obj_type, patch_data)
             return new_cfg
         for obj in cfg_objs:
