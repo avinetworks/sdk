@@ -1478,3 +1478,23 @@ def is_certificate_key_protected(key_file):
     except:
         return False
 
+
+def get_redirect_fail_action(url):
+    parsed = urlparse.urlparse(url)
+    redirect_fail_action = {
+        'fail_action': {
+            'redirect': {
+                'host': parsed.hostname,
+                'protocol': str(parsed.scheme).upper(),
+                'status_code': "HTTP_REDIRECT_STATUS_CODE_302"
+            },
+            "type": "FAIL_ACTION_HTTP_REDIRECT"
+        }
+    }
+    if parsed.path:
+        redirect_fail_action['fail_action']['redirect']['path'] = \
+            str(parsed.path).replace('"')
+    if parsed.query:
+        redirect_fail_action['fail_action']['redirect']['query'] = parsed.query
+
+    return redirect_fail_action
