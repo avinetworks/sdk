@@ -849,7 +849,7 @@ def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config,
             'tokens': [{
                 'type': 'URI_TOKEN_TYPE_HOST',
                 'str_value': redirect_uri,
-                'start_index': '1',
+                'start_index': '0',
                 'end_index': '65535'
             }]
         }
