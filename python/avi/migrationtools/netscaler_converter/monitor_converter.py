@@ -149,6 +149,8 @@ class MonitorConverter(object):
                 if send:
                     send = send.replace('"', '')
                 response = ns_monitor.get('recv', None)
+                if response:
+                    response = response.replace('"', '')
                 avi_monitor["http_monitor"] = {
                     "http_request": send,
                     "http_response_code": ["HTTP_ANY"],
