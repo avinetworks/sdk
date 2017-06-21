@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -107,6 +108,7 @@ func NewAviSession(host string, username string, password string, insecure bool,
 	avisess.csrf_token = ""
 	avisess.prefix = "https://" + avisess.host + "/"
 	avisess.tenant = tenant
+	flag.Parse()
 	return avisess
 }
 
@@ -127,9 +129,9 @@ func (avisession *AviSession) InitiateSession() error {
 	rerror = avisession.Post("login", cred, res)
 	// now session id is set too
 
-	log.Println("response: ", res)
+	glog.Infof("response: %v", res)
 	if res != nil && reflect.TypeOf(res).Kind() != reflect.String {
-		println("results: ", res.(map[string]interface{}), " error: ", rerror)
+		glog.Infof("results: %v error %v", res.(map[string]interface{}), rerror)
 	}
 
 	return nil
@@ -184,7 +186,7 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 	}
 
 	dump, err := httputil.DumpRequestOut(req, true)
-	log.Println("Request headers: ", req.Header)
+	glog.Infof("Request headers: %v", req.Header)
 	debug(dump, err)
 	client := &http.Client{Transport: tr}
 
@@ -203,13 +205,13 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 		log.Println("cookie: ", cookie)
 		if cookie.Name == "csrftoken" {
 			avi.csrf_token = cookie.Value
-			log.Println("Set the csrf token to ", avi.csrf_token)
+			glog.Infof("Set the csrf token to %v", avi.csrf_token)
 		}
 		if cookie.Name == "sessionid" {
 			avi.sessionid = cookie.Value
 		}
 	}
-	log.Println("Response code: ", resp.StatusCode)
+	glog.Infof("Response code: %v", resp.StatusCode)
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
@@ -227,7 +229,7 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 		bres, berr := ioutil.ReadAll(resp.Body)
 		if berr == nil {
 			mres, _ := ConvertAviResponseToMapInterface(bres)
-			log.Println("Error resp: ", mres)
+			glog.Infof("Error resp: %v", mres)
 		}
 		return result, errorResult
 	}
