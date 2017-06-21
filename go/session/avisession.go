@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/http/httputil"
 	"reflect"
@@ -97,43 +96,80 @@ type AviSession struct {
 	prefix string
 }
 
-func NewAviSession(host string, username string, password string, insecure bool, tenant string) *AviSession {
+func NewAviSession(host string, username string, options ...func(*AviSession) error) (*AviSession, error) {
+	flag.Parse()
 	avisess := &AviSession{
 		host:     host,
 		username: username,
-		password: password,
-		insecure: insecure,
 	}
 	avisess.sessionid = ""
 	avisess.csrf_token = ""
 	avisess.prefix = "https://" + avisess.host + "/"
-	avisess.tenant = tenant
-	flag.Parse()
-	return avisess
+	avisess.tenant = ""
+	avisess.insecure = false
+
+	for _, option := range options {
+		err := option(avisess)
+		if err != nil {
+			return avisess, err
+		}
+	}
+	err := avisess.InitiateSession()
+	return avisess, err
 }
 
-func (avisession *AviSession) InitiateSession() error {
-	if avisession.insecure == true {
+func (avisess *AviSession) InitiateSession() error {
+	if avisess.insecure == true {
 		glog.Warning("Strict certificate verification is *DISABLED*")
 	}
 
 	// initiate http session here
 	// first set the csrf token
 	var res interface{}
-	rerror := avisession.Get("", res)
+	rerror := avisess.Get("", res)
 
-	// now login to get session_id
+	// now login to get session_id, csrf_token
 	cred := make(map[string]string)
-	cred["username"] = avisession.username
-	cred["password"] = avisession.password
-	rerror = avisession.Post("login", cred, res)
-	// now session id is set too
+	cred["username"] = avisess.username
+	cred["password"] = avisess.password
+	rerror = avisess.Post("login", cred, res)
+
+	if rerror != nil {
+		return rerror
+	}
 
 	glog.Infof("response: %v", res)
 	if res != nil && reflect.TypeOf(res).Kind() != reflect.String {
 		glog.Infof("results: %v error %v", res.(map[string]interface{}), rerror)
 	}
 
+	return nil
+}
+
+func SetPassword(password string) func (*AviSession) error{
+	return func(sess *AviSession) error {
+		return sess.set_password(password)
+	}
+}
+
+func (avi *AviSession) set_password(password string) error {
+	avi.password = password
+	return nil
+}
+
+func SetTenant(tenant string) func (*AviSession) error{
+	return func(sess *AviSession) error {
+		return sess.set_tenant(tenant)
+	}
+}
+
+func (avi *AviSession) set_tenant(tenant string) error {
+	avi.tenant = tenant
+	return nil
+}
+
+func SetInsecure(avi *AviSession) error {
+	avi.insecure = true
 	return nil
 }
 
@@ -185,9 +221,10 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avi.sessionid})
 	}
 
+	// glog.Infof("Request headers: %v", req.Header)
 	dump, err := httputil.DumpRequestOut(req, true)
-	glog.Infof("Request headers: %v", req.Header)
 	debug(dump, err)
+
 	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
@@ -202,7 +239,7 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 
 	// collect cookies from the resp
 	for _, cookie := range resp.Cookies() {
-		log.Println("cookie: ", cookie)
+		glog.Infof("cookie: %v", cookie)
 		if cookie.Name == "csrftoken" {
 			avi.csrf_token = cookie.Value
 			glog.Infof("Set the csrf token to %v", avi.csrf_token)
@@ -225,11 +262,13 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		log.Println("Error: ", resp)
+		glog.Errorf("Error: %v", resp)
 		bres, berr := ioutil.ReadAll(resp.Body)
 		if berr == nil {
 			mres, _ := ConvertAviResponseToMapInterface(bres)
 			glog.Infof("Error resp: %v", mres)
+			emsg := fmt.Sprintf("%v", mres)
+			errorResult.Message = &emsg
 		}
 		return result, errorResult
 	}
@@ -261,9 +300,9 @@ func ConvertBytesToSpecificInterface(resbytes []byte, result interface{}) error 
 
 func debug(data []byte, err error) {
 	if err == nil {
-		fmt.Printf("%s\n\n", data)
+		glog.Infof("%s\n\n", data)
 	} else {
-		log.Fatalf("%s\n\n", err)
+		glog.Fatalf("%s\n\n", err)
 	}
 }
 

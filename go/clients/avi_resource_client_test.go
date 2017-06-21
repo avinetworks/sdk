@@ -12,30 +12,29 @@ func TestAviPoolClient(t *testing.T) {
 	// Get All
 	// Update Pool
 	// Delete Pool
-	avi_sess := session.NewAviSession("10.10.25.201", "admin", "avi123",
-		true, "")
-	avi_sess.InitiateSession()
+	avi_sess, err := session.NewAviSession("10.10.25.201", "admin",
+		session.SetPassword("avi123"), session.SetInsecure)
 	pclient := NewPoolClient(avi_sess)
 
 	obj := models.Pool{}
 	obj.Name = "testpool"
 	objp, err := pclient.Create(&obj)
-	log.Println("res: ", *objp, " err: ", err)
+	log.Printf("res: %+v; err: %+v", *objp, err)
 
 	lobjp, err := pclient.GetAll()
-	log.Println("res: ", lobjp[0], " err: ", err)
+	log.Printf("res: %+v; err: %+v", *lobjp[0], err)
 
 	objp, err = pclient.GetByName("testpool")
-	log.Println("res: ", *objp, " err: ", err)
+	log.Printf("res: %+v; err: %+v", *objp, err)
 
 	objp, err = pclient.Get(objp.UUID)
-	log.Println("res: ", *objp, " err: ", err)
+	log.Printf("res: %+v; err: %+v", *objp, err)
 	objp.Enabled = false
 
 	objp, err = pclient.Update(objp)
-	log.Println("res: ", objp, " err: ", err)
+	log.Printf("res: %+v; err: %+v", *objp, err)
 
 	err = pclient.Delete(objp.UUID)
-	log.Println("res: ", objp, " err: ", err)
+	log.Printf("err: %+v", err)
 	t.Error("Just to force output")
 }
