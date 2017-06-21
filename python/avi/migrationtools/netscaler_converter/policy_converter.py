@@ -1110,17 +1110,18 @@ class PolicyConverter(object):
             path_matches = \
                 re.findall('\\\\(.+?)\\\\',
                            policy_action['attrs'][2].strip('"').strip())
+            redirect_url = str(path_matches[0]).replace('"', '')
+            redirect_url = ns_util.parse_url(redirect_url)
+            protocol = str(redirect_url.scheme).upper()
             redirect_action = {
-                'port': 80,
-                'protocol': 'HTTP',
+                'protocol': protocol,
                 'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
                 'keep_query': False,
-
                 'path': {
                     'type': 'URI_PARAM_TYPE_TOKENIZED',
                     'tokens': [{
                         'type': 'URI_TOKEN_TYPE_STRING',
-                        'str_value': path_matches[0]
+                        'str_value': redirect_url
                     }]
                 },
                 'query': {
@@ -1141,9 +1142,11 @@ class PolicyConverter(object):
             if attrs[0].startswith('q{'):
                 return
             if attrs[1] == '301':
+                redirect_url = str(attrs[4]).replace('"', '')
+                redirect_url = ns_util.parse_url(redirect_url)
+                protocol = str(redirect_url.scheme).upper()
                 redirect_action = {
-                    'port': 80,
-                    'protocol': 'HTTP',
+                    'protocol': protocol,
                     'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',
                     'keep_query': False,
 
@@ -1151,7 +1154,7 @@ class PolicyConverter(object):
                         'type': 'URI_PARAM_TYPE_TOKENIZED',
                         'tokens': [{
                             'type': 'URI_TOKEN_TYPE_STRING',
-                            'str_value': attrs[4]
+                            'str_value': redirect_url
                         }]
                     },
                     'query': {
@@ -1215,3 +1218,8 @@ class PolicyConverter(object):
         if responder_policy:
             return responder_policy, 'responder'
         return None, None
+
+
+# if __name__ == '__main__':
+#     print re.findall('\\\\(.+?)\\\\',
+#                "https://abc.xyz.com/123/?a=b&c=d".strip('"').strip())
