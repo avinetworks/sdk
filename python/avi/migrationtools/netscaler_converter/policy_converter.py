@@ -1227,8 +1227,3 @@ class PolicyConverter(object):
         if responder_policy:
             return responder_policy, 'responder'
         return None, None
-
-
-# if __name__ == '__main__':
-#     print re.findall('\\\\(.+?)\\\\',
-#                "https://abc.xyz.com/123/?a=b&c=d".strip('"').strip())
