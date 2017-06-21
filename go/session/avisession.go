@@ -84,7 +84,7 @@ type AviSession struct {
 	insecure bool
 
 	// optional tenant string to use for API request
-	Tenant string
+	tenant string
 
 	// internal: session id for this session
 	sessionid string
@@ -96,7 +96,7 @@ type AviSession struct {
 	prefix string
 }
 
-func NewAviSession(host string, username string, password string, insecure bool) *AviSession {
+func NewAviSession(host string, username string, password string, insecure bool, tenant string) *AviSession {
 	avisess := &AviSession{
 		host:     host,
 		username: username,
@@ -106,7 +106,7 @@ func NewAviSession(host string, username string, password string, insecure bool)
 	avisess.sessionid = ""
 	avisess.csrf_token = ""
 	avisess.prefix = "https://" + avisess.host + "/"
-	avisess.Tenant = ""
+	avisess.tenant = tenant
 	return avisess
 }
 
@@ -168,6 +168,7 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("X-Avi-Version", "17.1.2")
 	if avi.csrf_token != "" {
 		req.Header["X-CSRFToken"] = []string{avi.csrf_token}
 		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avi.csrf_token})
@@ -175,8 +176,8 @@ func (avi *AviSession) rest_request(verb string, uri string, payload interface{}
 	if avi.prefix != "" {
 		req.Header.Set("Referer", avi.prefix)
 	}
-	if avi.Tenant != "" {
-		req.Header.Set("X-Avi-Tenant", avi.Tenant)
+	if avi.tenant != "" {
+		req.Header.Set("X-Avi-Tenant", avi.tenant)
 	}
 	if avi.sessionid != "" {
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avi.sessionid})

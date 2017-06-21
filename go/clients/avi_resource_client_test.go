@@ -12,7 +12,8 @@ func TestAviPoolClient(t *testing.T) {
 	// Get All
 	// Update Pool
 	// Delete Pool
-	avi_sess := session.NewAviSession("10.10.25.42", "admin", "avi123", true)
+	avi_sess := session.NewAviSession("10.10.25.201", "admin", "avi123",
+		true, "")
 	avi_sess.InitiateSession()
 	pclient := NewPoolClient(avi_sess)
 
