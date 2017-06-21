@@ -834,8 +834,11 @@ class PolicyConverter(object):
         if self.prefix:
             targetLBVserver = self.prefix + '-' + targetLBVserver
         if targetLBVserver in redirect_pools:
+            redirect_url = str(redirect_pools[targetLBVserver]).replace('"','')
+            redirect_url = ns_util.parse_url(redirect_url)
+            protocol = str(redirect_url.scheme).upper()
             action = {
-                'protocol': 'HTTP',
+                'protocol': protocol,
                 'host': {
                     'type': 'URI_PARAM_TYPE_TOKENIZED',
                     'tokens': [{
