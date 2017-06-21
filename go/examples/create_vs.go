@@ -1,0 +1,57 @@
+package main
+
+import (
+	"fmt"
+	"github.com/avinetworks/sdk/go/clients"
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+	"flag"
+)
+
+func main() {
+	flag.Lookup("logtostderr").Value.Set("false")
+	// Create a session and a generic client to Avi Controller
+	avi_sess, err := session.NewAviSession("10.10.25.201", "admin",
+		session.SetPassword("avi123"),
+		session.SetTenant("admin"),
+		session.SetInsecure)
+	if err != nil {
+		fmt.Println("Couldn't create session: ", err)
+		return
+	}
+	avi_client := clients.NewAviClient(avi_sess)
+
+	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
+	pobj := models.Pool{}
+	pobj.Name = "my-test-pool"
+	serverobj := models.Server{}
+	serverobj.Enabled = true
+	serverobj.IP = &models.IPAddr{Type:"V4", Addr:"10.90.20.12"}
+	pobj.Servers = append(pobj.Servers, &serverobj)
+
+	npobj,err := avi_client.Pool.Create(&pobj)
+	if err != nil {
+		fmt.Println("Pool creation failed: ", err)
+		return
+	}
+
+	// Create a virtual service and use the pool created above
+	vsobj := models.VirtualService{}
+	vsobj.Name = "my-test-vs"
+	vipip := models.IPAddr{Type:"V4", Addr:"10.90.20.51"}
+	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID:"myvip", IPAddress:&vipip})
+	vsobj.PoolRef = npobj.UUID
+	vsobj.Services = append(vsobj.Services, &models.Service{Port:80})
+
+	nvsobj, err := avi_client.VirtualService.Create(&vsobj)
+	if err != nil {
+		fmt.Println("VS creation failed: ", err)
+		return
+	}
+	fmt.Printf("VS obj: %+v", *nvsobj)
+
+	// Delete vs
+	// avi_client.VirtualService.Delete(nvsobj.UUID)
+	// Delete pool
+	// avi_client.Pool.Delete(npobj.UUID)
+}
