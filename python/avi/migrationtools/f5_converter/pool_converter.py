@@ -163,8 +163,8 @@ class PoolConfigConv(object):
             pg_dict[priority] = priority_list
         return is_pool_group, pg_dict
 
-    def add_status(self, name, skipped_attr, member_skipped,
-                   skipped_monitors, converted_objs, user_ignore):
+    def add_status(self, name, skipped_attr, member_skipped, skipped_monitors,
+                   converted_objs, user_ignore, skipped_servers):
         skipped = []
         conv_status = dict()
         conv_status['user_ignore'] = []
@@ -199,6 +199,8 @@ class PoolConfigConv(object):
 
         if skipped_monitors and not user_ignore.get('monitor', None):
             skipped.append({"monitor": skipped_monitors})
+        if skipped_servers:
+            skipped.append({"server": skipped_servers})
         conv_status['skipped'] = skipped
         status = conv_const.STATUS_SUCCESSFUL
         if skipped:
@@ -269,8 +271,9 @@ class PoolConfigConvV11(PoolConfigConv):
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
-        servers, member_skipped_config, limits = self.convert_servers_config(
-            f5_pool.get("members", {}), nodes, avi_config)
+        servers, member_skipped_config, limits, skipped_servers = \
+            self.convert_servers_config(f5_pool.get("members", {}), nodes,
+                                        avi_config)
         sd_action = f5_pool.get("service-down-action", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("load-balancing-mode", None)
@@ -321,7 +324,7 @@ class PoolConfigConvV11(PoolConfigConv):
 
         super(PoolConfigConvV11, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            converted_objs, user_ignore)
+            converted_objs, user_ignore, skipped_servers)
 
         return converted_objs
 
@@ -360,6 +363,7 @@ class PoolConfigConvV11(PoolConfigConv):
         skipped_list = []
         rate_limit = []
         connection_limit = []
+        server_skipped = []
         for server_name in servers_config.keys():
             server = servers_config[server_name]
             parts = server_name.split(':')
@@ -378,8 +382,15 @@ class PoolConfigConvV11(PoolConfigConv):
                     ip_addr = parts[0]
             description = server.get('description', '')
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
+            orig_port = port
             if not port.isdigit():
                 port = conv_utils.get_port_by_protocol(port)
+            if not port:
+                LOG.warning("Skipped: Server %s with ip %s has" % (server_name,
+                            ip_addr) + ((" non protocol port %s" % orig_port)
+                            if orig_port else " no port"))
+                server_skipped.append(server_name)
+                continue
             enabled = True
             state = server.get("state", 'enabled')
             session = server.get("session", 'enabled')
@@ -401,10 +412,9 @@ class PoolConfigConvV11(PoolConfigConv):
                 },
                 'enabled': enabled,
                 'description': description,
+                'port': port
             }
-            # Check if port is present and added check for port is digit.
-            if port and str(port).isdigit():
-                server_obj['port'] = port
+
             if priority:
                 server_obj['priority'] = priority
             ratio = server.get("ratio", None)
@@ -435,7 +445,7 @@ class PoolConfigConvV11(PoolConfigConv):
             limits['rate_limit'] = min(rate_limit)
         if connection_limit:
             limits['connection_limit'] = min(connection_limit)
-        return server_list, skipped_list, limits
+        return server_list, skipped_list, limits, server_skipped
 
 
 class PoolConfigConvV10(PoolConfigConv):
@@ -451,8 +461,9 @@ class PoolConfigConvV10(PoolConfigConv):
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
-        servers, member_skipped_config, limits = self.convert_servers_config(
-            f5_pool.get("members", {}), nodes, avi_config)
+        servers, member_skipped_config, limits, skipped_servers = \
+            self.convert_servers_config(f5_pool.get("members", {}), nodes,
+                                        avi_config)
         sd_action = f5_pool.get("action on svcdown", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("lb method", None)
@@ -505,7 +516,7 @@ class PoolConfigConvV10(PoolConfigConv):
 
         super(PoolConfigConvV10, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
-            converted_objs, user_ignore)
+            converted_objs, user_ignore, skipped_servers)
         return converted_objs
 
     def get_avi_lb_algorithm(self, f5_algorithm):
@@ -538,6 +549,7 @@ class PoolConfigConvV10(PoolConfigConv):
         server_list = []
         skipped_list = []
         connection_limit = []
+        server_skipped = []
         if isinstance(servers_config, str):
             servers_config = {servers_config.split(' ')[0]: None}
         for server_name in servers_config.keys():
@@ -555,8 +567,15 @@ class PoolConfigConvV10(PoolConfigConv):
                 else:
                     ip_addr = parts[0]
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
+            orig_port = port
             if not port.isdigit():
                 port = conv_utils.get_port_by_protocol(port)
+            if not port:
+                LOG.warning("Skipped: Server %s with ip %s has" % (server_name,
+                            ip_addr) + ((" non protocol port %s" % orig_port)
+                            if orig_port else " no port"))
+                server_skipped.append(server_name)
+                continue
             enabled = True
             state = 'enabled'
             ratio = None
@@ -581,12 +600,9 @@ class PoolConfigConvV10(PoolConfigConv):
                 },
                 'enabled': enabled,
                 'description': description,
+                'port': port
             }
-            # Check if port is present and added check for port is digit.
-            if port and str(port).isdigit():
-                server_obj['port'] = port
-            else:
-                LOG.debug("Pool server port is not digit %s" % str(parts[1]))
+
             if priority:
                 server_obj['priority'] = priority
             if ratio:
@@ -597,4 +613,4 @@ class PoolConfigConvV10(PoolConfigConv):
         limits = dict()
         if connection_limit:
             limits['connection_limit'] = min(connection_limit)
-        return server_list, skipped_list, limits
+        return server_list, skipped_list, limits, server_skipped
