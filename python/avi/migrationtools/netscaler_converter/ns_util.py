@@ -836,8 +836,14 @@ def create_http_policy_set_for_redirect_url(vs_obj, redirect_uri, avi_config,
     :param tenant_ref: tenant ref
     :return: None
     """
+    redirect_uri = str(redirect_uri).replace('"', '')
+    parsed = parse_url(redirect_uri)
+    protocol = str(parsed.scheme).upper()
+    if not protocol:
+        protocol = 'HTTP'
+
     action = {
-        'protocol': 'HTTP',
+        'protocol': protocol,
         'host': {
             'type': 'URI_PARAM_TYPE_TOKENIZED',
             'tokens': [{
@@ -900,6 +906,10 @@ def clean_virtual_service_from_avi_config(avi_config, controller_version):
             [vs for vs in vs_list
              if vs['ip_address']['addr'] != '0.0.0.0']
 
+
+def parse_url(url):
+    parsed = urlparse.urlparse(url)
+    return parsed
 
 def get_name(url):
     """
@@ -1478,3 +1488,23 @@ def is_certificate_key_protected(key_file):
     except:
         return False
 
+
+def get_redirect_fail_action(url):
+    parsed = urlparse.urlparse(url)
+    redirect_fail_action = {
+        'fail_action': {
+            'redirect': {
+                'host': parsed.hostname,
+                'protocol': str(parsed.scheme).upper(),
+                'status_code': "HTTP_REDIRECT_STATUS_CODE_302"
+            },
+            "type": "FAIL_ACTION_HTTP_REDIRECT"
+        }
+    }
+    if parsed.path:
+        redirect_fail_action['fail_action']['redirect']['path'] = \
+            str(parsed.path).replace('"', '')
+    if parsed.query:
+        redirect_fail_action['fail_action']['redirect']['query'] = parsed.query
+
+    return redirect_fail_action
