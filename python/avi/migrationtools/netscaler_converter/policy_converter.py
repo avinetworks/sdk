@@ -771,6 +771,15 @@ class PolicyConverter(object):
             LOG.warning("%s Rule is not supported" % query)
             return None
         if match:
+            if match.get('path', None) and \
+                            match['path']['match_str'][0] == '/*':
+                match['path']['match_str'][0] = '/'
+                match['path']['match_criteria'] = 'CONTAINS'
+            elif match.get('path', None) and \
+                    match['path']['match_str'][0].endswith('*'):
+                match['path']['match_criteria'] = 'BEGINS_WITH'
+                match['path']['match_str'][0] = \
+                    match['path']['match_str'][0][:-1]
             return match
 
 
