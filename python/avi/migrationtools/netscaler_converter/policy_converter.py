@@ -853,7 +853,7 @@ class PolicyConverter(object):
                     'tokens': [{
                         'type': 'URI_TOKEN_TYPE_HOST',
                         'str_value': redirect_pools[targetLBVserver],
-                        'start_index': '1',
+                        'start_index': '0',
                         'end_index': '65535'
                     }]
                 }
