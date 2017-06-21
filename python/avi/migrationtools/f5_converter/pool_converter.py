@@ -31,7 +31,8 @@ class PoolConfigConv(object):
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
             if not f5_pool:
-                msg = "Empty pool skipped for conversion :%s" % pool_name
+                msg = "Skipped: Empty pool skipped for conversion :%s"\
+                            % pool_name
                 LOG.debug(msg)
                 conv_utils.add_status_row('pool', None, pool_name,
                                           conv_const.STATUS_SKIPPED,

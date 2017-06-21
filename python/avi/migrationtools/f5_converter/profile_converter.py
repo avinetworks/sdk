@@ -76,7 +76,7 @@ class ProfileConfigConv(object):
                 if not tenant_ref == 'admin':
                     tenant = tenant_ref
                 if profile_type not in self.supported_types:
-                    msg = "Skipped not supported profile: %s of type: %s"\
+                    msg = "Skipped: Not supported profile: %s of type: %s"\
                                 % (name, profile_type)
                     LOG.warning(msg)
                     conv_utils.add_status_row('profile', profile_type, name,

@@ -60,7 +60,7 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
-                msg = "Skipping: Empty config for monitor: %s " % name
+                msg = "Skipped: Empty config for monitor: %s " % name
                 LOG.warning(msg)
                 conv_utils.add_status_row('monitor', m_type, name,
                                           conv_const.STATUS_SKIPPED,
@@ -165,7 +165,7 @@ class MonitorConfigConv(object):
                 skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
                 ignore_for_defaults.update({'qtype': 'a'})
             else:
-                msg = ('Skipping : No value for mandatory field query_name in'
+                msg = ('Skipped : No value for mandatory field query_name in'
                        'DNS Monitor %s' % key)
                 LOG.warning(msg)
                 conv_utils.add_status_row('monitor', monitor_type, name,

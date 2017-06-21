@@ -87,8 +87,7 @@ class PersistenceConfigConv(object):
                         'profile', "hash-persistence", name, conv_status, msg)
                     continue
                 else:
-                    msg = 'Skipped: persist mode not supported: %s'\
-                            % name
+                    msg = 'persist mode not supported: %s' % name
                     LOG.warning(msg)
                     self.update_conv_status_for_skip(persist_mode, name)
                     continue
@@ -259,7 +258,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                    if attr not in self.supported_attr]
         cookie_name = profile.get("cookie name", name+':-cookie')
         if not cookie_name:
-            msg = "Missing Required field cookie name in: %s", name
+            msg = "Skipped: Missing Required field cookie name in: %s", name
             LOG.error(msg)
             conv_utils.add_status_row('profile', 'persist-cookie', name,
                                       final.STATUS_SKIPPED, avi_object=msg)
