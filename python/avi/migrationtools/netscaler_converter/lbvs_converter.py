@@ -228,18 +228,23 @@ class LbvsConverter(object):
                                                self.tenant_name)
                     vs_obj['application_profile_ref'] = app_profile
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
-                    vs_obj['application_profile_ref'] = 'admin:System-DNS'
-                    vs_obj['network_profile_ref'] = 'admin:System-UDP-Per-Pkt'
+                    vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                    'System-DNS', 'applicationprofile', tenant='admin')
+                    vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-UDP-Per-Pkt', 'networkprofile', tenant='admin')
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'UDP':
                     vs_obj[
-                        'application_profile_ref'] = \
-                        'admin:System-L4-Application'
-                    vs_obj['network_profile_ref'] = 'admin:System-UDP-Fast-Path'
+                        'application_profile_ref'] = ns_util.get_object_ref(
+                        'System-L4-Application', 'applicationprofile',
+                        tenant='admin')
+                    vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS_TCP':
-                    vs_obj[
-                        'application_profile_ref'] = \
-                        'admin:System-L4-Application'
-                    vs_obj['network_profile_ref'] = 'admin:System-TCP-Proxy'
+                    vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                        'System-L4-Application', 'applicationprofile',
+                        tenant='admin')
+                    vs_obj['network_profile_ref'] = ns_util.get_object_ref(
+                    'System-TCP-Proxy', 'networkprofile', tenant='admin')
 
                 if pool_group:
                     # clone the pool group if it is referenced to other
