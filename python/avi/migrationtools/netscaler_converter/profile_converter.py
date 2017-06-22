@@ -137,7 +137,7 @@ class ProfileConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, input_dir):
+    def convert(self, ns_config, avi_config, input_dir, collection_dict):
         """
         This function defines that convert netscalar profiles to avi profiles
         :param ns_config: It is dict of all netscalar commands which are
@@ -178,6 +178,11 @@ class ProfileConverter(object):
                     profile, self.profile_http_skip, [],
                     self.profile_http_indirect,
                     user_ignore_val=self.profile_http_user_ignore)
+                collection_key = '%s$$%s$$%s' %('applicationprofile',
+                                                self.tenant_name,
+                                                app_profile['name'])
+                collection_dict[collection_key] = \
+                    {'skipped_setting':[conv_status.get('skipped', None)]}
                 # Add summery in CSV/report for http profile
                 ns_util.add_conv_status(
                     profile['line_no'], ns_http_profile_command, key,
@@ -199,7 +204,7 @@ class ProfileConverter(object):
                     avi_config['ApplicationProfile'].append(app_profile)
 
         LOG.debug("HTTP profiles conversion completed")
-
+        print "colectuion@@@@@@@@", collection_dict
         LOG.debug("Conversion started for TCP profiles")
         for key in tcp_profiles.keys():
             ns_tcp_profile_command = 'add ns tcpProfile'
@@ -214,6 +219,11 @@ class ProfileConverter(object):
                     profile, self.profile_tcp_skip, [],
                     self.profile_tcp_indirect,
                     user_ignore_val=self.profile_tcp_user_ignore)
+                collection_key = '%s$$%s$$%s' % ('applicationprofile',
+                                                 self.tenant_name,
+                                                 net_profile['name'])
+                collection_dict[collection_key] = \
+                    {'skipped_setting': [conv_status.get('skipped', None)]}
                 ns_util.add_conv_status(
                     profile['line_no'], ns_tcp_profile_command, key,
                     ns_tcp_profile_complete_command, conv_status, net_profile)
@@ -250,25 +260,25 @@ class ProfileConverter(object):
         # set ssl vserver conversion
         self.convert_ssl_service_profile(
             set_ssl_service, bind_ssl_service, ssl_key_and_cert, input_dir,
-            ns_config, avi_config, 'set ssl service', 'bind ssl service')
+            ns_config, avi_config, 'set ssl service', 'bind ssl service', collection_dict)
 
         # Set ssl service conversion
         self.convert_ssl_service_profile(
             ssl_vs_mapping, ssl_mappings, ssl_key_and_cert, input_dir,
-            ns_config, avi_config, 'set ssl vserver', 'bind ssl vserver')
+            ns_config, avi_config, 'set ssl vserver', 'bind ssl vserver', collection_dict)
 
         # Set ssl servicegroup conversion
         self.convert_ssl_service_profile(
             set_ssl_service_group, bind_ssl_service_group, ssl_key_and_cert,
             input_dir, ns_config, avi_config, 'set ssl serviceGroup',
-            'bind ssl serviceGroup')
+            'bind ssl serviceGroup', collection_dict)
 
         LOG.debug("SSL profiles conversion completed")
 
     def convert_ssl_service_profile(self, set_ssl_service, bind_ssl_service,
                                     ssl_key_and_cert, input_dir, ns_config,
                                     avi_config, set_ssl_service_command,
-                                    bind_ssl_service_command):
+                                    bind_ssl_service_command, collection_dict):
         """
         This function defines that convert ssl profiles
         :param set_ssl_service: dict of set_ssl_service netscalar command
@@ -465,6 +475,7 @@ class ProfileConverter(object):
             profile, self.profile_ssl_prof_skip, self.profile_ssl_prof_indirect,
             self.profile_ssl_prof_na,
             user_ignore_val=self.profile_ssl_prof_user_ignore)
+
         ns_full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, profile)
         # Add summery in CSV/report for ssl profile
         ns_util.add_conv_status(

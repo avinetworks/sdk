@@ -43,7 +43,7 @@ class MonitorConverter(object):
         # Added prefix flag
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, input_dir):
+    def convert(self, ns_config, avi_config, input_dir, collection_dict):
         """
         This functions defines that convert health monitor
         :param ns_config: Dict of netscalar commands
@@ -83,6 +83,10 @@ class MonitorConverter(object):
                 self.monitor_indirect_list,
                 ignore_for_val=self.monitor_ignore_vals,
                 user_ignore_val=self.user_ignore)
+            col_key = '%s$$%s$$%s' %('monitor', self.tenant_name, name)
+            collection_dict[col_key] = {
+                'skipped_settings': [str(conv_status.get('skipped', None))]
+            }
             ns_util.add_conv_status(
                 ns_monitor['line_no'], netscalar_command, name,
                 ns_monitor_complete_command, conv_status, avi_monitor)

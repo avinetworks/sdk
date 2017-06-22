@@ -87,6 +87,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
             }
         }
+        collection_dict = dict()
 
         if parse_version(version) >= parse_version('17.1'):
             avi_config['META']['supported_migrations']['versions'].append(
@@ -96,12 +97,14 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
         monitor_converter = MonitorConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore, prefix)
-        monitor_converter.convert(ns_config_dict, avi_config, input_dir)
+        monitor_converter.convert(ns_config_dict, avi_config, input_dir,
+                                  collection_dict)
 
         profile_converter = ProfileConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, ssl_ciphers,
             profile_merge_check, user_ignore, prefix, key_passphrase)
-        profile_converter.convert(ns_config_dict, avi_config, input_dir)
+        profile_converter.convert(ns_config_dict, avi_config, input_dir,
+                                  collection_dict)
 
         service_converter = ServiceConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, profile_merge_check,
