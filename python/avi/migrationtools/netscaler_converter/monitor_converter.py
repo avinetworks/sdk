@@ -134,7 +134,8 @@ class MonitorConverter(object):
             elif mon_type == 'HTTP':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get('httpRequest', None)
-                send = send.replace('\"', '').strip()
+                if send:
+                    send = send.replace('"', '')
                 respCode = ns_monitor.get('respCode', None)
                 if respCode:
                     respCode = ns_util.get_avi_resp_code(respCode)
@@ -145,7 +146,11 @@ class MonitorConverter(object):
             elif mon_type == 'HTTP-ECV':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get("send", None)
+                if send:
+                    send = send.replace('"', '')
                 response = ns_monitor.get('recv', None)
+                if response:
+                    response = response.replace('"', '')
                 avi_monitor["http_monitor"] = {
                     "http_request": send,
                     "http_response_code": ["HTTP_ANY"],
