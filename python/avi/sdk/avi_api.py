@@ -167,6 +167,7 @@ class ApiSession(Session):
         self.key = controller_ip + ":" + username
         self.api_version = api_version
         self.retry_conxn_errors = retry_conxn_errors
+        self.remote_api_version = {}
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -215,6 +216,7 @@ class ApiSession(Session):
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param port: Rest-API may use a different port other than 443
         :param timeout: timeout for API calls; Default value is 60 seconds
+        :param retry_conxn_errors: retry on connection errors
         :param api_version: Controller API version
         """
         key = controller_ip + ":" + username
@@ -268,9 +270,11 @@ class ApiSession(Session):
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
+            self.remote_api_version = {}
             raise Exception(
                 "Authentication failed with code %d reason msg: %s" %
                 (rsp.status_code, rsp.text))
+        self.remote_api_version = rsp.json().get('version', {})
         logger.debug("rsp cookies: %s", dict(rsp.cookies))
         self.headers.update({
             "Referer": self.prefix,
