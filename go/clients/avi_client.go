@@ -5,6 +5,7 @@ import (
 )
 
 type AviClient struct {
+	AviSession                        *session.AviSession
 	ActionGroupConfig                 *ActionGroupConfigClient
 	Alert                             *AlertClient
 	AlertConfig                       *AlertConfigClient
@@ -93,8 +94,12 @@ type AviClient struct {
 	Webhook                           *WebhookClient
 }
 
-func NewAviClient(avi_sess *session.AviSession) *AviClient {
+func NewAviClient(host string, username string, options ...func(*session.AviSession) error) (*AviClient, error) {
 	avi_client := AviClient{}
+	avi_sess, err := session.NewAviSession(host, username, options...)
+	if err != nil {
+		return &avi_client, err
+	}
 	avi_client.ActionGroupConfig = NewActionGroupConfigClient(avi_sess)
 	avi_client.Alert = NewAlertClient(avi_sess)
 	avi_client.AlertConfig = NewAlertConfigClient(avi_sess)
@@ -182,5 +187,5 @@ func NewAviClient(avi_sess *session.AviSession) *AviClient {
 	avi_client.VsVip = NewVsVipClient(avi_sess)
 	avi_client.Webhook = NewWebhookClient(avi_sess)
 
-	return &avi_client
+	return &avi_client, nil
 }

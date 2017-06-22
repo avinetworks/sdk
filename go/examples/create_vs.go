@@ -1,7 +1,7 @@
 package main
 
 import (
-	"flag"
+	//"flag"
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	flag.Lookup("logtostderr").Value.Set("false")
+	// flag.Lookup("logtostderr").Value.Set("false")
 	// Create a session and a generic client to Avi Controller
-	avi_sess, err := session.NewAviSession("10.10.25.201", "admin",
+	avi_client, err := clients.NewAviClient("10.10.25.201", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetInsecure)
@@ -19,7 +19,6 @@ func main() {
 		fmt.Println("Couldn't create session: ", err)
 		return
 	}
-	avi_client := clients.NewAviClient(avi_sess)
 
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
