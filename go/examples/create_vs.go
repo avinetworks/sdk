@@ -11,7 +11,7 @@ import (
 func main() {
 	// flag.Lookup("logtostderr").Value.Set("false")
 	// Create a session and a generic client to Avi Controller
-	avi_client, err := clients.NewAviClient("10.10.25.201", "admin",
+	aviClient, err := clients.NewAviClient("10.10.25.201", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetInsecure)
@@ -28,7 +28,7 @@ func main() {
 	serverobj.IP = &models.IPAddr{Type: "V4", Addr: "10.90.20.12"}
 	pobj.Servers = append(pobj.Servers, &serverobj)
 
-	npobj, err := avi_client.Pool.Create(&pobj)
+	npobj, err := aviClient.Pool.Create(&pobj)
 	if err != nil {
 		fmt.Println("Pool creation failed: ", err)
 		return
@@ -42,7 +42,7 @@ func main() {
 	vsobj.PoolRef = npobj.UUID
 	vsobj.Services = append(vsobj.Services, &models.Service{Port: 80})
 
-	nvsobj, err := avi_client.VirtualService.Create(&vsobj)
+	nvsobj, err := aviClient.VirtualService.Create(&vsobj)
 	if err != nil {
 		fmt.Println("VS creation failed: ", err)
 		return
@@ -50,7 +50,7 @@ func main() {
 	fmt.Printf("VS obj: %+v", *nvsobj)
 
 	// Delete vs
-	// avi_client.VirtualService.Delete(nvsobj.UUID)
+	// aviClient.VirtualService.Delete(nvsobj.UUID)
 	// Delete pool
-	// avi_client.Pool.Delete(npobj.UUID)
+	// aviClient.Pool.Delete(npobj.UUID)
 }
