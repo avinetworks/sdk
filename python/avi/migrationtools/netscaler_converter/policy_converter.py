@@ -197,19 +197,23 @@ class PolicyConverter(object):
             if rule and policy_type in ['cs', 'rewrite', 'responder']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
+                rule['object_type'] = 'httppolicyset'
                 ns_util.add_conv_status(bind_conf['line_no'], netscalar_command,
                                        bind_conf['attrs'][0],
                                        bind_lb_netscalar_complete_command,
                                         conv_status, rule)
+                rule.pop('object_type', None)
                 http_request_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             elif rule and policy_type in ['policy_expression']:
                 # Add status successful in CSV/report if policy is converted
                 # successfully in to AVI
+                rule['object_type'] = 'httppolicyset'
                 ns_util.add_conv_status(
                     bind_conf['line_no'], netscalar_command,
                     bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
                     conv_status, rule)
+                rule.pop('object_type', None)
                 http_security_policy['rules'].append(rule)
                 vs_policy_name += policy_name
             else:

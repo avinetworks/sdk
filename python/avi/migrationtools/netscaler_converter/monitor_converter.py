@@ -87,9 +87,11 @@ class MonitorConverter(object):
             collection_dict[col_key] = {
                 'skipped_settings': [str(conv_status.get('skipped', None))]
             }
+            avi_monitor['object_type'] = 'monitor'
             ns_util.add_conv_status(
                 ns_monitor['line_no'], netscalar_command, name,
                 ns_monitor_complete_command, conv_status, avi_monitor)
+            avi_monitor.pop('object_type', None)
             avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 

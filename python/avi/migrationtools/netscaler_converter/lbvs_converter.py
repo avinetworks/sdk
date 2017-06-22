@@ -60,7 +60,7 @@ class LbvsConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, vs_state):
+    def convert(self, ns_config, avi_config, vs_state, collection_dict):
         """
         This function defines that it convert netscalar lb vs config to vs
         config of AVI
@@ -438,8 +438,15 @@ class LbvsConverter(object):
                         self.lbvs_indirect_list,
                         ignore_for_val=self.lbvs_ignore_vals,
                         user_ignore_val=self.lbvs_user_ignore)
+                    vs_obj['object_type'] = 'virtualservice'
+                    collection_key = '%s$$%s$$%s' % ('virtualservice',
+                                                     self.tenant_name,
+                                                     vs_obj['name'])
+                    collection_dict[collection_key] = \
+                        {'skipped_setting': [conv_status.get('skipped', None)]}
                     ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
                                             full_cmd, conv_status, vs_obj)
+                    vs_obj.pop('object_type', None)
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
                     ssl_bindings = ssl_mappings.get(key, [])

@@ -184,9 +184,11 @@ class ProfileConverter(object):
                 collection_dict[collection_key] = \
                     {'skipped_setting':[conv_status.get('skipped', None)]}
                 # Add summery in CSV/report for http profile
+                app_profile['object_type'] = 'applicationprofile'
                 ns_util.add_conv_status(
                     profile['line_no'], ns_http_profile_command, key,
                     ns_http_profile_complete_command, conv_status, app_profile)
+                app_profile.pop('object_type', None)
                 if self.profile_merge_check:
                     # Check application profile is duplicate of other
                     # application profile then skipped this application
@@ -204,7 +206,6 @@ class ProfileConverter(object):
                     avi_config['ApplicationProfile'].append(app_profile)
 
         LOG.debug("HTTP profiles conversion completed")
-        print "colectuion@@@@@@@@", collection_dict
         LOG.debug("Conversion started for TCP profiles")
         for key in tcp_profiles.keys():
             ns_tcp_profile_command = 'add ns tcpProfile'
@@ -219,14 +220,16 @@ class ProfileConverter(object):
                     profile, self.profile_tcp_skip, [],
                     self.profile_tcp_indirect,
                     user_ignore_val=self.profile_tcp_user_ignore)
-                collection_key = '%s$$%s$$%s' % ('applicationprofile',
+                collection_key = '%s$$%s$$%s' % ('networkprofile',
                                                  self.tenant_name,
                                                  net_profile['name'])
                 collection_dict[collection_key] = \
                     {'skipped_setting': [conv_status.get('skipped', None)]}
+                net_profile['object_type'] = 'networkprofile'
                 ns_util.add_conv_status(
                     profile['line_no'], ns_tcp_profile_command, key,
                     ns_tcp_profile_complete_command, conv_status, net_profile)
+                net_profile.pop('object_type', None)
                 if self.profile_merge_check:
                     # Check network profile is duplicate of other
                     # network profile then skipped this application
@@ -251,7 +254,7 @@ class ProfileConverter(object):
                 mapping = [mapping]
             obj = self.get_key_cert(mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config,
-                                    'bind ssl vserver')
+                                    'bind ssl vserver', collection_dict)
             if obj.get('cert', None):
                 avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
             if obj.get('pki', None):
@@ -338,7 +341,7 @@ class ProfileConverter(object):
 
             obj = self.get_key_cert(
                 binding_mapping, ssl_key_and_cert, input_dir, None, ns_config,
-                bind_ssl_service_command)
+                bind_ssl_service_command, collection_dict)
             if obj.get('accepted_ciphers', None):
                 # Todo supported only valid ciphers
                 ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
@@ -369,9 +372,16 @@ class ProfileConverter(object):
                 self.profile_set_ssl_service_indirect, [],
                 user_ignore_val=self.profile_set_ssl_service_user_ignore)
             # Add summery in CSV/report for ssl service
+            ssl_profile['object_type'] = "sslprofile"
+            collection_key = '%s$$%s$$%s' % ('sslprofile',
+                                             self.tenant_name,
+                                             ssl_profile['name'])
+            collection_dict[collection_key] = \
+                {'skipped_setting': [conv_status.get('skipped', None)]}
             ns_util.add_conv_status(
                 ssl_service['line_no'], set_ssl_service_command, key,
                 full_set_ssl_service_command, conv_status, ssl_profile)
+            ssl_profile.pop('object_type', None)
 
         LOG.debug("SSL profiles conversion completed")
 
@@ -444,7 +454,7 @@ class ProfileConverter(object):
             LOG.error("Error in convertion of tcpProfile", exc_info=True)
         return ntwk_profile
 
-    def convert_ssl_profile(self, profile):
+    def convert_ssl_profile(self, profile, collection_dict):
         """
         This function defines that convert ssl profile
         :param profile: Object of ssl profile
@@ -478,14 +488,21 @@ class ProfileConverter(object):
 
         ns_full_cmd = ns_util.get_netscalar_full_command(netscalar_cmd, profile)
         # Add summery in CSV/report for ssl profile
+        avi_ssl_prof['object_type'] = 'sslprofile'
+        collection_key = '%s$$%s$$%s' % ('sslprofile',
+                                         self.tenant_name,
+                                         avi_ssl_prof['name'])
+        collection_dict[collection_key] = \
+            {'skipped_setting': [conv_status.get('skipped', None)]}
         ns_util.add_conv_status(
             profile['line_no'], netscalar_cmd, profile['attrs'][0], ns_full_cmd,
             conv_status, avi_ssl_prof)
+        avi_ssl_prof.pop('object_type', None)
 
         return avi_ssl_prof
 
     def get_key_cert(self, ssl_mappings, ssl_key_and_cert, input_dir,
-                     avi_ssl_prof, ns_config, bind_ssl_cmd):
+                     avi_ssl_prof, ns_config, bind_ssl_cmd, collection_dict):
         """
         This function defines that convert PKI, SSL, and sslkeyandcert profiles
         :param ssl_mappings: List of bind ssl
@@ -570,10 +587,17 @@ class ProfileConverter(object):
                         key_cert, self.profile_add_key_cert_skip, [], [],
                         user_ignore_val=self.profile_add_key_cert_user_ignore)
                     # Add summery in CSV/report for PKI
+                    obj['pki']['object_type'] = 'pkiprofile'
+                    collection_key = '%s$$%s$$%s' % ('sslprofile',
+                                                     self.tenant_name,
+                                                     avi_ssl_prof['name'])
+                    collection_dict[collection_key] = \
+                        {'skipped_setting': [conv_status.get('skipped', None)]}
                     ns_util.add_conv_status(
                         key_cert['line_no'], netscalar_cmd,
                         key_cert['attrs'][0], full_cmd, conv_status, obj['pki'])
                     tmp_pki_profile_list.append(pki_profile["name"])
+                    obj['pki'].pop('object_type', None)
                 else:
                     skipped_status = 'Missing key or cert file: %s' % full_cmd
                     LOG.warning(skipped_status)
@@ -707,9 +731,16 @@ class ProfileConverter(object):
 
             LOG.info('Conversion successful: %s' % bind_ssl_full_cmd)
             # Add successful status in CSV/report for ssl service
+            output['object_type'] = "sslkeyandcert"
+            # collection_key = '%s$$%s$$%s' % ('sslkeyandcert',
+            #                                  self.tenant_name,
+            #                                  output['name'])
+            # collection_dict[collection_key] = \
+            #     {'skipped_setting': [conv_status.get('skipped', None)]}
             ns_util.add_conv_status(
                 mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0],
                 bind_ssl_full_cmd, conv_status, output)
+            output.pop('object_type', None)
 
         return obj
 

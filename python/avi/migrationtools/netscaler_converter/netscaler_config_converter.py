@@ -109,17 +109,17 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         service_converter = ServiceConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, profile_merge_check,
             user_ignore, prefix)
-        service_converter.convert(ns_config_dict, avi_config)
+        service_converter.convert(ns_config_dict, avi_config, collection_dict)
 
         lbvs_converter = LbvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
             version, user_ignore, prefix)
-        lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
+        lbvs_converter.convert(ns_config_dict, avi_config, vs_state, collection_dict)
 
         csvs_converter = CsvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
             version, user_ignore, prefix)
-        csvs_converter.convert(ns_config_dict, avi_config, vs_state)
+        csvs_converter.convert(ns_config_dict, avi_config, vs_state, collection_dict)
 
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)

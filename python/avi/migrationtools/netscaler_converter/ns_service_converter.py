@@ -68,7 +68,7 @@ class ServiceConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config):
+    def convert(self, ns_config, avi_config, collection_dict):
         """
         Converts service or service groups bound to VS to avi Pool entity
         :param ns_config: Netscaler parsed config
@@ -89,7 +89,7 @@ class ServiceConverter(object):
         ns_bind_lb_vserver_command = 'bind lb vserver'
 
         # Conversion set ssl service netscalar commands to pool in AVI
-        self.service_convert(ns_config, avi_config)
+        self.service_convert(ns_config, avi_config, collection_dict)
         ns_dns = ns_config.get('add dns addRec', {})
         for dns_key in ns_dns:
             dns_obj = ns_dns.get(dns_key, [])
@@ -172,11 +172,19 @@ class ServiceConverter(object):
                             element, self.nsservice_bind_lb_skipped, [], [],
                             ignore_for_val=self.nsservice_bind_lb_ignore_val,
                             user_ignore_val=self.nsservice_bind_lb_user_ignore)
+                        pool[0]['object_type'] = 'pool'
+                        collection_key = '%s$$%s$$%s' % ('pool',
+                                                         self.tenant_name,
+                                                         pool[0]['name'])
+                        collection_dict[collection_key] = \
+                            {'skipped_setting': [
+                                conv_status.get('skipped', None)]}
                         ns_util.add_conv_status(
                             element['line_no'], ns_bind_lb_vserver_command,
                             element['attrs'][0],
                             ns_bind_lb_vserver_complete_command,
                             conv_status, pool[0])
+                        pool[0].pop('object_type', None)
                     else:
                         # Skipped add server if pool not found in AVI
                         skipped_status = 'Skipped :Pool is not created %s' \
@@ -290,7 +298,7 @@ class ServiceConverter(object):
                             ns_bind_lb_group_complate_command,
                             STATUS_SUCCESSFUL, pool_group[0])
 
-    def service_convert(self, ns_config, avi_config):
+    def service_convert(self, ns_config, avi_config, collection_dict):
         """
         This function is defines that convert service to pool
         :param ns_config: Dict of netscalar commands
@@ -408,9 +416,16 @@ class ServiceConverter(object):
             conv_status = ns_util.get_conv_status(
                 service, self.nsservice_bind_lb_skipped, [], [],
                 user_ignore_val=self.nsservice_bind_lb_user_ignore)
+            pool_obj['object_type'] = 'pool'
+            collection_key = '%s$$%s$$%s' % ('pool',
+                                             self.tenant_name,
+                                             pool_obj['name'])
+            collection_dict[collection_key] = \
+                {'skipped_setting': [conv_status.get('skipped', None)]}
             ns_util.add_conv_status(
                 service['line_no'], service_command, service_name,
                 service_netscalar_full_command, conv_status, pool_obj)
+            pool_obj.pop('object_type', None)
 
         for group_key in ns_service_groups:
             service_group_command = 'add serviceGroup'
@@ -421,7 +436,7 @@ class ServiceConverter(object):
                     service_group_command, service_group)
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
             servers, monitor_ref = self.convert_ns_service_group(
-                bind_groups, ns_servers, ns_dns, avi_config)
+                bind_groups, ns_servers, ns_dns, avi_config, collection_dict)
             if not servers:
                 LOG.warning('Skipped:No server found %s' %
                             service_group_netscalar_full_command)
@@ -510,10 +525,17 @@ class ServiceConverter(object):
             conv_status = ns_util.get_conv_status(
                 service_group, self.nsservice_bind_lb_skipped, [], [],
                 user_ignore_val=self.nsservice_bind_lb_user_ignore)
+            pool_obj['object_type'] = 'pool'
+            collection_key = '%s$$%s$$%s' % ('pool',
+                                            self.tenant_name,
+                                            pool_obj['name'])
+            collection_dict[collection_key] = \
+                {'skipped_setting': [conv_status.get('skipped', None)]}
             ns_util.add_conv_status(
                 service_group['line_no'], service_group_command,
                 service_group_name, service_group_netscalar_full_command,
                 conv_status, pool_obj)
+            pool_obj.pop('object_type', None)
 
 
     def get_service_montor(self, service_name, bind_ns_service, avi_config):
@@ -624,14 +646,21 @@ class ServiceConverter(object):
             'enabled': enabled
         }
         # Successful this server if it has an IP
+        server_obj['object_type'] = 'pool'
+        # collection_key = '%s$$%s$$%s' % ('pool',
+        #                                 self.tenant_name,
+        #                                 pool_obj['name'])
+        # collection_dict[collection_key] = \
+        #     {'skipped_setting': [status.get('skipped', None)]}
         ns_util.add_conv_status(
             server['line_no'], ns_add_server_command, server['attrs'][0],
             ns_add_server_complete_command, status, server_obj)
+        server_obj.pop('object_type', None)
         return server_obj
 
 
     def convert_ns_service_group(self, ns_service_group, ns_servers,
-                                 ns_dns, avi_config):
+                                 ns_dns, avi_config, collection_dict):
         """
         This function defines that returns the monitor ref and servers
         :param ns_service_group: Object of service group
@@ -663,11 +692,18 @@ class ServiceConverter(object):
                 monitor = [monitor for monitor in avi_config['HealthMonitor']
                            if monitor['name'] == monitor_name]
                 if monitor:
+                    monitor[0]['object_type'] = 'monitor'
                     # Add summery of service group in CSV/report
+                    collection_key = '%s$$%s$$%s' % ('monitor',
+                                                     self.tenant_name,
+                                                     monitor[0]['name'])
+                    collection_dict[collection_key] = \
+                        {'skipped_setting': [group_status.get('skipped', None)]}
                     ns_util.add_conv_status(
                         server_binding['line_no'], ns_bind_service_group_command,
                         attrs[0], ns_bind_service_group_complete_command,
                         group_status, monitor[0])
+                    monitor[0].pop('object_type', None)
                 else:
                     LOG.warning('External Health monitor: %s' %
                                 ns_bind_service_group_complete_command)
@@ -738,6 +774,7 @@ class ServiceConverter(object):
                 server_obj = None
             if server_obj:
                 servers.append(server_obj)
+                server_obj['object_type'] = 'pool'
                 # Add summery of add server in CSV/report
                 ns_util.add_conv_status(
                     server['line_no'], ns_add_server_command, server['attrs'][0],
@@ -747,4 +784,5 @@ class ServiceConverter(object):
                     server_binding['line_no'], ns_bind_service_group_command,
                     attrs[0], ns_bind_service_group_complete_command,
                     group_status, server_obj)
+                server_obj.pop('object_type', None)
         return servers, monitor_name

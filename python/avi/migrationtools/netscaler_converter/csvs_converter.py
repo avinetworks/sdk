@@ -62,7 +62,7 @@ class CsvsConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, vs_state):
+    def convert(self, ns_config, avi_config, vs_state, collection_dict):
         """
         This function defines that it convert netscalar cs vs config to vs
         config of AVI
@@ -414,10 +414,17 @@ class CsvsConverter(object):
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.csvs_bind_skipped, [], [],
                     user_ignore_val=self.csvs_bind_user_ignore)
+                vs_obj['object_type'] = 'virtualservice'
+                collection_key = '%s$$%s$$%s' % ('virtualservice',
+                                                 self.tenant_name,
+                                                 vs_obj['name'])
+                collection_dict[collection_key] = \
+                    {'skipped_setting': [conv_status.get('skipped', None)]}
                 ns_util.add_conv_status(
                     lb_vserver_bind_conf['line_no'], bind_cs_vserver_command,
                     lb_vserver_bind_conf['attrs'][0],
                     bind_cs_vserver_complete_command, conv_status, vs_obj)
+                vs_obj.pop('object_type', None)
             # Verify that this cs vs has share the same VIP of another vs
             # If yes then skipped this cs vs
             is_shared = ns_util.is_shared_same_vip(
@@ -439,9 +446,16 @@ class CsvsConverter(object):
                 cs_vs, self.csvs_skip_attrs, self.csvs_na_attrs, [],
                 ignore_for_val=self.csvs_ignore_vals,
                 user_ignore_val=self.csvs_user_ignore)
+            vs_obj['object_type'] = 'virtualservice'
+            collection_key = '%s$$%s$$%s' % ('virtualservice',
+                                             self.tenant_name,
+                                             vs_obj['name'])
+            collection_dict[collection_key] = \
+                {'skipped_setting': [conv_status.get('skipped', None)]}
             ns_util.add_conv_status(
                 cs_vs['line_no'], ns_add_cs_vserver_command,
                 key, ns_add_cs_vserver_complete_command, conv_status, vs_obj)
+            vs_obj.pop('object_type', None)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
 
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
