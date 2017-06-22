@@ -1,7 +1,6 @@
 import logging
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -71,10 +70,10 @@ class LbvsConverter(object):
         :param vs_state: state of vs
         :return: None
         """
-
         lb_vs_conf = ns_config.get('add lb vserver', {})
         bind_lb_vs_config = ns_config.get('bind lb vserver', {})
         avi_config['VirtualService'] = []
+        avi_config['Lbvs'] = []
         tmp_avi_config['VirtualService'] = []
         avi_config['HTTPPolicySet'] = []
         if parse_version(self.controller_version) >= parse_version('17.1'):
@@ -127,7 +126,7 @@ class LbvsConverter(object):
                 if pool_group:
                     pool_group_ref = pool_group_name
                 redirect_url = lb_vs.get('redirectURL', None)
-
+                backup_server = lb_vs.get('backupVServer', None)
                 http_prof = lb_vs.get('httpProfileName', None)
                 app_profile = None
                 if http_prof:
@@ -144,15 +143,20 @@ class LbvsConverter(object):
                 # Added prefix for objects
                 if self.prefix:
                     updated_vs_name = self.prefix + '-' + updated_vs_name
-                # Regex to check Vs has IPV6 address if yes the Skipped
-                if re.findall(ns_constants.IPV6_Address, ip_addr) or \
-                                ip_addr == '0.0.0.0':
-                    skipped_status = "Skipped:Invalid VIP %s" % full_cmd
-                    LOG.warning(skipped_status)
-                    ns_util.add_status_row(
-                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
-                        skipped_status)
-                    continue
+                # # Regex to check Vs has IPV6 address if yes the Skipped
+                # if re.findall(ns_constants.IPV6_Address, ip_addr) or \
+                #                 ip_addr == '0.0.0.0':
+                #     if redirect_url:
+                #         redirect_dict = {updated_vs_name: redirect_url}
+                #         avi_config['Lbvs'].append(redirect_dict)
+                #     if backup_server:
+                #         backup_server_name = {}
+                #     skipped_status = "Skipped:Invalid VIP %s" % full_cmd
+                #     LOG.warning(skipped_status)
+                #     ns_util.add_status_row(
+                #         lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
+                #         skipped_status)
+                #     continue
 
                 # VIP object for virtual service
                 vip = {
@@ -262,29 +266,13 @@ class LbvsConverter(object):
                         self.tenant_name, self.cloud_name)
                     pool_group = updated_pool_group[0]
 
-                backup_server = lb_vs.get('backupVServer', None)
+
                 # Update fail cation of pool as FAIL_ACTION_HTTP_REDIRECT in AVI
                 # if lb vs has redirect url
                 if redirect_url:
-                    fail_action = {
-                        "redirect":
-                            {
-                                "status_code": "HTTP_REDIRECT_STATUS_CODE_302",
-                                "host": redirect_url,
-                                "protocol": "HTTP"
-                            },
-                        "type": "FAIL_ACTION_HTTP_REDIRECT"
-                    }
+                    fail_action = ns_util.get_redirect_fail_action(redirect_url)
                     if pool_group:
-                        for member in pool_group['members']:
-                            pool_ref = \
-                            (member['pool_ref'].split('&')[1].split('=')[1])
-                            # pool_ref = ns_util.\
-                            #     get_name_from_reference(member['pool_ref'])
-                            pool = [pool for pool in avi_config['Pool'] if
-                                    pool['name'] == pool_ref]
-                            if pool:
-                                pool[0]["fail_action"] = fail_action
+                        pool_group["fail_action"] = fail_action
 
                 if backup_server:
                     # Add backup pool of poolgroup if this lb vs has an ip
@@ -333,6 +321,33 @@ class LbvsConverter(object):
                     LOG.error('%s %s Skipped VS, Service point to %s server '
                               'and not have redirect action and backup vserver'
                               % (cmd, key, ip_addr))
+                    continue
+                # Regex to check Vs has IPV6 address if yes the Skipped
+                if re.findall(ns_constants.IPV6_Address, ip_addr) or \
+                                ip_addr == '0.0.0.0':
+                    # Added condition to handel redirect_url and backupvserver
+                    if redirect_url:
+                        redirect_dict = {
+                            updated_vs_name:
+                                {
+                                    "redirect_url": redirect_url
+                                }
+                        }
+                        avi_config['Lbvs'].append(redirect_dict)
+                    if backup_server:
+                        backup_server_name = {
+                                                updated_vs_name:
+                                                  {
+                                                      "backupvserver":
+                                                          pool_group['name']
+                                                  }
+                                              }
+                        avi_config['Lbvs'].append(backup_server_name)
+                    skipped_status = "Skipped:Invalid VIP %s" % full_cmd
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(
+                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
+                        skipped_status)
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
