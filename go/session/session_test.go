@@ -1,7 +1,6 @@
 package session
 
 import (
-	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
 	"log"
 	"reflect"
@@ -9,10 +8,13 @@ import (
 )
 
 func TestAviSession(t *testing.T) {
-	avisess := NewAviSession("10.10.25.201", "admin", "avi123", true)
-	avisess.InitiateSession()
-
-	res, err := avisess.Get("api/tenant")
+	avisess, err := NewAviSession("10.10.25.201", "admin", SetPassword("avi123"), SetInsecure)
+	if err != nil {
+		t.Error("Session Creation failed: ", err)
+		return
+	}
+	var res interface{}
+	err = avisess.Get("api/tenant", &res)
 	log.Println("res: ", res, " err:", err)
 	resp := res.(map[string]interface{})
 	log.Println("count: ", resp["count"])
@@ -20,15 +22,16 @@ func TestAviSession(t *testing.T) {
 	// create a tenant
 	tenant := make(map[string]string)
 	tenant["name"] = "testtenant"
-	res, err = avisess.Post("api/tenant", tenant)
-	log.Println("res: ", res, " err:", err)
+	var tres interface{}
+	err = avisess.Post("api/tenant", &tenant, &tres)
+	log.Println("res: ", tres, " err:", err)
 	if err != nil {
 		t.Error("Tenant Creation failed: ", err)
 		return
 	}
 
 	// check tenant is created well
-	res, err = avisess.Get("api/tenant?name=testtenant")
+	err = avisess.Get("api/tenant?name=testtenant", &res)
 	log.Println("res: ", res, " err:", err)
 	if reflect.TypeOf(res).Kind() == reflect.String {
 		t.Errorf("Got string instead of json!")
@@ -44,8 +47,8 @@ func TestAviSession(t *testing.T) {
 	tenant["uuid"] = resp["results"].([]interface{})[0].(map[string]interface{})["uuid"].(string)
 
 	// delete the tenant
-	res, err = avisess.Delete("api/tenant/" + tenant["uuid"])
-	log.Println("res: ", res, " err:", err)
+	err = avisess.Delete("api/tenant/" + tenant["uuid"])
+	log.Println("err: ", err)
 	if err != nil {
 		t.Error("Deletion failed")
 		return
@@ -53,7 +56,7 @@ func TestAviSession(t *testing.T) {
 
 	// check to make sure that the tenant is not there any more
 	// check tenant is created well
-	res, err = avisess.Get("api/tenant?name=testtenant")
+	err = avisess.Get("api/tenant?name=testtenant", &res)
 	log.Println("res: ", res, " err:", err)
 	resp = res.(map[string]interface{})
 	log.Println("count: ", resp["count"])
@@ -67,13 +70,17 @@ func TestAviSession(t *testing.T) {
 }
 
 func TestAviPool(t *testing.T) {
-	avisess := NewAviSession("10.10.25.201", "admin", "avi123", true)
-	avisess.InitiateSession()
+	avisess, err := NewAviSession("10.10.25.201", "admin", SetPassword("avi123"), SetInsecure)
+	if err != nil {
+		t.Error("Session Creation failed: ", err)
+		return
+	}
 
 	tpool := models.Pool{}
 	pname := "testpool"
-	tpool.Name = &pname
-	res, err := avisess.Post("api/pool", tpool)
+	tpool.Name = pname
+	var res models.Pool
+	err = avisess.Post("api/pool", tpool, &res)
 	log.Println("res: ", res, " err:", err)
 	if err != nil {
 		t.Error("Pool Creation failed: ", err)
@@ -83,6 +90,11 @@ func TestAviPool(t *testing.T) {
 	err = avisess.GetObjectByName("pool", "testpool", &npool2)
 
 	log.Printf("npool: %+v err: %+v", npool2, err)
-	log.Println("name: ", *npool2.Name)
-	t.Error("Just to force output")
+	log.Println("name: ", npool2.Name)
+
+	err = avisess.Delete("api/pool/" + npool2.UUID)
+	if err != nil {
+		t.Error("Pool deletion failed: ", err)
+	}
+	//t.Error("Just to force output")
 }
