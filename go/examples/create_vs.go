@@ -1,11 +1,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"flag"
 )
 
 func main() {
@@ -26,10 +26,10 @@ func main() {
 	pobj.Name = "my-test-pool"
 	serverobj := models.Server{}
 	serverobj.Enabled = true
-	serverobj.IP = &models.IPAddr{Type:"V4", Addr:"10.90.20.12"}
+	serverobj.IP = &models.IPAddr{Type: "V4", Addr: "10.90.20.12"}
 	pobj.Servers = append(pobj.Servers, &serverobj)
 
-	npobj,err := avi_client.Pool.Create(&pobj)
+	npobj, err := avi_client.Pool.Create(&pobj)
 	if err != nil {
 		fmt.Println("Pool creation failed: ", err)
 		return
@@ -38,10 +38,10 @@ func main() {
 	// Create a virtual service and use the pool created above
 	vsobj := models.VirtualService{}
 	vsobj.Name = "my-test-vs"
-	vipip := models.IPAddr{Type:"V4", Addr:"10.90.20.51"}
-	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID:"myvip", IPAddress:&vipip})
+	vipip := models.IPAddr{Type: "V4", Addr: "10.90.20.51"}
+	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: "myvip", IPAddress: &vipip})
 	vsobj.PoolRef = npobj.UUID
-	vsobj.Services = append(vsobj.Services, &models.Service{Port:80})
+	vsobj.Services = append(vsobj.Services, &models.Service{Port: 80})
 
 	nvsobj, err := avi_client.VirtualService.Create(&vsobj)
 	if err != nil {

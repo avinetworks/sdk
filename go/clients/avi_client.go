@@ -93,7 +93,7 @@ type AviClient struct {
 	Webhook                           *WebhookClient
 }
 
-func NewAviClient(avi_sess *session.AviSession) *AviClient{
+func NewAviClient(avi_sess *session.AviSession) *AviClient {
 	avi_client := AviClient{}
 	avi_client.ActionGroupConfig = NewActionGroupConfigClient(avi_sess)
 	avi_client.Alert = NewAlertClient(avi_sess)

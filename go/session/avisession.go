@@ -146,7 +146,7 @@ func (avisess *AviSession) InitiateSession() error {
 	return nil
 }
 
-func SetPassword(password string) func (*AviSession) error{
+func SetPassword(password string) func(*AviSession) error {
 	return func(sess *AviSession) error {
 		return sess.set_password(password)
 	}
@@ -157,7 +157,7 @@ func (avi *AviSession) set_password(password string) error {
 	return nil
 }
 
-func SetTenant(tenant string) func (*AviSession) error{
+func SetTenant(tenant string) func(*AviSession) error {
 	return func(sess *AviSession) error {
 		return sess.set_tenant(tenant)
 	}
