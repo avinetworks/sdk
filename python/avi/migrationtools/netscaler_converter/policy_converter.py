@@ -229,8 +229,8 @@ class PolicyConverter(object):
                     STATUS_SKIPPED, skipped_status)
                 continue
         if len(http_request_policy['rules']) > 0:
-            is_policy_obj = True
             policy_obj['http_request_policy'] = http_request_policy
+            is_policy_obj = True
         elif len(http_security_policy['rules']) > 0:
             policy_obj['http_request_policy'] = http_security_policy
             is_policy_obj = True
