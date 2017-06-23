@@ -339,6 +339,7 @@ class CsvsConverter(object):
             for binding in lbvs_bindings:
                 lb_vs_obj = [obj for obj in lbvs_avi_conf
                              if obj['name'] == binding]
+
                 if lb_vs_obj:
                     lb_vs_obj = lb_vs_obj[0]
                 else:
@@ -392,6 +393,8 @@ class CsvsConverter(object):
                          avi_config['PoolGroup']
                          if pool_group['name'] == updated_pool_group_ref]
                 if pools:
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        default_pool_group)
                     # clone the pool group if it is referenced to other VS ot
                     # http policy set
                     if updated_pool_group_ref in tmp_used_pool_group_ref:
