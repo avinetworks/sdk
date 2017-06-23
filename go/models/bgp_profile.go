@@ -7,7 +7,7 @@ package models
 // swagger:model BgpProfile
 type BgpProfile struct {
 
-	// Set the community attribute(internet,local-AS,no-advertise,no-export,AS Val) One or more of these can be configured with 1 <= AS,Val <= 65535. Field introduced in 17.1.2.
+	// Set the community attribute - 'internet', 'local-AS', 'no-advertise', 'no-export', <AS> <Val> One or more of these can be configured with 1 <= AS,Val <= 65535. Field introduced in 17.1.2.
 	Community []string `json:"community,omitempty"`
 
 	// Hold time for Peers. Allowed values are 3-7200.

@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	DEBUGSERVICEENGINE_RES_NAME = "debugserviceengine"
-)
-
 // DebugServiceEngineClient is a client for avi DebugServiceEngine resource
 type DebugServiceEngineClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewDebugServiceEngineClient creates a new client for DebugServiceEngine resource
-func NewDebugServiceEngineClient(avi_session *session.AviSession) *DebugServiceEngineClient {
-	return &DebugServiceEngineClient{avi_session: avi_session}
+func NewDebugServiceEngineClient(aviSession *session.AviSession) *DebugServiceEngineClient {
+	return &DebugServiceEngineClient{aviSession: aviSession}
 }
 
-func (client *DebugServiceEngineClient) GetApiPath(uuid string) string {
-	path := "api/" + DEBUGSERVICEENGINE_RES_NAME
+func (client *DebugServiceEngineClient) getAPIPath(uuid string) string {
+	path := "api/debugserviceengine"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *DebugServiceEngineClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of DebugServiceEngine objects
 func (client *DebugServiceEngineClient) GetAll() ([]*models.DebugServiceEngine, error) {
 	var plist []*models.DebugServiceEngine
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing DebugServiceEngine by uuid
 func (client *DebugServiceEngineClient) Get(uuid string) (*models.DebugServiceEngine, error) {
 	var obj *models.DebugServiceEngine
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing DebugServiceEngine by name
+// GetByName - Get an existing DebugServiceEngine by name
 func (client *DebugServiceEngineClient) GetByName(name string) (*models.DebugServiceEngine, error) {
 	var obj *models.DebugServiceEngine
-	err := client.avi_session.GetObjectByName(DEBUGSERVICEENGINE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("debugserviceengine", name, &obj)
 	return obj, err
 }
 
 // Create a new DebugServiceEngine object
 func (client *DebugServiceEngineClient) Create(obj *models.DebugServiceEngine) (*models.DebugServiceEngine, error) {
 	var robj *models.DebugServiceEngine
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing DebugServiceEngine object
 func (client *DebugServiceEngineClient) Update(obj *models.DebugServiceEngine) (*models.DebugServiceEngine, error) {
 	var robj *models.DebugServiceEngine
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing DebugServiceEngine object with a given UUID
 func (client *DebugServiceEngineClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing DebugServiceEngine object with a given name
+// DeleteByName - Delete an existing DebugServiceEngine object with a given name
 func (client *DebugServiceEngineClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

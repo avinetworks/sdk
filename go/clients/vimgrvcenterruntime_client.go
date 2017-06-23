@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	VIMGRVCENTERRUNTIME_RES_NAME = "vimgrvcenterruntime"
-)
-
 // VIMgrVcenterRuntimeClient is a client for avi VIMgrVcenterRuntime resource
 type VIMgrVcenterRuntimeClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewVIMgrVcenterRuntimeClient creates a new client for VIMgrVcenterRuntime resource
-func NewVIMgrVcenterRuntimeClient(avi_session *session.AviSession) *VIMgrVcenterRuntimeClient {
-	return &VIMgrVcenterRuntimeClient{avi_session: avi_session}
+func NewVIMgrVcenterRuntimeClient(aviSession *session.AviSession) *VIMgrVcenterRuntimeClient {
+	return &VIMgrVcenterRuntimeClient{aviSession: aviSession}
 }
 
-func (client *VIMgrVcenterRuntimeClient) GetApiPath(uuid string) string {
-	path := "api/" + VIMGRVCENTERRUNTIME_RES_NAME
+func (client *VIMgrVcenterRuntimeClient) getAPIPath(uuid string) string {
+	path := "api/vimgrvcenterruntime"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *VIMgrVcenterRuntimeClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of VIMgrVcenterRuntime objects
 func (client *VIMgrVcenterRuntimeClient) GetAll() ([]*models.VIMgrVcenterRuntime, error) {
 	var plist []*models.VIMgrVcenterRuntime
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing VIMgrVcenterRuntime by uuid
 func (client *VIMgrVcenterRuntimeClient) Get(uuid string) (*models.VIMgrVcenterRuntime, error) {
 	var obj *models.VIMgrVcenterRuntime
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing VIMgrVcenterRuntime by name
+// GetByName - Get an existing VIMgrVcenterRuntime by name
 func (client *VIMgrVcenterRuntimeClient) GetByName(name string) (*models.VIMgrVcenterRuntime, error) {
 	var obj *models.VIMgrVcenterRuntime
-	err := client.avi_session.GetObjectByName(VIMGRVCENTERRUNTIME_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("vimgrvcenterruntime", name, &obj)
 	return obj, err
 }
 
 // Create a new VIMgrVcenterRuntime object
 func (client *VIMgrVcenterRuntimeClient) Create(obj *models.VIMgrVcenterRuntime) (*models.VIMgrVcenterRuntime, error) {
 	var robj *models.VIMgrVcenterRuntime
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing VIMgrVcenterRuntime object
 func (client *VIMgrVcenterRuntimeClient) Update(obj *models.VIMgrVcenterRuntime) (*models.VIMgrVcenterRuntime, error) {
 	var robj *models.VIMgrVcenterRuntime
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing VIMgrVcenterRuntime object with a given UUID
 func (client *VIMgrVcenterRuntimeClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing VIMgrVcenterRuntime object with a given name
+// DeleteByName - Delete an existing VIMgrVcenterRuntime object with a given name
 func (client *VIMgrVcenterRuntimeClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

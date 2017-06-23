@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	VIRTUALSERVICE_RES_NAME = "virtualservice"
-)
-
 // VirtualServiceClient is a client for avi VirtualService resource
 type VirtualServiceClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewVirtualServiceClient creates a new client for VirtualService resource
-func NewVirtualServiceClient(avi_session *session.AviSession) *VirtualServiceClient {
-	return &VirtualServiceClient{avi_session: avi_session}
+func NewVirtualServiceClient(aviSession *session.AviSession) *VirtualServiceClient {
+	return &VirtualServiceClient{aviSession: aviSession}
 }
 
-func (client *VirtualServiceClient) GetApiPath(uuid string) string {
-	path := "api/" + VIRTUALSERVICE_RES_NAME
+func (client *VirtualServiceClient) getAPIPath(uuid string) string {
+	path := "api/virtualservice"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *VirtualServiceClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of VirtualService objects
 func (client *VirtualServiceClient) GetAll() ([]*models.VirtualService, error) {
 	var plist []*models.VirtualService
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing VirtualService by uuid
 func (client *VirtualServiceClient) Get(uuid string) (*models.VirtualService, error) {
 	var obj *models.VirtualService
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing VirtualService by name
+// GetByName - Get an existing VirtualService by name
 func (client *VirtualServiceClient) GetByName(name string) (*models.VirtualService, error) {
 	var obj *models.VirtualService
-	err := client.avi_session.GetObjectByName(VIRTUALSERVICE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("virtualservice", name, &obj)
 	return obj, err
 }
 
 // Create a new VirtualService object
 func (client *VirtualServiceClient) Create(obj *models.VirtualService) (*models.VirtualService, error) {
 	var robj *models.VirtualService
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing VirtualService object
 func (client *VirtualServiceClient) Update(obj *models.VirtualService) (*models.VirtualService, error) {
 	var robj *models.VirtualService
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing VirtualService object with a given UUID
 func (client *VirtualServiceClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing VirtualService object with a given name
+// DeleteByName - Delete an existing VirtualService object with a given name
 func (client *VirtualServiceClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

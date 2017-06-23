@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	DNSPOLICY_RES_NAME = "dnspolicy"
-)
-
 // DNSPolicyClient is a client for avi DNSPolicy resource
 type DNSPolicyClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewDNSPolicyClient creates a new client for DNSPolicy resource
-func NewDNSPolicyClient(avi_session *session.AviSession) *DNSPolicyClient {
-	return &DNSPolicyClient{avi_session: avi_session}
+func NewDNSPolicyClient(aviSession *session.AviSession) *DNSPolicyClient {
+	return &DNSPolicyClient{aviSession: aviSession}
 }
 
-func (client *DNSPolicyClient) GetApiPath(uuid string) string {
-	path := "api/" + DNSPOLICY_RES_NAME
+func (client *DNSPolicyClient) getAPIPath(uuid string) string {
+	path := "api/dnspolicy"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *DNSPolicyClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of DNSPolicy objects
 func (client *DNSPolicyClient) GetAll() ([]*models.DNSPolicy, error) {
 	var plist []*models.DNSPolicy
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing DNSPolicy by uuid
 func (client *DNSPolicyClient) Get(uuid string) (*models.DNSPolicy, error) {
 	var obj *models.DNSPolicy
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing DNSPolicy by name
+// GetByName - Get an existing DNSPolicy by name
 func (client *DNSPolicyClient) GetByName(name string) (*models.DNSPolicy, error) {
 	var obj *models.DNSPolicy
-	err := client.avi_session.GetObjectByName(DNSPOLICY_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("dnspolicy", name, &obj)
 	return obj, err
 }
 
 // Create a new DNSPolicy object
 func (client *DNSPolicyClient) Create(obj *models.DNSPolicy) (*models.DNSPolicy, error) {
 	var robj *models.DNSPolicy
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing DNSPolicy object
 func (client *DNSPolicyClient) Update(obj *models.DNSPolicy) (*models.DNSPolicy, error) {
 	var robj *models.DNSPolicy
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing DNSPolicy object with a given UUID
 func (client *DNSPolicyClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing DNSPolicy object with a given name
+// DeleteByName - Delete an existing DNSPolicy object with a given name
 func (client *DNSPolicyClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

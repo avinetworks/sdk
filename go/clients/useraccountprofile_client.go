@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	USERACCOUNTPROFILE_RES_NAME = "useraccountprofile"
-)
-
 // UserAccountProfileClient is a client for avi UserAccountProfile resource
 type UserAccountProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewUserAccountProfileClient creates a new client for UserAccountProfile resource
-func NewUserAccountProfileClient(avi_session *session.AviSession) *UserAccountProfileClient {
-	return &UserAccountProfileClient{avi_session: avi_session}
+func NewUserAccountProfileClient(aviSession *session.AviSession) *UserAccountProfileClient {
+	return &UserAccountProfileClient{aviSession: aviSession}
 }
 
-func (client *UserAccountProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + USERACCOUNTPROFILE_RES_NAME
+func (client *UserAccountProfileClient) getAPIPath(uuid string) string {
+	path := "api/useraccountprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *UserAccountProfileClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of UserAccountProfile objects
 func (client *UserAccountProfileClient) GetAll() ([]*models.UserAccountProfile, error) {
 	var plist []*models.UserAccountProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing UserAccountProfile by uuid
 func (client *UserAccountProfileClient) Get(uuid string) (*models.UserAccountProfile, error) {
 	var obj *models.UserAccountProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing UserAccountProfile by name
+// GetByName - Get an existing UserAccountProfile by name
 func (client *UserAccountProfileClient) GetByName(name string) (*models.UserAccountProfile, error) {
 	var obj *models.UserAccountProfile
-	err := client.avi_session.GetObjectByName(USERACCOUNTPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("useraccountprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new UserAccountProfile object
 func (client *UserAccountProfileClient) Create(obj *models.UserAccountProfile) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing UserAccountProfile object
 func (client *UserAccountProfileClient) Update(obj *models.UserAccountProfile) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing UserAccountProfile object with a given UUID
 func (client *UserAccountProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing UserAccountProfile object with a given name
+// DeleteByName - Delete an existing UserAccountProfile object with a given name
 func (client *UserAccountProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

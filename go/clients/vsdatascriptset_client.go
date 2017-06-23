@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	VSDATASCRIPTSET_RES_NAME = "vsdatascriptset"
-)
-
 // VSDataScriptSetClient is a client for avi VSDataScriptSet resource
 type VSDataScriptSetClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewVSDataScriptSetClient creates a new client for VSDataScriptSet resource
-func NewVSDataScriptSetClient(avi_session *session.AviSession) *VSDataScriptSetClient {
-	return &VSDataScriptSetClient{avi_session: avi_session}
+func NewVSDataScriptSetClient(aviSession *session.AviSession) *VSDataScriptSetClient {
+	return &VSDataScriptSetClient{aviSession: aviSession}
 }
 
-func (client *VSDataScriptSetClient) GetApiPath(uuid string) string {
-	path := "api/" + VSDATASCRIPTSET_RES_NAME
+func (client *VSDataScriptSetClient) getAPIPath(uuid string) string {
+	path := "api/vsdatascriptset"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *VSDataScriptSetClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of VSDataScriptSet objects
 func (client *VSDataScriptSetClient) GetAll() ([]*models.VSDataScriptSet, error) {
 	var plist []*models.VSDataScriptSet
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing VSDataScriptSet by uuid
 func (client *VSDataScriptSetClient) Get(uuid string) (*models.VSDataScriptSet, error) {
 	var obj *models.VSDataScriptSet
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing VSDataScriptSet by name
+// GetByName - Get an existing VSDataScriptSet by name
 func (client *VSDataScriptSetClient) GetByName(name string) (*models.VSDataScriptSet, error) {
 	var obj *models.VSDataScriptSet
-	err := client.avi_session.GetObjectByName(VSDATASCRIPTSET_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("vsdatascriptset", name, &obj)
 	return obj, err
 }
 
 // Create a new VSDataScriptSet object
 func (client *VSDataScriptSetClient) Create(obj *models.VSDataScriptSet) (*models.VSDataScriptSet, error) {
 	var robj *models.VSDataScriptSet
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing VSDataScriptSet object
 func (client *VSDataScriptSetClient) Update(obj *models.VSDataScriptSet) (*models.VSDataScriptSet, error) {
 	var robj *models.VSDataScriptSet
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing VSDataScriptSet object with a given UUID
 func (client *VSDataScriptSetClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing VSDataScriptSet object with a given name
+// DeleteByName - Delete an existing VSDataScriptSet object with a given name
 func (client *VSDataScriptSetClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

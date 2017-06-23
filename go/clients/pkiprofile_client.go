@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	PKIPROFILE_RES_NAME = "pkiprofile"
-)
-
 // PKIprofileClient is a client for avi PKIprofile resource
 type PKIprofileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewPKIprofileClient creates a new client for PKIprofile resource
-func NewPKIprofileClient(avi_session *session.AviSession) *PKIprofileClient {
-	return &PKIprofileClient{avi_session: avi_session}
+func NewPKIprofileClient(aviSession *session.AviSession) *PKIprofileClient {
+	return &PKIprofileClient{aviSession: aviSession}
 }
 
-func (client *PKIprofileClient) GetApiPath(uuid string) string {
-	path := "api/" + PKIPROFILE_RES_NAME
+func (client *PKIprofileClient) getAPIPath(uuid string) string {
+	path := "api/pkiprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *PKIprofileClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of PKIprofile objects
 func (client *PKIprofileClient) GetAll() ([]*models.PKIprofile, error) {
 	var plist []*models.PKIprofile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing PKIprofile by uuid
 func (client *PKIprofileClient) Get(uuid string) (*models.PKIprofile, error) {
 	var obj *models.PKIprofile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing PKIprofile by name
+// GetByName - Get an existing PKIprofile by name
 func (client *PKIprofileClient) GetByName(name string) (*models.PKIprofile, error) {
 	var obj *models.PKIprofile
-	err := client.avi_session.GetObjectByName(PKIPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("pkiprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new PKIprofile object
 func (client *PKIprofileClient) Create(obj *models.PKIprofile) (*models.PKIprofile, error) {
 	var robj *models.PKIprofile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing PKIprofile object
 func (client *PKIprofileClient) Update(obj *models.PKIprofile) (*models.PKIprofile, error) {
 	var robj *models.PKIprofile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing PKIprofile object with a given UUID
 func (client *PKIprofileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing PKIprofile object with a given name
+// DeleteByName - Delete an existing PKIprofile object with a given name
 func (client *PKIprofileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

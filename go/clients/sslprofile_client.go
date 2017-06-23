@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	SSLPROFILE_RES_NAME = "sslprofile"
-)
-
 // SSLProfileClient is a client for avi SSLProfile resource
 type SSLProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewSSLProfileClient creates a new client for SSLProfile resource
-func NewSSLProfileClient(avi_session *session.AviSession) *SSLProfileClient {
-	return &SSLProfileClient{avi_session: avi_session}
+func NewSSLProfileClient(aviSession *session.AviSession) *SSLProfileClient {
+	return &SSLProfileClient{aviSession: aviSession}
 }
 
-func (client *SSLProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + SSLPROFILE_RES_NAME
+func (client *SSLProfileClient) getAPIPath(uuid string) string {
+	path := "api/sslprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *SSLProfileClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of SSLProfile objects
 func (client *SSLProfileClient) GetAll() ([]*models.SSLProfile, error) {
 	var plist []*models.SSLProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing SSLProfile by uuid
 func (client *SSLProfileClient) Get(uuid string) (*models.SSLProfile, error) {
 	var obj *models.SSLProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing SSLProfile by name
+// GetByName - Get an existing SSLProfile by name
 func (client *SSLProfileClient) GetByName(name string) (*models.SSLProfile, error) {
 	var obj *models.SSLProfile
-	err := client.avi_session.GetObjectByName(SSLPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("sslprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new SSLProfile object
 func (client *SSLProfileClient) Create(obj *models.SSLProfile) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing SSLProfile object
 func (client *SSLProfileClient) Update(obj *models.SSLProfile) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing SSLProfile object with a given UUID
 func (client *SSLProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing SSLProfile object with a given name
+// DeleteByName - Delete an existing SSLProfile object with a given name
 func (client *SSLProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

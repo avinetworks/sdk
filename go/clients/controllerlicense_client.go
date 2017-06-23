@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	CONTROLLERLICENSE_RES_NAME = "controllerlicense"
-)
-
 // ControllerLicenseClient is a client for avi ControllerLicense resource
 type ControllerLicenseClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewControllerLicenseClient creates a new client for ControllerLicense resource
-func NewControllerLicenseClient(avi_session *session.AviSession) *ControllerLicenseClient {
-	return &ControllerLicenseClient{avi_session: avi_session}
+func NewControllerLicenseClient(aviSession *session.AviSession) *ControllerLicenseClient {
+	return &ControllerLicenseClient{aviSession: aviSession}
 }
 
-func (client *ControllerLicenseClient) GetApiPath(uuid string) string {
-	path := "api/" + CONTROLLERLICENSE_RES_NAME
+func (client *ControllerLicenseClient) getAPIPath(uuid string) string {
+	path := "api/controllerlicense"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *ControllerLicenseClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of ControllerLicense objects
 func (client *ControllerLicenseClient) GetAll() ([]*models.ControllerLicense, error) {
 	var plist []*models.ControllerLicense
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing ControllerLicense by uuid
 func (client *ControllerLicenseClient) Get(uuid string) (*models.ControllerLicense, error) {
 	var obj *models.ControllerLicense
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing ControllerLicense by name
+// GetByName - Get an existing ControllerLicense by name
 func (client *ControllerLicenseClient) GetByName(name string) (*models.ControllerLicense, error) {
 	var obj *models.ControllerLicense
-	err := client.avi_session.GetObjectByName(CONTROLLERLICENSE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("controllerlicense", name, &obj)
 	return obj, err
 }
 
 // Create a new ControllerLicense object
 func (client *ControllerLicenseClient) Create(obj *models.ControllerLicense) (*models.ControllerLicense, error) {
 	var robj *models.ControllerLicense
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing ControllerLicense object
 func (client *ControllerLicenseClient) Update(obj *models.ControllerLicense) (*models.ControllerLicense, error) {
 	var robj *models.ControllerLicense
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing ControllerLicense object with a given UUID
 func (client *ControllerLicenseClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing ControllerLicense object with a given name
+// DeleteByName - Delete an existing ControllerLicense object with a given name
 func (client *ControllerLicenseClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	GSLBAPPLICATIONPERSISTENCEPROFILE_RES_NAME = "gslbapplicationpersistenceprofile"
-)
-
 // GslbApplicationPersistenceProfileClient is a client for avi GslbApplicationPersistenceProfile resource
 type GslbApplicationPersistenceProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewGslbApplicationPersistenceProfileClient creates a new client for GslbApplicationPersistenceProfile resource
-func NewGslbApplicationPersistenceProfileClient(avi_session *session.AviSession) *GslbApplicationPersistenceProfileClient {
-	return &GslbApplicationPersistenceProfileClient{avi_session: avi_session}
+func NewGslbApplicationPersistenceProfileClient(aviSession *session.AviSession) *GslbApplicationPersistenceProfileClient {
+	return &GslbApplicationPersistenceProfileClient{aviSession: aviSession}
 }
 
-func (client *GslbApplicationPersistenceProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + GSLBAPPLICATIONPERSISTENCEPROFILE_RES_NAME
+func (client *GslbApplicationPersistenceProfileClient) getAPIPath(uuid string) string {
+	path := "api/gslbapplicationpersistenceprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *GslbApplicationPersistenceProfileClient) GetApiPath(uuid string) s
 // GetAll is a collection API to get a list of GslbApplicationPersistenceProfile objects
 func (client *GslbApplicationPersistenceProfileClient) GetAll() ([]*models.GslbApplicationPersistenceProfile, error) {
 	var plist []*models.GslbApplicationPersistenceProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing GslbApplicationPersistenceProfile by uuid
 func (client *GslbApplicationPersistenceProfileClient) Get(uuid string) (*models.GslbApplicationPersistenceProfile, error) {
 	var obj *models.GslbApplicationPersistenceProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing GslbApplicationPersistenceProfile by name
+// GetByName - Get an existing GslbApplicationPersistenceProfile by name
 func (client *GslbApplicationPersistenceProfileClient) GetByName(name string) (*models.GslbApplicationPersistenceProfile, error) {
 	var obj *models.GslbApplicationPersistenceProfile
-	err := client.avi_session.GetObjectByName(GSLBAPPLICATIONPERSISTENCEPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("gslbapplicationpersistenceprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new GslbApplicationPersistenceProfile object
 func (client *GslbApplicationPersistenceProfileClient) Create(obj *models.GslbApplicationPersistenceProfile) (*models.GslbApplicationPersistenceProfile, error) {
 	var robj *models.GslbApplicationPersistenceProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing GslbApplicationPersistenceProfile object
 func (client *GslbApplicationPersistenceProfileClient) Update(obj *models.GslbApplicationPersistenceProfile) (*models.GslbApplicationPersistenceProfile, error) {
 	var robj *models.GslbApplicationPersistenceProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing GslbApplicationPersistenceProfile object with a given UUID
 func (client *GslbApplicationPersistenceProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing GslbApplicationPersistenceProfile object with a given name
+// DeleteByName - Delete an existing GslbApplicationPersistenceProfile object with a given name
 func (client *GslbApplicationPersistenceProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

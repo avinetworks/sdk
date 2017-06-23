@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	ALERTOBJECTLIST_RES_NAME = "alertobjectlist"
-)
-
 // AlertObjectListClient is a client for avi AlertObjectList resource
 type AlertObjectListClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewAlertObjectListClient creates a new client for AlertObjectList resource
-func NewAlertObjectListClient(avi_session *session.AviSession) *AlertObjectListClient {
-	return &AlertObjectListClient{avi_session: avi_session}
+func NewAlertObjectListClient(aviSession *session.AviSession) *AlertObjectListClient {
+	return &AlertObjectListClient{aviSession: aviSession}
 }
 
-func (client *AlertObjectListClient) GetApiPath(uuid string) string {
-	path := "api/" + ALERTOBJECTLIST_RES_NAME
+func (client *AlertObjectListClient) getAPIPath(uuid string) string {
+	path := "api/alertobjectlist"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *AlertObjectListClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of AlertObjectList objects
 func (client *AlertObjectListClient) GetAll() ([]*models.AlertObjectList, error) {
 	var plist []*models.AlertObjectList
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing AlertObjectList by uuid
 func (client *AlertObjectListClient) Get(uuid string) (*models.AlertObjectList, error) {
 	var obj *models.AlertObjectList
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing AlertObjectList by name
+// GetByName - Get an existing AlertObjectList by name
 func (client *AlertObjectListClient) GetByName(name string) (*models.AlertObjectList, error) {
 	var obj *models.AlertObjectList
-	err := client.avi_session.GetObjectByName(ALERTOBJECTLIST_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("alertobjectlist", name, &obj)
 	return obj, err
 }
 
 // Create a new AlertObjectList object
 func (client *AlertObjectListClient) Create(obj *models.AlertObjectList) (*models.AlertObjectList, error) {
 	var robj *models.AlertObjectList
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing AlertObjectList object
 func (client *AlertObjectListClient) Update(obj *models.AlertObjectList) (*models.AlertObjectList, error) {
 	var robj *models.AlertObjectList
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing AlertObjectList object with a given UUID
 func (client *AlertObjectListClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing AlertObjectList object with a given name
+// DeleteByName - Delete an existing AlertObjectList object with a given name
 func (client *AlertObjectListClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

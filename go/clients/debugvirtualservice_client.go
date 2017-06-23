@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	DEBUGVIRTUALSERVICE_RES_NAME = "debugvirtualservice"
-)
-
 // DebugVirtualServiceClient is a client for avi DebugVirtualService resource
 type DebugVirtualServiceClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewDebugVirtualServiceClient creates a new client for DebugVirtualService resource
-func NewDebugVirtualServiceClient(avi_session *session.AviSession) *DebugVirtualServiceClient {
-	return &DebugVirtualServiceClient{avi_session: avi_session}
+func NewDebugVirtualServiceClient(aviSession *session.AviSession) *DebugVirtualServiceClient {
+	return &DebugVirtualServiceClient{aviSession: aviSession}
 }
 
-func (client *DebugVirtualServiceClient) GetApiPath(uuid string) string {
-	path := "api/" + DEBUGVIRTUALSERVICE_RES_NAME
+func (client *DebugVirtualServiceClient) getAPIPath(uuid string) string {
+	path := "api/debugvirtualservice"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *DebugVirtualServiceClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of DebugVirtualService objects
 func (client *DebugVirtualServiceClient) GetAll() ([]*models.DebugVirtualService, error) {
 	var plist []*models.DebugVirtualService
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing DebugVirtualService by uuid
 func (client *DebugVirtualServiceClient) Get(uuid string) (*models.DebugVirtualService, error) {
 	var obj *models.DebugVirtualService
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing DebugVirtualService by name
+// GetByName - Get an existing DebugVirtualService by name
 func (client *DebugVirtualServiceClient) GetByName(name string) (*models.DebugVirtualService, error) {
 	var obj *models.DebugVirtualService
-	err := client.avi_session.GetObjectByName(DEBUGVIRTUALSERVICE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("debugvirtualservice", name, &obj)
 	return obj, err
 }
 
 // Create a new DebugVirtualService object
 func (client *DebugVirtualServiceClient) Create(obj *models.DebugVirtualService) (*models.DebugVirtualService, error) {
 	var robj *models.DebugVirtualService
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing DebugVirtualService object
 func (client *DebugVirtualServiceClient) Update(obj *models.DebugVirtualService) (*models.DebugVirtualService, error) {
 	var robj *models.DebugVirtualService
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing DebugVirtualService object with a given UUID
 func (client *DebugVirtualServiceClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing DebugVirtualService object with a given name
+// DeleteByName - Delete an existing DebugVirtualService object with a given name
 func (client *DebugVirtualServiceClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

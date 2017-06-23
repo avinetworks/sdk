@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	BACKUP_RES_NAME = "backup"
-)
-
 // BackupClient is a client for avi Backup resource
 type BackupClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewBackupClient creates a new client for Backup resource
-func NewBackupClient(avi_session *session.AviSession) *BackupClient {
-	return &BackupClient{avi_session: avi_session}
+func NewBackupClient(aviSession *session.AviSession) *BackupClient {
+	return &BackupClient{aviSession: aviSession}
 }
 
-func (client *BackupClient) GetApiPath(uuid string) string {
-	path := "api/" + BACKUP_RES_NAME
+func (client *BackupClient) getAPIPath(uuid string) string {
+	path := "api/backup"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *BackupClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of Backup objects
 func (client *BackupClient) GetAll() ([]*models.Backup, error) {
 	var plist []*models.Backup
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing Backup by uuid
 func (client *BackupClient) Get(uuid string) (*models.Backup, error) {
 	var obj *models.Backup
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing Backup by name
+// GetByName - Get an existing Backup by name
 func (client *BackupClient) GetByName(name string) (*models.Backup, error) {
 	var obj *models.Backup
-	err := client.avi_session.GetObjectByName(BACKUP_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("backup", name, &obj)
 	return obj, err
 }
 
 // Create a new Backup object
 func (client *BackupClient) Create(obj *models.Backup) (*models.Backup, error) {
 	var robj *models.Backup
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing Backup object
 func (client *BackupClient) Update(obj *models.Backup) (*models.Backup, error) {
 	var robj *models.Backup
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing Backup object with a given UUID
 func (client *BackupClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing Backup object with a given name
+// DeleteByName - Delete an existing Backup object with a given name
 func (client *BackupClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

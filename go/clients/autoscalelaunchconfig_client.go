@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	AUTOSCALELAUNCHCONFIG_RES_NAME = "autoscalelaunchconfig"
-)
-
 // AutoScaleLaunchConfigClient is a client for avi AutoScaleLaunchConfig resource
 type AutoScaleLaunchConfigClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewAutoScaleLaunchConfigClient creates a new client for AutoScaleLaunchConfig resource
-func NewAutoScaleLaunchConfigClient(avi_session *session.AviSession) *AutoScaleLaunchConfigClient {
-	return &AutoScaleLaunchConfigClient{avi_session: avi_session}
+func NewAutoScaleLaunchConfigClient(aviSession *session.AviSession) *AutoScaleLaunchConfigClient {
+	return &AutoScaleLaunchConfigClient{aviSession: aviSession}
 }
 
-func (client *AutoScaleLaunchConfigClient) GetApiPath(uuid string) string {
-	path := "api/" + AUTOSCALELAUNCHCONFIG_RES_NAME
+func (client *AutoScaleLaunchConfigClient) getAPIPath(uuid string) string {
+	path := "api/autoscalelaunchconfig"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *AutoScaleLaunchConfigClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of AutoScaleLaunchConfig objects
 func (client *AutoScaleLaunchConfigClient) GetAll() ([]*models.AutoScaleLaunchConfig, error) {
 	var plist []*models.AutoScaleLaunchConfig
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing AutoScaleLaunchConfig by uuid
 func (client *AutoScaleLaunchConfigClient) Get(uuid string) (*models.AutoScaleLaunchConfig, error) {
 	var obj *models.AutoScaleLaunchConfig
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing AutoScaleLaunchConfig by name
+// GetByName - Get an existing AutoScaleLaunchConfig by name
 func (client *AutoScaleLaunchConfigClient) GetByName(name string) (*models.AutoScaleLaunchConfig, error) {
 	var obj *models.AutoScaleLaunchConfig
-	err := client.avi_session.GetObjectByName(AUTOSCALELAUNCHCONFIG_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("autoscalelaunchconfig", name, &obj)
 	return obj, err
 }
 
 // Create a new AutoScaleLaunchConfig object
 func (client *AutoScaleLaunchConfigClient) Create(obj *models.AutoScaleLaunchConfig) (*models.AutoScaleLaunchConfig, error) {
 	var robj *models.AutoScaleLaunchConfig
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing AutoScaleLaunchConfig object
 func (client *AutoScaleLaunchConfigClient) Update(obj *models.AutoScaleLaunchConfig) (*models.AutoScaleLaunchConfig, error) {
 	var robj *models.AutoScaleLaunchConfig
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing AutoScaleLaunchConfig object with a given UUID
 func (client *AutoScaleLaunchConfigClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing AutoScaleLaunchConfig object with a given name
+// DeleteByName - Delete an existing AutoScaleLaunchConfig object with a given name
 func (client *AutoScaleLaunchConfigClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

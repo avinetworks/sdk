@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	APPLICATION_RES_NAME = "application"
-)
-
 // ApplicationClient is a client for avi Application resource
 type ApplicationClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewApplicationClient creates a new client for Application resource
-func NewApplicationClient(avi_session *session.AviSession) *ApplicationClient {
-	return &ApplicationClient{avi_session: avi_session}
+func NewApplicationClient(aviSession *session.AviSession) *ApplicationClient {
+	return &ApplicationClient{aviSession: aviSession}
 }
 
-func (client *ApplicationClient) GetApiPath(uuid string) string {
-	path := "api/" + APPLICATION_RES_NAME
+func (client *ApplicationClient) getAPIPath(uuid string) string {
+	path := "api/application"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *ApplicationClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of Application objects
 func (client *ApplicationClient) GetAll() ([]*models.Application, error) {
 	var plist []*models.Application
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing Application by uuid
 func (client *ApplicationClient) Get(uuid string) (*models.Application, error) {
 	var obj *models.Application
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing Application by name
+// GetByName - Get an existing Application by name
 func (client *ApplicationClient) GetByName(name string) (*models.Application, error) {
 	var obj *models.Application
-	err := client.avi_session.GetObjectByName(APPLICATION_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("application", name, &obj)
 	return obj, err
 }
 
 // Create a new Application object
 func (client *ApplicationClient) Create(obj *models.Application) (*models.Application, error) {
 	var robj *models.Application
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing Application object
 func (client *ApplicationClient) Update(obj *models.Application) (*models.Application, error) {
 	var robj *models.Application
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing Application object with a given UUID
 func (client *ApplicationClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing Application object with a given name
+// DeleteByName - Delete an existing Application object with a given name
 func (client *ApplicationClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

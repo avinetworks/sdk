@@ -22,7 +22,4 @@ type AWSSetup struct {
 	// region of AWSSetup.
 	// Required: true
 	Region string `json:"region"`
-
-	//  Field introduced in 17.2.1.
-	VpcID string `json:"vpc_id,omitempty"`
 }

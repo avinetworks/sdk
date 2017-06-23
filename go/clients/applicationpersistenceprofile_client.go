@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	APPLICATIONPERSISTENCEPROFILE_RES_NAME = "applicationpersistenceprofile"
-)
-
 // ApplicationPersistenceProfileClient is a client for avi ApplicationPersistenceProfile resource
 type ApplicationPersistenceProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewApplicationPersistenceProfileClient creates a new client for ApplicationPersistenceProfile resource
-func NewApplicationPersistenceProfileClient(avi_session *session.AviSession) *ApplicationPersistenceProfileClient {
-	return &ApplicationPersistenceProfileClient{avi_session: avi_session}
+func NewApplicationPersistenceProfileClient(aviSession *session.AviSession) *ApplicationPersistenceProfileClient {
+	return &ApplicationPersistenceProfileClient{aviSession: aviSession}
 }
 
-func (client *ApplicationPersistenceProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + APPLICATIONPERSISTENCEPROFILE_RES_NAME
+func (client *ApplicationPersistenceProfileClient) getAPIPath(uuid string) string {
+	path := "api/applicationpersistenceprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *ApplicationPersistenceProfileClient) GetApiPath(uuid string) strin
 // GetAll is a collection API to get a list of ApplicationPersistenceProfile objects
 func (client *ApplicationPersistenceProfileClient) GetAll() ([]*models.ApplicationPersistenceProfile, error) {
 	var plist []*models.ApplicationPersistenceProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing ApplicationPersistenceProfile by uuid
 func (client *ApplicationPersistenceProfileClient) Get(uuid string) (*models.ApplicationPersistenceProfile, error) {
 	var obj *models.ApplicationPersistenceProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing ApplicationPersistenceProfile by name
+// GetByName - Get an existing ApplicationPersistenceProfile by name
 func (client *ApplicationPersistenceProfileClient) GetByName(name string) (*models.ApplicationPersistenceProfile, error) {
 	var obj *models.ApplicationPersistenceProfile
-	err := client.avi_session.GetObjectByName(APPLICATIONPERSISTENCEPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("applicationpersistenceprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Create(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Update(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing ApplicationPersistenceProfile object with a given UUID
 func (client *ApplicationPersistenceProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing ApplicationPersistenceProfile object with a given name
+// DeleteByName - Delete an existing ApplicationPersistenceProfile object with a given name
 func (client *ApplicationPersistenceProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

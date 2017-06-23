@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	SSLKEYANDCERTIFICATE_RES_NAME = "sslkeyandcertificate"
-)
-
 // SSLKeyAndCertificateClient is a client for avi SSLKeyAndCertificate resource
 type SSLKeyAndCertificateClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewSSLKeyAndCertificateClient creates a new client for SSLKeyAndCertificate resource
-func NewSSLKeyAndCertificateClient(avi_session *session.AviSession) *SSLKeyAndCertificateClient {
-	return &SSLKeyAndCertificateClient{avi_session: avi_session}
+func NewSSLKeyAndCertificateClient(aviSession *session.AviSession) *SSLKeyAndCertificateClient {
+	return &SSLKeyAndCertificateClient{aviSession: aviSession}
 }
 
-func (client *SSLKeyAndCertificateClient) GetApiPath(uuid string) string {
-	path := "api/" + SSLKEYANDCERTIFICATE_RES_NAME
+func (client *SSLKeyAndCertificateClient) getAPIPath(uuid string) string {
+	path := "api/sslkeyandcertificate"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *SSLKeyAndCertificateClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of SSLKeyAndCertificate objects
 func (client *SSLKeyAndCertificateClient) GetAll() ([]*models.SSLKeyAndCertificate, error) {
 	var plist []*models.SSLKeyAndCertificate
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing SSLKeyAndCertificate by uuid
 func (client *SSLKeyAndCertificateClient) Get(uuid string) (*models.SSLKeyAndCertificate, error) {
 	var obj *models.SSLKeyAndCertificate
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing SSLKeyAndCertificate by name
+// GetByName - Get an existing SSLKeyAndCertificate by name
 func (client *SSLKeyAndCertificateClient) GetByName(name string) (*models.SSLKeyAndCertificate, error) {
 	var obj *models.SSLKeyAndCertificate
-	err := client.avi_session.GetObjectByName(SSLKEYANDCERTIFICATE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("sslkeyandcertificate", name, &obj)
 	return obj, err
 }
 
 // Create a new SSLKeyAndCertificate object
 func (client *SSLKeyAndCertificateClient) Create(obj *models.SSLKeyAndCertificate) (*models.SSLKeyAndCertificate, error) {
 	var robj *models.SSLKeyAndCertificate
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing SSLKeyAndCertificate object
 func (client *SSLKeyAndCertificateClient) Update(obj *models.SSLKeyAndCertificate) (*models.SSLKeyAndCertificate, error) {
 	var robj *models.SSLKeyAndCertificate
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing SSLKeyAndCertificate object with a given UUID
 func (client *SSLKeyAndCertificateClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing SSLKeyAndCertificate object with a given name
+// DeleteByName - Delete an existing SSLKeyAndCertificate object with a given name
 func (client *SSLKeyAndCertificateClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

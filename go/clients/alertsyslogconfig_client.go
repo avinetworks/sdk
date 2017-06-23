@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	ALERTSYSLOGCONFIG_RES_NAME = "alertsyslogconfig"
-)
-
 // AlertSyslogConfigClient is a client for avi AlertSyslogConfig resource
 type AlertSyslogConfigClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewAlertSyslogConfigClient creates a new client for AlertSyslogConfig resource
-func NewAlertSyslogConfigClient(avi_session *session.AviSession) *AlertSyslogConfigClient {
-	return &AlertSyslogConfigClient{avi_session: avi_session}
+func NewAlertSyslogConfigClient(aviSession *session.AviSession) *AlertSyslogConfigClient {
+	return &AlertSyslogConfigClient{aviSession: aviSession}
 }
 
-func (client *AlertSyslogConfigClient) GetApiPath(uuid string) string {
-	path := "api/" + ALERTSYSLOGCONFIG_RES_NAME
+func (client *AlertSyslogConfigClient) getAPIPath(uuid string) string {
+	path := "api/alertsyslogconfig"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *AlertSyslogConfigClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of AlertSyslogConfig objects
 func (client *AlertSyslogConfigClient) GetAll() ([]*models.AlertSyslogConfig, error) {
 	var plist []*models.AlertSyslogConfig
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing AlertSyslogConfig by uuid
 func (client *AlertSyslogConfigClient) Get(uuid string) (*models.AlertSyslogConfig, error) {
 	var obj *models.AlertSyslogConfig
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing AlertSyslogConfig by name
+// GetByName - Get an existing AlertSyslogConfig by name
 func (client *AlertSyslogConfigClient) GetByName(name string) (*models.AlertSyslogConfig, error) {
 	var obj *models.AlertSyslogConfig
-	err := client.avi_session.GetObjectByName(ALERTSYSLOGCONFIG_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("alertsyslogconfig", name, &obj)
 	return obj, err
 }
 
 // Create a new AlertSyslogConfig object
 func (client *AlertSyslogConfigClient) Create(obj *models.AlertSyslogConfig) (*models.AlertSyslogConfig, error) {
 	var robj *models.AlertSyslogConfig
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing AlertSyslogConfig object
 func (client *AlertSyslogConfigClient) Update(obj *models.AlertSyslogConfig) (*models.AlertSyslogConfig, error) {
 	var robj *models.AlertSyslogConfig
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing AlertSyslogConfig object with a given UUID
 func (client *AlertSyslogConfigClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing AlertSyslogConfig object with a given name
+// DeleteByName - Delete an existing AlertSyslogConfig object with a given name
 func (client *AlertSyslogConfigClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

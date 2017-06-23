@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	SERVERAUTOSCALEPOLICY_RES_NAME = "serverautoscalepolicy"
-)
-
 // ServerAutoScalePolicyClient is a client for avi ServerAutoScalePolicy resource
 type ServerAutoScalePolicyClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewServerAutoScalePolicyClient creates a new client for ServerAutoScalePolicy resource
-func NewServerAutoScalePolicyClient(avi_session *session.AviSession) *ServerAutoScalePolicyClient {
-	return &ServerAutoScalePolicyClient{avi_session: avi_session}
+func NewServerAutoScalePolicyClient(aviSession *session.AviSession) *ServerAutoScalePolicyClient {
+	return &ServerAutoScalePolicyClient{aviSession: aviSession}
 }
 
-func (client *ServerAutoScalePolicyClient) GetApiPath(uuid string) string {
-	path := "api/" + SERVERAUTOSCALEPOLICY_RES_NAME
+func (client *ServerAutoScalePolicyClient) getAPIPath(uuid string) string {
+	path := "api/serverautoscalepolicy"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *ServerAutoScalePolicyClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of ServerAutoScalePolicy objects
 func (client *ServerAutoScalePolicyClient) GetAll() ([]*models.ServerAutoScalePolicy, error) {
 	var plist []*models.ServerAutoScalePolicy
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing ServerAutoScalePolicy by uuid
 func (client *ServerAutoScalePolicyClient) Get(uuid string) (*models.ServerAutoScalePolicy, error) {
 	var obj *models.ServerAutoScalePolicy
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing ServerAutoScalePolicy by name
+// GetByName - Get an existing ServerAutoScalePolicy by name
 func (client *ServerAutoScalePolicyClient) GetByName(name string) (*models.ServerAutoScalePolicy, error) {
 	var obj *models.ServerAutoScalePolicy
-	err := client.avi_session.GetObjectByName(SERVERAUTOSCALEPOLICY_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("serverautoscalepolicy", name, &obj)
 	return obj, err
 }
 
 // Create a new ServerAutoScalePolicy object
 func (client *ServerAutoScalePolicyClient) Create(obj *models.ServerAutoScalePolicy) (*models.ServerAutoScalePolicy, error) {
 	var robj *models.ServerAutoScalePolicy
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing ServerAutoScalePolicy object
 func (client *ServerAutoScalePolicyClient) Update(obj *models.ServerAutoScalePolicy) (*models.ServerAutoScalePolicy, error) {
 	var robj *models.ServerAutoScalePolicy
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing ServerAutoScalePolicy object with a given UUID
 func (client *ServerAutoScalePolicyClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing ServerAutoScalePolicy object with a given name
+// DeleteByName - Delete an existing ServerAutoScalePolicy object with a given name
 func (client *ServerAutoScalePolicyClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

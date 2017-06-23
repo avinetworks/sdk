@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	HEALTHMONITOR_RES_NAME = "healthmonitor"
-)
-
 // HealthMonitorClient is a client for avi HealthMonitor resource
 type HealthMonitorClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewHealthMonitorClient creates a new client for HealthMonitor resource
-func NewHealthMonitorClient(avi_session *session.AviSession) *HealthMonitorClient {
-	return &HealthMonitorClient{avi_session: avi_session}
+func NewHealthMonitorClient(aviSession *session.AviSession) *HealthMonitorClient {
+	return &HealthMonitorClient{aviSession: aviSession}
 }
 
-func (client *HealthMonitorClient) GetApiPath(uuid string) string {
-	path := "api/" + HEALTHMONITOR_RES_NAME
+func (client *HealthMonitorClient) getAPIPath(uuid string) string {
+	path := "api/healthmonitor"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *HealthMonitorClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of HealthMonitor objects
 func (client *HealthMonitorClient) GetAll() ([]*models.HealthMonitor, error) {
 	var plist []*models.HealthMonitor
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing HealthMonitor by uuid
 func (client *HealthMonitorClient) Get(uuid string) (*models.HealthMonitor, error) {
 	var obj *models.HealthMonitor
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing HealthMonitor by name
+// GetByName - Get an existing HealthMonitor by name
 func (client *HealthMonitorClient) GetByName(name string) (*models.HealthMonitor, error) {
 	var obj *models.HealthMonitor
-	err := client.avi_session.GetObjectByName(HEALTHMONITOR_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("healthmonitor", name, &obj)
 	return obj, err
 }
 
 // Create a new HealthMonitor object
 func (client *HealthMonitorClient) Create(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
 	var robj *models.HealthMonitor
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing HealthMonitor object
 func (client *HealthMonitorClient) Update(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
 	var robj *models.HealthMonitor
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing HealthMonitor object with a given UUID
 func (client *HealthMonitorClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing HealthMonitor object with a given name
+// DeleteByName - Delete an existing HealthMonitor object with a given name
 func (client *HealthMonitorClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

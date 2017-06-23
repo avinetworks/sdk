@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	IPADDRGROUP_RES_NAME = "ipaddrgroup"
-)
-
 // IPAddrGroupClient is a client for avi IPAddrGroup resource
 type IPAddrGroupClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewIPAddrGroupClient creates a new client for IPAddrGroup resource
-func NewIPAddrGroupClient(avi_session *session.AviSession) *IPAddrGroupClient {
-	return &IPAddrGroupClient{avi_session: avi_session}
+func NewIPAddrGroupClient(aviSession *session.AviSession) *IPAddrGroupClient {
+	return &IPAddrGroupClient{aviSession: aviSession}
 }
 
-func (client *IPAddrGroupClient) GetApiPath(uuid string) string {
-	path := "api/" + IPADDRGROUP_RES_NAME
+func (client *IPAddrGroupClient) getAPIPath(uuid string) string {
+	path := "api/ipaddrgroup"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *IPAddrGroupClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of IPAddrGroup objects
 func (client *IPAddrGroupClient) GetAll() ([]*models.IPAddrGroup, error) {
 	var plist []*models.IPAddrGroup
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing IPAddrGroup by uuid
 func (client *IPAddrGroupClient) Get(uuid string) (*models.IPAddrGroup, error) {
 	var obj *models.IPAddrGroup
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing IPAddrGroup by name
+// GetByName - Get an existing IPAddrGroup by name
 func (client *IPAddrGroupClient) GetByName(name string) (*models.IPAddrGroup, error) {
 	var obj *models.IPAddrGroup
-	err := client.avi_session.GetObjectByName(IPADDRGROUP_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("ipaddrgroup", name, &obj)
 	return obj, err
 }
 
 // Create a new IPAddrGroup object
 func (client *IPAddrGroupClient) Create(obj *models.IPAddrGroup) (*models.IPAddrGroup, error) {
 	var robj *models.IPAddrGroup
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing IPAddrGroup object
 func (client *IPAddrGroupClient) Update(obj *models.IPAddrGroup) (*models.IPAddrGroup, error) {
 	var robj *models.IPAddrGroup
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing IPAddrGroup object with a given UUID
 func (client *IPAddrGroupClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing IPAddrGroup object with a given name
+// DeleteByName - Delete an existing IPAddrGroup object with a given name
 func (client *IPAddrGroupClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

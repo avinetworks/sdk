@@ -95,10 +95,10 @@ type ServiceEngineGroup struct {
 	// Enable active health monitoring from the standby SE for all placed virtual services.
 	HmOnStandby bool `json:"hm_on_standby,omitempty"`
 
-	// Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key.
+	// Key of a (Key, Value) pair identifying a set of hosts. Currently used to separate North-South and East-West SE sizing requirements. This is useful in Container ecosystems where SEs on East-West traffic nodes are typically smaller than those on North-South traffic nodes.
 	HostAttributeKey string `json:"host_attribute_key,omitempty"`
 
-	// Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key.
+	// Value of a (Key, Value) pair identifying a set of hosts. Currently used to separate North-South and East-West SE sizing requirements. This is useful in Container ecosystems where SEs on East-West traffic nodes are typically smaller than those on North-South traffic nodes.
 	HostAttributeValue string `json:"host_attribute_value,omitempty"`
 
 	// Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
@@ -183,14 +183,23 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
 	SeDosProfile *DosThresholdProfile `json:"se_dos_profile,omitempty"`
 
+	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
+	SeIpcUDPPort int32 `json:"se_ipc_udp_port,omitempty"`
+
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix string `json:"se_name_prefix,omitempty"`
+
+	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
+	SeRemotePuntUDPPort int32 `json:"se_remote_punt_udp_port,omitempty"`
 
 	// Multiplier for SE threads based on vCPU. Allowed values are 1-10.
 	SeThreadMultiplier int32 `json:"se_thread_multiplier,omitempty"`
 
-	// Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1.
+	// Determines if DSR from secondary SE is active or not. 0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. Field introduced in 17.1.1.
 	SeTunnelMode int32 `json:"se_tunnel_mode,omitempty"`
+
+	// Determines if SE-SE IPC messages are encapsulated in an UDP header. 0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.
+	SeUDPEncapIpc int32 `json:"se_udp_encap_ipc,omitempty"`
 
 	// Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.
 	SeVsHbMaxPktsInBatch int32 `json:"se_vs_hb_max_pkts_in_batch,omitempty"`

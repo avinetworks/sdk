@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	LOGCONTROLLERMAPPING_RES_NAME = "logcontrollermapping"
-)
-
 // LogControllerMappingClient is a client for avi LogControllerMapping resource
 type LogControllerMappingClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewLogControllerMappingClient creates a new client for LogControllerMapping resource
-func NewLogControllerMappingClient(avi_session *session.AviSession) *LogControllerMappingClient {
-	return &LogControllerMappingClient{avi_session: avi_session}
+func NewLogControllerMappingClient(aviSession *session.AviSession) *LogControllerMappingClient {
+	return &LogControllerMappingClient{aviSession: aviSession}
 }
 
-func (client *LogControllerMappingClient) GetApiPath(uuid string) string {
-	path := "api/" + LOGCONTROLLERMAPPING_RES_NAME
+func (client *LogControllerMappingClient) getAPIPath(uuid string) string {
+	path := "api/logcontrollermapping"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *LogControllerMappingClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of LogControllerMapping objects
 func (client *LogControllerMappingClient) GetAll() ([]*models.LogControllerMapping, error) {
 	var plist []*models.LogControllerMapping
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing LogControllerMapping by uuid
 func (client *LogControllerMappingClient) Get(uuid string) (*models.LogControllerMapping, error) {
 	var obj *models.LogControllerMapping
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing LogControllerMapping by name
+// GetByName - Get an existing LogControllerMapping by name
 func (client *LogControllerMappingClient) GetByName(name string) (*models.LogControllerMapping, error) {
 	var obj *models.LogControllerMapping
-	err := client.avi_session.GetObjectByName(LOGCONTROLLERMAPPING_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("logcontrollermapping", name, &obj)
 	return obj, err
 }
 
 // Create a new LogControllerMapping object
 func (client *LogControllerMappingClient) Create(obj *models.LogControllerMapping) (*models.LogControllerMapping, error) {
 	var robj *models.LogControllerMapping
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing LogControllerMapping object
 func (client *LogControllerMappingClient) Update(obj *models.LogControllerMapping) (*models.LogControllerMapping, error) {
 	var robj *models.LogControllerMapping
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing LogControllerMapping object with a given UUID
 func (client *LogControllerMappingClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing LogControllerMapping object with a given name
+// DeleteByName - Delete an existing LogControllerMapping object with a given name
 func (client *LogControllerMappingClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	ALERTCONFIG_RES_NAME = "alertconfig"
-)
-
 // AlertConfigClient is a client for avi AlertConfig resource
 type AlertConfigClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewAlertConfigClient creates a new client for AlertConfig resource
-func NewAlertConfigClient(avi_session *session.AviSession) *AlertConfigClient {
-	return &AlertConfigClient{avi_session: avi_session}
+func NewAlertConfigClient(aviSession *session.AviSession) *AlertConfigClient {
+	return &AlertConfigClient{aviSession: aviSession}
 }
 
-func (client *AlertConfigClient) GetApiPath(uuid string) string {
-	path := "api/" + ALERTCONFIG_RES_NAME
+func (client *AlertConfigClient) getAPIPath(uuid string) string {
+	path := "api/alertconfig"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *AlertConfigClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of AlertConfig objects
 func (client *AlertConfigClient) GetAll() ([]*models.AlertConfig, error) {
 	var plist []*models.AlertConfig
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing AlertConfig by uuid
 func (client *AlertConfigClient) Get(uuid string) (*models.AlertConfig, error) {
 	var obj *models.AlertConfig
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing AlertConfig by name
+// GetByName - Get an existing AlertConfig by name
 func (client *AlertConfigClient) GetByName(name string) (*models.AlertConfig, error) {
 	var obj *models.AlertConfig
-	err := client.avi_session.GetObjectByName(ALERTCONFIG_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("alertconfig", name, &obj)
 	return obj, err
 }
 
 // Create a new AlertConfig object
 func (client *AlertConfigClient) Create(obj *models.AlertConfig) (*models.AlertConfig, error) {
 	var robj *models.AlertConfig
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing AlertConfig object
 func (client *AlertConfigClient) Update(obj *models.AlertConfig) (*models.AlertConfig, error) {
 	var robj *models.AlertConfig
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing AlertConfig object with a given UUID
 func (client *AlertConfigClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing AlertConfig object with a given name
+// DeleteByName - Delete an existing AlertConfig object with a given name
 func (client *AlertConfigClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

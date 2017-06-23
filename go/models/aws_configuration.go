@@ -25,9 +25,6 @@ type AwsConfiguration struct {
 	// AWS secret access key.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
-	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.2.1.
-	TTL int32 `json:"ttl,omitempty"`
-
 	// Use IAM roles instead of access and secret key.
 	UseIamRoles bool `json:"use_iam_roles,omitempty"`
 

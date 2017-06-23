@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	GSLB_RES_NAME = "gslb"
-)
-
 // GslbClient is a client for avi Gslb resource
 type GslbClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewGslbClient creates a new client for Gslb resource
-func NewGslbClient(avi_session *session.AviSession) *GslbClient {
-	return &GslbClient{avi_session: avi_session}
+func NewGslbClient(aviSession *session.AviSession) *GslbClient {
+	return &GslbClient{aviSession: aviSession}
 }
 
-func (client *GslbClient) GetApiPath(uuid string) string {
-	path := "api/" + GSLB_RES_NAME
+func (client *GslbClient) getAPIPath(uuid string) string {
+	path := "api/gslb"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *GslbClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of Gslb objects
 func (client *GslbClient) GetAll() ([]*models.Gslb, error) {
 	var plist []*models.Gslb
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing Gslb by uuid
 func (client *GslbClient) Get(uuid string) (*models.Gslb, error) {
 	var obj *models.Gslb
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing Gslb by name
+// GetByName - Get an existing Gslb by name
 func (client *GslbClient) GetByName(name string) (*models.Gslb, error) {
 	var obj *models.Gslb
-	err := client.avi_session.GetObjectByName(GSLB_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("gslb", name, &obj)
 	return obj, err
 }
 
 // Create a new Gslb object
 func (client *GslbClient) Create(obj *models.Gslb) (*models.Gslb, error) {
 	var robj *models.Gslb
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing Gslb object
 func (client *GslbClient) Update(obj *models.Gslb) (*models.Gslb, error) {
 	var robj *models.Gslb
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing Gslb object with a given UUID
 func (client *GslbClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing Gslb object with a given name
+// DeleteByName - Delete an existing Gslb object with a given name
 func (client *GslbClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

@@ -127,9 +127,6 @@ type OpenStackConfiguration struct {
 	// Use keystone for user authentication.
 	UseKeystoneAuth bool `json:"use_keystone_auth,omitempty"`
 
-	// If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1.
-	UseNuagevip bool `json:"use_nuagevip,omitempty"`
-
 	// The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain.
 	// Required: true
 	Username string `json:"username"`

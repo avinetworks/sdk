@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	ANALYTICSPROFILE_RES_NAME = "analyticsprofile"
-)
-
 // AnalyticsProfileClient is a client for avi AnalyticsProfile resource
 type AnalyticsProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewAnalyticsProfileClient creates a new client for AnalyticsProfile resource
-func NewAnalyticsProfileClient(avi_session *session.AviSession) *AnalyticsProfileClient {
-	return &AnalyticsProfileClient{avi_session: avi_session}
+func NewAnalyticsProfileClient(aviSession *session.AviSession) *AnalyticsProfileClient {
+	return &AnalyticsProfileClient{aviSession: aviSession}
 }
 
-func (client *AnalyticsProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + ANALYTICSPROFILE_RES_NAME
+func (client *AnalyticsProfileClient) getAPIPath(uuid string) string {
+	path := "api/analyticsprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *AnalyticsProfileClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of AnalyticsProfile objects
 func (client *AnalyticsProfileClient) GetAll() ([]*models.AnalyticsProfile, error) {
 	var plist []*models.AnalyticsProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing AnalyticsProfile by uuid
 func (client *AnalyticsProfileClient) Get(uuid string) (*models.AnalyticsProfile, error) {
 	var obj *models.AnalyticsProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing AnalyticsProfile by name
+// GetByName - Get an existing AnalyticsProfile by name
 func (client *AnalyticsProfileClient) GetByName(name string) (*models.AnalyticsProfile, error) {
 	var obj *models.AnalyticsProfile
-	err := client.avi_session.GetObjectByName(ANALYTICSPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("analyticsprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new AnalyticsProfile object
 func (client *AnalyticsProfileClient) Create(obj *models.AnalyticsProfile) (*models.AnalyticsProfile, error) {
 	var robj *models.AnalyticsProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing AnalyticsProfile object
 func (client *AnalyticsProfileClient) Update(obj *models.AnalyticsProfile) (*models.AnalyticsProfile, error) {
 	var robj *models.AnalyticsProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing AnalyticsProfile object with a given UUID
 func (client *AnalyticsProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing AnalyticsProfile object with a given name
+// DeleteByName - Delete an existing AnalyticsProfile object with a given name
 func (client *AnalyticsProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

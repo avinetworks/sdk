@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	VRFCONTEXT_RES_NAME = "vrfcontext"
-)
-
 // VrfContextClient is a client for avi VrfContext resource
 type VrfContextClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewVrfContextClient creates a new client for VrfContext resource
-func NewVrfContextClient(avi_session *session.AviSession) *VrfContextClient {
-	return &VrfContextClient{avi_session: avi_session}
+func NewVrfContextClient(aviSession *session.AviSession) *VrfContextClient {
+	return &VrfContextClient{aviSession: aviSession}
 }
 
-func (client *VrfContextClient) GetApiPath(uuid string) string {
-	path := "api/" + VRFCONTEXT_RES_NAME
+func (client *VrfContextClient) getAPIPath(uuid string) string {
+	path := "api/vrfcontext"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *VrfContextClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of VrfContext objects
 func (client *VrfContextClient) GetAll() ([]*models.VrfContext, error) {
 	var plist []*models.VrfContext
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing VrfContext by uuid
 func (client *VrfContextClient) Get(uuid string) (*models.VrfContext, error) {
 	var obj *models.VrfContext
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing VrfContext by name
+// GetByName - Get an existing VrfContext by name
 func (client *VrfContextClient) GetByName(name string) (*models.VrfContext, error) {
 	var obj *models.VrfContext
-	err := client.avi_session.GetObjectByName(VRFCONTEXT_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("vrfcontext", name, &obj)
 	return obj, err
 }
 
 // Create a new VrfContext object
 func (client *VrfContextClient) Create(obj *models.VrfContext) (*models.VrfContext, error) {
 	var robj *models.VrfContext
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing VrfContext object
 func (client *VrfContextClient) Update(obj *models.VrfContext) (*models.VrfContext, error) {
 	var robj *models.VrfContext
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing VrfContext object with a given UUID
 func (client *VrfContextClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing VrfContext object with a given name
+// DeleteByName - Delete an existing VrfContext object with a given name
 func (client *VrfContextClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

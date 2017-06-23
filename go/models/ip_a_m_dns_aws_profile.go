@@ -19,16 +19,13 @@ type IPAMDNSAwsProfile struct {
 	// AWS secret access key.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
-	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.2.1.
-	TTL int32 `json:"ttl,omitempty"`
-
 	// Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1.
 	UsableDomains []string `json:"usable_domains,omitempty"`
 
-	// Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field deprecated in 17.2.1. Field introduced in 17.1.1.
+	// Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1.
 	UsableNetworkUuids []string `json:"usable_network_uuids,omitempty"`
 
-	// Use IAM roles instead of access and secret key.
+	// Placeholder for description of property use_iam_roles of obj type IpamDnsAwsProfile field type str  type boolean
 	UseIamRoles bool `json:"use_iam_roles,omitempty"`
 
 	// VPC name.
@@ -37,7 +34,4 @@ type IPAMDNSAwsProfile struct {
 	// VPC ID.
 	// Required: true
 	VpcID string `json:"vpc_id"`
-
-	// Network configuration for Virtual IP per AZ. Field introduced in 17.2.1.
-	Zones []*AwsZoneNetwork `json:"zones,omitempty"`
 }

@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	CLOUD_RES_NAME = "cloud"
-)
-
 // CloudClient is a client for avi Cloud resource
 type CloudClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewCloudClient creates a new client for Cloud resource
-func NewCloudClient(avi_session *session.AviSession) *CloudClient {
-	return &CloudClient{avi_session: avi_session}
+func NewCloudClient(aviSession *session.AviSession) *CloudClient {
+	return &CloudClient{aviSession: aviSession}
 }
 
-func (client *CloudClient) GetApiPath(uuid string) string {
-	path := "api/" + CLOUD_RES_NAME
+func (client *CloudClient) getAPIPath(uuid string) string {
+	path := "api/cloud"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *CloudClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of Cloud objects
 func (client *CloudClient) GetAll() ([]*models.Cloud, error) {
 	var plist []*models.Cloud
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing Cloud by uuid
 func (client *CloudClient) Get(uuid string) (*models.Cloud, error) {
 	var obj *models.Cloud
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing Cloud by name
+// GetByName - Get an existing Cloud by name
 func (client *CloudClient) GetByName(name string) (*models.Cloud, error) {
 	var obj *models.Cloud
-	err := client.avi_session.GetObjectByName(CLOUD_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("cloud", name, &obj)
 	return obj, err
 }
 
 // Create a new Cloud object
 func (client *CloudClient) Create(obj *models.Cloud) (*models.Cloud, error) {
 	var robj *models.Cloud
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing Cloud object
 func (client *CloudClient) Update(obj *models.Cloud) (*models.Cloud, error) {
 	var robj *models.Cloud
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing Cloud object with a given UUID
 func (client *CloudClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing Cloud object with a given name
+// DeleteByName - Delete an existing Cloud object with a given name
 func (client *CloudClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

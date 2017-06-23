@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	HARDWARESECURITYMODULEGROUP_RES_NAME = "hardwaresecuritymodulegroup"
-)
-
 // HardwareSecurityModuleGroupClient is a client for avi HardwareSecurityModuleGroup resource
 type HardwareSecurityModuleGroupClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewHardwareSecurityModuleGroupClient creates a new client for HardwareSecurityModuleGroup resource
-func NewHardwareSecurityModuleGroupClient(avi_session *session.AviSession) *HardwareSecurityModuleGroupClient {
-	return &HardwareSecurityModuleGroupClient{avi_session: avi_session}
+func NewHardwareSecurityModuleGroupClient(aviSession *session.AviSession) *HardwareSecurityModuleGroupClient {
+	return &HardwareSecurityModuleGroupClient{aviSession: aviSession}
 }
 
-func (client *HardwareSecurityModuleGroupClient) GetApiPath(uuid string) string {
-	path := "api/" + HARDWARESECURITYMODULEGROUP_RES_NAME
+func (client *HardwareSecurityModuleGroupClient) getAPIPath(uuid string) string {
+	path := "api/hardwaresecuritymodulegroup"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *HardwareSecurityModuleGroupClient) GetApiPath(uuid string) string 
 // GetAll is a collection API to get a list of HardwareSecurityModuleGroup objects
 func (client *HardwareSecurityModuleGroupClient) GetAll() ([]*models.HardwareSecurityModuleGroup, error) {
 	var plist []*models.HardwareSecurityModuleGroup
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing HardwareSecurityModuleGroup by uuid
 func (client *HardwareSecurityModuleGroupClient) Get(uuid string) (*models.HardwareSecurityModuleGroup, error) {
 	var obj *models.HardwareSecurityModuleGroup
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing HardwareSecurityModuleGroup by name
+// GetByName - Get an existing HardwareSecurityModuleGroup by name
 func (client *HardwareSecurityModuleGroupClient) GetByName(name string) (*models.HardwareSecurityModuleGroup, error) {
 	var obj *models.HardwareSecurityModuleGroup
-	err := client.avi_session.GetObjectByName(HARDWARESECURITYMODULEGROUP_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("hardwaresecuritymodulegroup", name, &obj)
 	return obj, err
 }
 
 // Create a new HardwareSecurityModuleGroup object
 func (client *HardwareSecurityModuleGroupClient) Create(obj *models.HardwareSecurityModuleGroup) (*models.HardwareSecurityModuleGroup, error) {
 	var robj *models.HardwareSecurityModuleGroup
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing HardwareSecurityModuleGroup object
 func (client *HardwareSecurityModuleGroupClient) Update(obj *models.HardwareSecurityModuleGroup) (*models.HardwareSecurityModuleGroup, error) {
 	var robj *models.HardwareSecurityModuleGroup
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing HardwareSecurityModuleGroup object with a given UUID
 func (client *HardwareSecurityModuleGroupClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing HardwareSecurityModuleGroup object with a given name
+// DeleteByName - Delete an existing HardwareSecurityModuleGroup object with a given name
 func (client *HardwareSecurityModuleGroupClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

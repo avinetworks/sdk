@@ -10,9 +10,6 @@ type VIMgrSEVMRuntime struct {
 	// availability_zone of VIMgrSEVMRuntime.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
 
-	// Placeholder for description of property azure_info of obj type VIMgrSEVMRuntime field type str  type object
-	AzureInfo *AzureInfo `json:"azure_info,omitempty"`
-
 	// cloud_name of VIMgrSEVMRuntime.
 	CloudName string `json:"cloud_name,omitempty"`
 

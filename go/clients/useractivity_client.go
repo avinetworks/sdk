@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	USERACTIVITY_RES_NAME = "useractivity"
-)
-
 // UserActivityClient is a client for avi UserActivity resource
 type UserActivityClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewUserActivityClient creates a new client for UserActivity resource
-func NewUserActivityClient(avi_session *session.AviSession) *UserActivityClient {
-	return &UserActivityClient{avi_session: avi_session}
+func NewUserActivityClient(aviSession *session.AviSession) *UserActivityClient {
+	return &UserActivityClient{aviSession: aviSession}
 }
 
-func (client *UserActivityClient) GetApiPath(uuid string) string {
-	path := "api/" + USERACTIVITY_RES_NAME
+func (client *UserActivityClient) getAPIPath(uuid string) string {
+	path := "api/useractivity"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *UserActivityClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of UserActivity objects
 func (client *UserActivityClient) GetAll() ([]*models.UserActivity, error) {
 	var plist []*models.UserActivity
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing UserActivity by uuid
 func (client *UserActivityClient) Get(uuid string) (*models.UserActivity, error) {
 	var obj *models.UserActivity
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing UserActivity by name
+// GetByName - Get an existing UserActivity by name
 func (client *UserActivityClient) GetByName(name string) (*models.UserActivity, error) {
 	var obj *models.UserActivity
-	err := client.avi_session.GetObjectByName(USERACTIVITY_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("useractivity", name, &obj)
 	return obj, err
 }
 
 // Create a new UserActivity object
 func (client *UserActivityClient) Create(obj *models.UserActivity) (*models.UserActivity, error) {
 	var robj *models.UserActivity
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing UserActivity object
 func (client *UserActivityClient) Update(obj *models.UserActivity) (*models.UserActivity, error) {
 	var robj *models.UserActivity
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing UserActivity object with a given UUID
 func (client *UserActivityClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing UserActivity object with a given name
+// DeleteByName - Delete an existing UserActivity object with a given name
 func (client *UserActivityClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

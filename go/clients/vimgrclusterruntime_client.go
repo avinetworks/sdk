@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	VIMGRCLUSTERRUNTIME_RES_NAME = "vimgrclusterruntime"
-)
-
 // VIMgrClusterRuntimeClient is a client for avi VIMgrClusterRuntime resource
 type VIMgrClusterRuntimeClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewVIMgrClusterRuntimeClient creates a new client for VIMgrClusterRuntime resource
-func NewVIMgrClusterRuntimeClient(avi_session *session.AviSession) *VIMgrClusterRuntimeClient {
-	return &VIMgrClusterRuntimeClient{avi_session: avi_session}
+func NewVIMgrClusterRuntimeClient(aviSession *session.AviSession) *VIMgrClusterRuntimeClient {
+	return &VIMgrClusterRuntimeClient{aviSession: aviSession}
 }
 
-func (client *VIMgrClusterRuntimeClient) GetApiPath(uuid string) string {
-	path := "api/" + VIMGRCLUSTERRUNTIME_RES_NAME
+func (client *VIMgrClusterRuntimeClient) getAPIPath(uuid string) string {
+	path := "api/vimgrclusterruntime"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *VIMgrClusterRuntimeClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of VIMgrClusterRuntime objects
 func (client *VIMgrClusterRuntimeClient) GetAll() ([]*models.VIMgrClusterRuntime, error) {
 	var plist []*models.VIMgrClusterRuntime
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing VIMgrClusterRuntime by uuid
 func (client *VIMgrClusterRuntimeClient) Get(uuid string) (*models.VIMgrClusterRuntime, error) {
 	var obj *models.VIMgrClusterRuntime
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing VIMgrClusterRuntime by name
+// GetByName - Get an existing VIMgrClusterRuntime by name
 func (client *VIMgrClusterRuntimeClient) GetByName(name string) (*models.VIMgrClusterRuntime, error) {
 	var obj *models.VIMgrClusterRuntime
-	err := client.avi_session.GetObjectByName(VIMGRCLUSTERRUNTIME_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("vimgrclusterruntime", name, &obj)
 	return obj, err
 }
 
 // Create a new VIMgrClusterRuntime object
 func (client *VIMgrClusterRuntimeClient) Create(obj *models.VIMgrClusterRuntime) (*models.VIMgrClusterRuntime, error) {
 	var robj *models.VIMgrClusterRuntime
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing VIMgrClusterRuntime object
 func (client *VIMgrClusterRuntimeClient) Update(obj *models.VIMgrClusterRuntime) (*models.VIMgrClusterRuntime, error) {
 	var robj *models.VIMgrClusterRuntime
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing VIMgrClusterRuntime object with a given UUID
 func (client *VIMgrClusterRuntimeClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing VIMgrClusterRuntime object with a given name
+// DeleteByName - Delete an existing VIMgrClusterRuntime object with a given name
 func (client *VIMgrClusterRuntimeClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	STRINGGROUP_RES_NAME = "stringgroup"
-)
-
 // StringGroupClient is a client for avi StringGroup resource
 type StringGroupClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewStringGroupClient creates a new client for StringGroup resource
-func NewStringGroupClient(avi_session *session.AviSession) *StringGroupClient {
-	return &StringGroupClient{avi_session: avi_session}
+func NewStringGroupClient(aviSession *session.AviSession) *StringGroupClient {
+	return &StringGroupClient{aviSession: aviSession}
 }
 
-func (client *StringGroupClient) GetApiPath(uuid string) string {
-	path := "api/" + STRINGGROUP_RES_NAME
+func (client *StringGroupClient) getAPIPath(uuid string) string {
+	path := "api/stringgroup"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *StringGroupClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of StringGroup objects
 func (client *StringGroupClient) GetAll() ([]*models.StringGroup, error) {
 	var plist []*models.StringGroup
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing StringGroup by uuid
 func (client *StringGroupClient) Get(uuid string) (*models.StringGroup, error) {
 	var obj *models.StringGroup
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing StringGroup by name
+// GetByName - Get an existing StringGroup by name
 func (client *StringGroupClient) GetByName(name string) (*models.StringGroup, error) {
 	var obj *models.StringGroup
-	err := client.avi_session.GetObjectByName(STRINGGROUP_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("stringgroup", name, &obj)
 	return obj, err
 }
 
 // Create a new StringGroup object
 func (client *StringGroupClient) Create(obj *models.StringGroup) (*models.StringGroup, error) {
 	var robj *models.StringGroup
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing StringGroup object
 func (client *StringGroupClient) Update(obj *models.StringGroup) (*models.StringGroup, error) {
 	var robj *models.StringGroup
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing StringGroup object with a given UUID
 func (client *StringGroupClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing StringGroup object with a given name
+// DeleteByName - Delete an existing StringGroup object with a given name
 func (client *StringGroupClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

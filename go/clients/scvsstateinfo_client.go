@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	SCVSSTATEINFO_RES_NAME = "scvsstateinfo"
-)
-
 // SCVsStateInfoClient is a client for avi SCVsStateInfo resource
 type SCVsStateInfoClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewSCVsStateInfoClient creates a new client for SCVsStateInfo resource
-func NewSCVsStateInfoClient(avi_session *session.AviSession) *SCVsStateInfoClient {
-	return &SCVsStateInfoClient{avi_session: avi_session}
+func NewSCVsStateInfoClient(aviSession *session.AviSession) *SCVsStateInfoClient {
+	return &SCVsStateInfoClient{aviSession: aviSession}
 }
 
-func (client *SCVsStateInfoClient) GetApiPath(uuid string) string {
-	path := "api/" + SCVSSTATEINFO_RES_NAME
+func (client *SCVsStateInfoClient) getAPIPath(uuid string) string {
+	path := "api/scvsstateinfo"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *SCVsStateInfoClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of SCVsStateInfo objects
 func (client *SCVsStateInfoClient) GetAll() ([]*models.SCVsStateInfo, error) {
 	var plist []*models.SCVsStateInfo
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing SCVsStateInfo by uuid
 func (client *SCVsStateInfoClient) Get(uuid string) (*models.SCVsStateInfo, error) {
 	var obj *models.SCVsStateInfo
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing SCVsStateInfo by name
+// GetByName - Get an existing SCVsStateInfo by name
 func (client *SCVsStateInfoClient) GetByName(name string) (*models.SCVsStateInfo, error) {
 	var obj *models.SCVsStateInfo
-	err := client.avi_session.GetObjectByName(SCVSSTATEINFO_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("scvsstateinfo", name, &obj)
 	return obj, err
 }
 
 // Create a new SCVsStateInfo object
 func (client *SCVsStateInfoClient) Create(obj *models.SCVsStateInfo) (*models.SCVsStateInfo, error) {
 	var robj *models.SCVsStateInfo
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing SCVsStateInfo object
 func (client *SCVsStateInfoClient) Update(obj *models.SCVsStateInfo) (*models.SCVsStateInfo, error) {
 	var robj *models.SCVsStateInfo
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing SCVsStateInfo object with a given UUID
 func (client *SCVsStateInfoClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing SCVsStateInfo object with a given name
+// DeleteByName - Delete an existing SCVsStateInfo object with a given name
 func (client *SCVsStateInfoClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {

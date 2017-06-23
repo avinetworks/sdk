@@ -8,22 +8,18 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-const (
-	SNMPTRAPPROFILE_RES_NAME = "snmptrapprofile"
-)
-
 // SnmpTrapProfileClient is a client for avi SnmpTrapProfile resource
 type SnmpTrapProfileClient struct {
-	avi_session *session.AviSession
+	aviSession *session.AviSession
 }
 
 // NewSnmpTrapProfileClient creates a new client for SnmpTrapProfile resource
-func NewSnmpTrapProfileClient(avi_session *session.AviSession) *SnmpTrapProfileClient {
-	return &SnmpTrapProfileClient{avi_session: avi_session}
+func NewSnmpTrapProfileClient(aviSession *session.AviSession) *SnmpTrapProfileClient {
+	return &SnmpTrapProfileClient{aviSession: aviSession}
 }
 
-func (client *SnmpTrapProfileClient) GetApiPath(uuid string) string {
-	path := "api/" + SNMPTRAPPROFILE_RES_NAME
+func (client *SnmpTrapProfileClient) getAPIPath(uuid string) string {
+	path := "api/snmptrapprofile"
 	if uuid != "" {
 		path += "/" + uuid
 	}
@@ -33,45 +29,45 @@ func (client *SnmpTrapProfileClient) GetApiPath(uuid string) string {
 // GetAll is a collection API to get a list of SnmpTrapProfile objects
 func (client *SnmpTrapProfileClient) GetAll() ([]*models.SnmpTrapProfile, error) {
 	var plist []*models.SnmpTrapProfile
-	err := client.avi_session.GetCollection(client.GetApiPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
 // Get an existing SnmpTrapProfile by uuid
 func (client *SnmpTrapProfileClient) Get(uuid string) (*models.SnmpTrapProfile, error) {
 	var obj *models.SnmpTrapProfile
-	err := client.avi_session.Get(client.GetApiPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// Get an existing SnmpTrapProfile by name
+// GetByName - Get an existing SnmpTrapProfile by name
 func (client *SnmpTrapProfileClient) GetByName(name string) (*models.SnmpTrapProfile, error) {
 	var obj *models.SnmpTrapProfile
-	err := client.avi_session.GetObjectByName(SNMPTRAPPROFILE_RES_NAME, name, &obj)
+	err := client.aviSession.GetObjectByName("snmptrapprofile", name, &obj)
 	return obj, err
 }
 
 // Create a new SnmpTrapProfile object
 func (client *SnmpTrapProfileClient) Create(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
 	var robj *models.SnmpTrapProfile
-	err := client.avi_session.Post(client.GetApiPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
 // Update an existing SnmpTrapProfile object
 func (client *SnmpTrapProfileClient) Update(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
 	var robj *models.SnmpTrapProfile
-	path := client.GetApiPath(obj.UUID)
-	err := client.avi_session.Put(path, obj, &robj)
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
 // Delete an existing SnmpTrapProfile object with a given UUID
 func (client *SnmpTrapProfileClient) Delete(uuid string) error {
-	return client.avi_session.Delete(client.GetApiPath(uuid))
+	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// Delete an existing SnmpTrapProfile object with a given name
+// DeleteByName - Delete an existing SnmpTrapProfile object with a given name
 func (client *SnmpTrapProfileClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {
