@@ -63,10 +63,7 @@ func (err AviError) Error() string {
 		err.verb, err.url, msg)
 }
 
-func NewAviError(verb string, url string, status_code int) AviError {
-	return AviError{verb: verb, url: url, httpStatusCode: status_code}
-}
-
+//AviSession maintains a session to the specified Avi Controller
 type AviSession struct {
 	// host specifies the hostname or IP address of the Avi Controller
 	host string
@@ -89,21 +86,24 @@ type AviSession struct {
 	// internal: session id for this session
 	sessionid string
 
-	// internal: csrf_token for this session
-	csrf_token string
+	// internal: csrfToken for this session
+	csrfToken string
 
 	// internal: referer field string to use in requests
 	prefix string
 }
 
+//NewAviSession initiates a session to AviController and returns it
 func NewAviSession(host string, username string, options ...func(*AviSession) error) (*AviSession, error) {
-	flag.Parse()
+	if flag.Parsed() == false {
+		flag.Parse()
+	}
 	avisess := &AviSession{
 		host:     host,
 		username: username,
 	}
 	avisess.sessionid = ""
-	avisess.csrf_token = ""
+	avisess.csrfToken = ""
 	avisess.prefix = "https://" + avisess.host + "/"
 	avisess.tenant = ""
 	avisess.insecure = false
@@ -114,11 +114,11 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 			return avisess, err
 		}
 	}
-	err := avisess.InitiateSession()
+	err := avisess.initiateSession()
 	return avisess, err
 }
 
-func (avisess *AviSession) InitiateSession() error {
+func (avisess *AviSession) initiateSession() error {
 	if avisess.insecure == true {
 		glog.Warning("Strict certificate verification is *DISABLED*")
 	}
@@ -128,7 +128,7 @@ func (avisess *AviSession) InitiateSession() error {
 	var res interface{}
 	rerror := avisess.Get("", res)
 
-	// now login to get session_id, csrf_token
+	// now login to get session_id, csrfToken
 	cred := make(map[string]string)
 	cred["username"] = avisess.username
 	cred["password"] = avisess.password
@@ -146,28 +146,31 @@ func (avisess *AviSession) InitiateSession() error {
 	return nil
 }
 
+// SetPassword - Use this for NewAviSession option argument for setting password
 func SetPassword(password string) func(*AviSession) error {
 	return func(sess *AviSession) error {
-		return sess.set_password(password)
+		return sess.setPassword(password)
 	}
 }
 
-func (avisess *AviSession) set_password(password string) error {
+func (avisess *AviSession) setPassword(password string) error {
 	avisess.password = password
 	return nil
 }
 
+// SetTenant - Use this for NewAviSession option argument for setting tenant
 func SetTenant(tenant string) func(*AviSession) error {
 	return func(sess *AviSession) error {
-		return sess.set_tenant(tenant)
+		return sess.setTenant(tenant)
 	}
 }
 
-func (avisess *AviSession) set_tenant(tenant string) error {
+func (avisess *AviSession) setTenant(tenant string) error {
 	avisess.tenant = tenant
 	return nil
 }
 
+// SetInsecure - Use this for NewAviSession option argument for allowing insecure connection to AviController
 func SetInsecure(avi *AviSession) error {
 	avi.insecure = true
 	return nil
@@ -177,9 +180,9 @@ func SetInsecure(avi *AviSession) error {
 // Helper routines for REST calls.
 //
 
-// rest_request makes a REST request to the Avi Controller's REST API.
+// restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
-func (avisess *AviSession) rest_request(verb string, uri string, payload interface{}) ([]byte, error) {
+func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}) ([]byte, error) {
 	var result []byte
 	url := avisess.prefix + uri
 
@@ -207,9 +210,9 @@ func (avisess *AviSession) rest_request(verb string, uri string, payload interfa
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-Avi-Version", "17.1.2")
-	if avisess.csrf_token != "" {
-		req.Header["X-CSRFToken"] = []string{avisess.csrf_token}
-		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avisess.csrf_token})
+	if avisess.csrfToken != "" {
+		req.Header["X-CSRFToken"] = []string{avisess.csrfToken}
+		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avisess.csrfToken})
 	}
 	if avisess.prefix != "" {
 		req.Header.Set("Referer", avisess.prefix)
@@ -241,8 +244,8 @@ func (avisess *AviSession) rest_request(verb string, uri string, payload interfa
 	for _, cookie := range resp.Cookies() {
 		glog.Infof("cookie: %v", cookie)
 		if cookie.Name == "csrftoken" {
-			avisess.csrf_token = cookie.Value
-			glog.Infof("Set the csrf token to %v", avisess.csrf_token)
+			avisess.csrfToken = cookie.Value
+			glog.Infof("Set the csrf token to %v", avisess.csrfToken)
 		}
 		if cookie.Name == "sessionid" {
 			avisess.sessionid = cookie.Value
@@ -252,20 +255,20 @@ func (avisess *AviSession) rest_request(verb string, uri string, payload interfa
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.rest_request(verb, uri, payload)
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
 		// session expired; initiate session and then retry the request
-		avisess.InitiateSession()
-		return avisess.rest_request(verb, uri, payload)
+		avisess.initiateSession()
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		glog.Errorf("Error: %v", resp)
 		bres, berr := ioutil.ReadAll(resp.Body)
 		if berr == nil {
-			mres, _ := ConvertAviResponseToMapInterface(bres)
+			mres, _ := convertAviResponseToMapInterface(bres)
 			glog.Infof("Error resp: %v", mres)
 			emsg := fmt.Sprintf("%v", mres)
 			errorResult.Message = &emsg
@@ -282,20 +285,16 @@ func (avisess *AviSession) rest_request(verb string, uri string, payload interfa
 	return result, err
 }
 
-func ConvertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
+func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
 	var result interface{}
 	err := json.Unmarshal(resbytes, &result)
 	return result, err
 }
 
+// AviCollectionResult for representing the collection type results from Avi
 type AviCollectionResult struct {
 	Count   int
 	Results json.RawMessage
-}
-
-func ConvertBytesToSpecificInterface(resbytes []byte, result interface{}) error {
-	err := json.Unmarshal(resbytes, &result)
-	return err
 }
 
 func debug(data []byte, err error) {
@@ -306,39 +305,39 @@ func debug(data []byte, err error) {
 	}
 }
 
-func (avisess *AviSession) rest_request_interface_response(verb string, url string,
+func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 	payload interface{}, response interface{}) error {
-	res, rerror := avisess.rest_request(verb, url, payload)
+	res, rerror := avisess.restRequest(verb, url, payload)
 	if rerror != nil || res == nil {
 		return rerror
 	}
 	return json.Unmarshal(res, &response)
 }
 
-// get issues a GET request against the avisess REST API.
+// Get issues a GET request against the avisess REST API.
 func (avisess *AviSession) Get(uri string, response interface{}) error {
-	return avisess.rest_request_interface_response("GET", uri, nil, response)
+	return avisess.restRequestInterfaceResponse("GET", uri, nil, response)
 }
 
-// post issues a POST request against the avisess REST API.
+// Post issues a POST request against the avisess REST API.
 func (avisess *AviSession) Post(uri string, payload interface{}, response interface{}) error {
-	return avisess.rest_request_interface_response("POST", uri, payload, response)
+	return avisess.restRequestInterfaceResponse("POST", uri, payload, response)
 }
 
-// put issues a PUT request against the avisess REST API.
+// Put issues a PUT request against the avisess REST API.
 func (avisess *AviSession) Put(uri string, payload interface{}, response interface{}) error {
-	return avisess.rest_request_interface_response("PUT", uri, payload, response)
+	return avisess.restRequestInterfaceResponse("PUT", uri, payload, response)
 }
 
-// delete issues a DELETE request against the avisess REST API.
+// Delete issues a DELETE request against the avisess REST API.
 func (avisess *AviSession) Delete(uri string) error {
-	return avisess.rest_request_interface_response("DELETE", uri, nil, nil)
+	return avisess.restRequestInterfaceResponse("DELETE", uri, nil, nil)
 }
 
-// get issues a GET request against the avisess REST API.
+// GetCollectionRaw issues a GET request and returns a AviCollectionResult with unmarshaled (raw) results section.
 func (avisess *AviSession) GetCollectionRaw(uri string) (AviCollectionResult, error) {
 	var result AviCollectionResult
-	res, rerror := avisess.rest_request("GET", uri, nil)
+	res, rerror := avisess.restRequest("GET", uri, nil)
 	if rerror != nil || res == nil {
 		return result, rerror
 	}
@@ -346,7 +345,8 @@ func (avisess *AviSession) GetCollectionRaw(uri string) (AviCollectionResult, er
 	return result, err
 }
 
-func (avisess *AviSession) GetCollection(uri string, obj_list interface{}) error {
+// GetCollection performs a collection API call and unmarshals the results into objList, which should be an array type
+func (avisess *AviSession) GetCollection(uri string, objList interface{}) error {
 	result, err := avisess.GetCollectionRaw(uri)
 	if err != nil {
 		return err
@@ -354,17 +354,20 @@ func (avisess *AviSession) GetCollection(uri string, obj_list interface{}) error
 	if result.Count == 0 {
 		return nil
 	}
-	return json.Unmarshal(result.Results, &obj_list)
+	return json.Unmarshal(result.Results, &objList)
 }
 
+// GetRaw performs a GET API call and returns raw data
 func (avisess *AviSession) GetRaw(uri string) ([]byte, error) {
-	return avisess.rest_request("GET", uri, nil)
+	return avisess.restRequest("GET", uri, nil)
 }
 
+// PostRaw performs a POST API call and returns raw data
 func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) {
-	return avisess.rest_request("POST", uri, payload)
+	return avisess.restRequest("POST", uri, payload)
 }
 
+// GetObjectByName performs GET with name filter
 func (avisess *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
 	uri := "api/" + obj + "?name=" + name
 	res, err := avisess.GetCollectionRaw(uri)

@@ -39,8 +39,8 @@ func TestAviSession(t *testing.T) {
 	}
 	resp = res.(map[string]interface{})
 	log.Println("count: ", resp["count"])
-	curr_count := resp["count"].(float64)
-	if curr_count != 1.0 {
+	currCount := resp["count"].(float64)
+	if currCount != 1.0 {
 		t.Errorf("could not find a tenant with name testtenant")
 		return
 	}

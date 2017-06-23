@@ -12,9 +12,9 @@ func TestAviPoolClient(t *testing.T) {
 	// Get All
 	// Update Pool
 	// Delete Pool
-	avi_sess, err := session.NewAviSession("10.10.25.201", "admin",
+	aviSession, err := session.NewAviSession("10.10.25.201", "admin",
 		session.SetPassword("avi123"), session.SetInsecure)
-	pclient := NewPoolClient(avi_sess)
+	pclient := NewPoolClient(aviSession)
 
 	obj := models.Pool{}
 	obj.Name = "testpool"
