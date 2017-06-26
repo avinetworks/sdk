@@ -37,7 +37,7 @@ Metrics are supported on objects virtualservice,
 </p>
 <p>
 <b>
-https:://${controller}/api/analytics/metrics/
+https://${controller}/api/analytics/metrics/
         ${object_type}/${object_uuid}/?metric_id=${metric_id}&
         ${additional_kv_options}
 
@@ -50,7 +50,7 @@ By default APIs use tenant admin. In order to perform queries for a specific non
 <p>
 For example use following api to query metricsl4_client.avg_bandwidth,l7_client.avg_complete_responses for virtualservice virtualservice-abc at intervals of 5mins and for past 6 hours (72 samples)
 <p>
-https:://avicontroller/api/analytics/metrics/
+https://avicontroller/api/analytics/metrics/
     virtualservice/virtualservice-abc/?metric_id=l4_client.avg_bandwidth,
     l7_client.avg_complete_responses&limit=72&step=300
     
@@ -123,14 +123,14 @@ Here are some examples
 <td> 3 </td>
 </tr>
 <tr>
-<td> server </td>
-<td> Pool Server ID in format server IP:port. Eg. 10.10.1.42:80 </td>
-<td>  </td>
+<td> detailed_header </td>
+<td> Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data </td>
+<td> True </td>
 </tr>
 <tr>
-<td> id </td>
-<td> ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query </td>
-<td>  </td>
+<td> dimension_filter_op </td>
+<td> Filters the obj_id based on the filter specified. </td>
+<td> 1 </td>
 </tr>
 <tr>
 <td> metric_entity </td>
@@ -153,8 +153,8 @@ Here are some examples
 <td> False </td>
 </tr>
 <tr>
-<td> serviceengine </td>
-<td> UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b </td>
+<td> attack </td>
+<td> Dos Attack ID filter </td>
 <td>  </td>
 </tr>
 <tr>
@@ -163,18 +163,18 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
+<td> id </td>
+<td> ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query </td>
+<td>  </td>
+</tr>
+<tr>
 <td> start </td>
 <td> Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00:00:00 </td>
 <td> 1970-01-01T00:00:00 </td>
 </tr>
 <tr>
-<td> attack </td>
-<td> Dos Attack ID filter </td>
-<td>  </td>
-</tr>
-<tr>
-<td> pool </td>
-<td> metrics for a member pool in a virtual service </td>
+<td> serviceengine </td>
+<td> UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b </td>
 <td>  </td>
 </tr>
 <tr>
@@ -213,9 +213,14 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> metric_id </td>
-<td> Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses </td>
+<td> pool </td>
+<td> metrics for a member pool in a virtual service </td>
 <td>  </td>
+</tr>
+<tr>
+<td> aggregate_entity </td>
+<td> Required if the metrics need to be aggregated across multiple entities like virtualservice </td>
+<td> False </td>
 </tr>
 <tr>
 <td> lang </td>
@@ -223,9 +228,9 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> aggregate_entity </td>
-<td> Required if the metrics need to be aggregated across multiple entities like virtualservice </td>
-<td> False </td>
+<td> metric_id </td>
+<td> Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses </td>
+<td>  </td>
 </tr>
 <tr>
 <td> microservice_levels </td>
@@ -248,14 +253,9 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> detailed_header </td>
-<td> Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data </td>
-<td> True </td>
-</tr>
-<tr>
-<td> dimension_filter_op </td>
-<td> Filters the obj_id based on the filter specified. </td>
-<td> 1 </td>
+<td> server </td>
+<td> Pool Server ID in format server IP:port. Eg. 10.10.1.42:80 </td>
+<td>  </td>
 </tr>
 <tr>
 <td> limit </td>
@@ -268,8 +268,8 @@ Here are some examples
 <td> True </td>
 </tr>
 <tr>
-<td> ipgroup </td>
-<td> IPGROUP filter Eg. UUID of the IP group </td>
+<td> browser </td>
+<td> Browser filter. Eg. browser=Chrome </td>
 <td>  </td>
 </tr>
 <tr>
@@ -283,8 +283,8 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> browser </td>
-<td> Browser filter. Eg. browser=Chrome </td>
+<td> ipgroup </td>
+<td> IPGROUP filter Eg. UUID of the IP group </td>
 <td>  </td>
 </tr>
 </table>
@@ -2868,6 +2868,13 @@ ServiceEngine Metrics
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> False </td>
+</tr>
+<tr>
+<td> se_stats.avg_dynamic_mem_usage </td>
+<td> Percentage of SE's dynamic memory usage. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_eth0_bandwidth </td>
@@ -6613,7 +6620,7 @@ VSERVER DNS metrics
 </tr>
 <tr>
 <td> dns_client.avg_gslbpool_member_not_available </td>
-<td> Rate of Gslb pool member not available per second </td>
+<td> Rate of GSLB pool member not available per second </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
@@ -7283,101 +7290,144 @@ SE Interface Metrics
 </tr>
 <tr>
 <td> se_if.avg_bandwidth </td>
-<td> Average transmit and receive network bandwidth for an interface in SE </td>
+<td> Average transmit and receive network bandwidth for an interface. </td>
 <td> BITS_PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_connection_table_usage </td>
-<td> connection table usage for interface 0 </td>
+<td> Connection table usage percentage. </td>
 <td> PERCENT </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_rx_bytes </td>
-<td> Received bytes from service engine interface </td>
+<td> Average rate of received bytes on an interface. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_rx_bytes_dropped_non_vs </td>
-<td> Received bytes dropped </td>
+<td> Average rate of received bytes dropped per second. </td>
 <td> PER_SECOND </td>
 <td> Y </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_rx_pkts </td>
-<td> Average received packets per second </td>
+<td> Average rate of received packets per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_rx_pkts_dropped_non_vs </td>
-<td> Received packets dropped </td>
+<td> Average rate of received packets dropped per second. </td>
 <td> PER_SECOND </td>
 <td> Y </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_syn_seen_entries_usage </td>
-<td> Percentage of syn seen entries currently used for interface </td>
+<td> Percentage of syn seen entries currently used for an interface. </td>
 <td> PERCENT </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_tx_bytes </td>
-<td> Transmitted bytes to service engine interface </td>
+<td> Average rate of transmitted bytes on an interface </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.avg_tx_pkts </td>
-<td> Average transmit packets per second </td>
+<td> Average rate of transmit packets per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.max_peak_bandwidth </td>
-<td> Maximum bandwidth seen on this interface in this sample period </td>
+<td> Maximum bandwidth observed on an interface. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.max_rx_bytes_absolute </td>
-<td> Total number of received bytes </td>
+<td> Total number of received bytes. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.max_tx_bytes_absolute </td>
-<td> Total number of transmitted bytes </td>
+<td> Total number of transmitted bytes. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.sum_connection_dropped_syn_seen_limit </td>
-<td> Number of times flowtable syn seen entry limit is reached </td>
+<td> Number of times flowtable syn seen entry limit is reached. </td>
 <td> METRIC_COUNT </td>
 <td> Y </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> se_if.sum_connection_dropped_table_limit </td>
-<td> Number of times flowtable entries limit is reached </td>
+<td> Number of times flowtable entries limit is reached. </td>
 <td> METRIC_COUNT </td>
 <td> Y </td>
-<td> False </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> User_Metrics Metrics </h2>
+<div class='container-fluid'>
+<p>
+User defined custom metrics using data-script
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> user_metrics.avg_counter </td>
+<td> Time averaged value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_counter&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> user_metrics.max_counter </td>
+<td> Maximum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_counter&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> user_metrics.min_counter </td>
+<td> Minimum 'per second' reported value of counter value over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> user_metrics.sum_counter </td>
+<td> Sum of counter valued reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_counter&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
 </tr>
 </table>
 </div>
