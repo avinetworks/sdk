@@ -16,6 +16,7 @@ from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from pkg_resources import parse_version
+from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -62,6 +63,8 @@ class F5Converter(AviConverter):
         self.prefix = args.prefix
         # Setting snat conversion flag using args
         self.con_snatpool = args.convertsnat
+        # Added not in use flag
+        self.not_in_use = args.not_in_use
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -210,11 +213,14 @@ class F5Converter(AviConverter):
             'current_version')
 
         avi_config = self.process_for_utils(avi_config_dict)
+        # Check if flag true then skip not in use object
+        if self.not_in_use:
+            avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(avi_config, output_dir, '%s-Output.json' %
                           report_name)
         if self.create_ansible:
             avi_traffic = AviAnsibleConverter(
-                avi_config, output_dir, self.prefix)
+                avi_config, output_dir, self.prefix, self.not_in_use)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password)
         if self.option == 'auto-upload':
@@ -382,6 +388,11 @@ if __name__ == "__main__":
     parser.add_argument('--convertsnat',
                         help='Flag for converting snatpool into individual addresses',
                         action = "store_true")
+    # Added not in use flag
+    parser.add_argument('--not_in_use',
+                        help='Flag for skipping not in use object',
+                        action="store_true")
+
 
 
     args = parser.parse_args()
