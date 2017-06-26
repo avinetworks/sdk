@@ -319,11 +319,21 @@ class LbvsConverter(object):
                         backup_server:
                     # Skipped lb vs if it has ip 0.0.0.0 and does not have
                     # backup pool and redirect url
-                    ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd,
-                                           STATUS_INDIRECT)
-                    LOG.error('%s %s Skipped VS, Service point to %s server '
-                              'and not have redirect action and backup vserver'
-                              % (cmd, key, ip_addr))
+                    if pool_group:
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                               full_cmd, STATUS_INDIRECT)
+                        LOG.warning('%s %s Skipped VS, Service point to %s server'
+                                  ' and not have redirect action and backup '
+                                  'vserver' % (cmd, key, ip_addr))
+                    else:
+                        msg = ('%s %s Skipped VS, Invalid VIP %s and do not '
+                               'have service assigned, redirect action and  '
+                               'backup vserver' % (cmd, key, ip_addr))
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                               full_cmd, STATUS_SKIPPED,
+                                               avi_object=msg)
+                        LOG.warning(msg)
+
                     continue
                 # Regex to check Vs has IPV6 address if yes the Skipped
                 if re.findall(ns_constants.IPV6_Address, ip_addr) or \
