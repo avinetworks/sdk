@@ -336,26 +336,69 @@ class CsvsConverter(object):
             LOG.debug("CS VS %s context switch between lb vs: %s" %
                       (key, lbvs_bindings))
 
-            for binding in lbvs_bindings:
-                lb_vs_obj = [obj for obj in lbvs_avi_conf
-                             if obj['name'] == binding]
-                if lb_vs_obj:
-                    lb_vs_obj = lb_vs_obj[0]
-                else:
-                    continue
-                lb_vs_mapped.append(lb_vs_obj)
-                lb_vs_obj = copy.deepcopy(lb_vs_obj)
-                lb_vs_obj.update(vs_obj)
-                vs_obj = lb_vs_obj
-            vs_obj.pop('pool_group_ref', None)
-
             case_sensitive = False \
                 if cs_vs.get('caseSensitive', '') == 'OFF' else True
-
             # Convert netscalar policy to AVI http policy set
             policy = policy_converter.convert(
                 bind_conf_list, ns_config, avi_config, tmp_used_pool_group_ref,
                 redirect_pools, 'bind cs vserver', case_sensitive)
+
+            for binding in lbvs_bindings:
+                lb_vs_obj = [obj for obj in lbvs_avi_conf
+                             if obj['name'] == binding]
+
+                if lb_vs_obj:
+                    lb_vs_obj = lb_vs_obj[0]
+                    lb_vs_mapped.append(lb_vs_obj)
+                    lb_vs_obj = copy.deepcopy(lb_vs_obj)
+                    lb_vs_obj.update(vs_obj)
+                    vs_obj = lb_vs_obj
+                else:
+                    policy_vs = [obj for obj in avi_config['Lbvs']
+                                 if binding in obj and obj[binding].get(
+                            'redirect_url', None)]
+                    if policy_vs:
+                        redirect_rule = {
+                            'index': 999,
+                            'redirect_action': {
+                                'keep_query': True,
+                                'status_code': "HTTP_REDIRECT_STATUS_CODE_302",
+                                'host': {
+                                    'tokens': [{
+                                        'str_value': policy_vs[0][
+                                            binding]['redirect_url'],
+                                        'type': "URI_TOKEN_TYPE_HOST",
+                                        'start_index': 0,
+                                        'end_index': 65535
+                                    }],
+                                    'type': "URI_PARAM_TYPE_TOKENIZED"
+                                },
+                                'protocol': "HTTPS",
+                                'port': 443
+                            },
+                            'enable': True,
+                            "name": '%s-default-redirect' % vs_name
+                        }
+                        if policy and policy.get('http_request_policy', None):
+                            policy['http_request_policy']['rules'].append(
+                                redirect_rule)
+                        elif policy:
+                            policy['http_request_policy']['rules'] = [
+                                redirect_rule]
+                        else:
+                            policy ={
+                                'name': "vs-%s-HTTP-Policy-Set" % vs_name,
+                                'tenant_ref': self.tenant_ref,
+                                'http_request_policy': {
+                                    'rules': [redirect_rule]
+                                },
+                                'is_internal_policy': False
+                            }
+                        ns_util.update_status_target_lb_vs_to_indirect(binding)
+                    else:
+                        continue
+            vs_obj.pop('pool_group_ref', None)
+
             # TODO move duplicate code for adding policy to vs in ns_util
             # Add the http policy set reference to VS in AVI
             if policy:
@@ -392,6 +435,8 @@ class CsvsConverter(object):
                          avi_config['PoolGroup']
                          if pool_group['name'] == updated_pool_group_ref]
                 if pools:
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        default_pool_group)
                     # clone the pool group if it is referenced to other VS ot
                     # http policy set
                     if updated_pool_group_ref in tmp_used_pool_group_ref:

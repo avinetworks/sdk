@@ -115,6 +115,8 @@ class PolicyConverter(object):
                     if targetVserver:
                         # Add status successful in CSV/report for bind if it has
                         # targetVserver
+                        ns_util.update_status_target_lb_vs_to_indirect(
+                            targetVserver)
                         ns_util.add_status_row(
                             policyLabels[0]['line_no'],
                             policy_label_netscalar_command, policyLabelName,
@@ -149,6 +151,9 @@ class PolicyConverter(object):
                     STATUS_SKIPPED, skipped_status)
                 continue
             targetLBVserver = bind_conf.get('targetLBVserver', )
+            if targetLBVserver:
+                ns_util.update_status_target_lb_vs_to_indirect(
+                    targetLBVserver)
             if not targetLBVserver and targetVserver:
                 targetLBVserver = targetVserver
                 # Added prefix for objects
@@ -224,8 +229,8 @@ class PolicyConverter(object):
                     STATUS_SKIPPED, skipped_status)
                 continue
         if len(http_request_policy['rules']) > 0:
-            is_policy_obj = True
             policy_obj['http_request_policy'] = http_request_policy
+            is_policy_obj = True
         elif len(http_security_policy['rules']) > 0:
             policy_obj['http_request_policy'] = http_security_policy
             is_policy_obj = True
@@ -357,8 +362,6 @@ class PolicyConverter(object):
             if cs_action:
                 if redirect_uri:
                     policy_rules['redirect_action'] = cs_action
-                    ns_util.update_status_target_lb_vs_to_indirect(
-                        targetLBVserver)
                 else:
                     policy_rules['switching_action'] = cs_action
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
@@ -380,8 +383,6 @@ class PolicyConverter(object):
                         name, targetLBVserver, redirect_pools, avi_config,
                         tmp_pool_ref)
                     policy_rules['redirect_action'] = cs_action
-                    ns_util.update_status_target_lb_vs_to_indirect(
-                        targetLBVserver)
                 elif 'backupvserver' in targetLBVserver_name[targetLBVserver]:
                     tmp_pool_ref.append(str(targetLBVserver_name
                                             [targetLBVserver]['backupvserver']))
