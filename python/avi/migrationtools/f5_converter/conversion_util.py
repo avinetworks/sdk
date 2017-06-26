@@ -490,7 +490,7 @@ def update_service(port, vs, enable_ssl):
 
 
 def get_service_obj(destination, avi_config, enable_ssl, controller_version,
-                    tenant_name, cloud_name, prefix):
+                    tenant_name, cloud_name, prefix, vs_name):
     """
     Checks port overlapping scenario for port value 0 in F5 config
     :param destination: IP and Port destination of VS
@@ -505,13 +505,14 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     parts = destination.split(':')
     ip_addr = parts[0]
     ip_addr = ip_addr.strip()
+    vrf=None
     # Removed unwanted string from ip address
     if '%' in ip_addr:
-        ip_addr = ip_addr.split('%')[0]
+        ip_addr, vrf = ip_addr.split('%')
     # Added support to skip virtualservice with ip address any
     if ip_addr == 'any':
         LOG.debug("Skipped:VS with IP address: %s" % str(destination))
-        return None, None, None
+        return None, None, None, None
     # Added check for IP V4
     matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
     if not matches or ip_addr == '0.0.0.0':
@@ -538,7 +539,7 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     # Port is None then skip vs
     if not port:
         LOG.debug("Skipped:Port not supported %s" % str(parts[1]))
-        return None, None, None
+        return None, None, None, None
     if int(port) > 0:
         for vs in vs_dup_ips:
             service_updated = update_service(port, vs, enable_ssl)
@@ -568,16 +569,23 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         else:
             services_obj = [{'port': 1, 'port_range_end': conv_const.PORT_END,
                              'enable_ssl': enable_ssl}]
+    # Getting vrf ref
+    if vrf:
+        add_vrf(avi_config, vrf, cloud_name)
+    vrf_config = avi_config['VrfContext']
+    vrf_ref = get_vrf_context_ref(destination, vrf_config,
+                                  'virtual service', vs_name, cloud_name)
 
     updated_vsvip_ref = None
     if parse_version(controller_version) >= parse_version('17.1'):
         vs_vip_name = create_update_vsvip(
             ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'),
-            get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix)
+            get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix,
+            vrf_ref)
         # VS VIP object to be put in admin tenant to shared across tenants
         updated_vsvip_ref = get_object_ref(vs_vip_name, 'vsvip', 'admin',
                                            cloud_name, prefix)
-    return services_obj, ip_addr, updated_vsvip_ref
+    return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
 
 def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
@@ -880,14 +888,16 @@ def create_network_security_rule(name, ip, mask, tenant):
     return rule
 
 
-def add_vrf(avi_config, vrf):
+def add_vrf(avi_config, vrf, cloud_ref):
     vrf_name = 'vrf-%s' % vrf
     vrf_list = avi_config['VrfContext']
     vrf_obj = [obj for obj in vrf_list if obj['name'] == vrf_name]
     if not vrf_obj:
         vrf_obj = {
             "name": vrf_name,
-            "system_default": False
+            "system_default": False,
+            "cloud_ref": get_object_ref(cloud_ref, 'cloud'),
+            "tenant_ref": get_object_ref('admin', 'tenant')
         }
         vrf_list.append(vrf_obj)
 
@@ -1067,7 +1077,7 @@ def get_object_ref(object_name, object_type, tenant='admin',
     if prefix:
         object_name = prefix + '-' + object_name
 
-    cloud_supported_types = ['pool', 'poolgroup', 'vsvip']
+    cloud_supported_types = ['pool', 'poolgroup', 'vsvip', 'vrfcontext']
     if not cloud_name:
         cloud_name = "Default-Cloud"
 
@@ -1076,7 +1086,7 @@ def get_object_ref(object_name, object_type, tenant='admin',
         if object_name not in tenants:
             tenants.append(object_name)
     elif object_type == 'cloud':
-        ref = '/api/cloud/?tenant=admin&name=%s' % object_name
+        ref = '/api/%s/?tenant=admin&name=%s' % (object_type, object_name)
     elif object_type in cloud_supported_types:
         ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (
             object_type, tenant, object_name, cloud_name)
@@ -1570,7 +1580,8 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
         vs_csv_row['Complexity Level'] = conv_const.COMPLEXITY_BASIC
 
 
-def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix,
+                        vrf_ref):
     """
     This functions defines that create or update VSVIP object.
     :param vip: vip of VS
@@ -1603,6 +1614,98 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
                 }
             ],
         }
+        if vrf_ref:
+            vsvip_object["vrf_context_ref"] = vrf_ref
         vsvip_config.append(vsvip_object)
 
     return name
+
+
+def update_static_route(route):
+    """
+    This function defines that convert convert static routes
+    :param route: Object of net static route
+    :return: Return static route object
+    """
+
+    next_hop_ip = route.get('gw', None)
+    if next_hop_ip and '%' in next_hop_ip:
+        next_hop_ip = next_hop_ip.split('%')[0]
+
+    ip_addr = route.get('network', None)
+
+    # Get the mask from subnet mask
+    if ip_addr and '%' in ip_addr:
+        ip_addr, vrf = ip_addr.split('%')
+        vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf else \
+            None
+    if ip_addr and '/' in ip_addr:
+        ip_addr = ip_addr.split('/')[0]
+
+    # set subnet mask to 0.0.0.0 if its equal to default
+    if not ip_addr or ip_addr == 'default':
+        ip_addr = '0.0.0.0'
+
+    mask = sum([bin(int(x)).count('1') for x in ip_addr.split('.')])
+    if next_hop_ip and ip_addr:
+        static_route = {
+            "route_id": 1,
+            "prefix": {
+                "ip_addr": {
+                    "type": "V4",
+                    "addr": ip_addr
+                },
+                "mask": mask
+            },
+            "next_hop": {
+                "type": "V4",
+                "addr": next_hop_ip
+            }
+        }
+        return static_route, vrf
+    else:
+        return None,None
+
+
+def get_vrf_context_ref(f5_entity_mem, vrf_config, entity_string,
+                        entity_name, cloud):
+    """
+    Searches for vrf context refs in converted pool config
+    :param f5_entity_mem: f5 entity or object like pool
+    :param vrf_config: converted vrf config
+    :param entity_string: entity string
+    :param entity_name: name of f5 entity
+    :param cloud: name of the cloud
+    :return: returns list of vrf refs assigned to entity in avi config
+    """
+    vrf_ref = None
+    f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] or \
+                    f5_entity_mem if f5_entity_mem else None
+    vrf = 'vrf-' + f5_entity_mem.split('%')[1] if f5_entity_mem and '%' in \
+                                                        f5_entity_mem else None
+    vrf_obj = [obj for obj in vrf_config if vrf and obj["name"] == vrf]
+    if vrf_obj:
+        vrf_ref = get_object_ref(vrf_obj[0]['name'], 'vrfcontext',
+                                 cloud_name= cloud)
+    else:
+        LOG.warning("VRF not found for %s %s" % (entity_string,
+                                                 entity_name))
+    return vrf_ref
+
+
+def net_to_static_route(f5_config, avi_config):
+
+    net_config = f5_config.get('route', {})
+    avi_vrf = avi_config["VrfContext"]
+    # Convert net static route to vrf static route
+    for key, route in net_config.iteritems():
+        static_route, vrf = update_static_route(route)
+        if static_route:
+            for obj in avi_vrf:
+                if obj['name'] == vrf:
+                    if obj.get('static_routes'):
+                        rid = max([i['route_id'] for i in obj['static_routes']])
+                        static_route['route_id'] = rid + 1
+                        obj['static_routes'].append(static_route)
+                    else:
+                        obj['static_routes'] = [static_route]

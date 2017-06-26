@@ -125,18 +125,16 @@ class VSConfigConv(object):
         destination = f5_vs.get("destination", None)
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         # if destination is not present then skip vs.
-        services_obj, ip_addr, vsvip_ref = conv_utils.get_service_obj(
+        services_obj, ip_addr, vsvip_ref, vrf_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
-            cloud_name, self.prefix)
+            cloud_name, self.prefix, vs_name)
         # Added Check for if port is no digit skip vs.
         if not services_obj and not ip_addr and not vsvip_ref:
             LOG.debug("Skipped: Virtualservice: %s" % vs_name)
             conv_utils.add_status_row('virtual', None, vs_name,
                                       final.STATUS_SKIPPED)
             return
-        if '%' in ip_addr:
-            ip_addr, vrf = ip_addr.split('%')
-            conv_utils.add_vrf(avi_config, vrf)
+
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
@@ -214,6 +212,9 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+
+        if vrf_ref:
+            vs_obj['vrf_context_ref'] = vrf_ref
         if parse_version(controller_version) >= parse_version('17.1'):
             vs_obj['vip'] = [vip]
             vs_obj['vsvip_ref'] = vsvip_ref
