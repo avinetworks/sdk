@@ -1,0 +1,2025 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi HTTPPolicySet Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi HTTPPolicySet Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#httppolicysetGet"><code><span class="http-method">get</span> /httppolicyset</code></a></li>
+  <li><a href="#httppolicysetPost"><code><span class="http-method">post</span> /httppolicyset</code></a></li>
+  <li><a href="#httppolicysetUuidDelete"><code><span class="http-method">delete</span> /httppolicyset/{uuid}</code></a></li>
+  <li><a href="#httppolicysetUuidGet"><code><span class="http-method">get</span> /httppolicyset/{uuid}</code></a></li>
+  <li><a href="#httppolicysetUuidPatch"><code><span class="http-method">patch</span> /httppolicyset/{uuid}</code></a></li>
+  <li><a href="#httppolicysetUuidPut"><code><span class="http-method">put</span> /httppolicyset/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="httppolicysetGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /httppolicyset</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#HTTPPolicySetApiResponse">HTTPPolicySetApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "http_request_policy" : {
+      "rules" : [ {
+        "all_headers" : true,
+        "switching_action" : {
+          "pool_ref" : "aeiou",
+          "server" : {
+            "hostname" : "aeiou",
+            "port" : 123,
+            "ip" : ""
+          },
+          "file" : {
+            "file_content" : "aeiou",
+            "content_type" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "action" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        },
+        "log" : true,
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "protocol" : {
+            "match_criteria" : "aeiou",
+            "protocols" : "aeiou"
+          },
+          "cookie" : {
+            "match_criteria" : "aeiou",
+            "name" : "aeiou",
+            "value" : "aeiou",
+            "match_case" : "aeiou"
+          },
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "query" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "vs_port" : {
+            "match_criteria" : "aeiou",
+            "ports" : [ "" ]
+          },
+          "client_ip" : {
+            "group_refs" : [ "aeiou" ],
+            "match_criteria" : "aeiou",
+            "prefixes" : [ {
+              "ip_addr" : "",
+              "mask" : 123
+            } ],
+            "ranges" : [ {
+              "end" : "",
+              "begin" : ""
+            } ],
+            "addrs" : [ {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            } ]
+          },
+          "hdrs" : [ {
+            "match_criteria" : "aeiou",
+            "hdr" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          } ],
+          "version" : {
+            "match_criteria" : "aeiou",
+            "versions" : [ "aeiou" ]
+          }
+        },
+        "name" : "aeiou",
+        "redirect_action" : {
+          "keep_query" : true,
+          "path" : "",
+          "protocol" : "aeiou",
+          "status_code" : "aeiou",
+          "port" : 123,
+          "host" : {
+            "tokens" : [ {
+              "start_index" : 123,
+              "str_value" : "aeiou",
+              "end_index" : 123,
+              "type" : "aeiou"
+            } ],
+            "type" : "aeiou"
+          }
+        },
+        "hdr_action" : [ {
+          "cookie" : {
+            "name" : "aeiou",
+            "value" : "aeiou"
+          },
+          "hdr" : {
+            "name" : "aeiou",
+            "value" : {
+              "val" : "aeiou",
+              "var" : "aeiou"
+            }
+          },
+          "action" : "aeiou"
+        } ],
+        "index" : 123,
+        "rewrite_url_action" : {
+          "path" : "",
+          "host_hdr" : "",
+          "query" : {
+            "keep_query" : true,
+            "add_string" : "aeiou"
+          }
+        }
+      } ]
+    },
+    "tenant_ref" : "aeiou",
+    "http_security_policy" : {
+      "rules" : [ {
+        "log" : true,
+        "enable" : true,
+        "match" : "",
+        "name" : "aeiou",
+        "action" : {
+          "https_port" : 123,
+          "file" : "",
+          "rate_limit" : {
+            "period" : 123,
+            "count" : 123,
+            "action" : {
+              "redirect" : "",
+              "file" : "",
+              "status_code" : "aeiou",
+              "type" : "aeiou"
+            },
+            "burst_sz" : 123,
+            "explicit_tracking" : true,
+            "fine_grain" : true,
+            "http_cookie" : "aeiou",
+            "http_header" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "action" : "aeiou"
+        },
+        "index" : 123
+      } ]
+    },
+    "is_internal_policy" : true,
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "cloud_config_cksum" : "aeiou",
+    "created_by" : "aeiou",
+    "http_response_policy" : {
+      "rules" : [ {
+        "all_headers" : true,
+        "log" : true,
+        "enable" : true,
+        "loc_hdr_action" : {
+          "keep_query" : true,
+          "path" : "",
+          "protocol" : "aeiou",
+          "port" : 123,
+          "host" : ""
+        },
+        "match" : {
+          "cookie" : "",
+          "method" : "",
+          "host_hdr" : "",
+          "query" : "",
+          "vs_port" : "",
+          "hdrs" : [ "" ],
+          "version" : "",
+          "path" : "",
+          "rsp_hdrs" : [ "" ],
+          "protocol" : "",
+          "client_ip" : "",
+          "loc_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "status" : {
+            "match_criteria" : "aeiou",
+            "ranges" : [ {
+              "end" : 123,
+              "begin" : 123
+            } ],
+            "status_codes" : [ "" ]
+          }
+        },
+        "name" : "aeiou",
+        "hdr_action" : [ "" ],
+        "index" : 123
+      } ]
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#HTTPPolicySetApiResponse">HTTPPolicySetApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="httppolicysetPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /httppolicyset</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; HTTPPolicySet object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#HTTPPolicySet">HTTPPolicySet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_request_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "switching_action" : {
+        "pool_ref" : "aeiou",
+        "server" : {
+          "hostname" : "aeiou",
+          "port" : 123,
+          "ip" : ""
+        },
+        "file" : {
+          "file_content" : "aeiou",
+          "content_type" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
+      "log" : true,
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "redirect_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "status_code" : "aeiou",
+        "port" : 123,
+        "host" : {
+          "tokens" : [ {
+            "start_index" : 123,
+            "str_value" : "aeiou",
+            "end_index" : 123,
+            "type" : "aeiou"
+          } ],
+          "type" : "aeiou"
+        }
+      },
+      "hdr_action" : [ {
+        "cookie" : {
+          "name" : "aeiou",
+          "value" : "aeiou"
+        },
+        "hdr" : {
+          "name" : "aeiou",
+          "value" : {
+            "val" : "aeiou",
+            "var" : "aeiou"
+          }
+        },
+        "action" : "aeiou"
+      } ],
+      "index" : 123,
+      "rewrite_url_action" : {
+        "path" : "",
+        "host_hdr" : "",
+        "query" : {
+          "keep_query" : true,
+          "add_string" : "aeiou"
+        }
+      }
+    } ]
+  },
+  "tenant_ref" : "aeiou",
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "file" : "",
+        "rate_limit" : {
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "cloud_config_cksum" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#HTTPPolicySet">HTTPPolicySet</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="httppolicysetUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /httppolicyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="httppolicysetUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /httppolicyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#HTTPPolicySet">HTTPPolicySet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_request_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "switching_action" : {
+        "pool_ref" : "aeiou",
+        "server" : {
+          "hostname" : "aeiou",
+          "port" : 123,
+          "ip" : ""
+        },
+        "file" : {
+          "file_content" : "aeiou",
+          "content_type" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
+      "log" : true,
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "redirect_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "status_code" : "aeiou",
+        "port" : 123,
+        "host" : {
+          "tokens" : [ {
+            "start_index" : 123,
+            "str_value" : "aeiou",
+            "end_index" : 123,
+            "type" : "aeiou"
+          } ],
+          "type" : "aeiou"
+        }
+      },
+      "hdr_action" : [ {
+        "cookie" : {
+          "name" : "aeiou",
+          "value" : "aeiou"
+        },
+        "hdr" : {
+          "name" : "aeiou",
+          "value" : {
+            "val" : "aeiou",
+            "var" : "aeiou"
+          }
+        },
+        "action" : "aeiou"
+      } ],
+      "index" : 123,
+      "rewrite_url_action" : {
+        "path" : "",
+        "host_hdr" : "",
+        "query" : {
+          "keep_query" : true,
+          "add_string" : "aeiou"
+        }
+      }
+    } ]
+  },
+  "tenant_ref" : "aeiou",
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "file" : "",
+        "rate_limit" : {
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "cloud_config_cksum" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#HTTPPolicySet">HTTPPolicySet</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="httppolicysetUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /httppolicyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; HTTPPolicySet object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#HTTPPolicySet">HTTPPolicySet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_request_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "switching_action" : {
+        "pool_ref" : "aeiou",
+        "server" : {
+          "hostname" : "aeiou",
+          "port" : 123,
+          "ip" : ""
+        },
+        "file" : {
+          "file_content" : "aeiou",
+          "content_type" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
+      "log" : true,
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "redirect_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "status_code" : "aeiou",
+        "port" : 123,
+        "host" : {
+          "tokens" : [ {
+            "start_index" : 123,
+            "str_value" : "aeiou",
+            "end_index" : 123,
+            "type" : "aeiou"
+          } ],
+          "type" : "aeiou"
+        }
+      },
+      "hdr_action" : [ {
+        "cookie" : {
+          "name" : "aeiou",
+          "value" : "aeiou"
+        },
+        "hdr" : {
+          "name" : "aeiou",
+          "value" : {
+            "val" : "aeiou",
+            "var" : "aeiou"
+          }
+        },
+        "action" : "aeiou"
+      } ],
+      "index" : 123,
+      "rewrite_url_action" : {
+        "path" : "",
+        "host_hdr" : "",
+        "query" : {
+          "keep_query" : true,
+          "add_string" : "aeiou"
+        }
+      }
+    } ]
+  },
+  "tenant_ref" : "aeiou",
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "file" : "",
+        "rate_limit" : {
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "cloud_config_cksum" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#HTTPPolicySet">HTTPPolicySet</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="httppolicysetUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /httppolicyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">httppolicysetUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; HTTPPolicySet object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#HTTPPolicySet">HTTPPolicySet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_request_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "switching_action" : {
+        "pool_ref" : "aeiou",
+        "server" : {
+          "hostname" : "aeiou",
+          "port" : 123,
+          "ip" : ""
+        },
+        "file" : {
+          "file_content" : "aeiou",
+          "content_type" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
+      "log" : true,
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "redirect_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "status_code" : "aeiou",
+        "port" : 123,
+        "host" : {
+          "tokens" : [ {
+            "start_index" : 123,
+            "str_value" : "aeiou",
+            "end_index" : 123,
+            "type" : "aeiou"
+          } ],
+          "type" : "aeiou"
+        }
+      },
+      "hdr_action" : [ {
+        "cookie" : {
+          "name" : "aeiou",
+          "value" : "aeiou"
+        },
+        "hdr" : {
+          "name" : "aeiou",
+          "value" : {
+            "val" : "aeiou",
+            "var" : "aeiou"
+          }
+        },
+        "action" : "aeiou"
+      } ],
+      "index" : 123,
+      "rewrite_url_action" : {
+        "path" : "",
+        "host_hdr" : "",
+        "query" : {
+          "keep_query" : true,
+          "add_string" : "aeiou"
+        }
+      }
+    } ]
+  },
+  "tenant_ref" : "aeiou",
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "file" : "",
+        "rate_limit" : {
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "cloud_config_cksum" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#HTTPPolicySet">HTTPPolicySet</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#CookieMatch"><code>CookieMatch</code></a></li>
+    <li><a href="#HTTPCookieData"><code>HTTPCookieData</code></a></li>
+    <li><a href="#HTTPHdrAction"><code>HTTPHdrAction</code></a></li>
+    <li><a href="#HTTPHdrData"><code>HTTPHdrData</code></a></li>
+    <li><a href="#HTTPHdrValue"><code>HTTPHdrValue</code></a></li>
+    <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
+    <li><a href="#HTTPPolicySet"><code>HTTPPolicySet</code></a></li>
+    <li><a href="#HTTPPolicySetApiResponse"><code>HTTPPolicySetApiResponse</code></a></li>
+    <li><a href="#HTTPRedirectAction"><code>HTTPRedirectAction</code></a></li>
+    <li><a href="#HTTPRequestPolicy"><code>HTTPRequestPolicy</code></a></li>
+    <li><a href="#HTTPRequestRule"><code>HTTPRequestRule</code></a></li>
+    <li><a href="#HTTPResponsePolicy"><code>HTTPResponsePolicy</code></a></li>
+    <li><a href="#HTTPResponseRule"><code>HTTPResponseRule</code></a></li>
+    <li><a href="#HTTPRewriteLocHdrAction"><code>HTTPRewriteLocHdrAction</code></a></li>
+    <li><a href="#HTTPRewriteURLAction"><code>HTTPRewriteURLAction</code></a></li>
+    <li><a href="#HTTPSecurityAction"><code>HTTPSecurityAction</code></a></li>
+    <li><a href="#HTTPSecurityPolicy"><code>HTTPSecurityPolicy</code></a></li>
+    <li><a href="#HTTPSecurityRule"><code>HTTPSecurityRule</code></a></li>
+    <li><a href="#HTTPStatusMatch"><code>HTTPStatusMatch</code></a></li>
+    <li><a href="#HTTPStatusRange"><code>HTTPStatusRange</code></a></li>
+    <li><a href="#HTTPSwitchingAction"><code>HTTPSwitchingAction</code></a></li>
+    <li><a href="#HTTPVersionMatch"><code>HTTPVersionMatch</code></a></li>
+    <li><a href="#HdrMatch"><code>HdrMatch</code></a></li>
+    <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#LocationHdrMatch"><code>LocationHdrMatch</code></a></li>
+    <li><a href="#MatchTarget"><code>MatchTarget</code></a></li>
+    <li><a href="#MethodMatch"><code>MethodMatch</code></a></li>
+    <li><a href="#PathMatch"><code>PathMatch</code></a></li>
+    <li><a href="#PoolServer"><code>PoolServer</code></a></li>
+    <li><a href="#PortMatch"><code>PortMatch</code></a></li>
+    <li><a href="#ProtocolMatch"><code>ProtocolMatch</code></a></li>
+    <li><a href="#QueryMatch"><code>QueryMatch</code></a></li>
+    <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
+    <li><a href="#RateProfile"><code>RateProfile</code></a></li>
+    <li><a href="#ResponseMatchTarget"><code>ResponseMatchTarget</code></a></li>
+    <li><a href="#URIParam"><code>URIParam</code></a></li>
+    <li><a href="#URIParamQuery"><code>URIParamQuery</code></a></li>
+    <li><a href="#URIParamToken"><code>URIParamToken</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="CookieMatch">CookieMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the cookie. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String value in the cookie. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPCookieData">HTTPCookieData</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cookie name. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cookie value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPHdrAction">HTTPHdrAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR. </div>
+<div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPCookieData">HTTPCookieData</a></span> Cookie information. </div>
+<div class="param">hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPHdrData">HTTPHdrData</a></span> HTTP header information. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPHdrData">HTTPHdrData</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPHdrValue">HTTPHdrValue</a></span> HTTP header value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPHdrValue">HTTPHdrValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header value or variable representing an HTTP header. </div>
+<div class="param">var (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPLocalFile">HTTPLocalFile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">content_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mime-type of the content in the file. </div>
+<div class="param">file_content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> File content to used in the local HTTP response body. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPPolicySet">HTTPPolicySet</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
+<div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">http_request_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRequestPolicy">HTTPRequestPolicy</a></span> HTTP request policy for the virtual service. </div>
+<div class="param">http_response_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPResponsePolicy">HTTPResponsePolicy</a></span> HTTP response policy for the virtual service. </div>
+<div class="param">http_security_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityPolicy">HTTPSecurityPolicy</a></span> HTTP security policy for the virtual service. </div>
+<div class="param">is_internal_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HTTP Policy Set. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the HTTP Policy Set. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPPolicySetApiResponse">HTTPPolicySetApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#HTTPPolicySet">array[HTTPPolicySet]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRedirectAction">HTTPRedirectAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+<div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query of the incoming request URI in the redirected URI. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
+<div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol type. Enum options - HTTP, HTTPS. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRequestPolicy">HTTPRequestPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRequestRule">array[HTTPRequestRule]</a></span> Add rules to the HTTP request policy. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRequestRule">HTTPRequestRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log all HTTP headers upon rule match. </div>
+<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. </div>
+<div class="param">hdr_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPHdrAction">array[HTTPHdrAction]</a></span> HTTP header rewrite action. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. format: int32</div>
+<div class="param">log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log HTTP request upon rule match. </div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#MatchTarget">MatchTarget</a></span> Add match criteria to the rule. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. </div>
+<div class="param">redirect_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> HTTP redirect action. </div>
+<div class="param">rewrite_url_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRewriteURLAction">HTTPRewriteURLAction</a></span> HTTP request URL rewrite action. </div>
+<div class="param">switching_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSwitchingAction">HTTPSwitchingAction</a></span> Content switching action. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPResponsePolicy">HTTPResponsePolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPResponseRule">array[HTTPResponseRule]</a></span> Add rules to the HTTP response policy. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPResponseRule">HTTPResponseRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log all HTTP headers upon rule match. </div>
+<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. </div>
+<div class="param">hdr_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPHdrAction">array[HTTPHdrAction]</a></span> HTTP header rewrite action. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. format: int32</div>
+<div class="param">loc_hdr_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRewriteLocHdrAction">HTTPRewriteLocHdrAction</a></span> Location header rewrite action. </div>
+<div class="param">log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log HTTP request upon rule match. </div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#ResponseMatchTarget">ResponseMatchTarget</a></span> Add match criteria to the rule. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRewriteLocHdrAction">HTTPRewriteLocHdrAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+<div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query from the server side redirect URI. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to use in the redirected URI. Allowed values are 1-65535. format: int32</div>
+<div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP protocol type. Enum options - HTTP, HTTPS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRewriteURLAction">HTTPRewriteURLAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
+<div class="param">query (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamQuery">URIParamQuery</a></span> Query config. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPSecurityAction">HTTPSecurityAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT. </div>
+<div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for generating HTTP local response. </div>
+<div class="param">https_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535. format: int32</div>
+<div class="param">rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit profile to be used to rate-limit the flow. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPSecurityPolicy">HTTPSecurityPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityRule">array[HTTPSecurityRule]</a></span> Add rules to the HTTP security policy. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPSecurityRule">HTTPSecurityRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityAction">HTTPSecurityAction</a></span> Action to be performed upon successful matching. </div>
+<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. format: int32</div>
+<div class="param">log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log HTTP request upon rule match. </div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#MatchTarget">MatchTarget</a></span> Add match criteria to the rule. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPStatusMatch">HTTPStatusMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusRange">array[HTTPStatusRange]</a></span> HTTP response status code range(s). </div>
+<div class="param">status_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> HTTP response status code(s). </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPStatusRange">HTTPStatusRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Starting HTTP response status code. format: int32</div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ending HTTP response status code. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPSwitchingAction">HTTPSwitchingAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP. </div>
+<div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File from which to serve local response to the request. </div>
+<div class="param">pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool group to serve the request. It is a reference to an object of type PoolGroup. </div>
+<div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool of servers to serve the request. It is a reference to an object of type Pool. </div>
+<div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolServer">PoolServer</a></span> Specific pool server to select. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use when serving local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPVersionMatch">HTTPVersionMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HdrMatch">HdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">hdr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HTTP header whose value is to be matched. </div>
+<div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values to match in the HTTP header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HostHdrMatch">HostHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the host header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrMatch">IpAddrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP address(es). </div>
+<div class="param">group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of IP address group(s). It is a reference to an object of type IpAddrGroup. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> IP address prefix(es). </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> IP address range(s). </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="LocationHdrMatch">LocationHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching location header value in the HTTP response. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the location header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MatchTarget">MatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
+<div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
+<div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP header(s). </div>
+<div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
+<div class="param">method (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> Configure HTTP methods. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Configure request paths. </div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProtocolMatch">ProtocolMatch</a></span> Configure the type of HTTP protocol. </div>
+<div class="param">query (optional)</div><div class="param-desc"><span class="param-type"><a href="#QueryMatch">QueryMatch</a></span> Configure request query. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPVersionMatch">HTTPVersionMatch</a></span> Configure versions of the HTTP protocol. </div>
+<div class="param">vs_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Configure virtual service ports. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PoolServer">PoolServer</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS resolvable name of the server.  May be used in place of the IP address. </div>
+<div class="param">ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of the server in the poool. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool. Allowed values are 1-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PortMatch">PortMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ProtocolMatch">ProtocolMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">protocols </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP or HTTPS protocol. Enum options - HTTP, HTTPS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="QueryMatch">QueryMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s). </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiterAction">RateLimiterAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
+<div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
+<div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
+<div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
+<div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ResponseMatchTarget">ResponseMatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
+<div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
+<div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP headers. </div>
+<div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
+<div class="param">loc_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#LocationHdrMatch">LocationHdrMatch</a></span> Configure the location header. </div>
+<div class="param">method (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> Configure HTTP methods. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Configure request paths. </div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProtocolMatch">ProtocolMatch</a></span> Configure the type of HTTP protocol. </div>
+<div class="param">query (optional)</div><div class="param-desc"><span class="param-type"><a href="#QueryMatch">QueryMatch</a></span> Configure request query. </div>
+<div class="param">rsp_hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure the HTTP headers in response. </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusMatch">HTTPStatusMatch</a></span> Configure the HTTP status code(s). </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPVersionMatch">HTTPVersionMatch</a></span> Configure versions of the HTTP protocol. </div>
+<div class="param">vs_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Configure virtual service ports. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="URIParam">URIParam</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="URIParamQuery">URIParamQuery</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">add_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Concatenate a string to the query of the incoming request URI and then use it in the request URI going to the backend server. </div>
+<div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use or drop the query of the incoming request URI in the request URI to the backend server. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="URIParamToken">URIParamToken</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">end_index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - &#39;end of string&#39;. format: int32</div>
+<div class="param">start_index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the starting token in the incoming URI. format: int32</div>
+<div class="param">str_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Constant string to use as a token. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
