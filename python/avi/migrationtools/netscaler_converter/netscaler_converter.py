@@ -14,6 +14,7 @@ import avi.migrationtools.netscaler_converter.scp_util as scp_util
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
+from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -47,6 +48,8 @@ class NetscalerConverter(AviConverter):
         self.ignore_config = args.ignore_config
         # Added prefix for objects
         self.prefix = args.prefix
+        # Added not in use flag
+        self.not_in_use = args.not_in_use
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -116,6 +119,9 @@ class NetscalerConverter(AviConverter):
 
         avi_config = self.process_for_utils(
             avi_config)
+        # Check if flag true then skip not in use object
+        if self.not_in_use:
+            avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(
             avi_config, output_dir, '%s-Output.json' % report_name)
         if self.option == 'auto-upload':
@@ -215,6 +221,11 @@ if __name__ == "__main__":
                         help='config json to skip the config in conversion')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
+    # Added not in use flag
+    parser.add_argument('--not_in_use',
+                        help='Flag for skipping not in use object',
+                        action="store_true")
+
 
     args = parser.parse_args()
     # print avi netscaler converter version

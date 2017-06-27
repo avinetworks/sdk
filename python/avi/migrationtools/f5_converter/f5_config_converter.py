@@ -63,6 +63,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version)
 
+        conv_utils.net_to_static_route(f5_config, avi_config_dict)
         conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
 
