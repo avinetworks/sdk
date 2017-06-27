@@ -13,7 +13,7 @@ import yaml
 import argparse
 import re
 import requests
-#import avi.migrationtools.ansible.ansible_constant as ansible_constant
+from avi.migrationtools.avi_orphan_object import filter_for_vs
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -38,13 +38,14 @@ class AviAnsibleConverter(object):
     # Modified REGEX
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
-    def __init__(self, avi_cfg, outdir, prefix, skip_types=None,
+    def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
         # Added prefix flag for object
         self.prefix = prefix
+        self.not_in_use = not_in_use
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -116,7 +117,7 @@ class AviAnsibleConverter(object):
                     self.transform_obj_refs(item)
         return obj
 
-    def build_ansible_objects(self, obj_type, objs, ansible_dict):
+    def build_ansible_objects(self, obj_type, objs, ansible_dict, inuse_list):
         """
         adds per object type ansible task
         :param obj_type type of object
@@ -127,6 +128,8 @@ class AviAnsibleConverter(object):
         """
         for obj in objs:
             task = deepcopy(obj)
+            # Added tag for checking object ref.
+            used_tag = 'in_use'
             if isinstance(task, str):
                 continue
             for skip_field in self.skip_fields:
@@ -137,11 +140,15 @@ class AviAnsibleConverter(object):
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
             task.update({API_VERSION: self.api_version})
+            # Check object present in list for tag.
+            name = '%s-%s'%(obj['name'], obj_type)
+            if inuse_list and name not in inuse_list:
+                used_tag = 'not_in_use'
             ansible_dict[TASKS].append(
                 {
                     task_id: task,
                     NAME: task_name,
-                    TAGS: [obj[NAME], CREATE_OBJECT, obj_type.lower()]
+                    TAGS: [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
                 })
         return ansible_dict
 
@@ -377,6 +384,10 @@ class AviAnsibleConverter(object):
                                % self.outdir
         ansible_create_object_path = '%s/avi_config_create_object.yml'\
                                      % self.outdir
+        # Get the reference object list for not_in_use tag.
+        inuse_list = []
+        if not self.not_in_use:
+            inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']
@@ -387,7 +398,8 @@ class AviAnsibleConverter(object):
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:
                 continue
-            self.build_ansible_objects(obj_type, self.avi_cfg[obj_type], ad)
+            self.build_ansible_objects(obj_type, self.avi_cfg[obj_type], ad,
+                                       inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
         if f5server and f5user and f5password:
