@@ -298,6 +298,16 @@ csvs_ignore_vals:
     'Listenpolicy' : 'None'
     'gotoPriorityExpression' : 'END'
 
+monitor_types_supported:
+- 'PING'
+- 'TCP'
+- 'TCP-ECV'
+- 'HTTP'
+- 'HTTP-ECV'
+- 'DNS'
+- 'USER'
+
+
 monitor_skip_attrs:
 - 'action'
 - 'respCode'
