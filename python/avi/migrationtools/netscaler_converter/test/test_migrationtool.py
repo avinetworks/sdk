@@ -197,7 +197,7 @@ class TestNetscalerConverter:
         assert len(avconf['VirtualService']) == 2
         actual_vsnames = [obj['name'] for obj in avconf['VirtualService']]
         actual_vsnames.sort()
-        expected_vsnames = ['vs_ksl.com,vs_NStoAvi-SG]
+        expected_vsnames = ['vs_ksl.com,vs_NStoAvi-SG']
         expected_vsnames.sort()
         assert actual_vsnames == expected_vsnames
 
