@@ -45,9 +45,11 @@ class ServiceConverter(object):
         self.nsservice_skip_for_val = \
             ns_constants.netscalar_command_status['nsservice_skip_for_val']
         self.lbvs_supported_persist_types = \
-            ns_constants.netscalar_command_status['lbvs_supported_persist_types']
+            ns_constants.netscalar_command_status[
+                'lbvs_supported_persist_types']
         self.nsservice_bind_lb_ignore_val = \
-            ns_constants.netscalar_command_status['nsservice_bind_lb_ignore_val']
+            ns_constants.netscalar_command_status[
+                'nsservice_bind_lb_ignore_val']
         self.tenant_name = tenant_name
         self.cloud_name = cloud_name
         self.tenant_ref = tenant_ref
@@ -174,9 +176,7 @@ class ServiceConverter(object):
                             user_ignore_val=self.nsservice_bind_lb_user_ignore)
                         ns_util.add_conv_status(
                             element['line_no'], ns_bind_lb_vserver_command,
-                            element['attrs'][0],
-                            ns_bind_lb_vserver_complete_command,
-                            conv_status, pool[0])
+                            element['attrs'][0], full_cmd, conv_status, pool[0])
                     else:
                         # Skipped add server if pool not found in AVI
                         skipped_status = 'Skipped :Pool is not created %s' \
@@ -184,8 +184,7 @@ class ServiceConverter(object):
                         LOG.warning(skipped_status)
                         ns_util.add_status_row(
                             element['line_no'], ns_bind_lb_vserver_command,
-                            element['attrs'][0],
-                            ns_bind_lb_vserver_complete_command, STATUS_SKIPPED,
+                            element['attrs'][0], full_cmd, STATUS_SKIPPED,
                             skipped_status)
 
                 pg_name = group_key + '-poolgroup'

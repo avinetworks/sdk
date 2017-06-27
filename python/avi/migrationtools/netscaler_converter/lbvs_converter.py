@@ -181,7 +181,7 @@ class LbvsConverter(object):
                 else:
                     vs_obj['ip_address'] = vip['ip_address']
                 bind_conf_list = bind_lb_vs_config.get(key, None)
-                # Skipped this lb vs if it doen not have any bind lb vserver
+                # Skipped this lb vs if it do not have any bind lb vserver
                 if (not bind_conf_list) and (not redirect_url):
                     continue
                 if isinstance(bind_conf_list, dict):
@@ -257,15 +257,13 @@ class LbvsConverter(object):
                     pool_group_ref = re.sub('[:]', '-', pool_group_ref)
                     used_pool_group_ref.append(pool_group_ref)
                     updated_pool_group = [pg for pg in
-                                          avi_config.get('PoolGroup',
-                                                         [])
+                                          avi_config.get('PoolGroup', [])
                                           if pg['name'] == pool_group_ref]
 
                     vs_obj['pool_group_ref'] = ns_util.get_object_ref(
                         pool_group_ref, OBJECT_TYPE_POOL_GROUP,
                         self.tenant_name, self.cloud_name)
                     pool_group = updated_pool_group[0]
-
 
                 # Update fail cation of pool as FAIL_ACTION_HTTP_REDIRECT in AVI
                 # if lb vs has redirect url
