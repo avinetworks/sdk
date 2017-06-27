@@ -27,6 +27,15 @@ class PoolConfigConv(object):
         avi_config['VrfContext'] = []
         avi_config['PoolGroup'] = []
         avi_config['PriorityLabels'] = {}
+        # Initialize Global vrf context object
+        vrf_context = {
+            "name": 'global',
+            "system_default": True,
+            "tenant_ref": conv_utils.get_object_ref(tenant_ref, 'tenant'),
+            "cloud_ref": conv_utils.get_object_ref(cloud_name, 'cloud'),
+            "static_routes": []
+        }
+        avi_config['VrfContext'].append(vrf_context)
         for pool_name in pool_config.keys():
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
@@ -273,7 +282,7 @@ class PoolConfigConvV11(PoolConfigConv):
         monitor_config = avi_config['HealthMonitor']
         servers, member_skipped_config, limits, skipped_servers = \
             self.convert_servers_config(f5_pool.get("members", {}), nodes,
-                                        avi_config)
+                                        avi_config, cloud_ref)
         sd_action = f5_pool.get("service-down-action", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("load-balancing-mode", None)
@@ -304,6 +313,19 @@ class PoolConfigConvV11(PoolConfigConv):
                 PoolConfigConvV11, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant)
             pool_obj["health_monitor_refs"] = monitor_refs
+        # Adding vrf context ref to pool obj
+        vrf_config = avi_config['VrfContext']
+        members = f5_pool.get('members')
+        address = (isinstance(members, dict) and members.get(members.keys()[
+                  0]) and isinstance(members[members.keys()[0]], dict)) and \
+                  members[members.keys()[0]].get('address') or isinstance(
+                  members, str) and members.split(' ')[0] or None if members \
+                  else None
+        vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
+                                                 pool_name, cloud_ref)
+        if vrf_ref:
+            pool_obj["vrf_ref"] = vrf_ref
+
         skipped_attr = [key for key in f5_pool.keys() if
                         key not in self.supported_attr]
         for attr in self.ignore_for_val:
@@ -352,7 +374,8 @@ class PoolConfigConvV11(PoolConfigConv):
             avi_algorithm = "LB_ALGORITHM_LEAST_LOAD"
         return avi_algorithm
 
-    def convert_servers_config(self, servers_config, nodes, avi_config):
+    def convert_servers_config(self, servers_config, nodes, avi_config,
+                               cloud_ref):
         """
         Converts the config of servers in the pool
         :param servers_config: F5 servers config for particular pool
@@ -371,13 +394,13 @@ class PoolConfigConvV11(PoolConfigConv):
             if node:
                 if '%' in node["address"]:
                     ip_addr, vrf = node["address"].split('%')
-                    conv_utils.add_vrf(avi_config, vrf)
+                    conv_utils.add_vrf(avi_config, vrf, cloud_ref)
                 else:
                     ip_addr = node["address"]
             else:
                 if '%' in parts[0]:
                     ip_addr, vrf = parts[0].split('%')
-                    conv_utils.add_vrf(avi_config, vrf)
+                    conv_utils.add_vrf(avi_config, vrf, cloud_ref)
                 else:
                     ip_addr = parts[0]
             description = server.get('description', '')
@@ -463,7 +486,7 @@ class PoolConfigConvV10(PoolConfigConv):
         monitor_config = avi_config['HealthMonitor']
         servers, member_skipped_config, limits, skipped_servers = \
             self.convert_servers_config(f5_pool.get("members", {}), nodes,
-                                        avi_config)
+                                        avi_config, cloud_ref)
         sd_action = f5_pool.get("action on svcdown", "")
         pd_action = conv_utils.get_avi_pool_down_action(sd_action)
         lb_method = f5_pool.get("lb method", None)
@@ -480,7 +503,18 @@ class PoolConfigConvV10(PoolConfigConv):
                 PoolConfigConvV10, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant_ref)
             pool_obj["health_monitor_refs"] = monitor_refs
-
+        # Adding vrf context ref to pool obj
+        vrf_config = avi_config['VrfContext']
+        members = f5_pool.get('members')
+        address = (isinstance(members, dict) and members.get(members.keys()[
+                  0]) and isinstance(members[members.keys()[0]], dict)) and \
+                  members[members.keys()[0]].get('address') or isinstance(
+                  members, str) and members.split(' ')[0] or None if members \
+                  else None
+        vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
+                                                 pool_name, cloud_ref)
+        if vrf_ref:
+            pool_obj["vrf_ref"] = vrf_ref
         num_retries = f5_pool.get('reselect tries', None)
         if num_retries:
             server_reselect = {
@@ -540,7 +574,8 @@ class PoolConfigConvV10(PoolConfigConv):
             avi_algorithm = "LB_ALGORITHM_LEAST_LOAD"
         return avi_algorithm
 
-    def convert_servers_config(self, servers_config, nodes, avi_config):
+    def convert_servers_config(self, servers_config, nodes, avi_config,
+                               cloud_ref):
         """
         Converts the config of servers in the pool
         :param servers_config: F5 servers config for particular pool
@@ -559,11 +594,11 @@ class PoolConfigConvV10(PoolConfigConv):
             node = nodes.get(parts[0], None)
             if node and '%' in node.get("address", ''):
                 ip_addr, vrf = node["address"].split('%')
-                conv_utils.add_vrf(avi_config, vrf)
+                conv_utils.add_vrf(avi_config, vrf, cloud_ref)
             else:
                 if '%' in parts[0]:
                     ip_addr, vrf = parts[0].split('%')
-                    conv_utils.add_vrf(avi_config, vrf)
+                    conv_utils.add_vrf(avi_config, vrf, cloud_ref)
                 else:
                     ip_addr = parts[0]
             port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT

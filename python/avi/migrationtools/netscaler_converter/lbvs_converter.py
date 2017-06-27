@@ -274,7 +274,9 @@ class LbvsConverter(object):
                     if pool_group:
                         pool_group["fail_action"] = fail_action
 
+                backup_configured = False
                 if backup_server:
+
                     # Add backup pool of poolgroup if this lb vs has an ip
                     # backup vserver
                     try:
@@ -306,6 +308,7 @@ class LbvsConverter(object):
                             }
                         }
                         pool_group['fail_action'] = backup_pool
+                        backup_configured = True
                     except Exception as e:
                         # Skipped lb vs if backup pool is found in AVI
                         LOG.error('No Backup pool found: %s' % full_cmd)
@@ -316,11 +319,21 @@ class LbvsConverter(object):
                         backup_server:
                     # Skipped lb vs if it has ip 0.0.0.0 and does not have
                     # backup pool and redirect url
-                    ns_util.add_status_row(lb_vs['line_no'], cmd, key, full_cmd,
-                                           STATUS_INDIRECT)
-                    LOG.error('%s %s Skipped VS, Service point to %s server '
-                              'and not have redirect action and backup vserver'
-                              % (cmd, key, ip_addr))
+                    if pool_group:
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                               full_cmd, STATUS_INDIRECT)
+                        LOG.warning('%s %s Skipped VS, Service point to %s server'
+                                  ' and not have redirect action and backup '
+                                  'vserver' % (cmd, key, ip_addr))
+                    else:
+                        msg = ('%s %s Skipped VS, Invalid VIP %s and do not '
+                               'have service assigned, redirect action and  '
+                               'backup vserver' % (cmd, key, ip_addr))
+                        ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                               full_cmd, STATUS_SKIPPED,
+                                               avi_object=msg)
+                        LOG.warning(msg)
+
                     continue
                 # Regex to check Vs has IPV6 address if yes the Skipped
                 if re.findall(ns_constants.IPV6_Address, ip_addr) or \
@@ -343,11 +356,14 @@ class LbvsConverter(object):
                                                   }
                                               }
                         avi_config['Lbvs'].append(backup_server_name)
+                    vs_conv_status = STATUS_SKIPPED
+                    if backup_configured:
+                        vs_conv_status = STATUS_INDIRECT
                     skipped_status = "Skipped:Invalid VIP %s" % full_cmd
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(
-                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
-                        skipped_status)
+                        lb_vs['line_no'], cmd, key, full_cmd, vs_conv_status,
+                    skipped_status)
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
