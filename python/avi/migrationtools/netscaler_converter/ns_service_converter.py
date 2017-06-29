@@ -348,28 +348,38 @@ class ServiceConverter(object):
                 if isinstance(bind_ssl_service_conf, dict):
                     bind_ssl_service_conf = [bind_ssl_service_conf]
                 for service_conf in bind_ssl_service_conf:
-                    if service_conf.get('CA', None) and \
-                            [pki for pki in avi_config['PKIProfile']
-                             if pki['name'] == service_conf.get('CA')]:
-                        updated_pki_ref = ns_util.get_object_ref(
-                            service_conf.get('CA'), OBJECT_TYPE_PKI_PROFILE,
-                            self.tenant_name)
-                        pool_obj['pki_profile_ref'] = updated_pki_ref
-                    # Added prefix for objects
-                    if self.prefix and service_conf.get('certkeyName', None):
+                    if service_conf.get('CA', None):
+                        # Added prefix for objects
+                        pkiname = self.prefix + '-' + service_conf['CA'] \
+                            if self.prefix else service_conf['CA']
+                        if [pki for pki in avi_config['PKIProfile']
+                            if pki['name'] == pkiname]:
+                            updated_pki_ref = ns_util.get_object_ref(pkiname,
+                                            OBJECT_TYPE_PKI_PROFILE,
+                                                            self.tenant_name)
+                            pool_obj['pki_profile_ref'] = updated_pki_ref
+                    if service_conf.get('certkeyName', None):
+                        # Added prefix for objects
                         certname = self.prefix + '-' + \
-                                   service_conf.get('certkeyName') + '-dummy'
-                    elif service_conf.get('certkeyName', None):
-                        certname = service_conf.get('certkeyName') + '-dummy'
-                    if service_conf.get('certkeyName', None) \
-                            and [key_cert for key_cert
-                                 in avi_config['SSLKeyAndCertificate']
-                                 if key_cert['name'] == certname]:
-                        ssl_key_cert_ref = ns_util.get_object_ref(
-                            certname, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                            self.tenant_name)
-                        pool_obj['ssl_key_and_certificate_ref'] = \
-                            ssl_key_cert_ref
+                                   service_conf['certkeyName'] if \
+                                    self.prefix else service_conf['certkeyName']
+                        if [key_cert for key_cert in avi_config[
+                            'SSLKeyAndCertificate'] if key_cert[
+                            'name'] == certname]:
+                            ssl_key_cert_ref = ns_util.get_object_ref(certname,
+                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                    self.tenant_name)
+                            pool_obj['ssl_key_and_certificate_ref'] = \
+                                ssl_key_cert_ref
+                        elif [key_cert for key_cert in avi_config[
+                            'SSLKeyAndCertificate'] if key_cert[
+                            'name'] == certname + '-dummy']:
+                            ssl_key_cert_ref = ns_util.get_object_ref(
+                                certname + '-dummy',
+                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                               self.tenant_name)
+                            pool_obj['ssl_key_and_certificate_ref'] = \
+                                ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', key)
                 # Added prefix for objects
                 if self.prefix:
@@ -378,15 +388,17 @@ class ServiceConverter(object):
                     # Get the merge ssl profile name
                     ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
                         ssl_profile_name, None)
-
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile']
                     if ssl_prof['name'] == ssl_profile_name]:
                     updated_ssl_profile_ref = ns_util.get_object_ref(
                         ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
                     pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
-                    # Remove http type of health monitor reference if pool
-                    # has ssl profile
+                if pool_obj.get('pki_profile_ref', None) or \
+                        pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                        pool_obj.get('ssl_profile_ref', None):
+                    # Remove health monitor reference of http type if pool has
+                    # ssl profile or pki profile or ssl cert key
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
@@ -457,25 +469,44 @@ class ServiceConverter(object):
                 if isinstance(bind_ssl_service_group_conf, dict):
                     bind_ssl_service_group_conf = [bind_ssl_service_group_conf]
                 for ssl_service_conf in bind_ssl_service_group_conf:
-                    if ssl_service_conf.get('CA', None) \
-                            and [pki for pki in avi_config['PKIProfile']
-                                 if pki['name'] == ssl_service_conf.get('CA')]:
-                        updated_pki_ref = ns_util.get_object_ref(
-                            ssl_service_conf.get('CA'),
+                    if ssl_service_conf.get('CA', None):
+                        # Added prefix for objects
+                        pkiname = self.prefix + '-' + ssl_service_conf['CA'] \
+                                    if self.prefix else ssl_service_conf['CA']
+                        if [pki for pki in avi_config['PKIProfile']
+                                 if pki['name'] == pkiname]:
+                            updated_pki_ref = ns_util.get_object_ref(pkiname,
                             OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
-                        pool_obj['pki_profile_ref'] = updated_pki_ref
-                    if ssl_service_conf.get('certkeyName', None) \
-                            and [key_cert for key_cert
-                                 in avi_config['SSLKeyAndCertificate']
-                                 if key_cert['name'] == ssl_service_conf.get(
-                                    'certkeyName') + '-dummy']:
-                        ssl_key_cert_ref = ns_util.get_object_ref(
-                            ssl_service_conf.get('certkeyName') + '-dummy',
-                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                            self.tenant_name)
-                        pool_obj['ssl_key_and_certificate_ref'] = \
-                            ssl_key_cert_ref
+                            pool_obj['pki_profile_ref'] = updated_pki_ref
+                    if ssl_service_conf.get('certkeyName', None):
+                        certname = self.prefix + '-' + \
+                                   service_conf['certkeyName'] if \
+                            self.prefix else service_conf.get['certkeyName']
+                        if [key_cert for key_cert in avi_config[
+                            'SSLKeyAndCertificate'] if key_cert['name'] ==
+                                certname]:
+                            ssl_key_cert_ref = ns_util.get_object_ref(certname,
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                            self.tenant_name)
+                            pool_obj['ssl_key_and_certificate_ref'] = \
+                                ssl_key_cert_ref
+                        elif [key_cert for key_cert in avi_config[
+                            'SSLKeyAndCertificate'] if key_cert[
+                                  'name'] == certname + '-dummy']:
+                            ssl_key_cert_ref = ns_util.get_object_ref(
+                                certname + '-dummy',
+                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                self.tenant_name)
+                            pool_obj['ssl_key_and_certificate_ref'] = \
+                                ssl_key_cert_ref
                 ssl_profile_name = re.sub('[:]', '-', group_key)
+                # Added prefix for objects
+                if self.prefix:
+                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
+                if self.profile_merge_check:
+                    # Get the merge ssl profile name
+                    ssl_profile_name = merge_profile_mapping['ssl_profile'].get(
+                        ssl_profile_name, None)
                 if [ssl_prof for ssl_prof in avi_config['SSLProfile']
                     if ssl_prof['name'] == ssl_profile_name]:
                     updated_ssl_profile_ref = ns_util.get_object_ref(
@@ -486,7 +517,7 @@ class ServiceConverter(object):
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
                     # Remove health monitor reference of http type if pool has
-                    # ssl profile
+                    # ssl profile or pki profile or ssl cert key
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
