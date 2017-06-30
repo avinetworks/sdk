@@ -319,11 +319,18 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     log.info('passed object %s ', obj)
 
     if name is not None:
-        existing_obj = api.\
-            get_object_by_name(obj_type, name, tenant=tenant,
-                               tenant_uuid=tenant_uuid,
-                               params={'include_refs': '', 'include_name': ''},
-                               api_version=api_version)
+        params = {'include_refs': '', 'include_name': ''}
+        if obj.get('cloud_ref', None):
+            # this is the case when gets have to be scoped with cloud
+            cloud = obj['cloud_ref'].split('name=')[1]
+            cloud_obj = api.get_object_by_name(
+                'cloud', cloud, tenant=tenant, tenant_uuid=tenant_uuid,
+                params=params, api_version=api_version)
+            if cloud_obj:
+                params['cloud_uuid'] = cloud_obj['uuid']
+        existing_obj = api.get_object_by_name(
+            obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
+            params=params, api_version=api_version)
     else:
         # added api version to avi api call.
         existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
