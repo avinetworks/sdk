@@ -156,9 +156,6 @@ class PolicyConverter(object):
                     targetLBVserver)
             if not targetLBVserver and targetVserver:
                 targetLBVserver = targetVserver
-                # Added prefix for objects
-                if self.prefix:
-                    targetLBVserver = self.prefix + '-' + targetLBVserver
             priority_index = int(bind_conf.get('priority', rule_index))
             policy, policy_type = self.get_policy_from_policy_name(
                 policy_name, policy_config, rewrite_policy_config,
@@ -317,6 +314,8 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
         name = '%s-rule-%s' % (rule_name, priority_index)
+        if self.prefix:
+            name = '%s-%s' %(self.prefix, name)
         # TODO add support for || rules as datascript
         if '||' in ns_rule or '+' in ns_rule:
             LOG.warning('Datascript: %s ' % ns_policy_complete_cmd)
@@ -347,11 +346,16 @@ class PolicyConverter(object):
                 policy['line_no'], netscalar_command, rule_name,
                 ns_policy_complete_cmd, STATUS_SKIPPED, skipped_status)
             return None, priority_index
+        elif 'any' in match:
+            del match['any']
         policy_rules = {
             'name': name,
             "index": priority_index,
             'match': match,
         }
+
+        if self.prefix and targetLBVserver:
+            targetLBVserver = '%s-%s' %(self.prefix, targetLBVserver)
 
         if policy_type == 'cs':
             cs_action, redirect_uri = self.get_cs_policy_action(
@@ -433,8 +437,8 @@ class PolicyConverter(object):
                     policy['line_no'], netscalar_command, rule_name,
                     ns_policy_complete_cmd, STATUS_SUCCESSFUL, policy_rules)
             else:
-                LOG.warning('Datascript : %s %s' % (netscalar_command,
-                                                    rule_name))
+                LOG.warning('Datascript: Responder action not supported %s %s'
+                            % (netscalar_command, rule_name))
                 # Skipped this policy if rule is not supported by tool
                 ns_util.add_status_row(
                     policy['line_no'], netscalar_command, rule_name,
@@ -767,6 +771,8 @@ class PolicyConverter(object):
                 return None
             match["hdrs"][0]["hdr"] = matches[0][0]
             match["hdrs"][0]["value"].append(matches[0][1])
+        elif 'HTTP.REQ.IS_VALID' in query.upper():
+            match = {'any': 'any'}
 
         else:
             LOG.warning("%s Rule is not supported" % query)
@@ -794,8 +800,6 @@ class PolicyConverter(object):
         :param avi_config: dict of AVI
         :return: StringGroup object
         """
-        if self.prefix:
-            string_group_name = self.prefix + '-' + string_group_name
         if not matches:
             return None
         stringgroup_object = {
@@ -840,9 +844,6 @@ class PolicyConverter(object):
         :param avi_config: dict of AVI
         :return: http policy action
         """
-        # Added prefix for objects
-        if self.prefix:
-            targetLBVserver = self.prefix + '-' + targetLBVserver
         if targetLBVserver in redirect_pools:
             redirect_url = str(redirect_pools[targetLBVserver]).replace('"','')
             redirect_url = ns_util.parse_url(redirect_url)
@@ -1117,12 +1118,21 @@ class PolicyConverter(object):
                 STATUS_SUCCESSFUL, policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'redirect':
             policy_rule = copy.deepcopy(policy_rules)
+            if "\"+" in policy_action['attrs'][2] or "\" +" in \
+                    policy_action['attrs'][2]:
+                msg = ("Concatenation in redirect url not supported: %s %s" % (
+                    ns_responder_action_command, policy_name))
+                LOG.warning(msg)
+                ns_util.add_status_row(
+                    policy_action['line_no'], ns_responder_action_command,
+                    policy_name, ns_responder_action_complete_command,
+                    STATUS_DATASCRIPT, avi_object=msg)
+                return None
             path_matches = \
                 re.findall('\\\\(.+?)\\\\',
                            policy_action['attrs'][2].strip('"').strip())
             redirect_url = str(path_matches[0]).replace('"', '')
-            redirect_url = ns_util.parse_url(redirect_url)
-            protocol = str(redirect_url.scheme).upper()
+            protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
             redirect_action = {
                 'protocol': protocol,
                 'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
@@ -1153,8 +1163,7 @@ class PolicyConverter(object):
                 return
             if attrs[1] == '301':
                 redirect_url = str(attrs[4]).replace('"', '')
-                redirect_url = ns_util.parse_url(redirect_url)
-                protocol = str(redirect_url.scheme).upper()
+                protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
                 redirect_action = {
                     'protocol': protocol,
                     'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',
@@ -1195,8 +1204,8 @@ class PolicyConverter(object):
                 policy_name, ns_responder_action_complete_command,
                 STATUS_SUCCESSFUL, policy_rule)
         else:
-            LOG.warning('Datascript: %s %s' % (ns_responder_action_command,
-                                               policy_name))
+            LOG.warning('Datascript responder action not supported: %s %s' % (
+                ns_responder_action_command, policy_name))
             # Add Datascript status for responder action
             ns_util.add_status_row(
                 policy_action['line_no'], ns_responder_action_command,

@@ -344,6 +344,8 @@ class CsvsConverter(object):
                 redirect_pools, 'bind cs vserver', case_sensitive)
 
             for binding in lbvs_bindings:
+                if self.prefix:
+                    binding = '%s-%s' %(self.prefix, binding)
                 lb_vs_obj = [obj for obj in lbvs_avi_conf
                              if obj['name'] == binding]
 
@@ -403,7 +405,7 @@ class CsvsConverter(object):
             # Add the http policy set reference to VS in AVI
             if policy:
                 # Added fix for same policy refferred in multiple vs
-                policy['name'] = policy['name'] + vs_name
+                policy['name'] = policy['name'] + updated_vs_name
                 if policy['name'] in tmp_policy_ref:
                     # clone the http policy set if it is referenced to other VS
                     policy = ns_util.clone_http_policy_set(
