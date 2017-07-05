@@ -1,8 +1,11 @@
 from avi.sdk.avi_api import ApiSession
 import logging
+from requests.packages import urllib3
 
 LOG = logging.getLogger(__name__)
 
+#disabling warning for SSL
+urllib3.disable_warnings()
 
 def upload_config_to_controller(avi_config_dict, controller_ip, username,
                                 password, tenant, api_version='17.1.1'):
@@ -23,6 +26,20 @@ def upload_config_to_controller(avi_config_dict, controller_ip, username,
         print "Error"
         raise Exception(e)
 
+
+def download_gslb_from_controller(controller_ip, username, password, tenant='admin'):
+    """ Function to download the gslb configuration from controller """
+    LOG.debug("Downloading gslb config from the controller")
+    session = ApiSession.get_session(controller_ip, username,
+                                     password, tenant="admin")
+    try:
+        path = 'gslb'
+        resp = session.get(path)
+        return resp.text
+    except Exception as e:
+        LOG.error("Failed gslb config download", exec_info=True)
+        print "Error in Downloading gslb config"
+        raise Exception(e)
 
 def get_object_from_controller(object_type, object_name, controller_ip, username, password, tenant):
     """

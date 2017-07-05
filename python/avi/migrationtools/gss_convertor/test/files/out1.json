@@ -1,0 +1,171 @@
+{
+            "supported_migrations": {
+                "versions": [
+                    "14_2",
+                    "15_1",
+                    "15_1_1",
+                    "15_2",
+                    "15_2_3",
+                    "15_3",
+                    "16_1",
+                    "16_1_1",
+                    "16_1_2",
+                    "16_1_3",
+                    "16_2",
+                    "16_2_1",
+                    "16_2_2",
+                    "16_2_3",
+                    "16_3",
+                    "16_3_1",
+                    "16_3_2",
+                    "16_3_4",
+                    "16_4_1",
+                    "16_4_2"
+                ]
+            },
+            "version": {
+                "Product": "controller",
+                "Version": 17.1,
+                "min_version": 17.1,
+                "ProductName": "Avi Cloud Controller"
+            },
+            "upgrade_mode": "false",
+            "use_tenant": "admin",
+        "GslbService": [
+                
+                
+                    {
+                        "name": "WDC-VIDYO-PRTL-RULE1", 
+                        "tenant_ref": "admin", 
+                        "controller_health_status_enabled": true, 
+                        "wildcard_match": false,
+                        "enabled": false, 
+                        
+                        "ttl": 0, 
+                        
+                        "domain_names": [
+                            
+                                
+                                "cloud01.avi.com"
+                            
+                                ,
+                                "cloud02.avi.com"
+                            
+                        ], 
+                        "use_edns_client_subnet": true, 
+                        "groups": [
+                            
+                                
+                                    {
+                                        "priority": "1",
+                                        "algorithm": "", 
+                                        "name": "WDC-VIDYO-PRTL11", 
+                                        "members": [
+                                            
+                                                
+                                                    {
+                                                        "ip": {
+                                                            "type": "V4", 
+                                                            "addr": "134.42.99.30"
+                                                        },  
+                                                        "ratio": "1", 
+                                                        "enabled": "True"
+                                                    }
+                                            
+                                        ]
+                                    }
+                            
+                                ,
+                                    {
+                                        "priority": "2",
+                                        "algorithm": "", 
+                                        "name": "WDC-VIDYO-PRTL12", 
+                                        "members": [
+                                            
+                                                
+                                                    {
+                                                        "ip": {
+                                                            "type": "V4", 
+                                                            "addr": "134.42.26.171"
+                                                        },  
+                                                        "ratio": "1", 
+                                                        "enabled": "True"
+                                                    }
+                                            
+                                        ]
+                                    }
+                            
+                        ], 
+                        "num_dns_ip": 0,
+                        "health_monitor_scope": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS"
+                    }
+                
+                ,
+                    {
+                        "name": "WDC-VIDYO-PRTL-RULE", 
+                        "tenant_ref": "admin", 
+                        "controller_health_status_enabled": true, 
+                        "wildcard_match": false,
+                        "enabled": false, 
+                        
+                        "ttl": 0, 
+                        
+                        "domain_names": [
+                            
+                                
+                                "cloud01.avi.com"
+                            
+                                ,
+                                "cloud02.avi.com"
+                            
+                        ], 
+                        "use_edns_client_subnet": true, 
+                        "groups": [
+                            
+                                
+                                    {
+                                        "priority": "1",
+                                        "algorithm": "", 
+                                        "name": "WDC-VIDYO-PRTL", 
+                                        "members": [
+                                            
+                                                
+                                                    {
+                                                        "ip": {
+                                                            "type": "V4", 
+                                                            "addr": "134.42.99.30"
+                                                        },  
+                                                        "ratio": "1", 
+                                                        "enabled": "True"
+                                                    }
+                                            
+                                        ]
+                                    }
+                            
+                                ,
+                                    {
+                                        "priority": "2",
+                                        "algorithm": "", 
+                                        "name": "WDC-VIDYO-PRTL1", 
+                                        "members": [
+                                            
+                                                
+                                                    {
+                                                        "ip": {
+                                                            "type": "V4", 
+                                                            "addr": "134.42.88.40"
+                                                        },  
+                                                        "ratio": "1", 
+                                                        "enabled": "True"
+                                                    }
+                                            
+                                        ]
+                                    }
+                            
+                        ], 
+                        "num_dns_ip": 0,
+                        "health_monitor_scope": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS"
+                    }
+                
+            ]
+}

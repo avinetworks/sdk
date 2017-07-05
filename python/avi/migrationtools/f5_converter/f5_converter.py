@@ -66,19 +66,6 @@ class F5Converter(AviConverter):
         # Added not in use flag
         self.not_in_use = args.not_in_use
 
-    def init_logger_path(self):
-        LOG.setLevel(logging.DEBUG)
-        if self.bigip_config_file:
-            report_name = '%s-converter.log' % os.path.splitext(
-                os.path.basename(self.bigip_config_file))[0]
-        else:
-            report_name = 'converter.log'
-        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] ' \
-                    '%(message)s'
-        logging.basicConfig(
-            filename=os.path.join(self.output_file_path, report_name),
-            level=logging.DEBUG, format=formatter)
-
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
         LOG.info("Input parameters: %s" % ' '.join(sys.argv))
@@ -171,40 +158,8 @@ class F5Converter(AviConverter):
             self.controller_version, report_name, self.prefix, self.con_snatpool, user_ignore,
             self.tenant, self.cloud_name)
 
-        avi_config_dict["META"] = {
-            "supported_migrations": {
-                "versions": [
-                    "14_2",
-                    "15_1",
-                    "15_1_1",
-                    "15_2",
-                    "15_2_3",
-                    "15_3",
-                    "16_1",
-                    "16_1_1",
-                    "16_1_2",
-                    "16_1_3",
-                    "16_2",
-                    "16_2_1",
-                    "16_2_2",
-                    "16_2_3",
-                    "16_3",
-                    "16_3_1",
-                    "16_3_2",
-                    "16_3_4",
-                    "16_4_1",
-                    "16_4_2"
-                ]
-            },
-            "version": {
-                "Product": "controller",
-                "Version": self.controller_version,
-                "min_version": 15.2,
-                "ProductName": "Avi Cloud Controller"
-            },
-            "upgrade_mode": False,
-            "use_tenant": self.tenant
-        }
+        avi_config_dict["META"] = self.meta(self.tenant, 
+                                            self.controller_version)
 
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config_dict['META']['supported_migrations']['versions'].append(
@@ -404,3 +359,4 @@ if __name__ == "__main__":
 
     f5_converter = F5Converter(args)
     f5_converter.convert()
+    

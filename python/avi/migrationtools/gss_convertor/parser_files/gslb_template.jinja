@@ -1,0 +1,55 @@
+{ {{meta}},
+        "GslbService": [
+                {% for key in config %}
+                    {% if config[key].clause %}
+                    {% if config[key]['domain'] %}
+                    {% if loop.index != 1 %},{% endif %}
+                        {
+                            "name": "{{ config[key]['dns rule']}}", 
+                            "tenant_ref": "{{tenant}}", 
+                            "controller_health_status_enabled": true, 
+                            "wildcard_match": false,
+                            "enabled": false, 
+                            {% if config[key]['clause'] | length > 1 %}
+                            {% else %}
+                            "ttl": {{config[key]['clause'][0]['ttl']}} ,
+                            {% endif %}
+                            "domain_names": [
+                                {% for domain in config[key]['domain'] %}
+                                    {% if loop.index != 1 %},{% endif %}
+                                    "{{domain['domain']}}"
+                                {% endfor %}
+                            ], 
+                            "use_edns_client_subnet": true, 
+                            "groups": [
+                                {% for clause in config[key]['clause'] %}
+                                    {% if loop.index != 1 %},{% endif %}
+                                        {
+                                            "priority": "{{clause['clause']}}",
+                                            {% if (clause['method'] == 'round-robin' or clause['method'] == 'weighted-round-robin') %} "algorithm": "GSLB_ALGORITHM_ROUND_ROBIN", {% elif clause['method'] =='hashed source-address' %} "algorithm":"GSLB_ALGORITHM_CONSISTENT_HASH",
+                                            {% else %}{% endif %}
+                                            "name": "{{clause['vip-group']}}", 
+                                            "members": [
+                                                {% for answer in clause['answer-add']%}
+                                                    {% if loop.index != 1 %},{% endif %}
+                                                        {
+                                                            "ip": {
+                                                                "type": "V4", 
+                                                                "addr": "{{answer['answer-add']}}"
+                                                            },  
+                                                            "ratio": "{{answer['weight']}}", 
+                                                            "enabled": "{% if answer['Mode'] == 'activate' %}True{% else %}Flase{% endif %}"
+                                                        }
+                                                {% endfor %}
+                                            ]
+                                        }
+                                {% endfor %}
+                            ], 
+                            "num_dns_ip": 0,
+                            "health_monitor_scope": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS"
+                        }
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+            ]
+}

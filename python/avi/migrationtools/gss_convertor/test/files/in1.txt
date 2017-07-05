@@ -1,0 +1,54 @@
+dns rule WDC-VIDYO-PRTL-RULE owner System source-address-list Anywhere domain-list WDC-VIDYO-PRTL-DL activate
+    query a
+    clause 1 vip-group WDC-VIDYO-PRTL method ordered  ttl 20 count 1 manual-reactivation disable  activate 
+    clause 2 vip-group WDC-VIDYO-PRTL1 method ordered  ttl 20 count 1 manual-reactivation disable  activate 
+
+domain-list WDC-VIDYO-PRTL-DL owner System
+        domain cloud01.avi.com
+        domain cloud02.avi.com
+
+domain-list WDC-VIDYO-PRTL-EXTRA owner System
+        domain wdcprtl.wave.wellmanage.com
+        
+answer-group WDC-VIDYO-PRTL owner System type vip
+        answer-add 134.42.99.30 name wdcprtl weight 1 order 0 load-threshold 254 activate
+
+answer-group asd-VIDYO-PRTL owner System type vip
+        answer-add 134.42.99.30 name wdcprtl weight 1 order 0 load-threshold 254 activate
+        
+answer vip 134.42.99.30 name wdcprtl location "Windsor, CT" manual-reactivation disable activate
+
+
+domain-list WDC-VIDYO-PRTL-DL-EXTRA owner System
+        domain wdcprtl.wave.wellmanage.com
+
+
+source-address-list Anywhere owner System
+        ip address  0.0.0.0 0.0.0.0
+        ip address  ::/0
+
+
+dns rule WDC-VIDYO-PRTL-RULE1 owner System source-address-list India domain-list WDC-VIDYO-PRTL-DL1 activate
+    query a
+    clause 1 vip-group WDC-VIDYO-PRTL11 method ordered  ttl 20 count 1 manual-reactivation disable  activate 
+    clause 2 vip-group WDC-VIDYO-PRTL12 method ordered  ttl 20 count 1 manual-reactivation disable  activate 
+
+domain-list WDC-VIDYO-PRTL-DL1 owner System
+        domain cloud01.avi.com
+        domain cloud02.avi.com
+
+answer-group WDC-VIDYO-PRTL1 owner System type vip
+        answer-add 134.42.88.40 name wdcprtl1 weight 1 order 0 load-threshold 254 activate
+
+answer-group WDC-VIDYO-PRTL11 owner System type vip
+        answer-add 134.42.99.30 name wdcprtl1 weight 1 order 0 load-threshold 254 activate
+
+answer-group WDC-VIDYO-PRTL12 owner System type vip
+        answer-add 134.42.26.171 name wdcprtl1 weight 1 order 0 load-threshold 254 activate
+        
+answer vip 134.42.99.30 name wdcprtl1 location "Windsor, CT" manual-reactivation disable activate
+
+
+source-address-list India owner System
+        ip address  0.0.0.0 0.0.0.0
+        ip address  ::/0
