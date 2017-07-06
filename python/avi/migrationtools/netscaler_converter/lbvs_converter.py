@@ -24,7 +24,6 @@ used_pool_group_ref = []
 
 class LbvsConverter(object):
 
-
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
                  profile_merge_check, controller_version, user_ignore, prefix):
         """
@@ -229,22 +228,27 @@ class LbvsConverter(object):
                     vs_obj['application_profile_ref'] = app_profile
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
-                    'System-DNS', 'applicationprofile', tenant='admin')
+                        'System-DNS', 'applicationprofile', tenant='admin')
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
-                    'System-UDP-Per-Pkt', 'networkprofile', tenant='admin')
+                        'System-UDP-Per-Pkt', 'networkprofile', tenant='admin')
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'UDP':
                     vs_obj[
                         'application_profile_ref'] = ns_util.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
                         tenant='admin')
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
-                    'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
+                        'System-UDP-Fast-Path', 'networkprofile',
+                        tenant='admin')
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS_TCP':
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
                         tenant='admin')
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
-                    'System-TCP-Proxy', 'networkprofile', tenant='admin')
+                        'System-TCP-Proxy', 'networkprofile', tenant='admin')
+                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'SSL':
+                    vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                        'System-Secure-HTTP', 'applicationprofile',
+                        tenant='admin')
 
                 if pool_group:
                     # clone the pool group if it is referenced to other
@@ -320,9 +324,11 @@ class LbvsConverter(object):
                     if pool_group:
                         ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                                full_cmd, STATUS_INDIRECT)
-                        LOG.warning('%s %s Skipped VS, Service point to %s server'
-                                  ' and not have redirect action and backup '
-                                  'vserver' % (cmd, key, ip_addr))
+                        LOG.warning(
+                            '%s %s Skipped VS, Service point to %s server'
+                            ' and not have redirect action and backup '
+                            'vserver' % (cmd, key, ip_addr)
+                        )
                     else:
                         msg = ('%s %s Skipped VS, Invalid VIP %s and do not '
                                'have service assigned, redirect action and  '
@@ -334,8 +340,8 @@ class LbvsConverter(object):
 
                     continue
                 # Regex to check Vs has IPV6 address if yes the Skipped
-                if re.findall(ns_constants.IPV6_Address, ip_addr) or \
-                                ip_addr == '0.0.0.0':
+                if re.findall(ns_constants.IPV6_Address, ip_addr) \
+                        or ip_addr == '0.0.0.0':
                     # Added condition to handel redirect_url and backupvserver
                     if redirect_url:
                         redirect_dict = {
@@ -347,12 +353,12 @@ class LbvsConverter(object):
                         avi_config['Lbvs'].append(redirect_dict)
                     if backup_server:
                         backup_server_name = {
-                                                updated_vs_name:
-                                                  {
-                                                      "backupvserver":
-                                                          pool_group['name']
-                                                  }
-                                              }
+                            updated_vs_name:
+                                {
+                                    "backupvserver":
+                                        pool_group['name']
+                                }
+                        }
                         avi_config['Lbvs'].append(backup_server_name)
                     vs_conv_status = STATUS_SKIPPED
                     if backup_configured:
@@ -361,7 +367,7 @@ class LbvsConverter(object):
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(
                         lb_vs['line_no'], cmd, key, full_cmd, vs_conv_status,
-                    skipped_status)
+                        skipped_status)
                     continue
 
                 service = {'port': port, 'enable_ssl': enable_ssl}
@@ -370,8 +376,8 @@ class LbvsConverter(object):
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
 
-                persistenceType = lb_vs.get('persistenceType', '')
-                if pool_group_ref and persistenceType in \
+                persistence_type = lb_vs.get('persistenceType', '')
+                if pool_group_ref and persistence_type in \
                         self.lbvs_supported_persist_types:
 
                     profile_name = '%s-persistance-profile' % vs_name
@@ -385,9 +391,9 @@ class LbvsConverter(object):
                         persist_profile)
                     self.update_pool_for_persist(avi_config, pool_group,
                                                  profile_name)
-                elif not persistenceType == 'NONE':
+                elif not persistence_type == 'NONE':
                     LOG.warning('Persistance type %s not supported by Avi' %
-                             persistenceType)
+                                persistence_type)
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     # Get the merge network profile name
@@ -429,7 +435,7 @@ class LbvsConverter(object):
                     tmp_avi_config['VirtualService'].append(vs_obj)
                     # Marked redirect url as status indirect
                     ns_util.add_status_row(lb_vs['line_no'], cmd, key,
-                                            full_cmd, STATUS_INDIRECT, vs_obj)
+                                           full_cmd, STATUS_INDIRECT, vs_obj)
                 else:
                     # Verify that this lb vs has share the same VIP of another
                     # vs If yes then skipped this lb vs
@@ -512,8 +518,8 @@ class LbvsConverter(object):
                                     'Could not find ssl key cert, so adding '
                                     'default cert as system default insted')
                                 vs_obj[avi_ssl_ref] = [ns_util.get_object_ref(
-                                'System-Default-Cert', 'sslkeyandcertificate',
-                                'admin')]
+                                    'System-Default-Cert',
+                                    'sslkeyandcertificate', 'admin')]
                                 continue
                             vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                     ssl_vs_mapping = ns_config.get('set ssl vserver', {})
@@ -540,7 +546,6 @@ class LbvsConverter(object):
             except:
                 LOG.error('Error in lb vs conversion for: %s' %
                           key, exc_info=True)
-
 
     def update_pool_for_persist(self, avi_config, pool_group, profile_name):
         """
