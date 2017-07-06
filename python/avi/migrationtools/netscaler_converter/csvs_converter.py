@@ -25,7 +25,6 @@ tmp_policy_ref = []
 
 class CsvsConverter(object):
 
-
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
                  profile_merge_check, controller_version, user_ignore, prefix):
         """
@@ -95,7 +94,7 @@ class CsvsConverter(object):
             # Skipped this CS VS if it has type which are not supported
             if not cs_vs['attrs'][1] in self.csvs_supported_types:
                 skipped_status = 'Skipped:Unsupported type %s of Context ' \
-                                 'switch VS: %s' %(cs_vs['attrs'][1], key)
+                                 'switch VS: %s' % (cs_vs['attrs'][1], key)
                 LOG.warning(skipped_status)
                 ns_util.add_status_row(cs_vs['line_no'],
                                        ns_add_cs_vserver_command, key,
@@ -130,8 +129,8 @@ class CsvsConverter(object):
             if self.prefix:
                 updated_vs_name = self.prefix + '-' + updated_vs_name
             # Regex to check Vs has IPV6 address if yes the Skipped
-            if re.findall(ns_constants.IPV6_Address, ip_addr) or \
-                            ip_addr == '0.0.0.0':
+            if re.findall(ns_constants.IPV6_Address, ip_addr) \
+                    or ip_addr == '0.0.0.0':
                 skipped_status = "Skipped:Invalid VIP %s" \
                                  % ns_add_cs_vserver_command
                 LOG.warning(skipped_status)
@@ -211,7 +210,7 @@ class CsvsConverter(object):
                     vs_obj['network_profile_ref'] = ntwk_prof
                 else:
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
-                    'System-TCP-Proxy', 'networkprofile', tenant='admin')
+                        'System-TCP-Proxy', 'networkprofile', tenant='admin')
                     LOG.error('Error: Not found Network profile %s for %s' %
                               (ntwk_prof, vs_name))
 
@@ -234,13 +233,16 @@ class CsvsConverter(object):
                     tenant='admin')
                 vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                     'System-TCP-Proxy', 'networkprofile', tenant='admin')
+            elif not http_prof and (cs_vs['attrs'][1]).upper() == 'SSL':
+                vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                    'System-Secure-HTTP', 'applicationprofile',
+                    tenant='admin')
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
             if isinstance(bind_conf_list, dict):
                 bind_conf_list = [bind_conf_list]
             default_pool_group = None
-            policy_name = ''
             lb_vserver_bind_conf = None
 
             if enable_ssl:
@@ -345,7 +347,7 @@ class CsvsConverter(object):
 
             for binding in lbvs_bindings:
                 if self.prefix:
-                    binding = '%s-%s' %(self.prefix, binding)
+                    binding = '%s-%s' % (self.prefix, binding)
                 lb_vs_obj = [obj for obj in lbvs_avi_conf
                              if obj['name'] == binding]
 
@@ -388,7 +390,7 @@ class CsvsConverter(object):
                             policy['http_request_policy']['rules'] = [
                                 redirect_rule]
                         else:
-                            policy ={
+                            policy = {
                                 'name': "vs-%s-HTTP-Policy-Set" % vs_name,
                                 'tenant_ref': self.tenant_ref,
                                 'http_request_policy': {
