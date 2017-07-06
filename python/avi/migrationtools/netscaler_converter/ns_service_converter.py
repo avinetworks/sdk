@@ -571,8 +571,14 @@ class ServiceConverter(object):
                     # Added prefix for objects
                     if self.prefix:
                         monitor_name = self.prefix + '-' + monitor_name
-                    if not [monitor for monitor in avi_config['HealthMonitor']
-                            if monitor['name'] == monitor_name]:
+                    monitor = [monitor for monitor in avi_config['HealthMonitor']
+                            if monitor['name'] == monitor_name]
+                    if not monitor:
+                        monitor_name = '%s-%s' %(monitor_name, 'dummy')
+                        monitor = [monitor for monitor in
+                                   avi_config['HealthMonitor']
+                                   if monitor['name'] == monitor_name]
+                    if not monitor:
                         skipped_status = 'External Monitor : Not supported ' \
                                          'Health monitor %s' % \
                                          full_bind_service_command
