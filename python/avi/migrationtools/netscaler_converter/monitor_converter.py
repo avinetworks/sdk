@@ -64,10 +64,24 @@ class MonitorConverter(object):
             ns_monitor_type = ns_monitor['attrs'][1]
             if ns_monitor_type not in self.ns_monitor_types_supported:
                 # Skipped health monitor if type is not supported
+                avi_monitor = self.convert_monitor(
+                     ns_monitor, input_dir, netscalar_command,
+                    ns_monitor_complete_command)
+                if not avi_monitor:
+                    continue
+
+                avi_monitor['name'] = '%s-%s' % (avi_monitor['name'], 'dummy')
+                avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
+                ext_monitor = {
+                    "command_code": "",
+                }
+                avi_monitor["external_monitor"] = ext_monitor
+                avi_config['HealthMonitor'].append(avi_monitor)
                 ns_util.add_status_row(
                     ns_monitor['line_no'], netscalar_command,
                     name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR)
-                LOG.warning('Monitor type %s not supported skipped:%s' %
+                LOG.warning('Monitor type %s not supported created dummy '
+                            'external monitor:%s' %
                             (ns_monitor_type, name))
                 continue
             avi_monitor = self.convert_monitor(
