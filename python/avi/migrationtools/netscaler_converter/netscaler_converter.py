@@ -10,7 +10,7 @@ import avi.migrationtools.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
 import avi.migrationtools.netscaler_converter.scp_util as scp_util
-
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
@@ -19,6 +19,11 @@ from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
 
+DEFAULT_SKIP_TYPES = [
+    'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
+    'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
+    'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
+    'SeProperties', 'ControllerProperties', 'CloudProperties']
 
 class NetscalerConverter(AviConverter):
     def __init__(self, args):
@@ -50,6 +55,10 @@ class NetscalerConverter(AviConverter):
         self.prefix = args.prefix
         # Added not in use flag
         self.not_in_use = args.not_in_use
+        # Added ansible flag
+        self.ansible_skip_types = args.ansible_skip_types
+        self.ansible_filter_types = args.ansible_filter_types
+        self.create_ansible = args.ansible
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -111,12 +120,15 @@ class NetscalerConverter(AviConverter):
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
         report_name = os.path.splitext(os.path.basename(source_file))[0]
+        # Added dict for collecting vs for netscaler.
+        vs_name_dict = dict()
+        vs_name_dict['csvs'] = dict()
+        vs_name_dict['lbvs'] = dict()
         avi_config = ns_conf_converter.convert(
             ns_config, self.tenant, self.cloud_name, self.controller_version,
             output_dir, input_dir, skipped_cmds, self.vs_state,
-            self.profile_merge_check, report_name, self.prefix,
+            self.profile_merge_check, report_name, self.prefix, vs_name_dict,
             self.ns_passphrase_file, user_ignore)
-
         avi_config = self.process_for_utils(
             avi_config)
         # Check if flag true then skip not in use object
@@ -124,6 +136,15 @@ class NetscalerConverter(AviConverter):
             avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(
             avi_config, output_dir, '%s-Output.json' % report_name)
+        if self.create_ansible:
+            avi_traffic = AviAnsibleConverter(
+                avi_config, output_dir, self.prefix, self.not_in_use,
+                ns_vs_name_dict=vs_name_dict)
+            avi_traffic.write_ansible_playbook\
+                (
+                    self.ns_host_ip, self.ns_ssh_user, self.ns_ssh_password,
+                    'netscaler'
+                )
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
         return avi_config
@@ -225,8 +246,24 @@ if __name__ == "__main__":
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
                         action="store_true")
-
-
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_skip_types',
+                        help='Comma separated list of Avi Object types to skip '
+                             'during conversion.\n  Eg. -s DebugController,'
+                             'ServiceEngineGroup will skip debugcontroller and '
+                             'serviceengine objects',
+                        default=DEFAULT_SKIP_TYPES)
+    # Added command line args to take skip type for ansible playbook
+    parser.add_argument('--ansible_filter_types',
+                        help='Comma separated list of Avi Objects types to '
+                             'include during conversion.\n Eg. -f '
+                             'VirtualService, Pool will do ansible conversion '
+                             'only for Virtualservice and Pool objects',
+                        default=[])
+    # Create Ansible Script based on Flag
+    parser.add_argument('--ansible',
+                        help='Flag for create ansible file',
+                        action='store_true')
     args = parser.parse_args()
     # print avi netscaler converter version
     if args.version:

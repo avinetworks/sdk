@@ -62,7 +62,7 @@ class CsvsConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, vs_state):
+    def convert(self, ns_config, avi_config, vs_state, vs_name_dict):
         """
         This function defines that it convert netscalar cs vs config to vs
         config of AVI
@@ -126,6 +126,9 @@ class CsvsConverter(object):
             if cs_vs['attrs'][1] == 'SSL':
                 enable_ssl = True
             updated_vs_name = re.sub('[:]', '-', vs_name)
+            # Added ns vs dict
+            vs_name_dict['csvs'][updated_vs_name] = vs_name
+
             # Added prefix for objects
             if self.prefix:
                 updated_vs_name = self.prefix + '-' + updated_vs_name

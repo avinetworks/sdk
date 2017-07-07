@@ -22,7 +22,7 @@ LOG = logging.getLogger(__name__)
 
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, profile_merge_check,report_name,
-            prefix, key_passphrase=None, user_ignore={}):
+            prefix, vs_name_dict, key_passphrase=None, user_ignore={}):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -87,7 +87,6 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
             }
         }
-
         if parse_version(version) >= parse_version('17.1'):
             avi_config['META']['supported_migrations']['versions'].append(
                 '17_1_1')
@@ -111,13 +110,13 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         lbvs_converter = LbvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
             version, user_ignore, prefix)
-        lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
-
+        # Added ns vs dict parameter
+        lbvs_converter.convert(ns_config_dict, avi_config, vs_state, vs_name_dict)
+        # Added ns vs dict parameter
         csvs_converter = CsvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
             version, user_ignore, prefix)
-        csvs_converter.convert(ns_config_dict, avi_config, vs_state)
-
+        csvs_converter.convert(ns_config_dict, avi_config, vs_state, vs_name_dict)
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
         # Add/update CSV/report
