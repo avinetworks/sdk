@@ -113,7 +113,7 @@ class AviConverter(object):
                 "min_version": 15.2,
                 "ProductName": "Avi Cloud Controller"
             },
-            "upgrade_mode": "False",
+            "upgrade_mode": False,
             "use_tenant": tenant
         }
         return avi_config_dict
