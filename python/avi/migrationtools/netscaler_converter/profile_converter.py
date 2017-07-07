@@ -307,11 +307,11 @@ class ProfileConverter(object):
                 ssl_profile['ssl_session_timeout'] = \
                     int(ssl_service.get('sessTimeout'))
             accepted_versions = []
-            if ssl_service.get('tls1', None):
+            if ssl_service.get('tls1', 'ENABLED') == 'ENABLED':
                 accepted_versions.append({'type': 'SSL_VERSION_TLS1'})
-            if ssl_service.get('tls11', None):
+            if ssl_service.get('tls11', 'ENABLED') == 'ENABLED':
                 accepted_versions.append({'type': 'SSL_VERSION_TLS1_1'})
-            if ssl_service.get('tls12', None):
+            if ssl_service.get('tls12', 'ENABLED') == 'ENABLED':
                 accepted_versions.append({'type': 'SSL_VERSION_TLS1_2'})
             if accepted_versions:
                 ssl_profile['accepted_versions'] = accepted_versions
