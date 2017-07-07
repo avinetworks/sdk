@@ -73,7 +73,12 @@ RESULT = "result.success!=0"
 VS_NAME = 'vs_name'
 TENANT = 'tenant'
 ANSIBLE_STR = '# Auto-generated from Avi Configuration\n'
-
+DISABLE_NETSCALER = 'disablenetscaler'
+ENABLE_NETSCALER = 'enablenetscaler'
+NS_USERNAME = "{{ns_username}}"
+NS_PASSWORD = "{{ns_password}}"
+NS_HOST = "{{ns_host}}"
+NETSCALER_VS_STATUS = 'netscaler_vs_status'
 HELP_STR = '''
 Converts Avi Config JSON to Ansible Playbooks.
 Please ensure configuration is exported with options

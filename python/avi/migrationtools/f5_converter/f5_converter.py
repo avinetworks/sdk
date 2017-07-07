@@ -199,7 +199,7 @@ class F5Converter(AviConverter):
             avi_traffic = AviAnsibleConverter(
                 avi_config, output_dir, self.prefix, self.not_in_use)
             avi_traffic.write_ansible_playbook(
-                self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password)
+                self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
 
