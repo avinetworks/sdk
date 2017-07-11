@@ -1039,8 +1039,8 @@ def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object,
     :param name_of_object: object name like pool name, virtual service obj name.
     :return: List of skipped settings
     """
-
-    app_persistence_profile_name = get_name(name_of_object['ssl_profile_name'])
+    # Changed ssl profile name to ssl profile ref.
+    app_persistence_profile_name = get_name(name_of_object['ssl_profile_ref'])
     csv_object = get_csv_object_list(csv_writer_dict_list, ['set lb group'])
     skipped_list = get_csv_skipped_list(
         csv_object, app_persistence_profile_name, vs_ref)
@@ -1077,23 +1077,6 @@ def get_network_profile_skipped(csv_writer_dict_list, name_of_object, vs_ref):
     skipped_list = get_csv_skipped_list(
         csv_object, network_profile_name, vs_ref)
     return network_profile_name, skipped_list
-
-
-def get_app_persistence_profile_skipped(csv_writer_dict_list, name_of_object,
-                                        vs_ref):
-    """
-    This functions defines that get the skipped list of CSV row
-    :param csv_writer_dict_list: List of set lb group netscaler command rows
-    :param name_of_object: object name like pool name, virtual service obj name.
-    :return: List of skipped settings
-    """
-
-    app_persistence_profile_name = get_name(name_of_object['ssl_profile_name'])
-    csv_object = get_csv_object_list(
-        csv_writer_dict_list, ['set lb group'])
-    skipped_list = get_csv_skipped_list(
-        csv_object, app_persistence_profile_name, vs_ref)
-    return app_persistence_profile_name, skipped_list
 
 
 def get_pool_skipped_list(avi_config, pool_group_name, skipped_setting,
@@ -1259,9 +1242,10 @@ def vs_per_skipped_setting_for_references(avi_config):
                 skipped_setting['ssl key and cert']['name'] = name
                 skipped_setting['ssl key and cert']['skipped_list'] = skipped
         # Get the skipped list for ssl profile name.
-        if 'ssl_profile_name' in virtual_service:
+        # Changed ssl profile name to ssl profile ref.
+        if 'ssl_profile_ref' in virtual_service:
             name, skipped = get_ssl_profile_skipped(
-                csv_writer_dict_list, virtual_service['ssl_profile_name'],
+                csv_writer_dict_list, virtual_service['ssl_profile_ref'],
                 vs_ref)
             if skipped:
                 skipped_setting['ssl profile'] = {}

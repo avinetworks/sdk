@@ -227,10 +227,11 @@ def ssl_profile_reference_vs(avi_config):
     # Get VS from avi config
     avi_config_vs = avi_config.get('VirtualService', [])
     for vs in avi_config_vs:
-        if vs.get('ssl_profile_name', None):
+        # Changed ssl profile name to ssl profile ref.
+        if vs.get('ssl_profile_ref', None):
             ssl_profile_ref = \
                 ((re.search(r"name=.*",
-                            vs.get('ssl_profile_name')).group(0)).
+                            vs.get('ssl_profile_ref')).group(0)).
                  split('='))[1]
 
             # Get ssl profile object if VS has ssl profile name
