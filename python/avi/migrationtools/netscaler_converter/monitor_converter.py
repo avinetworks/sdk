@@ -10,11 +10,22 @@ from avi.migrationtools.netscaler_converter.ns_constants \
 
 LOG = logging.getLogger(__name__)
 
+# Define Dict of merge_object_mapping to update the merged monitor, profile
+# name of ssl_profile, application_profile, network_profile etc
+merge_object_mapping = {
+    'ssl_profile': {'no': 0},
+    'app_profile': {'no': 0},
+    'network_profile': {'no': 0},
+    'app_persist_profile': {'no': 0},
+    'pki_profile': {'no': 0},
+    'health_monitor': {'no': 0}
+}
+
 
 class MonitorConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 user_ignore, prefix):
+                 user_ignore, prefix, object_merge_check):
         """
         Construct a new 'MonitorConverter' object.
         :param tenant_name: Name of tenant
@@ -43,6 +54,8 @@ class MonitorConverter(object):
         self.user_ignore = user_ignore.get('monitor', [])
         # Added prefix flag
         self.prefix = prefix
+        self.object_merge_check = object_merge_check
+        self.monitor_merge_count = 0
 
     def convert(self, ns_config, avi_config, input_dir):
         """
@@ -55,7 +68,6 @@ class MonitorConverter(object):
         netscalar_command = 'add lb monitor'
         LOG.debug("Conversion started for Health Monitors")
         ns_monitors = ns_config.get('add lb monitor', {})
-        avi_config['HealthMonitor'] = []
         for name in ns_monitors.keys():
             ns_monitor = ns_monitors.get(name)
             ns_monitor_complete_command = \
@@ -98,7 +110,21 @@ class MonitorConverter(object):
             ns_util.add_conv_status(
                 ns_monitor['line_no'], netscalar_command, name,
                 ns_monitor_complete_command, conv_status, avi_monitor)
-            avi_config['HealthMonitor'].append(avi_monitor)
+            if self.object_merge_check:
+                # Check health monitor is duplicate of other
+                # health monitor then skipped this health
+                # monitor and increment of count of
+                # monitor_merge_count
+                dup_of = ns_util.update_skip_duplicates(
+                    avi_monitor, avi_config['HealthMonitor'], 'health_monitor',
+                    merge_object_mapping, avi_monitor['name'], ns_monitor_type,
+                    self.prefix)
+                if dup_of:
+                    self.monitor_merge_count += 1
+                else:
+                    avi_config['HealthMonitor'].append(avi_monitor)
+            else:
+                avi_config['HealthMonitor'].append(avi_monitor)
             LOG.debug("Health monitor conversion completed : %s" % name)
 
     def convert_monitor(self, ns_monitor, input_dir, netscalar_command,
@@ -115,14 +141,12 @@ class MonitorConverter(object):
 
         avi_monitor = dict()
         try:
+            mon_name = ns_monitor['attrs'][0]
             # Added prefix for objects
             if self.prefix:
-                ns_monitor['attrs'][0] = self.prefix + '-' + \
-                                         ns_monitor['attrs'][0]
-            LOG.debug('Conversion started for monitor %s' %
-                      ns_monitor['attrs'][0])
-            avi_monitor["name"] = (ns_monitor['attrs'][0]).strip().\
-                replace(" ", "_")
+                mon_name = self.prefix + '-' + mon_name
+            LOG.debug('Conversion started for monitor %s' % mon_name)
+            avi_monitor["name"] = str(mon_name).strip().replace(" ", "_")
             avi_monitor["tenant_ref"] = self.tenant_ref
             avi_monitor["receive_timeout"] = ns_monitor.get('resptimeout', 2)
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
@@ -204,8 +228,7 @@ class MonitorConverter(object):
                 }
                 avi_monitor["external_monitor"] = ext_monitor
 
-            LOG.debug('Successfully converted monitor %s' %
-                      ns_monitor['attrs'][0])
+            LOG.debug('Successfully converted monitor %s' % mon_name)
         except:
             LOG.error('Error converting monitor %s', exc_info=True)
         return avi_monitor

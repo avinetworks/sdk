@@ -104,7 +104,8 @@ class PoolConfigConv(object):
 
             tenant, monitor = conv_utils.get_tenant_ref(monitor)
             monitor_obj = [obj for obj in monitor_config_list
-                           if obj["name"] == monitor]
+                           if (obj["name"] == monitor or monitor in obj.get(
+                    "dup_of", []))]
             if monitor_obj:
                 tenant = conv_utils.get_name_from_ref(
                     monitor_obj[0]['tenant_ref'])

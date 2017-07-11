@@ -105,6 +105,10 @@ def check_for_duplicates(src_obj, obj_list):
         del tmp_cp["name"]
         if "description" in tmp_cp:
             del tmp_cp["description"]
+        if 'url' in tmp_cp:
+            del tmp_cp['url']
+        if 'uuid' in tmp_cp:
+            del tmp_cp['uuid']
         dup_lst = tmp_cp.pop("dup_of", [])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
@@ -719,7 +723,8 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
         return False
     pool_obj = pool_obj[0]
     persist_profile_obj = [obj for obj in persist_config
-                           if obj["name"] == persist_profile]
+                           if (obj["name"] == persist_profile or
+                               persist_profile in obj.get("dup_of", []))]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
         obj_tenant = persist_profile_obj[0]['tenant_ref']
@@ -806,6 +811,9 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["ApplicationProfile"])
     remove_dup_key(avi_config["NetworkProfile"])
     remove_dup_key(avi_config["SSLProfile"])
+    remove_dup_key(avi_config["PKIProfile"])
+    remove_dup_key(avi_config["ApplicationPersistenceProfile"])
+    remove_dup_key(avi_config["HealthMonitor"])
     avi_config.pop('hash_algorithm', [])
     avi_config.pop('OneConnect', [])
     avi_config.pop('UnsupportedProfiles',[])

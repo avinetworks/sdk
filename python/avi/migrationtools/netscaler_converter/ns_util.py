@@ -21,7 +21,8 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             STATUS_INCOMPLETE_CONFIGURATION, STATUS_COMMAND_NOT_SUPPORTED,
             OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_POOL, STATUS_NOT_IN_USE,
             OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST, COMPLEXITY_ADVANCED,
-            COMPLEXITY_BASIC)
+            COMPLEXITY_BASIC, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
+            OBJECT_TYPE_APPLICATION_PROFILE)
 
 LOG = logging.getLogger(__name__)
 
@@ -676,31 +677,8 @@ def create_self_signed_cert():
     return key, cert
 
 
-def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
-                           default_profile_name):
-    """
-    Merge duplicate profiles
-    :param obj: Source object to find duplicates for
-    :param obj_list: List of object to search duplicates in
-    :param obj_type: Type of object to add in converted_objs status
-    :param converted_objs: Converted avi object or merged object name
-    :param name: Name of the object
-    :param default_profile_name : Name of root parent default profile
-    :return:
-    """
-    dup_of = None
-    # root default profiles are skipped for merging
-    if not name == default_profile_name:
-        dup_of = check_for_duplicates(obj, obj_list)
-    if dup_of:
-        converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
-        LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
-    else:
-        obj_list.append(obj)
-        converted_objs.append({obj_type: obj})
-
-
-def check_for_duplicates(src_obj, obj_list):
+def check_for_duplicates(src_obj, obj_list, obj_type, merge_object_mapping,
+                         ent_type, prefix):
     """
     Checks for duplicate objects except name and description values
     :param src_obj: Object to be checked for duplicate
@@ -716,20 +694,33 @@ def check_for_duplicates(src_obj, obj_list):
         del tmp_cp["name"]
         if "description" in tmp_cp:
             del tmp_cp["description"]
-        dup_lst = tmp_cp.pop("dup_of", [])
+        if 'url' in tmp_cp:
+            del tmp_cp['url']
+        if 'uuid' in tmp_cp:
+            del tmp_cp['uuid']
+        dup_lst = tmp_cp.pop("dup_of", [tmp_obj["name"]])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
             tmp_obj["dup_of"] = dup_lst
-            return tmp_obj["name"]
-    return None
+            old_name = tmp_obj['name']
+            if tmp_obj["name"] in merge_object_mapping[obj_type].keys():
+                merge_object_mapping[obj_type]['no'] += 1
+                no = merge_object_mapping[obj_type]['no']
+                mid_name = ent_type and ('Merged-' + ent_type + '-' + obj_type
+                                         + '-' + str(no)) or ('Merged-' +
+                obj_type + '-' + str(no))
+                new_name = prefix + '-' + mid_name if prefix else mid_name
+                tmp_obj["name"] = new_name
+            return tmp_obj["name"], old_name
+    return None, None
 
 
-def update_application_profile(app_profile, pki_profile_ref, tenant_ref, name,
+def update_application_profile(profile_name, pki_profile_ref, tenant_ref, name,
                                avi_config):
     """
     This functions defines to update application profile with pki profile if
     application profile exist if not create new http profile with pki profile
-    :param app_profile: object of Http profile
+    :param profile_name: name of Http profile
     :param pki_profile_ref:  ref of PKI profile
     :param tenant_ref: tenant ref
     :param name: name of virtual service
@@ -738,14 +729,16 @@ def update_application_profile(app_profile, pki_profile_ref, tenant_ref, name,
     """
 
     try:
-        if app_profile:
-            app_profile["http_profile"]['pki_profile_ref'] = pki_profile_ref
-            LOG.debug(
-                'Added PKI profile to application profile successfully : %s' % (
-                    app_profile['name'], pki_profile_ref))
+        if profile_name:
+            app_profile = [p for p in avi_config['ApplicationProfile']
+                       if p['name'] == profile_name]
+            if app_profile:
+                app_profile[0]["http_profile"]['pki_profile_ref'] = \
+                    pki_profile_ref
+                LOG.debug('Added PKI profile to application profile '
+                          'successfully : %s' % (profile_name, pki_profile_ref))
         else:
             app_profile = dict()
-            LOG.debug("Converting httpProfile: %s" % app_profile['attrs'][0])
             app_profile['name'] = name + '-%s-dummy' % random.randrange(0, 1000)
             app_profile['tenant_ref'] = tenant_ref
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
@@ -756,7 +749,6 @@ def update_application_profile(app_profile, pki_profile_ref, tenant_ref, name,
             http_profile['websockets_enabled'] = False
             http_profile['pki_profile_ref'] = pki_profile_ref
             app_profile["http_profile"] = http_profile
-            avi_config['ApplicationProfile'].append(app_profile)
         LOG.debug("Conversion completed successfully for httpProfile: %s" %
                   app_profile['name'])
     except:
@@ -1395,8 +1387,8 @@ def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
     master_writer.save()
 
 
-def update_skip_duplicates(obj, obj_list, obj_type, merge_profile_mapping,
-                           name):
+def update_skip_duplicates(obj, obj_list, obj_type, merge_object_mapping,
+                           name, ent_type, prefix):
     """
     Merge duplicate profiles
     :param obj: Source object to find duplicates for
@@ -1408,11 +1400,14 @@ def update_skip_duplicates(obj, obj_list, obj_type, merge_profile_mapping,
     :return:
     """
     dup_of = None
-    dup_of = check_for_duplicates(obj, obj_list)
-    merge_profile_mapping[obj_type].update({name: name})
+    merge_object_mapping[obj_type].update({name: name})
+    dup_of, old_name = check_for_duplicates(obj, obj_list, obj_type,
+                                   merge_object_mapping, ent_type, prefix)
     if dup_of:
         # Update value of ssl profile with merged profile
-        merge_profile_mapping[obj_type].update({name: dup_of})
+        if old_name in merge_object_mapping[obj_type].keys():
+            merge_object_mapping[obj_type].update({old_name: dup_of})
+        merge_object_mapping[obj_type].update({name: dup_of})
         return True
     return False
 
@@ -1508,3 +1503,32 @@ def get_redirect_fail_action(url):
         redirect_fail_action['fail_action']['redirect']['query'] = parsed.query
 
     return redirect_fail_action
+
+
+def cleanup_dupof(avi_config):
+    remove_dup_key(avi_config["ApplicationProfile"])
+    remove_dup_key(avi_config["NetworkProfile"])
+    remove_dup_key(avi_config["SSLProfile"])
+    remove_dup_key(avi_config['PKIProfile'])
+    remove_dup_key(avi_config["ApplicationPersistenceProfile"])
+    remove_dup_key(avi_config['HealthMonitor'])
+
+
+def remove_dup_key(obj_list):
+    for obj in obj_list:
+        obj.pop('dup_of', None)
+
+
+def update_profile_ref(ref, tenant, avi_obj, merge_obj_list):
+    for obj in avi_obj:
+        obj_ref = obj.get(ref)
+        if obj_ref:
+            name = get_name(obj_ref)
+            if name in merge_obj_list:
+                updated_name = merge_obj_list[name]
+                if ref == 'application_persistence_profile_ref':
+                    type_cons = OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE
+                if ref == 'application_profile_ref':
+                    type_cons = OBJECT_TYPE_APPLICATION_PROFILE
+                obj[ref] = get_object_ref(updated_name, type_cons, tenant)
+
