@@ -1477,9 +1477,10 @@ def vs_per_skipped_setting_for_references(avi_config):
                                      field_key='key_cert')
 
         # Get the skipped list for ssl profile name.
-        if 'ssl_profile_name' in virtual_service:
+        # Changed ssl profile name to ssl profile ref.
+        if 'ssl_profile_ref' in virtual_service:
             name, skipped = get_ssl_profile_skipped(
-                profile_csv_list, virtual_service['ssl_profile_name'], vs_ref)
+                profile_csv_list, virtual_service['ssl_profile_ref'], vs_ref)
             if skipped:
                 skipped_setting['ssl profile'] = {}
                 skipped_setting['ssl profile']['name'] = name

@@ -352,7 +352,8 @@ class CsvsConverter(object):
                     updated_ssl_profile_ref = ns_util.get_object_ref(
                         ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
-                    vs_obj['ssl_profile_name'] = updated_ssl_profile_ref
+                    # Changed ssl profile name to ssl profile ref.
+                    vs_obj['ssl_profile_ref'] = updated_ssl_profile_ref
                     LOG.debug('Added: %s SSL profile %s' % (key, key))
 
             for bind_conf in bind_conf_list:
