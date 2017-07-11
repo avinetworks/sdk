@@ -10,11 +10,14 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_monitor_atributes, prefix):
+    def get_instance(cls, version, f5_monitor_atributes, prefix,
+                     object_merge_check):
         if version == '10':
-            return MonitorConfigConvV10(f5_monitor_atributes, prefix)
+            return MonitorConfigConvV10(f5_monitor_atributes, prefix,
+                                        object_merge_check)
         if version in ['11', '12']:
-            return MonitorConfigConvV11(f5_monitor_atributes, prefix)
+            return MonitorConfigConvV11(f5_monitor_atributes, prefix,
+                                        object_merge_check)
 
     def get_defaults(self, monitor_config, key):
         pass
@@ -49,7 +52,7 @@ class MonitorConfigConv(object):
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant):
         LOG.debug("Converting health monitors")
-        avi_config["HealthMonitor"] = []
+        converted_objs = []
         m_user_ignore = user_ignore.get('monitor', {})
         monitor_config = f5_config.pop("monitor", {})
         for key in monitor_config.keys():
@@ -82,7 +85,14 @@ class MonitorConfigConv(object):
                     tenant)
                 if not avi_monitor:
                     continue
-                avi_config["HealthMonitor"].append(avi_monitor)
+                # code to merge health monitor.
+                if self.object_merge_check:
+                    conv_utils.update_skip_duplicates(avi_monitor,
+                        avi_config['HealthMonitor'], 'health_monitor',
+                            converted_objs, name, None)
+                    self.mon_count += 1
+                else:
+                    avi_config["HealthMonitor"].append(avi_monitor)
                 LOG.debug("Conversion successful for monitor: %s" % name)
             except:
                 LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
@@ -200,7 +210,7 @@ class MonitorConfigConv(object):
 
 
 class MonitorConfigConvV11(MonitorConfigConv):
-    def __init__(self, f5_monitor_attributes, prefix):
+    def __init__(self, f5_monitor_attributes, prefix, object_merge_check):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
         self.supported_attributes = \
@@ -224,6 +234,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
         # Added prefix for objects
         self.prefix = prefix
+        self.object_merge_check = object_merge_check
+        self.mon_count = 0
 
     def get_default_monitor(self, monitor_type, monitor_config):
         default_name = "%s %s" % (monitor_type, monitor_type)
@@ -471,7 +483,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
 
 
 class MonitorConfigConvV10(MonitorConfigConv):
-    def __init__(self, f5_monitor_attributes, prefix):
+    def __init__(self, f5_monitor_attributes, prefix, object_merge_check):
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
         self.supported_attributes =\
@@ -494,6 +506,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         self.ext_attr = f5_monitor_attributes['Monitor_ext_attr']
         # Added prefix for objects
         self.prefix = prefix
+        self.object_merge_check = object_merge_check
+        self.mon_count = 0
 
     def get_name_type(self, f5_monitor, key):
         return f5_monitor.get("type"), key

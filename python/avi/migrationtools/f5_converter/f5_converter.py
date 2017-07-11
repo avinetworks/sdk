@@ -51,7 +51,7 @@ class F5Converter(AviConverter):
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
-        self.ssl_profile_merge_check = args.no_profile_merge
+        self.object_merge_check = args.no_object_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -65,6 +65,9 @@ class F5Converter(AviConverter):
         self.con_snatpool = args.convertsnat
         # Added not in use flag
         self.not_in_use = args.not_in_use
+        # Added args for baseline profile json file to be changed
+        self.profile_path = args.baseline_profile
+
 
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
@@ -154,8 +157,9 @@ class F5Converter(AviConverter):
         report_name = os.path.splitext(os.path.basename(source_file.name))[0]
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
-            self.f5_config_version, self.ssl_profile_merge_check,
-            self.controller_version, report_name, self.prefix, self.con_snatpool, user_ignore,
+            self.f5_config_version, self.object_merge_check,
+            self.controller_version, report_name, self.prefix,
+            self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name)
 
         avi_config_dict["META"] = self.meta(self.tenant, 
@@ -311,8 +315,9 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--no_profile_merge',
-                        help='Flag for ssl profile merge', action='store_false')
+    # Changed the command line option to more generic term object
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
@@ -347,7 +352,9 @@ if __name__ == "__main__":
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
                         action="store_true")
-
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                                    'file containing baseline profiles')
 
 
     args = parser.parse_args()

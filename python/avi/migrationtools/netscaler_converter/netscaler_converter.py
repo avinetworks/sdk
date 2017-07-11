@@ -40,7 +40,7 @@ class NetscalerConverter(AviConverter):
         self.ns_key_file = args.ns_key_file
         self.ns_passphrase_file = args.ns_passphrase_file
         self.version = args.version
-        self.profile_merge_check = args.no_profile_merge
+        self.object_merge_check = args.no_object_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -50,6 +50,9 @@ class NetscalerConverter(AviConverter):
         self.prefix = args.prefix
         # Added not in use flag
         self.not_in_use = args.not_in_use
+        # Added args for baseline profile json file
+        self.profile_path = args.baseline_profile
+
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
@@ -114,10 +117,10 @@ class NetscalerConverter(AviConverter):
         meta = self.meta(self.tenant, self.controller_version)
         report_name = os.path.splitext(os.path.basename(source_file))[0]
         avi_config = ns_conf_converter.convert(
-            meta, ns_config, self.tenant, self.cloud_name,
-            self.controller_version, output_dir, input_dir, skipped_cmds,
-            self.vs_state, self.profile_merge_check, report_name, self.prefix,
-            self.ns_passphrase_file, user_ignore)
+            meta, ns_config, self.tenant, self.cloud_name, self.controller_version,
+            output_dir, input_dir, skipped_cmds, self.vs_state,
+            self.object_merge_check, report_name, self.prefix,
+            self.profile_path, self.ns_passphrase_file, user_ignore)
 
         avi_config = self.process_for_utils(
             avi_config)
@@ -210,8 +213,10 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--no_profile_merge',
-                        help='Flag for ssl profile merge', action='store_false')
+    # Changed the option name and description to generic as along with profile
+    # health monitor can also be merged
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
@@ -227,6 +232,9 @@ if __name__ == "__main__":
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
                         action="store_true")
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                                    'file containing baseline profiles')
 
 
     args = parser.parse_args()

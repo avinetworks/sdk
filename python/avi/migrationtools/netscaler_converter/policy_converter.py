@@ -161,7 +161,7 @@ class PolicyConverter(object):
                 policy_name, policy_config, rewrite_policy_config,
                 responder_policy_config)
 
-            if not policy or not type:
+            if not policy:
                 skipped_status = 'Skipped: Policy is not created %s' \
                                  % bind_lb_netscalar_complete_command
                 if not policy_type:
