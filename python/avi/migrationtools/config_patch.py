@@ -77,7 +77,7 @@ class ConfigPatch(object):
                             # need to remove and add the item.
                             log.debug('refs changed %s to %s', old_ref, new_ref)
                             new_refs = set(v)
-                            new_refs.pop(old_ref)
+                            new_refs.remove(old_ref)
                             new_refs.add(new_ref)
                             obj[k] = list(new_refs)
                     elif v == old_ref:
