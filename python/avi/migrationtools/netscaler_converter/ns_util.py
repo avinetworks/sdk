@@ -122,7 +122,9 @@ def add_complete_conv_status(ns_config, output_dir, avi_config, report_name):
             if str(dict_row['AVI Object']).startswith('Skipped'):
                 continue
             if dict_row.get('AVI Object', None):
-                row[0]['AVI Object'] += '__/__%s' % dict_row['AVI Object']
+                # Added condition to check unique status.
+                if str(row[0]['AVI Object']) != str(dict_row['AVI Object']):
+                    row[0]['AVI Object'] += '__/__%s' % dict_row['AVI Object']
     for status in STATUS_LIST:
         status_list = [row for row in row_list if
                        row['Status'] == status]
@@ -141,7 +143,6 @@ def add_status_row(line_no, cmd, object_type, full_command, status,
     :param cmd: netscaler command
     :param status: conversion status
     """
-
     global csv_writer_dict_list
     row = {
         'Line Number': line_no if line_no else '',
