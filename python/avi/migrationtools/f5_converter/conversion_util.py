@@ -89,7 +89,8 @@ def remove_dup_key(obj_list):
         obj.pop('dup_of', None)
 
 
-def check_for_duplicates(src_obj, obj_list):
+def check_for_duplicates(src_obj, obj_list, obj_type, merge_object_mapping,
+                         ent_type, prefix):
     """
     Checks for duplicate objects except name and description values
     :param src_obj: Object to be checked for duplicate
@@ -109,12 +110,22 @@ def check_for_duplicates(src_obj, obj_list):
             del tmp_cp['url']
         if 'uuid' in tmp_cp:
             del tmp_cp['uuid']
-        dup_lst = tmp_cp.pop("dup_of", [])
+        dup_lst = tmp_cp.pop("dup_of", [tmp_obj['name']])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
             tmp_obj["dup_of"] = dup_lst
-            return tmp_obj["name"]
-    return None
+            old_name = tmp_obj['name']
+            if isinstance(merge_object_mapping, dict) and tmp_obj["name"] in \
+                    merge_object_mapping[obj_type].keys():
+                merge_object_mapping[obj_type]['no'] += 1
+                no = merge_object_mapping[obj_type]['no']
+                mid_name = ent_type and ('Merged-' + ent_type + '-' + obj_type
+                                         + '-' + str(no)) or ('Merged-' +
+                                                obj_type + '-' + str(no))
+                new_name = prefix + '-' + mid_name if prefix else mid_name
+                tmp_obj["name"] = new_name
+            return tmp_obj["name"], old_name
+    return None, None
 
 
 def get_avi_pool_down_action(action):
@@ -239,7 +250,9 @@ def get_port_by_protocol(protocol):
 
 
 def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
-                           default_profile_name):
+                           default_profile_name, merge_object_mapping, ent_type,
+                           prefix):
+
     """
     Merge duplicate profiles
     :param obj: Source object to find duplicates for
@@ -251,12 +264,19 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
     :return:
     """
     dup_of = None
+    if isinstance(merge_object_mapping, dict):
+        merge_object_mapping[obj_type].update({name: name})
     # root default profiles are skipped for merging
     if not name == default_profile_name or obj_type == 'ssl_profile':
-        dup_of = check_for_duplicates(obj, obj_list)
+        dup_of, old_name = check_for_duplicates(obj, obj_list, obj_type,
+                                   merge_object_mapping, ent_type, prefix)
     if dup_of:
         converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
         LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
+        if isinstance(merge_object_mapping, dict):
+            if old_name in merge_object_mapping[obj_type].keys():
+                merge_object_mapping[obj_type].update({old_name: dup_of})
+            merge_object_mapping[obj_type].update({name: dup_of})
     else:
         obj_list.append(obj)
         converted_objs.append({obj_type: obj})

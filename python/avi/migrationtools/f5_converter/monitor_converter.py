@@ -4,6 +4,8 @@ import os
 
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as conv_const
+from avi.migrationtools.f5_converter.f5_config_converter import \
+    merge_object_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -89,7 +91,8 @@ class MonitorConfigConv(object):
                 if self.object_merge_check:
                     conv_utils.update_skip_duplicates(avi_monitor,
                         avi_config['HealthMonitor'], 'health_monitor',
-                            converted_objs, name, None)
+                            converted_objs, name, None, merge_object_mapping,
+                                                      monitor_type, self.prefix)
                     self.mon_count += 1
                 else:
                     avi_config["HealthMonitor"].append(avi_monitor)

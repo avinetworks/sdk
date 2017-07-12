@@ -15,7 +15,16 @@ import json
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
-
+# Define Dict of merge_object_mapping to update the merged monitor, profile
+# name of ssl_profile, application_profile, network_profile etc
+merge_object_mapping = {
+    'ssl_profile': {'no': 0},
+    'app_profile': {'no': 0},
+    'network_profile': {'no': 0},
+    'app_persist_profile': {'no': 0},
+    'pki_profile': {'no': 0},
+    'health_monitor': {'no': 0}
+}
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,

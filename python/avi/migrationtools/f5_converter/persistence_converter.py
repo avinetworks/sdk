@@ -4,6 +4,8 @@ import avi.migrationtools.f5_converter.converter_constants as final
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
+from avi.migrationtools.f5_converter.f5_config_converter import \
+    merge_object_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -102,7 +104,8 @@ class PersistenceConfigConv(object):
                     conv_utils.update_skip_duplicates(persist_profile,
                                     avi_config['ApplicationPersistenceProfile'],
                                     'app_per_profile', converted_objs, name,
-                                                      None)
+                                    None, merge_object_mapping, persist_mode,
+                                                      self.prefix)
                     self.app_per_count += 1
                 else:
                     avi_config["ApplicationPersistenceProfile"].append(
