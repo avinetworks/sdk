@@ -65,19 +65,20 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             avi_config_dict['ApplicationPersistenceProfile'] = []
             avi_config_dict['HealthMonitor'] = []
 
-        mon_conv = MonitorConfigConv.get_instance(
-            version, f5_attributes, prefix, object_merge_check)
-        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
-                         tenant)
-
-        pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
-        pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
-                          cloud_name)
-
         profile_conv = ProfileConfigConv.get_instance(
             version, f5_attributes, object_merge_check, prefix)
         profile_conv.convert(f5_config, avi_config_dict, input_dir,
                              user_ignore, tenant, cloud_name)
+
+        # Added ssl profile merge flag.
+        mon_conv = MonitorConfigConv.get_instance(
+            version, f5_attributes, prefix, object_merge_check)
+        mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
+                         tenant, cloud_name, controller_version)
+
+        pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
+        pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
+                          cloud_name)
 
         persist_conv = PersistenceConfigConv.get_instance(
             version, f5_attributes, prefix, object_merge_check)
