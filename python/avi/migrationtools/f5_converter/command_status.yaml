@@ -73,6 +73,9 @@ VERSION_11:
     - "reverse"
     - "send"
     - "destination"
+    - "cert"
+    - "cipherlist"
+    - "key"
 
     Monitor_dns_attr:
     - "recv"
@@ -563,6 +566,9 @@ VERSION_10:
     - "recv disable"
     - "reverse"
     - "send"
+    - "cert"
+    - "cipherlist"
+    - "key"
 
     Monitor_tcp_attr:
     - "dest"
