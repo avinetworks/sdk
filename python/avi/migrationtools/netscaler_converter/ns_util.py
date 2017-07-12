@@ -1345,6 +1345,8 @@ def write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
     status_wb = Workbook(xlsx_report)
     # xlsx worksheet
     status_ws = status_wb.add_worksheet("Status Sheet")
+    # Lock the first row of xls report.
+    status_ws.freeze_panes(1, 0)
     first_row = 0
     for header in fieldnames:
         col = fieldnames.index(header)
