@@ -4,8 +4,6 @@ import avi.migrationtools.f5_converter.converter_constants as final
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
-from avi.migrationtools.f5_converter.f5_config_converter import \
-    merge_object_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -43,7 +41,8 @@ class PersistenceConfigConv(object):
     def update_conv_status_for_skip(self, persist_mode, name):
         pass
 
-    def convert(self, f5_config, avi_config, user_ignore, tenant_ref):
+    def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
+                merge_object_mapping):
         avi_config['hash_algorithm'] = []
         converted_objs = []
         f5_persistence_dict = f5_config.get('persistence')

@@ -4,8 +4,6 @@ import os
 
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as conv_const
-from avi.migrationtools.f5_converter.f5_config_converter import \
-    merge_object_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -52,7 +50,8 @@ class MonitorConfigConv(object):
                          name):
         pass
 
-    def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant):
+    def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant,
+                merge_object_mapping):
         LOG.debug("Converting health monitors")
         converted_objs = []
         m_user_ignore = user_ignore.get('monitor', {})

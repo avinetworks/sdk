@@ -4,8 +4,6 @@ import os
 
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
-from avi.migrationtools.f5_converter.f5_config_converter import \
-    merge_object_mapping
 
 LOG = logging.getLogger(__name__)
 
@@ -31,11 +29,11 @@ class ProfileConfigConv(object):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore,
-                tenant_ref, cloud_ref):
+                tenant_ref, cloud_ref, merge_object_mapping):
         profile_config = f5_config.get("profile", {})
         avi_config["SSLKeyAndCertificate"] = []
         avi_config["StringGroup"] = []
@@ -71,7 +69,8 @@ class ProfileConfigConv(object):
                 u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(
                     profile, key, f5_config, profile_config, avi_config,
-                    input_dir, u_ignore, tenant, key_and_cert_mapping_list)
+                    input_dir, u_ignore, tenant, key_and_cert_mapping_list,
+                    merge_object_mapping)
                 LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
@@ -217,7 +216,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -860,7 +859,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping):
         skipped = profile.keys()
         indirect = []
         converted_objs = []

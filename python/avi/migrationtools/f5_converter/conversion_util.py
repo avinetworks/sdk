@@ -106,10 +106,6 @@ def check_for_duplicates(src_obj, obj_list, obj_type, merge_object_mapping,
         del tmp_cp["name"]
         if "description" in tmp_cp:
             del tmp_cp["description"]
-        if 'url' in tmp_cp:
-            del tmp_cp['url']
-        if 'uuid' in tmp_cp:
-            del tmp_cp['uuid']
         dup_lst = tmp_cp.pop("dup_of", [tmp_obj['name']])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
@@ -749,7 +745,7 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
     if persist_profile_obj:
         obj_tenant = persist_profile_obj[0]['tenant_ref']
         pool_obj[persist_ref_key] = get_object_ref(
-            persist_profile, 'applicationpersistenceprofile',
+            persist_profile_obj[0]['name'], 'applicationpersistenceprofile',
             tenant=get_name_from_ref(obj_tenant))
     elif persist_profile == "hash" or persist_profile in hash_profiles:
         del pool_obj["lb_algorithm"]
@@ -1738,3 +1734,12 @@ def net_to_static_route(f5_config, avi_config):
                         obj['static_routes'].append(static_route)
                     else:
                         obj['static_routes'] = [static_route]
+
+
+def clear_url_uuid(avi_config_dict):
+    for value in avi_config_dict.values():
+        for v in value:
+            v.pop('url', [])
+            v.pop('uuid', [])
+
+
