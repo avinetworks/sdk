@@ -1,0 +1,719 @@
+{
+    "info": {
+        "title": "Avi AuthProfile Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/authprofile/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AuthProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AuthProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/authprofile": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AuthProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfile"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AuthProfileApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "LdapDirectorySettings": {
+            "type": "object", 
+            "properties": {
+                "user_search_dn": {
+                    "type": "string", 
+                    "description": "LDAP user search DN is the root of search for a given user in the LDAP directory. Only user records present in this LDAP directory sub-tree will be validated."
+                }, 
+                "group_member_is_full_dn": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Group member entries contain full DNs instead of just user id attribute values."
+                }, 
+                "user_search_scope": {
+                    "default": "AUTH_LDAP_SCOPE_ONE", 
+                    "type": "string", 
+                    "description": "LDAP user search scope defines how deep to search for the user starting from user search DN. Enum options - AUTH_LDAP_SCOPE_BASE, AUTH_LDAP_SCOPE_ONE, AUTH_LDAP_SCOPE_SUBTREE."
+                }, 
+                "user_id_attribute": {
+                    "type": "string", 
+                    "description": "LDAP user id attribute is the login attribute that uniquely identifies a single user record."
+                }, 
+                "group_member_attribute": {
+                    "default": "member", 
+                    "type": "string", 
+                    "description": "LDAP group attribute that identifies each of the group members."
+                }, 
+                "group_filter": {
+                    "default": "(objectClass=*)", 
+                    "type": "string", 
+                    "description": "Group filter is used to identify groups during search."
+                }, 
+                "group_search_dn": {
+                    "type": "string", 
+                    "description": "LDAP group search DN is the root of search for a given group in the LDAP directory. Only matching groups present in this LDAP directory sub-tree will be checked for user membership."
+                }, 
+                "group_search_scope": {
+                    "default": "AUTH_LDAP_SCOPE_SUBTREE", 
+                    "type": "string", 
+                    "description": "LDAP group search scope defines how deep to search for the group starting from the group search DN. Enum options - AUTH_LDAP_SCOPE_BASE, AUTH_LDAP_SCOPE_ONE, AUTH_LDAP_SCOPE_SUBTREE."
+                }, 
+                "user_attributes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "LDAP user attributes to fetch on a successful user bind."
+                }, 
+                "ignore_referrals": {
+                    "type": "boolean", 
+                    "description": "During user or group search, ignore searching referrals."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "LDAP Admin User Password."
+                }, 
+                "admin_bind_dn": {
+                    "type": "string", 
+                    "description": "LDAP Admin User DN. Administrator credentials are required to search for users under user search DN or groups under group search DN."
+                }
+            }
+        }, 
+        "AuthProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/AuthProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "LdapAuthSettings": {
+            "type": "object", 
+            "properties": {
+                "security_mode": {
+                    "type": "string", 
+                    "description": "LDAP connection security mode. Enum options - AUTH_LDAP_SECURE_NONE, AUTH_LDAP_SECURE_USE_LDAPS."
+                }, 
+                "settings": {
+                    "description": "LDAP full directory configuration with administrator credentials.", 
+                    "$ref": "#/definitions/LdapDirectorySettings"
+                }, 
+                "bind_as_administrator": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "LDAP administrator credentials are used to search for users and group memberships."
+                }, 
+                "server": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "LDAP server IP address."
+                }, 
+                "user_bind": {
+                    "description": "LDAP anonymous bind configuration.", 
+                    "$ref": "#/definitions/LdapUserBindSettings"
+                }, 
+                "full_name_attribute": {
+                    "default": "name", 
+                    "type": "string", 
+                    "description": "LDAP attribute that refers to user's full name."
+                }, 
+                "base_dn": {
+                    "type": "string", 
+                    "description": "The LDAP base DN.  For example, avinetworks,com would be DC=avinetworks,DC=com."
+                }, 
+                "email_attribute": {
+                    "default": "email", 
+                    "type": "string", 
+                    "description": "LDAP attribute that refers to user email."
+                }, 
+                "port": {
+                    "default": 389, 
+                    "type": "integer", 
+                    "description": "Query the LDAP servers on this port.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "LdapUserBindSettings": {
+            "type": "object", 
+            "properties": {
+                "dn_template": {
+                    "type": "string", 
+                    "description": "LDAP user DN pattern is used to bind LDAP user after replacing the user token with real username."
+                }, 
+                "user_attributes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "LDAP user attributes to fetch on a successful user bind."
+                }, 
+                "token": {
+                    "default": "<user>", 
+                    "type": "string", 
+                    "description": "LDAP token is replaced with real user name in the user DN pattern."
+                }, 
+                "user_id_attribute": {
+                    "type": "string", 
+                    "description": "LDAP user id attribute is the login attribute that uniquely identifies a single user record."
+                }
+            }
+        }, 
+        "TacacsPlusAuthSettings": {
+            "type": "object", 
+            "properties": {
+                "authorization_attrs": {
+                    "items": {
+                        "$ref": "#/definitions/AuthTacacsPlusAttributeValuePair"
+                    }, 
+                    "type": "array", 
+                    "description": "TACACS+ authorization attribute value pairs."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "TACACS+ server shared secret."
+                }, 
+                "port": {
+                    "default": 49, 
+                    "type": "integer", 
+                    "description": "TACACS+ server listening port.", 
+                    "format": "int32"
+                }, 
+                "service": {
+                    "default": "AUTH_TACACS_PLUS_SERVICE_LOGIN", 
+                    "type": "string", 
+                    "description": "TACACS+ service. Enum options - AUTH_TACACS_PLUS_SERVICE_NONE, AUTH_TACACS_PLUS_SERVICE_LOGIN, AUTH_TACACS_PLUS_SERVICE_ENABLE, AUTH_TACACS_PLUS_SERVICE_PPP, AUTH_TACACS_PLUS_SERVICE_ARAP, AUTH_TACACS_PLUS_SERVICE_PT, AUTH_TACACS_PLUS_SERVICE_RCMD, AUTH_TACACS_PLUS_SERVICE_X25, AUTH_TACACS_PLUS_SERVICE_NASI, AUTH_TACACS_PLUS_SERVICE_FWPROXY."
+                }, 
+                "server": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "TACACS+ server IP address."
+                }
+            }
+        }, 
+        "AuthTacacsPlusAttributeValuePair": {
+            "type": "object", 
+            "properties": {
+                "mandatory": {
+                    "type": "boolean", 
+                    "description": "mandatory."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "attribute name."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "attribute value."
+                }
+            }
+        }, 
+        "AuthProfile": {
+            "required": [
+                "name", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "http": {
+                    "description": "HTTP user authentication params.", 
+                    "$ref": "#/definitions/AuthProfileHTTPClientParams"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the Auth Profile."
+                }, 
+                "tacacs_plus": {
+                    "description": "TACACS+ settings.", 
+                    "$ref": "#/definitions/TacacsPlusAuthSettings"
+                }, 
+                "ldap": {
+                    "description": "LDAP server and directory settings.", 
+                    "$ref": "#/definitions/LdapAuthSettings"
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the Auth Profile."
+                }
+            }
+        }, 
+        "AuthProfileHTTPClientParams": {
+            "type": "object", 
+            "properties": {
+                "group_member_is_full_dn": {
+                    "type": "boolean", 
+                    "description": "Group member entries contain full DNs instead of just user id attribute values."
+                }, 
+                "cache_expiration_time": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "The max allowed length of time a clients authentication is cached. Allowed values are 1-30.", 
+                    "format": "int32"
+                }, 
+                "request_header": {
+                    "type": "string", 
+                    "description": "Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client's HTTP Auth user ID."
+                }, 
+                "require_user_groups": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "A user should be a member of these groups.  Each group is defined by the DN.  For example, CN=testgroup,OU=groups,dc=example,dc=avinetworks,DC=com."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

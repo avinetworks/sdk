@@ -1,0 +1,2784 @@
+{
+    "info": {
+        "title": "Avi Cloud Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/cloud/{uuid}/status/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "Cloud object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/hosts/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/internals/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/autoscalegroupservers/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "Cloud object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "Cloud object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/Cloud"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/health/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/list": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "empty", 
+                        "name": "body", 
+                        "schema": {
+                            "additionalProperties": {
+                                "type": "string"
+                            }, 
+                            "type": "object"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/autoscalegroup/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloud/{uuid}/gc/": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "empty", 
+                        "name": "body", 
+                        "schema": {
+                            "additionalProperties": {
+                                "type": "string"
+                            }, 
+                            "type": "object"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "vCloudAirConfiguration": {
+            "required": [
+                "privilege", 
+                "vca_host", 
+                "vca_instance", 
+                "vca_mgmt_network", 
+                "vca_orgnization", 
+                "vca_password", 
+                "vca_username", 
+                "vca_vdc"
+            ], 
+            "type": "object", 
+            "properties": {
+                "vca_orgnization": {
+                    "type": "string", 
+                    "description": "vCloudAir orgnization ID."
+                }, 
+                "vca_username": {
+                    "type": "string", 
+                    "description": "vCloudAir username."
+                }, 
+                "vca_mgmt_network": {
+                    "type": "string", 
+                    "description": "vCloudAir management network."
+                }, 
+                "vca_password": {
+                    "type": "string", 
+                    "description": "vCloudAir password."
+                }, 
+                "vca_instance": {
+                    "type": "string", 
+                    "description": "vCloudAir instance ID."
+                }, 
+                "privilege": {
+                    "default": "WRITE_ACCESS", 
+                    "type": "string", 
+                    "description": "vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                }, 
+                "vca_vdc": {
+                    "type": "string", 
+                    "description": "vCloudAir virtual data center name."
+                }, 
+                "vca_host": {
+                    "type": "string", 
+                    "description": "vCloudAir host address."
+                }
+            }
+        }, 
+        "AwsZoneConfig": {
+            "required": [
+                "availability_zone", 
+                "mgmt_network_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "availability_zone": {
+                    "type": "string", 
+                    "description": "Availability zone."
+                }, 
+                "mgmt_network_name": {
+                    "type": "string", 
+                    "description": "Name or CIDR of the network in the Availability Zone that will be used as management network."
+                }, 
+                "mgmt_network_uuid": {
+                    "type": "string", 
+                    "description": "UUID of the network in the Availability Zone that will be used as management network."
+                }
+            }
+        }, 
+        "CloudStackConfiguration": {
+            "required": [
+                "access_key_id", 
+                "api_url", 
+                "mgmt_network_name", 
+                "secret_access_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "mgmt_network_name": {
+                    "type": "string", 
+                    "description": "Avi Management network name."
+                }, 
+                "api_url": {
+                    "type": "string", 
+                    "description": "CloudStack API URL."
+                }, 
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "CloudStack API Key."
+                }, 
+                "hypervisor": {
+                    "default": "KVM", 
+                    "type": "string", 
+                    "description": "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }, 
+                "cntr_public_ip": {
+                    "type": "string", 
+                    "description": "If controller's management IP is in a private network, a publicly accessible IP to reach the controller."
+                }, 
+                "secret_access_key": {
+                    "type": "string", 
+                    "description": "CloudStack Secret Key."
+                }, 
+                "mgmt_network_uuid": {
+                    "type": "string", 
+                    "description": "Avi Management network name."
+                }
+            }
+        }, 
+        "LinuxServerConfiguration": {
+            "type": "object", 
+            "properties": {
+                "se_sys_disk_size_GB": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "SE System Logs disk size for cloud.", 
+                    "format": "int32"
+                }, 
+                "se_inband_mgmt": {
+                    "type": "boolean", 
+                    "description": "Flag to notify the SE's in this cloud have an inband management interface, this can be overridden at SE host level by setting host_attr attr_key as SE_INBAND_MGMT with value of true or false."
+                }, 
+                "se_sys_disk_path": {
+                    "type": "string", 
+                    "description": "SE System Logs disk path for cloud."
+                }, 
+                "se_log_disk_path": {
+                    "type": "string", 
+                    "description": "SE Client Logs disk path for cloud."
+                }, 
+                "se_log_disk_size_GB": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "SE Client Log disk size for cloud.", 
+                    "format": "int32"
+                }, 
+                "hosts": {
+                    "items": {
+                        "$ref": "#/definitions/LinuxServerHost"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property hosts of obj type LinuxServerConfiguration field type str  type object"
+                }, 
+                "ssh_attr": {
+                    "description": "Parameters for SSH to hosts. Field deprecated in 17.1.1.", 
+                    "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "docker_registry_se": {
+                    "description": "Private docker registry for SE image storage. Field deprecated in 17.1.2.", 
+                    "$ref": "#/definitions/DockerRegistry"
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "MesosSeResources": {
+            "required": [
+                "attribute_key", 
+                "attribute_value"
+            ], 
+            "type": "object", 
+            "properties": {
+                "attribute_key": {
+                    "type": "string", 
+                    "description": "Attribute (Fleet or Mesos) key of Hosts."
+                }, 
+                "cpu": {
+                    "default": 2.0, 
+                    "type": "number", 
+                    "description": "Obsolete - ignored.", 
+                    "format": "float"
+                }, 
+                "attribute_value": {
+                    "type": "string", 
+                    "description": "Attribute (Fleet or Mesos) value of Hosts."
+                }, 
+                "memory": {
+                    "default": 4096, 
+                    "type": "integer", 
+                    "description": "Obsolete - ignored.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "HostAttributes": {
+            "required": [
+                "attr_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "attr_key": {
+                    "type": "string", 
+                    "description": "attr_key of HostAttributes."
+                }, 
+                "attr_val": {
+                    "type": "string", 
+                    "description": "attr_val of HostAttributes."
+                }
+            }
+        }, 
+        "LinuxServerHost": {
+            "required": [
+                "host_ip"
+            ], 
+            "type": "object", 
+            "properties": {
+                "host_attr": {
+                    "items": {
+                        "$ref": "#/definitions/HostAttributes"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property host_attr of obj type LinuxServerHost field type str  type object"
+                }, 
+                "host_ip": {
+                    "description": "Placeholder for description of property host_ip of obj type LinuxServerHost field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "node_availability_zone": {
+                    "type": "string", 
+                    "description": "Node's availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                }
+            }
+        }, 
+        "vCenterConfiguration": {
+            "required": [
+                "privilege"
+            ], 
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "The username Avi Vantage will use when authenticating with vCenter."
+                }, 
+                "datacenter": {
+                    "type": "string", 
+                    "description": "Datacenter for virtual infrastructure discovery."
+                }, 
+                "management_network": {
+                    "type": "string", 
+                    "description": "Management network to use for Avi Service Engines. It is a reference to an object of type VIMgrNWRuntime."
+                }, 
+                "vcenter_template_se_location": {
+                    "type": "string", 
+                    "description": "Avi Service Engine Template in vCenter to be used for creating Service Engines."
+                }, 
+                "management_ip_subnet": {
+                    "description": "Management subnet to use for Avi Service Engines.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "privilege": {
+                    "default": "WRITE_ACCESS", 
+                    "type": "string", 
+                    "description": "Set the access mode to vCenter as either Read, which allows Avi to discover networks and servers, or Write, which also allows Avi to create Service Engines and configure their network properties. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                }, 
+                "vcenter_url": {
+                    "type": "string", 
+                    "description": "vCenter hostname or IP address."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "The password Avi Vantage will use when authenticating with vCenter."
+                }
+            }
+        }, 
+        "APICConfiguration": {
+            "type": "object", 
+            "properties": {
+                "apic_vendor": {
+                    "default": "Avi", 
+                    "type": "string", 
+                    "description": "apic_vendor of APICConfiguration."
+                }, 
+                "avi_controller_username": {
+                    "default": "admin", 
+                    "type": "string", 
+                    "description": "The username APIC will use when authenticating with Avi Vantage."
+                }, 
+                "apic_product": {
+                    "default": "ASP", 
+                    "type": "string", 
+                    "description": "apic_product of APICConfiguration."
+                }, 
+                "apic_password": {
+                    "type": "string", 
+                    "description": "The password Avi Vantage will use when authenticating with APIC."
+                }, 
+                "apic_admin_tenant": {
+                    "default": "common", 
+                    "type": "string", 
+                    "description": "Name of the Avi specific tenant created within APIC."
+                }, 
+                "apic_username": {
+                    "type": "string", 
+                    "description": "The username Avi Vantage will use when authenticating with APIC."
+                }, 
+                "context_aware": {
+                    "default": "SINGLE_CONTEXT", 
+                    "type": "string", 
+                    "description": "Context aware for supporting Service Graphs across VRFs. Enum options - SINGLE_CONTEXT, MULTI_CONTEXT."
+                }, 
+                "avi_controller_password": {
+                    "type": "string", 
+                    "description": "The password APIC will use when authenticating with Avi Vantage."
+                }, 
+                "version": {
+                    "default": "1.0", 
+                    "type": "string", 
+                    "description": "AVI Device Package Version."
+                }, 
+                "deployment": {
+                    "type": "string", 
+                    "description": "deployment of APICConfiguration."
+                }, 
+                "apic_domain": {
+                    "type": "string", 
+                    "description": "vCenter's virtual machine manager domain within APIC."
+                }, 
+                "apic_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "The hostname or IP address of the APIC controller."
+                }, 
+                "managed_mode": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                }, 
+                "minor": {
+                    "default": "2", 
+                    "type": "string", 
+                    "description": "AVI Device Package Minor Version."
+                }
+            }
+        }, 
+        "NuageSDNController": {
+            "type": "object", 
+            "properties": {
+                "nuage_organization": {
+                    "type": "string", 
+                    "description": "nuage_organization of NuageSDNController."
+                }, 
+                "nuage_vsd_host": {
+                    "type": "string", 
+                    "description": "Nuage VSD host name or IP address."
+                }, 
+                "nuage_username": {
+                    "type": "string", 
+                    "description": "nuage_username of NuageSDNController."
+                }, 
+                "nuage_password": {
+                    "type": "string", 
+                    "description": "nuage_password of NuageSDNController."
+                }, 
+                "nuage_port": {
+                    "default": 8443, 
+                    "type": "integer", 
+                    "description": "Number of nuage_port.", 
+                    "format": "int32"
+                }, 
+                "se_user": {
+                    "type": "string", 
+                    "description": "User to be used for SE creation."
+                }, 
+                "se_enterprise": {
+                    "type": "string", 
+                    "description": "Enterprise to be used for SE creation."
+                }, 
+                "se_network": {
+                    "type": "string", 
+                    "description": "Network to be used for SE creation."
+                }, 
+                "se_domain": {
+                    "type": "string", 
+                    "description": "Domain to be used for SE creation."
+                }, 
+                "se_policy_group": {
+                    "type": "string", 
+                    "description": "Policy Group to be used for SE creation."
+                }, 
+                "se_zone": {
+                    "type": "string", 
+                    "description": "Zone to be used for SE creation."
+                }
+            }
+        }, 
+        "SSHSeDeployment": {
+            "type": "object", 
+            "properties": {
+                "host_os": {
+                    "default": "COREOS", 
+                    "type": "string", 
+                    "description": "Host OS distribution e.g. COREOS, UBUNTU, REDHAT. Field deprecated in 17.1.1."
+                }, 
+                "sudo_user": {
+                    "type": "string", 
+                    "description": "Username for sudo. Field deprecated in 17.1.1."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for ssh and/or sudo. Field deprecated in 17.1.1."
+                }, 
+                "ssh_user": {
+                    "type": "string", 
+                    "description": "Username for SSH access to hosts. Field deprecated in 17.1.1."
+                }
+            }
+        }, 
+        "ProxyConfiguration": {
+            "required": [
+                "host", 
+                "port"
+            ], 
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for proxy."
+                }, 
+                "host": {
+                    "type": "string", 
+                    "description": "Proxy hostname or IP address."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for proxy."
+                }, 
+                "port": {
+                    "type": "integer", 
+                    "description": "Proxy port.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "MesosConfiguration": {
+            "type": "object", 
+            "properties": {
+                "use_vips_for_east_west_services": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use unique virtual IP address for every east west service in Mesos/Marathon. 'use_bridge_ip_as_vip' and 'vip' fields , if set, will not be used if this field is set."
+                }, 
+                "east_west_placement_subnet": {
+                    "description": "Match against this prefix when placing east-west VSs on SEs (Mesos mode only).", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "enable_event_subscription": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable Marathon event subscriptions."
+                }, 
+                "nuage_controller": {
+                    "description": "Nuage Overlay SDN Controller information.", 
+                    "$ref": "#/definitions/NuageSDNController"
+                }, 
+                "feproxy_vips_enable_proxy_arp": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "disable_auto_backend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for back end services."
+                }, 
+                "feproxy_bridge_name": {
+                    "default": "cbr1", 
+                    "type": "string", 
+                    "description": "Name of second Linux bridge on Host providing connectivity for Front End proxies. This is a disruptive change."
+                }, 
+                "vip": {
+                    "description": "VIP to be used by all East-West apps on all Hosts. Preferrably use an address from outside the subnet.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "container_port_match_http_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                }, 
+                "fleet_endpoint": {
+                    "type": "string", 
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                }, 
+                "se_volume": {
+                    "default": "/opt/avi/se", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "http_container_ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.", 
+                    "format": "int32"
+                }, 
+                "se_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude hosts with attributes for SE creation."
+                }, 
+                "se_deployment_method": {
+                    "default": "MESOS_SE_CREATE_FLEET", 
+                    "type": "string", 
+                    "description": "Use Fleet/SSH for deploying Service Engines. Enum options - MESOS_SE_CREATE_FLEET, MESOS_SE_CREATE_SSH, MESOS_SE_CREATE_MARATHON."
+                }, 
+                "node_availability_zone_label": {
+                    "type": "string", 
+                    "description": "Mesos Node label to be used as Mesos Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                }, 
+                "docker_registry_se": {
+                    "description": "Docker registry for ServiceEngine image.", 
+                    "$ref": "#/definitions/DockerRegistry"
+                }, 
+                "feproxy_route_publish": {
+                    "description": "Publish ECMP route to upstream router for VIP.", 
+                    "$ref": "#/definitions/FeProxyRoutePublishConfig"
+                }, 
+                "ssh_se_deployment": {
+                    "description": "Parameters for SSH SE deployment. Field deprecated in 17.1.1.", 
+                    "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "feproxy_container_port_as_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "For Front End proxies, use container port as service port."
+                }, 
+                "use_controller_image": {
+                    "type": "boolean", 
+                    "description": "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
+                }, 
+                "disable_auto_gs_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto sync for GSLB services. Field introduced in 17.1.2."
+                }, 
+                "use_bridge_ip_as_vip": {
+                    "type": "boolean", 
+                    "description": "Use Bridge IP on each Host as VIP."
+                }, 
+                "coredump_directory": {
+                    "default": "/var/lib/systemd/coredump", 
+                    "type": "string", 
+                    "description": "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
+                }, 
+                "disable_auto_frontend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for front end services."
+                }, 
+                "se_resources": {
+                    "items": {
+                        "$ref": "#/definitions/MesosSeResources"
+                    }, 
+                    "type": "array", 
+                    "description": "Obsolete - ignored."
+                }, 
+                "se_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Create SEs just on hosts with include attributes."
+                }, 
+                "app_sync_frequency": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Sync frequency in seconds with frameworks.", 
+                    "format": "int32"
+                }, 
+                "mesos_url": {
+                    "default": "http://leader.mesos:5050", 
+                    "type": "string", 
+                    "description": "Mesos URL of the form http //host port."
+                }, 
+                "marathon_configurations": {
+                    "items": {
+                        "$ref": "#/definitions/MarathonConfiguration"
+                    }, 
+                    "type": "array", 
+                    "description": "List of Marathon frameworks."
+                }, 
+                "marathon_se_deployment": {
+                    "description": "Options for Marathon SE deployment.", 
+                    "$ref": "#/definitions/MarathonSeDeployment"
+                }, 
+                "services_accessible_all_interfaces": {
+                    "type": "boolean", 
+                    "description": "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS Mesos clusters to export East-West services on Host interface."
+                }, 
+                "se_spawn_rate": {
+                    "default": 25, 
+                    "type": "integer", 
+                    "description": "New SE spawn rate per minute.", 
+                    "format": "int32"
+                }, 
+                "all_vses_are_feproxy": {
+                    "type": "boolean", 
+                    "description": "Consider all Virtualservices as Front End Proxies. Front End proxies are placed on specific SEs as opposed to Back End proxies placed on all SEs. Applicable where each service has its own VIP and VIP is reachable from anywhere."
+                }, 
+                "use_container_ip_port": {
+                    "type": "boolean", 
+                    "description": "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
+                }, 
+                "disable_auto_se_creation": {
+                    "type": "boolean", 
+                    "description": "Disable SE creation."
+                }
+            }
+        }, 
+        "MarathonSeDeployment": {
+            "type": "object", 
+            "properties": {
+                "resource_roles": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Accepted resource roles for SEs."
+                }, 
+                "host_os": {
+                    "default": "COREOS", 
+                    "type": "string", 
+                    "description": "Host OS distribution e.g. COREOS, UBUNTU, REDHAT."
+                }, 
+                "uris": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "URIs to be resolved for starting the application."
+                }, 
+                "docker_image": {
+                    "default": "fedora", 
+                    "type": "string", 
+                    "description": "Docker image to be used for Avi SE installation e.g. fedora, ubuntu."
+                }
+            }
+        }, 
+        "MesosAttribute": {
+            "required": [
+                "attribute"
+            ], 
+            "type": "object", 
+            "properties": {
+                "attribute": {
+                    "type": "string", 
+                    "description": "Attribute to match."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "Attribute value. If not set, match any value."
+                }
+            }
+        }, 
+        "MarathonConfiguration": {
+            "type": "object", 
+            "properties": {
+                "marathon_url": {
+                    "default": "http://leader.mesos:8080", 
+                    "type": "string", 
+                    "description": "Marathon API URL of the form http //host port."
+                }, 
+                "marathon_password": {
+                    "type": "string", 
+                    "description": "Password for Marathon authentication."
+                }, 
+                "private_port_range": {
+                    "description": "Private port range allocated to this Marathon framework instance.", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "use_token_auth": {
+                    "type": "boolean", 
+                    "description": "Use Token based authentication instead of basic authentication. Token is refreshed every 5 minutes."
+                }, 
+                "marathon_username": {
+                    "type": "string", 
+                    "description": "Username for Marathon authentication."
+                }, 
+                "public_port_range": {
+                    "description": "Public port range allocated to this Marathon framework instance.", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "vs_name_tag_framework": {
+                    "type": "boolean", 
+                    "description": "Tag VS name with framework name or framework_tag. Useful in deployments with multiple frameworks."
+                }, 
+                "framework_tag": {
+                    "type": "string", 
+                    "description": "Framework tag to be used in Virtualservice name. Default is framework name from Mesos. If this tag is altered atruntime, Virtualservices will be deleted and re-created."
+                }, 
+                "tenant": {
+                    "default": "admin", 
+                    "type": "string", 
+                    "description": "Tenant to pin this Marathon instance to. If set, a tenant object will be created in Avi bearing this name and all applications created in this marathon will be associated with this tenant regardless of, if any, tenant configuration in marathon label for this application."
+                }
+            }
+        }, 
+        "OshiftSharedVirtualService": {
+            "required": [
+                "virtualservice_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "virtualservice_name": {
+                    "type": "string", 
+                    "description": "Name of shared virtualservice. VirtualService will be created automatically by Cloud Connector. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "PortRange": {
+            "required": [
+                "end", 
+                "start"
+            ], 
+            "type": "object", 
+            "properties": {
+                "start": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }, 
+                "end": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "OShiftK8SConfiguration": {
+            "type": "object", 
+            "properties": {
+                "east_west_placement_subnet": {
+                    "description": "Match against this prefix when placing east-west VSs on SEs .", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "enable_event_subscription": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable Kubernetes event subscription."
+                }, 
+                "nuage_controller": {
+                    "description": "Nuage Overlay SDN Controller information.", 
+                    "$ref": "#/definitions/NuageSDNController"
+                }, 
+                "feproxy_vips_enable_proxy_arp": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "disable_auto_backend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for back end services."
+                }, 
+                "container_port_match_http_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                }, 
+                "fleet_endpoint": {
+                    "type": "string", 
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                }, 
+                "default_shared_virtualservice": {
+                    "description": "Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/OshiftSharedVirtualService"
+                }, 
+                "routes_share_virtualservice": {
+                    "type": "boolean", 
+                    "description": "Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1."
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                }, 
+                "default_service_as_east_west_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration."
+                }, 
+                "client_tls_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
+                }, 
+                "se_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude hosts with attributes for SE creation."
+                }, 
+                "l4_health_monitoring": {
+                    "type": "boolean", 
+                    "description": "Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools."
+                }, 
+                "se_deployment_method": {
+                    "default": "SE_CREATE_SSH", 
+                    "type": "string", 
+                    "description": "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                }, 
+                "sdn_overlay": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
+                }, 
+                "node_availability_zone_label": {
+                    "type": "string", 
+                    "description": "OpenShift/K8S Node label to be used as OpenShift/K8S Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                }, 
+                "docker_registry_se": {
+                    "description": "Docker registry for ServiceEngine image.", 
+                    "$ref": "#/definitions/DockerRegistry"
+                }, 
+                "ca_tls_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
+                }, 
+                "se_volume": {
+                    "default": "/opt/avi", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "use_scheduling_disabled_nodes": {
+                    "type": "boolean", 
+                    "description": "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
+                }, 
+                "service_account_token": {
+                    "type": "string", 
+                    "description": "Authorization token for service account instead of client certificate. One of client certificate or token is required."
+                }, 
+                "use_controller_image": {
+                    "type": "boolean", 
+                    "description": "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
+                }, 
+                "disable_auto_gs_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto sync for GSLB services. Field introduced in 17.1.3."
+                }, 
+                "coredump_directory": {
+                    "default": "/var/lib/systemd/coredump", 
+                    "type": "string", 
+                    "description": "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
+                }, 
+                "disable_auto_frontend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for front end services."
+                }, 
+                "use_service_cluster_ip_as_ew_vip": {
+                    "type": "boolean", 
+                    "description": "Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes."
+                }, 
+                "se_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Create SEs just on hosts with include attributes."
+                }, 
+                "master_nodes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed."
+                }, 
+                "app_sync_frequency": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Sync frequency in seconds with frameworks.", 
+                    "format": "int32"
+                }, 
+                "secure_egress_mode": {
+                    "type": "boolean", 
+                    "description": "Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1."
+                }, 
+                "avi_bridge_subnet": {
+                    "description": "Avi Linux bridge subnet on OpenShift/K8s nodes.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "ssh_se_deployment": {
+                    "description": "Parameters for SSH SE deployment. Field deprecated in 17.1.1.", 
+                    "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "se_spawn_rate": {
+                    "default": 25, 
+                    "type": "integer", 
+                    "description": "New SE spawn rate per minute.", 
+                    "format": "int32"
+                }, 
+                "http_container_ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.", 
+                    "format": "int32"
+                }, 
+                "disable_auto_se_creation": {
+                    "type": "boolean", 
+                    "description": "Disable SE creation."
+                }
+            }
+        }, 
+        "OpenStackConfiguration": {
+            "required": [
+                "admin_tenant", 
+                "mgmt_network_name", 
+                "privilege", 
+                "username"
+            ], 
+            "type": "object", 
+            "properties": {
+                "nuage_organization": {
+                    "type": "string", 
+                    "description": "nuage_organization of OpenStackConfiguration."
+                }, 
+                "wildcard_access": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                }, 
+                "contrail_endpoint": {
+                    "type": "string", 
+                    "description": "Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, 'http //' scheme and 8082 port will be used if not provided in the url."
+                }, 
+                "allowed_address_pairs": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If false, allowed-address-pairs extension will not be used. ."
+                }, 
+                "use_internal_endpoints": {
+                    "type": "boolean", 
+                    "description": "Use internalURL for OpenStack endpoints instead of the default publicURL endpoints."
+                }, 
+                "auth_url": {
+                    "type": "string", 
+                    "description": "Auth URL for connecting to keystone. If this is specified, any value provided for keystone_host is ignored."
+                }, 
+                "security_groups": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If false, security-groups extension will not be used. ."
+                }, 
+                "admin_tenant": {
+                    "type": "string", 
+                    "description": "OpenStack admin tenant (or project) information. For Keystone v3, provide the project information in project@domain format. Domain need not be specified if the project belongs to the 'Default' domain."
+                }, 
+                "se_group_ref": {
+                    "type": "string", 
+                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
+                }, 
+                "name_owner": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If True, embed owner info in VIP port 'name', else embed owner info in 'device_id' field."
+                }, 
+                "map_admin_to_cloudadmin": {
+                    "type": "boolean", 
+                    "description": "If True, map Avi 'admin' tenant to the admin_tenant of the Cloud. Else map Avi 'admin' to OpenStack 'admin' tenant."
+                }, 
+                "privilege": {
+                    "type": "string", 
+                    "description": "Access privilege. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                }, 
+                "free_floatingips": {
+                    "type": "boolean", 
+                    "description": "Free unused floating IPs."
+                }, 
+                "insecure": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allow self-signed certificates when communicating with https service endpoints."
+                }, 
+                "config_drive": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If false, metadata service will be used instead of  config-drive functionality to retrieve SE VM metadata."
+                }, 
+                "username": {
+                    "type": "string", 
+                    "description": "The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain."
+                }, 
+                "role_mapping": {
+                    "items": {
+                        "$ref": "#/definitions/OpenStackRoleMapping"
+                    }, 
+                    "type": "array", 
+                    "description": "Defines the mapping from OpenStack role names to avi local role names. For an OpenStack role, this mapping is consulted only if there is no local Avi role with the same name as the OpenStack role. This is an ordered list and only the first matching entry is used. You can use '*' to match all OpenStack role names."
+                }, 
+                "nuage_vsd_host": {
+                    "type": "string", 
+                    "description": "Nuage VSD host name or IP address."
+                }, 
+                "nuage_password": {
+                    "type": "string", 
+                    "description": "nuage_password of OpenStackConfiguration."
+                }, 
+                "mgmt_network_name": {
+                    "type": "string", 
+                    "description": "Avi Management network name or cidr."
+                }, 
+                "intf_sec_ips": {
+                    "type": "boolean", 
+                    "description": "If True, interface-secondary-ips method will be used for VIP association."
+                }, 
+                "admin_tenant_uuid": {
+                    "type": "string", 
+                    "description": "admin-tenant's UUID in OpenStack."
+                }, 
+                "prov_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "LBaaS provider name."
+                }, 
+                "contrail_plugin": {
+                    "type": "boolean", 
+                    "description": "Enable Contrail plugin mode. (deprecated)."
+                }, 
+                "port_security": {
+                    "type": "boolean", 
+                    "description": "If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped."
+                }, 
+                "keystone_host": {
+                    "type": "string", 
+                    "description": "Keystone's hostname or IP address. (Deprecated) Use auth_url instead."
+                }, 
+                "tenant_se": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant."
+                }, 
+                "anti_affinity": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If true, an anti-affinity policy will be applied to all SEs of a SE-Group, else no such policy will be applied."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "The password Avi Vantage will use when authenticating to Keystone."
+                }, 
+                "use_keystone_auth": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use keystone for user authentication."
+                }, 
+                "import_keystone_tenants": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Import keystone tenants list into Avi."
+                }, 
+                "neutron_rbac": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If True, enable neutron rbac discovery of networks shared across tenants/projects."
+                }, 
+                "nuage_username": {
+                    "type": "string", 
+                    "description": "nuage_username of OpenStackConfiguration."
+                }, 
+                "hypervisor": {
+                    "default": "KVM", 
+                    "type": "string", 
+                    "description": "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }, 
+                "region": {
+                    "type": "string", 
+                    "description": "Region name."
+                }, 
+                "nuage_port": {
+                    "default": 8443, 
+                    "type": "integer", 
+                    "description": "Number of nuage_port.", 
+                    "format": "int32"
+                }, 
+                "mgmt_network_uuid": {
+                    "type": "string", 
+                    "description": "Management network UUID."
+                }, 
+                "use_admin_url": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False."
+                }, 
+                "img_format": {
+                    "default": "OS_IMG_FMT_AUTO", 
+                    "type": "string", 
+                    "description": "If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT."
+                }, 
+                "external_networks": {
+                    "type": "boolean", 
+                    "description": "If True, allow selection of networks marked as 'external' for management,  vip or data networks."
+                }, 
+                "usable_network_uuids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "DockerConfiguration": {
+            "type": "object", 
+            "properties": {
+                "ssh_se_deployment": {
+                    "description": "Parameters for SSH SE deployment. Field deprecated in 17.1.1.", 
+                    "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "east_west_placement_subnet": {
+                    "description": "Match against this prefix when placing east-west VSs on SEs .", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "enable_event_subscription": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable Docker event subscription."
+                }, 
+                "use_controller_image": {
+                    "type": "boolean", 
+                    "description": "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
+                }, 
+                "coredump_directory": {
+                    "default": "/var/lib/systemd/coredump", 
+                    "type": "string", 
+                    "description": "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
+                }, 
+                "disable_auto_frontend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for front end services."
+                }, 
+                "feproxy_vips_enable_proxy_arp": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "disable_auto_backend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for back end services."
+                }, 
+                "se_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Create SEs just on hosts with include attributes."
+                }, 
+                "container_port_match_http_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                }, 
+                "fleet_endpoint": {
+                    "type": "string", 
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                }, 
+                "app_sync_frequency": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Sync frequency in seconds with frameworks.", 
+                    "format": "int32"
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                }, 
+                "feproxy_container_port_as_service": {
+                    "type": "boolean", 
+                    "description": "For Front End proxies, use container port as service port."
+                }, 
+                "se_volume": {
+                    "default": "/opt/avi", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "ucp_nodes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "List of Docker UCP nodes; In case of a load balanced UCP cluster, use Virtual IP of the cluster."
+                }, 
+                "client_tls_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "UUID of the client TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
+                }, 
+                "se_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude hosts with attributes for SE creation."
+                }, 
+                "services_accessible_all_interfaces": {
+                    "type": "boolean", 
+                    "description": "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface."
+                }, 
+                "se_spawn_rate": {
+                    "default": 25, 
+                    "type": "integer", 
+                    "description": "New SE spawn rate per minute.", 
+                    "format": "int32"
+                }, 
+                "se_deployment_method": {
+                    "default": "SE_CREATE_SSH", 
+                    "type": "string", 
+                    "description": "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                }, 
+                "http_container_ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.", 
+                    "format": "int32"
+                }, 
+                "docker_registry_se": {
+                    "description": "Docker registry for ServiceEngine image.", 
+                    "$ref": "#/definitions/DockerRegistry"
+                }, 
+                "ca_tls_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
+                }, 
+                "use_container_ip_port": {
+                    "type": "boolean", 
+                    "description": "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
+                }, 
+                "disable_auto_se_creation": {
+                    "type": "boolean", 
+                    "description": "Disable SE creation."
+                }
+            }
+        }, 
+        "OshiftDockerRegistryMetaData": {
+            "type": "object", 
+            "properties": {
+                "registry_service": {
+                    "default": "docker-registry", 
+                    "type": "string", 
+                    "description": "Name of the Integrated registry Service in Openshift."
+                }, 
+                "registry_vip": {
+                    "description": "Static VIP for 'docker-registry' service in Openshift if Avi is proxying for this service.This VIP should be outside the cluster IP subnet in Kubernetes and within the subnet configured (but outside the available pool of IPs) in the East West IPAM profile configuration for this Cloud. For example, if kubernetes cluster VIP range is 172.30.0.0/16 and subnet configured in East West IPAM profile is 172.50.0.0/16, then 172.50.0.2 can be used for this vip and IP pool can start from 172.50.0.3 onwards. Use this static VIP in '--insecure-registry <this-vip> 5000' docker config if using an insecure registry or add this to the list of IPs/hostnames when generating certificates if using a secure TLS registry.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "registry_namespace": {
+                    "default": "default", 
+                    "type": "string", 
+                    "description": "Namespace for the ServiceEngine image to be hosted in Openshift Integrated registry."
+                }
+            }
+        }, 
+        "NsxConfiguration": {
+            "required": [
+                "avi_nsx_prefix", 
+                "nsx_manager_name", 
+                "nsx_manager_password", 
+                "nsx_manager_username", 
+                "nsx_poll_time"
+            ], 
+            "type": "object", 
+            "properties": {
+                "nsx_manager_password": {
+                    "type": "string", 
+                    "description": "The password Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
+                }, 
+                "nsx_poll_time": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "nsx_manager_name": {
+                    "type": "string", 
+                    "description": "The hostname or IP address of the NSX MGr. Field introduced in 17.1.1."
+                }, 
+                "avi_nsx_prefix": {
+                    "type": "string", 
+                    "description": "This prefix will be added to the names of all NSX objects created by Avi Controller. It should be unique across all the Avi Controller clusters. Field introduced in 17.1.1."
+                }, 
+                "nsx_manager_username": {
+                    "type": "string", 
+                    "description": "The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "CloudApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/Cloud"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "AwsConfiguration": {
+            "required": [
+                "vpc_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "use_iam_roles": {
+                    "type": "boolean", 
+                    "description": "Use IAM roles instead of access and secret key."
+                }, 
+                "wildcard_access": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                }, 
+                "free_elasticips": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Free unused elastic IP addresses."
+                }, 
+                "region": {
+                    "default": "us-west-1", 
+                    "type": "string", 
+                    "description": "AWS region."
+                }, 
+                "route53_integration": {
+                    "type": "boolean", 
+                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
+                }, 
+                "secret_access_key": {
+                    "type": "string", 
+                    "description": "AWS secret access key."
+                }, 
+                "zones": {
+                    "items": {
+                        "$ref": "#/definitions/AwsZoneConfig"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
+                }, 
+                "asg_poll_interval": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "use_sns_sqs": {
+                    "type": "boolean", 
+                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
+                }, 
+                "vpc": {
+                    "type": "string", 
+                    "description": "VPC name."
+                }, 
+                "ttl": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "iam_assume_role": {
+                    "type": "string", 
+                    "description": "IAM assume role for cross-account access."
+                }, 
+                "vpc_id": {
+                    "type": "string", 
+                    "description": "VPC ID."
+                }, 
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "AWS access key ID."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "FeProxyRoutePublishConfig": {
+            "type": "object", 
+            "properties": {
+                "subnet": {
+                    "default": 32, 
+                    "type": "integer", 
+                    "description": "Subnet for publisher.", 
+                    "format": "int32"
+                }, 
+                "token": {
+                    "type": "string", 
+                    "description": "Token for tracking changes."
+                }, 
+                "publisher_port": {
+                    "default": 80, 
+                    "type": "integer", 
+                    "description": "Listener port for publisher.", 
+                    "format": "int32"
+                }, 
+                "mode": {
+                    "default": "FE_PROXY_ROUTE_PUBLISH_NONE", 
+                    "type": "string", 
+                    "description": "Publish ECMP route to upstream router for VIP. Enum options - FE_PROXY_ROUTE_PUBLISH_NONE, FE_PROXY_ROUTE_PUBLISH_QUAGGA_WEBAPP."
+                }
+            }
+        }, 
+        "Cloud": {
+            "required": [
+                "name", 
+                "vtype"
+            ], 
+            "type": "object", 
+            "properties": {
+                "vca_configuration": {
+                    "description": "Placeholder for description of property vca_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/vCloudAirConfiguration"
+                }, 
+                "mesos_configuration": {
+                    "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/MesosConfiguration"
+                }, 
+                "proxy_configuration": {
+                    "description": "Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/ProxyConfiguration"
+                }, 
+                "docker_configuration": {
+                    "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/DockerConfiguration"
+                }, 
+                "openstack_configuration": {
+                    "description": "Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/OpenStackConfiguration"
+                }, 
+                "enable_vip_static_routes": {
+                    "type": "boolean", 
+                    "description": "Use static routes for VIP side network resolution during VirtualService placement."
+                }, 
+                "oshiftk8s_configuration": {
+                    "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/OShiftK8SConfiguration"
+                }, 
+                "aws_configuration": {
+                    "description": "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/AwsConfiguration"
+                }, 
+                "cloudstack_configuration": {
+                    "description": "Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/CloudStackConfiguration"
+                }, 
+                "dhcp_enabled": {
+                    "type": "boolean", 
+                    "description": "Select the IP address management scheme."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "rancher_configuration": {
+                    "description": "Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/RancherConfiguration"
+                }, 
+                "vtype": {
+                    "default": "CLOUD_NONE", 
+                    "type": "string", 
+                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                }, 
+                "ipam_provider_ref": {
+                    "type": "string", 
+                    "description": "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "nsx_configuration": {
+                    "description": "Configuration parameters for NSX Manager. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/NsxConfiguration"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "mtu": {
+                    "default": 1500, 
+                    "type": "integer", 
+                    "description": "MTU setting for the cloud.", 
+                    "format": "int32"
+                }, 
+                "east_west_ipam_provider_ref": {
+                    "type": "string", 
+                    "description": "Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile."
+                }, 
+                "linuxserver_configuration": {
+                    "description": "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/LinuxServerConfiguration"
+                }, 
+                "apic_configuration": {
+                    "description": "Placeholder for description of property apic_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/APICConfiguration"
+                }, 
+                "obj_name_prefix": {
+                    "type": "string", 
+                    "description": "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
+                }, 
+                "prefer_static_routes": {
+                    "type": "boolean", 
+                    "description": "Prefer static routes over interface routes during VirtualService placement."
+                }, 
+                "license_type": {
+                    "type": "string", 
+                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS."
+                }, 
+                "apic_mode": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
+                }, 
+                "vcenter_configuration": {
+                    "description": "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/vCenterConfiguration"
+                }, 
+                "dns_provider_ref": {
+                    "type": "string", 
+                    "description": "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
+                }, 
+                "east_west_dns_provider_ref": {
+                    "type": "string", 
+                    "description": "DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile."
+                }
+            }
+        }, 
+        "RancherConfiguration": {
+            "type": "object", 
+            "properties": {
+                "ssh_se_deployment": {
+                    "description": "Parameters for SSH SE deployment. Field deprecated in 17.1.1.", 
+                    "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "east_west_placement_subnet": {
+                    "description": "Match against this prefix when placing east-west VSs on SEs .", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "enable_event_subscription": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable Docker event subscription."
+                }, 
+                "use_controller_image": {
+                    "type": "boolean", 
+                    "description": "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
+                }, 
+                "nuage_controller": {
+                    "description": "Nuage Overlay SDN Controller information.", 
+                    "$ref": "#/definitions/NuageSDNController"
+                }, 
+                "coredump_directory": {
+                    "default": "/var/lib/systemd/coredump", 
+                    "type": "string", 
+                    "description": "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
+                }, 
+                "disable_auto_frontend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for front end services."
+                }, 
+                "feproxy_vips_enable_proxy_arp": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "disable_auto_backend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for back end services."
+                }, 
+                "se_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Create SEs just on hosts with include attributes."
+                }, 
+                "container_port_match_http_service": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                }, 
+                "fleet_endpoint": {
+                    "type": "string", 
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                }, 
+                "app_sync_frequency": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Sync frequency in seconds with frameworks.", 
+                    "format": "int32"
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                }, 
+                "feproxy_container_port_as_service": {
+                    "type": "boolean", 
+                    "description": "For Front End proxies, use container port as service port."
+                }, 
+                "se_volume": {
+                    "default": "/opt/avi", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "access_key": {
+                    "type": "string", 
+                    "description": "Access key."
+                }, 
+                "http_container_ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.", 
+                    "format": "int32"
+                }, 
+                "se_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude hosts with attributes for SE creation."
+                }, 
+                "rancher_servers": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "List of Rancher servers; In case of a load balanced Rancher multi cluster, use Virtual IP of the cluster."
+                }, 
+                "services_accessible_all_interfaces": {
+                    "type": "boolean", 
+                    "description": "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface."
+                }, 
+                "se_spawn_rate": {
+                    "default": 25, 
+                    "type": "integer", 
+                    "description": "New SE spawn rate per minute.", 
+                    "format": "int32"
+                }, 
+                "se_deployment_method": {
+                    "default": "SE_CREATE_SSH", 
+                    "type": "string", 
+                    "description": "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                }, 
+                "secret_key": {
+                    "type": "string", 
+                    "description": "Secret key."
+                }, 
+                "docker_registry_se": {
+                    "description": "Docker registry for ServiceEngine image.", 
+                    "$ref": "#/definitions/DockerRegistry"
+                }, 
+                "use_container_ip_port": {
+                    "type": "boolean", 
+                    "description": "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
+                }, 
+                "disable_auto_se_creation": {
+                    "type": "boolean", 
+                    "description": "Disable SE creation."
+                }
+            }
+        }, 
+        "OpenStackRoleMapping": {
+            "required": [
+                "avi_role", 
+                "os_role"
+            ], 
+            "type": "object", 
+            "properties": {
+                "avi_role": {
+                    "type": "string", 
+                    "description": "Role name in Avi."
+                }, 
+                "os_role": {
+                    "type": "string", 
+                    "description": "Role name in OpenStack."
+                }
+            }
+        }, 
+        "DockerRegistry": {
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for docker registry. Authorized 'regular user' if registry is Openshift integrated registry."
+                }, 
+                "oshift_registry": {
+                    "description": "Openshift integrated registry config.", 
+                    "$ref": "#/definitions/OshiftDockerRegistryMetaData"
+                }, 
+                "registry": {
+                    "default": "avinetworks/se", 
+                    "type": "string", 
+                    "description": "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/<namespace>/<repo>."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for docker registry. Authorized 'regular user' password if registry is Openshift integrated registry."
+                }, 
+                "se_repository_push": {
+                    "type": "boolean", 
+                    "description": "Avi Controller will push ServiceEngine image to docker repository."
+                }, 
+                "private": {
+                    "type": "boolean", 
+                    "description": "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

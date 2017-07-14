@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi ControllerLicense Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: ControllerLicense API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure license
+        - show license
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerLicense object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerLicense object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerLicense object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +298,7 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     ControllerLicense:
         type: object
@@ -269,49 +307,50 @@ definitions:
             -   valid_until
         properties:
             backend_servers:
-                description: ""
+                description: "Number of backend_servers."
                 type: integer
                 format: int32
             cores:
-                description: "Number of service engine cores in non-container clouds"
+                description: "Number of service engine cores in non-container clouds."
                 type: integer
                 format: int32
             customer_name:
-                description: ""
+                description: "customer_name of ControllerLicense."
                 type: string
             license_tier:
-                description: ""
+                description: "license_tier of ControllerLicense."
                 type: array
                 items:
                     type: string
             licenses:
+                description: "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/SingleLicense'
             max_apps:
-                description: ""
+                description: "Number of max_apps."
                 type: integer
                 format: int32
             max_ses:
-                description: "Number of service engines hosts in container clouds"
+                description: "Number of service engines hosts in container clouds."
                 type: integer
                 format: int32
             max_vses:
-                description: "Deprecated"
+                description: "Deprecated."
                 type: integer
                 format: int32
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             sockets:
-                description: "Number of physical cpu sockets across service engines in no access and linux server clouds"
+                description: "Number of physical cpu sockets across service engines in no access and linux server clouds."
                 type: integer
                 format: int32
             start_on:
-                description: ""
+                description: "start_on of ControllerLicense."
                 type: string
             throughput:
-                description: ""
+                description: "Number of throughput."
                 type: integer
                 format: int32
             url:
@@ -319,10 +358,10 @@ definitions:
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             valid_until:
-                description: ""
+                description: "valid_until of ControllerLicense."
                 type: string
     ControllerLicenseApiResponse:
         type: object
@@ -345,66 +384,66 @@ definitions:
             -   valid_until
         properties:
             backend_servers:
-                description: ""
+                description: "Number of backend_servers."
                 type: integer
                 format: int32
             cores:
-                description: "Number of service engine cores in non-container clouds"
+                description: "Number of service engine cores in non-container clouds."
                 type: integer
                 format: int32
             created_on:
-                description: ""
+                description: "created_on of SingleLicense."
                 type: string
             customer_name:
-                description: ""
+                description: "customer_name of SingleLicense."
                 type: string
             enforced_params:
-                description: ""
+                description: "enforced_params of SingleLicense."
                 type: array
                 items:
                     type: string
             last_update:
-                description: ""
+                description: "last_update of SingleLicense."
                 type: string
             license_id:
-                description: ""
+                description: "license_id of SingleLicense."
                 type: string
             license_name:
-                description: ""
+                description: "license_name of SingleLicense."
                 type: string
             license_string:
-                description: ""
+                description: "license_string of SingleLicense."
                 type: string
             license_tier:
-                description: ""
+                description: "license_tier of SingleLicense."
                 type: array
                 items:
                     type: string
             license_type:
-                description: ""
+                description: "license_type of SingleLicense."
                 type: string
             max_apps:
-                description: ""
+                description: "Number of max_apps."
                 type: integer
                 format: int32
             max_ses:
-                description: "Number of service engines hosts in container clouds"
+                description: "Number of service engines hosts in container clouds."
                 type: integer
                 format: int32
             sockets:
-                description: "Number of physical cpu sockets across service engines in no access and linux server clouds"
+                description: "Number of physical cpu sockets across service engines in no access and linux server clouds."
                 type: integer
                 format: int32
             start_on:
-                description: ""
+                description: "start_on of SingleLicense."
                 type: string
             throughput:
-                description: ""
+                description: "Number of throughput."
                 type: integer
                 format: int32
             valid_until:
-                description: ""
+                description: "valid_until of SingleLicense."
                 type: string
             version:
-                description: ""
+                description: "version of SingleLicense."
                 type: string

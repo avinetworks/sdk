@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: SeProperties API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure serviceengineproperties
+        - show serviceengineproperties
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SeProperties object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SeProperties object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SeProperties object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +298,7 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     AppHdr:
         type: object
@@ -270,16 +308,14 @@ definitions:
             -   hdr_string_op
         properties:
             hdr_match_case:
-                description: "Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: " Enum options - SENSITIVE, INSENSITIVE."
+                type: string
             hdr_name:
-                description: ""
+                description: "hdr_name of AppHdr."
                 type: string
             hdr_string_op:
-                description: "Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH"
-                type: number
-                format: int64
+                description: " Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
     DosThreshold:
         type: object
         required:
@@ -288,9 +324,8 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type.Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP"
-                type: number
-                format: int64
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
                 type: integer
@@ -305,12 +340,14 @@ definitions:
             -   thresh_period
         properties:
             thresh_info:
+                description: "Attack type, min and max values for DoS attack detection."
                 type: array
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
                 description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
                 type: integer
+                default: 5
                 format: int32
     IpAddr:
         type: object
@@ -319,12 +356,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -332,9 +368,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     PortRange:
@@ -344,287 +381,358 @@ definitions:
             -   start
         properties:
             end:
-                description: "TCP/UDP port range end (inclusive)."
+                description: "TCP/UDP port range end (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
             start:
-                description: "TCP/UDP port range start (inclusive)."
+                description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
     SeAgentProperties:
         type: object
         properties:
             controller_echo_miss_aggressive_limit:
-                description: "Aggressive Count of HB misses for se health check failure"
+                description: "Aggressive Count of HB misses for se health check failure. Allowed values are 1-1000."
                 type: integer
+                default: 2
                 format: int32
             controller_echo_miss_limit:
-                description: "Count of HB misses for se health check failure"
+                description: "Count of HB misses for se health check failure. Allowed values are 1-1000."
                 type: integer
+                default: 4
                 format: int32
             controller_echo_rpc_aggressive_timeout:
-                description: "Aggressive Timeout used for se health check"
+                description: "Aggressive Timeout used for se health check."
                 type: integer
+                default: 2000
                 format: int32
             controller_echo_rpc_timeout:
-                description: "Timeout used for se health check"
+                description: "Timeout used for se health check."
                 type: integer
+                default: 2000
                 format: int32
             controller_heartbeat_miss_limit:
-                description: ""
+                description: " Allowed values are 1-20."
                 type: integer
+                default: 6
                 format: int32
             controller_heartbeat_timeout_sec:
-                description: ""
+                description: " Allowed values are 1-60."
                 type: integer
+                default: 12
                 format: int32
             controller_registration_timeout_sec:
-                description: ""
+                description: "Number of controller_registration_timeout_sec."
                 type: integer
+                default: 10
                 format: int32
             controller_rpc_timeout:
-                description: ""
+                description: "Number of controller_rpc_timeout."
                 type: integer
+                default: 10
                 format: int32
             cpustats_interval:
-                description: ""
+                description: "Number of cpustats_interval."
                 type: integer
+                default: 5
                 format: int32
             ctrl_reg_pending_max_wait_time:
-                description: "Max time to wait for ctrl registration before assert"
+                description: "Max time to wait for ctrl registration before assert. Allowed values are 1-1000."
                 type: integer
+                default: 150
                 format: int32
             debug_mode:
-                description: ""
+                description: "Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean"
                 type: boolean
             dp_aggressive_deq_interval_msec:
-                description: ""
+                description: " Allowed values are 1-1000."
                 type: integer
+                default: 1
                 format: int32
             dp_aggressive_enq_interval_msec:
-                description: ""
+                description: " Allowed values are 1-1000."
                 type: integer
+                default: 1
                 format: int32
             dp_batch_size:
-                description: ""
+                description: "Number of dp_batch_size."
                 type: integer
+                default: 100
                 format: int32
             dp_deq_interval_msec:
-                description: ""
+                description: " Allowed values are 1-1000."
                 type: integer
+                default: 20
                 format: int32
             dp_enq_interval_msec:
-                description: ""
+                description: " Allowed values are 1-1000."
                 type: integer
+                default: 20
                 format: int32
             dp_max_wait_rsp_time_sec:
-                description: ""
+                description: "Number of dp_max_wait_rsp_time_sec."
                 type: integer
+                default: 12
                 format: int32
             dp_reg_pending_max_wait_time:
-                description: "Max time to wait for dp registration before assert"
+                description: "Max time to wait for dp registration before assert."
                 type: integer
+                default: 75
                 format: int32
             headless_timeout_sec:
-                description: ""
+                description: "Number of headless_timeout_sec."
                 type: integer
                 format: int32
             ignore_docker_mac_change:
-                description: ""
+                description: "Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean"
                 type: boolean
+                default: True
             sdb_flush_interval:
-                description: "SDB pipeline flush interval"
+                description: "SDB pipeline flush interval. Allowed values are 1-10000."
                 type: integer
+                default: 100
                 format: int32
             sdb_pipeline_size:
-                description: "SDB pipeline size"
+                description: "SDB pipeline size. Allowed values are 1-10000."
                 type: integer
+                default: 100
                 format: int32
             sdb_scan_count:
-                description: "SDB scan count"
+                description: "SDB scan count. Allowed values are 1-1000."
                 type: integer
+                default: 1000
                 format: int32
             vnic_dhcp_ip_check_interval:
-                description: "DHCP ip check interval"
+                description: "DHCP ip check interval. Allowed values are 1-1000."
                 type: integer
+                default: 6
                 format: int32
             vnic_dhcp_ip_max_retries:
-                description: "DHCP ip max retries"
+                description: "DHCP ip max retries."
                 type: integer
+                default: 10
                 format: int32
             vnic_ip_delete_interval:
-                description: "wait interval before deleting IP"
+                description: "wait interval before deleting IP."
                 type: integer
+                default: 5
                 format: int32
             vnic_probe_interval:
-                description: "Probe vnic interval"
+                description: "Probe vnic interval."
                 type: integer
+                default: 5
                 format: int32
     SeBootupCompressionProperties:
         type: object
         properties:
             buf_num:
-                description: ""
+                description: "Number of buffers to use for compression output."
                 type: integer
+                default: 128
                 format: int32
             buf_size:
-                description: ""
+                description: "Size of each buffer used for compression output, this should ideally be a multiple of pagesize."
                 type: integer
+                default: 4096
                 format: int32
             hash_size:
-                description: ""
+                description: "hash size used by compression, rounded to the last power of 2."
                 type: integer
+                default: 16384
                 format: int32
             level_aggressive:
-                description: ""
+                description: "Level of compression to apply on content selected for aggressive compression."
                 type: integer
+                default: 5
                 format: int32
             level_normal:
-                description: ""
+                description: "Level of compression to apply on content selected for normal compression."
                 type: integer
+                default: 1
                 format: int32
             window_size:
-                description: ""
+                description: "window size used by compression, rounded to the last power of 2."
                 type: integer
+                default: 4096
                 format: int32
     SeBootupProperties:
         type: object
         properties:
+            distribute_queues:
+                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1."
+                type: boolean
+                default: True
             distribute_vnics:
                 description: "Distributes vnic ownership among cores so multiple cores handle dispatcher duties."
                 type: boolean
             docker_backend_portend:
-                description: ""
+                description: "End of the Local TCP port range used by SE for backend connections in docker environment."
                 type: integer
+                default: 30720
                 format: int32
             docker_backend_portstart:
-                description: ""
+                description: "Start of the Local TCP port range used by SE for backend connections in docker environment."
                 type: integer
+                default: 20480
                 format: int32
             fair_queueing_enabled:
-                description: ""
+                description: "Enable or disable fair queueing for packet transmission among virtualservices on an SE."
                 type: boolean
-            l7_conns_per_core:
-                description: ""
+                default: True
+            geo_db_granularity:
+                description: "Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1."
                 type: integer
+                default: 1
+                format: int32
+            l7_conns_per_core:
+                description: "Number of l7_conns_per_core."
+                type: integer
+                default: 16384
                 format: int32
             l7_resvd_listen_conns_per_core:
-                description: ""
+                description: "Number of l7_resvd_listen_conns_per_core."
                 type: integer
+                default: 256
                 format: int32
             log_agent_debug_enabled:
-                description: ""
+                description: "Enable debug logs by default on Service Engine. This includes all other debugging logs. Debug logs can also be explcitly enabled from the CLI shell."
                 type: boolean
             log_agent_trace_enabled:
-                description: ""
+                description: "Enable trace logs by default on Service Engine. Configuration operations are logged along with other important logs by Service Engine."
                 type: boolean
+                default: True
             se_dp_compression:
+                description: "Placeholder for description of property se_dp_compression of obj type SeBootupProperties field type str  type object"
                 $ref: '#/definitions/SeBootupCompressionProperties'
             se_dpdk_pmd:
-                description: ""
+                description: "Controls the use of DPDK poll mode driver      0        Automatically determine based on hypervisor/NIC type    1        Unconditionally use DPDK poll mode driver    ~[0,1]   Don't use DPDK poll mode driver."
                 type: integer
                 format: int32
             se_emulated_cores:
-                description: ""
+                description: "Use this to emulate more/less cpus than is actually available. One datapath process is started for each core."
                 type: integer
                 format: int32
             se_ip_encap_ipc:
-                description: ""
+                description: "Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encap."
+                type: integer
+                format: int32
+            se_l3_encap_ipc:
+                description: "Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IP."
                 type: integer
                 format: int32
             se_log_buffer_app_blocking_dequeue:
-                description: ""
+                description: "Internal flag that blocks dataplane until all application logs are flushed to log-agent process."
                 type: boolean
             se_log_buffer_applog_size:
-                description: ""
+                description: "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
+                default: 4096
                 format: int32
             se_log_buffer_chunk_count:
-                description: ""
+                description: "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
+                default: 1024
                 format: int32
             se_log_buffer_conn_blocking_dequeue:
-                description: ""
+                description: "Internal flag that blocks dataplane until all connection logs are flushed to log-agent process."
                 type: boolean
             se_log_buffer_connlog_size:
-                description: ""
+                description: "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
+                default: 1024
                 format: int32
             se_log_buffer_events_blocking_dequeue:
-                description: ""
+                description: "Internal flag that blocks dataplane until all outstanding events are flushed to log-agent process."
                 type: boolean
+                default: True
             se_log_buffer_events_size:
-                description: ""
+                description: "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
+                default: 512
                 format: int32
             se_lro:
-                description: ""
+                description: "Enable or disable Large Receive Optimization for vnics."
                 type: integer
+                default: 1
                 format: int32
             se_pcap_pkt_count:
-                description: ""
+                description: "Max number of packets the pcap interface can hold."
                 type: integer
+                default: 256
                 format: int32
             se_pcap_pkt_sz:
-                description: ""
+                description: "Max size of each packet in the pcap interface."
                 type: integer
+                default: 65536
                 format: int32
             se_rum_sampling_nav_interval:
-                description: ""
+                description: "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples."
                 type: integer
+                default: 1
                 format: int32
             se_rum_sampling_nav_percent:
-                description: ""
+                description: "percentage of navigation timing data to sample from the end user client for client insights."
                 type: integer
+                default: 1
                 format: int32
             se_rum_sampling_res_interval:
-                description: ""
+                description: "when sampling for resource timing data from the end user client. minimum time to wait on server between samples."
                 type: integer
+                default: 2
                 format: int32
             se_rum_sampling_res_percent:
-                description: ""
+                description: "percentage of resource timing data to sample from the end user client for client insights."
                 type: integer
+                default: 100
                 format: int32
             se_tunnel_mode:
-                description: ""
+                description: "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1."
                 type: integer
                 format: int32
             se_tx_batch_size:
-                description: ""
+                description: "Number of packets to batch for transmit to the nic."
                 type: integer
+                default: 64
                 format: int32
             se_use_dpdk:
-                description: ""
+                description: "Determines if DPDK library should be used or not       0        Automatically determine based on hypervisor type    1        Use DPDK unconditionally    ~[0,1]   Don't use DPDK."
                 type: integer
                 format: int32
             ssl_sess_cache_per_vs:
-                description: ""
+                description: "Number of ssl_sess_cache_per_vs."
                 type: integer
+                default: 4096
                 format: int32
             ssl_sess_cache_timeout:
-                description: ""
+                description: "Number of ssl_sess_cache_timeout."
                 type: integer
+                default: 86400
                 format: int32
             tcp_syncache_hashsize:
-                description: ""
+                description: "Size of the TCP SYN cache hash table."
                 type: integer
+                default: 8192
                 format: int32
     SeProperties:
         type: object
         properties:
             se_agent_properties:
+                description: "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object"
                 $ref: '#/definitions/SeAgentProperties'
             se_bootup_properties:
+                description: "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object"
                 $ref: '#/definitions/SeBootupProperties'
             se_runtime_properties:
+                description: "Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object"
                 $ref: '#/definitions/SeRuntimeProperties'
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
+                default: "default"
     SePropertiesApiResponse:
         type: object
         required:
@@ -644,44 +752,53 @@ definitions:
             arp_rl:
                 description: "Rate limiter for ARP packets in pps."
                 type: integer
+                default: 100
                 format: int32
             default_rl:
                 description: "Default Rate limiter in pps."
                 type: integer
+                default: 100
                 format: int32
             flow_probe_rl:
                 description: "Rate limiter for number of flow probes in pps."
                 type: integer
+                default: 250
                 format: int32
             icmp_rl:
                 description: "Rate limiter for ICMP requests in pps."
                 type: integer
+                default: 100
                 format: int32
             icmp_rsp_rl:
                 description: "Rate limiter for ICMP response in pps."
                 type: integer
+                default: 500
                 format: int32
             rst_rl:
                 description: "Rate limiter for number RST pkts sent in pps."
                 type: integer
+                default: 100
                 format: int32
     SeRuntimeCompressionProperties:
         type: object
         properties:
             max_low_rtt:
-                description: ""
+                description: "If client RTT is higher than this threshold, enable normal compression on the response."
                 type: integer
+                default: 10
                 format: int32
             min_high_rtt:
-                description: ""
+                description: "If client RTT is higher than this threshold, enable aggressive compression on the response."
                 type: integer
+                default: 200
                 format: int32
             min_length:
-                description: ""
+                description: "Minimum response content length to enable compression."
                 type: integer
+                default: 128
                 format: int32
             mobile_str:
-                description: "String value(s) mobile"
+                description: "Values that identify mobile browsers in order to enable aggressive compression."
                 type: array
                 items:
                     type: string
@@ -689,6 +806,7 @@ definitions:
         type: object
         properties:
             app_headers:
+                description: "Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/AppHdr'
@@ -696,351 +814,445 @@ definitions:
                 description: "Control if dispatcher core also handles TCP flows in baremetal SE."
                 type: boolean
             connections_lossy_log_rate_limiter_threshold:
-                description: "Rate limit on maximum adf lossy log to pushper second"
+                description: "Rate limit on maximum adf lossy log to pushper second."
                 type: integer
+                default: 1000
                 format: int32
             connections_udfnf_log_rate_limiter_threshold:
-                description: "Rate limit on maximum adf udf or nf log to pushper second"
+                description: "Rate limit on maximum adf udf or nf log to pushper second."
                 type: integer
+                default: 1000
                 format: int32
+            disable_flow_probes:
+                description: "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1."
+                type: boolean
             dos_profile:
+                description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
             downstream_send_timeout:
-                description: ""
+                description: "Number of downstream_send_timeout."
                 type: integer
+                default: 3600000
                 format: int32
             dp_aggressive_hb_frequency:
-                description: "Heartbeat check interval between ServiceEngines"
+                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled."
                 type: integer
+                default: 100
                 format: int32
             dp_aggressive_hb_timeout_count:
-                description: "Number of failed heartbeats before reporting an error"
+                description: "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled."
                 type: integer
+                default: 10
                 format: int32
             dp_hb_frequency:
-                description: ""
+                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled."
                 type: integer
+                default: 100
                 format: int32
             dp_hb_timeout_count:
-                description: ""
+                description: "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled."
                 type: integer
+                default: 10
                 format: int32
             dupip_frequency:
-                description: ""
+                description: "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller."
                 type: integer
                 format: int32
             dupip_timeout_count:
-                description: ""
+                description: "Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP."
                 type: integer
+                default: 5
                 format: int32
             feproxy_vips_enable_proxy_arp:
-                description: "Enable proxy ARP from Host interface for Front End  proxies"
+                description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
-            flow_table_max_entries_deprecated:
-                description: ""
+                default: True
+            flow_table_batch_push_frequency:
+                description: "How often to push the flow table IPC messages in the main loop. The value is the number of times through the loop before pushing the batch. i.e, a value of 1 means every time through the loop."
                 type: integer
+                default: 5
+                format: int32
+            flow_table_max_entries_deprecated:
+                description: "Deprecated. Field deprecated in 17.1.1."
+                type: integer
+                default: 100000000
                 format: int32
             flow_table_new_syn_max_entries:
-                description: ""
+                description: "Maximum number of flow table entries that have not completed TCP three-way handshake yet."
                 type: integer
+                default: 40000
                 format: int32
             global_mtu:
-                description: ""
+                description: "Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used."
                 type: integer
                 format: int32
             http_rum_console_log:
-                description: ""
+                description: "Enable Javascript console logs on the client browser when collecting client insights."
                 type: boolean
             http_rum_min_content_length:
-                description: ""
+                description: "Minimum response size content length to sample for client insights."
                 type: integer
+                default: 64
                 format: int32
             lb_fail_max_time:
-                description: ""
+                description: "Deprecated. Field deprecated in 17.1.1."
                 type: integer
+                default: 5
                 format: int32
             lbaction_num_requests_to_dispatch:
                 description: "Number of requests to dispatch from the request queue at a regular interval."
                 type: integer
+                default: 4
                 format: int32
             lbaction_rq_per_request_max_retries:
                 description: "Maximum retries per request in the request queue."
                 type: integer
+                default: 22
                 format: int32
             log_agent_compress_logs:
-                description: ""
+                description: "Flag to indicate if log files are compressed upon full on the Service Engine."
                 type: boolean
+                default: True
             log_agent_conn_send_buffer_size:
-                description: ""
+                description: "Log-agent test property used to simulate slow TCP connections."
                 type: integer
+                default: 16384
                 format: int32
             log_agent_export_msg_buffer_size:
-                description: ""
+                description: "Maximum size of data sent by log-agent to Controller over the TCP connection."
                 type: integer
+                default: 524288
                 format: int32
             log_agent_export_wait_time:
-                description: ""
+                description: "Time log-agent waits before sending data to the Controller."
                 type: integer
+                default: 100
                 format: int32
             log_agent_file_sz_appl:
-                description: ""
+                description: "Maximum application log file size before rollover."
                 type: integer
+                default: 4
                 format: int32
             log_agent_file_sz_conn:
-                description: ""
+                description: "Maximum connection log file size before rollover."
                 type: integer
+                default: 4
                 format: int32
             log_agent_file_sz_debug:
-                description: ""
+                description: "Maximum debug log file size before rollover."
                 type: integer
+                default: 4
                 format: int32
             log_agent_file_sz_event:
-                description: ""
+                description: "Maximum event log file size before rollover."
                 type: integer
+                default: 4
                 format: int32
             log_agent_log_storage_min_sz:
                 description: "Minimum storage allocated for logs irrespective of memory and cores."
                 type: integer
+                default: 1024
                 format: int32
             log_agent_max_active_adf_files_per_vs:
-                description: ""
+                description: "Maximum number of Virtual Service log files maintained for significant logs on the Service Engine."
                 type: integer
+                default: 100
                 format: int32
             log_agent_max_concurrent_rsync:
-                description: ""
+                description: "Maximum concurrent rsync requests initiated from log-agent to the Controller."
                 type: integer
+                default: 1024
                 format: int32
             log_agent_max_logmessage_proto_sz:
-                description: ""
+                description: "Maximum size of serialized log message on the Service Engine."
                 type: integer
+                default: 65536
                 format: int32
             log_agent_max_storage_excess_percent:
-                description: ""
+                description: "Excess percentage threshold of disk size to trigger cleanup of logs on the Service Engine."
                 type: integer
+                default: 110
                 format: int32
             log_agent_max_storage_ignore_percent:
-                description: ""
+                description: "Maximum storage on the disk not allocated for logs on the Service Engine."
                 type: number
+                default: 10.0
                 format: float
             log_agent_min_storage_per_vs:
-                description: ""
+                description: "Minimum storage allocated to any given VirtualService on the Service Engine."
                 type: integer
+                default: 10
                 format: int32
             log_agent_pause_interval:
-                description: ""
+                description: "Time interval log-agent pauses between logs obtained from the dataplane."
                 type: integer
                 format: int32
             log_agent_sleep_interval:
-                description: ""
+                description: "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine."
                 type: integer
+                default: 10
                 format: int32
             log_agent_unknown_vs_timer:
-                description: ""
+                description: "Timeout to purge unknown Virtual Service logs from the Service Engine."
                 type: integer
+                default: 1800
                 format: int32
             log_message_max_file_list_size:
-                description: "Maximum number of file names in a log message"
+                description: "Maximum number of file names in a log message."
                 type: integer
+                default: 64
                 format: int32
             max_throughput:
-                description: ""
+                description: "Deprecated. Field deprecated in 17.1.1."
                 readOnly: True
                 type: integer
+                default: 10000
                 format: int32
             mcache_enabled:
-                description: "enables mcache - controls fetch/store/store_out"
+                description: "enables mcache - controls fetch/store/store_out."
                 type: boolean
             mcache_fetch_enabled:
-                description: "enables mcache_fetch"
+                description: "enables mcache_fetch."
                 type: boolean
             mcache_max_cache_size:
-                description: "max cache size"
+                description: "max cache size."
                 type: integer
                 format: int64
             mcache_store_in_enabled:
-                description: "enables mcache_store"
+                description: "enables mcache_store."
                 type: boolean
             mcache_store_in_max_size:
-                description: "max object size"
+                description: "max object size."
                 type: integer
                 format: int32
             mcache_store_in_min_size:
-                description: "min object size"
+                description: "min object size."
                 type: integer
                 format: int32
             mcache_store_out_enabled:
-                description: "enables mcache_store_out"
+                description: "enables mcache_store_out."
                 type: boolean
             mcache_store_se_max_size:
-                description: ""
+                description: "Number of mcache_store_se_max_size."
                 type: integer
                 format: int64
             ngx_free_connection_stack:
-                description: ""
+                description: "Placeholder for description of property ngx_free_connection_stack of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
             persistence_entries_low_watermark:
-                description: ""
+                description: "Deprecated. Field deprecated in 17.1.1."
                 type: integer
+                default: 20000
                 format: int32
             persistence_mem_max:
-                description: "Maximum memory in bytes allocated for persistence entries"
+                description: "Maximum memory in bytes allocated for persistence entries. Allowed values are 0-33554432."
                 type: integer
                 format: int32
             scaleout_udp_per_pkt:
-                description: "Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled"
+                description: "Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled."
                 type: boolean
+                default: True
             se_auth_ldap_bind_timeout:
-                description: ""
+                description: "LDAP basicauth default bind timeout enforced on connections to LDAP server."
                 type: integer
+                default: 5000
                 format: int32
             se_auth_ldap_cache_size:
-                description: ""
+                description: "Size of LDAP basicauth credentials cache used on the dataplane."
                 type: integer
+                default: 100000
                 format: int32
             se_auth_ldap_connect_timeout:
-                description: ""
+                description: "LDAP basicauth default connection timeout enforced on connections to LDAP server."
                 type: integer
+                default: 10000
                 format: int32
             se_auth_ldap_conns_per_server:
-                description: ""
+                description: "Number of concurrent connections to LDAP server by a single basic auth LDAP process."
                 type: integer
+                default: 1
                 format: int32
             se_auth_ldap_reconnect_timeout:
-                description: ""
+                description: "LDAP basicauth default reconnect timeout enforced on connections to LDAP server."
                 type: integer
+                default: 10000
                 format: int32
             se_auth_ldap_request_timeout:
-                description: ""
+                description: "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server."
                 type: integer
+                default: 10000
                 format: int32
             se_auth_ldap_servers_failover_only:
-                description: "enables ldap servers into failover mode"
+                description: "LDAP basicauth uses multiple ldap servers in the event of a failover only."
                 type: boolean
             se_dp_compression:
+                description: "Placeholder for description of property se_dp_compression of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/SeRuntimeCompressionProperties'
             se_dp_hm_drops:
-                description: ""
+                description: "Internal only. Used to simulate SE - SE HB failure."
                 type: integer
                 format: int32
             se_dp_if_state_poll_interval:
                 description: "Number of jiffies between polling interface state."
                 type: integer
+                default: 10
                 format: int32
             se_dp_log_nf_enqueue_percent:
-                description: ""
+                description: "Internal buffer full indicator on the Service Engine beyond which the unfiltered logs are abandoned."
                 type: integer
+                default: 70
                 format: int32
             se_dp_log_udf_enqueue_percent:
-                description: ""
+                description: "Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned."
                 type: integer
+                default: 90
+                format: int32
+            se_dp_vnic_queue_stall_event_sleep:
+                description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before asserting totrigger a failover. Field introduced in 17.1.1."
+                type: integer
+                default: 10
+                format: int32
+            se_dp_vnic_queue_stall_threshold:
+                description: "Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1."
+                type: integer
+                default: 2000
+                format: int32
+            se_dp_vnic_queue_stall_timeout:
+                description: "Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine asserts triggering a failover. Field introduced in 17.1.1."
+                type: integer
+                default: 10000
                 format: int32
             se_handle_interface_routes:
-                description: ""
+                description: "Accept/ignore interface routes (i.e, no next hop IP address)."
                 type: boolean
             se_hb_persist_fudge_bits:
-                description: ""
+                description: "Internal use only. Allowed values are 0-7."
                 type: integer
+                default: 3
                 format: int32
             se_mac_error_threshold_to_disable_promiscious:
-                description: ""
+                description: "Number of packets with wrong mac after which SE attempts to disable promiscious mode."
                 type: integer
+                default: 1000
                 format: int32
             se_malloc_thresh:
-                description: ""
+                description: "Deprecated. Field deprecated in 17.1.1."
                 type: integer
                 format: int32
             se_memory_poison:
-                description: "enables poisoning of freed memory blocks"
+                description: "Internal use only. Enables poisoning of freed memory blocks."
                 type: boolean
+                default: True
             se_metrics_interval:
-                description: ""
+                description: "Internal use only. Frequency (ms) of metrics updates from SE to controller."
                 type: integer
+                default: 60000
                 format: int32
             se_metrics_rt_enabled:
-                description: ""
+                description: "Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration."
                 type: boolean
+                default: True
             se_metrics_rt_interval:
-                description: ""
+                description: "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller."
                 type: integer
+                default: 1000
                 format: int32
             se_packet_buffer_max:
-                description: ""
+                description: "Internal use only. Used to artificially reduce the available number of packet buffers."
                 type: integer
                 format: int32
             se_random_tcp_drops:
-                description: ""
+                description: "Internal use only. If enabled, randomly packets are dropped."
                 type: boolean
             se_rate_limiters:
+                description: "SE rate limiters."
                 $ref: '#/definitions/SeRateLimiters'
             service_ip_subnets:
+                description: "IP ranges on which there may be virtual services (for configuring iptables/routes)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             service_port_ranges:
+                description: "Port ranges on which there may be virtual services (for configuring iptables). Applicable in container ecosystems like Mesos."
                 type: array
                 items:
                     $ref: '#/definitions/PortRange'
             services_accessible_all_interfaces:
-                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP"
+                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP."
                 type: boolean
             spdy_fwd_proxy_parse_enable:
-                description: ""
+                description: "Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
+                default: True
             tcp_syn_cache_max:
-                description: ""
+                description: "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine."
                 type: integer
+                default: 32768
                 format: int32
             tcp_syncache_max_retransmit_default:
-                description: ""
+                description: "Default value for max number of retransmissions for a SYN packet."
                 type: integer
+                default: 4
                 format: int32
             upstream_connect_timeout:
-                description: ""
+                description: "Number of upstream_connect_timeout."
                 type: integer
+                default: 3600000
                 format: int32
             upstream_connpool_cache_thresh:
-                description: ""
+                description: "Number of upstream_connpool_cache_thresh."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_conn_idle_thresh_tmo:
-                description: ""
+                description: "Number of upstream_connpool_conn_idle_thresh_tmo."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_conn_idle_tmo:
-                description: ""
+                description: "Number of upstream_connpool_conn_idle_tmo."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_conn_life_tmo:
-                description: ""
+                description: "Number of upstream_connpool_conn_life_tmo."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_conn_max_reuse:
-                description: ""
+                description: "Number of upstream_connpool_conn_max_reuse."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_core_max_cache:
-                description: ""
+                description: "Number of upstream_connpool_core_max_cache."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_enable:
-                description: ""
+                description: "Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
+                default: True
             upstream_connpool_server_max_cache:
-                description: ""
+                description: "Number of upstream_connpool_server_max_cache."
                 type: integer
+                default: -1
                 format: int32
             upstream_connpool_strategy:
-                description: ""
+                description: "Number of upstream_connpool_strategy."
                 type: integer
+                default: -1
                 format: int32
             upstream_keepalive:
-                description: ""
+                description: "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
             upstream_read_timeout:
-                description: ""
+                description: "Number of upstream_read_timeout."
                 type: integer
+                default: 3600000
                 format: int32
             upstream_send_timeout:
-                description: ""
+                description: "Number of upstream_send_timeout."
                 type: integer
+                default: 3600000
                 format: int32

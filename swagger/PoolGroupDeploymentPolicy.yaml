@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi PoolGroupDeploymentPolicy Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: PoolGroupDeploymentPolicy API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure poolgroupdeploymentpolicy <key>
+        - show poolgroupdeploymentpolicy <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PoolGroupDeploymentPolicy object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PoolGroupDeploymentPolicy object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PoolGroupDeploymentPolicy object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,19 +298,21 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     PGDeploymentRule:
         type: object
         properties:
             metric_id:
-                description: ""
+                description: "metric_id of PGDeploymentRule."
                 type: string
+                default: "health.health_score_value"
             operator:
-                description: "Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE"
-                type: number
-                format: int64
+                description: " Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE."
+                type: string
+                default: "CO_GE"
             threshold:
-                description: "metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool"
+                description: "metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool."
                 type: number
                 format: double
     PoolGroupDeploymentPolicy:
@@ -282,50 +321,55 @@ definitions:
             -   name
         properties:
             auto_disable_old_prod_pools:
-                description: "It will automatically disable old production pools once there is a new production candidate"
+                description: "It will automatically disable old production pools once there is a new production candidate."
                 type: boolean
+                default: True
             cloud_ref:
-                description: " object ref Cloud."
+                description: " It is a reference to an object of type Cloud."
                 readOnly: True
                 type: string
             description:
-                description: ""
+                description: "User defined description for the object."
                 type: string
             evaluation_duration:
-                description: "Duration of evaluation period for automatic deployment"
+                description: "Duration of evaluation period for automatic deployment. Allowed values are 60-86400."
                 type: integer
+                default: 300
                 format: int32
             name:
-                description: "The name of the pool group deployment policy"
+                description: "The name of the pool group deployment policy."
                 type: string
             rules:
+                description: "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/PGDeploymentRule'
             scheme:
-                description: "deployment scheme. Enum options - BLUE_GREEN, CANARY"
-                type: number
-                format: int64
+                description: "deployment scheme. Enum options - BLUE_GREEN, CANARY."
+                type: string
+                default: "BLUE_GREEN"
             target_test_traffic_ratio:
-                description: "Target traffic ratio before pool is made production"
+                description: "Target traffic ratio before pool is made production. Allowed values are 1-100."
                 type: integer
+                default: 100
                 format: int32
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             test_traffic_ratio_rampup:
-                description: "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green"
+                description: "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100."
                 type: integer
+                default: 100
                 format: int32
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "UUID of the pool group deployment policy"
+                description: "UUID of the pool group deployment policy."
                 type: string
-            webhook_uuid:
-                description: "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results"
+            webhook_ref:
+                description: "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results. It is a reference to an object of type Webhook. Field introduced in 17.1.1."
                 type: string
     PoolGroupDeploymentPolicyApiResponse:
         type: object

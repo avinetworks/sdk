@@ -1,0 +1,1386 @@
+{
+    "info": {
+        "title": "Avi ServiceEngineGroup Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/serviceenginegroup": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ServiceEngineGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroupApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceenginegroup/{uuid}/redistribute": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "empty", 
+                        "name": "body", 
+                        "schema": {
+                            "additionalProperties": {
+                                "type": "string"
+                            }, 
+                            "type": "object"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceenginegroup/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ServiceEngineGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ServiceEngineGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ServiceEngineGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceenginegroup/{uuid}/runtime/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceenginegroup/{uuid}/clear": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "empty", 
+                        "name": "body", 
+                        "schema": {
+                            "additionalProperties": {
+                                "type": "string"
+                            }, 
+                            "type": "object"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "ServiceEngineGroupApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ServiceEngineGroup"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "PortRange": {
+            "required": [
+                "end", 
+                "start"
+            ], 
+            "type": "object", 
+            "properties": {
+                "start": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }, 
+                "end": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "VcenterClusters": {
+            "type": "object", 
+            "properties": {
+                "include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property include of obj type VcenterClusters field type str  type boolean"
+                }, 
+                "cluster_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VIMgrClusterRuntime."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "ServiceEngineGroup": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "se_vs_hb_max_vs_in_pkt": {
+                    "default": 256, 
+                    "type": "integer", 
+                    "description": "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "host_attribute_value": {
+                    "type": "string", 
+                    "description": "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
+                }, 
+                "async_ssl": {
+                    "type": "boolean", 
+                    "description": "SSL handshakes will be handled by dedicated SSL Threads."
+                }, 
+                "instance_flavor": {
+                    "type": "string", 
+                    "description": "Instance/Flavor type for SE instance."
+                }, 
+                "auto_redistribute_active_standby_load": {
+                    "type": "boolean", 
+                    "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
+                }, 
+                "auto_rebalance": {
+                    "type": "boolean", 
+                    "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
+                }, 
+                "se_tunnel_mode": {
+                    "type": "integer", 
+                    "description": "Determines if DSR from secondary SE is active or not. 0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "se_tunnel_udp_port": {
+                    "default": 1550, 
+                    "type": "integer", 
+                    "description": "UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "vs_scalein_timeout": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "ha_mode": {
+                    "default": "HA_MODE_SHARED", 
+                    "type": "string", 
+                    "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
+                }, 
+                "cloud_ref": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud."
+                }, 
+                "se_remote_punt_udp_port": {
+                    "default": 1501, 
+                    "type": "integer", 
+                    "description": "UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_udp_encap_ipc": {
+                    "type": "integer", 
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header. 0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "min_cpu_usage": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.", 
+                    "format": "int32"
+                }, 
+                "custom_securitygroups_data": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                }, 
+                "vcenter_clusters": {
+                    "description": "Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/VcenterClusters"
+                }, 
+                "enable_vip_on_all_interfaces": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
+                }, 
+                "iptables": {
+                    "items": {
+                        "$ref": "#/definitions/IptableRuleSet"
+                    }, 
+                    "type": "array", 
+                    "description": "Iptable Rules."
+                }, 
+                "max_vs_per_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.", 
+                    "format": "int32"
+                }, 
+                "connection_memory_percentage": {
+                    "default": 50, 
+                    "type": "integer", 
+                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.", 
+                    "format": "int32"
+                }, 
+                "service_ip_subnets": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1."
+                }, 
+                "placement_mode": {
+                    "default": "PLACEMENT_MODE_AUTO", 
+                    "type": "string", 
+                    "description": "If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO."
+                }, 
+                "max_scaleout_per_vs": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
+                    "format": "int32"
+                }, 
+                "os_reserved_memory": {
+                    "type": "integer", 
+                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
+                    "format": "int32"
+                }, 
+                "enable_routing": {
+                    "type": "boolean", 
+                    "description": "Enable routing for this ServiceEngineGroup ."
+                }, 
+                "per_app": {
+                    "type": "boolean", 
+                    "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
+                }, 
+                "openstack_availability_zones": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " Field introduced in 17.1.1."
+                }, 
+                "vcenter_datastores_include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "se_name_prefix": {
+                    "default": "Avi", 
+                    "type": "string", 
+                    "description": "Prefix to use for virtual machine name of Service Engines."
+                }, 
+                "se_vs_hb_max_pkts_in_batch": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "host_attribute_key": {
+                    "type": "string", 
+                    "description": "Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "max_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Maximum number of Services Engines in this group. Allowed values are 0-1000.", 
+                    "format": "int32"
+                }, 
+                "mem_reserve": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "cpu_reserve": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "se_dos_profile": {
+                    "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/DosThresholdProfile"
+                }, 
+                "enable_vmac": {
+                    "type": "boolean", 
+                    "description": "Use Virtual MAC address for interfaces on which floating interface IPs are placed."
+                }, 
+                "openstack_mgmt_network_name": {
+                    "type": "string", 
+                    "description": "Avi Management network name."
+                }, 
+                "udf_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "vcenter_hosts": {
+                    "description": "Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/VcenterHosts"
+                }, 
+                "se_ipc_udp_port": {
+                    "default": 1500, 
+                    "type": "integer", 
+                    "description": "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "vcpus_per_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of vcpus for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "hm_on_standby": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable active health monitoring from the standby SE for all placed virtual services."
+                }, 
+                "disk_per_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Amount of disk space for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "cpu_socket_affinity": {
+                    "type": "boolean", 
+                    "description": "Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud."
+                }, 
+                "realtime_se_metrics": {
+                    "description": "Enable or disable real time SE metrics.", 
+                    "$ref": "#/definitions/MetricsRealTimeUpdate"
+                }, 
+                "archive_shm_limit": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "hardwaresecuritymodulegroup_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type HardwareSecurityModuleGroup."
+                }, 
+                "custom_securitygroups_mgmt": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom Security Groups to be associated with management vNic for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                }, 
+                "custom_tag": {
+                    "items": {
+                        "$ref": "#/definitions/CustomTag"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name."
+                }, 
+                "floating_intf_ip_se_2": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled."
+                }, 
+                "log_disksz": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
+                    "format": "int32"
+                }, 
+                "non_significant_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "openstack_availability_zone": {
+                    "type": "string", 
+                    "description": " Field deprecated in 17.1.1."
+                }, 
+                "extra_shared_config_memory": {
+                    "type": "integer", 
+                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "auto_rebalance_interval": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
+                    "format": "int32"
+                }, 
+                "vcenter_datastores": {
+                    "items": {
+                        "$ref": "#/definitions/VcenterDatastore"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property vcenter_datastores of obj type ServiceEngineGroup field type str  type object"
+                }, 
+                "vs_scaleout_timeout": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.", 
+                    "format": "int32"
+                }, 
+                "active_standby": {
+                    "type": "boolean", 
+                    "description": "Service Engines in active/standby mode for HA failover."
+                }, 
+                "num_flow_cores_sum_changes_to_ignore": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Number of changes in num flow cores sum to ignore.", 
+                    "format": "int32"
+                }, 
+                "se_thread_multiplier": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
+                    "format": "int32"
+                }, 
+                "extra_config_multiplier": {
+                    "type": "number", 
+                    "description": "Multiplier for extra config to support large VS/Pool config.", 
+                    "format": "double"
+                }, 
+                "async_ssl_threads": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-4.", 
+                    "format": "int32"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "openstack_mgmt_network_uuid": {
+                    "type": "string", 
+                    "description": "Management network UUID."
+                }, 
+                "vcenter_folder": {
+                    "default": "AviSeFolder", 
+                    "type": "string", 
+                    "description": "Folder to place all the Service Engine virtual machines in vCenter."
+                }, 
+                "vs_scalein_timeout_for_upgrade": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "se_deprovision_delay": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.", 
+                    "format": "int32"
+                }, 
+                "floating_intf_ip": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled."
+                }, 
+                "advertise_backend_networks": {
+                    "type": "boolean", 
+                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
+                }, 
+                "mgmt_network_ref": {
+                    "type": "string", 
+                    "description": "Management network to use for Avi Service Engines. It is a reference to an object of type Network."
+                }, 
+                "memory_per_se": {
+                    "default": 2048, 
+                    "type": "integer", 
+                    "description": "Amount of memory for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "max_cpu_usage": {
+                    "default": 80, 
+                    "type": "integer", 
+                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.", 
+                    "format": "int32"
+                }, 
+                "min_scaleout_per_vs": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
+                    "format": "int32"
+                }, 
+                "buffer_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Excess Service Engine capacity provisioned for HA failover.", 
+                    "format": "int32"
+                }, 
+                "hypervisor": {
+                    "type": "string", 
+                    "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }, 
+                "vcenter_datastore_mode": {
+                    "default": "VCENTER_DATASTORE_ANY", 
+                    "type": "string", 
+                    "description": " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
+                }, 
+                "distribute_load_active_standby": {
+                    "type": "boolean", 
+                    "description": "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
+                }, 
+                "least_load_core_selection": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Select core with least load for new flow."
+                }, 
+                "aggressive_failure_detection": {
+                    "type": "boolean", 
+                    "description": "Enable aggressive failover configuration for ha."
+                }, 
+                "significant_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "dedicated_dispatcher_core": {
+                    "type": "boolean", 
+                    "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
+                }, 
+                "algo": {
+                    "default": "PLACEMENT_ALGO_PACKED", 
+                    "type": "string", 
+                    "description": "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
+                }, 
+                "mgmt_subnet": {
+                    "description": "Management subnet to use for Avi Service Engines.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "vs_host_redundancy": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Ensure primary and secondary Service Engines are deployed on different physical hosts."
+                }
+            }
+        }, 
+        "IptableRuleSet": {
+            "required": [
+                "chain", 
+                "table"
+            ], 
+            "type": "object", 
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/IptableRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property rules of obj type IptableRuleSet field type str  type object"
+                }, 
+                "table": {
+                    "type": "string", 
+                    "description": "table of IptableRuleSet."
+                }, 
+                "chain": {
+                    "type": "string", 
+                    "description": "chain of IptableRuleSet."
+                }
+            }
+        }, 
+        "VcenterHosts": {
+            "type": "object", 
+            "properties": {
+                "host_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VIMgrHostRuntime."
+                }, 
+                "include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
+                }
+            }
+        }, 
+        "VcenterDatastore": {
+            "required": [
+                "datastore_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "datastore_name": {
+                    "type": "string", 
+                    "description": "datastore_name of VcenterDatastore."
+                }
+            }
+        }, 
+        "CustomTag": {
+            "required": [
+                "tag_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tag_val": {
+                    "type": "string", 
+                    "description": "tag_val of CustomTag."
+                }, 
+                "tag_key": {
+                    "type": "string", 
+                    "description": "tag_key of CustomTag."
+                }
+            }
+        }, 
+        "MetricsRealTimeUpdate": {
+            "required": [
+                "enabled"
+            ], 
+            "type": "object", 
+            "properties": {
+                "duration": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                }
+            }
+        }, 
+        "IptableRule": {
+            "required": [
+                "action"
+            ], 
+            "type": "object", 
+            "properties": {
+                "dnat_ip": {
+                    "description": "Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "src_port": {
+                    "description": "Placeholder for description of property src_port of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "proto": {
+                    "type": "string", 
+                    "description": " Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL."
+                }, 
+                "input_interface": {
+                    "type": "string", 
+                    "description": "input_interface of IptableRule."
+                }, 
+                "output_interface": {
+                    "type": "string", 
+                    "description": "output_interface of IptableRule."
+                }, 
+                "src_ip": {
+                    "description": "Placeholder for description of property src_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "tag": {
+                    "type": "string", 
+                    "description": "tag of IptableRule."
+                }, 
+                "dst_port": {
+                    "description": "Placeholder for description of property dst_port of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "action": {
+                    "type": "string", 
+                    "description": " Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE."
+                }, 
+                "dst_ip": {
+                    "description": "Placeholder for description of property dst_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        }, 
+        "DosThresholdProfile": {
+            "required": [
+                "thresh_period"
+            ], 
+            "type": "object", 
+            "properties": {
+                "thresh_period": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
+                    "format": "int32"
+                }, 
+                "thresh_info": {
+                    "items": {
+                        "$ref": "#/definitions/DosThreshold"
+                    }, 
+                    "type": "array", 
+                    "description": "Attack type, min and max values for DoS attack detection."
+                }
+            }
+        }, 
+        "DosThreshold": {
+            "required": [
+                "attack", 
+                "max_value", 
+                "min_value"
+            ], 
+            "type": "object", 
+            "properties": {
+                "max_value": {
+                    "type": "integer", 
+                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }, 
+                "attack": {
+                    "type": "string", 
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                }, 
+                "min_value": {
+                    "type": "integer", 
+                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}
