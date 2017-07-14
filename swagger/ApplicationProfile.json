@@ -1,0 +1,1365 @@
+{
+    "info": {
+        "title": "Avi ApplicationProfile Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/applicationprofile": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ApplicationProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfileApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/applicationprofile/{uuid}/runtime/internal/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/applicationprofile/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ApplicationProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ApplicationProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "IpAddrRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "DosRateLimitProfile": {
+            "type": "object", 
+            "properties": {
+                "rl_profile": {
+                    "description": "Profile for Connections/Requests rate limiting.", 
+                    "$ref": "#/definitions/RateLimiterProfile"
+                }, 
+                "dos_profile": {
+                    "description": "Profile for DoS attack detection.", 
+                    "$ref": "#/definitions/DosThresholdProfile"
+                }
+            }
+        }, 
+        "SSLClientCertificateAction": {
+            "type": "object", 
+            "properties": {
+                "headers": {
+                    "items": {
+                        "$ref": "#/definitions/SSLClientRequestHeader"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property headers of obj type SSLClientCertificateAction field type str  type object"
+                }, 
+                "close_connection": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property close_connection of obj type SSLClientCertificateAction field type str  type boolean"
+                }
+            }
+        }, 
+        "RateLimiterAction": {
+            "type": "object", 
+            "properties": {
+                "redirect": {
+                    "description": "Parameters for HTTP Redirect rate limit action.", 
+                    "$ref": "#/definitions/HTTPRedirectAction"
+                }, 
+                "status_code": {
+                    "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
+                    "type": "string", 
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                }, 
+                "type": {
+                    "default": "RL_ACTION_NONE", 
+                    "type": "string", 
+                    "description": "Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT."
+                }, 
+                "file": {
+                    "description": "File to be used for HTTP Local response rate limit action.", 
+                    "$ref": "#/definitions/HTTPLocalFile"
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "DnsServiceApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "dns_over_tcp_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1."
+                }, 
+                "error_response": {
+                    "default": "DNS_ERROR_RESPONSE_NONE", 
+                    "type": "string", 
+                    "description": "Drop or respond to client when the DNS service encounters an error processing a client query. By default, such a request is dropped without any response, or passed through to a passthrough pool, if configured. When set to respond, an appropriate response is sent to client, e.g. NXDOMAIN response for non-existent records, empty NOERROR response for unsupported queries, etc. Enum options - DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE."
+                }, 
+                "domain_names": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics."
+                }, 
+                "aaaa_empty_response": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Respond to AAAA queries with empty response when there are only IPV4 records."
+                }, 
+                "num_dns_ip": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- 'Return all IP addresses'.", 
+                    "format": "int32"
+                }, 
+                "edns_client_subnet_prefix_len": {
+                    "type": "integer", 
+                    "description": "Specifies the ip address prefix length to use in the edns client subnet (ecs) option. When the incoming request does not have any ecs option and the prefix length is specified, we insert an ecs option in the request to upstream servers. Allowed values are 1-32. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "ttl": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400.", 
+                    "format": "int32"
+                }, 
+                "edns": {
+                    "type": "boolean", 
+                    "description": "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "CompressionFilter": {
+            "required": [
+                "index", 
+                "level", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Number of index.", 
+                    "format": "int32"
+                }, 
+                "ip_addr_ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property ip_addr_ranges of obj type CompressionFilter field type str  type object"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "level": {
+                    "default": "NORMAL_COMPRESSION", 
+                    "type": "string", 
+                    "description": " Enum options - AGGRESSIVE_COMPRESSION, NORMAL_COMPRESSION, NO_COMPRESSION."
+                }, 
+                "ip_addr_prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property ip_addr_prefixes of obj type CompressionFilter field type str  type object"
+                }, 
+                "devices_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type StringGroup."
+                }, 
+                "ip_addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property ip_addrs of obj type CompressionFilter field type str  type object"
+                }, 
+                "user_agent": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "user_agent of CompressionFilter."
+                }, 
+                "ip_addrs_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type IpAddrGroup."
+                }, 
+                "match": {
+                    "default": "IS_IN", 
+                    "type": "string", 
+                    "description": "Whether to apply Filter when group criteria is matched or not. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "CompressionProfile": {
+            "required": [
+                "compression", 
+                "remove_accept_encoding_header", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "filter": {
+                    "items": {
+                        "$ref": "#/definitions/CompressionFilter"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom filters used when auto compression is not selected."
+                }, 
+                "compressible_content_ref": {
+                    "type": "string", 
+                    "description": "Compress only content types listed in this string group. Content types not present in this list are not compressed. It is a reference to an object of type StringGroup."
+                }, 
+                "type": {
+                    "default": "AUTO_COMPRESSION", 
+                    "type": "string", 
+                    "description": "Compress content automatically or add custom filters to define compressible content and compression levels. Enum options - AUTO_COMPRESSION, CUSTOM_COMPRESSION."
+                }, 
+                "compression": {
+                    "type": "boolean", 
+                    "description": "Compress HTTP response content if it wasn't already compressed."
+                }, 
+                "remove_accept_encoding_header": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Offload compression from the servers to AVI. Saves compute cycles on the servers."
+                }
+            }
+        }, 
+        "URIParam": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tokens": {
+                    "items": {
+                        "$ref": "#/definitions/URIParamToken"
+                    }, 
+                    "type": "array", 
+                    "description": "Token config either for the URI components or a constant string."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                }
+            }
+        }, 
+        "HttpCacheConfig": {
+            "type": "object", 
+            "properties": {
+                "min_object_size": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Minimum size of an object to store in the cache.", 
+                    "format": "int32"
+                }, 
+                "query_cacheable": {
+                    "type": "boolean", 
+                    "description": "Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit."
+                }, 
+                "xcache_header": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache."
+                }, 
+                "mime_types_black_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup."
+                }, 
+                "age_header": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Add an Age header to content served from cache, which indicates to the client the number of seconds the object has been in the cache."
+                }, 
+                "mime_types_list": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*."
+                }, 
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enable/disable HTTP object caching."
+                }, 
+                "default_expire": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting.", 
+                    "format": "int32"
+                }, 
+                "max_cache_size": {
+                    "type": "integer", 
+                    "description": "Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.", 
+                    "format": "int64"
+                }, 
+                "heuristic_expire": {
+                    "type": "boolean", 
+                    "description": "If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value."
+                }, 
+                "date_header": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache."
+                }, 
+                "aggressive": {
+                    "type": "boolean", 
+                    "description": "Enable/disable caching objects without Cache-Control headers."
+                }, 
+                "max_object_size": {
+                    "default": 4194304, 
+                    "type": "integer", 
+                    "description": "Maximum size of an object to store in the cache.", 
+                    "format": "int32"
+                }, 
+                "mime_types_black_list": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Blacklist of non-cacheable mime types."
+                }, 
+                "mime_types_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup."
+                }
+            }
+        }, 
+        "URIParamToken": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "str_value": {
+                    "type": "string", 
+                    "description": "Constant string to use as a token."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX."
+                }, 
+                "start_index": {
+                    "type": "integer", 
+                    "description": "Index of the starting token in the incoming URI.", 
+                    "format": "int32"
+                }, 
+                "end_index": {
+                    "type": "integer", 
+                    "description": "Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - 'end of string'.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "ApplicationProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ApplicationProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "DosThresholdProfile": {
+            "required": [
+                "thresh_period"
+            ], 
+            "type": "object", 
+            "properties": {
+                "thresh_period": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
+                    "format": "int32"
+                }, 
+                "thresh_info": {
+                    "items": {
+                        "$ref": "#/definitions/DosThreshold"
+                    }, 
+                    "type": "array", 
+                    "description": "Attack type, min and max values for DoS attack detection."
+                }
+            }
+        }, 
+        "DosThreshold": {
+            "required": [
+                "attack", 
+                "max_value", 
+                "min_value"
+            ], 
+            "type": "object", 
+            "properties": {
+                "max_value": {
+                    "type": "integer", 
+                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }, 
+                "attack": {
+                    "type": "string", 
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                }, 
+                "min_value": {
+                    "type": "integer", 
+                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "HTTPRedirectAction": {
+            "required": [
+                "protocol"
+            ], 
+            "type": "object", 
+            "properties": {
+                "host": {
+                    "description": "Host config.", 
+                    "$ref": "#/definitions/URIParam"
+                }, 
+                "protocol": {
+                    "type": "string", 
+                    "description": "Protocol type. Enum options - HTTP, HTTPS."
+                }, 
+                "path": {
+                    "description": "Path config.", 
+                    "$ref": "#/definitions/URIParam"
+                }, 
+                "keep_query": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Keep or drop the query of the incoming request URI in the redirected URI."
+                }, 
+                "status_code": {
+                    "default": "HTTP_REDIRECT_STATUS_CODE_302", 
+                    "type": "string", 
+                    "description": "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                }, 
+                "port": {
+                    "type": "integer", 
+                    "description": "Port to which redirect the request. Allowed values are 1-65535.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "RateProfile": {
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "http_header": {
+                    "type": "string", 
+                    "description": "HTTP header name. Field introduced in 17.1.1."
+                }, 
+                "http_cookie": {
+                    "type": "string", 
+                    "description": "HTTP cookie name. Field introduced in 17.1.1."
+                }, 
+                "explicit_tracking": {
+                    "type": "boolean", 
+                    "description": "Explicitly tracks an attacker across rate periods."
+                }, 
+                "period": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
+                    "format": "int32"
+                }, 
+                "action": {
+                    "description": "Action to perform upon rate limiting.", 
+                    "$ref": "#/definitions/RateLimiterAction"
+                }, 
+                "burst_sz": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'.", 
+                    "format": "int32"
+                }, 
+                "fine_grain": {
+                    "type": "boolean", 
+                    "description": "Enable fine granularity."
+                }
+            }
+        }, 
+        "RateLimiterProfile": {
+            "type": "object", 
+            "properties": {
+                "uri_failed_requests_rate_limit": {
+                    "description": "Rate Limit all requests to a URI for a specified period of time once the count of failed requests to that URI crosses a threshold for that period. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. .", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_scanners_requests_rate_limit": {
+                    "description": "Automatically track clients and classify them into 3 groups - Good, Bad, Unknown. Clients are tracked based on their IP Address. Clients are added to the Good group when the Avi Scan Detection system builds history of requests from them that complete successfully. Clients are added to Unknown group when there is insufficient history about them. Requests from such clients are rate limited to the rate specified in the RateProfile. Finally, Clients with history of failed requests are added to Bad group and their requests are rate limited with stricter thresholds than the Unknown Clients group. The Avi Scan Detection system automatically tunes itself so that the Good, Bad, and Unknown client IPs group membership changes dynamically with the changes in traffic patterns through the ADC.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_to_uri_failed_requests_rate_limit": {
+                    "description": "Rate Limit all requests from a client to a URI for a specified period of time once the count of failed requests from that client to the URI crosses a threshold for that period. Clients are tracked based on their IP address. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. .", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_to_uri_requests_rate_limit": {
+                    "description": "Rate Limit all HTTP requests from any single client IP address to any single URL.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_failed_requests_rate_limit": {
+                    "description": "Rate Limit all requests from a client for a specified period of time once the count of failed requests from that client crosses a threshold for that period. Clients are tracked based on their IP address. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. .", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "uri_requests_rate_limit": {
+                    "description": "Rate Limit all HTTP requests from all client IP addresses to any single URL.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "uri_scanners_requests_rate_limit": {
+                    "description": "Automatically track URIs and classify them into 3 groups - Good, Bad, Unknown. URIs are added to the Good group when the Avi Scan Detection system builds history of requests to URIs that complete successfully. URIs are added to Unknown group when there is insufficient history about them. Requests for such URIs are rate limited to the rate specified in the RateProfile. Finally, URIs with history of failed requests are added to Bad group and requests to them are rate limited with stricter thresholds than the Unknown URIs group. The Avi Scan Detection system automatically tunes itself so that the Good, Bad, and Unknown URIs group membership changes dynamically with the changes in traffic patterns through the ADC.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_requests_rate_limit": {
+                    "description": "Rate Limit all HTTP requests from any single client IP address to all URLs of the Virtual Service.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "client_ip_connections_rate_limit": {
+                    "description": "Rate Limit all connections made from any single client IP address to the Virtual Service.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "http_header_rate_limits": {
+                    "items": {
+                        "$ref": "#/definitions/RateProfile"
+                    }, 
+                    "type": "array", 
+                    "description": "Rate Limit all HTTP requests from all client IP addresses that contain any single HTTP header value. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "ApplicationProfile": {
+            "required": [
+                "name", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tcp_app_profile": {
+                    "description": "Specifies the TCP application proxy profile parameters.", 
+                    "$ref": "#/definitions/TCPApplicationProfile"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "The name of the application profile."
+                }, 
+                "dns_service_profile": {
+                    "description": "Specifies various DNS service related controls for virtual service.", 
+                    "$ref": "#/definitions/DnsServiceApplicationProfile"
+                }, 
+                "preserve_client_ip": {
+                    "type": "boolean", 
+                    "description": "Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "http_profile": {
+                    "description": "Specifies the HTTP application proxy profile parameters.", 
+                    "$ref": "#/definitions/HTTPApplicationProfile"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "dos_rl_profile": {
+                    "description": "Specifies various security related controls for virtual service.", 
+                    "$ref": "#/definitions/DosRateLimitProfile"
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the application profile."
+                }
+            }
+        }, 
+        "TCPApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "proxy_protocol_version": {
+                    "default": "PROXY_PROTOCOL_VERSION_1", 
+                    "type": "string", 
+                    "description": "Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2."
+                }, 
+                "proxy_protocol_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy."
+                }
+            }
+        }, 
+        "HTTPApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "max_rps_uri": {
+                    "type": "integer", 
+                    "description": "Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "keepalive_header": {
+                    "type": "boolean", 
+                    "description": "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
+                }, 
+                "max_rps_cip_uri": {
+                    "type": "integer", 
+                    "description": "Maximum requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "x_forwarded_proto_enabled": {
+                    "type": "boolean", 
+                    "description": "Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be 'https'."
+                }, 
+                "connection_multiplexing_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP."
+                }, 
+                "websockets_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. ."
+                }, 
+                "enable_request_body_buffering": {
+                    "type": "boolean", 
+                    "description": "Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size."
+                }, 
+                "hsts_enabled": {
+                    "type": "boolean", 
+                    "description": "Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS."
+                }, 
+                "cache_config": {
+                    "description": "HTTP Caching config to use with this HTTP Profile.", 
+                    "$ref": "#/definitions/HttpCacheConfig"
+                }, 
+                "xff_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "The client's original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi's source NAT address used in the Avi to server IP connection."
+                }, 
+                "disable_keepalive_posts_msie6": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections."
+                }, 
+                "keepalive_timeout": {
+                    "default": 30000, 
+                    "type": "integer", 
+                    "description": "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000.", 
+                    "format": "int32"
+                }, 
+                "ssl_client_certificate_mode": {
+                    "default": "SSL_CLIENT_CERTIFICATE_NONE", 
+                    "type": "string", 
+                    "description": "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE."
+                }, 
+                "http_to_https": {
+                    "type": "boolean", 
+                    "description": "Client requests received via HTTP will be redirected to HTTPS."
+                }, 
+                "spdy_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. ."
+                }, 
+                "pki_profile_ref": {
+                    "type": "string", 
+                    "description": "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile."
+                }, 
+                "max_bad_rps_cip_uri": {
+                    "type": "integer", 
+                    "description": "Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "httponly_enabled": {
+                    "type": "boolean", 
+                    "description": "Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript."
+                }, 
+                "hsts_max_age": {
+                    "default": 365, 
+                    "type": "integer", 
+                    "description": "Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000.", 
+                    "format": "int64"
+                }, 
+                "client_max_header_size": {
+                    "default": 12, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.", 
+                    "format": "int32"
+                }, 
+                "server_side_redirect_to_https": {
+                    "type": "boolean", 
+                    "description": "When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server's redirect responses for this virtual service from HTTP to HTTPS."
+                }, 
+                "ssl_client_certificate_action": {
+                    "description": "Set of match/action rules that govern what happens when the client certificate request is enabled.", 
+                    "$ref": "#/definitions/SSLClientCertificateAction"
+                }, 
+                "client_max_request_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
+                    "format": "int32"
+                }, 
+                "compression_profile": {
+                    "description": "HTTP Compression settings to use with this HTTP Profile.", 
+                    "$ref": "#/definitions/CompressionProfile"
+                }, 
+                "max_rps_unknown_uri": {
+                    "type": "integer", 
+                    "description": "Maximum unknown URIs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "ssl_everywhere_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
+                }, 
+                "spdy_fwd_proxy_mode": {
+                    "type": "boolean", 
+                    "description": "Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI."
+                }, 
+                "max_bad_rps_cip": {
+                    "type": "integer", 
+                    "description": "Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "allow_dots_in_header_name": {
+                    "type": "boolean", 
+                    "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
+                }, 
+                "client_header_timeout": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.", 
+                    "format": "int32"
+                }, 
+                "post_accept_timeout": {
+                    "default": 30000, 
+                    "type": "integer", 
+                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.", 
+                    "format": "int32"
+                }, 
+                "secure_cookie_enabled": {
+                    "type": "boolean", 
+                    "description": "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set."
+                }, 
+                "xff_alternate_name": {
+                    "default": "X-Forwarded-For", 
+                    "type": "string", 
+                    "description": "Provide a custom name for the X-Forwarded-For header sent to the servers."
+                }, 
+                "max_rps_cip": {
+                    "type": "integer", 
+                    "description": "Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "client_max_body_size": {
+                    "type": "integer", 
+                    "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited.", 
+                    "format": "int64"
+                }, 
+                "max_rps_unknown_cip": {
+                    "type": "integer", 
+                    "description": "Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "client_body_timeout": {
+                    "default": 30000, 
+                    "type": "integer", 
+                    "description": "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000.", 
+                    "format": "int32"
+                }, 
+                "max_bad_rps_uri": {
+                    "type": "integer", 
+                    "description": "Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "use_app_keepalive_timeout": {
+                    "type": "boolean", 
+                    "description": "Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout."
+                }
+            }
+        }, 
+        "HTTPLocalFile": {
+            "required": [
+                "content_type", 
+                "file_content"
+            ], 
+            "type": "object", 
+            "properties": {
+                "file_content": {
+                    "type": "string", 
+                    "description": "File content to used in the local HTTP response body."
+                }, 
+                "content_type": {
+                    "type": "string", 
+                    "description": "Mime-type of the content in the file."
+                }
+            }
+        }, 
+        "SSLClientRequestHeader": {
+            "type": "object", 
+            "properties": {
+                "request_header_value": {
+                    "type": "string", 
+                    "description": "Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER."
+                }, 
+                "request_header": {
+                    "type": "string", 
+                    "description": "If this header exists, reset the connection. If the ssl variable is specified, add a header with this value."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

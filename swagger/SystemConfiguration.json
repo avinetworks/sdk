@@ -1,0 +1,1114 @@
+{
+    "info": {
+        "title": "Avi SystemConfiguration Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/systemconfiguration/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SystemConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SystemConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/systemconfiguration": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SystemConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfigurationApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/systemconfiguration/systestemail": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SysTestEmailParams", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SysTestEmailParams"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "SysTestEmailParams": {
+            "required": [
+                "subject", 
+                "text", 
+                "to_emails"
+            ], 
+            "type": "object", 
+            "properties": {
+                "text": {
+                    "type": "string", 
+                    "description": "The email context."
+                }, 
+                "cc_emails": {
+                    "type": "string", 
+                    "description": "Alerts are copied to the comma separated list of  email recipients."
+                }, 
+                "to_emails": {
+                    "type": "string", 
+                    "description": "Alerts are sent to the comma separated list of  email recipients."
+                }, 
+                "subject": {
+                    "type": "string", 
+                    "description": "The Subject line of the originating email from  Avi Controller."
+                }
+            }
+        }, 
+        "IpAddrRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "IpAddrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                }, 
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "AdminAuthConfiguration": {
+            "type": "object", 
+            "properties": {
+                "auth_profile_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type AuthProfile."
+                }, 
+                "mapping_rules": {
+                    "items": {
+                        "$ref": "#/definitions/AuthMappingRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Rules list for tenant or role mapping."
+                }, 
+                "allow_local_user_login": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allow any user created locally to login with local credentials. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "SystemConfiguration": {
+            "type": "object", 
+            "properties": {
+                "docker_mode": {
+                    "readOnly": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
+                }, 
+                "global_tenant_config": {
+                    "description": "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/TenantConfiguration"
+                }, 
+                "proxy_configuration": {
+                    "description": "Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/ProxyConfiguration"
+                }, 
+                "ssh_hmacs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed. ssh -Q mac provides the list of default HMACs supported."
+                }, 
+                "linux_configuration": {
+                    "description": "Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/LinuxConfiguration"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "email_configuration": {
+                    "description": "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/EmailConfiguration"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "dns_virtualservice_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService."
+                }, 
+                "dns_configuration": {
+                    "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/DNSConfiguration"
+                }, 
+                "snmp_configuration": {
+                    "description": "Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/SnmpConfiguration"
+                }, 
+                "ntp_configuration": {
+                    "description": "Placeholder for description of property ntp_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/NTPConfiguration"
+                }, 
+                "admin_auth_configuration": {
+                    "description": "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/AdminAuthConfiguration"
+                }, 
+                "mgmt_ip_access_control": {
+                    "description": "Configure Ip Access control for controller to restrict open access.", 
+                    "$ref": "#/definitions/MgmtIpAccessControl"
+                }, 
+                "ssh_ciphers": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed. ssh -Q cipher provides the list of default ciphers supported."
+                }, 
+                "portal_configuration": {
+                    "description": "Placeholder for description of property portal_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/PortalConfiguration"
+                }
+            }
+        }, 
+        "TenantConfiguration": {
+            "type": "object", 
+            "properties": {
+                "se_in_provider_context": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines."
+                }, 
+                "tenant_access_to_provider_se": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean"
+                }, 
+                "tenant_vrf": {
+                    "type": "boolean", 
+                    "description": "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "AuthMatchAttribute": {
+            "type": "object", 
+            "properties": {
+                "values": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "values of AuthMatchAttribute."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "criteria": {
+                    "type": "string", 
+                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                }
+            }
+        }, 
+        "AuthMatchGroupMembership": {
+            "type": "object", 
+            "properties": {
+                "groups": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "groups of AuthMatchGroupMembership."
+                }, 
+                "criteria": {
+                    "type": "string", 
+                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                }
+            }
+        }, 
+        "DNSConfiguration": {
+            "type": "object", 
+            "properties": {
+                "search_domain": {
+                    "type": "string", 
+                    "description": "Search domain to use in DNS lookup."
+                }, 
+                "server_list": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "List of DNS Server IP addresses."
+                }
+            }
+        }, 
+        "AuthMappingRule": {
+            "required": [
+                "index"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Number of index.", 
+                    "format": "int32"
+                }, 
+                "assign_role": {
+                    "type": "string", 
+                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                }, 
+                "role_attribute_name": {
+                    "type": "string", 
+                    "description": "role_attribute_name of AuthMappingRule."
+                }, 
+                "assign_tenant": {
+                    "type": "string", 
+                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                }, 
+                "role_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type Role."
+                }, 
+                "is_superuser": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean"
+                }, 
+                "group_match": {
+                    "description": "Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object", 
+                    "$ref": "#/definitions/AuthMatchGroupMembership"
+                }, 
+                "tenant_attribute_name": {
+                    "type": "string", 
+                    "description": "tenant_attribute_name of AuthMappingRule."
+                }, 
+                "tenant_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "attribute_match": {
+                    "description": "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object", 
+                    "$ref": "#/definitions/AuthMatchAttribute"
+                }
+            }
+        }, 
+        "NTPAuthenticationKey": {
+            "required": [
+                "key", 
+                "key_number"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key_number": {
+                    "type": "integer", 
+                    "description": "Key number to be assigned to the authentication-key. Allowed values are 1-65534.", 
+                    "format": "int32"
+                }, 
+                "algorithm": {
+                    "default": "NTP_AUTH_ALGORITHM_MD5", 
+                    "type": "string", 
+                    "description": "Message Digest Algorithm used for NTP authentication. Default is NTP_AUTH_ALGORITHM_MD5. Enum options - NTP_AUTH_ALGORITHM_MD5, NTP_AUTH_ALGORITHM_SHA1."
+                }, 
+                "key": {
+                    "type": "string", 
+                    "description": "NTP Authentication key."
+                }
+            }
+        }, 
+        "SystemConfigurationApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/SystemConfiguration"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "EmailConfiguration": {
+            "required": [
+                "smtp_type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "mail_server_name": {
+                    "default": "localhost", 
+                    "type": "string", 
+                    "description": "Mail server host."
+                }, 
+                "mail_server_port": {
+                    "default": 25, 
+                    "type": "integer", 
+                    "description": "Mail server port.", 
+                    "format": "int32"
+                }, 
+                "smtp_type": {
+                    "default": "SMTP_LOCAL_HOST", 
+                    "type": "string", 
+                    "description": "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER."
+                }, 
+                "auth_password": {
+                    "type": "string", 
+                    "description": "Password for mail server."
+                }, 
+                "auth_username": {
+                    "type": "string", 
+                    "description": "Username for mail server."
+                }, 
+                "from_email": {
+                    "default": "admin@avicontroller.net", 
+                    "type": "string", 
+                    "description": "Email address in From field."
+                }
+            }
+        }, 
+        "ProxyConfiguration": {
+            "required": [
+                "host", 
+                "port"
+            ], 
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for proxy."
+                }, 
+                "host": {
+                    "type": "string", 
+                    "description": "Proxy hostname or IP address."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for proxy."
+                }, 
+                "port": {
+                    "type": "integer", 
+                    "description": "Proxy port.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "LinuxConfiguration": {
+            "type": "object", 
+            "properties": {
+                "banner": {
+                    "type": "string", 
+                    "description": "Banner displayed before login to ssh, and UI."
+                }, 
+                "motd": {
+                    "type": "string", 
+                    "description": "Message of the day, shown to users on login via the command line interface, web interface, or ssh."
+                }
+            }
+        }, 
+        "PortalConfiguration": {
+            "type": "object", 
+            "properties": {
+                "use_uuid_from_input": {
+                    "type": "boolean", 
+                    "description": "Use UUID in POST object data as UUID of the new object, instead of a generated UUID."
+                }, 
+                "redirect_to_https": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean"
+                }, 
+                "https_port": {
+                    "type": "integer", 
+                    "description": "HTTPS port.", 
+                    "format": "int32"
+                }, 
+                "sslkeyandcertificate_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate."
+                }, 
+                "enable_clickjacking_protection": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable/Disable Clickjacking protection."
+                }, 
+                "enable_https": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean"
+                }, 
+                "disable_remote_cli_shell": {
+                    "type": "boolean", 
+                    "description": "Disable Remote CLI Shell Client access."
+                }, 
+                "http_port": {
+                    "type": "integer", 
+                    "description": "HTTP port.", 
+                    "format": "int32"
+                }, 
+                "password_strength_check": {
+                    "type": "boolean", 
+                    "description": "Strict checking of password strength for user accounts."
+                }, 
+                "enable_http": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean"
+                }, 
+                "allow_basic_authentication": {
+                    "type": "boolean", 
+                    "description": "Enable/Disable HTTP basic authentication."
+                }, 
+                "sslprofile_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type SSLProfile."
+                }
+            }
+        }, 
+        "NTPConfiguration": {
+            "type": "object", 
+            "properties": {
+                "ntp_servers": {
+                    "items": {
+                        "$ref": "#/definitions/NTPServer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of NTP Servers."
+                }, 
+                "ntp_authentication_keys": {
+                    "items": {
+                        "$ref": "#/definitions/NTPAuthenticationKey"
+                    }, 
+                    "type": "array", 
+                    "description": "NTP Authentication keys."
+                }, 
+                "ntp_server_list": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "List of NTP server hostnames or IP addresses."
+                }
+            }
+        }, 
+        "NTPServer": {
+            "required": [
+                "server"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key_number": {
+                    "type": "integer", 
+                    "description": "Key number from the list of trusted keys used to authenticate this server. Allowed values are 1-65534.", 
+                    "format": "int32"
+                }, 
+                "server": {
+                    "description": "IP Address of the NTP Server.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "MgmtIpAccessControl": {
+            "type": "object", 
+            "properties": {
+                "snmp_access": {
+                    "description": "Configure IP addresses to access controller using SNMP.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "api_access": {
+                    "description": "Configure IP addresses to access controller using API.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "ssh_access": {
+                    "description": "Configure IP addresses to access controller using SSH.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "shell_server_access": {
+                    "description": "Configure IP addresses to access controller using CLI Shell.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }
+            }
+        }, 
+        "SnmpConfiguration": {
+            "type": "object", 
+            "properties": {
+                "sys_contact": {
+                    "default": "support@avinetworks.com", 
+                    "type": "string", 
+                    "description": "Sets the sysContact in system MIB."
+                }, 
+                "community": {
+                    "type": "string", 
+                    "description": "Community string for SNMP v2c."
+                }, 
+                "sys_location": {
+                    "type": "string", 
+                    "description": "Sets the sysLocation in system MIB."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}
