@@ -262,14 +262,14 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[CONTROLLER] = CONTROLLER_INPUT
             avi_traffic_dict[USERNAME] = USER_NAME
             avi_traffic_dict[PASSWORD] = PASSWORD_NAME
-            avi_traffic_dict[REGISTER] = VALUE
             avi_traffic_dict[TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
                 AVI_TRAFFIC: avi_traffic_dict,
-                TAGS: [vs_dict[NAME], GEN_TRAFFIC]
+                TAGS: [vs_dict[NAME], GEN_TRAFFIC],
+                REGISTER: VALUE
             })
 
     def create_avi_ansible_disable(self, vs_dict, ansible_dict):

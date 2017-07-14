@@ -1644,7 +1644,7 @@ def update_static_route(route):
         next_hop_ip = next_hop_ip.split('%')[0]
 
     ip_addr = route.get('network', None)
-
+    vrf = None
     # Get the mask from subnet mask
     if ip_addr and '%' in ip_addr:
         ip_addr, vrf = ip_addr.split('%')
