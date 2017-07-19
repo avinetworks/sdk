@@ -19,6 +19,7 @@ func main() {
 		fmt.Println("Couldn't create session: ", err)
 		return
 	}
+	fmt.Printf("Avi Controller Version: %s\n", aviClient.AviSession.GetControllerVersion())
 
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}

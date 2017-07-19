@@ -386,3 +386,17 @@ func (avisess *AviSession) GetObjectByName(obj string, name string, result inter
 	}
 	return json.Unmarshal(elems[0], &result)
 }
+
+// Utility functions
+
+// GetControllerVersion gets the version number from the Avi Controller
+func (avisess *AviSession) GetControllerVersion() (string, error) {
+	var resp interface{}
+
+	err := avisess.Get("/api/initial-data", &resp)
+	if err != nil {
+		return "", err
+	}
+	version := resp.(map[string]interface{})["version"].(map[string]interface{})["Version"].(string)
+	return version, nil
+}

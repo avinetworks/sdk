@@ -102,6 +102,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	if err != nil {
 		return &aviClient, err
 	}
+	aviClient.AviSession = aviSession
 	aviClient.APICLifsRuntime = NewAPICLifsRuntimeClient(aviSession)
 	aviClient.ActionGroupConfig = NewActionGroupConfigClient(aviSession)
 	aviClient.Alert = NewAlertClient(aviSession)
