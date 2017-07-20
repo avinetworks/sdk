@@ -201,6 +201,8 @@ def get_avi_resp_code(respCode):
     avi_resp_codes = []
     codes = respCode.split(' ')
     for code in codes:
+        # Converted to int.
+        code = int(code)
         if code < 200:
             avi_resp_codes.append({"code": "HTTP_1XX"})
         elif code < 300:

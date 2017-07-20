@@ -6,6 +6,7 @@ import os
 import sys
 import avi.migrationtools
 import yaml
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
 from requests.packages import urllib3
@@ -129,27 +130,41 @@ class F5Converter(AviConverter):
             return
         source_str = source_file.read()
         LOG.debug('Parsing config file:' + source_file.name)
-        f5_config_dict = f5_parser.parse_config(source_str,
+        f5_config_dict, not_supported_list = f5_parser.parse_config(source_str,
                                                 self.f5_config_version)
         LOG.debug('Config file %s parsed successfully' % source_file.name)
         avi_config_dict = None
         LOG.debug('Parsing defaults files')
         f5_defaults_dict = self.get_default_config(is_download_from_host,
                                                    input_dir)
+        # Added to get not supported parse config
+        not_supported_list_partition = []
         if partitions:
             partition_conf = {}
             for partition in partitions:
                 with open(partition, "r") as p_source_file:
                     p_src_str = p_source_file.read()
                 LOG.debug('Parsing partition config file:' + p_source_file.name)
-                partition_dict = f5_parser.parse_config(
-                    p_src_str, self.f5_config_version)
+                partition_dict, not_supported_list = \
+                    f5_parser.parse_config(p_src_str, self.f5_config_version)
                 LOG.debug(
                     'Config file %s parsed successfully' % p_source_file.name)
+                # TO get all not supported configuration.
+                not_supported_list_partition = not_supported_list_partition \
+                                               + not_supported_list
                 self.dict_merge(partition_conf, partition_dict)
             self.dict_merge(partition_conf, f5_config_dict)
             f5_config_dict = partition_conf
-
+        # Added not supported parse config to file
+        merged_not_supported_list = not_supported_list + \
+                                    not_supported_list_partition
+        # Added status of all command that are not supported in parsing.
+        for command in merged_not_supported_list:
+            d = command.rsplit('/', 1)
+            object_type = d[0].rsplit(' ', 1)
+            object_name = '%s/%s' % (object_type[-1], d[-1])
+            conversion_util.add_status_row(object_type[0], '', object_name,
+                                           conv_const.STATUS_NOT_SUPPORTED)
         LOG.debug('Defaults files parsed successfully')
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
@@ -200,9 +215,9 @@ class F5Converter(AviConverter):
                             'default monitor base file : %s'
                             % (profile.name, monitor.name))
                 return f5_defaults_dict
-            profile_dict = f5_parser.parse_config(profile_base,
+            profile_dict, not_supported_list = f5_parser.parse_config(profile_base,
                                                   self.f5_config_version)
-            monitor_dict = f5_parser.parse_config(monitor_base,
+            monitor_dict, not_supported_list = f5_parser.parse_config(monitor_base,
                                                   self.f5_config_version)
             if int(self.f5_config_version) == 10:
                 default_mon = monitor_dict.get("monitor", {})
@@ -229,7 +244,7 @@ class F5Converter(AviConverter):
                     LOG.warning(
                         'Skipped default file : %s' % defaults_file.name)
                     return f5_defaults_dict
-                f5_defaults_dict = f5_parser.parse_config(
+                f5_defaults_dict, not_supported_list = f5_parser.parse_config(
                     defaults_file.read(), self.f5_config_version)
 
         return f5_defaults_dict
