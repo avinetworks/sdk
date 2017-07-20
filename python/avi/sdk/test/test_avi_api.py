@@ -19,6 +19,7 @@ log = logging.getLogger(__name__)
 login_info = None
 
 urllib3.disable_warnings()
+gapi_version = '17.2.1'
 
 
 def setUpModule():
@@ -37,7 +38,7 @@ def setUpModule():
             login_info.get("password", "avi123"),
             tenant=login_info.get("tenant", "admin"),
             tenant_uuid=login_info.get("tenant_uuid", None),
-            api_version=login_info.get("api_version", "17.1"),
+            api_version=login_info.get("api_version", gapi_version),
             verify=False)
 
 
@@ -96,12 +97,13 @@ class Test(unittest.TestCase):
         assert api == api2
 
     def test_ssl_vs(self):
-        papi = ApiSession(api.controller_ip, api.username, api.password,
-                          verify=False, api_version=api.api_version)
+        papi = ApiSession('10.10.25.42', 'admin', 'avi123',
+                          verify=False, api_version="17.2.1")
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
-        resp = papi.post('pool', data=json.dumps(ssl_vs_cfg["pool_obj"]))
+        resp = papi.post('pool', data=gSAMPLE_CONFIG["SSL-VS"]["pool_obj"])
+        assert resp.status_code == 201
         pool_ref = papi.get_obj_ref(resp.json())
         cert, key, _, _ = get_sample_ssl_params(folder_path='../samples/')
         api_utils = ApiUtils(papi)
@@ -270,6 +272,29 @@ class Test(unittest.TestCase):
         except:
             pass
         assert avi_timedelta(timedelta(seconds=10)) == 10
+
+    def test_session_reset(self):
+        papi = ApiSession(api.controller_ip, api.username, api.password,
+                          verify=False, api_version=api.api_version)
+        res = papi.get('pool', params={'fields': 'name'})
+        assert res.status_code == 200
+        papi.reset_session()
+        res = papi.get('pool', params={'fields': 'name'})
+        assert res.status_code == 200
+        data = {'name': 'test-reset'}
+        res = papi.post('pool', data=data)
+        assert res.status_code == 201
+        papi.reset_session()
+        res = papi.delete_by_name('pool', 'test-reset')
+        assert res.status_code == 204
+
+    def test_session_multi_reset(self):
+        papi = ApiSession(api.controller_ip, api.username, api.password,
+                          verify=False, api_version=api.api_version)
+        papi.reset_session()
+        papi.reset_session()
+
+
 
 if __name__ == "__main__":
     unittest.main()
