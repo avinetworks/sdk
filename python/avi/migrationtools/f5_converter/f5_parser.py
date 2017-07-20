@@ -126,6 +126,7 @@ def parse_config(source_str, version=11):
     grammar = get_grammar_by_version(version)
     result = []
     skipped_list = []
+    not_supported_list = []
     last_end = 0
     source_str = source_str.replace("\t", "    ")
     source_str = source_str.replace("user-defined ", "user-defined_")
@@ -137,6 +138,16 @@ def parse_config(source_str, version=11):
                                 "str_start":
                                     source_str[last_end:last_end+10]+"...",
                                 "str_end": "..."+source_str[start-10:start]}
+                skipped_str = source_str[last_end:start]
+                # Added checks to get not supported configuration
+                skip_obj_list = ZeroOrMore(originalTextFor(SkipTo('{')) +
+                                           nestedExpr('{', '}').suppress()
+                                           ).parseString(skipped_str).asList()
+                # list for not supported commands.
+                for skipconfig in skip_obj_list:
+                    skipconfig = str(skipconfig.replace('}', ''))
+                    if skipconfig:
+                        not_supported_list.append(skipconfig)
                 skipped_list.append(skipped_info)
         last_end = end
 
@@ -145,7 +156,7 @@ def parse_config(source_str, version=11):
                  (skipped["start"], skipped["end"]))
     result_dict = convert_to_dict(result)
     LOG.debug("Parsing complete...")
-    return result_dict
+    return result_dict, not_supported_list
 
 
 def get_grammar_by_version(version):
