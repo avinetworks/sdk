@@ -132,7 +132,7 @@ class ApiSession(Session):
     # a new cache for that process.
     AVI_SLUG = 'Slug'
     SESSION_CACHE_EXPIRY = 20*60
-    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer']
+    SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer', 'Content-Type']
     MAX_API_RETRIES = 3
 
     def __init__(self, controller_ip, username, password=None, token=None,
@@ -168,6 +168,7 @@ class ApiSession(Session):
         self.api_version = api_version
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
+        self.user_hdrs = {}
 
         # Refer Notes 01 and 02
         if controller_ip.startswith('http'):
@@ -252,6 +253,10 @@ class ApiSession(Session):
         resets and re-authenticates the current session.
         """
         logger.info('resetting session for %s', self.key)
+        self.user_hdrs = {}
+        for k, v in self.headers.items():
+            if k not in self.SHARED_USER_HDRS:
+                self.user_hdrs[k] = v
         self.headers = {}
         self.authenticate_session()
 
@@ -275,11 +280,12 @@ class ApiSession(Session):
                 "Authentication failed with code %d reason msg: %s" %
                 (rsp.status_code, rsp.text))
         self.remote_api_version = rsp.json().get('version', {})
-        logger.debug("rsp cookies: %s", dict(rsp.cookies))
+        self.headers.update(self.user_hdrs)
         self.headers.update({
             "Referer": self.prefix,
             "Content-Type": "application/json"
         })
+
         if rsp.cookies and 'csrftoken' in rsp.cookies:
             csrftoken = rsp.cookies['csrftoken']
             self.headers.update({"X-CSRFToken": csrftoken})
@@ -287,8 +293,8 @@ class ApiSession(Session):
                 cached_api = \
                     ApiSession.sessionDict[self.key]['api']
                 cached_api.headers.update({"X-CSRFToken": csrftoken})
-        logger.debug("authentication success for user %s with headers: %s",
-                     self.username, self.headers)
+        logger.debug("authentication success for user %s",
+                     self.username)
         return
 
     def _get_api_headers(self, tenant, tenant_uuid, timeout, headers,
