@@ -132,7 +132,7 @@ class ProfileConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-    def convert(self, ns_config, avi_config, input_dir):
+    def convert(self, ns_config, avi_config, input_dir, sysdict):
         """
         This function defines that convert netscalar profiles to avi profiles
         :param ns_config: It is dict of all netscalar commands which are
@@ -184,7 +184,8 @@ class ProfileConverter(object):
                     # application_merge_count
                     dup_of = ns_util.update_skip_duplicates(app_profile,
                                 avi_config['ApplicationProfile'], 'app_profile',
-                                merge_object_mapping, key, 'HTTP', self.prefix)
+                                merge_object_mapping, key, 'HTTP', self.prefix,
+                                                sysdict['ApplicationProfile'])
                     if dup_of:
                         app_merge_count['count'] += 1
                     else:
@@ -219,7 +220,8 @@ class ProfileConverter(object):
                     # network_merge_count
                     dup_of = ns_util.update_skip_duplicates(net_profile,
                             avi_config['NetworkProfile'], 'network_profile',
-                            merge_object_mapping, key, 'TCP', self.prefix)
+                            merge_object_mapping, key, 'TCP', self.prefix,
+                                                    sysdict['NetworkProfile'])
                     if dup_of:
                         self.network_merge_count += 1
                     else:
@@ -247,7 +249,7 @@ class ProfileConverter(object):
                     dup_of = ns_util.update_skip_duplicates(obj['pki'],
                               avi_config['PKIProfile'], 'pki_profile',
                               merge_object_mapping, obj['pki']['name'], None,
-                                                            self.prefix)
+                                            self.prefix, sysdict['PKIProfile'])
                     if dup_of:
                         self.pki_merge_count += 1
                     else:
@@ -258,25 +260,27 @@ class ProfileConverter(object):
         # set ssl vserver conversion
         self.convert_ssl_service_profile(
             set_ssl_service, bind_ssl_service, ssl_key_and_cert, input_dir,
-            ns_config, avi_config, 'set ssl service', 'bind ssl service')
+            ns_config, avi_config, 'set ssl service', 'bind ssl service',
+            sysdict)
 
         # Set ssl service conversion
         self.convert_ssl_service_profile(
             ssl_vs_mapping, ssl_mappings, ssl_key_and_cert, input_dir,
-            ns_config, avi_config, 'set ssl vserver', 'bind ssl vserver')
+            ns_config, avi_config, 'set ssl vserver', 'bind ssl vserver',
+            sysdict)
 
         # Set ssl servicegroup conversion
         self.convert_ssl_service_profile(
             set_ssl_service_group, bind_ssl_service_group, ssl_key_and_cert,
             input_dir, ns_config, avi_config, 'set ssl serviceGroup',
-            'bind ssl serviceGroup')
+            'bind ssl serviceGroup', sysdict)
 
         LOG.debug("SSL profiles conversion completed")
 
     def convert_ssl_service_profile(self, set_ssl_service, bind_ssl_service,
                                     ssl_key_and_cert, input_dir, ns_config,
                                     avi_config, set_ssl_service_command,
-                                    bind_ssl_service_command):
+                                    bind_ssl_service_command, sysdict):
         """
         This function defines that convert ssl profiles
         :param set_ssl_service: dict of set_ssl_service netscalar command
@@ -351,7 +355,7 @@ class ProfileConverter(object):
                     dup_of = ns_util.update_skip_duplicates(obj['pki'],
                                 avi_config['PKIProfile'], 'pki_profile',
                                 merge_object_mapping, obj['pki']['name'], None,
-                                                            self.prefix)
+                                            self.prefix, sysdict['PKIProfile'])
                     if dup_of:
                         self.pki_merge_count += 1
                     else:
@@ -367,7 +371,8 @@ class ProfileConverter(object):
                     ssl_profile_name = self.prefix + '-' + ssl_profile_name
                 dup_of = ns_util.update_skip_duplicates(
                     ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    merge_object_mapping, ssl_profile_name, None, self.prefix)
+                    merge_object_mapping, ssl_profile_name, None,
+                    self.prefix, sysdict['SSLProfile'])
                 if dup_of:
                     self.ssl_merge_count += 1
                 else:

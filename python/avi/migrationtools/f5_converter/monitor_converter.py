@@ -5,6 +5,7 @@ import os
 import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from pkg_resources import parse_version
+from avi.migrationtools.f5_converter.profile_converter import ssl_count
 
 LOG = logging.getLogger(__name__)
 
@@ -33,7 +34,8 @@ class MonitorConfigConv(object):
         pass
 
     def convert_https(self, monitor_dict, f5_monitor, skipped, avi_config,
-                      tenant, input_dir, cloud_name, controller_version):
+                      tenant, input_dir, cloud_name, controller_version,
+                      merge_object_mapping, sys_dict):
         pass
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
@@ -53,7 +55,7 @@ class MonitorConfigConv(object):
         pass
 
     def create_sslprofile(self, monitor_dict, f5_monitor, avi_config,
-                           tenant, cloud_name):
+                           tenant, cloud_name, merge_object_mapping, sys_dict):
         """
 
         :param monitor_dict:
@@ -82,11 +84,15 @@ class MonitorConfigConv(object):
         if self.object_merge_check:
             conv_utils.update_skip_duplicates(
                 ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                converted_objs, ssl_profile['name'], None)
+                converted_objs, ssl_profile['name'], None, merge_object_mapping,
+                None, self.prefix, sys_dict['SSLProfile'])
+            ssl_count['count'] += 1
         else:
             avi_config['SSLProfile'].append(ssl_profile)
-        sname = [sname for sname in avi_config['SSLProfile']
-                 if (sname['name'] == ssl_profile['name'] or ssl_profile[
+        sname = [ob for ob in sys_dict['SSLProfile'] if ob['name'] ==
+                merge_object_mapping['ssl_profile'].get(ssl_profile['name'])] \
+                or [sname for sname in avi_config['SSLProfile'] if (
+                sname['name'] == ssl_profile['name'] or ssl_profile[
                 'name'] in sname.get('dup_of', []))]
         ref = conv_utils.get_object_ref(
             sname[0]['name'], "sslprofile", tenant, cloud_name)
@@ -152,7 +158,7 @@ class MonitorConfigConv(object):
         LOG.info('Added new SSL key and certificate for %s' % name)
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant,
-                cloud_name, controller_version):
+                cloud_name, controller_version, merge_object_mapping, sys_dict):
         LOG.debug("Converting health monitors")
         converted_objs = []
         m_user_ignore = user_ignore.get('monitor', {})
@@ -184,14 +190,17 @@ class MonitorConfigConv(object):
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
-                    tenant, avi_config, cloud_name, controller_version)
+                    tenant, avi_config, cloud_name, controller_version,
+                    merge_object_mapping, sys_dict)
                 if not avi_monitor:
                     continue
                 # code to merge health monitor.
                 if self.object_merge_check:
                     conv_utils.update_skip_duplicates(avi_monitor,
                         avi_config['HealthMonitor'], 'health_monitor',
-                            converted_objs, name, None)
+                            converted_objs, name, None, merge_object_mapping,
+                                            monitor_type, self.prefix,
+                                                      sys_dict['HealthMonitor'])
                     self.mon_count += 1
                 else:
                     avi_config["HealthMonitor"].append(avi_monitor)
@@ -209,7 +218,7 @@ class MonitorConfigConv(object):
 
     def convert_monitor(self, f5_monitor, key, monitor_config, input_dir,
                         user_ignore, tenant_ref, avi_config, cloud_name,
-                        controller_version):
+                        controller_version, merge_object_mapping, sys_dict):
         monitor_type, name = self.get_name_type(f5_monitor, key)
         skipped = [val for val in f5_monitor.keys()
                    if val not in self.supported_attributes]
@@ -267,9 +276,9 @@ class MonitorConfigConv(object):
         elif monitor_type == "https":
             na_list = self.na_https
             u_ignore = user_ignore.get("https", [])
-            skipped = self.convert_https(
-                monitor_dict, f5_monitor, skipped, avi_config, tenant_ref,
-                input_dir, cloud_name, controller_version)
+            skipped = self.convert_https(monitor_dict, f5_monitor, skipped,
+                      avi_config, tenant_ref, input_dir, cloud_name,
+                      controller_version, merge_object_mapping, sys_dict)
         elif monitor_type == "dns":
             na_list = self.na_dns
             u_ignore = user_ignore.get("dns", [])
@@ -391,7 +400,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped, avi_config,
-                      tenant_ref, input_dir, cloud_name, controller_version):
+                      tenant_ref, input_dir, cloud_name, controller_version,
+                      merge_object_mapping, sys_dict):
         skipped = [key for key in skipped if key not in self.https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
@@ -405,7 +415,8 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if f5_monitor.get('cipherlist', None) \
                 and parse_version(controller_version) >= parse_version('17.1'):
             self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
-                           tenant_ref, cloud_name)
+                           tenant_ref, cloud_name, merge_object_mapping,
+                                   sys_dict)
         # Added code to check for ssl key cert.
         if f5_monitor.get('key', None) != 'none' \
                 and f5_monitor.get('cert', None) != 'none' \
@@ -680,7 +691,8 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_https(self, monitor_dict, f5_monitor, skipped,
-                      avi_config, tenant, input_dir, cloud_name, controller_version):
+                      avi_config, tenant, input_dir, cloud_name,
+                      controller_version, merge_object_mapping, sys_dict):
 
         ignore_list = ['compatibility']
         https_attr = ignore_list + self.https_attr
@@ -698,7 +710,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         if f5_monitor.get('cipherlist', None) \
                 and parse_version(controller_version) >= parse_version('17.1'):
             self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
-                           tenant, cloud_name)
+                           tenant, cloud_name, merge_object_mapping, sys_dict)
         # Added code create ssl  key and cert
         if f5_monitor.get('key', None) != 'none' \
                 and f5_monitor.get('cert', None) != 'none' \
