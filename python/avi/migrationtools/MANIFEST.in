@@ -6,4 +6,4 @@ recursive-include avi/migrationtools *.key
 recursive-include avi/migrationtools *.pem
 recursive-include avi/migrationtools *.xml
 recursive-include avi/migrationtools *.yaml
-
+recursive-include avi/migrationtools *.jinja

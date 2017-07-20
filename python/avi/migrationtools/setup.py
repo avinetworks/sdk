@@ -17,6 +17,7 @@ setup(
     scripts=['avi/migrationtools/f5_converter/f5_converter.py',
              'avi/migrationtools/netscaler_converter/netscaler_converter.py',
              'avi/migrationtools/vs_filter.py',
+             'avi/migrationtools/gss_convertor/gss_convertor.py',
              'avi/migrationtools/config_patch.py'],
     classifiers=[
         'Operating System :: OS Independent',
@@ -28,8 +29,12 @@ setup(
     include_package_data=True,
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
-                      'nose-testconfig', 'ConfigParser', 'xlsxwriter',
-                      'pandas', 'openpyxl', 'appdirs', 'pexpect', 'xlrd'],
+                      'nose-testconfig', 'ConfigParser', 'xlsxwriter', 'jinja2',
+                      'pandas', 'openpyxl', 'appdirs',  'pexpect'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
-                          '*.key', '*.pem', '*.xml', '*.yaml']},
+                          '*.jinja', '*.key', '*.pem', '*.xml',
+                          '*.yaml', '*.yml'],
+                  'avi.migrationtools.gss_convertor.parser_files': [
+                         "gslb_template.jinja"]
+                  }
 )

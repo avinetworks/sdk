@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: CloudProperties API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure cloudproperties
+        - show cloudproperties
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerProperties object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerProperties object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ControllerProperties object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -260,6 +297,7 @@ paths:
                         type: string
                 404:
                     description: not found
+
 
     /cloudproperties:
         get:
@@ -283,11 +321,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -313,11 +356,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: CloudProperties object creation
@@ -355,11 +403,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -395,11 +448,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: CloudProperties object creation
@@ -441,11 +499,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: CloudProperties object creation
@@ -487,11 +550,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -507,48 +575,58 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     CC_AgentProperties:
         type: object
         properties:
             async_retries:
-                description: "Maximum polls to check for async jobs to finish"
+                description: "Maximum polls to check for async jobs to finish."
                 type: integer
+                default: 5
                 format: int32
             async_retries_delay:
-                description: "Delay between each async job status poll check"
+                description: "Delay between each async job status poll check."
                 type: integer
+                default: 10
                 format: int32
             poll_duration_target:
-                description: "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals"
+                description: "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals."
                 type: integer
+                default: 10
                 format: int32
             poll_fast_target:
-                description: "Fast poll interval"
+                description: "Fast poll interval."
                 type: integer
+                default: 60
                 format: int32
             poll_slow_target:
-                description: "Slow poll interval"
+                description: "Slow poll interval."
                 type: integer
+                default: 240
                 format: int32
             vnic_retries:
-                description: "Maximum polls to check for vnics to be attached to VM"
+                description: "Maximum polls to check for vnics to be attached to VM."
                 type: integer
+                default: 60
                 format: int32
             vnic_retries_delay:
-                description: "Delay between each vnic status poll check"
+                description: "Delay between each vnic status poll check."
                 type: integer
+                default: 5
                 format: int32
     CC_Properties:
         type: object
         properties:
             rpc_poll_interval:
-                description: ""
+                description: "Number of rpc_poll_interval."
                 type: integer
+                default: 60
                 format: int32
             rpc_queue_size:
-                description: ""
+                description: "Number of rpc_queue_size."
                 type: integer
+                default: 100
                 format: int32
     CloudFlavor:
         type: object
@@ -557,42 +635,44 @@ definitions:
             -   name
         properties:
             cost:
-                description: ""
+                description: "cost of CloudFlavor."
                 type: string
             disk_gb:
-                description: ""
+                description: "Number of disk_gb."
                 type: integer
                 format: int32
             enhanced_nw:
-                description: ""
+                description: "Placeholder for description of property enhanced_nw of obj type CloudFlavor field type str  type boolean"
                 type: boolean
             id:
-                description: ""
+                description: "id of CloudFlavor."
                 type: string
             max_ips_per_nic:
-                description: ""
+                description: "Number of max_ips_per_nic."
                 type: integer
                 format: int32
             max_nics:
-                description: ""
+                description: "Number of max_nics."
                 type: integer
                 format: int32
             meta:
+                description: "Placeholder for description of property meta of obj type CloudFlavor field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/CloudMeta'
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             public:
-                description: ""
+                description: "Placeholder for description of property public of obj type CloudFlavor field type str  type boolean"
                 type: boolean
+                default: True
             ram_mb:
-                description: ""
+                description: "Number of ram_mb."
                 type: integer
                 format: int32
             vcpus:
-                description: ""
+                description: "Number of vcpus."
                 type: integer
                 format: int32
     CloudInfo:
@@ -601,26 +681,27 @@ definitions:
             -   vtype
         properties:
             cca_props:
+                description: "CloudConnectorAgent properties specific to this cloud type."
                 $ref: '#/definitions/CC_AgentProperties'
             controller_props:
+                description: "Controller properties specific to this cloud type."
                 $ref: '#/definitions/ControllerProperties'
             flavor_props:
+                description: "Flavor properties specific to this cloud type."
                 type: array
                 items:
                     $ref: '#/definitions/CloudFlavor'
             flavor_regex_filter:
-                description: ""
+                description: "flavor_regex_filter of CloudInfo."
                 type: string
             htypes:
-                description: "Supported hypervisors. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
+                description: "Supported hypervisors. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 type: array
                 items:
-                    type: number
-                format: int64
+                    type: string
             vtype:
-                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
-                type: number
-                format: int64
+                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                type: string
     CloudMeta:
         type: object
         required:
@@ -628,27 +709,29 @@ definitions:
             -   value
         properties:
             key:
-                description: ""
+                description: "key of CloudMeta."
                 type: string
             value:
-                description: ""
+                description: "value of CloudMeta."
                 type: string
     CloudProperties:
         type: object
         properties:
             cc_props:
+                description: "CloudConnector properties."
                 $ref: '#/definitions/CC_Properties'
             cc_vtypes:
-                description: "Cloud types supported by CloudConnector. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
+                description: "Cloud types supported by CloudConnector. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
                 type: array
                 items:
-                    type: number
-                format: int64
+                    type: string
             hyp_props:
+                description: "Hypervisor properties."
                 type: array
                 items:
                     $ref: '#/definitions/Hypervisor_Properties'
             info:
+                description: "Properties specific to a cloud type."
                 type: array
                 items:
                     $ref: '#/definitions/CloudInfo'
@@ -657,7 +740,7 @@ definitions:
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     CloudPropertiesApiResponse:
         type: object
@@ -675,164 +758,212 @@ definitions:
     ControllerProperties:
         type: object
         properties:
+            allow_ip_forwarding:
+                description: " Field introduced in 17.1.1."
+                type: boolean
             allow_unauthenticated_apis:
-                description: "Allow unauthenticated access for special APIs"
+                description: "Allow unauthenticated access for special APIs."
                 type: boolean
             allow_unauthenticated_nodes:
-                description: ""
+                description: "Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean"
                 type: boolean
             api_idle_timeout:
-                description: ""
+                description: " Allowed values are 0-1440."
                 type: integer
+                default: 15
                 format: int32
+            appviewx_compat_mode:
+                description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
+                type: boolean
             attach_ip_retry_interval:
-                description: ""
+                description: "Number of attach_ip_retry_interval."
                 type: integer
+                default: 360
                 format: int32
             attach_ip_retry_limit:
-                description: ""
+                description: "Number of attach_ip_retry_limit."
                 type: integer
+                default: 4
                 format: int32
             cluster_ip_gratuitous_arp_period:
-                description: ""
+                description: "Number of cluster_ip_gratuitous_arp_period."
                 type: integer
+                default: 60
                 format: int32
             crashed_se_reboot:
-                description: ""
+                description: "Number of crashed_se_reboot."
                 type: integer
+                default: 900
                 format: int32
             dead_se_detection_timer:
-                description: ""
+                description: "Number of dead_se_detection_timer."
                 type: integer
+                default: 360
                 format: int32
             dns_refresh_period:
-                description: ""
+                description: "Number of dns_refresh_period."
                 type: integer
+                default: 60
                 format: int32
             dummy:
-                description: ""
+                description: "Number of dummy."
                 type: integer
                 format: int32
             fatal_error_lease_time:
-                description: ""
+                description: "Number of fatal_error_lease_time."
                 type: integer
+                default: 120
                 format: int32
             max_dead_se_in_grp:
-                description: ""
+                description: "Number of max_dead_se_in_grp."
                 type: integer
+                default: 1
                 format: int32
             max_pcap_per_tenant:
-                description: "Maximum number of pcap files stored per tenant"
+                description: "Maximum number of pcap files stored per tenant."
                 type: integer
+                default: 4
                 format: int32
             max_seq_vnic_failures:
-                description: ""
+                description: "Number of max_seq_vnic_failures."
                 type: integer
+                default: 3
                 format: int32
             persistence_key_rotate_period:
-                description: ""
+                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
+                default: 60
                 format: int32
+            portal_token:
+                description: "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
+                type: string
             query_host_fail:
-                description: ""
+                description: "Number of query_host_fail."
                 type: integer
+                default: 180
                 format: int32
             se_create_timeout:
-                description: ""
+                description: "Number of se_create_timeout."
                 type: integer
+                default: 900
                 format: int32
             se_failover_attempt_interval:
-                description: "Interval between attempting failovers to an SE"
+                description: "Interval between attempting failovers to an SE."
                 type: integer
+                default: 300
                 format: int32
             se_offline_del:
-                description: ""
+                description: "Number of se_offline_del."
                 type: integer
+                default: 172000
                 format: int32
             se_vnic_cooldown:
-                description: ""
+                description: "Number of se_vnic_cooldown."
                 type: integer
+                default: 120
                 format: int32
             secure_channel_cleanup_timeout:
-                description: ""
+                description: "Number of secure_channel_cleanup_timeout."
                 type: integer
+                default: 60
                 format: int32
             secure_channel_controller_token_timeout:
-                description: ""
+                description: "Number of secure_channel_controller_token_timeout."
                 type: integer
+                default: 60
                 format: int32
             secure_channel_se_token_timeout:
-                description: ""
+                description: "Number of secure_channel_se_token_timeout."
                 type: integer
+                default: 60
                 format: int32
             seupgrade_fabric_pool_size:
                 description: "Pool size used for all fabric commands during se upgrade."
                 type: integer
+                default: 20
                 format: int32
             seupgrade_segroup_min_dead_timeout:
                 description: "Time to wait before marking segroup upgrade as stuck."
                 type: integer
+                default: 360
                 format: int32
             ssl_certificate_expiry_warning_days:
-                description: "Number of days for SSL Certificate expiry warning"
+                description: "Number of days for SSL Certificate expiry warning."
                 type: array
                 items:
                     type: integer
                 format: int32
             unresponsive_se_reboot:
-                description: ""
+                description: "Number of unresponsive_se_reboot."
                 type: integer
+                default: 300
+                format: int32
+            upgrade_dns_ttl:
+                description: "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1."
+                type: integer
+                default: 5
                 format: int32
             upgrade_lease_time:
-                description: ""
+                description: "Number of upgrade_lease_time."
                 type: integer
+                default: 360
                 format: int32
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             vnic_op_fail_time:
-                description: ""
+                description: "Number of vnic_op_fail_time."
                 type: integer
+                default: 180
                 format: int32
             vs_apic_scaleout_timeout:
-                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only"
+                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only."
                 type: integer
+                default: 360
                 format: int32
             vs_awaiting_se_timeout:
-                description: ""
+                description: "Number of vs_awaiting_se_timeout."
                 type: integer
+                default: 60
                 format: int32
             vs_key_rotate_period:
-                description: ""
+                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
+                default: 60
                 format: int32
             vs_se_bootup_fail:
-                description: ""
+                description: "Number of vs_se_bootup_fail."
                 type: integer
+                default: 300
                 format: int32
             vs_se_create_fail:
-                description: ""
+                description: "Number of vs_se_create_fail."
                 type: integer
+                default: 1500
                 format: int32
             vs_se_ping_fail:
-                description: ""
+                description: "Number of vs_se_ping_fail."
                 type: integer
+                default: 60
                 format: int32
             vs_se_vnic_fail:
-                description: ""
+                description: "Number of vs_se_vnic_fail."
                 type: integer
+                default: 300
                 format: int32
             vs_se_vnic_ip_fail:
-                description: ""
+                description: "Number of vs_se_vnic_ip_fail."
                 type: integer
+                default: 120
                 format: int32
             warmstart_se_reconnect_wait_time:
-                description: ""
+                description: "Number of warmstart_se_reconnect_wait_time."
                 type: integer
+                default: 300
                 format: int32
     ControllerPropertiesApiResponse:
         type: object
@@ -853,14 +984,13 @@ definitions:
             -   htype
         properties:
             htype:
-                description: "Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
-                type: number
-                format: int64
+                description: " Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                type: string
             max_ips_per_nic:
-                description: ""
+                description: "Number of max_ips_per_nic."
                 type: integer
                 format: int32
             max_nics:
-                description: ""
+                description: "Number of max_nics."
                 type: integer
                 format: int32

@@ -1,0 +1,651 @@
+{
+    "info": {
+        "title": "Avi PoolGroup Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure poolgroup <key>\n- show poolgroup <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/poolgroup/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PoolGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PoolGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/poolgroup": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PoolGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroup"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "FailActionHTTPLocalResponse": {
+            "type": "object", 
+            "properties": {
+                "status_code": {
+                    "default": "FAIL_HTTP_STATUS_CODE_503", 
+                    "type": "string", 
+                    "description": " Enum options - FAIL_HTTP_STATUS_CODE_200, FAIL_HTTP_STATUS_CODE_503."
+                }, 
+                "file": {
+                    "description": "Placeholder for description of property file of obj type FailActionHTTPLocalResponse field type str  type object", 
+                    "$ref": "#/definitions/HTTPLocalFile"
+                }
+            }
+        }, 
+        "PoolGroup": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "priority_labels_ref": {
+                    "type": "string", 
+                    "description": "UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority. It is a reference to an object of type PriorityLabels."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Description of Pool Group."
+                }, 
+                "cloud_ref": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Name of the user who created the object."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "The name of the pool group."
+                }, 
+                "members": {
+                    "items": {
+                        "$ref": "#/definitions/PoolGroupMember"
+                    }, 
+                    "type": "array", 
+                    "description": "List of pool group members object of type PoolGroupMember."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "cloud_config_cksum": {
+                    "type": "string", 
+                    "description": "Checksum of cloud configuration for PoolGroup. Internally set by cloud connector."
+                }, 
+                "min_servers": {
+                    "type": "integer", 
+                    "description": "The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'.", 
+                    "format": "int32"
+                }, 
+                "fail_action": {
+                    "description": "Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.", 
+                    "$ref": "#/definitions/FailAction"
+                }, 
+                "deployment_policy_ref": {
+                    "type": "string", 
+                    "description": "When setup autoscale manager will automatically promote new pools into production when deployment goals are met. It is a reference to an object of type PoolGroupDeploymentPolicy."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the pool group."
+                }
+            }
+        }, 
+        "PoolGroupMember": {
+            "required": [
+                "pool_ref"
+            ], 
+            "type": "object", 
+            "properties": {
+                "priority_label": {
+                    "type": "string", 
+                    "description": "All pools with same label are treated similarly in a pool group. A pool with a higher priority is selected, as long as the pool is eligible or an explicit policy chooses a different pool."
+                }, 
+                "deployment_state": {
+                    "type": "string", 
+                    "description": "Pool deployment state used with the PG deployment policy. Enum options - EVALUATION_IN_PROGRESS, IN_SERVICE, OUT_OF_SERVICE, EVALUATION_FAILED."
+                }, 
+                "pool_ref": {
+                    "type": "string", 
+                    "description": "UUID of the pool. It is a reference to an object of type Pool."
+                }, 
+                "ratio": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Ratio of selecting eligible pools in the pool group. . Allowed values are 1-1000. Special values are 0 - 'Do not select this pool for new connections'.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "FailActionBackupPool": {
+            "required": [
+                "backup_pool_ref"
+            ], 
+            "type": "object", 
+            "properties": {
+                "backup_pool_ref": {
+                    "type": "string", 
+                    "description": "Specifies the UUID of the Pool acting as backup pool. It is a reference to an object of type Pool."
+                }
+            }
+        }, 
+        "FailActionHTTPRedirect": {
+            "required": [
+                "host"
+            ], 
+            "type": "object", 
+            "properties": {
+                "path": {
+                    "type": "string", 
+                    "description": "path of FailActionHTTPRedirect."
+                }, 
+                "host": {
+                    "type": "string", 
+                    "description": "host of FailActionHTTPRedirect."
+                }, 
+                "query": {
+                    "type": "string", 
+                    "description": "query of FailActionHTTPRedirect."
+                }, 
+                "protocol": {
+                    "default": "HTTPS", 
+                    "type": "string", 
+                    "description": " Enum options - HTTP, HTTPS."
+                }, 
+                "status_code": {
+                    "default": "HTTP_REDIRECT_STATUS_CODE_302", 
+                    "type": "string", 
+                    "description": " Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                }
+            }
+        }, 
+        "FailAction": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "backup_pool": {
+                    "description": "Backup Pool when pool experiences a failure.", 
+                    "$ref": "#/definitions/FailActionBackupPool"
+                }, 
+                "redirect": {
+                    "description": "URL to redirect HTTP requests to when pool experiences a failure.", 
+                    "$ref": "#/definitions/FailActionHTTPRedirect"
+                }, 
+                "local_rsp": {
+                    "description": "Local response to HTTP requests when pool experiences a failure.", 
+                    "$ref": "#/definitions/FailActionHTTPLocalResponse"
+                }, 
+                "type": {
+                    "default": "FAIL_ACTION_CLOSE_CONN", 
+                    "type": "string", 
+                    "description": "Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL."
+                }
+            }
+        }, 
+        "HTTPLocalFile": {
+            "required": [
+                "content_type", 
+                "file_content"
+            ], 
+            "type": "object", 
+            "properties": {
+                "file_content": {
+                    "type": "string", 
+                    "description": "File content to used in the local HTTP response body."
+                }, 
+                "content_type": {
+                    "type": "string", 
+                    "description": "Mime-type of the content in the file."
+                }
+            }
+        }, 
+        "PoolGroupApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/PoolGroup"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

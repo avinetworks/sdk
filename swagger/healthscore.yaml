@@ -2,13 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi  Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description:  API documentation
+    description: |
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -44,27 +45,27 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   name: detailed_header
                     in: query
-                    description: Return detailed header with information like contributors etc.?
+                    description: Return detailed header with information like contributors etc.?.
                     type: boolean
                 -   name: dimension_aggregation
                     in: query
-                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL
-                    type: number
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
                 -   name: entity_uuid
                     in: query
-                    description: UUID of the entity type
+                    description: UUID of the entity type.
                     type: string
                 -   name: hs_type
                     in: query
-                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL
-                    type: number
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
                 -   name: include_refs
                     in: query
-                    description: Resolve uuid to references?
+                    description: Resolve uuid to references?.
                     type: boolean
                 -   name: include_statistics
                     in: query
-                    description: Include statistics when no filters specified?
+                    description: Include statistics when no filters specified?.
                     type: boolean
                 -   name: limit
                     in: query
@@ -72,8 +73,8 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY
-                    type: number
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    type: string
                 -   name: order_series_by
                     in: query
                     description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
@@ -84,19 +85,19 @@ paths:
                     type: boolean
                 -   name: patch_oper_status
                     in: query
-                    description: Patch health score with operational data?
+                    description: Patch health score with operational data?.
                     type: boolean
                 -   name: pool_uuid
                     in: query
-                    description: Pool name. This will apply to any backend stats that are specified in the query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
                     type: string
                 -   name: result_format
                     in: query
-                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF
-                    type: number
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
                 -   name: server
                     in: query
-                    description: Object id like vip or server ip port
+                    description: Object id like vip or server ip port.
                     type: string
                 -   name: start
                     in: query
@@ -104,19 +105,19 @@ paths:
                     type: string
                 -   name: step
                     in: query
-                    description: Step interval in seconds
+                    description: Step interval in seconds.
                     type: integer
                 -   name: stop
                     in: query
-                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
                     type: string
                 -   name: summary
                     in: query
-                    description: Return only summary for health score
+                    description: Return only summary for health score.
                     type: boolean
                 -   name: tenant_uuid
                     in: query
-                    description: UUID of the Tenant. 
+                    description: UUID of the Tenant. .
                     type: string
             security:
                 - basicAuth: []
@@ -192,27 +193,27 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   name: detailed_header
                     in: query
-                    description: Return detailed header with information like contributors etc.?
+                    description: Return detailed header with information like contributors etc.?.
                     type: boolean
                 -   name: dimension_aggregation
                     in: query
-                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL
-                    type: number
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
                 -   name: entity_uuid
                     in: query
-                    description: UUID of the entity type
+                    description: UUID of the entity type.
                     type: string
                 -   name: hs_type
                     in: query
-                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL
-                    type: number
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
                 -   name: include_refs
                     in: query
-                    description: Resolve uuid to references?
+                    description: Resolve uuid to references?.
                     type: boolean
                 -   name: include_statistics
                     in: query
-                    description: Include statistics when no filters specified?
+                    description: Include statistics when no filters specified?.
                     type: boolean
                 -   name: limit
                     in: query
@@ -220,8 +221,8 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY
-                    type: number
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    type: string
                 -   name: order_series_by
                     in: query
                     description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
@@ -232,19 +233,19 @@ paths:
                     type: boolean
                 -   name: patch_oper_status
                     in: query
-                    description: Patch health score with operational data?
+                    description: Patch health score with operational data?.
                     type: boolean
                 -   name: pool_uuid
                     in: query
-                    description: Pool name. This will apply to any backend stats that are specified in the query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
                     type: string
                 -   name: result_format
                     in: query
-                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF
-                    type: number
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
                 -   name: server
                     in: query
-                    description: Object id like vip or server ip port
+                    description: Object id like vip or server ip port.
                     type: string
                 -   name: start
                     in: query
@@ -252,19 +253,19 @@ paths:
                     type: string
                 -   name: step
                     in: query
-                    description: Step interval in seconds
+                    description: Step interval in seconds.
                     type: integer
                 -   name: stop
                     in: query
-                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
                     type: string
                 -   name: summary
                     in: query
-                    description: Return only summary for health score
+                    description: Return only summary for health score.
                     type: boolean
                 -   name: tenant_uuid
                     in: query
-                    description: UUID of the Tenant. 
+                    description: UUID of the Tenant. .
                     type: string
             security:
                 - basicAuth: []
@@ -340,27 +341,27 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
                 -   name: detailed_header
                     in: query
-                    description: Return detailed header with information like contributors etc.?
+                    description: Return detailed header with information like contributors etc.?.
                     type: boolean
                 -   name: dimension_aggregation
                     in: query
-                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL
-                    type: number
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
                 -   name: entity_uuid
                     in: query
-                    description: UUID of the entity type
+                    description: UUID of the entity type.
                     type: string
                 -   name: hs_type
                     in: query
-                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL
-                    type: number
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
                 -   name: include_refs
                     in: query
-                    description: Resolve uuid to references?
+                    description: Resolve uuid to references?.
                     type: boolean
                 -   name: include_statistics
                     in: query
-                    description: Include statistics when no filters specified?
+                    description: Include statistics when no filters specified?.
                     type: boolean
                 -   name: limit
                     in: query
@@ -368,8 +369,8 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY
-                    type: number
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    type: string
                 -   name: order_series_by
                     in: query
                     description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
@@ -380,19 +381,19 @@ paths:
                     type: boolean
                 -   name: patch_oper_status
                     in: query
-                    description: Patch health score with operational data?
+                    description: Patch health score with operational data?.
                     type: boolean
                 -   name: pool_uuid
                     in: query
-                    description: Pool name. This will apply to any backend stats that are specified in the query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
                     type: string
                 -   name: result_format
                     in: query
-                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF
-                    type: number
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
                 -   name: server
                     in: query
-                    description: Object id like vip or server ip port
+                    description: Object id like vip or server ip port.
                     type: string
                 -   name: start
                     in: query
@@ -400,19 +401,19 @@ paths:
                     type: string
                 -   name: step
                     in: query
-                    description: Step interval in seconds
+                    description: Step interval in seconds.
                     type: integer
                 -   name: stop
                     in: query
-                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
                     type: string
                 -   name: summary
                     in: query
-                    description: Return only summary for health score
+                    description: Return only summary for health score.
                     type: boolean
                 -   name: tenant_uuid
                     in: query
-                    description: UUID of the Tenant. 
+                    description: UUID of the Tenant. .
                     type: string
             security:
                 - basicAuth: []
@@ -466,15 +467,16 @@ definitions:
             -   reason
         properties:
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref Application."
+                description: " It is a reference to an object of type Application."
                 type: string
             virtualservice_anomaly_scores:
+                description: "Placeholder for description of property virtualservice_anomaly_scores of obj type ApplicationAnomalyScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VirtualServiceAnomalyScore'
@@ -484,15 +486,16 @@ definitions:
             -   reason
         properties:
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref Application."
+                description: " It is a reference to an object of type Application."
                 type: string
             virtualservice_performance_scores:
+                description: "Placeholder for description of property virtualservice_performance_scores of obj type ApplicationPerformanceScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VirtualServicePerformanceScore'
@@ -502,15 +505,16 @@ definitions:
             -   reason
         properties:
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref Application."
+                description: " It is a reference to an object of type Application."
                 type: string
             virtualservice_resources_scores:
+                description: "Placeholder for description of property virtualservice_resources_scores of obj type ApplicationResourcesScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VirtualServiceResourcesScore'
@@ -521,22 +525,22 @@ definitions:
             -   reason
         properties:
             anomalous_controller_stats_metrics:
-                description: ""
+                description: "anomalous_controller_stats_metrics of ControllerAnomalyScoreData."
                 type: array
                 items:
                     type: string
             per_anomalous_controller_stats_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_controller_stats_metrics of obj type ControllerAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     ControllerResourcesScoreData:
         type: object
@@ -544,21 +548,21 @@ definitions:
             -   reason
         properties:
             avg_cpu_usage:
-                description: ""
+                description: "Placeholder for description of property avg_cpu_usage of obj type ControllerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_mem_usage:
-                description: ""
+                description: "Placeholder for description of property avg_mem_usage of obj type ControllerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     DosAttackLevelData:
         type: object
@@ -566,52 +570,53 @@ definitions:
             -   reason
         properties:
             avg_dos_total_req:
-                description: ""
+                description: "Placeholder for description of property avg_dos_total_req of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             avg_total_connections:
-                description: ""
+                description: "Placeholder for description of property avg_total_connections of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_application_dos_attacks:
-                description: ""
+                description: "Placeholder for description of property pct_application_dos_attacks of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_connections_dos_attacks:
-                description: ""
+                description: "Placeholder for description of property pct_connections_dos_attacks of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_dos_bandwidth:
-                description: ""
+                description: "Placeholder for description of property pct_dos_bandwidth of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_dos_rx_bytes:
-                description: ""
+                description: "Placeholder for description of property pct_dos_rx_bytes of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_pkts_dos_attacks:
-                description: ""
+                description: "Placeholder for description of property pct_pkts_dos_attacks of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_policy_drops:
-                description: ""
+                description: "Placeholder for description of property pct_policy_drops of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the DoS Attack Level"
+                description: "Reason for the DoS Attack Level."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the DoS Attack Level"
+                description: "Attribute that is dominating the DoS Attack Level."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             serviceengine_dosattklevel_scores:
+                description: "Placeholder for description of property serviceengine_dosattklevel_scores of obj type DosAttackLevelData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServiceEngineDosAttackLevel'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type DosAttackLevelData field type str  type number"
                 type: number
                 format: double
     HealthScoreAnomalyData:
@@ -621,26 +626,32 @@ definitions:
             -   value
         properties:
             application_anomaly:
+                description: "Placeholder for description of property application_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/ApplicationAnomalyScoreData'
             controller_anomaly:
+                description: "Placeholder for description of property controller_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/ControllerAnomalyScoreData'
             pool_anomaly:
+                description: "Placeholder for description of property pool_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/PoolAnomalyScoreData'
             reason:
-                description: "Reason for Anomaly Score"
+                description: "Reason for Anomaly Score."
                 type: string
             reason_attr:
-                description: ""
+                description: "reason_attr of HealthScoreAnomalyData."
                 type: string
             server_anomaly:
+                description: "Placeholder for description of property server_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/ServerAnomalyScoreData'
             serviceengine_anomaly:
+                description: "Placeholder for description of property serviceengine_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/ServiceEngineAnomalyScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type HealthScoreAnomalyData field type str  type number"
                 type: number
                 format: double
             virtualservice_anomaly:
+                description: "Placeholder for description of property virtualservice_anomaly of obj type HealthScoreAnomalyData field type str  type object"
                 $ref: '#/definitions/VirtualServiceAnomalyScoreData'
     HealthScoreData:
         type: object
@@ -649,55 +660,61 @@ definitions:
             -   value
         properties:
             anomaly_penalty:
-                description: ""
+                description: "Number of anomaly_penalty."
                 type: integer
                 format: int32
             anomaly_score:
+                description: "Placeholder for description of property anomaly_score of obj type HealthScoreData field type str  type object"
                 $ref: '#/definitions/HealthScoreAnomalyData'
             dos_attack_level:
-                description: ""
+                description: "Placeholder for description of property dos_attack_level of obj type HealthScoreData field type str  type number"
                 type: number
                 format: double
             is_null:
-                description: "This is set if the data is none or zero is none"
+                description: "This is set if the data is none or zero is none."
                 type: boolean
             num_samples:
-                description: "This keeps the num samples reported during aggregation queries"
+                description: "This keeps the num samples reported during aggregation queries."
                 type: integer
                 format: int32
             performance_score:
+                description: "Placeholder for description of property performance_score of obj type HealthScoreData field type str  type object"
                 $ref: '#/definitions/HealthScorePerformanceData'
             performance_value:
-                description: ""
+                description: "Number of performance_value."
                 type: integer
+                default: 100
                 format: int32
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             resources_penalty:
-                description: ""
+                description: "Number of resources_penalty."
                 type: integer
                 format: int32
             resources_score:
+                description: "Placeholder for description of property resources_score of obj type HealthScoreData field type str  type object"
                 $ref: '#/definitions/HealthScoreResourcesData'
             security_penalty:
-                description: ""
+                description: "Number of security_penalty."
                 type: integer
                 format: int32
             security_threat_level:
+                description: "Placeholder for description of property security_threat_level of obj type HealthScoreData field type str  type object"
                 $ref: '#/definitions/HealthScoreSecurityData'
             ssl_score:
-                description: ""
+                description: "Placeholder for description of property ssl_score of obj type HealthScoreData field type str  type number"
                 type: number
+                default: 5.0
                 format: double
             timestamp:
-                description: ""
+                description: "timestamp of HealthScoreData."
                 type: string
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type HealthScoreData field type str  type number"
                 type: number
                 format: double
     HealthScoreDataSeries:
@@ -706,10 +723,12 @@ definitions:
             -   header
         properties:
             data:
+                description: "Placeholder for description of property data of obj type HealthScoreDataSeries field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HealthScoreData'
             header:
+                description: "Placeholder for description of property header of obj type HealthScoreDataSeries field type str  type object"
                 $ref: '#/definitions/HealthScoreHeader'
     HealthScoreEntity:
         type: object
@@ -718,66 +737,73 @@ definitions:
             -   metrics_entity
         properties:
             entity_uuid:
-                description: ""
+                description: "Unique object identifier of entity."
                 type: string
             metrics_entity:
-                description: "Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY"
-                type: number
-                format: int64
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                type: string
             pool_ref:
-                description: " object ref Pool."
+                description: " It is a reference to an object of type Pool."
                 type: string
             server:
-                description: ""
+                description: "server of HealthScoreEntity."
                 type: string
     HealthScoreHeader:
         type: object
         properties:
             anomaly_penalty_statistics:
+                description: "Placeholder for description of property anomaly_penalty_statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             contributors:
+                description: "Placeholder for description of property contributors of obj type HealthScoreHeader field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HealthScoreTypeContributorData'
             entity_uuid:
-                description: "uuid of the entity type"
+                description: "uuid of the entity type."
                 type: string
             hs_type:
-                description: "Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL"
-                type: number
-                format: int64
+                description: " Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL."
+                type: string
             metrics_min_scale:
-                description: ""
+                description: "Number of metrics_min_scale."
                 type: integer
+                default: 100
                 format: int32
             missing_intervals:
+                description: "Missing data intervals. data in these intervals are not used for stats calculation."
                 type: array
                 items:
                     $ref: '#/definitions/MetricsMissingDataInterval'
             name:
-                description: "Health Score metric name"
+                description: "Health Score metric name."
                 type: string
+                default: "health_score"
             performance_score_statistics:
+                description: "Placeholder for description of property performance_score_statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             pool_ref:
-                description: " object ref Pool."
+                description: " It is a reference to an object of type Pool."
                 type: string
             resources_penalty_statistics:
+                description: "Placeholder for description of property resources_penalty_statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             security_penalty_statistics:
+                description: "Placeholder for description of property security_penalty_statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             server:
-                description: ""
+                description: "server of HealthScoreHeader."
                 type: string
             serviceengine_ref:
-                description: " object ref ServiceEngine."
+                description: " It is a reference to an object of type ServiceEngine."
                 type: string
             statistics:
+                description: "Placeholder for description of property statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             units:
-                description: "units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED"
-                type: number
-                format: int64
+                description: "units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD."
+                type: string
+                default: "METRIC_COUNT"
     HealthScorePerformanceData:
         type: object
         required:
@@ -785,24 +811,29 @@ definitions:
             -   value
         properties:
             application_performance:
+                description: "Placeholder for description of property application_performance of obj type HealthScorePerformanceData field type str  type object"
                 $ref: '#/definitions/ApplicationPerformanceScoreData'
             pool_performance:
+                description: "Placeholder for description of property pool_performance of obj type HealthScorePerformanceData field type str  type object"
                 $ref: '#/definitions/PoolPerformanceScoreData'
             reason:
-                description: "Reason for Performance Score"
+                description: "Reason for Performance Score."
                 type: string
             reason_attr:
-                description: ""
+                description: "reason_attr of HealthScorePerformanceData."
                 type: string
             server_performance:
+                description: "Placeholder for description of property server_performance of obj type HealthScorePerformanceData field type str  type object"
                 $ref: '#/definitions/ServerPerformanceScoreData'
             serviceengine_performance:
+                description: "Placeholder for description of property serviceengine_performance of obj type HealthScorePerformanceData field type str  type object"
                 $ref: '#/definitions/ServiceEnginePerformanceScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type HealthScorePerformanceData field type str  type number"
                 type: number
                 format: double
             virtualservice_performance:
+                description: "Placeholder for description of property virtualservice_performance of obj type HealthScorePerformanceData field type str  type object"
                 $ref: '#/definitions/VirtualServicePerformanceScoreData'
     HealthScoreQuery:
         type: object
@@ -811,67 +842,74 @@ definitions:
             -   metric_entity
         properties:
             detailed_header:
-                description: "Return detailed header with information like contributors etc.?"
+                description: "Return detailed header with information like contributors etc.?."
                 type: boolean
+                default: True
             dimension_aggregation:
-                description: "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL"
-                type: number
-                format: int64
+                description: "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL."
+                type: string
+                default: "METRICS_DIMENSION_AGG_NONE"
             entity_uuid:
-                description: "UUID of the entity type"
+                description: "UUID of the entity type."
                 type: string
             hs_type:
-                description: "Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL"
-                type: number
-                format: int64
+                description: "Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL."
+                type: string
+                default: "HEALTH_SCORE"
             include_refs:
-                description: "Resolve uuid to references?"
+                description: "Resolve uuid to references?."
                 type: boolean
             include_statistics:
-                description: "Include statistics when no filters specified?"
+                description: "Include statistics when no filters specified?."
                 type: boolean
+                default: True
             limit:
                 description: "Max number of metric samples to be returned in the response."
                 type: integer
+                default: 1
                 format: int32
             metric_entity:
-                description: "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY"
-                type: number
-                format: int64
+                description: "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                type: string
+                default: "VSERVER_METRICS_ENTITY"
             order_series_by:
                 description: "Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc."
                 type: string
             pad_missing_data:
                 description: "Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values."
                 type: boolean
+                default: True
             patch_oper_status:
-                description: "Patch health score with operational data?"
+                description: "Patch health score with operational data?."
                 type: boolean
+                default: True
             pool_uuid:
-                description: "Pool name. This will apply to any backend stats that are specified in the query"
+                description: "Pool name. This will apply to any backend stats that are specified in the query."
                 type: string
             result_format:
-                description: "Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF"
-                type: number
-                format: int64
+                description: "Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF."
+                type: string
+                default: "METRICS_FORMAT_JSON"
             server:
-                description: "Object id like vip or server ip port"
+                description: "Object id like vip or server ip port."
                 type: string
             start:
                 description: "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch."
                 type: string
+                default: "1970-01-01T00:00:00"
             step:
-                description: "Step interval in seconds"
+                description: "Step interval in seconds."
                 type: integer
+                default: 300
                 format: int32
             stop:
-                description: "End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now"
+                description: "End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now."
                 type: string
             summary:
-                description: "Return only summary for health score"
+                description: "Return only summary for health score."
                 type: boolean
             tenant_uuid:
-                description: "UUID of the Tenant. "
+                description: "UUID of the Tenant. ."
                 type: string
     HealthScoreQueryResponse:
         type: object
@@ -883,31 +921,31 @@ definitions:
             -   stop
         properties:
             entity_uuid:
-                description: "uuid of the entity type"
+                description: "uuid of the entity type."
                 type: string
             metric_entity:
-                description: "Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY"
-                type: number
-                format: int64
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                type: string
             pool_ref:
-                description: "Pool name. This will apply to any back end statistics that are specified in the query object ref Pool."
+                description: "Pool name. This will apply to any back end statistics that are specified in the query. It is a reference to an object of type Pool."
                 type: string
             series:
+                description: "Placeholder for description of property series of obj type HealthScoreQueryResponse field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HealthScoreDataSeries'
             server:
-                description: "server name or ip"
+                description: "server name or ip."
                 type: string
             start:
-                description: ""
+                description: "start of HealthScoreQueryResponse."
                 type: string
             step:
-                description: ""
+                description: "Number of step."
                 type: integer
                 format: int32
             stop:
-                description: ""
+                description: "stop of HealthScoreQueryResponse."
                 type: string
             url:
                 description: "url"
@@ -933,44 +971,54 @@ definitions:
             -   value
         properties:
             application_resources:
+                description: "Placeholder for description of property application_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/ApplicationResourcesScoreData'
             controller_resources:
+                description: "Placeholder for description of property controller_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/ControllerResourcesScoreData'
             pool_resources:
+                description: "Placeholder for description of property pool_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/PoolResourcesScoreData'
             reason:
-                description: "Reason for Resources Score"
+                description: "Reason for Resources Score."
                 type: string
             reason_attr:
-                description: ""
+                description: "reason_attr of HealthScoreResourcesData."
                 type: string
             server_resources:
+                description: "Placeholder for description of property server_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/ServerResourcesScoreData'
             serviceengine_resources:
+                description: "Placeholder for description of property serviceengine_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/ServiceEngineResourcesScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type HealthScoreResourcesData field type str  type number"
                 type: number
                 format: double
             virtualservice_resources:
+                description: "Placeholder for description of property virtualservice_resources of obj type HealthScoreResourcesData field type str  type object"
                 $ref: '#/definitions/VirtualServiceResourcesScoreData'
     HealthScoreSecurityData:
         type: object
         properties:
             dos_attack_level_data:
+                description: "Threat associated with VirtualService DoS infrastructure."
                 $ref: '#/definitions/DosAttackLevelData'
             reason:
-                description: "Reason for Security Threat Level"
+                description: "Reason for Security Threat Level."
                 type: string
+                default: "No Security Penalty"
             reason_attr:
-                description: ""
+                description: "reason_attr of HealthScoreSecurityData."
                 type: string
             se_dos_attack_level_data:
+                description: "Threat associated with ServiceEngine DoS infrastructure."
                 $ref: '#/definitions/ServiceEngineDosAttackLevelData'
             ssl_score_data:
+                description: "Threat associated with VirtualService SSL infrastructure."
                 $ref: '#/definitions/SslScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type HealthScoreSecurityData field type str  type number"
                 type: number
                 format: double
     HealthScoreTypeContributorData:
@@ -979,15 +1027,15 @@ definitions:
             -   hs_type
         properties:
             entities:
+                description: "Placeholder for description of property entities of obj type HealthScoreTypeContributorData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HealthScoreEntity'
             hs_type:
-                description: "Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL"
-                type: number
-                format: int64
+                description: " Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL."
+                type: string
             metric_ids:
-                description: ""
+                description: "metric_ids of HealthScoreTypeContributorData."
                 type: string
     MetricsMissingDataInterval:
         type: object
@@ -996,46 +1044,46 @@ definitions:
             -   start
         properties:
             end:
-                description: ""
+                description: "end of MetricsMissingDataInterval."
                 type: string
             start:
-                description: ""
+                description: "start of MetricsMissingDataInterval."
                 type: string
     MetricStatistics:
         type: object
         properties:
             last_sample:
-                description: "value of the last sample"
+                description: "value of the last sample."
                 type: number
                 format: double
             max:
-                description: "maximum value in time series requested"
+                description: "maximum value in time series requested."
                 type: number
                 format: double
             max_ts:
-                description: "timestamp of the minimum value"
+                description: "timestamp of the minimum value."
                 type: string
             mean:
-                description: "arithmetic mean"
+                description: "arithmetic mean."
                 type: number
                 format: double
             min:
-                description: "minimum value in time series requested"
+                description: "minimum value in time series requested."
                 type: number
                 format: double
             min_ts:
-                description: "timestamp of the minimum value"
+                description: "timestamp of the minimum value."
                 type: string
             num_samples:
-                description: "Number of actual data samples. It excludes fake data"
+                description: "Number of actual data samples. It excludes fake data."
                 type: integer
                 format: int32
             sum:
-                description: "summation of all values"
+                description: "summation of all values."
                 type: number
                 format: double
             trend:
-                description: "slope of the data points across the time series requested. trend = (last_value - avg)/avg"
+                description: "slope of the data points across the time series requested. trend = (last_value - avg)/avg."
                 type: number
                 format: double
     PoolAnomalyScore:
@@ -1046,14 +1094,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type PoolAnomalyScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of PoolAnomalyScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type PoolAnomalyScore field type str  type object"
                 $ref: '#/definitions/PoolAnomalyScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type PoolAnomalyScore field type str  type number"
                 type: number
                 format: double
     PoolAnomalyScoreData:
@@ -1064,40 +1114,41 @@ definitions:
             -   reason
         properties:
             anomalous_l4_metrics:
-                description: ""
+                description: "anomalous_l4_metrics of PoolAnomalyScoreData."
                 type: array
                 items:
                     type: string
             anomalous_l7_metrics:
-                description: ""
+                description: "anomalous_l7_metrics of PoolAnomalyScoreData."
                 type: array
                 items:
                     type: string
             avg_server_anomaly_score:
-                description: ""
+                description: "Placeholder for description of property avg_server_anomaly_score of obj type PoolAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_l4_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l4_metrics of obj type PoolAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_l7_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l7_metrics of obj type PoolAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             pool_ref:
-                description: " object ref Pool."
+                description: " It is a reference to an object of type Pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             server_anomaly_scores:
+                description: "Placeholder for description of property server_anomaly_scores of obj type PoolAnomalyScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServerAnomalyScore'
@@ -1109,14 +1160,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type PoolPerformanceScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of PoolPerformanceScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type PoolPerformanceScore field type str  type object"
                 $ref: '#/definitions/PoolPerformanceScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type PoolPerformanceScore field type str  type number"
                 type: number
                 format: double
     PoolPerformanceScoreData:
@@ -1126,31 +1179,31 @@ definitions:
             -   reason
         properties:
             apdexc:
-                description: ""
+                description: "Placeholder for description of property apdexc of obj type PoolPerformanceScoreData field type str  type number"
                 type: number
                 format: double
             apdexr:
-                description: ""
+                description: "Placeholder for description of property apdexr of obj type PoolPerformanceScoreData field type str  type number"
                 type: number
+                default: 100.0
                 format: double
             oper_state:
-                description: "Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL"
-                type: number
-                format: int64
+                description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                type: string
             pool_ref:
-                description: " object ref Pool."
+                description: " It is a reference to an object of type Pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             sum_finished_conns:
-                description: ""
+                description: "Placeholder for description of property sum_finished_conns of obj type PoolPerformanceScoreData field type str  type number"
                 type: number
                 format: double
     PoolResourcesScore:
@@ -1161,14 +1214,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type PoolResourcesScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of PoolResourcesScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type PoolResourcesScore field type str  type object"
                 $ref: '#/definitions/PoolResourcesScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type PoolResourcesScore field type str  type number"
                 type: number
                 format: double
     PoolResourcesScoreData:
@@ -1178,26 +1233,27 @@ definitions:
             -   reason
         properties:
             avg_server_resources_score:
-                description: ""
+                description: "Placeholder for description of property avg_server_resources_score of obj type PoolResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_uptime:
-                description: ""
+                description: "Placeholder for description of property avg_uptime of obj type PoolResourcesScoreData field type str  type number"
                 type: number
                 format: double
             pool_ref:
-                description: " object ref Pool."
+                description: " It is a reference to an object of type Pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             server_resources_scores:
+                description: "Placeholder for description of property server_resources_scores of obj type PoolResourcesScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServerResourcesScore'
@@ -1209,14 +1265,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type ServerAnomalyScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of ServerAnomalyScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type ServerAnomalyScore field type str  type object"
                 $ref: '#/definitions/ServerAnomalyScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServerAnomalyScore field type str  type number"
                 type: number
                 format: double
     ServerAnomalyScoreData:
@@ -1228,46 +1286,46 @@ definitions:
             -   server
         properties:
             anomalous_l4_metrics:
-                description: ""
+                description: "anomalous_l4_metrics of ServerAnomalyScoreData."
                 type: array
                 items:
                     type: string
             anomalous_l7_metrics:
-                description: ""
+                description: "anomalous_l7_metrics of ServerAnomalyScoreData."
                 type: array
                 items:
                     type: string
             anomalous_vm_metrics:
-                description: ""
+                description: "anomalous_vm_metrics of ServerAnomalyScoreData."
                 type: array
                 items:
                     type: string
             per_anomalous_l4_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l4_metrics of obj type ServerAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_l7_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l7_metrics of obj type ServerAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_vm_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_vm_metrics of obj type ServerAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             pool_uuid:
-                description: ""
+                description: "Unique object identifier of pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             server:
-                description: ""
+                description: "server of ServerAnomalyScoreData."
                 type: string
     ServerPerformanceScoreData:
         type: object
@@ -1277,34 +1335,33 @@ definitions:
             -   server
         properties:
             apdexc:
-                description: ""
+                description: "Placeholder for description of property apdexc of obj type ServerPerformanceScoreData field type str  type number"
                 type: number
                 format: double
             apdexr:
-                description: ""
+                description: "Placeholder for description of property apdexr of obj type ServerPerformanceScoreData field type str  type number"
                 type: number
                 format: double
             oper_state:
-                description: "Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL"
-                type: number
-                format: int64
+                description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                type: string
             pool_uuid:
-                description: ""
+                description: "Unique object identifier of pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             server:
-                description: ""
+                description: "server of ServerPerformanceScoreData."
                 type: string
             sum_finished_conns:
-                description: ""
+                description: "Placeholder for description of property sum_finished_conns of obj type ServerPerformanceScoreData field type str  type number"
                 type: number
                 format: double
     ServerResourcesScore:
@@ -1315,14 +1372,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type ServerResourcesScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of ServerResourcesScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type ServerResourcesScore field type str  type object"
                 $ref: '#/definitions/ServerResourcesScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServerResourcesScore field type str  type number"
                 type: number
                 format: double
     ServerResourcesScoreData:
@@ -1333,55 +1392,55 @@ definitions:
             -   server
         properties:
             avg_cpu_usage:
-                description: ""
+                description: "Placeholder for description of property avg_cpu_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_cpu_wait:
-                description: ""
+                description: "Placeholder for description of property avg_cpu_wait of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_disk1_usage:
-                description: ""
+                description: "Placeholder for description of property avg_disk1_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_disk2_usage:
-                description: ""
+                description: "Placeholder for description of property avg_disk2_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_disk3_usage:
-                description: ""
+                description: "Placeholder for description of property avg_disk3_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_disk4_usage:
-                description: ""
+                description: "Placeholder for description of property avg_disk4_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_mem_usage:
-                description: ""
+                description: "Placeholder for description of property avg_mem_usage of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_uptime:
-                description: ""
+                description: "Placeholder for description of property avg_uptime of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             pct_open_conns:
-                description: ""
+                description: "Placeholder for description of property pct_open_conns of obj type ServerResourcesScoreData field type str  type number"
                 type: number
                 format: double
             pool_uuid:
-                description: ""
+                description: "Unique object identifier of pool."
                 type: string
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             server:
-                description: ""
+                description: "server of ServerResourcesScoreData."
                 type: string
     ServiceEngineAnomalyScore:
         type: object
@@ -1391,14 +1450,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type ServiceEngineAnomalyScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of ServiceEngineAnomalyScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type ServiceEngineAnomalyScore field type str  type object"
                 $ref: '#/definitions/ServiceEngineAnomalyScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServiceEngineAnomalyScore field type str  type number"
                 type: number
                 format: double
     ServiceEngineAnomalyScoreData:
@@ -1408,44 +1469,46 @@ definitions:
             -   reason
         properties:
             anomalous_se_stats_metrics:
-                description: ""
+                description: "anomalous_se_stats_metrics of ServiceEngineAnomalyScoreData."
                 type: array
                 items:
                     type: string
             anomalous_vm_stats_metrics:
-                description: ""
+                description: "anomalous_vm_stats_metrics of ServiceEngineAnomalyScoreData."
                 type: array
                 items:
                     type: string
             per_anomalous_se_stats_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_se_stats_metrics of obj type ServiceEngineAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_vm_stats_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_vm_stats_metrics of obj type ServiceEngineAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref ServiceEngine."
+                description: " It is a reference to an object of type ServiceEngine."
                 type: string
     ServiceEngineDosAttackLevel:
         type: object
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type ServiceEngineDosAttackLevel field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of ServiceEngineDosAttackLevel."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type ServiceEngineDosAttackLevel field type str  type object"
                 $ref: '#/definitions/ServiceEngineDosAttackLevelData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServiceEngineDosAttackLevel field type str  type number"
                 type: number
                 format: double
     ServiceEngineDosAttackLevelData:
@@ -1454,40 +1517,40 @@ definitions:
             -   reason
         properties:
             avg_connections:
-                description: ""
+                description: "Placeholder for description of property avg_connections of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             avg_rx_bandwidth:
-                description: ""
+                description: "Placeholder for description of property avg_rx_bandwidth of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             avg_rx_pkts:
-                description: ""
+                description: "Placeholder for description of property avg_rx_pkts of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_connections_dropped:
-                description: ""
+                description: "Placeholder for description of property pct_connections_dropped of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_rx_bytes_dropped:
-                description: ""
+                description: "Placeholder for description of property pct_rx_bytes_dropped of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             pct_rx_pkts_dropped:
-                description: ""
+                description: "Placeholder for description of property pct_rx_pkts_dropped of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the SE DoS Attack Level"
+                description: "Reason for the SE DoS Attack Level."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the DoS Attack Level"
+                description: "Attribute that is dominating the DoS Attack Level."
                 type: string
             ref:
-                description: " object ref ServiceEngine."
+                description: " It is a reference to an object of type ServiceEngine."
                 type: string
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServiceEngineDosAttackLevelData field type str  type number"
                 type: number
                 format: double
     ServiceEnginePerformanceScoreData:
@@ -1496,17 +1559,16 @@ definitions:
             -   reason
         properties:
             oper_state:
-                description: "Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL"
-                type: number
-                format: int64
+                description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                type: string
             reason:
-                description: "Reason for the Health Performance Score"
+                description: "Reason for the Health Performance Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the performance score"
+                description: "Attribute that is dominating the performance score."
                 type: string
             ref:
-                description: " object ref ServiceEngine."
+                description: " It is a reference to an object of type ServiceEngine."
                 type: string
     ServiceEngineResourcesScore:
         type: object
@@ -1516,14 +1578,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type ServiceEngineResourcesScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of ServiceEngineResourcesScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type ServiceEngineResourcesScore field type str  type object"
                 $ref: '#/definitions/ServiceEngineResourcesScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type ServiceEngineResourcesScore field type str  type number"
                 type: number
                 format: double
     ServiceEngineResourcesScoreData:
@@ -1532,53 +1596,56 @@ definitions:
             -   reason
         properties:
             avg_connection_mem_usage:
-                description: ""
+                description: "Placeholder for description of property avg_connection_mem_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_cpu_usage:
-                description: ""
+                description: "Placeholder for description of property avg_cpu_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_cpu_wait:
-                description: ""
+                description: "Placeholder for description of property avg_cpu_wait of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_disk1_usage:
-                description: ""
+                description: "Placeholder for description of property avg_disk1_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
+                type: number
+                format: double
+            avg_dynamic_mem_usage:
+                description: "Placeholder for description of property avg_dynamic_mem_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_mem_usage:
-                description: ""
+                description: "Placeholder for description of property avg_mem_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_packet_buffer_usage:
-                description: ""
+                description: "Placeholder for description of property avg_packet_buffer_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_persistent_table_usage:
-                description: ""
+                description: "Placeholder for description of property avg_persistent_table_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             avg_ssl_session_cache_usage:
-                description: ""
+                description: "Placeholder for description of property avg_ssl_session_cache_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             oper_state:
-                description: "Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL"
-                type: number
-                format: int64
+                description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                type: string
             pct_syn_cache_usage:
-                description: ""
+                description: "Placeholder for description of property pct_syn_cache_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
                 type: number
                 format: double
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref ServiceEngine."
+                description: " It is a reference to an object of type ServiceEngine."
                 type: string
     SslScoreData:
         type: object
@@ -1595,9 +1662,11 @@ definitions:
             disable_client_renegotiation:
                 description: "Disable client renegotiation."
                 type: boolean
+                default: True
             disable_client_renegotiation_score:
                 description: "Score  Disable client renegotiation."
                 type: number
+                default: 5.0
                 format: double
             earliest_cert_expiry:
                 description: "Earliest certificate expiration time."
@@ -1635,20 +1704,21 @@ definitions:
                 type: number
                 format: double
             reason:
-                description: "Reason for the SSL Config Level"
+                description: "Reason for the SSL Config Level."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the SSL Config Level"
+                description: "Attribute that is dominating the SSL Config Level."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             ssl_enabled:
-                description: "Set whether the SSL service is enabled for the VS"
+                description: "Set whether the SSL service is enabled for the VS."
                 type: boolean
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type SslScoreData field type str  type number"
                 type: number
+                default: 5.0
                 format: double
             weak_signature_algorithm:
                 description: "Weak algorithm used for signing the certificate, amongst all certificates for the VS."
@@ -1658,10 +1728,10 @@ definitions:
                 type: number
                 format: double
             weakest_enc_algo:
-                description: "Weakest algorithm for symmetric encryption"
+                description: "Weakest algorithm for symmetric encryption."
                 type: string
             weakest_enc_algo_score:
-                description: "Score  Weakest algorithm for symmetric encryption"
+                description: "Score  Weakest algorithm for symmetric encryption."
                 type: number
                 format: double
     VirtualServiceAnomalyScore:
@@ -1672,14 +1742,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type VirtualServiceAnomalyScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of VirtualServiceAnomalyScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type VirtualServiceAnomalyScore field type str  type object"
                 $ref: '#/definitions/VirtualServiceAnomalyScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type VirtualServiceAnomalyScore field type str  type number"
                 type: number
                 format: double
     VirtualServiceAnomalyScoreData:
@@ -1688,37 +1760,39 @@ definitions:
             -   reason
         properties:
             anomalous_l4_metrics:
-                description: ""
+                description: "anomalous_l4_metrics of VirtualServiceAnomalyScoreData."
                 type: array
                 items:
                     type: string
             anomalous_l7_metrics:
-                description: ""
+                description: "anomalous_l7_metrics of VirtualServiceAnomalyScoreData."
                 type: array
                 items:
                     type: string
             per_anomalous_l4_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l4_metrics of obj type VirtualServiceAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             per_anomalous_l7_metrics:
-                description: ""
+                description: "Placeholder for description of property per_anomalous_l7_metrics of obj type VirtualServiceAnomalyScoreData field type str  type number"
                 type: number
                 format: double
             pool_anomaly_scores:
+                description: "Placeholder for description of property pool_anomaly_scores of obj type VirtualServiceAnomalyScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/PoolAnomalyScore'
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             serviceengine_anomaly_scores:
+                description: "Placeholder for description of property serviceengine_anomaly_scores of obj type VirtualServiceAnomalyScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServiceEngineAnomalyScore'
@@ -1730,14 +1804,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type VirtualServicePerformanceScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of VirtualServicePerformanceScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type VirtualServicePerformanceScore field type str  type object"
                 $ref: '#/definitions/VirtualServicePerformanceScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type VirtualServicePerformanceScore field type str  type number"
                 type: number
                 format: double
     VirtualServicePerformanceScoreData:
@@ -1747,40 +1823,41 @@ definitions:
             -   reason
         properties:
             apdexc:
-                description: ""
+                description: "Placeholder for description of property apdexc of obj type VirtualServicePerformanceScoreData field type str  type number"
                 type: number
                 format: double
             apdexr:
-                description: ""
+                description: "Placeholder for description of property apdexr of obj type VirtualServicePerformanceScoreData field type str  type number"
                 type: number
+                default: 100.0
                 format: double
             oper_state:
-                description: "Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL"
-                type: number
-                format: int64
+                description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                type: string
             pool_performance_scores:
+                description: "Placeholder for description of property pool_performance_scores of obj type VirtualServicePerformanceScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/PoolPerformanceScore'
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             rum_apdexr:
-                description: "Rum Apdexr when client insights is active"
+                description: "Rum Apdexr when client insights is active."
                 type: number
                 format: double
             sum_finished_conns:
-                description: ""
+                description: "Placeholder for description of property sum_finished_conns of obj type VirtualServicePerformanceScoreData field type str  type number"
                 type: number
                 format: double
             vs_uptime:
-                description: "Percentage time of last 5mins that the VirtualService has been up"
+                description: "Percentage time of last 5mins that the VirtualService has been up."
                 type: number
                 format: double
     VirtualServiceResourcesScore:
@@ -1791,14 +1868,16 @@ definitions:
             -   value
         properties:
             hs_entity:
+                description: "Placeholder for description of property hs_entity of obj type VirtualServiceResourcesScore field type str  type object"
                 $ref: '#/definitions/HealthScoreEntity'
             reason:
-                description: ""
+                description: "reason of VirtualServiceResourcesScore."
                 type: string
             score_data:
+                description: "Placeholder for description of property score_data of obj type VirtualServiceResourcesScore field type str  type object"
                 $ref: '#/definitions/VirtualServiceResourcesScoreData'
             value:
-                description: ""
+                description: "Placeholder for description of property value of obj type VirtualServiceResourcesScore field type str  type number"
                 type: number
                 format: double
     VirtualServiceResourcesScoreData:
@@ -1807,31 +1886,37 @@ definitions:
             -   reason
         properties:
             avg_bandwidth_usage:
-                description: "Resources of the virtual service with respect to max_throughput"
+                description: "Resources of the virtual service with respect to max_throughput."
                 type: number
                 format: double
             ha_index:
-                description: "Fraction of service engines available"
+                description: "Fraction of service engines available."
                 type: number
                 format: double
             max_open_conns_usage:
-                description: "Resources of the virtual service with respect to max_open_conns"
+                description: "Resources of the virtual service with respect to max_open_conns."
+                type: number
+                format: double
+            multivip_index:
+                description: "Fraction of VIPs available, given a VirtualService."
                 type: number
                 format: double
             pool_resources_scores:
+                description: "Placeholder for description of property pool_resources_scores of obj type VirtualServiceResourcesScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/PoolResourcesScore'
             reason:
-                description: "Reason for the Health Score"
+                description: "Reason for the Health Score."
                 type: string
             reason_attr:
-                description: "Attribute that is dominating the health score"
+                description: "Attribute that is dominating the health score."
                 type: string
             ref:
-                description: " object ref VirtualService."
+                description: " It is a reference to an object of type VirtualService."
                 type: string
             serviceengine_resources_scores:
+                description: "Placeholder for description of property serviceengine_resources_scores of obj type VirtualServiceResourcesScoreData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServiceEngineResourcesScore'

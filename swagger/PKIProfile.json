@@ -1,0 +1,808 @@
+{
+    "info": {
+        "title": "Avi PKIProfile Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/pkiprofile/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PKIProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PKIProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/pkiprofile": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "PKIProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfile"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/PKIProfileApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/pkiprofile/{uuid}/federated_info/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "PKIProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/PKIProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "SSLKeyRSAParams": {
+            "type": "object", 
+            "properties": {
+                "key_size": {
+                    "default": "SSL_KEY_2048_BITS", 
+                    "type": "string", 
+                    "description": " Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS."
+                }, 
+                "exponent": {
+                    "default": 65537, 
+                    "type": "integer", 
+                    "description": "Number of exponent.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "SSLKeyParams": {
+            "required": [
+                "algorithm"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ec_params": {
+                    "description": "Placeholder for description of property ec_params of obj type SSLKeyParams field type str  type object", 
+                    "$ref": "#/definitions/SSLKeyECParams"
+                }, 
+                "rsa_params": {
+                    "description": "Placeholder for description of property rsa_params of obj type SSLKeyParams field type str  type object", 
+                    "$ref": "#/definitions/SSLKeyRSAParams"
+                }, 
+                "algorithm": {
+                    "default": "SSL_KEY_ALGORITHM_RSA", 
+                    "type": "string", 
+                    "description": " Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC."
+                }
+            }
+        }, 
+        "SSLCertificateDescription": {
+            "type": "object", 
+            "properties": {
+                "locality": {
+                    "type": "string", 
+                    "description": "locality of SSLCertificateDescription."
+                }, 
+                "distinguished_name": {
+                    "type": "string", 
+                    "description": "distinguished_name of SSLCertificateDescription."
+                }, 
+                "country": {
+                    "type": "string", 
+                    "description": "country of SSLCertificateDescription."
+                }, 
+                "organization_unit": {
+                    "type": "string", 
+                    "description": "organization_unit of SSLCertificateDescription."
+                }, 
+                "state": {
+                    "type": "string", 
+                    "description": "state of SSLCertificateDescription."
+                }, 
+                "common_name": {
+                    "type": "string", 
+                    "description": "common_name of SSLCertificateDescription."
+                }, 
+                "organization": {
+                    "type": "string", 
+                    "description": "organization of SSLCertificateDescription."
+                }, 
+                "email_address": {
+                    "type": "string", 
+                    "description": "email_address of SSLCertificateDescription."
+                }
+            }
+        }, 
+        "SSLKeyECParams": {
+            "type": "object", 
+            "properties": {
+                "curve": {
+                    "default": "SSL_KEY_EC_CURVE_SECP256R1", 
+                    "type": "string", 
+                    "description": " Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1."
+                }
+            }
+        }, 
+        "PKIProfile": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "crls": {
+                    "items": {
+                        "$ref": "#/definitions/CRL"
+                    }, 
+                    "type": "array", 
+                    "description": "Certificate Revocation Lists."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the PKI Profile."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "ignore_peer_chain": {
+                    "type": "boolean", 
+                    "description": "When enabled, Avi will not trust Intermediate and Root certs presented by a client.  Instead, only the chain certs configured in the Certificate Authority section will be used to verify trust of the client's cert."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "is_federated": {
+                    "readOnly": true, 
+                    "type": "boolean", 
+                    "description": "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name."
+                }, 
+                "ca_certs": {
+                    "items": {
+                        "$ref": "#/definitions/SSLCertificate"
+                    }, 
+                    "type": "array", 
+                    "description": "List of Certificate Authorities (Root and Intermediate) trusted that is used for certificate validation."
+                }, 
+                "validate_only_leaf_crl": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs."
+                }, 
+                "crl_check": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "When enabled, Avi will verify via CRL checks that certificates in the trust chain have not been revoked."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "CRL": {
+            "type": "object", 
+            "properties": {
+                "body": {
+                    "type": "string", 
+                    "description": "Certificate Revocation list from a given issuer in PEM format. This can either be configured directly or via the server_url. ."
+                }, 
+                "distinguished_name": {
+                    "type": "string", 
+                    "description": "Distinguished name of the issuer in the Certificate Revocation list."
+                }, 
+                "text": {
+                    "type": "string", 
+                    "description": "Certificate Revocation list in plain text for readability."
+                }, 
+                "server_url": {
+                    "type": "string", 
+                    "description": "URL of a server that issues the Certificate Revocation list. If this is configured, CRL will be periodically downloaded either based on the configured update interval or the next update interval in the CRL. CRL itself is stored in the body."
+                }, 
+                "last_update": {
+                    "type": "string", 
+                    "description": "The date when this CRL was last issued."
+                }, 
+                "last_refreshed": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "Last time CRL was refreshed by the system. This is an internal field used by the system."
+                }, 
+                "etag": {
+                    "type": "string", 
+                    "description": "Cached etag to optimize the download of the CRL."
+                }, 
+                "fingerprint": {
+                    "type": "string", 
+                    "description": "Fingerprint of the CRL. Used to avoid configuring duplicates."
+                }, 
+                "common_name": {
+                    "type": "string", 
+                    "description": "Common name of the issuer in the Certificate Revocation list."
+                }, 
+                "next_update": {
+                    "type": "string", 
+                    "description": "The date when a newer CRL will be available. Also conveys the date after which the CRL should be considered obsolete."
+                }, 
+                "update_interval": {
+                    "type": "integer", 
+                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "SSLCertificate": {
+            "type": "object", 
+            "properties": {
+                "certificate_signing_request": {
+                    "type": "string", 
+                    "description": "certificate_signing_request of SSLCertificate."
+                }, 
+                "text": {
+                    "type": "string", 
+                    "description": "text of SSLCertificate."
+                }, 
+                "fingerprint": {
+                    "type": "string", 
+                    "description": "fingerprint of SSLCertificate."
+                }, 
+                "expiry_status": {
+                    "default": "SSL_CERTIFICATE_GOOD", 
+                    "type": "string", 
+                    "description": " Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED."
+                }, 
+                "signature_algorithm": {
+                    "type": "string", 
+                    "description": "signature_algorithm of SSLCertificate."
+                }, 
+                "key_params": {
+                    "description": "Placeholder for description of property key_params of obj type SSLCertificate field type str  type object", 
+                    "$ref": "#/definitions/SSLKeyParams"
+                }, 
+                "days_until_expire": {
+                    "default": 365, 
+                    "type": "integer", 
+                    "description": "Number of days_until_expire.", 
+                    "format": "int32"
+                }, 
+                "not_before": {
+                    "type": "string", 
+                    "description": "not_before of SSLCertificate."
+                }, 
+                "subject": {
+                    "description": "Placeholder for description of property subject of obj type SSLCertificate field type str  type object", 
+                    "$ref": "#/definitions/SSLCertificateDescription"
+                }, 
+                "subject_alt_names": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "subjectAltName that provides additional subject identities."
+                }, 
+                "public_key": {
+                    "type": "string", 
+                    "description": "public_key of SSLCertificate."
+                }, 
+                "self_signed": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property self_signed of obj type SSLCertificate field type str  type boolean"
+                }, 
+                "certificate": {
+                    "type": "string", 
+                    "description": "certificate of SSLCertificate."
+                }, 
+                "not_after": {
+                    "type": "string", 
+                    "description": "not_after of SSLCertificate."
+                }, 
+                "chain_verified": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property chain_verified of obj type SSLCertificate field type str  type boolean"
+                }, 
+                "version": {
+                    "type": "string", 
+                    "description": "version of SSLCertificate."
+                }, 
+                "signature": {
+                    "type": "string", 
+                    "description": "signature of SSLCertificate."
+                }, 
+                "serial_number": {
+                    "type": "string", 
+                    "description": "serial_number of SSLCertificate."
+                }, 
+                "issuer": {
+                    "description": "Placeholder for description of property issuer of obj type SSLCertificate field type str  type object", 
+                    "$ref": "#/definitions/SSLCertificateDescription"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

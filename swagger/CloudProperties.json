@@ -1,0 +1,1397 @@
+{
+    "info": {
+        "title": "Avi CloudProperties Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure cloudproperties\n- show cloudproperties\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/cloudproperties/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "CloudProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "CloudProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/cloudproperties": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "CloudProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudProperties"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/CloudPropertiesApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/controllerproperties/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ControllerProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ControllerProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/controllerproperties": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ControllerProperties object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerProperties"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ControllerPropertiesApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "ControllerProperties": {
+            "type": "object", 
+            "properties": {
+                "vs_se_ping_fail": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of vs_se_ping_fail.", 
+                    "format": "int32"
+                }, 
+                "portal_token": {
+                    "type": "string", 
+                    "description": "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
+                }, 
+                "cluster_ip_gratuitous_arp_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of cluster_ip_gratuitous_arp_period.", 
+                    "format": "int32"
+                }, 
+                "persistence_key_rotate_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
+                    "format": "int32"
+                }, 
+                "unresponsive_se_reboot": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Number of unresponsive_se_reboot.", 
+                    "format": "int32"
+                }, 
+                "attach_ip_retry_interval": {
+                    "default": 360, 
+                    "type": "integer", 
+                    "description": "Number of attach_ip_retry_interval.", 
+                    "format": "int32"
+                }, 
+                "vs_se_vnic_fail": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Number of vs_se_vnic_fail.", 
+                    "format": "int32"
+                }, 
+                "secure_channel_se_token_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of secure_channel_se_token_timeout.", 
+                    "format": "int32"
+                }, 
+                "attach_ip_retry_limit": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Number of attach_ip_retry_limit.", 
+                    "format": "int32"
+                }, 
+                "se_vnic_cooldown": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Number of se_vnic_cooldown.", 
+                    "format": "int32"
+                }, 
+                "vnic_op_fail_time": {
+                    "default": 180, 
+                    "type": "integer", 
+                    "description": "Number of vnic_op_fail_time.", 
+                    "format": "int32"
+                }, 
+                "max_pcap_per_tenant": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Maximum number of pcap files stored per tenant.", 
+                    "format": "int32"
+                }, 
+                "vs_se_bootup_fail": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Number of vs_se_bootup_fail.", 
+                    "format": "int32"
+                }, 
+                "seupgrade_fabric_pool_size": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": "Pool size used for all fabric commands during se upgrade.", 
+                    "format": "int32"
+                }, 
+                "vs_key_rotate_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
+                    "format": "int32"
+                }, 
+                "seupgrade_segroup_min_dead_timeout": {
+                    "default": 360, 
+                    "type": "integer", 
+                    "description": "Time to wait before marking segroup upgrade as stuck.", 
+                    "format": "int32"
+                }, 
+                "dns_refresh_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of dns_refresh_period.", 
+                    "format": "int32"
+                }, 
+                "upgrade_lease_time": {
+                    "default": 360, 
+                    "type": "integer", 
+                    "description": "Number of upgrade_lease_time.", 
+                    "format": "int32"
+                }, 
+                "se_create_timeout": {
+                    "default": 900, 
+                    "type": "integer", 
+                    "description": "Number of se_create_timeout.", 
+                    "format": "int32"
+                }, 
+                "query_host_fail": {
+                    "default": 180, 
+                    "type": "integer", 
+                    "description": "Number of query_host_fail.", 
+                    "format": "int32"
+                }, 
+                "vs_apic_scaleout_timeout": {
+                    "default": 360, 
+                    "type": "integer", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only.", 
+                    "format": "int32"
+                }, 
+                "se_offline_del": {
+                    "default": 172000, 
+                    "type": "integer", 
+                    "description": "Number of se_offline_del.", 
+                    "format": "int32"
+                }, 
+                "max_dead_se_in_grp": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of max_dead_se_in_grp.", 
+                    "format": "int32"
+                }, 
+                "upgrade_dns_ttl": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "fatal_error_lease_time": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Number of fatal_error_lease_time.", 
+                    "format": "int32"
+                }, 
+                "allow_ip_forwarding": {
+                    "type": "boolean", 
+                    "description": " Field introduced in 17.1.1."
+                }, 
+                "max_seq_vnic_failures": {
+                    "default": 3, 
+                    "type": "integer", 
+                    "description": "Number of max_seq_vnic_failures.", 
+                    "format": "int32"
+                }, 
+                "allow_unauthenticated_nodes": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean"
+                }, 
+                "allow_unauthenticated_apis": {
+                    "type": "boolean", 
+                    "description": "Allow unauthenticated access for special APIs."
+                }, 
+                "vs_awaiting_se_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of vs_awaiting_se_timeout.", 
+                    "format": "int32"
+                }, 
+                "warmstart_se_reconnect_wait_time": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Number of warmstart_se_reconnect_wait_time.", 
+                    "format": "int32"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "dummy": {
+                    "type": "integer", 
+                    "description": "Number of dummy.", 
+                    "format": "int32"
+                }, 
+                "secure_channel_cleanup_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of secure_channel_cleanup_timeout.", 
+                    "format": "int32"
+                }, 
+                "ssl_certificate_expiry_warning_days": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "Number of days for SSL Certificate expiry warning.", 
+                    "format": "int32"
+                }, 
+                "vs_se_vnic_ip_fail": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Number of vs_se_vnic_ip_fail.", 
+                    "format": "int32"
+                }, 
+                "secure_channel_controller_token_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of secure_channel_controller_token_timeout.", 
+                    "format": "int32"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "vs_se_create_fail": {
+                    "default": 1500, 
+                    "type": "integer", 
+                    "description": "Number of vs_se_create_fail.", 
+                    "format": "int32"
+                }, 
+                "api_idle_timeout": {
+                    "default": 15, 
+                    "type": "integer", 
+                    "description": " Allowed values are 0-1440.", 
+                    "format": "int32"
+                }, 
+                "crashed_se_reboot": {
+                    "default": 900, 
+                    "type": "integer", 
+                    "description": "Number of crashed_se_reboot.", 
+                    "format": "int32"
+                }, 
+                "appviewx_compat_mode": {
+                    "type": "boolean", 
+                    "description": "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
+                }, 
+                "se_failover_attempt_interval": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Interval between attempting failovers to an SE.", 
+                    "format": "int32"
+                }, 
+                "dead_se_detection_timer": {
+                    "default": 360, 
+                    "type": "integer", 
+                    "description": "Number of dead_se_detection_timer.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "CC_AgentProperties": {
+            "type": "object", 
+            "properties": {
+                "poll_duration_target": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals.", 
+                    "format": "int32"
+                }, 
+                "poll_slow_target": {
+                    "default": 240, 
+                    "type": "integer", 
+                    "description": "Slow poll interval.", 
+                    "format": "int32"
+                }, 
+                "poll_fast_target": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Fast poll interval.", 
+                    "format": "int32"
+                }, 
+                "vnic_retries_delay": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Delay between each vnic status poll check.", 
+                    "format": "int32"
+                }, 
+                "async_retries": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Maximum polls to check for async jobs to finish.", 
+                    "format": "int32"
+                }, 
+                "async_retries_delay": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Delay between each async job status poll check.", 
+                    "format": "int32"
+                }, 
+                "vnic_retries": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Maximum polls to check for vnics to be attached to VM.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "CloudProperties": {
+            "type": "object", 
+            "properties": {
+                "info": {
+                    "items": {
+                        "$ref": "#/definitions/CloudInfo"
+                    }, 
+                    "type": "array", 
+                    "description": "Properties specific to a cloud type."
+                }, 
+                "hyp_props": {
+                    "items": {
+                        "$ref": "#/definitions/Hypervisor_Properties"
+                    }, 
+                    "type": "array", 
+                    "description": "Hypervisor properties."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "cc_vtypes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Cloud types supported by CloudConnector. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                }, 
+                "cc_props": {
+                    "description": "CloudConnector properties.", 
+                    "$ref": "#/definitions/CC_Properties"
+                }
+            }
+        }, 
+        "CloudFlavor": {
+            "required": [
+                "id", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "max_nics": {
+                    "type": "integer", 
+                    "description": "Number of max_nics.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "disk_gb": {
+                    "type": "integer", 
+                    "description": "Number of disk_gb.", 
+                    "format": "int32"
+                }, 
+                "max_ips_per_nic": {
+                    "type": "integer", 
+                    "description": "Number of max_ips_per_nic.", 
+                    "format": "int32"
+                }, 
+                "ram_mb": {
+                    "type": "integer", 
+                    "description": "Number of ram_mb.", 
+                    "format": "int32"
+                }, 
+                "id": {
+                    "type": "string", 
+                    "description": "id of CloudFlavor."
+                }, 
+                "vcpus": {
+                    "type": "integer", 
+                    "description": "Number of vcpus.", 
+                    "format": "int32"
+                }, 
+                "cost": {
+                    "type": "string", 
+                    "description": "cost of CloudFlavor."
+                }, 
+                "meta": {
+                    "items": {
+                        "$ref": "#/definitions/CloudMeta"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property meta of obj type CloudFlavor field type str  type object"
+                }, 
+                "public": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property public of obj type CloudFlavor field type str  type boolean"
+                }, 
+                "enhanced_nw": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property enhanced_nw of obj type CloudFlavor field type str  type boolean"
+                }
+            }
+        }, 
+        "Hypervisor_Properties": {
+            "required": [
+                "htype"
+            ], 
+            "type": "object", 
+            "properties": {
+                "max_nics": {
+                    "type": "integer", 
+                    "description": "Number of max_nics.", 
+                    "format": "int32"
+                }, 
+                "max_ips_per_nic": {
+                    "type": "integer", 
+                    "description": "Number of max_ips_per_nic.", 
+                    "format": "int32"
+                }, 
+                "htype": {
+                    "type": "string", 
+                    "description": " Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }
+            }
+        }, 
+        "CC_Properties": {
+            "type": "object", 
+            "properties": {
+                "rpc_queue_size": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Number of rpc_queue_size.", 
+                    "format": "int32"
+                }, 
+                "rpc_poll_interval": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of rpc_poll_interval.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "CloudPropertiesApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/CloudProperties"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "CloudInfo": {
+            "required": [
+                "vtype"
+            ], 
+            "type": "object", 
+            "properties": {
+                "flavor_props": {
+                    "items": {
+                        "$ref": "#/definitions/CloudFlavor"
+                    }, 
+                    "type": "array", 
+                    "description": "Flavor properties specific to this cloud type."
+                }, 
+                "flavor_regex_filter": {
+                    "type": "string", 
+                    "description": "flavor_regex_filter of CloudInfo."
+                }, 
+                "vtype": {
+                    "type": "string", 
+                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                }, 
+                "htypes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Supported hypervisors. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }, 
+                "controller_props": {
+                    "description": "Controller properties specific to this cloud type.", 
+                    "$ref": "#/definitions/ControllerProperties"
+                }, 
+                "cca_props": {
+                    "description": "CloudConnectorAgent properties specific to this cloud type.", 
+                    "$ref": "#/definitions/CC_AgentProperties"
+                }
+            }
+        }, 
+        "ControllerPropertiesApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ControllerProperties"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "CloudMeta": {
+            "required": [
+                "key", 
+                "value"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key": {
+                    "type": "string", 
+                    "description": "key of CloudMeta."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "value of CloudMeta."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

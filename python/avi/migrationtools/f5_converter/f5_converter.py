@@ -16,8 +16,7 @@ from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from pkg_resources import parse_version
-
-
+from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
@@ -52,7 +51,7 @@ class F5Converter(AviConverter):
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
         self.version = args.version
-        self.ssl_profile_merge_check = args.no_profile_merge
+        self.object_merge_check = args.no_object_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -62,21 +61,17 @@ class F5Converter(AviConverter):
         self.create_ansible = args.ansible
         # Prefix for objects
         self.prefix = args.prefix
+        # Setting snat conversion flag using args
+        self.con_snatpool = args.convertsnat
+        # Added not in use flag
+        self.not_in_use = args.not_in_use
+        # Added args for baseline profile json file to be changed
+        self.profile_path = args.baseline_profile
 
-    def init_logger_path(self):
-        LOG.setLevel(logging.DEBUG)
-        if self.bigip_config_file:
-            report_name = '%s-converter.log' % os.path.splitext(
-                os.path.basename(self.bigip_config_file))[0]
-        else:
-            report_name = 'converter.log'
-        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] ' \
-                    '%(message)s'
-        logging.basicConfig(
-            filename=os.path.join(self.output_file_path, report_name),
-            level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
@@ -127,7 +122,7 @@ class F5Converter(AviConverter):
             for f in files:
                 if f.endswith('_bigip.conf'):
                     partitions.append(input_dir + os.path.sep + f)
-        else:
+        elif self.bigip_config_file:
             source_file = open(self.bigip_config_file, "r")
         if not source_file:
             print 'Not found ns configuration file'
@@ -162,44 +157,13 @@ class F5Converter(AviConverter):
         report_name = os.path.splitext(os.path.basename(source_file.name))[0]
         avi_config_dict = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
-            self.f5_config_version, self.ssl_profile_merge_check,
-            self.controller_version, report_name, self.prefix, user_ignore,
+            self.f5_config_version, self.object_merge_check,
+            self.controller_version, report_name, self.prefix,
+            self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name)
 
-        avi_config_dict["META"] = {
-            "supported_migrations": {
-                "versions": [
-                    "14_2",
-                    "15_1",
-                    "15_1_1",
-                    "15_2",
-                    "15_2_3",
-                    "15_3",
-                    "16_1",
-                    "16_1_1",
-                    "16_1_2",
-                    "16_1_3",
-                    "16_2",
-                    "16_2_1",
-                    "16_2_2",
-                    "16_2_3",
-                    "16_3",
-                    "16_3_1",
-                    "16_3_2",
-                    "16_3_4",
-                    "16_4_1",
-                    "16_4_2"
-                ]
-            },
-            "version": {
-                "Product": "controller",
-                "Version": self.controller_version,
-                "min_version": 15.2,
-                "ProductName": "Avi Cloud Controller"
-            },
-            "upgrade_mode": False,
-            "use_tenant": self.tenant
-        }
+        avi_config_dict["META"] = self.meta(self.tenant, 
+                                            self.controller_version)
 
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config_dict['META']['supported_migrations']['versions'].append(
@@ -208,11 +172,14 @@ class F5Converter(AviConverter):
             'current_version')
 
         avi_config = self.process_for_utils(avi_config_dict)
+        # Check if flag true then skip not in use object
+        if self.not_in_use:
+            avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(avi_config, output_dir, '%s-Output.json' %
                           report_name)
         if self.create_ansible:
             avi_traffic = AviAnsibleConverter(
-                avi_config, output_dir, self.prefix)
+                avi_config, output_dir, self.prefix, self.not_in_use)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password)
         if self.option == 'auto-upload':
@@ -340,7 +307,7 @@ if __name__ == "__main__":
                         help='f5 host key file location if key based ' +
                              'authentication')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='17.1')
+                        help='Target Avi controller version', default='17.1.1')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
     parser.add_argument('--partition_config',
@@ -348,8 +315,9 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--no_profile_merge',
-                        help='Flag for ssl profile merge', action='store_false')
+    # Changed the command line option to more generic term object
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
@@ -372,9 +340,21 @@ if __name__ == "__main__":
                         default=[])
     # Create Ansible Script based on Flag
     parser.add_argument('--ansible',
-                        help='Flag for create ansible file', default=False)
+                        help='Flag for create ansible file', action='store_true')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
+
+    # Added snatpool conversion option
+    parser.add_argument('--convertsnat',
+                        help='Flag for converting snatpool into individual addresses',
+                        action = "store_true")
+    # Added not in use flag
+    parser.add_argument('--not_in_use',
+                        help='Flag for skipping not in use object',
+                        action="store_true")
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                                    'file containing baseline profiles')
 
 
     args = parser.parse_args()
@@ -386,3 +366,4 @@ if __name__ == "__main__":
 
     f5_converter = F5Converter(args)
     f5_converter.convert()
+    
