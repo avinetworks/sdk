@@ -89,32 +89,45 @@ def remove_dup_key(obj_list):
         obj.pop('dup_of', None)
 
 
-def check_for_duplicates(src_obj, obj_list):
+def check_for_duplicates(src_obj, obj_list, obj_type, merge_object_mapping,
+                         ent_type, prefix, syslist):
     """
     Checks for duplicate objects except name and description values
     :param src_obj: Object to be checked for duplicate
     :param obj_list: List of oll objects to search in
     :return: Name of object for which given object is duplicate of
     """
+    src_cp = copy.deepcopy(src_obj)
+    src_cp.pop("name")
+    src_cp.pop("description", [])
+    for obj in syslist:
+        obj_cp = copy.deepcopy(obj)
+        obj_cp.pop("name")
+        obj_cp.pop("description", [])
+        obj_cp.pop('url', [])
+        obj_cp.pop('uuid', [])
+        if cmp(src_cp, obj_cp) == 0:
+            return obj["name"], src_obj['name']
     for tmp_obj in obj_list:
-        src_cp = copy.deepcopy(src_obj)
         tmp_cp = copy.deepcopy(tmp_obj)
-        del src_cp["name"]
-        if "description" in src_cp:
-            del src_cp["description"]
-        del tmp_cp["name"]
-        if "description" in tmp_cp:
-            del tmp_cp["description"]
-        if 'url' in tmp_cp:
-            del tmp_cp['url']
-        if 'uuid' in tmp_cp:
-            del tmp_cp['uuid']
-        dup_lst = tmp_cp.pop("dup_of", [])
+        tmp_cp.pop("name")
+        tmp_cp.pop("description", [])
+        dup_lst = tmp_cp.pop("dup_of", [tmp_obj['name']])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
             tmp_obj["dup_of"] = dup_lst
-            return tmp_obj["name"]
-    return None
+            old_name = tmp_obj['name']
+            if isinstance(merge_object_mapping, dict) and tmp_obj["name"] in \
+                    merge_object_mapping[obj_type].keys():
+                merge_object_mapping[obj_type]['no'] += 1
+                no = merge_object_mapping[obj_type]['no']
+                mid_name = ent_type and ('Merged-' + ent_type + '-' + obj_type
+                                         + '-' + str(no)) or ('Merged-' +
+                                                obj_type + '-' + str(no))
+                new_name = prefix + '-' + mid_name if prefix else mid_name
+                tmp_obj["name"] = new_name
+            return tmp_obj["name"], old_name
+    return None, None
 
 
 def get_avi_pool_down_action(action):
@@ -239,7 +252,9 @@ def get_port_by_protocol(protocol):
 
 
 def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
-                           default_profile_name):
+                           default_profile_name, merge_object_mapping, ent_type,
+                           prefix, syslist):
+
     """
     Merge duplicate profiles
     :param obj: Source object to find duplicates for
@@ -251,12 +266,20 @@ def update_skip_duplicates(obj, obj_list, obj_type, converted_objs, name,
     :return:
     """
     dup_of = None
+    if isinstance(merge_object_mapping, dict):
+        merge_object_mapping[obj_type].update({name: name})
     # root default profiles are skipped for merging
     if not name == default_profile_name or obj_type == 'ssl_profile':
-        dup_of = check_for_duplicates(obj, obj_list)
+        dup_of, old_name = check_for_duplicates(obj, obj_list, obj_type,
+                                   merge_object_mapping, ent_type, prefix,
+                                                syslist)
     if dup_of:
         converted_objs.append({obj_type: "Duplicate of %s" % dup_of})
         LOG.info("Duplicate profiles: %s merged in %s" % (obj['name'], dup_of))
+        if isinstance(merge_object_mapping, dict):
+            if old_name in merge_object_mapping[obj_type].keys():
+                merge_object_mapping[obj_type].update({old_name: dup_of})
+            merge_object_mapping[obj_type].update({name: dup_of})
     else:
         obj_list.append(obj)
         converted_objs.append({obj_type: obj})
@@ -283,7 +306,8 @@ def get_content_string_group(name, content_types, tenant):
     return sg_obj
 
 
-def get_vs_ssl_profiles(profiles, avi_config, prefix):
+def get_vs_ssl_profiles(profiles, avi_config, prefix, merge_object_mapping,
+                        sys_dict):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -305,8 +329,11 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
         if prefix:
             name = prefix + '-' + name
         ssl_profile_list = avi_config.get("SSLProfile", [])
-        ssl_profiles = [obj for obj in ssl_profile_list if
-                        (obj['name'] == name or name in obj.get("dup_of", []))]
+        sys_ssl = sys_dict['SSLProfile']
+        ssl_profiles = [ob for ob in sys_ssl if ob['name'] ==
+                        merge_object_mapping['ssl_profile'].get(name)] or [
+                        obj for obj in ssl_profile_list if (obj['name'] ==
+                        name or name in obj.get("dup_of", []))]
         if ssl_profiles:
             ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
             key_cert = [obj for obj in ssl_key_cert_list if
@@ -325,8 +352,11 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
                 elif 'clientside' in profile:
                     context = 'clientside'
             pki_list = avi_config.get("PKIProfile", [])
-            pki_profiles = [obj for obj in pki_list if (
-                obj['name'] == name or name in obj.get("dup_of", []))]
+            syspki = sys_dict['PKIProfile']
+            pki_profiles = [ob for ob in syspki if ob['name'] ==
+                            merge_object_mapping['pki_profile'].get(name)] or \
+                           [obj for obj in pki_list if (obj['name'] == name or
+                           name in obj.get("dup_of", []))]
             pki_profile = pki_profiles[0]['name'] if pki_profiles else None
             mode = 'SSL_CLIENT_CERTIFICATE_NONE'
             if pki_profile:
@@ -353,7 +383,8 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof,
+                        enable_ssl, merge_object_mapping, sys_dict):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -368,6 +399,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
     realm = None
     app_profile_list = avi_config.get("ApplicationProfile", [])
     unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
+    sys_app = sys_dict['ApplicationProfile']
     if not profiles:
         profiles = {}
     if isinstance(profiles, str):
@@ -377,8 +409,10 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
         # Added prefix for objects
         if prefix:
             name = '%s-%s' % (prefix, name)
-        app_profiles = [obj for obj in app_profile_list if
-                        (obj['name'] == name or name in obj.get("dup_of", []))]
+        app_profiles = [ob for ob in sys_app if ob['name'] ==
+                        merge_object_mapping['app_profile'].get(name)] or [
+                        obj for obj in app_profile_list if (obj['name'] == name
+                        or name in obj.get("dup_of", []))]
         if app_profiles:
             app_prof_name = app_profiles[0]['name']
             app_profile_refs.append(get_object_ref(
@@ -417,23 +451,26 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
         if not_supported:
             LOG.warning('Profiles not supported by Avi : %s' % not_supported)
             return app_profile_refs, f_host, realm, policy_set
-        if oc_prof:
+        if oc_prof or enable_ssl:
             value = 'http'
         else:
             value = 'fastL4'
         # Added prefix for objects
         if prefix:
             value = '%s-%s' % (prefix, value)
-        default_app_profile = [obj for obj in app_profile_list if (
-            obj['name'] == value or value in obj.get("dup_of", []))]
+        default_app_profile = [ob for ob in sys_app if ob['name'] ==
+                        merge_object_mapping['app_profile'].get(value)] or [
+                        obj for obj in app_profile_list if (obj['name'] == value
+                        or value in obj.get("dup_of", []))]
         tenant = get_name_from_ref(default_app_profile[0]['tenant_ref']) if \
             default_app_profile else '/api/tenant/?name=admin'
-        app_profile_refs.append(get_object_ref(value, 'applicationprofile',
-                                               tenant=tenant))
+        app_profile_refs.append(get_object_ref(default_app_profile[0]['name'],
+                                          'applicationprofile', tenant=tenant))
     return app_profile_refs, f_host, realm, policy_set
 
 
-def get_vs_ntwk_profiles(profiles, avi_config, prefix):
+def get_vs_ntwk_profiles(profiles, avi_config, prefix, merge_object_mapping,
+                         sys_dict):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -454,8 +491,11 @@ def get_vs_ntwk_profiles(profiles, avi_config, prefix):
         if prefix:
             name = prefix + '-' + name
         ntwk_prof_lst = avi_config.get("NetworkProfile")
-        network_profiles = [obj for obj in ntwk_prof_lst if (
-            obj['name'] == name or name in obj.get("dup_of", []))]
+        sysnw = sys_dict['NetworkProfile']
+        network_profiles = [ob for ob in sysnw if ob['name'] ==
+                            merge_object_mapping['network_profile'].get(name)] \
+                           or [obj for obj in ntwk_prof_lst if (obj['name'] ==
+                                    name or name in obj.get("dup_of", []))]
         if network_profiles:
             network_profile_ref = get_object_ref(
                 network_profiles[0]['name'], 'networkprofile',
@@ -622,14 +662,14 @@ def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
         return pool_ref
 
 
-def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
+def remove_https_mon_from_pool(avi_config, pool_ref, tenant, sysdict):
     pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
     if pool:
         hm_refs = pool[0].get('health_monitor_refs', [])
         for hm_ref in hm_refs:
-            hm = [h for h in avi_config['HealthMonitor'] if
-                  get_object_ref(h['name'], 'healthmonitor',
-                                 tenant=tenant) == hm_ref]
+            hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
+                 'HealthMonitor']) if get_object_ref(h['name'], 'healthmonitor',
+                 tenant=tenant) == hm_ref]
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
                 pool[0]['health_monitor_refs'].remove(hm_ref)
                 LOG.warning(
@@ -638,14 +678,14 @@ def remove_https_mon_from_pool(avi_config, pool_ref, tenant):
                     % (hm_ref, pool_ref))
 
 
-def remove_http_mon_from_pool(avi_config, pool_ref, tenant):
+def remove_http_mon_from_pool(avi_config, pool_ref, tenant, sysdict):
     pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
     if pool:
         hm_refs = pool[0].get('health_monitor_refs', [])
         for hm_ref in hm_refs:
-            hm = [h for h in avi_config['HealthMonitor'] if
-                  get_object_ref(h['name'], 'healthmonitor',
-                                 tenant=tenant) == hm_ref]
+            hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
+                 'HealthMonitor']) if get_object_ref(h['name'], 'healthmonitor',
+                 tenant=tenant) == hm_ref]
 
             if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                 pool[0]['health_monitor_refs'].remove(hm_ref)
@@ -654,24 +694,25 @@ def remove_http_mon_from_pool(avi_config, pool_ref, tenant):
                             'profile.' % (hm_ref, pool_ref))
 
 
-def remove_https_mon_from_pool_group(avi_config, poolgroup_ref, tenant):
+def remove_https_mon_from_pool_group(avi_config, poolgroup_ref, tenant,
+                                     sysdict):
     poolgroup = [p for p in avi_config['PoolGroup'] if get_object_ref(
         p['name'], 'poolgroup', tenant=tenant) == poolgroup_ref]
     if poolgroup:
         pool_members = [p['pool_ref'] for p in poolgroup[0]['members']]
         for pool_ref in pool_members:
             pool_ref = get_name_from_ref(pool_ref)
-            remove_https_mon_from_pool(avi_config, pool_ref, tenant)
+            remove_https_mon_from_pool(avi_config, pool_ref, tenant, sysdict)
 
 
-def remove_http_mon_from_pool_group(avi_config, poolgroup_ref, tenant):
+def remove_http_mon_from_pool_group(avi_config, poolgroup_ref, tenant, sysdict):
     poolgroup = [p for p in avi_config['PoolGroup'] if get_object_ref(
         p['name'], 'poolgroup', tenant=tenant) == poolgroup_ref]
     if poolgroup:
         pool_members = [p['pool_ref'] for p in poolgroup[0]['members']]
         for pool_ref in pool_members:
             pool_name = get_name_from_ref(pool_ref)
-            remove_http_mon_from_pool(avi_config, pool_name, tenant)
+            remove_http_mon_from_pool(avi_config, pool_name, tenant, sysdict)
 
 
 def add_ssl_to_pool(avi_pool_list, pool_ref, pool_ssl_profiles, tenant='admin'):
@@ -704,7 +745,8 @@ def add_ssl_to_pool_group(avi_config, pool_group_ref, ssl_pool, tenant_ref):
 
 
 def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
-                            hash_profiles, persist_config, tenant):
+                            hash_profiles, persist_config, tenant,
+                            merge_object_mapping, syspersist):
     """
     Updates pool for persistence profile assigned in F5 VS config
     :param avi_pool_list: List of all converted pool objects to avi config
@@ -722,14 +764,16 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
                   (pool_ref, persist_profile))
         return False
     pool_obj = pool_obj[0]
-    persist_profile_obj = [obj for obj in persist_config
-                           if (obj["name"] == persist_profile or
-                               persist_profile in obj.get("dup_of", []))]
+    persist_profile_obj = [ob for ob in syspersist if ob['name'] ==
+                           merge_object_mapping['app_per_profile'].get(
+                          persist_profile)] or [obj for obj in persist_config if
+                          (obj["name"] == persist_profile or persist_profile in
+                                                     obj.get("dup_of", []))]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
         obj_tenant = persist_profile_obj[0]['tenant_ref']
         pool_obj[persist_ref_key] = get_object_ref(
-            persist_profile, 'applicationpersistenceprofile',
+            persist_profile_obj[0]['name'], 'applicationpersistenceprofile',
             tenant=get_name_from_ref(obj_tenant))
     elif persist_profile == "hash" or persist_profile in hash_profiles:
         del pool_obj["lb_algorithm"]
@@ -741,7 +785,8 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
 
 
 def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
-                                  hash_profiles, persist_config, tenant):
+                                  hash_profiles, persist_config, tenant,
+                                  merge_object_mapping, syspersist):
     pool_group_updated = True
     pool_group = [obj for obj in avi_config['PoolGroup']
                   if obj['name'] == pool_ref]
@@ -751,7 +796,7 @@ def update_pool_group_for_persist(avi_config, pool_ref, persist_profile,
             pool_name = get_name_from_ref(member['pool_ref'])
             pool_updated = update_pool_for_persist(
                 avi_config['Pool'], pool_name, persist_profile, hash_profiles,
-                persist_config, tenant)
+                persist_config, tenant, merge_object_mapping, syspersist)
             if not pool_updated:
                 pool_group_updated = False
     return pool_group_updated
@@ -1644,7 +1689,7 @@ def update_static_route(route):
         next_hop_ip = next_hop_ip.split('%')[0]
 
     ip_addr = route.get('network', None)
-
+    vrf = None
     # Get the mask from subnet mask
     if ip_addr and '%' in ip_addr:
         ip_addr, vrf = ip_addr.split('%')
@@ -1720,3 +1765,24 @@ def net_to_static_route(f5_config, avi_config):
                         obj['static_routes'].append(static_route)
                     else:
                         obj['static_routes'] = [static_route]
+
+
+def update_monitor_ssl_ref(avi_dict, merge_obj_dict, sysdict):
+    for obj in avi_dict['HealthMonitor']:
+        obj_ref = obj.get('https_monitor', {}).get('ssl_attributes', {}).get(
+                    'ssl_profile_ref')
+        if obj_ref:
+            name = get_name(obj_ref)
+            if name in merge_obj_dict['ssl_profile']:
+                updated_name = merge_obj_dict['ssl_profile'][name]
+                prof = [ob for ob in (sysdict['SSLProfile'] + avi_dict[
+                       'SSLProfile']) if ob['name'] == updated_name]
+                tenant = get_name(prof[0]['tenant_ref'])
+                type_cons = conv_const.OBJECT_TYPE_SSL_PROFILE
+                obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] = \
+                                get_object_ref(updated_name, type_cons, tenant)
+
+
+
+
+

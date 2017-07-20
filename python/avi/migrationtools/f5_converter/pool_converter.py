@@ -16,11 +16,11 @@ class PoolConfigConv(object):
             return PoolConfigConvV11(f5_pool_attributes, prefix)
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
         pass
 
     def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
-                cloud_name):
+                cloud_name, merge_object_mapping, sys_dict):
         pool_list = []
         pool_config = f5_config.get('pool', {})
         user_ignore = user_ignore.get('pool', {})
@@ -53,7 +53,7 @@ class PoolConfigConv(object):
             try:
                 converted_objs = self.convert_pool(
                     pool_name, f5_config, avi_config, user_ignore, tenant_ref,
-                    cloud_name)
+                    cloud_name, merge_object_mapping, sys_dict)
                 pool_list += converted_objs['pools']
                 if 'pg_obj' in converted_objs:
                     avi_config['PoolGroup'].append(converted_objs['pg_obj'])
@@ -89,7 +89,7 @@ class PoolConfigConv(object):
         f5_config.pop('pool', {})
 
     def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name,
-                         tenant_ref):
+                         tenant_ref, merge_object_mapping, sys_mon):
         skipped_monitors = []
         monitors = monitor_names.split(" ")
         monitor_refs = []
@@ -103,9 +103,11 @@ class PoolConfigConv(object):
                 monitor = '%s-%s' % (self.prefix, monitor)
 
             tenant, monitor = conv_utils.get_tenant_ref(monitor)
-            monitor_obj = [obj for obj in monitor_config_list
-                           if (obj["name"] == monitor or monitor in obj.get(
-                    "dup_of", []))]
+            monitor_obj = [ob for ob in sys_mon if ob['name'] ==
+                          merge_object_mapping['health_monitor'].get(monitor)] \
+                          or [obj for obj in monitor_config_list if (
+                          obj["name"] == monitor or monitor in
+                          obj.get("dup_of", []))]
             if monitor_obj:
                 tenant = conv_utils.get_name_from_ref(
                     monitor_obj[0]['tenant_ref'])
@@ -276,7 +278,7 @@ class PoolConfigConvV11(PoolConfigConv):
         self.prefix = prefix
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
         converted_objs = {}
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
@@ -312,7 +314,8 @@ class PoolConfigConvV11(PoolConfigConv):
         if monitor_names:
             skipped_monitors, monitor_refs = super(
                 PoolConfigConvV11, self).get_monitor_refs(
-                monitor_names, monitor_config, pool_name, tenant)
+                monitor_names, monitor_config, pool_name, tenant,
+                merge_object_mapping, sys_dict['HealthMonitor'])
             pool_obj["health_monitor_refs"] = monitor_refs
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
@@ -481,7 +484,7 @@ class PoolConfigConvV10(PoolConfigConv):
         self.prefix = prefix
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
@@ -502,7 +505,8 @@ class PoolConfigConvV10(PoolConfigConv):
         if monitor_names:
             skipped_monitors, monitor_refs = super(
                 PoolConfigConvV10, self).get_monitor_refs(
-                monitor_names, monitor_config, pool_name, tenant_ref)
+                monitor_names, monitor_config, pool_name, tenant_ref,
+                merge_object_mapping, sys_dict['HealthMonitor'])
             pool_obj["health_monitor_refs"] = monitor_refs
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']

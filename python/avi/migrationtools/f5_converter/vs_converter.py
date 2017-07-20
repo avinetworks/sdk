@@ -26,7 +26,7 @@ class VSConfigConv(object):
         pass
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
-                cloud_name, controller_version):
+                cloud_name, controller_version, merge_object_mapping, sys_dict):
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
@@ -51,7 +51,8 @@ class VSConfigConv(object):
                     vs_name = self.prefix + '-' + vs_name
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
-                                         cloud_name, controller_version)
+                                         cloud_name, controller_version,
+                                         merge_object_mapping, sys_dict)
                 if vs_obj:
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
@@ -62,7 +63,8 @@ class VSConfigConv(object):
         f5_config.pop("virtual", {})
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
-                   user_ignore, tenant_ref, cloud_name, controller_version):
+                   user_ignore, tenant_ref, cloud_name, controller_version,
+                   merge_object_mapping, sys_dict):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -75,13 +77,17 @@ class VSConfigConv(object):
             enabled = False if "disabled" in f5_vs.keys() else True
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config,
-                                                          self.prefix)
+                                    self.prefix, merge_object_mapping, sys_dict)
         oc_prof = False
         for prof in profiles:
             if prof in avi_config.get('OneConnect', []):
                 oc_prof = True
+        enable_ssl = False
+        if ssl_vs:
+            enable_ssl = True
         app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config, tenant, self.prefix, oc_prof)
+            profiles, avi_config, tenant, self.prefix, oc_prof, enable_ssl,
+            merge_object_mapping, sys_dict)
 
         if not app_prof:
             LOG.warning('Profile type not supported by Avi Skipping VS : %s'
@@ -91,14 +97,16 @@ class VSConfigConv(object):
             return None
 
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
-                                                    self.prefix)
+                                    self.prefix, merge_object_mapping, sys_dict)
 
         # If one connect profile is not assigned to f5 VS and avi app profile
         # assigned to VS has connection_multiplexing_enabled value True then
         # clone profile and make connection_multiplexing_enabled as False
         pool_ref = f5_vs.get("pool", None)
-        app_prof_obj = [obj for obj in avi_config['ApplicationProfile']
-                        if obj['name'] == app_prof[0]]
+        app_name = conv_utils.get_name_from_ref(app_prof[0])
+        app_prof_obj = [obj for obj in (sys_dict['ApplicationProfile'] +
+                                        avi_config['ApplicationProfile']) if
+                        obj['name'] == app_name]
         cme = True
         app_prof_type = None
         if app_prof_obj:
@@ -108,20 +116,23 @@ class VSConfigConv(object):
                 'connection_multiplexing_enabled', False)
         if not (cme or oc_prof):
             # Check if already cloned profile present
-            app_prof_cmd = [obj for obj in avi_config['ApplicationProfile']
-                            if obj['name'] == '%s-cmd' % app_prof[0]]
+            app_prof_cmd = [obj for obj in (sys_dict['ApplicationProfile'] +
+                                        avi_config['ApplicationProfile']) if
+                            obj['name'] == '%s-cmd' % app_name]
             if app_prof_cmd:
-                app_prof[0] = app_prof_cmd[0]['name']
+                app_name = app_prof_cmd[0]['name']
+                app_prof[0] = conv_utils.get_object_ref(app_name,
+                      'applicationprofile', tenant=conv_utils.get_name_from_ref(
+                                                 app_prof_cmd[0]['tenant_ref']))
             else:
                 app_prof_cmd = copy.deepcopy(app_prof_obj[0])
                 app_prof_cmd['name'] = '%s-cmd' % app_prof_cmd['name']
                 app_prof_cmd['connection_multiplexing_enabled'] = False
                 avi_config['ApplicationProfile'].append(app_prof_cmd)
-                app_prof[0] = app_prof_cmd['name']
-
-        enable_ssl = False
-        if ssl_vs:
-            enable_ssl = True
+                app_name = app_prof_cmd['name']
+                app_prof[0] = conv_utils.get_object_ref(app_name,
+                     'applicationprofile', tenant=conv_utils.get_name_from_ref(
+                                                 app_prof_cmd['tenant_ref']))
         destination = f5_vs.get("destination", None)
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         # if destination is not present then skip vs.
@@ -147,34 +158,35 @@ class VSConfigConv(object):
                     conv_utils.add_ssl_to_pool_group(avi_config, pool_ref,
                                                      ssl_pool[0], tenant)
                     conv_utils.remove_http_mon_from_pool_group(
-                        avi_config, pool_ref, tenant)
+                        avi_config, pool_ref, tenant, sys_dict)
                 else:
                     conv_utils.add_ssl_to_pool(avi_config['Pool'], pool_ref,
                                                ssl_pool[0], tenant)
                     conv_utils.remove_http_mon_from_pool(
-                        avi_config, pool_ref, tenant)
+                        avi_config, pool_ref, tenant, sys_dict)
             else:
                 # TODO Remove this once controller support this scenario.
                 if is_pool_group:
                     conv_utils.remove_https_mon_from_pool_group(
-                        avi_config, pool_ref, tenant)
+                        avi_config, pool_ref, tenant, sys_dict)
                 else:
                     conv_utils.remove_https_mon_from_pool(
-                        avi_config, pool_ref, tenant)
+                        avi_config, pool_ref, tenant, sys_dict)
 
             persist_ref = self.get_persist_ref(f5_vs)
             if persist_ref:
-                avi_persistence = avi_config.get(
-                    'ApplicationPersistenceProfile', [])
-
+                avi_persistence = avi_config['ApplicationPersistenceProfile']
+                syspersist = sys_dict['ApplicationPersistenceProfile']
                 if is_pool_group:
                     pool_updated = conv_utils.update_pool_group_for_persist(
                         avi_config, pool_ref, persist_ref, hash_profiles,
-                        avi_persistence, tenant)
+                        avi_persistence, tenant, merge_object_mapping,
+                        syspersist)
                 else:
                     pool_updated = conv_utils.update_pool_for_persist(
                         avi_config['Pool'], pool_ref, persist_ref,
-                        hash_profiles, avi_persistence, tenant)
+                        hash_profiles, avi_persistence, tenant,
+                        merge_object_mapping, syspersist)
 
                 if not pool_updated:
                     skipped.append("persist")
@@ -279,7 +291,7 @@ class VSConfigConv(object):
         elif pool_ref:
             vs_obj['pool_ref'] = conv_utils.get_object_ref(
                 pool_ref, 'pool', tenant=tenant, cloud_name=cloud_name)
-
+        # app prof ref is not used inside the below method call
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
                                     skipped)
         conn_limit = int(f5_vs.get(self.connection_limit, '0'))
@@ -326,13 +338,13 @@ class VSConfigConv(object):
         snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
             if self.con_snatpool:
-                LOG.debug("Converting the snat as input flag and snat information is set")
+                LOG.debug("Converting the snat as input flag and snat "
+                          "information is set")
                 snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
                 if len(snat_list) > 32:
                     vs_obj["snat_ip"] = snat_list[0:32]
-                    LOG.warning(
-                        'Ignore the snat IPs, its count is beyond 32 for vs : %s' %
-                        vs_name)
+                    LOG.warning('Ignore the snat IPs, its count is beyond 32 '
+                                'for vs : %s' % vs_name)
                 else:
                     vs_obj["snat_ip"] = snat_list
                 conv_status = {'status': final.STATUS_SUCCESSFUL}
@@ -340,7 +352,8 @@ class VSConfigConv(object):
                 conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                            conv_status, message)
             else:
-                LOG.debug("Skipped: snat conversion as input flag is not set for vs : %s" % vs_name)
+                LOG.debug("Skipped: snat conversion as input flag is not set"
+                          " for vs : %s" % vs_name)
                 skipped.append("source-address-translation" if f5_vs.get(
                     "source-address-translation") else "snatpool" if f5_vs.get(
                     "snatpool") else None)
@@ -351,11 +364,10 @@ class VSConfigConv(object):
             vs_obj['ssl_profile_ref'] = ssl_vs[0]["profile"]
             if ssl_vs[0]["cert"]:
                 vs_obj['ssl_key_and_certificate_refs'] = [ssl_vs[0]["cert"]]
-            if ssl_vs[0]["pki"] and app_prof[0] != "http":
-                app_profiles = [obj for obj in
-                                avi_config["ApplicationProfile"]
-                                if obj['name'] ==
-                                conv_utils.get_name_from_ref(app_prof[0])]
+            if ssl_vs[0]["pki"] and app_name != "http":
+                app_profiles = [obj for obj in (sys_dict['ApplicationProfile'] +
+                                        avi_config['ApplicationProfile'])
+                                if obj['name'] == app_name]
                 if app_profiles[0]["type"] == \
                         'APPLICATION_PROFILE_TYPE_HTTP':
                     app_profiles[0]["http_profile"][
@@ -365,12 +377,9 @@ class VSConfigConv(object):
 
         # Added code to skipped L4 VS if pool or pool group not present
         if vs_obj['application_profile_ref']:
-            app_profile_name = \
-                str(vs_obj['application_profile_ref']).split(
-                    '&name=')[1]
             application_profile_obj = \
-                [obj for obj in avi_config['ApplicationProfile']
-                 if obj['name'] == app_profile_name]
+                [obj for obj in (sys_dict['ApplicationProfile'] +
+                avi_config['ApplicationProfile']) if obj['name'] == app_name]
             if application_profile_obj and application_profile_obj[0]['type'] \
                     == 'APPLICATION_PROFILE_TYPE_L4':
                 if not 'pool_ref' and not 'pool_group_ref' in vs_obj:
