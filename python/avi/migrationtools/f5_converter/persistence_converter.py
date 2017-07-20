@@ -10,11 +10,14 @@ LOG = logging.getLogger(__name__)
 
 class PersistenceConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_persistence_attributes, prefix):
+    def get_instance(cls, version, f5_persistence_attributes, prefix,
+                     object_merge_check):
         if version == '10':
-            return PersistenceConfigConvV10(f5_persistence_attributes, prefix)
+            return PersistenceConfigConvV10(f5_persistence_attributes, prefix,
+                                            object_merge_check)
         if version in ['11', '12']:
-            return PersistenceConfigConvV11(f5_persistence_attributes, prefix)
+            return PersistenceConfigConvV11(f5_persistence_attributes, prefix,
+                                            object_merge_check)
 
     def convert_cookie_persistence(self, name, profile):
         pass
@@ -40,7 +43,7 @@ class PersistenceConfigConv(object):
 
     def convert(self, f5_config, avi_config, user_ignore, tenant_ref):
         avi_config['hash_algorithm'] = []
-        avi_config["ApplicationPersistenceProfile"] = []
+        converted_objs = []
         f5_persistence_dict = f5_config.get('persistence')
         user_ignore = user_ignore.get('persistence', {})
         for key in f5_persistence_dict.keys():
@@ -57,13 +60,14 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref
-                if persist_mode == "cookie":
-                    persist_profile = self.convert_cookie(name, profile,
-                                                          skipped, tenant)
-                    if not persist_profile:
-                        continue
-                    u_ignore = user_ignore.get('cookie', [])
-                elif persist_mode == "ssl":
+                # TODO: Should be enabled after controller app cookie issue is fixed
+                # if persist_mode == "cookie":
+                #     persist_profile = self.convert_cookie(name, profile,
+                #                                           skipped, tenant)
+                #     if not persist_profile:
+                #         continue
+                #     u_ignore = user_ignore.get('cookie', [])
+                if persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
                         name, profile, skipped, self.indirect, tenant)
                     u_ignore = user_ignore.get('ssl', [])
@@ -93,8 +97,16 @@ class PersistenceConfigConv(object):
                     continue
                 if not persist_profile:
                     continue
-                avi_config["ApplicationPersistenceProfile"].append(
-                    persist_profile)
+                # code to merge applicaation persistence profile.
+                if self.object_merge_check:
+                    conv_utils.update_skip_duplicates(persist_profile,
+                                    avi_config['ApplicationPersistenceProfile'],
+                                    'app_per_profile', converted_objs, name,
+                                                      None)
+                    self.app_per_count += 1
+                else:
+                    avi_config["ApplicationPersistenceProfile"].append(
+                        persist_profile)
 
                 ignore_for_defaults = {"app-service": "none", "mask": "none"}
                 conv_status = conv_utils.get_conv_status(
@@ -134,7 +146,7 @@ class PersistenceConfigConv(object):
 
 
 class PersistenceConfigConvV11(PersistenceConfigConv):
-    def __init__(self, f5_persistence_attributes, prefix):
+    def __init__(self, f5_persistence_attributes, prefix, object_merge_check):
         self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = f5_persistence_attributes['Persistence_supported_attr']
         self.supported_attr_convert = f5_persistence_attributes['Persistence_' \
@@ -142,6 +154,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
                                             'convert_source_addr']
         # Added prefix for objects
         self.prefix = prefix
+        self.object_merge_check = object_merge_check
+        self.app_per_count = 0
 
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('method', 'insert')
@@ -231,7 +245,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
 
 
 class PersistenceConfigConvV10(PersistenceConfigConv):
-    def __init__(self, f5_persistence_attributes, prefix):
+    def __init__(self, f5_persistence_attributes, prefix, object_merge_check):
         self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = \
             f5_persistence_attributes['Persistence_supported_attr']
@@ -239,6 +253,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             'Persistence_supported_attr_convert_source_addr']
         # Added prefix for objects
         self.prefix = prefix
+        self.object_merge_check = object_merge_check
+        self.app_per_count = 0
 
     def convert_cookie(self, name, profile, skipped, tenant):
         method = profile.get('cookie mode', 'insert')

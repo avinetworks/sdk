@@ -2,13 +2,19 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi VIMgrControllerRuntime Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: VIMgrControllerRuntime API documentation
+    description: |
+        ##CLI##
+        ```
+        - show vinfra controller <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +43,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +78,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrControllerRuntime object creation
@@ -109,11 +125,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +170,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrControllerRuntime object creation
@@ -195,11 +221,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrControllerRuntime object creation
@@ -241,11 +272,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +297,7 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     VIControllerVnicInfo:
         type: object
@@ -268,9 +305,10 @@ definitions:
             -   portgroup
         properties:
             portgroup:
-                description: ""
+                description: "portgroup of VIControllerVnicInfo."
                 type: string
             vnic_ip:
+                description: "Placeholder for description of property vnic_ip of obj type VIControllerVnicInfo field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VIGuestvNicIPAddr'
@@ -281,10 +319,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
-                description: ""
+                description: "ip_addr of VIGuestvNicIPAddr."
                 type: string
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     VIMgrControllerRuntime:
@@ -294,23 +332,23 @@ definitions:
             -   type
         properties:
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
-                type: number
-                format: int64
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             vnics:
+                description: "Placeholder for description of property vnics of obj type VIMgrControllerRuntime field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VIControllerVnicInfo'

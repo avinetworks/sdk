@@ -13,7 +13,7 @@ import yaml
 import argparse
 import re
 import requests
-#import avi.migrationtools.ansible.ansible_constant as ansible_constant
+from avi.migrationtools.avi_orphan_object import filter_for_vs
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -23,7 +23,8 @@ from avi.migrationtools.ansible.ansible_constant import \
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
-     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE)
+     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
+     ANSIBLE_STR)
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
@@ -34,15 +35,17 @@ class AviAnsibleConverter(object):
     skip_types = set(DEFAULT_SKIP_TYPES)
     default_meta_order = DEFAULT_META_ORDER
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
-    REL_REF_MATCH = re.compile('^/api/.*/?tenant=admin')
+    # Modified REGEX
+    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
-    def __init__(self, avi_cfg, outdir, prefix, skip_types=None,
+    def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
         # Added prefix flag for object
         self.prefix = prefix
+        self.not_in_use = not_in_use
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -65,15 +68,24 @@ class AviAnsibleConverter(object):
             return x
         if x == '/api/tenant/admin':
             x = '/api/tenant/admin#admin'
+        # Added REGEX
         if self.REF_MATCH.match(x):
             name = x.rsplit('#', 1)[1]
             obj_type = x.split('/api/')[1].split('/')[0]
             # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
         elif self.REL_REF_MATCH.match(x):
-            ref_parts = x.split('tenant=admin&')
-            x = ''.join(ref_parts)
-            x = x.split('&cloud=Default-Cloud')[0]
+            ref_parts = x.split('?')
+            for p in ref_parts[1].split('&'):
+                k, v = p.split('=')
+                # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
+                if k.strip() == 'cloud' or 'cloud' in ref_parts[0]:
+                    obj['cloud_ref'] = '/api/cloud?name=%s' % v.strip()
+                elif k.strip() == 'tenant' or 'tenant' in ref_parts[0]:
+                    obj['tenant_ref'] = '/api/tenant?name=%s' % v.strip()
+                # Added value of keyname
+                if k.strip() == 'name':
+                    x = '%s?name=%s' % (ref_parts[0], v)
         else:
             LOG.info('%s did not match ref' % x)
         return x
@@ -81,7 +93,7 @@ class AviAnsibleConverter(object):
     def transform_obj_refs(self, obj):
         if type(obj) != dict:
             return
-        for k, v in obj.iteritems():
+        for k, v in obj.items():
             if type(v) == dict:
                 self.transform_obj_refs(v)
                 continue
@@ -96,7 +108,7 @@ class AviAnsibleConverter(object):
                         if type(item) == dict:
                             self.transform_obj_refs(item)
                         elif (isinstance(item, basestring) or
-                                  isinstance(item, unicode)):
+                              isinstance(item, unicode)):
                             new_list.append(self.transform_ref(item, obj))
                     if new_list:
                         obj[k] = new_list
@@ -105,7 +117,7 @@ class AviAnsibleConverter(object):
                     self.transform_obj_refs(item)
         return obj
 
-    def build_ansible_objects(self, obj_type, objs, ansible_dict):
+    def build_ansible_objects(self, obj_type, objs, ansible_dict, inuse_list):
         """
         adds per object type ansible task
         :param obj_type type of object
@@ -116,6 +128,8 @@ class AviAnsibleConverter(object):
         """
         for obj in objs:
             task = deepcopy(obj)
+            # Added tag for checking object ref.
+            used_tag = 'in_use'
             if isinstance(task, str):
                 continue
             for skip_field in self.skip_fields:
@@ -126,11 +140,15 @@ class AviAnsibleConverter(object):
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
             task.update({API_VERSION: self.api_version})
+            # Check object present in list for tag.
+            name = '%s-%s'%(obj['name'], obj_type)
+            if inuse_list and name not in inuse_list:
+                used_tag = 'not_in_use'
             ansible_dict[TASKS].append(
                 {
                     task_id: task,
                     NAME: task_name,
-                    TAGS: [obj[NAME], CREATE_OBJECT, obj_type.lower()]
+                    TAGS: [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
                 })
         return ansible_dict
 
@@ -223,13 +241,14 @@ class AviAnsibleConverter(object):
             })
 
     def generate_avi_vs_traffic(self, vs_dict, ansible_dict,
-                                application_profile):
+                                application_profile, tenant='admin'):
         """
         This function is used for generating tags for avi traffic.
         :param vs_dict: avi virtualservice attributes.
         :param ansible_dict: used for playbook generation.
         :param application_profile: dict used to for request type
         eg: request type : dns, http, https.
+        :param tenant: name of tenant
         :return: None
         """
         avi_traffic_dict = dict()
@@ -244,6 +263,7 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[USERNAME] = USER_NAME
             avi_traffic_dict[PASSWORD] = PASSWORD_NAME
             avi_traffic_dict[REGISTER] = VALUE
+            avi_traffic_dict[TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {
@@ -322,6 +342,7 @@ class AviAnsibleConverter(object):
         """
         for vs in self.avi_cfg['VirtualService']:
             if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
+                tenant = 'admin'
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
                 vs_dict[VIP] = vs[VIP]
@@ -330,6 +351,9 @@ class AviAnsibleConverter(object):
                 vs_dict[USERNAME] = USER_NAME
                 vs_dict[PASSWORD] = PASSWORD_NAME
                 vs_dict[API_VERSION] = self.api_version
+                # Added tenant in playbook for avi api calls.
+                if 'tenant_ref' in vs:
+                    tenant = str(vs['tenant_ref']).split('=')[-1]
                 if POOL_REF in vs:
                     sep_ele = vs[POOL_REF].split('&')
                     removed_ref = sep_ele[0].split('?')
@@ -341,7 +365,8 @@ class AviAnsibleConverter(object):
                 if APPLICATION_PROFILE_REF in vs:
                     self.generate_avi_vs_traffic(
                                                  vs_dict, ansible_dict,
-                                                 vs[APPLICATION_PROFILE_REF]
+                                                 vs[APPLICATION_PROFILE_REF],
+                                                 tenant=tenant
                                                 )
                 self.create_avi_ansible_disable(vs_dict, ansible_dict)
                 self.create_f5_ansible_enable(f5_dict, ansible_dict)
@@ -355,7 +380,16 @@ class AviAnsibleConverter(object):
         :param f5password: password for f5
         :return: None
         """
+        ansible_traffic_path = '%s/avi_migrate_and_verfiy_traffic.yml' \
+                               % self.outdir
+        ansible_create_object_path = '%s/avi_config_create_object.yml'\
+                                     % self.outdir
+        # Get the reference object list for not_in_use tag.
+        inuse_list = []
+        if not self.not_in_use:
+            inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
+        generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']
         if 'order' not in meta:
             meta['order'] = self.default_meta_order
@@ -364,13 +398,23 @@ class AviAnsibleConverter(object):
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:
                 continue
-            self.build_ansible_objects(obj_type, self.avi_cfg[obj_type], ad)
+            self.build_ansible_objects(obj_type, self.avi_cfg[obj_type], ad,
+                                       inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
         if f5server and f5user and f5password:
-            self.generate_traffic(ad, f5server, f5user, f5password)
-        with open('%s/avi_config.yml' % self.outdir, "w+") as outf:
-            outf.write('# Auto-generated from Avi Configuration\n')
+            self.generate_traffic(generate_traffic_dict, f5server, f5user,
+                                  f5password)
+            # Generate traffic file separately
+            with open(ansible_traffic_path, "w+") as outf:
+                outf.write(ANSIBLE_STR)
+                outf.write('---\n')
+                yaml.safe_dump(
+                               [generate_traffic_dict], outf,
+                               default_flow_style=False, indent=2
+                               )
+        with open(ansible_create_object_path, "w+") as outf:
+            outf.write(ANSIBLE_STR)
             outf.write('---\n')
             yaml.safe_dump([ad], outf, default_flow_style=False, indent=2)
 

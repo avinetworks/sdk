@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi ApplicationPersistenceProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: ApplicationPersistenceProfile API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure applicationpersistenceprofile <key>
+        - show applicationpersistenceprofile <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ApplicationPersistenceProfile object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ApplicationPersistenceProfile object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ApplicationPersistenceProfile object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +298,48 @@ paths:
                 404:
                     description: not found
 
+
+    /applicationpersistenceprofile/{uuid}/federated_info/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
 definitions:
     AppCookiePersistenceProfile:
         type: object
@@ -268,14 +347,15 @@ definitions:
             -   prst_hdr_name
         properties:
             encryption_key:
-                description: "Key to use for cookie encryption"
+                description: "Key to use for cookie encryption."
                 type: string
             prst_hdr_name:
-                description: "Header or cookie name for application cookie persistence"
+                description: "Header or cookie name for application cookie persistence."
                 type: string
             timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
                 type: integer
+                default: 20
                 format: int32
     ApplicationPersistenceProfile:
         type: object
@@ -284,29 +364,37 @@ definitions:
             -   persistence_type
         properties:
             app_cookie_persistence_profile:
+                description: "Specifies the Application Cookie Persistence profile parameters."
                 $ref: '#/definitions/AppCookiePersistenceProfile'
             description:
-                description: ""
+                description: "User defined description for the object."
                 type: string
             hdr_persistence_profile:
+                description: "Specifies the custom HTTP Header Persistence profile parameters."
                 $ref: '#/definitions/HdrPersistenceProfile'
             http_cookie_persistence_profile:
+                description: "Specifies the HTTP Cookie Persistence profile parameters."
                 $ref: '#/definitions/HttpCookiePersistenceProfile'
             ip_persistence_profile:
+                description: "Specifies the Client IP Persistence profile parameters."
                 $ref: '#/definitions/IPPersistenceProfile'
+            is_federated:
+                description: "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
+                readOnly: True
+                type: boolean
             name:
                 description: "A user-friendly name for the persistence profile."
                 type: string
             persistence_type:
-                description: "Method used to persist clients to the same server for a duration of time or a session.Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS, PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE"
-                type: number
-                format: int64
+                description: "Method used to persist clients to the same server for a duration of time or a session. Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS, PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE."
+                type: string
+                default: "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS"
             server_hm_down_recovery:
-                description: "Specifies behavior when a persistent server has been marked down by a health monitor.Enum options - HM_DOWN_PICK_NEW_SERVER, HM_DOWN_ABORT_CONNECTION, HM_DOWN_CONTINUE_PERSISTENT_SERVER"
-                type: number
-                format: int64
+                description: "Specifies behavior when a persistent server has been marked down by a health monitor. Enum options - HM_DOWN_PICK_NEW_SERVER, HM_DOWN_ABORT_CONNECTION, HM_DOWN_CONTINUE_PERSISTENT_SERVER."
+                type: string
+                default: "HM_DOWN_PICK_NEW_SERVER"
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
@@ -332,19 +420,19 @@ definitions:
         type: object
         properties:
             prst_hdr_name:
-                description: "Header name for custom header persistence"
+                description: "Header name for custom header persistence."
                 type: string
     HttpCookiePersistenceKey:
         type: object
         properties:
             aes_key:
-                description: ""
+                description: "aes_key of HttpCookiePersistenceKey."
                 type: string
             hmac_key:
-                description: ""
+                description: "hmac_key of HttpCookiePersistenceKey."
                 type: string
             name:
-                description: "name to use for cookie encryption"
+                description: "name to use for cookie encryption."
                 type: string
     HttpCookiePersistenceProfile:
         type: object
@@ -353,23 +441,25 @@ definitions:
                 description: "If no persistence cookie was received from the client, always send it."
                 type: boolean
             cookie_name:
-                description: "HTTP cookie name for cookie persistence"
+                description: "HTTP cookie name for cookie persistence."
                 type: string
             encryption_key:
-                description: "Key name to use for cookie encryption"
+                description: "Key name to use for cookie encryption."
                 type: string
             key:
+                description: "Placeholder for description of property key of obj type HttpCookiePersistenceProfile field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HttpCookiePersistenceKey'
             timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'."
                 type: integer
                 format: int32
     IPPersistenceProfile:
         type: object
         properties:
             ip_persistent_timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
                 type: integer
+                default: 5
                 format: int32

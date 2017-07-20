@@ -2,13 +2,21 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi PKIProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: PKIProfile API documentation
+    description: |
+        ##CLI##
+        ```
+        - show pkiprofile <key>
+        - delete pkiprofile <key>
+        - configure pkiprofile <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +45,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +80,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PKIProfile object creation
@@ -109,11 +127,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +172,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PKIProfile object creation
@@ -195,11 +223,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: PKIProfile object creation
@@ -241,11 +274,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,31 +299,73 @@ paths:
                 404:
                     description: not found
 
+
+    /pkiprofile/{uuid}/federated_info/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
 definitions:
     CRL:
         type: object
         properties:
             body:
-                description: "Certificate Revocation list from a given issuer in PEM format. This can either be configured directly or via the server_url. "
+                description: "Certificate Revocation list from a given issuer in PEM format. This can either be configured directly or via the server_url. ."
                 type: string
             common_name:
-                description: "Common name of the issuer in the Certificate Revocation list"
+                description: "Common name of the issuer in the Certificate Revocation list."
                 type: string
             distinguished_name:
-                description: "Distinguished name of the issuer in the Certificate Revocation list"
+                description: "Distinguished name of the issuer in the Certificate Revocation list."
                 type: string
             etag:
-                description: "Cached etag to optimize the download of the CRL"
+                description: "Cached etag to optimize the download of the CRL."
                 type: string
             fingerprint:
-                description: "Fingerprint of the CRL. Used to avoid configuring duplicates"
+                description: "Fingerprint of the CRL. Used to avoid configuring duplicates."
                 type: string
             last_refreshed:
-                description: "Last time CRL was refreshed by the system. This is an internal field used by the system"
+                description: "Last time CRL was refreshed by the system. This is an internal field used by the system."
                 readOnly: True
                 type: string
             last_update:
-                description: "The date when this CRL was last issued"
+                description: "The date when this CRL was last issued."
                 type: string
             next_update:
                 description: "The date when a newer CRL will be available. Also conveys the date after which the CRL should be considered obsolete."
@@ -294,10 +374,10 @@ definitions:
                 description: "URL of a server that issues the Certificate Revocation list. If this is configured, CRL will be periodically downloaded either based on the configured update interval or the next update interval in the CRL. CRL itself is stored in the body."
                 type: string
             text:
-                description: "Certificate Revocation list in plain text for readability"
+                description: "Certificate Revocation list in plain text for readability."
                 type: string
             update_interval:
-                description: "Interval in minutes to check for CRL update. If not specified, interval will be 1 day"
+                description: "Interval in minutes to check for CRL update. If not specified, interval will be 1 day."
                 type: integer
                 format: int32
     PKIProfile:
@@ -306,38 +386,46 @@ definitions:
             -   name
         properties:
             ca_certs:
+                description: "List of Certificate Authorities (Root and Intermediate) trusted that is used for certificate validation."
                 type: array
                 items:
                     $ref: '#/definitions/SSLCertificate'
             created_by:
-                description: "Creator name"
+                description: "Creator name."
                 type: string
             crl_check:
                 description: "When enabled, Avi will verify via CRL checks that certificates in the trust chain have not been revoked."
                 type: boolean
+                default: True
             crls:
+                description: "Certificate Revocation Lists."
                 type: array
                 items:
                     $ref: '#/definitions/CRL'
             ignore_peer_chain:
                 description: "When enabled, Avi will not trust Intermediate and Root certs presented by a client.  Instead, only the chain certs configured in the Certificate Authority section will be used to verify trust of the client's cert."
                 type: boolean
+            is_federated:
+                description: "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
+                readOnly: True
+                type: boolean
             name:
-                description: "Name of the PKI Profile"
+                description: "Name of the PKI Profile."
                 type: string
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             validate_only_leaf_crl:
-                description: "When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs"
+                description: "When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs."
                 type: boolean
+                default: True
     PKIProfileApiResponse:
         type: object
         required:
@@ -355,118 +443,125 @@ definitions:
         type: object
         properties:
             certificate:
-                description: ""
+                description: "certificate of SSLCertificate."
                 type: string
             certificate_signing_request:
-                description: ""
+                description: "certificate_signing_request of SSLCertificate."
                 type: string
             chain_verified:
-                description: ""
+                description: "Placeholder for description of property chain_verified of obj type SSLCertificate field type str  type boolean"
                 type: boolean
             days_until_expire:
-                description: ""
+                description: "Number of days_until_expire."
                 type: integer
+                default: 365
                 format: int32
             expiry_status:
-                description: "Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED"
-                type: number
-                format: int64
+                description: " Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED."
+                type: string
+                default: "SSL_CERTIFICATE_GOOD"
             fingerprint:
-                description: ""
+                description: "fingerprint of SSLCertificate."
                 type: string
             issuer:
+                description: "Placeholder for description of property issuer of obj type SSLCertificate field type str  type object"
                 $ref: '#/definitions/SSLCertificateDescription'
             key_params:
+                description: "Placeholder for description of property key_params of obj type SSLCertificate field type str  type object"
                 $ref: '#/definitions/SSLKeyParams'
             not_after:
-                description: ""
+                description: "not_after of SSLCertificate."
                 type: string
             not_before:
-                description: ""
+                description: "not_before of SSLCertificate."
                 type: string
             public_key:
-                description: ""
+                description: "public_key of SSLCertificate."
                 type: string
             self_signed:
-                description: ""
+                description: "Placeholder for description of property self_signed of obj type SSLCertificate field type str  type boolean"
                 type: boolean
             serial_number:
-                description: ""
+                description: "serial_number of SSLCertificate."
                 type: string
             signature:
-                description: ""
+                description: "signature of SSLCertificate."
                 type: string
             signature_algorithm:
-                description: ""
+                description: "signature_algorithm of SSLCertificate."
                 type: string
             subject:
+                description: "Placeholder for description of property subject of obj type SSLCertificate field type str  type object"
                 $ref: '#/definitions/SSLCertificateDescription'
             subject_alt_names:
-                description: "subjectAltName that provides additional subject identities"
+                description: "subjectAltName that provides additional subject identities."
                 type: array
                 items:
                     type: string
             text:
-                description: ""
+                description: "text of SSLCertificate."
                 type: string
             version:
-                description: ""
+                description: "version of SSLCertificate."
                 type: string
     SSLCertificateDescription:
         type: object
         properties:
             common_name:
-                description: ""
+                description: "common_name of SSLCertificateDescription."
                 type: string
             country:
-                description: ""
+                description: "country of SSLCertificateDescription."
                 type: string
             distinguished_name:
-                description: ""
+                description: "distinguished_name of SSLCertificateDescription."
                 type: string
             email_address:
-                description: ""
+                description: "email_address of SSLCertificateDescription."
                 type: string
             locality:
-                description: ""
+                description: "locality of SSLCertificateDescription."
                 type: string
             organization:
-                description: ""
+                description: "organization of SSLCertificateDescription."
                 type: string
             organization_unit:
-                description: ""
+                description: "organization_unit of SSLCertificateDescription."
                 type: string
             state:
-                description: ""
+                description: "state of SSLCertificateDescription."
                 type: string
     SSLKeyECParams:
         type: object
         properties:
             curve:
-                description: "Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1"
-                type: number
-                format: int64
+                description: " Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1."
+                type: string
+                default: "SSL_KEY_EC_CURVE_SECP256R1"
     SSLKeyParams:
         type: object
         required:
             -   algorithm
         properties:
             algorithm:
-                description: "Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC"
-                type: number
-                format: int64
+                description: " Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC."
+                type: string
+                default: "SSL_KEY_ALGORITHM_RSA"
             ec_params:
+                description: "Placeholder for description of property ec_params of obj type SSLKeyParams field type str  type object"
                 $ref: '#/definitions/SSLKeyECParams'
             rsa_params:
+                description: "Placeholder for description of property rsa_params of obj type SSLKeyParams field type str  type object"
                 $ref: '#/definitions/SSLKeyRSAParams'
     SSLKeyRSAParams:
         type: object
         properties:
             exponent:
-                description: ""
+                description: "Number of exponent."
                 type: integer
+                default: 65537
                 format: int32
             key_size:
-                description: "Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS"
-                type: number
-                format: int64
+                description: " Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS."
+                type: string
+                default: "SSL_KEY_2048_BITS"

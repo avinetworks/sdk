@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi AutoScaleLaunchConfig Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: AutoScaleLaunchConfig API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure autoscalelaunchconfig <key>
+        - show autoscalelaunchconfig <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: AutoScaleLaunchConfig object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: AutoScaleLaunchConfig object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: AutoScaleLaunchConfig object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,83 +298,46 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     AutoScaleAWSSettings:
         type: object
-        required:
-            -   instance_type
         properties:
-            block_device_mappings:
-                type: array
-                items:
-                    $ref: '#/definitions/AutoScaleKVData'
-            ebs_optimized:
-                description: "Specifies whether the instance is optimized for EBS I/O (true) or not (false)."
-                type: boolean
-            instance_monitoring:
-                description: "Enable detailed monitoring for VM"
-                type: boolean
-            instance_type:
-                description: "AWS Instance Type. http //docs.openstack.org/openstack-ops/content/flavors.html"
-                type: string
-            kernel_id:
-                description: "kernel for this instance"
-                type: string
-            key_name:
-                description: "The name of the EC2 key pair in AWS or name of previously created key pair in OpenStack to inject into the instance"
-                type: string
-            placement_group:
-                description: "Physical location of your cluster placement group created in Amazon EC2."
-                type: string
-            ramdisk_id:
-                description: "ramdisk id"
-                type: string
-            security_group_ids:
-                description: "Names or security group ids of the security groups with which to associate."
-                type: array
-                items:
-                    type: string
-    AutoScaleKVData:
-        type: object
-        required:
-            -   key
-        properties:
-            key:
-                description: ""
-                type: string
-            value:
-                description: ""
+            autoscaling_group_name:
+                description: "Name of the AWS autoscaling group. The AWS autoscaling group should not be set up with scaling policies as it would result in unpredictable behavior when used together with Avi autoscaling policies. Field introduced in 17.1.1."
                 type: string
     AutoScaleLaunchConfig:
         type: object
         required:
-            -   image_id
             -   name
         properties:
             aws:
+                description: "Placeholder for description of property aws of obj type AutoScaleLaunchConfig field type str  type object"
                 $ref: '#/definitions/AutoScaleAWSSettings'
             description:
-                description: ""
+                description: "User defined description for the object."
                 type: string
             image_id:
-                description: "Unique ID of the Amazon Machine Image (AMI)  or OpenStack VM ID"
+                description: "Unique ID of the Amazon Machine Image (AMI)  or OpenStack VM ID."
                 type: string
             mesos:
+                description: "Placeholder for description of property mesos of obj type AutoScaleLaunchConfig field type str  type object"
                 $ref: '#/definitions/AutoScaleMesosSettings'
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             openstack:
+                description: "Placeholder for description of property openstack of obj type AutoScaleLaunchConfig field type str  type object"
                 $ref: '#/definitions/AutoScaleOpenStackSettings'
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     AutoScaleLaunchConfigApiResponse:
         type: object
@@ -356,41 +356,15 @@ definitions:
         type: object
         properties:
             force:
-                description: "Apply scaleout even when there are deployments in progress"
+                description: "Apply scaleout even when there are deployments inprogress."
                 type: boolean
+                default: True
     AutoScaleOpenStackSettings:
         type: object
-        required:
-            -   flavor_id
         properties:
-            admin_password:
-                description: "admin password for the VM"
+            heat_scale_down_url:
+                description: "Avi Controller will use this URL to scale downthe pool. Cloud connector will automatically update the membership. This is an alpha feature. Field introduced in 17.1.1."
                 type: string
-            block_device_mappings:
-                type: array
-                items:
-                    $ref: '#/definitions/AutoScaleKVData'
-            disk_config:
-                description: "control how the disk is partitioned when the server is created. possible values are AUTO or MANUAL. Enum options - AUTO, MANUAL"
-                type: number
-                format: int64
-            flavor_id:
-                description: "OpenStack Flavor IDhttp //docs.openstack.org/openstack-ops/content/flavors.html"
-                type: string
-            key_name:
-                description: "The name of the EC2 key pair in AWS or name of previously created key pair in OpenStack to inject into the instance"
-                type: string
-            metadata:
-                type: array
-                items:
-                    $ref: '#/definitions/AutoScaleKVData'
-            scheduler_hints:
-                $ref: '#/definitions/AutoScaleKVData'
-            security_group_ids:
-                description: "Names or security group ids of the security groups with which to associate."
-                type: array
-                items:
-                    type: string
-            userdata:
-                description: "User data provided to the VM"
+            heat_scale_up_url:
+                description: "Avi Controller will use this URL to scale upthe pool. Cloud connector will automatically update the membership. This is an alpha feature. Field introduced in 17.1.1."
                 type: string
