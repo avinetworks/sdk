@@ -2,13 +2,21 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: SystemConfiguration API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure systemconfiguration
+        - show systemconfiguration
+        - test systememail
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +45,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +80,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SystemConfiguration object creation
@@ -109,11 +127,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +172,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SystemConfiguration object creation
@@ -195,11 +223,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SystemConfiguration object creation
@@ -241,11 +274,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -278,11 +316,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: SysTestEmailParams
@@ -298,14 +341,20 @@ paths:
                         type: string
                 401:
                     description: log in failed
+
 definitions:
     AdminAuthConfiguration:
         type: object
         properties:
+            allow_local_user_login:
+                description: "Allow any user created locally to login with local credentials. Field introduced in 17.1.1."
+                type: boolean
+                default: True
             auth_profile_ref:
-                description: " object ref AuthProfile."
+                description: " It is a reference to an object of type AuthProfile."
                 type: string
             mapping_rules:
+                description: "Rules list for tenant or role mapping."
                 type: array
                 items:
                     $ref: '#/definitions/AuthMappingRule'
@@ -315,37 +364,37 @@ definitions:
             -   index
         properties:
             assign_role:
-                description: "Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE"
-                type: number
-                format: int64
+                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                type: string
             assign_tenant:
-                description: "Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE"
-                type: number
-                format: int64
+                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                type: string
             attribute_match:
+                description: "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object"
                 $ref: '#/definitions/AuthMatchAttribute'
             group_match:
+                description: "Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object"
                 $ref: '#/definitions/AuthMatchGroupMembership'
             index:
-                description: ""
+                description: "Number of index."
                 type: integer
                 format: int32
             is_superuser:
-                description: ""
+                description: "Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean"
                 type: boolean
             role_attribute_name:
-                description: ""
+                description: "role_attribute_name of AuthMappingRule."
                 type: string
             role_refs:
-                description: " object ref Role."
+                description: " It is a reference to an object of type Role."
                 type: array
                 items:
                     type: string
             tenant_attribute_name:
-                description: ""
+                description: "tenant_attribute_name of AuthMappingRule."
                 type: string
             tenant_refs:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: array
                 items:
                     type: string
@@ -353,14 +402,13 @@ definitions:
         type: object
         properties:
             criteria:
-                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN"
-                type: number
-                format: int64
+                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                type: string
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             values:
-                description: ""
+                description: "values of AuthMatchAttribute."
                 type: array
                 items:
                     type: string
@@ -368,11 +416,10 @@ definitions:
         type: object
         properties:
             criteria:
-                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN"
-                type: number
-                format: int64
+                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                type: string
             groups:
-                description: ""
+                description: "groups of AuthMatchGroupMembership."
                 type: array
                 items:
                     type: string
@@ -380,9 +427,10 @@ definitions:
         type: object
         properties:
             search_domain:
-                description: "Search domain to use in DNS lookup"
+                description: "Search domain to use in DNS lookup."
                 type: string
             server_list:
+                description: "List of DNS Server IP addresses."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
@@ -392,25 +440,28 @@ definitions:
             -   smtp_type
         properties:
             auth_password:
-                description: "Password for mail server"
+                description: "Password for mail server."
                 type: string
             auth_username:
-                description: "Username for mail server"
+                description: "Username for mail server."
                 type: string
             from_email:
-                description: "Email address in From field"
+                description: "Email address in From field."
                 type: string
+                default: "admin@avicontroller.net"
             mail_server_name:
-                description: "Mail server host"
+                description: "Mail server host."
                 type: string
+                default: "localhost"
             mail_server_port:
-                description: "Mail server port"
+                description: "Mail server port."
                 type: integer
+                default: 25
                 format: int32
             smtp_type:
-                description: "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER"
-                type: number
-                format: int64
+                description: "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER."
+                type: string
+                default: "SMTP_LOCAL_HOST"
     IpAddr:
         type: object
         required:
@@ -418,35 +469,36 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrMatch:
         type: object
         required:
             -   match_criteria
         properties:
             addrs:
+                description: "IP address(es)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
             group_refs:
-                description: "UUID of IP address group(s) object ref IpAddrGroup."
+                description: "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
                 type: array
                 items:
                     type: string
             match_criteria:
-                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             prefixes:
+                description: "IP address prefix(es)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             ranges:
+                description: "IP address range(s)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrRange'
@@ -457,9 +509,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     IpAddrRange:
@@ -469,14 +522,16 @@ definitions:
             -   end
         properties:
             begin:
+                description: "Starting IP address of the range."
                 $ref: '#/definitions/IpAddr'
             end:
+                description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
     LinuxConfiguration:
         type: object
         properties:
             banner:
-                description: "Banner displayed before login to ssh, and UI"
+                description: "Banner displayed before login to ssh, and UI."
                 type: string
             motd:
                 description: "Message of the day, shown to users on login via the command line interface, web interface, or ssh."
@@ -485,12 +540,16 @@ definitions:
         type: object
         properties:
             api_access:
+                description: "Configure IP addresses to access controller using API."
                 $ref: '#/definitions/IpAddrMatch'
             shell_server_access:
+                description: "Configure IP addresses to access controller using CLI Shell."
                 $ref: '#/definitions/IpAddrMatch'
             snmp_access:
+                description: "Configure IP addresses to access controller using SNMP."
                 $ref: '#/definitions/IpAddrMatch'
             ssh_access:
+                description: "Configure IP addresses to access controller using SSH."
                 $ref: '#/definitions/IpAddrMatch'
     NTPAuthenticationKey:
         type: object
@@ -499,28 +558,31 @@ definitions:
             -   key_number
         properties:
             algorithm:
-                description: "Message Digest Algorithm used for NTP authentication. Default is NTP_AUTH_ALGORITHM_MD5. Enum options - NTP_AUTH_ALGORITHM_MD5, NTP_AUTH_ALGORITHM_SHA1"
-                type: number
-                format: int64
+                description: "Message Digest Algorithm used for NTP authentication. Default is NTP_AUTH_ALGORITHM_MD5. Enum options - NTP_AUTH_ALGORITHM_MD5, NTP_AUTH_ALGORITHM_SHA1."
+                type: string
+                default: "NTP_AUTH_ALGORITHM_MD5"
             key:
-                description: "NTP Authentication key"
+                description: "NTP Authentication key."
                 type: string
             key_number:
-                description: "Key number to be assigned to the authentication-key."
+                description: "Key number to be assigned to the authentication-key. Allowed values are 1-65534."
                 type: integer
                 format: int32
     NTPConfiguration:
         type: object
         properties:
             ntp_authentication_keys:
+                description: "NTP Authentication keys."
                 type: array
                 items:
                     $ref: '#/definitions/NTPAuthenticationKey'
             ntp_server_list:
+                description: "List of NTP server hostnames or IP addresses."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
             ntp_servers:
+                description: "List of NTP Servers."
                 type: array
                 items:
                     $ref: '#/definitions/NTPServer'
@@ -530,50 +592,55 @@ definitions:
             -   server
         properties:
             key_number:
-                description: "Key number from the list of trusted keys used to authenticate this server"
+                description: "Key number from the list of trusted keys used to authenticate this server. Allowed values are 1-65534."
                 type: integer
                 format: int32
             server:
+                description: "IP Address of the NTP Server."
                 $ref: '#/definitions/IpAddr'
     PortalConfiguration:
         type: object
         properties:
             allow_basic_authentication:
-                description: "Enable/Disable HTTP basic authentication"
+                description: "Enable/Disable HTTP basic authentication."
                 type: boolean
             disable_remote_cli_shell:
-                description: "Disable Remote CLI Shell Client access"
+                description: "Disable Remote CLI Shell Client access."
                 type: boolean
             enable_clickjacking_protection:
-                description: "Enable/Disable Clickjacking protection"
+                description: "Enable/Disable Clickjacking protection."
                 type: boolean
+                default: True
             enable_http:
-                description: ""
+                description: "Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean"
                 type: boolean
+                default: True
             enable_https:
-                description: ""
+                description: "Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean"
                 type: boolean
+                default: True
             http_port:
-                description: "HTTP port"
+                description: "HTTP port."
                 type: integer
                 format: int32
             https_port:
-                description: "HTTPS port"
+                description: "HTTPS port."
                 type: integer
                 format: int32
             password_strength_check:
-                description: "Strict checking of password strength for user accounts"
+                description: "Strict checking of password strength for user accounts."
                 type: boolean
             redirect_to_https:
-                description: ""
+                description: "Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean"
                 type: boolean
+                default: True
             sslkeyandcertificate_refs:
-                description: "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs object ref SSLKeyAndCertificate."
+                description: "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate."
                 type: array
                 items:
                     type: string
             sslprofile_ref:
-                description: " object ref SSLProfile."
+                description: " It is a reference to an object of type SSLProfile."
                 type: string
             use_uuid_from_input:
                 description: "Use UUID in POST object data as UUID of the new object, instead of a generated UUID."
@@ -585,57 +652,72 @@ definitions:
             -   port
         properties:
             host:
-                description: "Proxy hostname or IP address"
+                description: "Proxy hostname or IP address."
                 type: string
             password:
-                description: "Password for proxy"
+                description: "Password for proxy."
                 type: string
             port:
-                description: "Proxy port"
+                description: "Proxy port."
                 type: integer
                 format: int32
             username:
-                description: "Username for proxy"
+                description: "Username for proxy."
                 type: string
     SnmpConfiguration:
         type: object
-        required:
-            -   community
         properties:
             community:
-                description: "Community string for SNMP v2c"
+                description: "Community string for SNMP v2c."
+                type: string
+            sys_contact:
+                description: "Sets the sysContact in system MIB."
+                type: string
+                default: "support@avinetworks.com"
+            sys_location:
+                description: "Sets the sysLocation in system MIB."
                 type: string
     SystemConfiguration:
         type: object
         properties:
             admin_auth_configuration:
+                description: "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/AdminAuthConfiguration'
             dns_configuration:
+                description: "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/DNSConfiguration'
-            dns_virtualservice_uuids:
-                description: "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed."
+            dns_virtualservice_refs:
+                description: "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService."
                 type: array
                 items:
                     type: string
             docker_mode:
-                description: ""
+                description: "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
                 readOnly: True
                 type: boolean
             email_configuration:
+                description: "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/EmailConfiguration'
             global_tenant_config:
+                description: "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/TenantConfiguration'
             linux_configuration:
+                description: "Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/LinuxConfiguration'
             mgmt_ip_access_control:
+                description: "Configure Ip Access control for controller to restrict open access."
                 $ref: '#/definitions/MgmtIpAccessControl'
             ntp_configuration:
+                description: "Placeholder for description of property ntp_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/NTPConfiguration'
             portal_configuration:
+                description: "Placeholder for description of property portal_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/PortalConfiguration'
             proxy_configuration:
+                description: "Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/ProxyConfiguration'
             snmp_configuration:
+                description: "Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/SnmpConfiguration'
             ssh_ciphers:
                 description: "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed. ssh -Q cipher provides the list of default ciphers supported."
@@ -647,14 +729,12 @@ definitions:
                 type: array
                 items:
                     type: string
-            tech_support_uploader_configuration:
-                $ref: '#/definitions/TechSupportUploaderConfiguration'
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     SystemConfigurationApiResponse:
         type: object
@@ -677,32 +757,28 @@ definitions:
             -   to_emails
         properties:
             cc_emails:
-                description: "Alerts are copied to the comma separated list of  email recipients"
+                description: "Alerts are copied to the comma separated list of  email recipients."
                 type: string
             subject:
-                description: "The Subject line of the originating email from  Avi Controller"
+                description: "The Subject line of the originating email from  Avi Controller."
                 type: string
             text:
-                description: "The email context"
+                description: "The email context."
                 type: string
             to_emails:
-                description: "Alerts are sent to the comma separated list of  email recipients"
+                description: "Alerts are sent to the comma separated list of  email recipients."
                 type: string
-    TechSupportUploaderConfiguration:
-        type: object
-        properties:
-            auto_upload:
-                description: ""
-                type: boolean
     TenantConfiguration:
         type: object
         properties:
             se_in_provider_context:
                 description: "Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines."
                 type: boolean
+                default: True
             tenant_access_to_provider_se:
-                description: ""
+                description: "Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean"
                 type: boolean
+                default: True
             tenant_vrf:
                 description: "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain."
                 type: boolean

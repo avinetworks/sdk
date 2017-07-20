@@ -1,0 +1,1725 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi ApplicationProfile Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi ApplicationProfile Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#applicationprofileGet"><code><span class="http-method">get</span> /applicationprofile</code></a></li>
+  <li><a href="#applicationprofilePost"><code><span class="http-method">post</span> /applicationprofile</code></a></li>
+  <li><a href="#applicationprofileUuidDelete"><code><span class="http-method">delete</span> /applicationprofile/{uuid}</code></a></li>
+  <li><a href="#applicationprofileUuidGet"><code><span class="http-method">get</span> /applicationprofile/{uuid}</code></a></li>
+  <li><a href="#applicationprofileUuidPatch"><code><span class="http-method">patch</span> /applicationprofile/{uuid}</code></a></li>
+  <li><a href="#applicationprofileUuidPut"><code><span class="http-method">put</span> /applicationprofile/{uuid}</code></a></li>
+  <li><a href="#applicationprofileUuidRuntimeInternalGet"><code><span class="http-method">get</span> /applicationprofile/{uuid}/runtime/internal/</code></a></li>
+  </ol>
+
+  <div class="method"><a name="applicationprofileGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /applicationprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ApplicationProfileApiResponse">ApplicationProfileApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "http_profile" : {
+      "secure_cookie_enabled" : true,
+      "server_side_redirect_to_https" : true,
+      "compression_profile" : {
+        "filter" : [ {
+          "level" : "aeiou",
+          "ip_addrs_ref" : "aeiou",
+          "devices_ref" : "aeiou",
+          "match" : "aeiou",
+          "name" : "aeiou",
+          "index" : 123,
+          "ip_addr_prefixes" : [ {
+            "ip_addr" : {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            },
+            "mask" : 123
+          } ],
+          "ip_addrs" : [ "" ],
+          "user_agent" : [ "aeiou" ],
+          "ip_addr_ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ]
+        } ],
+        "remove_accept_encoding_header" : true,
+        "compression" : true,
+        "type" : "aeiou",
+        "compressible_content_ref" : "aeiou"
+      },
+      "allow_dots_in_header_name" : true,
+      "connection_multiplexing_enabled" : true,
+      "hsts_enabled" : true,
+      "httponly_enabled" : true,
+      "keepalive_header" : true,
+      "cache_config" : {
+        "query_cacheable" : true,
+        "min_object_size" : 123,
+        "default_expire" : 123,
+        "max_cache_size" : 123456789,
+        "max_object_size" : 123,
+        "mime_types_list" : [ "aeiou" ],
+        "enabled" : true,
+        "mime_types_black_group_refs" : [ "aeiou" ],
+        "age_header" : true,
+        "xcache_header" : true,
+        "date_header" : true,
+        "mime_types_group_refs" : [ "aeiou" ],
+        "aggressive" : true,
+        "heuristic_expire" : true,
+        "mime_types_black_list" : [ "aeiou" ]
+      },
+      "post_accept_timeout" : 123,
+      "disable_keepalive_posts_msie6" : true,
+      "max_bad_rps_cip_uri" : 123,
+      "max_bad_rps_uri" : 123,
+      "max_rps_unknown_cip" : 123,
+      "client_max_body_size" : 123456789,
+      "ssl_everywhere_enabled" : true,
+      "max_rps_cip" : 123,
+      "client_header_timeout" : 123,
+      "xff_enabled" : true,
+      "x_forwarded_proto_enabled" : true,
+      "client_max_header_size" : 123,
+      "keepalive_timeout" : 123,
+      "enable_request_body_buffering" : true,
+      "client_max_request_size" : 123,
+      "ssl_client_certificate_action" : {
+        "headers" : [ {
+          "request_header" : "aeiou",
+          "request_header_value" : "aeiou"
+        } ],
+        "close_connection" : true
+      },
+      "ssl_client_certificate_mode" : "aeiou",
+      "max_rps_cip_uri" : 123,
+      "pki_profile_ref" : "aeiou",
+      "max_bad_rps_cip" : 123,
+      "http_to_https" : true,
+      "spdy_enabled" : true,
+      "client_body_timeout" : 123,
+      "max_rps_uri" : 123,
+      "max_rps_unknown_uri" : 123,
+      "xff_alternate_name" : "aeiou",
+      "spdy_fwd_proxy_mode" : true,
+      "hsts_max_age" : 123456789,
+      "use_app_keepalive_timeout" : true,
+      "websockets_enabled" : true
+    },
+    "dns_service_profile" : {
+      "dns_over_tcp_enabled" : true,
+      "error_response" : "aeiou",
+      "aaaa_empty_response" : true,
+      "edns" : true,
+      "num_dns_ip" : 123,
+      "ttl" : 123,
+      "domain_names" : [ "aeiou" ]
+    },
+    "dos_rl_profile" : {
+      "rl_profile" : {
+        "client_ip_requests_rate_limit" : "",
+        "client_ip_scanners_requests_rate_limit" : "",
+        "client_ip_connections_rate_limit" : {
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : {
+              "keep_query" : true,
+              "path" : "",
+              "protocol" : "aeiou",
+              "status_code" : "aeiou",
+              "port" : 123,
+              "host" : {
+                "tokens" : [ {
+                  "start_index" : 123,
+                  "str_value" : "aeiou",
+                  "end_index" : 123,
+                  "type" : "aeiou"
+                } ],
+                "type" : "aeiou"
+              }
+            },
+            "file" : {
+              "file_content" : "aeiou",
+              "content_type" : "aeiou"
+            },
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "client_ip_to_uri_requests_rate_limit" : "",
+        "http_header_rate_limits" : [ "" ],
+        "uri_scanners_requests_rate_limit" : "",
+        "uri_requests_rate_limit" : "",
+        "client_ip_to_uri_failed_requests_rate_limit" : "",
+        "client_ip_failed_requests_rate_limit" : "",
+        "uri_failed_requests_rate_limit" : ""
+      },
+      "dos_profile" : {
+        "thresh_period" : 123,
+        "thresh_info" : [ {
+          "min_value" : 123,
+          "attack" : "aeiou",
+          "max_value" : 123
+        } ]
+      }
+    },
+    "tcp_app_profile" : {
+      "proxy_protocol_enabled" : true,
+      "proxy_protocol_version" : "aeiou"
+    },
+    "preserve_client_ip" : true,
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "type" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ApplicationProfileApiResponse">ApplicationProfileApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofilePost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /applicationprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofilePost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ApplicationProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ApplicationProfile">ApplicationProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_profile" : {
+    "secure_cookie_enabled" : true,
+    "server_side_redirect_to_https" : true,
+    "compression_profile" : {
+      "filter" : [ {
+        "level" : "aeiou",
+        "ip_addrs_ref" : "aeiou",
+        "devices_ref" : "aeiou",
+        "match" : "aeiou",
+        "name" : "aeiou",
+        "index" : 123,
+        "ip_addr_prefixes" : [ {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        } ],
+        "ip_addrs" : [ "" ],
+        "user_agent" : [ "aeiou" ],
+        "ip_addr_ranges" : [ {
+          "end" : "",
+          "begin" : ""
+        } ]
+      } ],
+      "remove_accept_encoding_header" : true,
+      "compression" : true,
+      "type" : "aeiou",
+      "compressible_content_ref" : "aeiou"
+    },
+    "allow_dots_in_header_name" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "httponly_enabled" : true,
+    "keepalive_header" : true,
+    "cache_config" : {
+      "query_cacheable" : true,
+      "min_object_size" : 123,
+      "default_expire" : 123,
+      "max_cache_size" : 123456789,
+      "max_object_size" : 123,
+      "mime_types_list" : [ "aeiou" ],
+      "enabled" : true,
+      "mime_types_black_group_refs" : [ "aeiou" ],
+      "age_header" : true,
+      "xcache_header" : true,
+      "date_header" : true,
+      "mime_types_group_refs" : [ "aeiou" ],
+      "aggressive" : true,
+      "heuristic_expire" : true,
+      "mime_types_black_list" : [ "aeiou" ]
+    },
+    "post_accept_timeout" : 123,
+    "disable_keepalive_posts_msie6" : true,
+    "max_bad_rps_cip_uri" : 123,
+    "max_bad_rps_uri" : 123,
+    "max_rps_unknown_cip" : 123,
+    "client_max_body_size" : 123456789,
+    "ssl_everywhere_enabled" : true,
+    "max_rps_cip" : 123,
+    "client_header_timeout" : 123,
+    "xff_enabled" : true,
+    "x_forwarded_proto_enabled" : true,
+    "client_max_header_size" : 123,
+    "keepalive_timeout" : 123,
+    "enable_request_body_buffering" : true,
+    "client_max_request_size" : 123,
+    "ssl_client_certificate_action" : {
+      "headers" : [ {
+        "request_header" : "aeiou",
+        "request_header_value" : "aeiou"
+      } ],
+      "close_connection" : true
+    },
+    "ssl_client_certificate_mode" : "aeiou",
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "http_to_https" : true,
+    "spdy_enabled" : true,
+    "client_body_timeout" : 123,
+    "max_rps_uri" : 123,
+    "max_rps_unknown_uri" : 123,
+    "xff_alternate_name" : "aeiou",
+    "spdy_fwd_proxy_mode" : true,
+    "hsts_max_age" : 123456789,
+    "use_app_keepalive_timeout" : true,
+    "websockets_enabled" : true
+  },
+  "dns_service_profile" : {
+    "dns_over_tcp_enabled" : true,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "dos_rl_profile" : {
+    "rl_profile" : {
+      "client_ip_requests_rate_limit" : "",
+      "client_ip_scanners_requests_rate_limit" : "",
+      "client_ip_connections_rate_limit" : {
+        "period" : 123,
+        "count" : 123,
+        "action" : {
+          "redirect" : {
+            "keep_query" : true,
+            "path" : "",
+            "protocol" : "aeiou",
+            "status_code" : "aeiou",
+            "port" : 123,
+            "host" : {
+              "tokens" : [ {
+                "start_index" : 123,
+                "str_value" : "aeiou",
+                "end_index" : 123,
+                "type" : "aeiou"
+              } ],
+              "type" : "aeiou"
+            }
+          },
+          "file" : {
+            "file_content" : "aeiou",
+            "content_type" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "burst_sz" : 123,
+        "explicit_tracking" : true,
+        "fine_grain" : true,
+        "http_cookie" : "aeiou",
+        "http_header" : "aeiou"
+      },
+      "client_ip_to_uri_requests_rate_limit" : "",
+      "http_header_rate_limits" : [ "" ],
+      "uri_scanners_requests_rate_limit" : "",
+      "uri_requests_rate_limit" : "",
+      "client_ip_to_uri_failed_requests_rate_limit" : "",
+      "client_ip_failed_requests_rate_limit" : "",
+      "uri_failed_requests_rate_limit" : ""
+    },
+    "dos_profile" : {
+      "thresh_period" : 123,
+      "thresh_info" : [ {
+        "min_value" : 123,
+        "attack" : "aeiou",
+        "max_value" : 123
+      } ]
+    }
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ApplicationProfile">ApplicationProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofileUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /applicationprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofileUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /applicationprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ApplicationProfile">ApplicationProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_profile" : {
+    "secure_cookie_enabled" : true,
+    "server_side_redirect_to_https" : true,
+    "compression_profile" : {
+      "filter" : [ {
+        "level" : "aeiou",
+        "ip_addrs_ref" : "aeiou",
+        "devices_ref" : "aeiou",
+        "match" : "aeiou",
+        "name" : "aeiou",
+        "index" : 123,
+        "ip_addr_prefixes" : [ {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        } ],
+        "ip_addrs" : [ "" ],
+        "user_agent" : [ "aeiou" ],
+        "ip_addr_ranges" : [ {
+          "end" : "",
+          "begin" : ""
+        } ]
+      } ],
+      "remove_accept_encoding_header" : true,
+      "compression" : true,
+      "type" : "aeiou",
+      "compressible_content_ref" : "aeiou"
+    },
+    "allow_dots_in_header_name" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "httponly_enabled" : true,
+    "keepalive_header" : true,
+    "cache_config" : {
+      "query_cacheable" : true,
+      "min_object_size" : 123,
+      "default_expire" : 123,
+      "max_cache_size" : 123456789,
+      "max_object_size" : 123,
+      "mime_types_list" : [ "aeiou" ],
+      "enabled" : true,
+      "mime_types_black_group_refs" : [ "aeiou" ],
+      "age_header" : true,
+      "xcache_header" : true,
+      "date_header" : true,
+      "mime_types_group_refs" : [ "aeiou" ],
+      "aggressive" : true,
+      "heuristic_expire" : true,
+      "mime_types_black_list" : [ "aeiou" ]
+    },
+    "post_accept_timeout" : 123,
+    "disable_keepalive_posts_msie6" : true,
+    "max_bad_rps_cip_uri" : 123,
+    "max_bad_rps_uri" : 123,
+    "max_rps_unknown_cip" : 123,
+    "client_max_body_size" : 123456789,
+    "ssl_everywhere_enabled" : true,
+    "max_rps_cip" : 123,
+    "client_header_timeout" : 123,
+    "xff_enabled" : true,
+    "x_forwarded_proto_enabled" : true,
+    "client_max_header_size" : 123,
+    "keepalive_timeout" : 123,
+    "enable_request_body_buffering" : true,
+    "client_max_request_size" : 123,
+    "ssl_client_certificate_action" : {
+      "headers" : [ {
+        "request_header" : "aeiou",
+        "request_header_value" : "aeiou"
+      } ],
+      "close_connection" : true
+    },
+    "ssl_client_certificate_mode" : "aeiou",
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "http_to_https" : true,
+    "spdy_enabled" : true,
+    "client_body_timeout" : 123,
+    "max_rps_uri" : 123,
+    "max_rps_unknown_uri" : 123,
+    "xff_alternate_name" : "aeiou",
+    "spdy_fwd_proxy_mode" : true,
+    "hsts_max_age" : 123456789,
+    "use_app_keepalive_timeout" : true,
+    "websockets_enabled" : true
+  },
+  "dns_service_profile" : {
+    "dns_over_tcp_enabled" : true,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "dos_rl_profile" : {
+    "rl_profile" : {
+      "client_ip_requests_rate_limit" : "",
+      "client_ip_scanners_requests_rate_limit" : "",
+      "client_ip_connections_rate_limit" : {
+        "period" : 123,
+        "count" : 123,
+        "action" : {
+          "redirect" : {
+            "keep_query" : true,
+            "path" : "",
+            "protocol" : "aeiou",
+            "status_code" : "aeiou",
+            "port" : 123,
+            "host" : {
+              "tokens" : [ {
+                "start_index" : 123,
+                "str_value" : "aeiou",
+                "end_index" : 123,
+                "type" : "aeiou"
+              } ],
+              "type" : "aeiou"
+            }
+          },
+          "file" : {
+            "file_content" : "aeiou",
+            "content_type" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "burst_sz" : 123,
+        "explicit_tracking" : true,
+        "fine_grain" : true,
+        "http_cookie" : "aeiou",
+        "http_header" : "aeiou"
+      },
+      "client_ip_to_uri_requests_rate_limit" : "",
+      "http_header_rate_limits" : [ "" ],
+      "uri_scanners_requests_rate_limit" : "",
+      "uri_requests_rate_limit" : "",
+      "client_ip_to_uri_failed_requests_rate_limit" : "",
+      "client_ip_failed_requests_rate_limit" : "",
+      "uri_failed_requests_rate_limit" : ""
+    },
+    "dos_profile" : {
+      "thresh_period" : 123,
+      "thresh_info" : [ {
+        "min_value" : 123,
+        "attack" : "aeiou",
+        "max_value" : 123
+      } ]
+    }
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ApplicationProfile">ApplicationProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofileUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /applicationprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ApplicationProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ApplicationProfile">ApplicationProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_profile" : {
+    "secure_cookie_enabled" : true,
+    "server_side_redirect_to_https" : true,
+    "compression_profile" : {
+      "filter" : [ {
+        "level" : "aeiou",
+        "ip_addrs_ref" : "aeiou",
+        "devices_ref" : "aeiou",
+        "match" : "aeiou",
+        "name" : "aeiou",
+        "index" : 123,
+        "ip_addr_prefixes" : [ {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        } ],
+        "ip_addrs" : [ "" ],
+        "user_agent" : [ "aeiou" ],
+        "ip_addr_ranges" : [ {
+          "end" : "",
+          "begin" : ""
+        } ]
+      } ],
+      "remove_accept_encoding_header" : true,
+      "compression" : true,
+      "type" : "aeiou",
+      "compressible_content_ref" : "aeiou"
+    },
+    "allow_dots_in_header_name" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "httponly_enabled" : true,
+    "keepalive_header" : true,
+    "cache_config" : {
+      "query_cacheable" : true,
+      "min_object_size" : 123,
+      "default_expire" : 123,
+      "max_cache_size" : 123456789,
+      "max_object_size" : 123,
+      "mime_types_list" : [ "aeiou" ],
+      "enabled" : true,
+      "mime_types_black_group_refs" : [ "aeiou" ],
+      "age_header" : true,
+      "xcache_header" : true,
+      "date_header" : true,
+      "mime_types_group_refs" : [ "aeiou" ],
+      "aggressive" : true,
+      "heuristic_expire" : true,
+      "mime_types_black_list" : [ "aeiou" ]
+    },
+    "post_accept_timeout" : 123,
+    "disable_keepalive_posts_msie6" : true,
+    "max_bad_rps_cip_uri" : 123,
+    "max_bad_rps_uri" : 123,
+    "max_rps_unknown_cip" : 123,
+    "client_max_body_size" : 123456789,
+    "ssl_everywhere_enabled" : true,
+    "max_rps_cip" : 123,
+    "client_header_timeout" : 123,
+    "xff_enabled" : true,
+    "x_forwarded_proto_enabled" : true,
+    "client_max_header_size" : 123,
+    "keepalive_timeout" : 123,
+    "enable_request_body_buffering" : true,
+    "client_max_request_size" : 123,
+    "ssl_client_certificate_action" : {
+      "headers" : [ {
+        "request_header" : "aeiou",
+        "request_header_value" : "aeiou"
+      } ],
+      "close_connection" : true
+    },
+    "ssl_client_certificate_mode" : "aeiou",
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "http_to_https" : true,
+    "spdy_enabled" : true,
+    "client_body_timeout" : 123,
+    "max_rps_uri" : 123,
+    "max_rps_unknown_uri" : 123,
+    "xff_alternate_name" : "aeiou",
+    "spdy_fwd_proxy_mode" : true,
+    "hsts_max_age" : 123456789,
+    "use_app_keepalive_timeout" : true,
+    "websockets_enabled" : true
+  },
+  "dns_service_profile" : {
+    "dns_over_tcp_enabled" : true,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "dos_rl_profile" : {
+    "rl_profile" : {
+      "client_ip_requests_rate_limit" : "",
+      "client_ip_scanners_requests_rate_limit" : "",
+      "client_ip_connections_rate_limit" : {
+        "period" : 123,
+        "count" : 123,
+        "action" : {
+          "redirect" : {
+            "keep_query" : true,
+            "path" : "",
+            "protocol" : "aeiou",
+            "status_code" : "aeiou",
+            "port" : 123,
+            "host" : {
+              "tokens" : [ {
+                "start_index" : 123,
+                "str_value" : "aeiou",
+                "end_index" : 123,
+                "type" : "aeiou"
+              } ],
+              "type" : "aeiou"
+            }
+          },
+          "file" : {
+            "file_content" : "aeiou",
+            "content_type" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "burst_sz" : 123,
+        "explicit_tracking" : true,
+        "fine_grain" : true,
+        "http_cookie" : "aeiou",
+        "http_header" : "aeiou"
+      },
+      "client_ip_to_uri_requests_rate_limit" : "",
+      "http_header_rate_limits" : [ "" ],
+      "uri_scanners_requests_rate_limit" : "",
+      "uri_requests_rate_limit" : "",
+      "client_ip_to_uri_failed_requests_rate_limit" : "",
+      "client_ip_failed_requests_rate_limit" : "",
+      "uri_failed_requests_rate_limit" : ""
+    },
+    "dos_profile" : {
+      "thresh_period" : 123,
+      "thresh_info" : [ {
+        "min_value" : 123,
+        "attack" : "aeiou",
+        "max_value" : 123
+      } ]
+    }
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ApplicationProfile">ApplicationProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofileUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /applicationprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ApplicationProfile object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#ApplicationProfile">ApplicationProfile</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "http_profile" : {
+    "secure_cookie_enabled" : true,
+    "server_side_redirect_to_https" : true,
+    "compression_profile" : {
+      "filter" : [ {
+        "level" : "aeiou",
+        "ip_addrs_ref" : "aeiou",
+        "devices_ref" : "aeiou",
+        "match" : "aeiou",
+        "name" : "aeiou",
+        "index" : 123,
+        "ip_addr_prefixes" : [ {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        } ],
+        "ip_addrs" : [ "" ],
+        "user_agent" : [ "aeiou" ],
+        "ip_addr_ranges" : [ {
+          "end" : "",
+          "begin" : ""
+        } ]
+      } ],
+      "remove_accept_encoding_header" : true,
+      "compression" : true,
+      "type" : "aeiou",
+      "compressible_content_ref" : "aeiou"
+    },
+    "allow_dots_in_header_name" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "httponly_enabled" : true,
+    "keepalive_header" : true,
+    "cache_config" : {
+      "query_cacheable" : true,
+      "min_object_size" : 123,
+      "default_expire" : 123,
+      "max_cache_size" : 123456789,
+      "max_object_size" : 123,
+      "mime_types_list" : [ "aeiou" ],
+      "enabled" : true,
+      "mime_types_black_group_refs" : [ "aeiou" ],
+      "age_header" : true,
+      "xcache_header" : true,
+      "date_header" : true,
+      "mime_types_group_refs" : [ "aeiou" ],
+      "aggressive" : true,
+      "heuristic_expire" : true,
+      "mime_types_black_list" : [ "aeiou" ]
+    },
+    "post_accept_timeout" : 123,
+    "disable_keepalive_posts_msie6" : true,
+    "max_bad_rps_cip_uri" : 123,
+    "max_bad_rps_uri" : 123,
+    "max_rps_unknown_cip" : 123,
+    "client_max_body_size" : 123456789,
+    "ssl_everywhere_enabled" : true,
+    "max_rps_cip" : 123,
+    "client_header_timeout" : 123,
+    "xff_enabled" : true,
+    "x_forwarded_proto_enabled" : true,
+    "client_max_header_size" : 123,
+    "keepalive_timeout" : 123,
+    "enable_request_body_buffering" : true,
+    "client_max_request_size" : 123,
+    "ssl_client_certificate_action" : {
+      "headers" : [ {
+        "request_header" : "aeiou",
+        "request_header_value" : "aeiou"
+      } ],
+      "close_connection" : true
+    },
+    "ssl_client_certificate_mode" : "aeiou",
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "http_to_https" : true,
+    "spdy_enabled" : true,
+    "client_body_timeout" : 123,
+    "max_rps_uri" : 123,
+    "max_rps_unknown_uri" : 123,
+    "xff_alternate_name" : "aeiou",
+    "spdy_fwd_proxy_mode" : true,
+    "hsts_max_age" : 123456789,
+    "use_app_keepalive_timeout" : true,
+    "websockets_enabled" : true
+  },
+  "dns_service_profile" : {
+    "dns_over_tcp_enabled" : true,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "dos_rl_profile" : {
+    "rl_profile" : {
+      "client_ip_requests_rate_limit" : "",
+      "client_ip_scanners_requests_rate_limit" : "",
+      "client_ip_connections_rate_limit" : {
+        "period" : 123,
+        "count" : 123,
+        "action" : {
+          "redirect" : {
+            "keep_query" : true,
+            "path" : "",
+            "protocol" : "aeiou",
+            "status_code" : "aeiou",
+            "port" : 123,
+            "host" : {
+              "tokens" : [ {
+                "start_index" : 123,
+                "str_value" : "aeiou",
+                "end_index" : 123,
+                "type" : "aeiou"
+              } ],
+              "type" : "aeiou"
+            }
+          },
+          "file" : {
+            "file_content" : "aeiou",
+            "content_type" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "burst_sz" : 123,
+        "explicit_tracking" : true,
+        "fine_grain" : true,
+        "http_cookie" : "aeiou",
+        "http_header" : "aeiou"
+      },
+      "client_ip_to_uri_requests_rate_limit" : "",
+      "http_header_rate_limits" : [ "" ],
+      "uri_scanners_requests_rate_limit" : "",
+      "uri_requests_rate_limit" : "",
+      "client_ip_to_uri_failed_requests_rate_limit" : "",
+      "client_ip_failed_requests_rate_limit" : "",
+      "uri_failed_requests_rate_limit" : ""
+    },
+    "dos_profile" : {
+      "thresh_period" : 123,
+      "thresh_info" : [ {
+        "min_value" : 123,
+        "attack" : "aeiou",
+        "max_value" : 123
+      } ]
+    }
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#ApplicationProfile">ApplicationProfile</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="applicationprofileUuidRuntimeInternalGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /applicationprofile/{uuid}/runtime/internal/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">applicationprofileUuidRuntimeInternalGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#ApplicationProfile"><code>ApplicationProfile</code></a></li>
+    <li><a href="#ApplicationProfileApiResponse"><code>ApplicationProfileApiResponse</code></a></li>
+    <li><a href="#CompressionFilter"><code>CompressionFilter</code></a></li>
+    <li><a href="#CompressionProfile"><code>CompressionProfile</code></a></li>
+    <li><a href="#DnsServiceApplicationProfile"><code>DnsServiceApplicationProfile</code></a></li>
+    <li><a href="#DosRateLimitProfile"><code>DosRateLimitProfile</code></a></li>
+    <li><a href="#DosThreshold"><code>DosThreshold</code></a></li>
+    <li><a href="#DosThresholdProfile"><code>DosThresholdProfile</code></a></li>
+    <li><a href="#HTTPApplicationProfile"><code>HTTPApplicationProfile</code></a></li>
+    <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
+    <li><a href="#HTTPRedirectAction"><code>HTTPRedirectAction</code></a></li>
+    <li><a href="#HttpCacheConfig"><code>HttpCacheConfig</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
+    <li><a href="#RateLimiterProfile"><code>RateLimiterProfile</code></a></li>
+    <li><a href="#RateProfile"><code>RateProfile</code></a></li>
+    <li><a href="#SSLClientCertificateAction"><code>SSLClientCertificateAction</code></a></li>
+    <li><a href="#SSLClientRequestHeader"><code>SSLClientRequestHeader</code></a></li>
+    <li><a href="#TCPApplicationProfile"><code>TCPApplicationProfile</code></a></li>
+    <li><a href="#URIParam"><code>URIParam</code></a></li>
+    <li><a href="#URIParamToken"><code>URIParamToken</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="ApplicationProfile">ApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">dns_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsServiceApplicationProfile">DnsServiceApplicationProfile</a></span> Specifies various DNS service related controls for virtual service. </div>
+<div class="param">dos_rl_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosRateLimitProfile">DosRateLimitProfile</a></span> Specifies various security related controls for virtual service. </div>
+<div class="param">http_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPApplicationProfile">HTTPApplicationProfile</a></span> Specifies the HTTP application proxy profile parameters. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the application profile. </div>
+<div class="param">preserve_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing. </div>
+<div class="param">tcp_app_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPApplicationProfile">TCPApplicationProfile</a></span> Specifies the TCP application proxy profile parameters. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the application profile. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ApplicationProfileApiResponse">ApplicationProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ApplicationProfile">array[ApplicationProfile]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CompressionFilter">CompressionFilter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">devices_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type StringGroup. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
+<div class="param">ip_addr_prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Placeholder for description of property ip_addr_prefixes of obj type CompressionFilter field type str  type object </div>
+<div class="param">ip_addr_ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Placeholder for description of property ip_addr_ranges of obj type CompressionFilter field type str  type object </div>
+<div class="param">ip_addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Placeholder for description of property ip_addrs of obj type CompressionFilter field type str  type object </div>
+<div class="param">ip_addrs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type IpAddrGroup. </div>
+<div class="param">level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - AGGRESSIVE_COMPRESSION, NORMAL_COMPRESSION, NO_COMPRESSION. </div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Whether to apply Filter when group criteria is matched or not. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">user_agent (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> user_agent of CompressionFilter. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CompressionProfile">CompressionProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">compressible_content_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Compress only content types listed in this string group. Content types not present in this list are not compressed. It is a reference to an object of type StringGroup. </div>
+<div class="param">compression </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Compress HTTP response content if it wasn&#39;t already compressed. </div>
+<div class="param">filter (optional)</div><div class="param-desc"><span class="param-type"><a href="#CompressionFilter">array[CompressionFilter]</a></span> Custom filters used when auto compression is not selected. </div>
+<div class="param">remove_accept_encoding_header </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Offload compression from the servers to AVI. Saves compute cycles on the servers. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Compress content automatically or add custom filters to define compressible content and compression levels. Enum options - AUTO_COMPRESSION, CUSTOM_COMPRESSION. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsServiceApplicationProfile">DnsServiceApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">aaaa_empty_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Respond to AAAA queries with empty response when there are only IPV4 records. </div>
+<div class="param">dns_over_tcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1. </div>
+<div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. </div>
+<div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
+<div class="param">error_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Drop or respond to client when the DNS service encounters an error processing a client query. By default, such a request is dropped without any response, or passed through to a passthrough pool, if configured. When set to respond, an appropriate response is sent to client, e.g. NXDOMAIN response for non-existent records, empty NOERROR response for unsupported queries, etc. Enum options - DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE. </div>
+<div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
+<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DosRateLimitProfile">DosRateLimitProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Profile for DoS attack detection. </div>
+<div class="param">rl_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterProfile">RateLimiterProfile</a></span> Profile for Connections/Requests rate limiting. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP. </div>
+<div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
+<div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DosThresholdProfile">DosThresholdProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">thresh_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThreshold">array[DosThreshold]</a></span> Attack type, min and max values for DoS attack detection. </div>
+<div class="param">thresh_period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPApplicationProfile">HTTPApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">allow_dots_in_header_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX. </div>
+<div class="param">cache_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCacheConfig">HttpCacheConfig</a></span> HTTP Caching config to use with this HTTP Profile. </div>
+<div class="param">client_body_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed between consecutive read operations for a client request body. The value &#39;0&#39; specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. format: int32</div>
+<div class="param">client_header_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. format: int32</div>
+<div class="param">client_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 &#x3D;&gt; Unlimited. format: int64</div>
+<div class="param">client_max_header_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. format: int32</div>
+<div class="param">client_max_request_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. format: int32</div>
+<div class="param">compression_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#CompressionProfile">CompressionProfile</a></span> HTTP Compression settings to use with this HTTP Profile. </div>
+<div class="param">connection_multiplexing_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP. </div>
+<div class="param">disable_keepalive_posts_msie6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. </div>
+<div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
+<div class="param">hsts_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. </div>
+<div class="param">hsts_max_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. format: int64</div>
+<div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. </div>
+<div class="param">httponly_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. </div>
+<div class="param">keepalive_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send HTTP &#39;Keep-Alive&#39; header to the client. By default, the timeout specified in the &#39;Keep-Alive Timeout&#39; field will be used unless the &#39;Use App Keepalive Timeout&#39; flag is set, in which case the timeout sent by the application will be honored. </div>
+<div class="param">keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. format: int32</div>
+<div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_rps_unknown_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_rps_unknown_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum unknown URIs per second. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. </div>
+<div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. format: int32</div>
+<div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
+<div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
+<div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. . </div>
+<div class="param">spdy_fwd_proxy_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI. </div>
+<div class="param">ssl_client_certificate_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLClientCertificateAction">SSLClientCertificateAction</a></span> Set of match/action rules that govern what happens when the client certificate request is enabled. </div>
+<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. </div>
+<div class="param">ssl_everywhere_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect. </div>
+<div class="param">use_app_keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use &#39;Keep-Alive&#39; header timeout sent by application instead of sending the HTTP Keep-Alive Timeout. </div>
+<div class="param">websockets_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. . </div>
+<div class="param">x_forwarded_proto_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be &#39;https&#39;. </div>
+<div class="param">xff_alternate_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Provide a custom name for the X-Forwarded-For header sent to the servers. </div>
+<div class="param">xff_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The client&#39;s original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi&#39;s source NAT address used in the Avi to server IP connection. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPLocalFile">HTTPLocalFile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">content_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mime-type of the content in the file. </div>
+<div class="param">file_content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> File content to used in the local HTTP response body. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPRedirectAction">HTTPRedirectAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+<div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query of the incoming request URI in the redirected URI. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
+<div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol type. Enum options - HTTP, HTTPS. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HttpCacheConfig">HttpCacheConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">age_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Add an Age header to content served from cache, which indicates to the client the number of seconds the object has been in the cache. </div>
+<div class="param">aggressive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable caching objects without Cache-Control headers. </div>
+<div class="param">date_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache. </div>
+<div class="param">default_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting. format: int32</div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable HTTP object caching. </div>
+<div class="param">heuristic_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value. </div>
+<div class="param">max_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Max size, in bytes, of the cache.  The default, zero, indicates auto configuration. format: int64</div>
+<div class="param">max_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of an object to store in the cache. format: int32</div>
+<div class="param">mime_types_black_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup. </div>
+<div class="param">mime_types_black_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist of non-cacheable mime types. </div>
+<div class="param">mime_types_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup. </div>
+<div class="param">mime_types_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. </div>
+<div class="param">min_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum size of an object to store in the cache. format: int32</div>
+<div class="param">query_cacheable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit. </div>
+<div class="param">xcache_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiterAction">RateLimiterAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
+<div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiterProfile">RateLimiterProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip_connections_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all connections made from any single client IP address to the Virtual Service. </div>
+<div class="param">client_ip_failed_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all requests from a client for a specified period of time once the count of failed requests from that client crosses a threshold for that period. Clients are tracked based on their IP address. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. . </div>
+<div class="param">client_ip_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all HTTP requests from any single client IP address to all URLs of the Virtual Service. </div>
+<div class="param">client_ip_scanners_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Automatically track clients and classify them into 3 groups - Good, Bad, Unknown. Clients are tracked based on their IP Address. Clients are added to the Good group when the Avi Scan Detection system builds history of requests from them that complete successfully. Clients are added to Unknown group when there is insufficient history about them. Requests from such clients are rate limited to the rate specified in the RateProfile. Finally, Clients with history of failed requests are added to Bad group and their requests are rate limited with stricter thresholds than the Unknown Clients group. The Avi Scan Detection system automatically tunes itself so that the Good, Bad, and Unknown client IPs group membership changes dynamically with the changes in traffic patterns through the ADC. </div>
+<div class="param">client_ip_to_uri_failed_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all requests from a client to a URI for a specified period of time once the count of failed requests from that client to the URI crosses a threshold for that period. Clients are tracked based on their IP address. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. . </div>
+<div class="param">client_ip_to_uri_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all HTTP requests from any single client IP address to any single URL. </div>
+<div class="param">http_header_rate_limits (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">array[RateProfile]</a></span> Rate Limit all HTTP requests from all client IP addresses that contain any single HTTP header value. Field introduced in 17.1.1. </div>
+<div class="param">uri_failed_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all requests to a URI for a specified period of time once the count of failed requests to that URI crosses a threshold for that period. Count and time period are specified through the RateProfile. Requests are deemed failed based on client or server side error status codes, consistent with how Avi Logs and Metrics subsystems mark failed requests. . </div>
+<div class="param">uri_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit all HTTP requests from all client IP addresses to any single URL. </div>
+<div class="param">uri_scanners_requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Automatically track URIs and classify them into 3 groups - Good, Bad, Unknown. URIs are added to the Good group when the Avi Scan Detection system builds history of requests to URIs that complete successfully. URIs are added to Unknown group when there is insufficient history about them. Requests for such URIs are rate limited to the rate specified in the RateProfile. Finally, URIs with history of failed requests are added to Bad group and requests to them are rate limited with stricter thresholds than the Unknown URIs group. The Avi Scan Detection system automatically tunes itself so that the Good, Bad, and Unknown URIs group membership changes dynamically with the changes in traffic patterns through the ADC. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
+<div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
+<div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
+<div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSLClientCertificateAction">SSLClientCertificateAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">close_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property close_connection of obj type SSLClientCertificateAction field type str  type boolean </div>
+<div class="param">headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLClientRequestHeader">array[SSLClientRequestHeader]</a></span> Placeholder for description of property headers of obj type SSLClientCertificateAction field type str  type object </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSLClientRequestHeader">SSLClientRequestHeader</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If this header exists, reset the connection. If the ssl variable is specified, add a header with this value. </div>
+<div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="TCPApplicationProfile">TCPApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">proxy_protocol_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. </div>
+<div class="param">proxy_protocol_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="URIParam">URIParam</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="URIParamToken">URIParamToken</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">end_index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - &#39;end of string&#39;. format: int32</div>
+<div class="param">start_index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the starting token in the incoming URI. format: int32</div>
+<div class="param">str_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Constant string to use as a token. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

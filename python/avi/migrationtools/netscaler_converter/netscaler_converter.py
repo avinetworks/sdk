@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import sys
 import json
 import yaml
 import avi.migrationtools
@@ -13,6 +14,7 @@ import avi.migrationtools.netscaler_converter.scp_util as scp_util
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
+from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -38,7 +40,7 @@ class NetscalerConverter(AviConverter):
         self.ns_key_file = args.ns_key_file
         self.ns_passphrase_file = args.ns_passphrase_file
         self.version = args.version
-        self.profile_merge_check = args.no_profile_merge
+        self.object_merge_check = args.no_object_merge
         # config_patch.py args taken into class variable
         self.patch = args.patch
         # vs_filter.py args taken into classs variable
@@ -46,10 +48,16 @@ class NetscalerConverter(AviConverter):
         self.ignore_config = args.ignore_config
         # Added prefix for objects
         self.prefix = args.prefix
+        # Added not in use flag
+        self.not_in_use = args.not_in_use
+        # Added args for baseline profile json file
+        self.profile_path = args.baseline_profile
+
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
-        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
+        formatter = \
+            '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
         if self.ns_config_file:
             report_name = '%s-converter.log' % os.path.splitext(
                 os.path.basename(self.ns_config_file))[0]
@@ -61,6 +69,8 @@ class NetscalerConverter(AviConverter):
             level=logging.DEBUG, format=formatter)
 
     def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
@@ -103,21 +113,24 @@ class NetscalerConverter(AviConverter):
         if self.ignore_config:
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
+        # getting meta tag from superclass
+        meta = self.meta(self.tenant, self.controller_version)
         report_name = os.path.splitext(os.path.basename(source_file))[0]
         avi_config = ns_conf_converter.convert(
-            ns_config, self.tenant, self.cloud_name, self.controller_version,
+            meta, ns_config, self.tenant, self.cloud_name, self.controller_version,
             output_dir, input_dir, skipped_cmds, self.vs_state,
-            self.profile_merge_check, report_name, self.prefix, self.ns_passphrase_file,
-            user_ignore)
+            self.object_merge_check, report_name, self.prefix,
+            self.profile_path, self.ns_passphrase_file, user_ignore)
 
         avi_config = self.process_for_utils(
             avi_config)
+        # Check if flag true then skip not in use object
+        if self.not_in_use:
+            avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(
             avi_config, output_dir, '%s-Output.json' % report_name)
         if self.option == 'auto-upload':
-            self.upload_config_to_controller(
-                avi_config)
-
+            self.upload_config_to_controller(avi_config)
         return avi_config
 
 
@@ -185,7 +198,7 @@ if __name__ == "__main__":
                         help='state of VS created', default='disable')
     parser.add_argument('--controller_version',
                         help='Target Avi controller version',
-                        default='17.1')
+                        default='17.1.1')
     parser.add_argument('--ns_host_ip',
                         help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
@@ -200,8 +213,10 @@ if __name__ == "__main__":
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
-    parser.add_argument('--no_profile_merge',
-                        help='Flag for ssl profile merge', action='store_false')
+    # Changed the option name and description to generic as along with profile
+    # health monitor can also be merged
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
@@ -213,9 +228,16 @@ if __name__ == "__main__":
                         help='config json to skip the config in conversion')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
+    # Added not in use flag
+    parser.add_argument('--not_in_use',
+                        help='Flag for skipping not in use object',
+                        action="store_true")
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                                    'file containing baseline profiles')
+
 
     args = parser.parse_args()
-
     # print avi netscaler converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \

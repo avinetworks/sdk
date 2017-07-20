@@ -63,3 +63,12 @@ python/avi/netscaler_converter/test/test_output/
 python/avi/migrationtools/output/
 python/avi/migrationtools/f5_converter/output/
 python/avi/migrationtools/netscaler_converter/output/
+
+
+#gss config files
+python/avi/migrationtools/gss_convertor/sample/
+python/avi/migrationtools/gss_convertor/Conversion_status.xlsx
+python/avi/migrationtools/gss_convertor/log
+python/avi/migrationtools/gss_convertor/out
+python/avi/migrationtools/gss_convertor/input
+vscode

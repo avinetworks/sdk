@@ -105,6 +105,10 @@ def check_for_duplicates(src_obj, obj_list):
         del tmp_cp["name"]
         if "description" in tmp_cp:
             del tmp_cp["description"]
+        if 'url' in tmp_cp:
+            del tmp_cp['url']
+        if 'uuid' in tmp_cp:
+            del tmp_cp['uuid']
         dup_lst = tmp_cp.pop("dup_of", [])
         if cmp(src_cp, tmp_cp) == 0:
             dup_lst.append(src_obj["name"])
@@ -206,7 +210,7 @@ def get_port_by_protocol(protocol):
     :param protocol: protocol name
     :return: integer value for protocol
     """
-    port = conv_const.DEFAULT_PORT
+
     if protocol == "https":
         port = conv_const.HTTPS_PORT
     elif protocol == "ftp":
@@ -229,6 +233,8 @@ def get_port_by_protocol(protocol):
         port = conv_const.MACROMEDIA_FCS_PORT
     elif protocol == "any":
         port = None
+    else:
+        return None
     return port
 
 
@@ -347,7 +353,7 @@ def get_vs_ssl_profiles(profiles, avi_config, prefix):
     return vs_ssl_profile_names, pool_ssl_profile_names
 
 
-def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
+def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix, oc_prof):
     """
     Searches for profile refs in converted profile config if not found creates
     default profiles
@@ -361,6 +367,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     f_host = None
     realm = None
     app_profile_list = avi_config.get("ApplicationProfile", [])
+    unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
     if not profiles:
         profiles = {}
     if isinstance(profiles, str):
@@ -369,7 +376,7 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
     for name in profiles.keys():
         # Added prefix for objects
         if prefix:
-            name = prefix + '-' + name
+            name = '%s-%s' % (prefix, name)
         app_profiles = [obj for obj in app_profile_list if
                         (obj['name'] == name or name in obj.get("dup_of", []))]
         if app_profiles:
@@ -403,16 +410,26 @@ def get_vs_app_profiles(profiles, avi_config, tenant_ref, prefix):
                             app_profiles[0]['tenant_ref'])),
                     "realm": app_profiles[0].pop('realm')
                 }
+
     if not app_profile_refs:
-        value = 'http'
+        not_supported = [key for key in profiles.keys() if
+                         key in unsupported_profiles]
+        if not_supported:
+            LOG.warning('Profiles not supported by Avi : %s' % not_supported)
+            return app_profile_refs, f_host, realm, policy_set
+        if oc_prof:
+            value = 'http'
+        else:
+            value = 'fastL4'
         # Added prefix for objects
         if prefix:
-            value = prefix + '-' + 'http'
+            value = '%s-%s' % (prefix, value)
         default_app_profile = [obj for obj in app_profile_list if (
             obj['name'] == value or value in obj.get("dup_of", []))]
-        tenant = get_name_from_ref(default_app_profile[0]['tenant_ref'])
-        app_profile_refs.append(get_object_ref("http", 'applicationprofile',
-                                               tenant=tenant, prefix=prefix))
+        tenant = get_name_from_ref(default_app_profile[0]['tenant_ref']) if \
+            default_app_profile else '/api/tenant/?name=admin'
+        app_profile_refs.append(get_object_ref(value, 'applicationprofile',
+                                               tenant=tenant))
     return app_profile_refs, f_host, realm, policy_set
 
 
@@ -477,7 +494,7 @@ def update_service(port, vs, enable_ssl):
 
 
 def get_service_obj(destination, avi_config, enable_ssl, controller_version,
-                    tenant_name, cloud_name, prefix):
+                    tenant_name, cloud_name, prefix, vs_name):
     """
     Checks port overlapping scenario for port value 0 in F5 config
     :param destination: IP and Port destination of VS
@@ -492,6 +509,14 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
     parts = destination.split(':')
     ip_addr = parts[0]
     ip_addr = ip_addr.strip()
+    vrf=None
+    # Removed unwanted string from ip address
+    if '%' in ip_addr:
+        ip_addr, vrf = ip_addr.split('%')
+    # Added support to skip virtualservice with ip address any
+    if ip_addr == 'any':
+        LOG.debug("Skipped:VS with IP address: %s" % str(destination))
+        return None, None, None, None
     # Added check for IP V4
     matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
     if not matches or ip_addr == '0.0.0.0':
@@ -515,7 +540,10 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         port = 0
     if isinstance(port, str) and (not port.isdigit()):
         port = get_port_by_protocol(port)
-
+    # Port is None then skip vs
+    if not port:
+        LOG.debug("Skipped:Port not supported %s" % str(parts[1]))
+        return None, None, None, None
     if int(port) > 0:
         for vs in vs_dup_ips:
             service_updated = update_service(port, vs, enable_ssl)
@@ -545,15 +573,23 @@ def get_service_obj(destination, avi_config, enable_ssl, controller_version,
         else:
             services_obj = [{'port': 1, 'port_range_end': conv_const.PORT_END,
                              'enable_ssl': enable_ssl}]
+    # Getting vrf ref
+    if vrf:
+        add_vrf(avi_config, vrf, cloud_name)
+    vrf_config = avi_config['VrfContext']
+    vrf_ref = get_vrf_context_ref(destination, vrf_config,
+                                  'virtual service', vs_name, cloud_name)
 
     updated_vsvip_ref = None
     if parse_version(controller_version) >= parse_version('17.1'):
-        create_update_vsvip(
+        vs_vip_name = create_update_vsvip(
             ip_addr, avi_config['VsVip'], get_object_ref(tenant_name, 'tenant'),
-            get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix)
-        updated_vsvip_ref = get_object_ref(
-            ip_addr + '-vsvip', 'vsvip', tenant_name, cloud_name, prefix)
-    return services_obj, ip_addr, updated_vsvip_ref
+            get_object_ref(cloud_name, 'cloud', tenant=tenant_name), prefix,
+            vrf_ref)
+        # VS VIP object to be put in admin tenant to shared across tenants
+        updated_vsvip_ref = get_object_ref(vs_vip_name, 'vsvip', 'admin',
+                                           cloud_name, prefix)
+    return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
 
 def clone_pool(pool_name, vs_name, avi_pool_list, tenant=None):
@@ -687,7 +723,8 @@ def update_pool_for_persist(avi_pool_list, pool_ref, persist_profile,
         return False
     pool_obj = pool_obj[0]
     persist_profile_obj = [obj for obj in persist_config
-                           if obj["name"] == persist_profile]
+                           if (obj["name"] == persist_profile or
+                               persist_profile in obj.get("dup_of", []))]
     persist_ref_key = "application_persistence_profile_ref"
     if persist_profile_obj:
         obj_tenant = persist_profile_obj[0]['tenant_ref']
@@ -755,9 +792,12 @@ def get_snat_list_for_vs(snat_pool):
         ips = members.keys() + members.values()
     elif isinstance(members, str):
         ips = [members]
-    if None in ips:
-        ips.remove(None)
+    ips = [ip for ip in ips if ip]
     for ip in ips:
+        # Removed unwanted string from ip address
+        if '/' in ip or '%' in ip:
+            ip = ip.split('/')[-1]
+            ip = ip.split('%')[-2]
         snat_obj = {
             "type": "V4",
             "addr": ip
@@ -771,8 +811,12 @@ def cleanup_config(avi_config):
     remove_dup_key(avi_config["ApplicationProfile"])
     remove_dup_key(avi_config["NetworkProfile"])
     remove_dup_key(avi_config["SSLProfile"])
+    remove_dup_key(avi_config["PKIProfile"])
+    remove_dup_key(avi_config["ApplicationPersistenceProfile"])
+    remove_dup_key(avi_config["HealthMonitor"])
     avi_config.pop('hash_algorithm', [])
     avi_config.pop('OneConnect', [])
+    avi_config.pop('UnsupportedProfiles',[])
     for profile in avi_config['ApplicationProfile']:
         profile.pop('HTTPPolicySet', None)
         profile.pop('realm', [])
@@ -852,14 +896,16 @@ def create_network_security_rule(name, ip, mask, tenant):
     return rule
 
 
-def add_vrf(avi_config, vrf):
+def add_vrf(avi_config, vrf, cloud_ref):
     vrf_name = 'vrf-%s' % vrf
     vrf_list = avi_config['VrfContext']
     vrf_obj = [obj for obj in vrf_list if obj['name'] == vrf_name]
     if not vrf_obj:
         vrf_obj = {
             "name": vrf_name,
-            "system_default": False
+            "system_default": False,
+            "cloud_ref": get_object_ref(cloud_ref, 'cloud'),
+            "tenant_ref": get_object_ref('admin', 'tenant')
         }
         vrf_list.append(vrf_obj)
 
@@ -923,10 +969,14 @@ def clone_pool_if_shared(ref, avi_config, vs_name, tenant, p_tenant,
     # Added prefix for objects
     if prefix:
         ref = prefix + '-' + ref
-    pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref]
+    # Search the pool or pool group with name in avi config for the same
+    # tenant as VS
+    pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref
+                and pool['tenant_ref'] == get_object_ref(tenant,'tenant')]
     if not pool_obj:
         pool_group_obj = [pool for pool in avi_config['PoolGroup']
-                          if pool['name'] == ref]
+                          if pool['name'] == ref and
+                          pool['tenant_ref'] == get_object_ref(tenant,'tenant')]
     if pool_group_obj:
         is_pool_group = True
     if p_tenant:
@@ -1035,7 +1085,7 @@ def get_object_ref(object_name, object_type, tenant='admin',
     if prefix:
         object_name = prefix + '-' + object_name
 
-    cloud_supported_types = ['pool', 'poolgroup', 'vsvip']
+    cloud_supported_types = ['pool', 'poolgroup', 'vsvip', 'vrfcontext']
     if not cloud_name:
         cloud_name = "Default-Cloud"
 
@@ -1044,7 +1094,7 @@ def get_object_ref(object_name, object_type, tenant='admin',
         if object_name not in tenants:
             tenants.append(object_name)
     elif object_type == 'cloud':
-        ref = '/api/cloud/?tenant=admin&name=%s' % object_name
+        ref = '/api/%s/?tenant=admin&name=%s' % (object_type, object_name)
     elif object_type in cloud_supported_types:
         ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (
             object_type, tenant, object_name, cloud_name)
@@ -1086,6 +1136,8 @@ def write_status_report_and_pivot_table_in_xlsx(output_dir, report_name):
     status_wb = Workbook(report_path)
     # xlsx worksheet
     status_ws = status_wb.add_worksheet("Status Sheet")
+    # Lock the first row of xls report.
+    status_ws.freeze_panes(1, 0)
     first_row = 0
     for header in fieldnames:
         col = fieldnames.index(header)
@@ -1427,9 +1479,10 @@ def vs_per_skipped_setting_for_references(avi_config):
                                      field_key='key_cert')
 
         # Get the skipped list for ssl profile name.
-        if 'ssl_profile_name' in virtual_service:
+        # Changed ssl profile name to ssl profile ref.
+        if 'ssl_profile_ref' in virtual_service:
             name, skipped = get_ssl_profile_skipped(
-                profile_csv_list, virtual_service['ssl_profile_name'], vs_ref)
+                profile_csv_list, virtual_service['ssl_profile_ref'], vs_ref)
             if skipped:
                 skipped_setting['ssl profile'] = {}
                 skipped_setting['ssl profile']['name'] = name
@@ -1538,7 +1591,8 @@ def update_vs_complexity_level(vs_csv_row, virtual_service):
         vs_csv_row['Complexity Level'] = conv_const.COMPLEXITY_BASIC
 
 
-def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
+def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix,
+                        vrf_ref):
     """
     This functions defines that create or update VSVIP object.
     :param vip: vip of VS
@@ -1559,7 +1613,7 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
     if not vsvip:
         vsvip_object = {
             "name": name,
-            "tenant_ref": tenant_ref,
+            "tenant_ref": get_object_ref('admin', 'tenant'),
             "cloud_ref": cloud_ref,
             "vip": [
                 {
@@ -1571,4 +1625,98 @@ def create_update_vsvip(vip, vsvip_config, tenant_ref, cloud_ref, prefix):
                 }
             ],
         }
+        if vrf_ref:
+            vsvip_object["vrf_context_ref"] = vrf_ref
         vsvip_config.append(vsvip_object)
+
+    return name
+
+
+def update_static_route(route):
+    """
+    This function defines that convert convert static routes
+    :param route: Object of net static route
+    :return: Return static route object
+    """
+
+    next_hop_ip = route.get('gw', None)
+    if next_hop_ip and '%' in next_hop_ip:
+        next_hop_ip = next_hop_ip.split('%')[0]
+
+    ip_addr = route.get('network', None)
+
+    # Get the mask from subnet mask
+    if ip_addr and '%' in ip_addr:
+        ip_addr, vrf = ip_addr.split('%')
+        vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf else \
+            None
+    if ip_addr and '/' in ip_addr:
+        ip_addr = ip_addr.split('/')[0]
+
+    # set subnet mask to 0.0.0.0 if its equal to default
+    if not ip_addr or ip_addr == 'default':
+        ip_addr = '0.0.0.0'
+
+    mask = sum([bin(int(x)).count('1') for x in ip_addr.split('.')])
+    if next_hop_ip and ip_addr:
+        static_route = {
+            "route_id": 1,
+            "prefix": {
+                "ip_addr": {
+                    "type": "V4",
+                    "addr": ip_addr
+                },
+                "mask": mask
+            },
+            "next_hop": {
+                "type": "V4",
+                "addr": next_hop_ip
+            }
+        }
+        return static_route, vrf
+    else:
+        return None,None
+
+
+def get_vrf_context_ref(f5_entity_mem, vrf_config, entity_string,
+                        entity_name, cloud):
+    """
+    Searches for vrf context refs in converted pool config
+    :param f5_entity_mem: f5 entity or object like pool
+    :param vrf_config: converted vrf config
+    :param entity_string: entity string
+    :param entity_name: name of f5 entity
+    :param cloud: name of the cloud
+    :return: returns list of vrf refs assigned to entity in avi config
+    """
+    vrf_ref = None
+    f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] or \
+                    f5_entity_mem if f5_entity_mem else None
+    vrf = 'vrf-' + f5_entity_mem.split('%')[1] if f5_entity_mem and '%' in \
+                                                        f5_entity_mem else None
+    vrf_obj = [obj for obj in vrf_config if vrf and obj["name"] == vrf]
+    if vrf_obj:
+        vrf_ref = get_object_ref(vrf_obj[0]['name'], 'vrfcontext',
+                                 cloud_name= cloud)
+    else:
+        LOG.warning("VRF not found for %s %s" % (entity_string,
+                                                 entity_name))
+    return vrf_ref
+
+
+def net_to_static_route(f5_config, avi_config):
+
+    net_config = f5_config.get('route', {})
+    avi_vrf = avi_config["VrfContext"]
+    # Convert net static route to vrf static route
+    for key, route in net_config.iteritems():
+        static_route, vrf = update_static_route(route)
+        if static_route:
+            for obj in avi_vrf:
+                if obj['name'] == vrf:
+                    if obj.get('static_routes'):
+                        rid = max([i['route_id'] for i in obj['static_routes']])
+                        static_route['route_id'] = rid + 1
+                        obj['static_routes'].append(static_route)
+                    else:
+                        obj['static_routes'] = [static_route]

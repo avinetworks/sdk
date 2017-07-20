@@ -2,13 +2,33 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: ServiceEngineGroup API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure serviceenginegroup <key>
+        - show serviceenginegroup <key>
+        - redistribute serviceenginegroup <key>
+        - clear serviceenginegroup <key>
+        ```
+
+        ##Examples##
+        - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE
+          ```json
+            {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}
+          ```
+
+        - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments
+          ```json
+            {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}
+          ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +57,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +92,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ServiceEngineGroup object creation
@@ -109,11 +139,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +184,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ServiceEngineGroup object creation
@@ -195,11 +235,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ServiceEngineGroup object creation
@@ -241,11 +286,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -278,11 +328,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: empty
@@ -305,6 +360,97 @@ paths:
                         type: string
                 401:
                     description: log in failed
+    /serviceenginegroup/{uuid}/clear:
+        post:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+
+    /serviceenginegroup/{uuid}/runtime/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
 definitions:
     CustomTag:
         type: object
@@ -312,10 +458,10 @@ definitions:
             -   tag_key
         properties:
             tag_key:
-                description: ""
+                description: "tag_key of CustomTag."
                 type: string
             tag_val:
-                description: ""
+                description: "tag_val of CustomTag."
                 type: string
     DosThreshold:
         type: object
@@ -325,9 +471,8 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type.Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP"
-                type: number
-                format: int64
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
                 type: integer
@@ -342,12 +487,14 @@ definitions:
             -   thresh_period
         properties:
             thresh_info:
+                description: "Attack type, min and max values for DoS attack detection."
                 type: array
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
                 description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
                 type: integer
+                default: 5
                 format: int32
     IpAddr:
         type: object
@@ -356,12 +503,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -369,9 +515,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     IptableRule:
@@ -380,31 +527,34 @@ definitions:
             -   action
         properties:
             action:
-                description: "Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE"
-                type: number
-                format: int64
+                description: " Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE."
+                type: string
             dnat_ip:
+                description: "Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object"
                 $ref: '#/definitions/IpAddr'
             dst_ip:
+                description: "Placeholder for description of property dst_ip of obj type IptableRule field type str  type object"
                 $ref: '#/definitions/IpAddrPrefix'
             dst_port:
+                description: "Placeholder for description of property dst_port of obj type IptableRule field type str  type object"
                 $ref: '#/definitions/PortRange'
             input_interface:
-                description: ""
+                description: "input_interface of IptableRule."
                 type: string
             output_interface:
-                description: ""
+                description: "output_interface of IptableRule."
                 type: string
             proto:
-                description: "Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL"
-                type: number
-                format: int64
+                description: " Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL."
+                type: string
             src_ip:
+                description: "Placeholder for description of property src_ip of obj type IptableRule field type str  type object"
                 $ref: '#/definitions/IpAddrPrefix'
             src_port:
+                description: "Placeholder for description of property src_port of obj type IptableRule field type str  type object"
                 $ref: '#/definitions/PortRange'
             tag:
-                description: ""
+                description: "tag of IptableRule."
                 type: string
     IptableRuleSet:
         type: object
@@ -413,14 +563,15 @@ definitions:
             -   table
         properties:
             chain:
-                description: ""
+                description: "chain of IptableRuleSet."
                 type: string
             rules:
+                description: "Placeholder for description of property rules of obj type IptableRuleSet field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/IptableRule'
             table:
-                description: ""
+                description: "table of IptableRuleSet."
                 type: string
     MetricsRealTimeUpdate:
         type: object
@@ -428,8 +579,9 @@ definitions:
             -   enabled
         properties:
             duration:
-                description: "Real time metrics collection duration in minutes. 0 for infinite."
+                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'."
                 type: integer
+                default: 30
                 format: int32
             enabled:
                 description: "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
@@ -441,11 +593,11 @@ definitions:
             -   start
         properties:
             end:
-                description: "TCP/UDP port range end (inclusive)."
+                description: "TCP/UDP port range end (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
             start:
-                description: "TCP/UDP port range start (inclusive)."
+                description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
     ServiceEngineGroup:
@@ -454,7 +606,7 @@ definitions:
             -   name
         properties:
             active_standby:
-                description: "Service Engines in active/standby mode for HA failover"
+                description: "Service Engines in active/standby mode for HA failover."
                 type: boolean
             advertise_backend_networks:
                 description: "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
@@ -463,38 +615,65 @@ definitions:
                 description: "Enable aggressive failover configuration for ha."
                 type: boolean
             algo:
-                description: "If 'compact' placement algorithm is used, Virtual Services are placed on existing Service Engines until they all have the maximum number of Virtual Services. Otherwise, Virtual Services are distributed to as many Service Engines as possible.Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED"
-                type: number
-                format: int64
+                description: "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
+                type: string
+                default: "PLACEMENT_ALGO_PACKED"
+            archive_shm_limit:
+                description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3."
+                type: integer
+                default: 8
+                format: int32
+            async_ssl:
+                description: "SSL handshakes will be handled by dedicated SSL Threads."
+                type: boolean
+            async_ssl_threads:
+                description: "Number of Async SSL threads per se_dp. Allowed values are 1-4."
+                type: integer
+                default: 1
+                format: int32
             auto_rebalance:
-                description: "If 'Auto Rebalance' is selected, Virtual Services will be automatically migrated when the load on Service Engines falls below the minimum threshold or goes above the maximum threshold. Otherwise, an Alert is generated instead of automatically performing the migration."
+                description: "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 type: boolean
             auto_rebalance_interval:
-                description: "Frequency of rebalance, if 'Auto rebalance' is enabled"
+                description: "Frequency of rebalance, if 'Auto rebalance' is enabled."
                 type: integer
+                default: 300
                 format: int32
             auto_redistribute_active_standby_load:
                 description: "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
                 type: boolean
             buffer_se:
-                description: "Excess Service Engine capacity provisioned for HA failover"
+                description: "Excess Service Engine capacity provisioned for HA failover."
                 type: integer
+                default: 1
                 format: int32
             cloud_ref:
-                description: " object ref Cloud."
+                description: " It is a reference to an object of type Cloud."
                 readOnly: True
                 type: string
             connection_memory_percentage:
-                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache."
+                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90."
                 type: integer
+                default: 50
                 format: int32
             cpu_reserve:
-                description: ""
+                description: "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 type: boolean
             cpu_socket_affinity:
                 description: "Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud."
                 type: boolean
+            custom_securitygroups_data:
+                description: "Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                type: array
+                items:
+                    type: string
+            custom_securitygroups_mgmt:
+                description: "Custom Security Groups to be associated with management vNic for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                type: array
+                items:
+                    type: string
             custom_tag:
+                description: "Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name."
                 type: array
                 items:
                     $ref: '#/definitions/CustomTag'
@@ -502,115 +681,152 @@ definitions:
                 description: "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
                 type: boolean
             description:
-                description: ""
+                description: "User defined description for the object."
                 type: string
             disk_per_se:
                 description: "Amount of disk space for each of the Service Engine virtual machines."
                 type: integer
+                default: 10
                 format: int32
             distribute_load_active_standby:
                 description: "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
                 type: boolean
             enable_routing:
-                description: "Enable routing for this ServiceEngineGroup "
+                description: "Enable routing for this ServiceEngineGroup ."
+                type: boolean
+            enable_vip_on_all_interfaces:
+                description: "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
+                type: boolean
+                default: True
+            enable_vmac:
+                description: "Use Virtual MAC address for interfaces on which floating interface IPs are placed."
                 type: boolean
             extra_config_multiplier:
                 description: "Multiplier for extra config to support large VS/Pool config."
                 type: number
                 format: double
+            extra_shared_config_memory:
+                description: "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1."
+                type: integer
+                format: int32
             floating_intf_ip:
+                description: "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
             floating_intf_ip_se_2:
+                description: "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
             ha_mode:
-                description: "High Availability mode for all the Virtual Services using this Service Engine group.Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY"
-                type: number
-                format: int64
+                description: "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
+                type: string
+                default: "HA_MODE_SHARED"
             hardwaresecuritymodulegroup_ref:
-                description: " object ref HardwareSecurityModuleGroup."
+                description: " It is a reference to an object of type HardwareSecurityModuleGroup."
                 type: string
             hm_on_standby:
                 description: "Enable active health monitoring from the standby SE for all placed virtual services."
                 type: boolean
+                default: True
             host_attribute_key:
-                description: "Key of a Key,Value pair identifying a set of hosts. Currently used to separate North-South and East-West ServiceEngine sizing requirements, specifically in Container ecosystems, where ServiceEngines on East-West traffic nodes are typically smaller than those on North-South traffic nodes."
+                description: "Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key."
                 type: string
             host_attribute_value:
-                description: "Value of a Key,Value pair identifying a set of hosts. Currently used to separate North-South and East-West ServiceEngine sizing requirements, specifically in Container ecosystems, where ServiceEngines on East-West traffic nodes are typically smaller than those on North-South traffic nodes."
+                description: "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
                 type: string
             hypervisor:
-                description: "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
-                type: number
-                format: int64
+                description: "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                type: string
             instance_flavor:
-                description: "Instance/Flavor type for SE instance"
+                description: "Instance/Flavor type for SE instance."
                 type: string
             iptables:
+                description: "Iptable Rules."
                 type: array
                 items:
                     $ref: '#/definitions/IptableRuleSet'
             least_load_core_selection:
                 description: "Select core with least load for new flow."
                 type: boolean
+                default: True
             log_disksz:
                 description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data."
                 type: integer
+                default: 10000
                 format: int32
             max_cpu_usage:
-                description: "When CPU utilization exceeds this maximum threshold, Virtual Services hosted on this Service Engine may be rebalanced to other Service Engines to lighten the load. A new Service Engine may be created as part of this process."
+                description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
                 type: integer
+                default: 80
                 format: int32
             max_scaleout_per_vs:
-                description: "Maximum number of active Service Engines for the Virtual Service."
+                description: "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64."
                 type: integer
+                default: 4
                 format: int32
             max_se:
-                description: "Maximum number of Services Engines in this group."
+                description: "Maximum number of Services Engines in this group. Allowed values are 0-1000."
                 type: integer
+                default: 10
                 format: int32
             max_vs_per_se:
-                description: "Maximum number of Virtual Services that can be placed on a single Service Engine."
+                description: "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000."
                 type: integer
+                default: 10
                 format: int32
             mem_reserve:
-                description: ""
+                description: "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 type: boolean
+                default: True
             memory_per_se:
                 description: "Amount of memory for each of the Service Engine virtual machines."
                 type: integer
+                default: 2048
                 format: int32
             mgmt_network_ref:
-                description: "Management network to use for Avi Service Engines object ref Network."
+                description: "Management network to use for Avi Service Engines. It is a reference to an object of type Network."
                 type: string
             mgmt_subnet:
+                description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'
             min_cpu_usage:
-                description: "When CPU utilization falls below the minimum threshold, Virtual Services hosted on this Service Engine may be consolidated onto other underutilized Service Engines.  After consolidation, unused Service Engines may then be eligible for deletion. When CPU utilization exceeds the maximum threshold, Virtual Services hosted on this Service Engine may be migrated to other Service Engines to lighten the load. A new Service Engine may be created as part of this process."
+                description: "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60."
                 type: integer
+                default: 30
                 format: int32
             min_scaleout_per_vs:
-                description: "Minimum number of active Service Engines for the Virtual Service."
+                description: "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64."
                 type: integer
+                default: 1
                 format: int32
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
+            non_significant_log_throttle:
+                description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                type: integer
+                default: 100
+                format: int32
             num_flow_cores_sum_changes_to_ignore:
                 description: "Number of changes in num flow cores sum to ignore."
                 type: integer
+                default: 8
                 format: int32
             openstack_availability_zone:
-                description: ""
+                description: " Field deprecated in 17.1.1."
                 type: string
+            openstack_availability_zones:
+                description: " Field introduced in 17.1.1."
+                type: array
+                items:
+                    type: string
             openstack_mgmt_network_name:
-                description: "Avi Management network name"
+                description: "Avi Management network name."
                 type: string
             openstack_mgmt_network_uuid:
-                description: "Management network UUID"
+                description: "Management network UUID."
                 type: string
             os_reserved_memory:
                 description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine."
@@ -620,66 +836,132 @@ definitions:
                 description: "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
                 type: boolean
             placement_mode:
-                description: "If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines.Enum options - PLACEMENT_MODE_AUTO"
-                type: number
-                format: int64
+                description: "If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO."
+                type: string
+                default: "PLACEMENT_MODE_AUTO"
             realtime_se_metrics:
+                description: "Enable or disable real time SE metrics."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
             se_deprovision_delay:
-                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this Service Engine would still be available to be utilized again rather than creating a new Service Engine. If this value is set to 0, Controller will never delete any Service Engines, administrator has to manually cleanup unused Service Engines."
+                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600."
                 type: integer
+                default: 120
                 format: int32
             se_dos_profile:
+                description: "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
+            se_ipc_udp_port:
+                description: "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2."
+                type: integer
+                default: 1500
+                format: int32
             se_name_prefix:
                 description: "Prefix to use for virtual machine name of Service Engines."
                 type: string
+                default: "Avi"
+            se_remote_punt_udp_port:
+                description: "UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2."
+                type: integer
+                default: 1501
+                format: int32
+            se_thread_multiplier:
+                description: "Multiplier for SE threads based on vCPU. Allowed values are 1-10."
+                type: integer
+                default: 1
+                format: int32
+            se_tunnel_mode:
+                description: "Determines if DSR from secondary SE is active or not. 0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. Field introduced in 17.1.1."
+                type: integer
+                format: int32
+            se_tunnel_udp_port:
+                description: "UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3."
+                type: integer
+                default: 1550
+                format: int32
+            se_udp_encap_ipc:
+                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header. 0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2."
+                type: integer
+                format: int32
+            se_vs_hb_max_pkts_in_batch:
+                description: "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1."
+                type: integer
+                default: 8
+                format: int32
+            se_vs_hb_max_vs_in_pkt:
+                description: "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1."
+                type: integer
+                default: 256
+                format: int32
+            service_ip_subnets:
+                description: "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+            significant_log_throttle:
+                description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                type: integer
+                default: 100
+                format: int32
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
+            udf_log_throttle:
+                description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                type: integer
+                default: 100
+                format: int32
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             vcenter_clusters:
+                description: "Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/VcenterClusters'
             vcenter_datastore_mode:
-                description: "Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED"
-                type: number
-                format: int64
+                description: " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
+                type: string
+                default: "VCENTER_DATASTORE_ANY"
             vcenter_datastores:
+                description: "Placeholder for description of property vcenter_datastores of obj type ServiceEngineGroup field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VcenterDatastore'
             vcenter_datastores_include:
-                description: ""
+                description: "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
                 type: boolean
             vcenter_folder:
                 description: "Folder to place all the Service Engine virtual machines in vCenter."
                 type: string
+                default: "AviSeFolder"
             vcenter_hosts:
+                description: "Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/VcenterHosts'
             vcpus_per_se:
                 description: "Number of vcpus for each of the Service Engine virtual machines."
                 type: integer
+                default: 1
                 format: int32
             vs_host_redundancy:
                 description: "Ensure primary and secondary Service Engines are deployed on different physical hosts."
                 type: boolean
+                default: True
             vs_scalein_timeout:
-                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done"
+                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done."
                 type: integer
+                default: 30
                 format: int32
             vs_scalein_timeout_for_upgrade:
-                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done"
+                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done."
                 type: integer
+                default: 30
                 format: int32
             vs_scaleout_timeout:
-                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done"
+                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done."
                 type: integer
+                default: 30
                 format: int32
     ServiceEngineGroupApiResponse:
         type: object
@@ -698,12 +980,12 @@ definitions:
         type: object
         properties:
             cluster_refs:
-                description: " object ref VIMgrClusterRuntime."
+                description: " It is a reference to an object of type VIMgrClusterRuntime."
                 type: array
                 items:
                     type: string
             include:
-                description: ""
+                description: "Placeholder for description of property include of obj type VcenterClusters field type str  type boolean"
                 type: boolean
     VcenterDatastore:
         type: object
@@ -711,16 +993,16 @@ definitions:
             -   datastore_name
         properties:
             datastore_name:
-                description: ""
+                description: "datastore_name of VcenterDatastore."
                 type: string
     VcenterHosts:
         type: object
         properties:
             host_refs:
-                description: " object ref VIMgrHostRuntime."
+                description: " It is a reference to an object of type VIMgrHostRuntime."
                 type: array
                 items:
                     type: string
             include:
-                description: ""
+                description: "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
                 type: boolean

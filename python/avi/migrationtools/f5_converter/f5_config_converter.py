@@ -9,6 +9,8 @@ from avi.migrationtools.f5_converter.persistence_converter \
 from avi.migrationtools.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
+import os
+import json
 
 
 LOG = logging.getLogger(__name__)
@@ -16,8 +18,9 @@ csv_writer = None
 
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
-            ssl_profile_merge_check, controller_version, report_name, prefix,
-            user_ignore, tenant='admin', cloud_name='Default-Cloud'):
+            object_merge_check, controller_version, report_name, prefix,
+            con_snatpool, user_ignore, profile_path, tenant='admin',
+            cloud_name='Default-Cloud'):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -27,12 +30,13 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param vs_state: State of created Avi VS object
     :param input_dir: Location of cert and external monitor script files
     :param version: Version of F5 config
-    :param ssl_profile_merge_check: Flag for ssl profile merge
+    :param object_merge_check: Flag for object merge
     :param controller_version: Version of controller
     :param user_ignore: Ignore config defined by user
     :param tenant: Tenant for which config need to be converted
     :param cloud_name: cloud for which config need to be converted
     :param prefix : prefix for objects
+    :param con_snatpool : flag for snat conversion
     :return: Converted avi objects
     """
 
@@ -40,28 +44,51 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     try:
         # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
+        if profile_path and os.path.exists(profile_path):
+            with open(profile_path) as data:
+                prof_data = json.load(data)
+                avi_config_dict['ApplicationProfile'] = \
+                    prof_data.get('ApplicationProfile',[])
+                avi_config_dict['NetworkProfile'] = prof_data.get(
+                    'NetworkProfile',[])
+                avi_config_dict["SSLProfile"] = prof_data.get('SSLProfile',[])
+                avi_config_dict['PKIProfile'] = prof_data.get('PKIProfile',[])
+                avi_config_dict['ApplicationPersistenceProfile'] = \
+                    prof_data.get('ApplicationPersistenceProfile',[])
+                avi_config_dict['HealthMonitor'] = \
+                    prof_data.get('HealthMonitor', [])
+        else:
+            avi_config_dict['ApplicationProfile'] = []
+            avi_config_dict['NetworkProfile'] = []
+            avi_config_dict["SSLProfile"] = []
+            avi_config_dict['PKIProfile'] = []
+            avi_config_dict['ApplicationPersistenceProfile'] = []
+            avi_config_dict['HealthMonitor'] = []
+
+        profile_conv = ProfileConfigConv.get_instance(
+            version, f5_attributes, object_merge_check, prefix)
+        profile_conv.convert(f5_config, avi_config_dict, input_dir,
+                             user_ignore, tenant, cloud_name)
+
+        # Added ssl profile merge flag.
         mon_conv = MonitorConfigConv.get_instance(
-            version, f5_attributes, prefix)
+            version, f5_attributes, prefix, object_merge_check)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
-                         tenant)
+                         tenant, cloud_name, controller_version)
 
         pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                           cloud_name)
 
-        profile_conv = ProfileConfigConv.get_instance(
-            version, f5_attributes, ssl_profile_merge_check, prefix)
-        profile_conv.convert(f5_config, avi_config_dict, input_dir,
-                             user_ignore, tenant, cloud_name)
-
         persist_conv = PersistenceConfigConv.get_instance(
-            version, f5_attributes, prefix)
+            version, f5_attributes, prefix, object_merge_check)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant)
 
-        vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix)
+        vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix, con_snatpool)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version)
 
+        conv_utils.net_to_static_route(f5_config, avi_config_dict)
         conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
 
@@ -100,33 +127,62 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                       key, len(avi_config_dict[key]), conv_utils.fully_migrated)
                 continue
             # Added code to print merged count.
-            elif ssl_profile_merge_check and key == 'SSLProfile':
+            elif object_merge_check and key == 'SSLProfile':
                 mergedfile = len(avi_config_dict[key]) - \
-                             profile_conv.sslmergecount
+                             profile_conv.ssl_count
                 profile_merged_message = \
                     'Total Objects of %s : %s (%s/%s profile merged)' % \
                     (key, len(avi_config_dict[key]), abs(mergedfile),
-                     profile_conv.sslmergecount)
+                     profile_conv.ssl_count)
                 LOG.info(profile_merged_message)
                 print profile_merged_message
                 continue
-            elif ssl_profile_merge_check and key == 'ApplicationProfile':
+            elif object_merge_check and key == 'ApplicationProfile':
                 mergedfile = len(avi_config_dict[key]) - \
-                             profile_conv.applicationmergecount
+                             profile_conv.app_count
                 profile_merged_message = \
                     'Total Objects of %s : %s (%s/%s profile merged)' % \
                     (key, len(avi_config_dict[key]), abs(mergedfile),
-                     profile_conv.applicationmergecount)
+                     profile_conv.app_count)
                 LOG.info(profile_merged_message)
                 print profile_merged_message
                 continue
-            elif ssl_profile_merge_check and key == 'NetworkProfile':
+            elif object_merge_check and key == 'NetworkProfile':
                 mergedfile = len(avi_config_dict[key]) - \
-                             profile_conv.networkmergecount
+                             profile_conv.net_count
                 profile_merged_message = \
                     'Total Objects of %s : %s (%s/%s profile merged)' % \
                     (key, len(avi_config_dict[key]), abs(mergedfile),
-                     profile_conv.networkmergecount)
+                     profile_conv.net_count)
+                LOG.info(profile_merged_message)
+                print profile_merged_message
+                continue
+            elif object_merge_check and key == 'HealthMonitor':
+                mergedmon = len(avi_config_dict[key]) - mon_conv.mon_count
+                monitor_merged_message = \
+                    'Total Objects of %s : %s (%s/%s monitor merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedmon),
+                     mon_conv.mon_count)
+                LOG.info(monitor_merged_message)
+                print monitor_merged_message
+                continue
+            elif object_merge_check and key == 'PKIProfile':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.pki_count
+                profile_merged_message = \
+                    'Total Objects of %s : %s (%s/%s profile merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.pki_count)
+                LOG.info(profile_merged_message)
+                print profile_merged_message
+                continue
+            elif object_merge_check and key == 'ApplicationPersistenceProfile':
+                mergedfile = len(avi_config_dict[key]) - \
+                             persist_conv.app_per_count
+                profile_merged_message = \
+                    'Total Objects of %s : %s (%s/%s profile merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     persist_conv.app_per_count)
                 LOG.info(profile_merged_message)
                 print profile_merged_message
                 continue

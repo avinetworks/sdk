@@ -9,16 +9,18 @@ import os
 LOG = logging.getLogger(__name__)
 
 class AviConverter(object):
-    def init_logger_path(self):
-        pass
+    output_file_path = None
+    patch = None
+    vs_filter = None
+    controller_ip = None
+    user = None
+    password = None
+    tenant = None
 
     def print_pip_and_controller_version(self):
         pass
 
     def convert(self):
-        pass
-
-    def upload_config_to_controller(self):
         pass
 
     def process_for_utils(self, avi_config):
@@ -48,7 +50,13 @@ class AviConverter(object):
 
         avi_rest_lib.upload_config_to_controller(
             avi_config, self.controller_ip, self.user, self.password,
-            self.tenant)
+            self.tenant, self.controller_version)
+
+    def download_gslb_config_form_controller(self):
+        """ Downloading gslb configuration from controller
+            and return the output json"""
+        return avi_rest_lib.download_gslb_from_controller(
+            self.controller_ip, self.user, self.password, self.password)
 
     def write_output(self, avi_config, output_dir, report_name):
         """
@@ -63,4 +71,49 @@ class AviConverter(object):
         report_path = output_dir + os.path.sep + report_name
         with open(report_path, "w") as text_file:
             json.dump(avi_config, text_file, indent=4)
-        LOG.info('written avi config file %s' % report_path)
+        LOG.info('written avi config file ' +
+                 output_dir + os.path.sep + "Output.json")
+
+    def init_logger_path(self):
+        LOG.setLevel(logging.DEBUG)
+        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
+        logging.basicConfig(filename=os.path.join(self.output_file_path, 'converter.log'),
+                            level=logging.DEBUG, format=formatter)
+
+    def meta(self, tenant, controller_version):
+        """ Return the meta data from superclass """
+        avi_config_dict = {
+            "supported_migrations": {
+                "versions": [
+                    "14_2",
+                    "15_1",
+                    "15_1_1",
+                    "15_2",
+                    "15_2_3",
+                    "15_3",
+                    "16_1",
+                    "16_1_1",
+                    "16_1_2",
+                    "16_1_3",
+                    "16_2",
+                    "16_2_1",
+                    "16_2_2",
+                    "16_2_3",
+                    "16_3",
+                    "16_3_1",
+                    "16_3_2",
+                    "16_3_4",
+                    "16_4_1",
+                    "16_4_2"
+                ]
+            },
+            "version": {
+                "Product": "controller",
+                "Version": controller_version,
+                "min_version": 15.2,
+                "ProductName": "Avi Cloud Controller"
+            },
+            "upgrade_mode": False,
+            "use_tenant": tenant
+        }
+        return avi_config_dict

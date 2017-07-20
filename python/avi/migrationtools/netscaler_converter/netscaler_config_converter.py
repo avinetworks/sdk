@@ -1,28 +1,29 @@
 import logging
 import yaml
 import os
+import json
 
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.ns_service_converter \
-    import ServiceConverter
+    import ServiceConverter, app_per_merge_count
 from avi.migrationtools.netscaler_converter.monitor_converter import \
-    MonitorConverter
+    MonitorConverter, merge_object_mapping
 from avi.migrationtools.netscaler_converter.lbvs_converter import \
-    LbvsConverter
+    LbvsConverter, tmp_avi_config
 from avi.migrationtools.netscaler_converter.csvs_converter import \
     CsvsConverter
 from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.profile_converter import \
-    ProfileConverter
-from avi.migrationtools.netscaler_converter.lbvs_converter import \
-    tmp_avi_config
+    ProfileConverter, app_merge_count
+from avi.migrationtools.avi_converter import AviConverter
+
 
 LOG = logging.getLogger(__name__)
 
 
-def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
-            input_dir, skipped_cmds, vs_state, profile_merge_check,report_name,
-            prefix, key_passphrase=None, user_ignore={}):
+def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
+            input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
+            prefix, profile_path, key_passphrase=None, user_ignore={}):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -34,7 +35,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     :param input_dir: Input dir is to keep cert and keys
     :param skipped_cmds: List of skipped commands
     :param vs_state: VS state
-    :param profile_merge_check: Flag of profile merge
+    :param object_merge_check: Flag of object merge
     :param report_name: name of input file
     :param: prefix: prefix for objects
     :param key_passphrase: path of passphrase yaml file
@@ -50,43 +51,9 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     tenant_ref = ns_util.get_object_ref(tenant_name, 'tenant')
     cloud_ref = ns_util.get_object_ref(cloud_name, 'cloud')
     try:
-        avi_config = {
-            "META": {
-                "supported_migrations": {
-                    "versions": [
-                        "14_2",
-                        "15_1",
-                        "15_1_1",
-                        "15_2",
-                        "15_2_3",
-                        "15_3",
-                        "16_1",
-                        "16_1_1",
-                        "16_1_2",
-                        "16_1_3",
-                        "16_2",
-                        "16_2_1",
-                        "16_2_2",
-                        "16_2_3",
-                        "16_3",
-                        "16_3_1",
-                        "16_3_2",
-                        "16_3_4",
-                        "16_4_1",
-                        "16_4_2"
-                    ]
-                },
-                "version": {
-                    "Product": "controller",
-                    "Version": version,
-                    "min_version": 15.2,
-                    "ProductName": "Avi Cloud Controller"
-                },
-                "use_tenant": tenant_name,
-                "upgrade_mode": False
-
-            }
-        }
+        # call meta from super class
+        avi_config = dict()
+        avi_config['META'] = meta  # avi_obj.meta(tenant_name, version)
 
         if parse_version(version) >= parse_version('17.1'):
             avi_config['META']['supported_migrations']['versions'].append(
@@ -94,30 +61,60 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
         avi_config['META']['supported_migrations']['versions'].append(
             'current_version')
 
+        if profile_path and os.path.exists(profile_path):
+            with open(profile_path) as data:
+                prof_data = json.load(data)
+                avi_config['ApplicationProfile'] = \
+                    prof_data.get('ApplicationProfile', [])
+                avi_config['NetworkProfile'] = prof_data.get(
+                    'NetworkProfile', [])
+                avi_config["SSLProfile"] = prof_data.get('SSLProfile', [])
+                avi_config['PKIProfile'] = prof_data.get('PKIProfile', [])
+                avi_config['ApplicationPersistenceProfile'] = \
+                    prof_data.get('ApplicationPersistenceProfile', [])
+                avi_config['HealthMonitor'] = prof_data.get('HealthMonitor', [])
+        else:
+            avi_config['ApplicationProfile'] = []
+            avi_config['NetworkProfile'] = []
+            avi_config["SSLProfile"] = []
+            avi_config['PKIProfile'] = []
+            avi_config['ApplicationPersistenceProfile'] = []
+            avi_config['HealthMonitor'] = []
+
         monitor_converter = MonitorConverter(
-            tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore, prefix)
+            tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore,
+            prefix, object_merge_check)
         monitor_converter.convert(ns_config_dict, avi_config, input_dir)
 
         profile_converter = ProfileConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, ssl_ciphers,
-            profile_merge_check, user_ignore, prefix, key_passphrase)
+            object_merge_check, user_ignore, prefix, key_passphrase)
         profile_converter.convert(ns_config_dict, avi_config, input_dir)
 
         service_converter = ServiceConverter(
-            tenant_name, cloud_name,tenant_ref, cloud_ref, profile_merge_check,
+            tenant_name, cloud_name,tenant_ref, cloud_ref, object_merge_check,
             user_ignore, prefix)
         service_converter.convert(ns_config_dict, avi_config)
 
         lbvs_converter = LbvsConverter(
-            tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
+            tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
         lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
 
         csvs_converter = CsvsConverter(
-            tenant_name, cloud_name, tenant_ref, cloud_ref, profile_merge_check,
+            tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
         csvs_converter.convert(ns_config_dict, avi_config, vs_state)
-
+        # Updating the reference for application persistence profile as we
+        # are assigning reference at the time of profile creation
+        ns_util.update_profile_ref('application_persistence_profile_ref',
+                                   tenant_name, avi_config['Pool'],
+                                   merge_object_mapping['app_persist_profile'])
+        # Updating the reference for application persistence profile as we
+        # are assigning reference at the time of profile creation
+        ns_util.update_profile_ref('application_profile_ref',
+                                   tenant_name, avi_config['VirtualService'],
+                                   merge_object_mapping['app_profile'])
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
         # Add/update CSV/report
@@ -126,6 +123,8 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
+        ns_util.cleanup_dupof(avi_config)
+        avi_config.pop('Lbvs', None)
         # added code to get fully converted virtual service.
         for key in avi_config:
             if key != 'META':
@@ -137,7 +136,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                           % (key, len(avi_config[key]), ns_util.fully_migrated)
                     continue
                 # Added code to print merged count.
-                elif profile_merge_check and key == 'SSLProfile':
+                elif object_merge_check and key == 'SSLProfile':
                     profile_merged_message = \
                         'Total Objects of %s : %s (%s/%s profile merged)' % \
                         (key, len(avi_config[key]),
@@ -147,17 +146,17 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                     LOG.info(profile_merged_message)
                     print profile_merged_message
                     continue
-                elif profile_merge_check and key == 'ApplicationProfile':
+                elif object_merge_check and key == 'ApplicationProfile':
                     profile_merged_message = \
                         'Total Objects of %s : %s (%s/%s profile merged)' % \
                         (key, len(avi_config[key]),
-                         abs(profile_converter.application_merge_count),
-                         abs(profile_converter.application_merge_count) +
+                         abs(app_merge_count['count']),
+                         abs(app_merge_count['count']) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
                     print profile_merged_message
                     continue
-                elif profile_merge_check and key == 'NetworkProfile':
+                elif object_merge_check and key == 'NetworkProfile':
                     profile_merged_message = \
                         'Total Objects of %s : %s (%s/%s profile merged)' % \
                         (key, len(avi_config[key]),
@@ -167,36 +166,26 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                     LOG.info(profile_merged_message)
                     print profile_merged_message
                     continue
-                    # Added code to print merged count.
-                elif profile_merge_check and key == 'SSLProfile':
+                elif object_merge_check and key == \
+                        'ApplicationPersistenceProfile':
                     profile_merged_message = \
                         'Total Objects of %s : %s (%s/%s profile merged)' % \
                         (key, len(avi_config[key]),
-                         abs(profile_converter.ssl_merge_count),
-                         abs(profile_converter.ssl_merge_count) +
+                         abs(app_per_merge_count['count']),
+                         abs(app_per_merge_count['count']) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
                     print profile_merged_message
                     continue
-                elif profile_merge_check and key == 'ApplicationProfile':
-                    profile_merged_message = \
-                        'Total Objects of %s : %s (%s/%s profile merged)' % \
+                elif object_merge_check and key == 'HealthMonitor':
+                    monitor_merged_message = \
+                        'Total Objects of %s : %s (%s/%s monitor merged)' % \
                         (key, len(avi_config[key]),
-                         abs(profile_converter.application_merge_count),
-                         abs(profile_converter.application_merge_count) +
+                         abs(monitor_converter.monitor_merge_count),
+                         abs(monitor_converter.monitor_merge_count) +
                          len(avi_config[key]))
-                    LOG.info(profile_merged_message)
-                    print profile_merged_message
-                    continue
-                elif profile_merge_check and key == 'NetworkProfile':
-                    profile_merged_message = \
-                        'Total Objects of %s : %s (%s/%s profile merged)' % \
-                        (key, len(avi_config[key]),
-                         abs(profile_converter.network_merge_count),
-                         abs(profile_converter.network_merge_count) +
-                         len(avi_config[key]))
-                    LOG.info(profile_merged_message)
-                    print profile_merged_message
+                    LOG.info(monitor_merged_message)
+                    print monitor_merged_message
                     continue
                 LOG.info('Total Objects of %s : %s' % (key,
                                                        len(avi_config[key])))

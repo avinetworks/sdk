@@ -13,7 +13,7 @@ path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                     'VSDataScriptSet', 'networksecuritypolicy':
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
                     'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels'
+                    'PriorityLabels', 'vsvip': 'VsVip'
                 }
 
 
@@ -61,12 +61,17 @@ def search_obj(entity, name, new_config, avi_config, depth):
     :param avi_config: full config
     :param depth: Recursion depth to determine level in the vs reference tree
     """
+
     avi_conf_key = path_key_map[entity]
     found_obj_list = avi_config[avi_conf_key]
     found_obj = [obj for obj in found_obj_list if obj['name'] == name]
     if found_obj:
         found_obj = found_obj[0]
         print (' | '*depth), '|- %s(%s)' % (name, path_key_map[entity])
+    elif entity in ['applicationprofile', 'networkprofile', 'healthmonitor',
+                    'sslkeyandcertificate', 'sslprofile']:
+        if str.startswith(str(name), 'System-'):
+            return
     else:
         print 'ERROR: Reference not found for %s with name %s' % (entity, name)
         exit()

@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi IpamDnsProviderProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: IpamDnsProviderProfile API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure ipamdnsproviderprofile <key>
+        - show ipamdnsproviderprofile <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: IpamDnsProviderProfile object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: IpamDnsProviderProfile object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: IpamDnsProviderProfile object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,24 +298,57 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
+    AwsZoneNetwork:
+        type: object
+        required:
+            -   availability_zone
+        properties:
+            availability_zone:
+                description: "Availability zone. Field introduced in 17.1.3."
+                type: string
+            usable_network_uuids:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.3."
+                type: array
+                items:
+                    type: string
+    CustomParams:
+        type: object
+        required:
+            -   name
+        properties:
+            is_dynamic:
+                description: "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
+                type: boolean
+            is_sensitive:
+                description: "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
+                type: boolean
+            name:
+                description: "Name of the object."
+                type: string
+            value:
+                description: "value of CustomParams."
+                type: string
     DnsServiceDomain:
         type: object
         required:
             -   domain_name
         properties:
             domain_name:
-                description: "Service domain string used for FQDN"
+                description: "Service domain string used for FQDN."
                 type: string
             num_dns_ip:
-                description: "Specifies the number of A records returned by Avi DNS Service."
+                description: "Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- 'Return all IP addresses'."
                 type: integer
+                default: 1
                 format: int32
             pass_through:
-                description: "Non Avi Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."
+                description: "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."
                 type: boolean
+                default: True
             record_ttl:
-                description: "TTL value for DNS records"
+                description: "TTL value for DNS records. Allowed values are 1-604800."
                 type: integer
                 format: int32
     IpAddr:
@@ -288,12 +358,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -301,9 +370,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     IpamDnsAwsProfile:
@@ -312,28 +382,65 @@ definitions:
             -   vpc_id
         properties:
             access_key_id:
-                description: "AWS access key ID"
+                description: "AWS access key ID."
+                type: string
+            iam_assume_role:
+                description: "IAM assume role for cross-account access. Field introduced in 17.1.1."
                 type: string
             region:
-                description: "AWS region"
+                description: "AWS region."
                 type: string
             secret_access_key:
-                description: "AWS secret access key"
+                description: "AWS secret access key."
                 type: string
+            ttl:
+                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3."
+                type: integer
+                default: 60
+                format: int32
+            usable_domains:
+                description: "Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1."
+                type: array
+                items:
+                    type: string
+            usable_network_uuids:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1."
+                type: array
+                items:
+                    type: string
             use_iam_roles:
-                description: ""
+                description: "Use IAM roles instead of access and secret key."
                 type: boolean
             vpc:
-                description: "VPC name"
+                description: "VPC name."
                 type: string
             vpc_id:
-                description: "VPC ID"
+                description: "VPC ID."
+                type: string
+            zones:
+                description: "Network configuration for Virtual IP per AZ. Field introduced in 17.1.3."
+                type: array
+                items:
+                    $ref: '#/definitions/AwsZoneNetwork'
+    IpamDnsCustomProfile:
+        type: object
+        properties:
+            custom_ipam_dns_params:
+                description: "Custom parameters that will passed for the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/CustomParams'
+            custom_ipam_dns_profile_ref:
+                description: " It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1."
                 type: string
     IpamDnsGCPProfile:
         type: object
         properties:
-            usable_network_uuids:
-                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation."
+            match_se_group_subnet:
+                description: "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
+                type: boolean
+            usable_network_refs:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
                 type: array
                 items:
                     type: string
@@ -345,47 +452,54 @@ definitions:
             -   username
         properties:
             dns_view:
-                description: "DNS view"
+                description: "DNS view."
                 type: string
+                default: "default"
             ip_address:
+                description: "Address of Infoblox appliance."
                 $ref: '#/definitions/IpAddr'
             network_view:
-                description: "Network view"
+                description: "Network view."
                 type: string
+                default: "default"
             password:
-                description: "Password for API access for Infoblox appliance"
+                description: "Password for API access for Infoblox appliance."
                 type: string
             usable_domains:
-                description: "Usable domains to pick from Infoblox"
+                description: "Usable domains to pick from Infoblox."
                 type: array
                 items:
                     type: string
             usable_subnets:
+                description: "Usable subnets to pick from Infoblox."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             username:
-                description: "Username for API access for Infoblox appliance"
+                description: "Username for API access for Infoblox appliance."
                 type: string
             wapi_version:
-                description: "WAPI version"
+                description: "WAPI version."
                 type: string
+                default: "2.0"
     IpamDnsInternalProfile:
         type: object
         properties:
             dns_service_domain:
+                description: "List of service domains."
                 type: array
                 items:
                     $ref: '#/definitions/DnsServiceDomain'
-            dns_virtualservice_uuid:
-                description: "Avi VirtualService to be used for serving DNS records."
+            dns_virtualservice_ref:
+                description: "Avi VirtualService to be used for serving DNS records. It is a reference to an object of type VirtualService."
                 type: string
             ttl:
-                description: "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain."
+                description: "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800."
                 type: integer
+                default: 30
                 format: int32
-            usable_network_uuids:
-                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation."
+            usable_network_refs:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
                 type: array
                 items:
                     type: string
@@ -399,16 +513,16 @@ definitions:
                 description: "The password Avi Vantage will use when authenticating to Keystone."
                 type: string
             region:
-                description: "Region name"
+                description: "Region name."
                 type: string
             tenant:
-                description: "OpenStack tenant name"
+                description: "OpenStack tenant name."
                 type: string
             username:
                 description: "The username Avi Vantage will use when authenticating to Keystone."
                 type: string
             vip_network_name:
-                description: "Network to be used for VIP allocation"
+                description: "Network to be used for VIP allocation."
                 type: string
     IpamDnsProviderProfile:
         type: object
@@ -417,31 +531,41 @@ definitions:
             -   type
         properties:
             aws_profile:
+                description: "Provider details if type is AWS."
                 $ref: '#/definitions/IpamDnsAwsProfile'
+            custom_profile:
+                description: "Provider details if type is Custom. Field introduced in 17.1.1."
+                $ref: '#/definitions/IpamDnsCustomProfile'
             gcp_profile:
+                description: "Provider details if type is Google Cloud."
                 $ref: '#/definitions/IpamDnsGCPProfile'
             infoblox_profile:
+                description: "Provider details if type is Infoblox."
                 $ref: '#/definitions/IpamDnsInfobloxProfile'
             internal_profile:
+                description: "Provider details if type is Avi."
                 $ref: '#/definitions/IpamDnsInternalProfile'
             name:
-                description: "Name for the IPAM/DNS Provider profile"
+                description: "Name for the IPAM/DNS Provider profile."
                 type: string
             openstack_profile:
+                description: "Provider details if type is OpenStack."
                 $ref: '#/definitions/IpamDnsOpenstackProfile'
+            proxy_configuration:
+                description: " Field introduced in 17.1.1."
+                $ref: '#/definitions/ProxyConfiguration'
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS"
-                type: number
-                format: int64
+                description: "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS."
+                type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "UUID of the IPAM/DNS Provider profile"
+                description: "UUID of the IPAM/DNS Provider profile."
                 type: string
     IpamDnsProviderProfileApiResponse:
         type: object
@@ -456,3 +580,22 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/IpamDnsProviderProfile"
+    ProxyConfiguration:
+        type: object
+        required:
+            -   host
+            -   port
+        properties:
+            host:
+                description: "Proxy hostname or IP address."
+                type: string
+            password:
+                description: "Password for proxy."
+                type: string
+            port:
+                description: "Proxy port."
+                type: integer
+                format: int32
+            username:
+                description: "Username for proxy."
+                type: string

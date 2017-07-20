@@ -2,13 +2,29 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: Pool API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure pool <key>
+        - show pool <key>
+        - scaleout pool <key>
+        - scalein pool <key>
+        - clear pool <key>
+        ```
+
+        ##Examples##
+        - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend
+          ```json
+            {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}
+          ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +53,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +88,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Pool object creation
@@ -109,11 +135,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +180,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Pool object creation
@@ -195,11 +231,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Pool object creation
@@ -241,11 +282,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -278,11 +324,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ServerScaleOutParams
@@ -320,17 +371,834 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: ServerScaleInParams
                     required: true
                     schema:
                         $ref: "#/definitions/ServerScaleInParams"
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/clear:
+        post:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+
+    /pool/{uuid}/connpoolstats/clear:
+        post:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/request_queue/clear:
+        post:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/stats/clear:
+        post:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/algo/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/hmon/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/debug/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/connpool/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/httpcache/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/persistence/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/httpcachestats/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/httpcachestats/detail/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/detail/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/internal/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/server/detail/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/server/hmonstat/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/server/internal/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/runtime/server/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -352,21 +1220,38 @@ definitions:
             -   pool_ref
         properties:
             pool_ref:
-                description: "Pool configured as B pool for A/B testing object ref Pool."
+                description: "Pool configured as B pool for A/B testing. It is a reference to an object of type Pool."
                 type: string
             ratio:
-                description: "Ratio of traffic diverted to the B pool, for A/B testing"
+                description: "Ratio of traffic diverted to the B pool, for A/B testing. Allowed values are 0-100."
                 type: integer
                 format: int32
+    ConnpoolFilter:
+        type: object
+        properties:
+            ip_addr:
+                description: "Backend or SE IP address."
+                type: string
+            ip_mask:
+                description: "Backend or SE IP address mask."
+                type: string
+            port:
+                description: "Backend or SE port."
+                type: integer
+                format: int32
+            type:
+                description: "cache type. Enum options - CP_ALL, CP_FREE, CP_BIND, CP_CACHED."
+                type: string
     DiscoveredNetwork:
         type: object
         required:
             -   network_ref
         properties:
             network_ref:
-                description: "Discovered network for this IP. object ref Network."
+                description: "Discovered network for this IP. It is a reference to an object of type Network."
                 type: string
             subnet:
+                description: "Discovered subnet for this IP."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
@@ -376,54 +1261,93 @@ definitions:
             -   type
         properties:
             backup_pool:
+                description: "Backup Pool when pool experiences a failure."
                 $ref: '#/definitions/FailActionBackupPool'
             local_rsp:
+                description: "Local response to HTTP requests when pool experiences a failure."
                 $ref: '#/definitions/FailActionHTTPLocalResponse'
             redirect:
+                description: "URL to redirect HTTP requests to when pool experiences a failure."
                 $ref: '#/definitions/FailActionHTTPRedirect'
             type:
-                description: "Enables a response to client when pool experiences a failure. By default TCP connection is closed.Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL"
-                type: number
-                format: int64
+                description: "Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL."
+                type: string
+                default: "FAIL_ACTION_CLOSE_CONN"
     FailActionBackupPool:
         type: object
         required:
             -   backup_pool_ref
         properties:
             backup_pool_ref:
-                description: "Specifies the UUID of the Pool acting as backup pool. object ref Pool."
+                description: "Specifies the UUID of the Pool acting as backup pool. It is a reference to an object of type Pool."
                 type: string
     FailActionHTTPLocalResponse:
         type: object
         properties:
             file:
+                description: "Placeholder for description of property file of obj type FailActionHTTPLocalResponse field type str  type object"
                 $ref: '#/definitions/HTTPLocalFile'
             status_code:
-                description: "Enum options - FAIL_HTTP_STATUS_CODE_200, FAIL_HTTP_STATUS_CODE_503"
-                type: number
-                format: int64
+                description: " Enum options - FAIL_HTTP_STATUS_CODE_200, FAIL_HTTP_STATUS_CODE_503."
+                type: string
+                default: "FAIL_HTTP_STATUS_CODE_503"
     FailActionHTTPRedirect:
         type: object
         required:
             -   host
         properties:
             host:
-                description: ""
+                description: "host of FailActionHTTPRedirect."
                 type: string
             path:
-                description: ""
+                description: "path of FailActionHTTPRedirect."
                 type: string
             protocol:
-                description: "Enum options - HTTP, HTTPS"
-                type: number
-                format: int64
+                description: " Enum options - HTTP, HTTPS."
+                type: string
+                default: "HTTPS"
             query:
-                description: ""
+                description: "query of FailActionHTTPRedirect."
                 type: string
             status_code:
-                description: "Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307"
+                description: " Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                type: string
+                default: "HTTP_REDIRECT_STATUS_CODE_302"
+    GeoLocation:
+        type: object
+        properties:
+            latitude:
+                description: "Latitude of the location. Field introduced in 17.1.1."
                 type: number
-                format: int64
+                format: float
+            longitude:
+                description: "Longitude of the location. Field introduced in 17.1.1."
+                type: number
+                format: float
+            name:
+                description: "Location name in the format Country/State/City. Field introduced in 17.1.1."
+                type: string
+            tag:
+                description: "Location tag string - example  USEast. Field introduced in 17.1.1."
+                type: string
+    HttpCacheObjFilter:
+        type: object
+        properties:
+            key:
+                description: "HTTP cache object's exact key."
+                type: string
+            raw_key:
+                description: "HTTP cache object's exact raw key."
+                type: string
+            resource_name:
+                description: "HTTP cache object's resource name."
+                type: string
+            resource_type:
+                description: "objects with resource type."
+                type: string
+            type:
+                description: "HTTP cache object type. Enum options - CO_ALL, CO_IN, CO_OUT."
+                type: string
     HTTPLocalFile:
         type: object
         required:
@@ -442,43 +1366,45 @@ definitions:
             -   protocol
         properties:
             host:
+                description: "Host config."
                 $ref: '#/definitions/URIParam'
             keep_query:
-                description: "Keep or drop the query of the incoming request URI in the redirected URI"
+                description: "Keep or drop the query of the incoming request URI in the redirected URI."
                 type: boolean
+                default: True
             path:
+                description: "Path config."
                 $ref: '#/definitions/URIParam'
             port:
-                description: "Port to which redirect the request"
+                description: "Port to which redirect the request. Allowed values are 1-65535."
                 type: integer
                 format: int32
             protocol:
-                description: "Protocol type. Enum options - HTTP, HTTPS"
-                type: number
-                format: int64
+                description: "Protocol type. Enum options - HTTP, HTTPS."
+                type: string
             status_code:
-                description: "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307"
-                type: number
-                format: int64
+                description: "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                type: string
+                default: "HTTP_REDIRECT_STATUS_CODE_302"
     HTTPReselectRespCode:
         type: object
         properties:
             codes:
-                description: "HTTP response code to be matched."
+                description: "HTTP response code to be matched. Allowed values are 400-599."
                 type: array
                 items:
                     type: integer
                 format: int32
             ranges:
+                description: "HTTP response code ranges to match."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPStatusRange'
             resp_code_block:
-                description: "Block of HTTP response codes to match for server reselect.Enum options - HTTP_RSP_4XX, HTTP_RSP_5XX"
+                description: "Block of HTTP response codes to match for server reselect. Enum options - HTTP_RSP_4XX, HTTP_RSP_5XX."
                 type: array
                 items:
-                    type: number
-                format: int64
+                    type: string
     HTTPServerReselect:
         type: object
         required:
@@ -490,11 +1416,13 @@ definitions:
             num_retries:
                 description: "Number of times to retry an HTTP request when server responds with configured status codes."
                 type: integer
+                default: 4
                 format: int32
             retry_nonidempotent:
                 description: "Allow retry of non-idempotent HTTP requests."
                 type: boolean
             svr_resp_code:
+                description: "Server response codes which will trigger an HTTP request retry."
                 $ref: '#/definitions/HTTPReselectRespCode'
     HTTPStatusRange:
         type: object
@@ -503,11 +1431,11 @@ definitions:
             -   end
         properties:
             begin:
-                description: "Starting HTTP response status code"
+                description: "Starting HTTP response status code."
                 type: integer
                 format: int32
             end:
-                description: "Ending HTTP response status code"
+                description: "Ending HTTP response status code."
                 type: integer
                 format: int32
     IpAddr:
@@ -517,12 +1445,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -530,9 +1457,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     NetworkFilter:
@@ -541,20 +1469,51 @@ definitions:
             -   network_ref
         properties:
             network_ref:
-                description: " object ref VIMgrNWRuntime."
+                description: " It is a reference to an object of type VIMgrNWRuntime."
                 type: string
             server_filter:
-                description: ""
+                description: "server_filter of NetworkFilter."
                 type: string
+    PersistenceFilter:
+        type: object
+        properties:
+            persistence_cookie:
+                description: "Persistence cookie."
+                type: string
+            persistence_end_ip:
+                description: "Placeholder for description of property persistence_end_ip of obj type PersistenceFilter field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            persistence_ip:
+                description: "Placeholder for description of property persistence_ip of obj type PersistenceFilter field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            persistence_mask:
+                description: "Number of persistence_mask."
+                type: integer
+                format: int32
+            server_end_ip:
+                description: "Placeholder for description of property server_end_ip of obj type PersistenceFilter field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            server_ip:
+                description: "Placeholder for description of property server_ip of obj type PersistenceFilter field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            server_mask:
+                description: "Number of server_mask."
+                type: integer
+                format: int32
+            server_port:
+                description: "Number of server_port."
+                type: integer
+                format: int32
     PlacementNetwork:
         type: object
         required:
             -   network_ref
         properties:
             network_ref:
-                description: " object ref Network."
+                description: " It is a reference to an object of type Network."
                 type: string
             subnet:
+                description: "Placeholder for description of property subnet of obj type PlacementNetwork field type str  type object"
                 $ref: '#/definitions/IpAddrPrefix'
     Pool:
         type: object
@@ -562,61 +1521,64 @@ definitions:
             -   name
         properties:
             a_pool:
-                description: "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app"
+                description: "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app."
                 type: string
             ab_pool:
+                description: "A/B pool configuration."
                 $ref: '#/definitions/AbPool'
             ab_priority:
-                description: "Priority of this pool in a A-B pool pair. Internally used"
+                description: "Priority of this pool in a A-B pool pair. Internally used."
                 type: integer
                 format: int32
             apic_epg_name:
-                description: "Synchronize Cisco APIC EPG members with pool servers"
+                description: "Synchronize Cisco APIC EPG members with pool servers."
                 type: string
             application_persistence_profile_ref:
-                description: "Persistence will ensure the same user sticks to the same server for a desired duration of time. object ref ApplicationPersistenceProfile."
+                description: "Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile."
                 type: string
             autoscale_launch_config_ref:
-                description: "Reference to the Launch Configuration Profile object ref AutoScaleLaunchConfig."
+                description: "If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig."
                 type: string
             autoscale_networks:
-                description: "Network Ids for the launch configuration"
+                description: "Network Ids for the launch configuration."
                 type: array
                 items:
                     type: string
             autoscale_policy_ref:
-                description: "Reference to Server Autoscale Policy object ref ServerAutoScalePolicy."
+                description: "Reference to Server Autoscale Policy. It is a reference to an object of type ServerAutoScalePolicy."
                 type: string
             capacity_estimation:
                 description: "Inline estimation of capacity of servers."
                 type: boolean
             capacity_estimation_ttfb_thresh:
-                description: "The maximum time-to-first-byte of a server."
+                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'."
                 type: integer
                 format: int32
             cloud_config_cksum:
-                description: "Checksum of cloud configuration for Pool. Internally set by cloud connector"
+                description: "Checksum of cloud configuration for Pool. Internally set by cloud connector."
                 type: string
             cloud_ref:
-                description: " object ref Cloud."
+                description: " It is a reference to an object of type Cloud."
                 readOnly: True
                 type: string
             connection_ramp_duration:
-                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based."
+                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
                 type: integer
+                default: 10
                 format: int32
             created_by:
-                description: "Creator name"
+                description: "Creator name."
                 type: string
             default_server_port:
-                description: "Traffic sent to servers will use this destination server port unless overridden by the server's specific port attribute. The SSL checkbox enables Avi to server encryption."
+                description: "Traffic sent to servers will use this destination server port unless overridden by the server's specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535."
                 type: integer
+                default: 80
                 format: int32
             description:
                 description: "A description of the pool."
                 type: string
             domain_name:
-                description: "Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates if common name check (host_check_enabled) is enabled."
+                description: "Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled."
                 type: array
                 items:
                     type: string
@@ -626,18 +1588,27 @@ definitions:
             enabled:
                 description: "Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors."
                 type: boolean
+                default: True
+            external_autoscale_groups:
+                description: "Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2."
+                type: array
+                items:
+                    type: string
             fail_action:
+                description: "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure."
                 $ref: '#/definitions/FailAction'
             fewest_tasks_feedback_delay:
-                description: "Periodicity of feedback for fewest tasks server selection algorithm."
+                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300."
                 type: integer
+                default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-60. Special values are 0 - 'Immediate', -1 - 'Infinite'."
                 type: integer
+                default: 1
                 format: int32
             health_monitor_refs:
-                description: "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens to client to server communication and raises or lowers the ratio of traffic destined to a server based on successful responses. object ref HealthMonitor."
+                description: "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
                 type: array
                 items:
                     type: string
@@ -647,49 +1618,64 @@ definitions:
             inline_health_monitor:
                 description: "The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin."
                 type: boolean
+                default: True
             ipaddrgroup_ref:
-                description: "Use list of servers from Ip Address Group object ref IpAddrGroup."
+                description: "Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup."
                 type: string
             lb_algorithm:
-                description: "The load balancing algorithm will pick a server within the pool's list of available servers.Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS"
-                type: number
-                format: int64
+                description: "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY."
+                type: string
+                default: "LB_ALGORITHM_LEAST_CONNECTIONS"
             lb_algorithm_consistent_hash_hdr:
                 description: "HTTP header name to be used for the hash key."
                 type: string
+            lb_algorithm_core_nonaffinity:
+                description: "Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3."
+                type: integer
+                default: 2
+                format: int32
             lb_algorithm_hash:
-                description: "Criteria used as a key for determining the hash between the client and  server.Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER"
-                type: number
-                format: int64
+                description: "Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER."
+                type: string
+                default: "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
             max_concurrent_connections_per_server:
-                description: "The maximum number of concurrent connections allowed to each server within the pool."
+                description: "The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied."
                 type: integer
                 format: int32
             max_conn_rate_per_server:
+                description: "Rate Limit connections to each server."
                 $ref: '#/definitions/RateProfile'
             name:
                 description: "The name of the pool."
                 type: string
             networks:
+                description: "(internal-use) Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter. This field is used internally by Avi, not editable by the user."
                 type: array
                 items:
                     $ref: '#/definitions/NetworkFilter'
+            nsx_securitygroup:
+                description: "A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1."
+                type: array
+                items:
+                    type: string
             pki_profile_ref:
-                description: "Avi will validate the SSL certificate present by a server against the selected PKI Profile. object ref PKIProfile."
+                description: "Avi will validate the SSL certificate present by a server against the selected PKI Profile. It is a reference to an object of type PKIProfile."
                 type: string
             placement_networks:
+                description: "Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine."
                 type: array
                 items:
                     $ref: '#/definitions/PlacementNetwork'
             prst_hdr_name:
-                description: "Header name for custom header persistence"
+                description: "Header name for custom header persistence."
                 type: string
             request_queue_depth:
                 description: "Minimum number of requests to be queued when pool is full."
                 type: integer
+                default: 128
                 format: int32
             request_queue_enabled:
-                description: "Enable request queue when pool is full"
+                description: "Enable request queue when pool is full."
                 type: boolean
             rewrite_host_header_to_server_name:
                 description: "Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool."
@@ -701,42 +1687,45 @@ definitions:
                 description: "Server AutoScale. Not used anymore."
                 type: boolean
             server_count:
-                description: ""
+                description: "Number of server_count."
                 type: integer
                 format: int32
             server_name:
                 description: "Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead."
                 type: string
             server_reselect:
+                description: "Server reselect configuration for HTTP requests."
                 $ref: '#/definitions/HTTPServerReselect'
             servers:
+                description: "The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group."
                 type: array
                 items:
                     $ref: '#/definitions/Server'
             sni_enabled:
                 description: "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
                 type: boolean
+                default: True
             ssl_key_and_certificate_ref:
-                description: "Service Engines will present a client SSL certificate to the server. object ref SSLKeyAndCertificate."
+                description: "Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             ssl_profile_ref:
-                description: "When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. object ref SSLProfile."
+                description: "When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. It is a reference to an object of type SSLProfile."
                 type: string
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             use_service_port:
-                description: "Do not translate the client's destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring.  This feature is only applicable for a Virtual Service configured with the application type set to L4."
+                description: "Do not translate the client's destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring."
                 type: boolean
             uuid:
-                description: "UUID of the pool"
+                description: "UUID of the pool."
                 type: string
             vrf_ref:
-                description: "Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. object ref VrfContext."
+                description: "Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext."
                 readOnly: True
                 type: string
     PoolApiResponse:
@@ -756,45 +1745,59 @@ definitions:
         type: object
         properties:
             file:
+                description: "File to be used for HTTP Local response rate limit action."
                 $ref: '#/definitions/HTTPLocalFile'
             redirect:
+                description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action.Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
-                type: number
-                format: int64
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                type: string
+                default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
-                description: "Type of action to be enforced upon hitting the rate limit.Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT"
-                type: number
-                format: int64
+                description: "Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT."
+                type: string
+                default: "RL_ACTION_NONE"
     RateProfile:
         type: object
         properties:
             action:
+                description: "Action to perform upon rate limiting."
                 $ref: '#/definitions/RateLimiterAction'
             burst_sz:
-                description: "Maximum number of connections or requests or packets to be let through instantaneously"
+                description: "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'."
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets"
+                description: "Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
             explicit_tracking:
-                description: "Explicitly tracks an attacker across rate periods"
+                description: "Explicitly tracks an attacker across rate periods."
                 type: boolean
             fine_grain:
-                description: "Enable fine granularity"
+                description: "Enable fine granularity."
                 type: boolean
+            http_cookie:
+                description: "HTTP cookie name. Field introduced in 17.1.1."
+                type: string
+            http_header:
+                description: "HTTP header name. Field introduced in 17.1.1."
+                type: string
             period:
-                description: "Time value in seconds to enforce rate count"
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
+                default: 1
                 format: int32
     Server:
         type: object
         required:
             -   ip
         properties:
+            autoscaling_group_name:
+                description: "Name of autoscaling group this server belongs to. Field introduced in 17.1.2."
+                readOnly: True
+                type: string
             availability_zone:
                 description: "Availability-zone of the server VM."
                 type: string
@@ -802,66 +1805,75 @@ definitions:
                 description: "A description of the Server."
                 type: string
             discovered_network_ref:
-                description: "(internal-use) Discovered network for this server. This field is deprecated. object ref Network."
+                description: "(internal-use) Discovered network for this server. This field is deprecated. It is a reference to an object of type Network. Field deprecated in 17.1.1."
                 type: array
                 items:
                     type: string
             discovered_networks:
+                description: "(internal-use) Discovered networks providing reachability for server IP. This field is used internally by Avi, not editable by the user."
                 type: array
                 items:
                     $ref: '#/definitions/DiscoveredNetwork'
             discovered_subnet:
+                description: "(internal-use) Discovered subnet for this server. This field is deprecated. Field deprecated in 17.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             enabled:
                 description: "Enable, Disable or Graceful Disable determine if new or existing connections to the server are allowed."
                 type: boolean
+                default: True
             external_orchestration_id:
-                description: "UID of server in external orchestration systems"
+                description: "UID of server in external orchestration systems."
                 type: string
             external_uuid:
-                description: "UUID identifying VM in OpenStack and other external compute"
+                description: "UUID identifying VM in OpenStack and other external compute."
                 type: string
             hostname:
                 description: "DNS resolvable name of the server.  May be used in place of the IP address."
                 type: string
             ip:
+                description: "IP Address of the server.  Required if there is no resolvable host name."
                 $ref: '#/definitions/IpAddr'
+            location:
+                description: "(internal-use) Geographic location of the server.Currently only for internal usage. Field introduced in 17.1.1."
+                readOnly: True
+                $ref: '#/definitions/GeoLocation'
             mac_address:
                 description: "MAC address of server."
                 type: string
             nw_ref:
-                description: "(internal-use) This field is used internally by Avi, not editable by the user. object ref VIMgrNWRuntime."
+                description: "(internal-use) This field is used internally by Avi, not editable by the user. It is a reference to an object of type VIMgrNWRuntime."
                 type: string
             port:
-                description: "Optionally specify the servers port number.  This will override the pool's default server port attribute."
+                description: "Optionally specify the servers port number.  This will override the pool's default server port attribute. Allowed values are 1-65535. Special values are 0- 'use backend port in pool'."
                 type: integer
                 format: int32
             prst_hdr_val:
                 description: "Header value for custom header persistence."
                 type: string
             ratio:
-                description: "Ratio of selecting eligible servers in the pool"
+                description: "Ratio of selecting eligible servers in the pool. Allowed values are 1-20."
                 type: integer
+                default: 1
                 format: int32
             resolve_server_by_dns:
-                description: "Auto resolve server's IP using DNS name"
+                description: "Auto resolve server's IP using DNS name."
                 type: boolean
             rewrite_host_header:
                 description: "Rewrite incoming Host Header to server name."
                 type: boolean
             server_node:
-                description: "Hostname of the node where the server VM or container resides"
+                description: "Hostname of the node where the server VM or container resides."
                 type: string
             static:
                 description: "If statically learned."
                 type: boolean
             verify_network:
-                description: "Verify server belongs to a discovered network or reachable via a discovered network. Verify reachable network isn't the OpenStack management network"
+                description: "Verify server belongs to a discovered network or reachable via a discovered network. Verify reachable network isn't the OpenStack management network."
                 type: boolean
             vm_ref:
-                description: "(internal-use) This field is used internally by Avi, not editable by the user. object ref VIMgrVMRuntime."
+                description: "(internal-use) This field is used internally by Avi, not editable by the user. It is a reference to an object of type VIMgrVMRuntime."
                 type: string
     ServerId:
         type: object
@@ -870,21 +1882,23 @@ definitions:
             -   port
         properties:
             external_uuid:
-                description: "This is the Pool servers external uuid"
+                description: "This is the external cloud uuid of the Pool server."
                 type: string
             ip:
+                description: "Placeholder for description of property ip of obj type ServerId field type str  type object"
                 $ref: '#/definitions/IpAddr'
             port:
-                description: ""
+                description: "Number of port."
                 type: integer
                 format: int32
     ServerScaleInParams:
         type: object
         properties:
             reason:
-                description: "Reason for manual scalein."
+                description: "Reason for the manual scalein."
                 type: string
             servers:
+                description: "List of server IDs that should be scaled in."
                 type: array
                 items:
                     $ref: '#/definitions/ServerId'
@@ -892,7 +1906,7 @@ definitions:
         type: object
         properties:
             reason:
-                description: "Reason for manual scaleout."
+                description: "Reason for the manual scaleout."
                 type: string
     URIParam:
         type: object
@@ -900,30 +1914,29 @@ definitions:
             -   type
         properties:
             tokens:
+                description: "Token config either for the URI components or a constant string."
                 type: array
                 items:
                     $ref: '#/definitions/URIParamToken'
             type:
-                description: "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED"
-                type: number
-                format: int64
+                description: "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                type: string
     URIParamToken:
         type: object
         required:
             -   type
         properties:
             end_index:
-                description: "Index of the ending token in the incoming URI"
+                description: "Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - 'end of string'."
                 type: integer
                 format: int32
             start_index:
-                description: "Index of the starting token in the incoming URI"
+                description: "Index of the starting token in the incoming URI."
                 type: integer
                 format: int32
             str_value:
-                description: "Constant string to use as a token"
+                description: "Constant string to use as a token."
                 type: string
             type:
-                description: "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX"
-                type: number
-                format: int64
+                description: "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX."
+                type: string
