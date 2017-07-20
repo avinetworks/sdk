@@ -241,7 +241,8 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
                     d_x_absent_ks.append(k)
             elif isinstance(v, list) and not v:
                 d_x_absent_ks.append(k)
-            elif isinstance(v, str) or isinstance(y[k], str):
+            # Added condition to check key in dict.
+            elif isinstance(v, str) or (k in y and isinstance(y[k], str)):
                 # this is the case when ansible converts the dictionary into a
                 # string.
                 if v == "{'state': 'absent'}" and k not in y:
@@ -318,11 +319,14 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     log.info('passed object %s ', obj)
 
     if name is not None:
-        existing_obj = api.\
-            get_object_by_name(obj_type, name, tenant=tenant,
-                               tenant_uuid=tenant_uuid,
-                               params={'include_refs': '', 'include_name': ''},
-                               api_version=api_version)
+        params = {'include_refs': '', 'include_name': ''}
+        if obj.get('cloud_ref', None):
+            # this is the case when gets have to be scoped with cloud
+            cloud = obj['cloud_ref'].split('name=')[1]
+            params['cloud_ref.name'] = cloud
+        existing_obj = api.get_object_by_name(
+            obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
+            params=params, api_version=api_version)
     else:
         # added api version to avi api call.
         existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
