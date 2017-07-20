@@ -1,0 +1,734 @@
+{
+    "info": {
+        "title": "Avi DebugController Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- debug controller <key>\n- debug controller <key>\n- show debug controller <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/debugcontroller": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "DebugController object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugControllerApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/debugcontroller/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "DebugController object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "DebugController object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/DebugController"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "VsDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "se_uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of se."
+                }
+            }
+        }, 
+        "AutoScaleMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "enable_aws_autoscale_integration": {
+                    "type": "boolean", 
+                    "description": "Enable aws autoscale integration. This is an alpha feature. Field introduced in 17.1.1."
+                }, 
+                "intelligent_autoscale_period": {
+                    "type": "integer", 
+                    "description": "period of running intelligent autoscale check.", 
+                    "format": "int32"
+                }, 
+                "pool_ref": {
+                    "type": "string", 
+                    "description": "uuid of the Pool. It is a reference to an object of type Pool."
+                }
+            }
+        }, 
+        "CloudConnectorDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "disable_se_reboot": {
+                    "type": "boolean", 
+                    "description": "Disable SE reboot via cloud connector on HB miss."
+                }, 
+                "se_id": {
+                    "type": "string", 
+                    "description": "filter debugs for a SE."
+                }, 
+                "app_id": {
+                    "type": "string", 
+                    "description": "filter debugs for an app."
+                }
+            }
+        }, 
+        "DebugFilterUnion": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "mesos_metrics_debug_filter": {
+                    "description": "Placeholder for description of property mesos_metrics_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/MesosMetricsDebugFilter"
+                }, 
+                "cloud_connector_debug_filter": {
+                    "description": "Placeholder for description of property cloud_connector_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/CloudConnectorDebugFilter"
+                }, 
+                "metrics_debug_filter": {
+                    "description": "Placeholder for description of property metrics_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/MetricsMgrDebugFilter"
+                }, 
+                "alert_debug_filter": {
+                    "description": "Placeholder for description of property alert_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/AlertMgrDebugFilter"
+                }, 
+                "se_mgr_debug_filter": {
+                    "description": "Placeholder for description of property se_mgr_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/SeMgrDebugFilter"
+                }, 
+                "state_cache_mgr_debug_filter": {
+                    "description": "Placeholder for description of property state_cache_mgr_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/StateCacheMgrDebugFilter"
+                }, 
+                "autoscale_mgr_debug_filter": {
+                    "description": "Placeholder for description of property autoscale_mgr_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/AutoScaleMgrDebugFilter"
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG."
+                }, 
+                "vs_debug_filter": {
+                    "description": "Placeholder for description of property vs_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/VsDebugFilter"
+                }, 
+                "hs_debug_filter": {
+                    "description": "Placeholder for description of property hs_debug_filter of obj type DebugFilterUnion field type str  type object", 
+                    "$ref": "#/definitions/HSMgrDebugFilter"
+                }
+            }
+        }, 
+        "HSMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "skip_hs_db_writes": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property skip_hs_db_writes of obj type HSMgrDebugFilter field type str  type boolean"
+                }, 
+                "metric_entity": {
+                    "type": "string", 
+                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                }, 
+                "entity": {
+                    "type": "string", 
+                    "description": "entity of HSMgrDebugFilter."
+                }, 
+                "period": {
+                    "type": "integer", 
+                    "description": "Number of period.", 
+                    "format": "int32"
+                }, 
+                "pool": {
+                    "type": "string", 
+                    "description": "pool of HSMgrDebugFilter."
+                }, 
+                "server": {
+                    "type": "string", 
+                    "description": "server of HSMgrDebugFilter."
+                }
+            }
+        }, 
+        "SeMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }
+            }
+        }, 
+        "AlertMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "cfg_uuid": {
+                    "type": "string", 
+                    "description": "filter debugs for an alert config."
+                }, 
+                "alert_uuid": {
+                    "type": "string", 
+                    "description": "filter debugs for an alert id."
+                }, 
+                "alert_objid": {
+                    "type": "string", 
+                    "description": "filter debugs for entity uuid."
+                }
+            }
+        }, 
+        "MesosMetricsDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "mesos_slave": {
+                    "type": "string", 
+                    "description": "mesos_slave of MesosMetricsDebugFilter."
+                }, 
+                "metrics_collection_frq": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of metrics_collection_frq.", 
+                    "format": "int32"
+                }, 
+                "mesos_master": {
+                    "type": "string", 
+                    "description": "mesos_master of MesosMetricsDebugFilter."
+                }, 
+                "metric_entity": {
+                    "type": "string", 
+                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                }
+            }
+        }, 
+        "MetricsMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "logging_freq": {
+                    "type": "string", 
+                    "description": "logging_freq of MetricsMgrDebugFilter."
+                }, 
+                "log_first_n": {
+                    "type": "string", 
+                    "description": "log_first_n of MetricsMgrDebugFilter."
+                }, 
+                "obj": {
+                    "type": "string", 
+                    "description": "obj of MetricsMgrDebugFilter."
+                }, 
+                "skip_metrics_db_writes": {
+                    "type": "string", 
+                    "description": "skip_metrics_db_writes of MetricsMgrDebugFilter."
+                }, 
+                "metric_instance_id": {
+                    "type": "string", 
+                    "description": "metric_instance_id of MetricsMgrDebugFilter."
+                }, 
+                "license_grace_period": {
+                    "type": "string", 
+                    "description": "setting to reduce the grace period for license expiry in hours."
+                }, 
+                "skip_cluster_map_check": {
+                    "type": "string", 
+                    "description": "skip_cluster_map_check of MetricsMgrDebugFilter."
+                }, 
+                "entity": {
+                    "type": "string", 
+                    "description": "entity of MetricsMgrDebugFilter."
+                }, 
+                "disable_hw_training": {
+                    "type": "string", 
+                    "description": "disable_hw_training of MetricsMgrDebugFilter."
+                }
+            }
+        }, 
+        "DebugController": {
+            "required": [
+                "log_level", 
+                "name", 
+                "sub_module", 
+                "trace_level"
+            ], 
+            "type": "object", 
+            "properties": {
+                "trace_level": {
+                    "type": "string", 
+                    "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
+                }, 
+                "log_level": {
+                    "type": "string", 
+                    "description": " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "filters": {
+                    "description": "Placeholder for description of property filters of obj type DebugController field type str  type object", 
+                    "$ref": "#/definitions/DebugFilterUnion"
+                }, 
+                "sub_module": {
+                    "type": "string", 
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "DebugControllerApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/DebugController"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "StateCacheMgrDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "pool_ref": {
+                    "type": "string", 
+                    "description": "Pool UUID. It is a reference to an object of type Pool."
+                }, 
+                "vs_ref": {
+                    "type": "string", 
+                    "description": "VirtualService UUID. It is a reference to an object of type VirtualService."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

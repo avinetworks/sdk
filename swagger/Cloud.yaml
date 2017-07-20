@@ -2,13 +2,21 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: Cloud API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure cloud <key>
+        - show cloud <key>
+        - show cloud internals
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +45,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +80,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Cloud object creation
@@ -109,11 +127,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +172,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Cloud object creation
@@ -195,11 +223,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: Cloud object creation
@@ -241,11 +274,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -278,11 +316,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: empty
@@ -300,6 +343,342 @@ paths:
                         type: string
                 401:
                     description: log in failed
+
+    /cloud/{uuid}/gc/:
+        put:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: body
+                    name: body
+                    description: empty
+                    required: true
+                    schema:
+                        type: object
+                        additionalProperties:
+                            type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+        patch:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/autoscalegroup/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/autoscalegroupservers/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/health/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/hosts/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/internals/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /cloud/{uuid}/status/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
 definitions:
     APICConfiguration:
         type: object
@@ -307,6 +686,7 @@ definitions:
             apic_admin_tenant:
                 description: "Name of the Avi specific tenant created within APIC."
                 type: string
+                default: "common"
             apic_domain:
                 description: "vCenter's virtual machine manager domain within APIC."
                 type: string
@@ -319,66 +699,95 @@ definitions:
                 description: "The password Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_product:
-                description: ""
+                description: "apic_product of APICConfiguration."
                 type: string
+                default: "ASP"
             apic_username:
                 description: "The username Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_vendor:
-                description: ""
+                description: "apic_vendor of APICConfiguration."
                 type: string
+                default: "Avi"
             avi_controller_password:
                 description: "The password APIC will use when authenticating with Avi Vantage."
                 type: string
             avi_controller_username:
                 description: "The username APIC will use when authenticating with Avi Vantage."
                 type: string
+                default: "admin"
             context_aware:
-                description: "Context aware for supporting Service Graphs across VRFs. Enum options - SINGLE_CONTEXT, MULTI_CONTEXT"
-                type: number
-                format: int64
+                description: "Context aware for supporting Service Graphs across VRFs. Enum options - SINGLE_CONTEXT, MULTI_CONTEXT."
+                type: string
+                default: "SINGLE_CONTEXT"
             deployment:
-                description: ""
+                description: "deployment of APICConfiguration."
                 type: string
+            managed_mode:
+                description: "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                type: boolean
+                default: True
             minor:
-                description: "AVI Device Package Minor Version"
+                description: "AVI Device Package Minor Version."
                 type: string
+                default: "2"
             version:
-                description: "AVI Device Package Version"
+                description: "AVI Device Package Version."
                 type: string
+                default: "1.0"
     AwsConfiguration:
         type: object
         required:
             -   vpc_id
         properties:
             access_key_id:
-                description: "AWS access key ID"
+                description: "AWS access key ID."
                 type: string
+            asg_poll_interval:
+                description: "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3."
+                type: integer
+                default: 600
+                format: int32
             free_elasticips:
                 description: "Free unused elastic IP addresses."
                 type: boolean
+                default: True
             iam_assume_role:
                 description: "IAM assume role for cross-account access."
                 type: string
             region:
-                description: "AWS region"
+                description: "AWS region."
                 type: string
+                default: "us-west-1"
             route53_integration:
-                description: "If enabled, create/update DNS entries in Route53 zones"
+                description: "If enabled, create/update DNS entries in Amazon Route 53 zones."
                 type: boolean
             secret_access_key:
-                description: "AWS secret access key"
+                description: "AWS secret access key."
                 type: string
+            ttl:
+                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3."
+                type: integer
+                default: 60
+                format: int32
             use_iam_roles:
                 description: "Use IAM roles instead of access and secret key."
                 type: boolean
+            use_sns_sqs:
+                description: "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
+                type: boolean
             vpc:
-                description: "VPC name"
+                description: "VPC name."
                 type: string
             vpc_id:
-                description: "VPC ID"
+                description: "VPC ID."
                 type: string
+            wildcard_access:
+                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                type: boolean
+                default: True
             zones:
+                description: "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/AwsZoneConfig'
@@ -389,7 +798,7 @@ definitions:
             -   mgmt_network_name
         properties:
             availability_zone:
-                description: "Availability zone"
+                description: "Availability zone."
                 type: string
             mgmt_network_name:
                 description: "Name or CIDR of the network in the Availability Zone that will be used as management network."
@@ -404,81 +813,96 @@ definitions:
             -   vtype
         properties:
             apic_configuration:
+                description: "Placeholder for description of property apic_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/APICConfiguration'
             apic_mode:
-                description: ""
+                description: "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
                 type: boolean
             aws_configuration:
+                description: "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/AwsConfiguration'
             cloudstack_configuration:
+                description: "Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/CloudStackConfiguration'
             dhcp_enabled:
-                description: "Select the IP address management scheme"
+                description: "Select the IP address management scheme."
                 type: boolean
             dns_provider_ref:
-                description: "DNS Provider for the cloud object ref IpamDnsProviderProfile."
+                description: "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
             docker_configuration:
+                description: "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/DockerConfiguration'
             east_west_dns_provider_ref:
-                description: "DNS Profile for East-West applications object ref IpamDnsProviderProfile."
+                description: "DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
             east_west_ipam_provider_ref:
-                description: "Ipam Profile for East-West applications object ref IpamDnsProviderProfile."
+                description: "Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
             enable_vip_static_routes:
                 description: "Use static routes for VIP side network resolution during VirtualService placement."
                 type: boolean
             ipam_provider_ref:
-                description: "Ipam Provider for the cloud object ref IpamDnsProviderProfile."
+                description: "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
             license_type:
-                description: "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets.Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS"
-                type: number
-                format: int64
+                description: "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS."
+                type: string
             linuxserver_configuration:
+                description: "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/LinuxServerConfiguration'
             mesos_configuration:
+                description: "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/MesosConfiguration'
             mtu:
-                description: "MTU setting for the cloud"
+                description: "MTU setting for the cloud."
                 type: integer
+                default: 1500
                 format: int32
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
+            nsx_configuration:
+                description: "Configuration parameters for NSX Manager. Field introduced in 17.1.1."
+                $ref: '#/definitions/NsxConfiguration'
             obj_name_prefix:
-                description: "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template. "
+                description: "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
                 type: string
             openstack_configuration:
+                description: "Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/OpenStackConfiguration'
             oshiftk8s_configuration:
+                description: "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/OShiftK8SConfiguration'
             prefer_static_routes:
                 description: "Prefer static routes over interface routes during VirtualService placement."
                 type: boolean
             proxy_configuration:
+                description: "Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/ProxyConfiguration'
             rancher_configuration:
+                description: "Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/RancherConfiguration'
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             vca_configuration:
+                description: "Placeholder for description of property vca_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/vCloudAirConfiguration'
             vcenter_configuration:
+                description: "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/vCenterConfiguration'
             vtype:
-                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
-                type: number
-                format: int64
+                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                type: string
+                default: "CLOUD_NONE"
     CloudApiResponse:
         type: object
         required:
@@ -501,147 +925,168 @@ definitions:
             -   secret_access_key
         properties:
             access_key_id:
-                description: "CloudStack API Key"
+                description: "CloudStack API Key."
                 type: string
             api_url:
-                description: "CloudStack API URL"
+                description: "CloudStack API URL."
                 type: string
             cntr_public_ip:
                 description: "If controller's management IP is in a private network, a publicly accessible IP to reach the controller."
                 type: string
             hypervisor:
-                description: "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
-                type: number
-                format: int64
+                description: "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                type: string
+                default: "KVM"
             mgmt_network_name:
-                description: "Avi Management network name"
+                description: "Avi Management network name."
                 type: string
             mgmt_network_uuid:
-                description: "Avi Management network name"
+                description: "Avi Management network name."
                 type: string
             secret_access_key:
-                description: "CloudStack Secret Key"
+                description: "CloudStack Secret Key."
                 type: string
     DockerConfiguration:
         type: object
         properties:
             app_sync_frequency:
-                description: "Sync frequency in seconds with frameworks"
+                description: "Sync frequency in seconds with frameworks."
                 type: integer
+                default: 60
                 format: int32
             ca_tls_key_and_certificate_ref:
-                description: "UUID of the UCP CA TLS cert and key object ref SSLKeyAndCertificate."
+                description: "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             client_tls_key_and_certificate_ref:
-                description: "UUID of the client TLS cert and key object ref SSLKeyAndCertificate."
+                description: "UUID of the client TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService"
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
                 type: boolean
+                default: True
             coredump_directory:
-                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change"
+                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
                 type: string
+                default: "/var/lib/systemd/coredump"
             disable_auto_backend_service_sync:
-                description: "Disable auto service sync for back end services"
+                description: "Disable auto service sync for back end services."
                 type: boolean
             disable_auto_frontend_service_sync:
-                description: "Disable auto service sync for front end services"
+                description: "Disable auto service sync for front end services."
                 type: boolean
             disable_auto_se_creation:
-                description: "Disable SE creation"
+                description: "Disable SE creation."
                 type: boolean
             docker_registry_se:
+                description: "Docker registry for ServiceEngine image."
                 $ref: '#/definitions/DockerRegistry'
             east_west_placement_subnet:
+                description: "Match against this prefix when placing east-west VSs on SEs ."
                 $ref: '#/definitions/IpAddrPrefix'
             enable_event_subscription:
-                description: "Enable Docker event subscription"
+                description: "Enable Docker event subscription."
                 type: boolean
+                default: True
             feproxy_container_port_as_service:
-                description: "For Front End proxies, use container port as service port"
+                description: "For Front End proxies, use container port as service port."
                 type: boolean
             feproxy_vips_enable_proxy_arp:
-                description: "Enable proxy ARP from Host interface for Front End  proxies"
+                description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
+                default: True
             fleet_endpoint:
-                description: "Optional fleet remote endpoint if fleet is used for SE deployment"
+                description: "Optional fleet remote endpoint if fleet is used for SE deployment."
                 type: string
             http_container_ports:
-                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80"
+                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80."
                 type: array
                 items:
                     type: integer
                 format: int32
             se_deployment_method:
-                description: "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH"
-                type: number
-                format: int64
+                description: "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                type: string
+                default: "SE_CREATE_SSH"
             se_exclude_attributes:
+                description: "Exclude hosts with attributes for SE creation."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_include_attributes:
+                description: "Create SEs just on hosts with include attributes."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_spawn_rate:
-                description: "New SE spawn rate per minute"
+                description: "New SE spawn rate per minute."
                 type: integer
+                default: 25
                 format: int32
             se_volume:
-                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change"
+                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change."
                 type: string
+                default: "/opt/avi"
             services_accessible_all_interfaces:
-                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface"
+                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface."
                 type: boolean
             ssh_se_deployment:
+                description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
+            ssh_user_ref:
+                description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                type: string
             ucp_nodes:
-                description: "List of Docker UCP nodes; In case of a load balanced UCP cluster, use Virtual IP of the cluster"
+                description: "List of Docker UCP nodes; In case of a load balanced UCP cluster, use Virtual IP of the cluster."
                 type: array
                 items:
                     type: string
             use_container_ip_port:
-                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers"
+                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
                 type: boolean
             use_controller_image:
-                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se"
+                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
                 type: boolean
     DockerRegistry:
         type: object
         properties:
+            oshift_registry:
+                description: "Openshift integrated registry config."
+                $ref: '#/definitions/OshiftDockerRegistryMetaData'
             password:
-                description: "Password for docker registry"
+                description: "Password for docker registry. Authorized 'regular user' password if registry is Openshift integrated registry."
                 type: string
             private:
-                description: "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set"
+                description: "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set."
                 type: boolean
             registry:
-                description: "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository."
+                description: "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/<namespace>/<repo>."
                 type: string
+                default: "avinetworks/se"
             se_repository_push:
-                description: "Avi Controller will push ServiceEngine image to docker repository"
+                description: "Avi Controller will push ServiceEngine image to docker repository."
                 type: boolean
             username:
-                description: "Username for docker registry"
+                description: "Username for docker registry. Authorized 'regular user' if registry is Openshift integrated registry."
                 type: string
     FeProxyRoutePublishConfig:
         type: object
         properties:
             mode:
-                description: "Publish ECMP route to upstream router for VIP. Enum options - FE_PROXY_ROUTE_PUBLISH_NONE, FE_PROXY_ROUTE_PUBLISH_QUAGGA_WEBAPP"
-                type: number
-                format: int64
+                description: "Publish ECMP route to upstream router for VIP. Enum options - FE_PROXY_ROUTE_PUBLISH_NONE, FE_PROXY_ROUTE_PUBLISH_QUAGGA_WEBAPP."
+                type: string
+                default: "FE_PROXY_ROUTE_PUBLISH_NONE"
             publisher_port:
-                description: "Listener port for publisher"
+                description: "Listener port for publisher."
                 type: integer
+                default: 80
                 format: int32
             subnet:
-                description: "Subnet for publisher"
+                description: "Subnet for publisher."
                 type: integer
+                default: 32
                 format: int32
             token:
-                description: "Token for tracking changes"
+                description: "Token for tracking changes."
                 type: string
     HostAttributes:
         type: object
@@ -649,10 +1094,10 @@ definitions:
             -   attr_key
         properties:
             attr_key:
-                description: ""
+                description: "attr_key of HostAttributes."
                 type: string
             attr_val:
-                description: ""
+                description: "attr_val of HostAttributes."
                 type: string
     IpAddr:
         type: object
@@ -661,12 +1106,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -674,96 +1118,114 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     LinuxServerConfiguration:
         type: object
-        required:
-            -   ssh_attr
         properties:
             docker_registry_se:
+                description: "Private docker registry for SE image storage. Field deprecated in 17.1.2."
                 $ref: '#/definitions/DockerRegistry'
             hosts:
+                description: "Placeholder for description of property hosts of obj type LinuxServerConfiguration field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/LinuxServerHost'
             se_inband_mgmt:
-                description: "Flag to notify the SE's in this cloud have an inband management interface, this can be overridden at SE host level by setting host_attr attr_key as SE_INBAND_MGMT with value of true or false"
+                description: "Flag to notify the SE's in this cloud have an inband management interface, this can be overridden at SE host level by setting host_attr attr_key as SE_INBAND_MGMT with value of true or false."
                 type: boolean
             se_log_disk_path:
-                description: "SE Client Logs disk path for cloud"
+                description: "SE Client Logs disk path for cloud."
                 type: string
             se_log_disk_size_GB:
-                description: "SE Client Log disk size for cloud"
+                description: "SE Client Log disk size for cloud."
                 type: integer
+                default: 5
                 format: int32
             se_sys_disk_path:
-                description: "SE System Logs disk path for cloud"
+                description: "SE System Logs disk path for cloud."
                 type: string
             se_sys_disk_size_GB:
-                description: "SE System Logs disk size for cloud"
+                description: "SE System Logs disk size for cloud."
                 type: integer
+                default: 10
                 format: int32
             ssh_attr:
+                description: "Parameters for SSH to hosts. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
+            ssh_user_ref:
+                description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                type: string
     LinuxServerHost:
         type: object
         required:
             -   host_ip
         properties:
             host_attr:
+                description: "Placeholder for description of property host_attr of obj type LinuxServerHost field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/HostAttributes'
             host_ip:
+                description: "Placeholder for description of property host_ip of obj type LinuxServerHost field type str  type object"
                 $ref: '#/definitions/IpAddr'
+            node_availability_zone:
+                description: "Node's availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                type: string
     MarathonConfiguration:
         type: object
         properties:
             framework_tag:
-                description: "Framework tag to be used in Virtualservice name. Default is framework name from Mesos. If this tag is altered atruntime, Virtualservices will be deleted and re-created"
+                description: "Framework tag to be used in Virtualservice name. Default is framework name from Mesos. If this tag is altered atruntime, Virtualservices will be deleted and re-created."
                 type: string
             marathon_password:
-                description: "Password for Marathon authentication"
+                description: "Password for Marathon authentication."
                 type: string
             marathon_url:
-                description: "Marathon API URL of the form http //host port"
+                description: "Marathon API URL of the form http //host port."
                 type: string
+                default: "http://leader.mesos:8080"
             marathon_username:
-                description: "Username for Marathon authentication"
+                description: "Username for Marathon authentication."
                 type: string
             private_port_range:
+                description: "Private port range allocated to this Marathon framework instance."
                 $ref: '#/definitions/PortRange'
             public_port_range:
+                description: "Public port range allocated to this Marathon framework instance."
                 $ref: '#/definitions/PortRange'
             tenant:
                 description: "Tenant to pin this Marathon instance to. If set, a tenant object will be created in Avi bearing this name and all applications created in this marathon will be associated with this tenant regardless of, if any, tenant configuration in marathon label for this application."
                 type: string
+                default: "admin"
             use_token_auth:
                 description: "Use Token based authentication instead of basic authentication. Token is refreshed every 5 minutes."
                 type: boolean
             vs_name_tag_framework:
-                description: "Tag VS name with framework name or framework_tag. Useful in deployments with multiple frameworks"
+                description: "Tag VS name with framework name or framework_tag. Useful in deployments with multiple frameworks."
                 type: boolean
     MarathonSeDeployment:
         type: object
         properties:
             docker_image:
-                description: "Docker image to be used for Avi SE installation e.g. fedora, ubuntu"
+                description: "Docker image to be used for Avi SE installation e.g. fedora, ubuntu."
                 type: string
+                default: "fedora"
             host_os:
-                description: "Host OS distribution e.g. COREOS, UBUNTU, REDHAT"
+                description: "Host OS distribution e.g. COREOS, UBUNTU, REDHAT."
                 type: string
+                default: "COREOS"
             resource_roles:
-                description: "Accepted resource roles for SEs"
+                description: "Accepted resource roles for SEs."
                 type: array
                 items:
                     type: string
             uris:
-                description: "URIs to be resolved for starting the application"
+                description: "URIs to be resolved for starting the application."
                 type: array
                 items:
                     type: string
@@ -773,112 +1235,146 @@ definitions:
             -   attribute
         properties:
             attribute:
-                description: "Attribute to match"
+                description: "Attribute to match."
                 type: string
             value:
-                description: "Attribute value. If not set, match any value"
+                description: "Attribute value. If not set, match any value."
                 type: string
     MesosConfiguration:
         type: object
         properties:
             all_vses_are_feproxy:
-                description: "Consider all Virtualservices as Front End Proxies. Front End proxies are placed on specific SEs as opposed to Back End proxies placed on all SEs. Applicable where each service has its own VIP and VIP is reachable from anywhere"
+                description: "Consider all Virtualservices as Front End Proxies. Front End proxies are placed on specific SEs as opposed to Back End proxies placed on all SEs. Applicable where each service has its own VIP and VIP is reachable from anywhere."
                 type: boolean
             app_sync_frequency:
-                description: "Sync frequency in seconds with frameworks"
+                description: "Sync frequency in seconds with frameworks."
                 type: integer
+                default: 60
                 format: int32
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService"
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
                 type: boolean
+                default: True
             coredump_directory:
-                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change"
+                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
                 type: string
+                default: "/var/lib/systemd/coredump"
             disable_auto_backend_service_sync:
-                description: "Disable auto service sync for back end services"
+                description: "Disable auto service sync for back end services."
                 type: boolean
             disable_auto_frontend_service_sync:
-                description: "Disable auto service sync for front end services"
+                description: "Disable auto service sync for front end services."
+                type: boolean
+            disable_auto_gs_sync:
+                description: "Disable auto sync for GSLB services. Field introduced in 17.1.2."
                 type: boolean
             disable_auto_se_creation:
-                description: "Disable SE creation"
+                description: "Disable SE creation."
                 type: boolean
             docker_registry_se:
+                description: "Docker registry for ServiceEngine image."
                 $ref: '#/definitions/DockerRegistry'
             east_west_placement_subnet:
+                description: "Match against this prefix when placing east-west VSs on SEs (Mesos mode only)."
                 $ref: '#/definitions/IpAddrPrefix'
             enable_event_subscription:
-                description: "Enable Marathon event subscriptions"
+                description: "Enable Marathon event subscriptions."
                 type: boolean
+                default: True
             feproxy_bridge_name:
-                description: "Name of second Linux bridge on Host providing connectivity for Front End proxies. This is a disruptive change"
+                description: "Name of second Linux bridge on Host providing connectivity for Front End proxies. This is a disruptive change."
                 type: string
+                default: "cbr1"
             feproxy_container_port_as_service:
-                description: "For Front End proxies, use container port as service port"
+                description: "For Front End proxies, use container port as service port."
                 type: boolean
+                default: True
             feproxy_route_publish:
+                description: "Publish ECMP route to upstream router for VIP."
                 $ref: '#/definitions/FeProxyRoutePublishConfig'
             feproxy_vips_enable_proxy_arp:
-                description: "Enable proxy ARP from Host interface for Front End  proxies"
+                description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
+                default: True
             fleet_endpoint:
-                description: "Optional fleet remote endpoint if fleet is used for SE deployment"
+                description: "Optional fleet remote endpoint if fleet is used for SE deployment."
                 type: string
             http_container_ports:
-                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80"
+                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80."
                 type: array
                 items:
                     type: integer
                 format: int32
             marathon_configurations:
+                description: "List of Marathon frameworks."
                 type: array
                 items:
                     $ref: '#/definitions/MarathonConfiguration'
             marathon_se_deployment:
+                description: "Options for Marathon SE deployment."
                 $ref: '#/definitions/MarathonSeDeployment'
             mesos_url:
-                description: "Mesos URL of the form http //host port"
+                description: "Mesos URL of the form http //host port."
+                type: string
+                default: "http://leader.mesos:5050"
+            node_availability_zone_label:
+                description: "Mesos Node label to be used as Mesos Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
                 type: string
             nuage_controller:
+                description: "Nuage Overlay SDN Controller information."
                 $ref: '#/definitions/NuageSDNController'
             se_deployment_method:
-                description: "Use Fleet/SSH for deploying Service Engines. Enum options - MESOS_SE_CREATE_FLEET, MESOS_SE_CREATE_SSH, MESOS_SE_CREATE_MARATHON"
-                type: number
-                format: int64
+                description: "Use Fleet/SSH for deploying Service Engines. Enum options - MESOS_SE_CREATE_FLEET, MESOS_SE_CREATE_SSH, MESOS_SE_CREATE_MARATHON."
+                type: string
+                default: "MESOS_SE_CREATE_FLEET"
             se_exclude_attributes:
+                description: "Exclude hosts with attributes for SE creation."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_include_attributes:
+                description: "Create SEs just on hosts with include attributes."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_resources:
+                description: "Obsolete - ignored."
                 type: array
                 items:
                     $ref: '#/definitions/MesosSeResources'
             se_spawn_rate:
-                description: "New SE spawn rate per minute"
+                description: "New SE spawn rate per minute."
                 type: integer
+                default: 25
                 format: int32
             se_volume:
-                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change"
+                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change."
                 type: string
+                default: "/opt/avi/se"
             services_accessible_all_interfaces:
-                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS Mesos clusters to export East-West services on Host interface"
+                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS Mesos clusters to export East-West services on Host interface."
                 type: boolean
             ssh_se_deployment:
+                description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
+            ssh_user_ref:
+                description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                type: string
             use_bridge_ip_as_vip:
-                description: "Use Bridge IP on each Host as VIP"
+                description: "Use Bridge IP on each Host as VIP."
                 type: boolean
             use_container_ip_port:
-                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers"
+                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
                 type: boolean
             use_controller_image:
-                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se"
+                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
                 type: boolean
+            use_vips_for_east_west_services:
+                description: "Use unique virtual IP address for every east west service in Mesos/Marathon. 'use_bridge_ip_as_vip' and 'vip' fields , if set, will not be used if this field is set."
+                type: boolean
+                default: True
             vip:
+                description: "VIP to be used by all East-West apps on all Hosts. Preferrably use an address from outside the subnet."
                 $ref: '#/definitions/IpAddr'
     MesosSeResources:
         type: object
@@ -887,55 +1383,84 @@ definitions:
             -   attribute_value
         properties:
             attribute_key:
-                description: "Attribute (Fleet or Mesos) key of Hosts"
+                description: "Attribute (Fleet or Mesos) key of Hosts."
                 type: string
             attribute_value:
-                description: "Attribute (Fleet or Mesos) value of Hosts"
+                description: "Attribute (Fleet or Mesos) value of Hosts."
                 type: string
             cpu:
-                description: "Obsolete - ignored"
+                description: "Obsolete - ignored."
                 type: number
+                default: 2.0
                 format: float
             memory:
-                description: "Obsolete - ignored"
+                description: "Obsolete - ignored."
                 type: integer
+                default: 4096
+                format: int32
+    NsxConfiguration:
+        type: object
+        required:
+            -   avi_nsx_prefix
+            -   nsx_manager_name
+            -   nsx_manager_password
+            -   nsx_manager_username
+            -   nsx_poll_time
+        properties:
+            avi_nsx_prefix:
+                description: "This prefix will be added to the names of all NSX objects created by Avi Controller. It should be unique across all the Avi Controller clusters. Field introduced in 17.1.1."
+                type: string
+            nsx_manager_name:
+                description: "The hostname or IP address of the NSX MGr. Field introduced in 17.1.1."
+                type: string
+            nsx_manager_password:
+                description: "The password Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
+                type: string
+            nsx_manager_username:
+                description: "The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
+                type: string
+            nsx_poll_time:
+                description: "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1."
+                type: integer
+                default: 300
                 format: int32
     NuageSDNController:
         type: object
         properties:
             nuage_organization:
-                description: ""
+                description: "nuage_organization of NuageSDNController."
                 type: string
             nuage_password:
-                description: ""
+                description: "nuage_password of NuageSDNController."
                 type: string
             nuage_port:
-                description: ""
+                description: "Number of nuage_port."
                 type: integer
+                default: 8443
                 format: int32
             nuage_username:
-                description: ""
+                description: "nuage_username of NuageSDNController."
                 type: string
             nuage_vsd_host:
-                description: "Nuage VSD host name or IP address"
+                description: "Nuage VSD host name or IP address."
                 type: string
             se_domain:
-                description: "Domain to be used for SE creation"
+                description: "Domain to be used for SE creation."
                 type: string
             se_enterprise:
-                description: "Enterprise to be used for SE creation"
+                description: "Enterprise to be used for SE creation."
                 type: string
             se_network:
-                description: "Network to be used for SE creation"
+                description: "Network to be used for SE creation."
                 type: string
             se_policy_group:
-                description: "Policy Group to be used for SE creation"
+                description: "Policy Group to be used for SE creation."
                 type: string
             se_user:
-                description: "User to be used for SE creation"
+                description: "User to be used for SE creation."
                 type: string
             se_zone:
-                description: "Zone to be used for SE creation"
+                description: "Zone to be used for SE creation."
                 type: string
     OpenStackConfiguration:
         type: object
@@ -949,25 +1474,28 @@ definitions:
                 description: "OpenStack admin tenant (or project) information. For Keystone v3, provide the project information in project@domain format. Domain need not be specified if the project belongs to the 'Default' domain."
                 type: string
             admin_tenant_uuid:
-                description: "admin-tenant's UUID in OpenStack"
+                description: "admin-tenant's UUID in OpenStack."
                 type: string
             allowed_address_pairs:
-                description: "If false, allowed-address-pairs extension will not be used. "
+                description: "If false, allowed-address-pairs extension will not be used. ."
                 type: boolean
+                default: True
             anti_affinity:
                 description: "If true, an anti-affinity policy will be applied to all SEs of a SE-Group, else no such policy will be applied."
                 type: boolean
+                default: True
             auth_url:
                 description: "Auth URL for connecting to keystone. If this is specified, any value provided for keystone_host is ignored."
                 type: string
             config_drive:
                 description: "If false, metadata service will be used instead of  config-drive functionality to retrieve SE VM metadata."
                 type: boolean
+                default: True
             contrail_endpoint:
-                description: "Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, 'http //' scheme and 8082 port will be used if not provided in the url"
+                description: "Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, 'http //' scheme and 8082 port will be used if not provided in the url."
                 type: string
             contrail_plugin:
-                description: "Enable Contrail plugin mode. (deprecated)"
+                description: "Enable Contrail plugin mode. (deprecated)."
                 type: boolean
             external_networks:
                 description: "If True, allow selection of networks marked as 'external' for management,  vip or data networks."
@@ -976,96 +1504,117 @@ definitions:
                 description: "Free unused floating IPs."
                 type: boolean
             hypervisor:
-                description: "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
-                type: number
-                format: int64
+                description: "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                type: string
+                default: "KVM"
             img_format:
-                description: "If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT"
-                type: number
-                format: int64
+                description: "If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT."
+                type: string
+                default: "OS_IMG_FMT_AUTO"
             import_keystone_tenants:
-                description: "Import keystone tenants list into Avi"
+                description: "Import keystone tenants list into Avi."
                 type: boolean
+                default: True
             insecure:
                 description: "Allow self-signed certificates when communicating with https service endpoints."
                 type: boolean
+                default: True
             intf_sec_ips:
                 description: "If True, interface-secondary-ips method will be used for VIP association."
                 type: boolean
             keystone_host:
                 description: "Keystone's hostname or IP address. (Deprecated) Use auth_url instead."
                 type: string
+            map_admin_to_cloudadmin:
+                description: "If True, map Avi 'admin' tenant to the admin_tenant of the Cloud. Else map Avi 'admin' to OpenStack 'admin' tenant."
+                type: boolean
             mgmt_network_name:
-                description: "Avi Management network name or cidr"
+                description: "Avi Management network name or cidr."
                 type: string
             mgmt_network_uuid:
-                description: "Management network UUID"
+                description: "Management network UUID."
                 type: string
             name_owner:
-                description: "If True, embed owner info in VIP port 'name', else embed owner info in 'device_id' field"
+                description: "If True, embed owner info in VIP port 'name', else embed owner info in 'device_id' field."
                 type: boolean
+                default: True
             neutron_rbac:
-                description: "If True, enable neutron rbac discovery of networks shared across tenants/projects"
+                description: "If True, enable neutron rbac discovery of networks shared across tenants/projects."
                 type: boolean
+                default: True
             nuage_organization:
-                description: ""
+                description: "nuage_organization of OpenStackConfiguration."
                 type: string
             nuage_password:
-                description: ""
+                description: "nuage_password of OpenStackConfiguration."
                 type: string
             nuage_port:
-                description: ""
+                description: "Number of nuage_port."
                 type: integer
+                default: 8443
                 format: int32
             nuage_username:
-                description: ""
+                description: "nuage_username of OpenStackConfiguration."
                 type: string
             nuage_vsd_host:
-                description: "Nuage VSD host name or IP address"
+                description: "Nuage VSD host name or IP address."
                 type: string
             password:
                 description: "The password Avi Vantage will use when authenticating to Keystone."
                 type: string
             port_security:
-                description: "If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped"
+                description: "If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped."
                 type: boolean
             privilege:
-                description: "Access privilege. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS"
-                type: number
-                format: int64
+                description: "Access privilege. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                type: string
             prov_name:
-                description: "LBaaS provider name"
+                description: "LBaaS provider name."
                 type: array
                 items:
                     type: string
             region:
-                description: "Region name"
+                description: "Region name."
                 type: string
             role_mapping:
+                description: "Defines the mapping from OpenStack role names to avi local role names. For an OpenStack role, this mapping is consulted only if there is no local Avi role with the same name as the OpenStack role. This is an ordered list and only the first matching entry is used. You can use '*' to match all OpenStack role names."
                 type: array
                 items:
                     $ref: '#/definitions/OpenStackRoleMapping'
-            se_group_uuid:
-                description: "The Service Engine Group to use as template."
+            se_group_ref:
+                description: "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
                 type: string
             security_groups:
-                description: "If false, security-groups extension will not be used. "
+                description: "If false, security-groups extension will not be used. ."
                 type: boolean
+                default: True
             tenant_se:
                 description: "If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant."
                 type: boolean
+                default: True
+            usable_network_uuids:
+                description: "A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1."
+                type: array
+                items:
+                    type: string
             use_admin_url:
                 description: "If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False."
                 type: boolean
+                default: True
             use_internal_endpoints:
                 description: "Use internalURL for OpenStack endpoints instead of the default publicURL endpoints."
                 type: boolean
             use_keystone_auth:
-                description: "Use keystone for user authentication"
+                description: "Use keystone for user authentication."
                 type: boolean
+                default: True
             username:
                 description: "The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain."
                 type: string
+            wildcard_access:
+                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                type: boolean
+                default: True
     OpenStackRoleMapping:
         type: object
         required:
@@ -1073,100 +1622,165 @@ definitions:
             -   os_role
         properties:
             avi_role:
-                description: "Role name in Avi"
+                description: "Role name in Avi."
                 type: string
             os_role:
-                description: "Role name in OpenStack"
+                description: "Role name in OpenStack."
                 type: string
+    OshiftDockerRegistryMetaData:
+        type: object
+        properties:
+            registry_namespace:
+                description: "Namespace for the ServiceEngine image to be hosted in Openshift Integrated registry."
+                type: string
+                default: "default"
+            registry_service:
+                description: "Name of the Integrated registry Service in Openshift."
+                type: string
+                default: "docker-registry"
+            registry_vip:
+                description: "Static VIP for 'docker-registry' service in Openshift if Avi is proxying for this service.This VIP should be outside the cluster IP subnet in Kubernetes and within the subnet configured (but outside the available pool of IPs) in the East West IPAM profile configuration for this Cloud. For example, if kubernetes cluster VIP range is 172.30.0.0/16 and subnet configured in East West IPAM profile is 172.50.0.0/16, then 172.50.0.2 can be used for this vip and IP pool can start from 172.50.0.3 onwards. Use this static VIP in '--insecure-registry <this-vip> 5000' docker config if using an insecure registry or add this to the list of IPs/hostnames when generating certificates if using a secure TLS registry."
+                $ref: '#/definitions/IpAddr'
     OShiftK8SConfiguration:
         type: object
         properties:
             app_sync_frequency:
-                description: "Sync frequency in seconds with frameworks"
+                description: "Sync frequency in seconds with frameworks."
                 type: integer
+                default: 60
                 format: int32
             avi_bridge_subnet:
+                description: "Avi Linux bridge subnet on OpenShift/K8s nodes."
                 $ref: '#/definitions/IpAddrPrefix'
             ca_tls_key_and_certificate_ref:
-                description: "UUID of the UCP CA TLS cert and key object ref SSLKeyAndCertificate."
+                description: "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             client_tls_key_and_certificate_ref:
-                description: "UUID of the client TLS cert and key object ref SSLKeyAndCertificate."
+                description: "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService"
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
                 type: boolean
+                default: True
             coredump_directory:
-                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change"
+                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
                 type: string
+                default: "/var/lib/systemd/coredump"
             default_service_as_east_west_service:
-                description: "If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration"
+                description: "If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration."
                 type: boolean
+                default: True
+            default_shared_virtualservice:
+                description: "Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1."
+                $ref: '#/definitions/OshiftSharedVirtualService'
             disable_auto_backend_service_sync:
-                description: "Disable auto service sync for back end services"
+                description: "Disable auto service sync for back end services."
                 type: boolean
             disable_auto_frontend_service_sync:
-                description: "Disable auto service sync for front end services"
+                description: "Disable auto service sync for front end services."
+                type: boolean
+            disable_auto_gs_sync:
+                description: "Disable auto sync for GSLB services. Field introduced in 17.1.3."
                 type: boolean
             disable_auto_se_creation:
-                description: "Disable SE creation"
+                description: "Disable SE creation."
                 type: boolean
             docker_registry_se:
+                description: "Docker registry for ServiceEngine image."
                 $ref: '#/definitions/DockerRegistry'
             east_west_placement_subnet:
+                description: "Match against this prefix when placing east-west VSs on SEs ."
                 $ref: '#/definitions/IpAddrPrefix'
             enable_event_subscription:
-                description: "Enable Kubernetes event subscription"
+                description: "Enable Kubernetes event subscription."
                 type: boolean
+                default: True
             feproxy_vips_enable_proxy_arp:
-                description: "Enable proxy ARP from Host interface for Front End  proxies"
+                description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
+                default: True
             fleet_endpoint:
-                description: "Optional fleet remote endpoint if fleet is used for SE deployment"
+                description: "Optional fleet remote endpoint if fleet is used for SE deployment."
                 type: string
             http_container_ports:
-                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80"
+                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80."
                 type: array
                 items:
                     type: integer
                 format: int32
+            l4_health_monitoring:
+                description: "Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools."
+                type: boolean
             master_nodes:
-                description: "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed"
+                description: "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed."
                 type: array
                 items:
                     type: string
+            node_availability_zone_label:
+                description: "OpenShift/K8S Node label to be used as OpenShift/K8S Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                type: string
             nuage_controller:
+                description: "Nuage Overlay SDN Controller information."
                 $ref: '#/definitions/NuageSDNController'
-            sdn_overlay:
-                description: "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Weave, Nuage, etc."
+            routes_share_virtualservice:
+                description: "Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1."
                 type: boolean
+            sdn_overlay:
+                description: "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
+                type: boolean
+                default: True
             se_deployment_method:
-                description: "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH"
-                type: number
-                format: int64
+                description: "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                type: string
+                default: "SE_CREATE_SSH"
             se_exclude_attributes:
+                description: "Exclude hosts with attributes for SE creation."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_include_attributes:
+                description: "Create SEs just on hosts with include attributes."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_spawn_rate:
-                description: "New SE spawn rate per minute"
+                description: "New SE spawn rate per minute."
                 type: integer
+                default: 25
                 format: int32
             se_volume:
-                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change"
+                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                type: string
+                default: "/opt/avi"
+            secure_egress_mode:
+                description: "Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1."
+                type: boolean
+            service_account_token:
+                description: "Authorization token for service account instead of client certificate. One of client certificate or token is required."
                 type: string
             ssh_se_deployment:
+                description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
+            ssh_user_ref:
+                description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                type: string
             use_controller_image:
-                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se"
+                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
+                type: boolean
+            use_scheduling_disabled_nodes:
+                description: "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
                 type: boolean
             use_service_cluster_ip_as_ew_vip:
-                description: "Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes"
+                description: "Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes."
                 type: boolean
+    OshiftSharedVirtualService:
+        type: object
+        required:
+            -   virtualservice_name
+        properties:
+            virtualservice_name:
+                description: "Name of shared virtualservice. VirtualService will be created automatically by Cloud Connector. Field introduced in 17.1.1."
+                type: string
     PortRange:
         type: object
         required:
@@ -1174,11 +1788,11 @@ definitions:
             -   start
         properties:
             end:
-                description: "TCP/UDP port range end (inclusive)."
+                description: "TCP/UDP port range end (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
             start:
-                description: "TCP/UDP port range start (inclusive)."
+                description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
     ProxyConfiguration:
@@ -1188,119 +1802,136 @@ definitions:
             -   port
         properties:
             host:
-                description: "Proxy hostname or IP address"
+                description: "Proxy hostname or IP address."
                 type: string
             password:
-                description: "Password for proxy"
+                description: "Password for proxy."
                 type: string
             port:
-                description: "Proxy port"
+                description: "Proxy port."
                 type: integer
                 format: int32
             username:
-                description: "Username for proxy"
+                description: "Username for proxy."
                 type: string
     RancherConfiguration:
         type: object
         properties:
             access_key:
-                description: "Access key"
+                description: "Access key."
                 type: string
             app_sync_frequency:
-                description: "Sync frequency in seconds with frameworks"
+                description: "Sync frequency in seconds with frameworks."
                 type: integer
+                default: 60
                 format: int32
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService"
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
                 type: boolean
+                default: True
             coredump_directory:
-                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change"
+                description: "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
                 type: string
+                default: "/var/lib/systemd/coredump"
             disable_auto_backend_service_sync:
-                description: "Disable auto service sync for back end services"
+                description: "Disable auto service sync for back end services."
                 type: boolean
             disable_auto_frontend_service_sync:
-                description: "Disable auto service sync for front end services"
+                description: "Disable auto service sync for front end services."
                 type: boolean
             disable_auto_se_creation:
-                description: "Disable SE creation"
+                description: "Disable SE creation."
                 type: boolean
             docker_registry_se:
+                description: "Docker registry for ServiceEngine image."
                 $ref: '#/definitions/DockerRegistry'
             east_west_placement_subnet:
+                description: "Match against this prefix when placing east-west VSs on SEs ."
                 $ref: '#/definitions/IpAddrPrefix'
             enable_event_subscription:
-                description: "Enable Docker event subscription"
+                description: "Enable Docker event subscription."
                 type: boolean
+                default: True
             feproxy_container_port_as_service:
-                description: "For Front End proxies, use container port as service port"
+                description: "For Front End proxies, use container port as service port."
                 type: boolean
             feproxy_vips_enable_proxy_arp:
-                description: "Enable proxy ARP from Host interface for Front End  proxies"
+                description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
+                default: True
             fleet_endpoint:
-                description: "Optional fleet remote endpoint if fleet is used for SE deployment"
+                description: "Optional fleet remote endpoint if fleet is used for SE deployment."
                 type: string
             http_container_ports:
-                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80"
+                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80."
                 type: array
                 items:
                     type: integer
                 format: int32
             nuage_controller:
+                description: "Nuage Overlay SDN Controller information."
                 $ref: '#/definitions/NuageSDNController'
             rancher_servers:
-                description: "List of Rancher servers; In case of a load balanced Rancher multi cluster, use Virtual IP of the cluster"
+                description: "List of Rancher servers; In case of a load balanced Rancher multi cluster, use Virtual IP of the cluster."
                 type: array
                 items:
                     type: string
             se_deployment_method:
-                description: "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH"
-                type: number
-                format: int64
+                description: "Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
+                type: string
+                default: "SE_CREATE_SSH"
             se_exclude_attributes:
+                description: "Exclude hosts with attributes for SE creation."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_include_attributes:
+                description: "Create SEs just on hosts with include attributes."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_spawn_rate:
-                description: "New SE spawn rate per minute"
+                description: "New SE spawn rate per minute."
                 type: integer
+                default: 25
                 format: int32
             se_volume:
-                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change"
+                description: "Host volume to be used as a disk for Avi SE, This is a disruptive change."
                 type: string
+                default: "/opt/avi"
             secret_key:
-                description: "Secret key"
+                description: "Secret key."
                 type: string
             services_accessible_all_interfaces:
-                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface"
+                description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface."
                 type: boolean
             ssh_se_deployment:
+                description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
+            ssh_user_ref:
+                description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
+                type: string
             use_container_ip_port:
-                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers"
+                description: "Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers."
                 type: boolean
             use_controller_image:
-                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se"
+                description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
                 type: boolean
     SSHSeDeployment:
         type: object
         properties:
             host_os:
-                description: "Host OS distribution e.g. COREOS, UBUNTU, REDHAT"
+                description: "Host OS distribution e.g. COREOS, UBUNTU, REDHAT. Field deprecated in 17.1.1."
                 type: string
+                default: "COREOS"
             password:
-                description: "Password for ssh and/or sudo"
+                description: "Password for ssh and/or sudo. Field deprecated in 17.1.1."
                 type: string
             ssh_user:
-                description: "Username for SSH access to hosts"
+                description: "Username for SSH access to hosts. Field deprecated in 17.1.1."
                 type: string
             sudo_user:
-                description: "Username for sudo"
+                description: "Username for sudo. Field deprecated in 17.1.1."
                 type: string
     vCenterConfiguration:
         type: object
@@ -1308,25 +1939,26 @@ definitions:
             -   privilege
         properties:
             datacenter:
-                description: "Datacenter for virtual infrastructure discovery"
+                description: "Datacenter for virtual infrastructure discovery."
                 type: string
             management_ip_subnet:
+                description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'
             management_network:
-                description: "Management network to use for Avi Service Engines"
+                description: "Management network to use for Avi Service Engines. It is a reference to an object of type VIMgrNWRuntime."
                 type: string
             password:
                 description: "The password Avi Vantage will use when authenticating with vCenter."
                 type: string
             privilege:
-                description: "Set the access mode to vCenter as either Read, which allows Avi to discover networks and servers, or Write, which also allows Avi to create Service Engines and configure their network properties.Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS"
-                type: number
-                format: int64
+                description: "Set the access mode to vCenter as either Read, which allows Avi to discover networks and servers, or Write, which also allows Avi to create Service Engines and configure their network properties. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                type: string
+                default: "WRITE_ACCESS"
             username:
                 description: "The username Avi Vantage will use when authenticating with vCenter."
                 type: string
             vcenter_template_se_location:
-                description: "Avi Service Engine Template in vCenter to be used for creating Service Engines"
+                description: "Avi Service Engine Template in vCenter to be used for creating Service Engines."
                 type: string
             vcenter_url:
                 description: "vCenter hostname or IP address."
@@ -1344,27 +1976,27 @@ definitions:
             -   vca_vdc
         properties:
             privilege:
-                description: "vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS"
-                type: number
-                format: int64
+                description: "vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                type: string
+                default: "WRITE_ACCESS"
             vca_host:
-                description: "vCloudAir host address"
+                description: "vCloudAir host address."
                 type: string
             vca_instance:
-                description: "vCloudAir instance ID"
+                description: "vCloudAir instance ID."
                 type: string
             vca_mgmt_network:
-                description: "vCloudAir management network"
+                description: "vCloudAir management network."
                 type: string
             vca_orgnization:
-                description: "vCloudAir orgnization ID"
+                description: "vCloudAir orgnization ID."
                 type: string
             vca_password:
-                description: "vCloudAir password"
+                description: "vCloudAir password."
                 type: string
             vca_username:
-                description: "vCloudAir username"
+                description: "vCloudAir username."
                 type: string
             vca_vdc:
-                description: "vCloudAir virtual data center name"
+                description: "vCloudAir virtual data center name."
                 type: string

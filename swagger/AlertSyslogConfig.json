@@ -1,0 +1,605 @@
+{
+    "info": {
+        "title": "Avi AlertSyslogConfig Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/alertsyslogconfig": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AlertSyslogConfig object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfigApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/alertsyslogconfig/{uuid}/alerttestsyslog": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AlertTestSyslogSnmpParams", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertTestSyslogSnmpParams"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/alertsyslogconfig/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AlertSyslogConfig object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "AlertSyslogConfig object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/AlertSyslogConfig"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "AlertSyslogServer": {
+            "required": [
+                "syslog_server", 
+                "udp"
+            ], 
+            "type": "object", 
+            "properties": {
+                "udp": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Network protocol to establish syslog session."
+                }, 
+                "syslog_server_port": {
+                    "default": 514, 
+                    "type": "integer", 
+                    "description": "The destination Syslog server's service port.", 
+                    "format": "int32"
+                }, 
+                "syslog_server": {
+                    "type": "string", 
+                    "description": "The destination Syslog server IP address or hostname."
+                }
+            }
+        }, 
+        "AlertSyslogConfig": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "syslog_servers": {
+                    "items": {
+                        "$ref": "#/definitions/AlertSyslogServer"
+                    }, 
+                    "type": "array", 
+                    "description": "The list of syslog servers."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for alert syslog config."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "A user-friendly name of the syslog notification."
+                }
+            }
+        }, 
+        "AlertSyslogConfigApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/AlertSyslogConfig"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "AlertTestSyslogSnmpParams": {
+            "required": [
+                "text"
+            ], 
+            "type": "object", 
+            "properties": {
+                "text": {
+                    "type": "string", 
+                    "description": "The contents of the Syslog message/SNMP Trap contents."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

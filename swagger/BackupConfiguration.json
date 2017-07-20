@@ -1,0 +1,520 @@
+{
+    "info": {
+        "title": "Avi BackupConfiguration Object API", 
+        "version": "17.1.3", 
+        "description": "##CLI##\n```\n- show backupconfiguration <key>\n- configure backupconfiguration <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/backupconfiguration/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "BackupConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "BackupConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/backupconfiguration": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "BackupConfiguration object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfiguration"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/BackupConfigurationApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "BackupConfiguration": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "name": {
+                    "type": "string", 
+                    "description": "Name of backup configuration."
+                }, 
+                "remote_directory": {
+                    "type": "string", 
+                    "description": "Directory at remote destination with write permission for ssh user."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "remote_hostname": {
+                    "type": "string", 
+                    "description": "Remote Destination."
+                }, 
+                "backup_passphrase": {
+                    "type": "string", 
+                    "description": "Passphrase of backup configuration."
+                }, 
+                "upload_to_remote_host": {
+                    "type": "boolean", 
+                    "description": "Remote Backup."
+                }, 
+                "save_local": {
+                    "type": "boolean", 
+                    "description": "Local Backup."
+                }, 
+                "maximum_backups_stored": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Rotate the backup files based on this count. Allowed values are 1-20.", 
+                    "format": "int32"
+                }, 
+                "backup_file_prefix": {
+                    "type": "string", 
+                    "description": "Prefix of the exported configuration file. Field introduced in 17.1.1."
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Access Credentials for remote destination. It is a reference to an object of type CloudConnectorUser."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "BackupConfigurationApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/BackupConfiguration"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

@@ -2,13 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi HTTPPolicySet Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: HTTPPolicySet API documentation
+    description: |
+        ##CLI##
+        ```
+        - configure httppolicyset <key>
+        - show httppolicyset <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +44,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +79,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: HTTPPolicySet object creation
@@ -109,11 +126,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +171,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: HTTPPolicySet object creation
@@ -195,11 +222,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: HTTPPolicySet object creation
@@ -241,11 +273,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +298,7 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     CookieMatch:
         type: object
@@ -269,18 +307,17 @@ definitions:
             -   name
         properties:
             match_case:
-                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL"
-                type: number
-                format: int64
+                description: "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
             name:
-                description: "Name of the cookie"
+                description: "Name of the cookie."
                 type: string
             value:
-                description: "String value in the cookie"
+                description: "String value in the cookie."
                 type: string
     HdrMatch:
         type: object
@@ -289,18 +326,17 @@ definitions:
             -   match_criteria
         properties:
             hdr:
-                description: "Name of the HTTP header whose value is to be matched"
+                description: "Name of the HTTP header whose value is to be matched."
                 type: string
             match_case:
-                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL"
-                type: number
-                format: int64
+                description: "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
             value:
-                description: "String values to match in the HTTP header"
+                description: "String values to match in the HTTP header."
                 type: array
                 items:
                     type: string
@@ -310,15 +346,14 @@ definitions:
             -   match_criteria
         properties:
             match_case:
-                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL"
-                type: number
-                format: int64
+                description: "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
             value:
-                description: "String value(s) in the host header"
+                description: "String value(s) in the host header."
                 type: array
                 items:
                     type: string
@@ -326,10 +361,10 @@ definitions:
         type: object
         properties:
             name:
-                description: "Cookie name"
+                description: "Cookie name."
                 type: string
             value:
-                description: "Cookie value"
+                description: "Cookie value."
                 type: string
     HTTPHdrAction:
         type: object
@@ -337,31 +372,32 @@ definitions:
             -   action
         properties:
             action:
-                description: "ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed.Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR"
-                type: number
-                format: int64
+                description: "ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR."
+                type: string
             cookie:
+                description: "Cookie information."
                 $ref: '#/definitions/HTTPCookieData'
             hdr:
+                description: "HTTP header information."
                 $ref: '#/definitions/HTTPHdrData'
     HTTPHdrData:
         type: object
         properties:
             name:
-                description: "HTTP header name"
+                description: "HTTP header name."
                 type: string
             value:
+                description: "HTTP header value."
                 $ref: '#/definitions/HTTPHdrValue'
     HTTPHdrValue:
         type: object
         properties:
             val:
-                description: "HTTP header value or variable representing an HTTP header"
+                description: "HTTP header value or variable representing an HTTP header."
                 type: string
             var:
-                description: "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER"
-                type: number
-                format: int64
+                description: "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER."
+                type: string
     HTTPLocalFile:
         type: object
         required:
@@ -380,35 +416,38 @@ definitions:
             -   name
         properties:
             cloud_config_cksum:
-                description: "Checksum of cloud configuration for Pool. Internally set by cloud connector"
+                description: "Checksum of cloud configuration for Pool. Internally set by cloud connector."
                 type: string
             created_by:
-                description: "Creator name"
+                description: "Creator name."
                 type: string
             description:
-                description: ""
+                description: "User defined description for the object."
                 type: string
             http_request_policy:
+                description: "HTTP request policy for the virtual service."
                 $ref: '#/definitions/HTTPRequestPolicy'
             http_response_policy:
+                description: "HTTP response policy for the virtual service."
                 $ref: '#/definitions/HTTPResponsePolicy'
             http_security_policy:
+                description: "HTTP security policy for the virtual service."
                 $ref: '#/definitions/HTTPSecurityPolicy'
             is_internal_policy:
-                description: ""
+                description: "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean"
                 type: boolean
             name:
-                description: "Name of the HTTP Policy Set"
+                description: "Name of the HTTP Policy Set."
                 type: string
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "UUID of the HTTP Policy Set"
+                description: "UUID of the HTTP Policy Set."
                 type: string
     HTTPPolicySetApiResponse:
         type: object
@@ -429,28 +468,31 @@ definitions:
             -   protocol
         properties:
             host:
+                description: "Host config."
                 $ref: '#/definitions/URIParam'
             keep_query:
-                description: "Keep or drop the query of the incoming request URI in the redirected URI"
+                description: "Keep or drop the query of the incoming request URI in the redirected URI."
                 type: boolean
+                default: True
             path:
+                description: "Path config."
                 $ref: '#/definitions/URIParam'
             port:
-                description: "Port to which redirect the request"
+                description: "Port to which redirect the request. Allowed values are 1-65535."
                 type: integer
                 format: int32
             protocol:
-                description: "Protocol type. Enum options - HTTP, HTTPS"
-                type: number
-                format: int64
+                description: "Protocol type. Enum options - HTTP, HTTPS."
+                type: string
             status_code:
-                description: "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307"
-                type: number
-                format: int64
+                description: "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                type: string
+                default: "HTTP_REDIRECT_STATUS_CODE_302"
     HTTPRequestPolicy:
         type: object
         properties:
             rules:
+                description: "Add rules to the HTTP request policy."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPRequestRule'
@@ -462,37 +504,44 @@ definitions:
             -   name
         properties:
             all_headers:
-                description: "Log all HTTP headers upon rule match"
+                description: "Log all HTTP headers upon rule match."
                 type: boolean
             enable:
-                description: "Enable or disable the rule"
+                description: "Enable or disable the rule."
                 type: boolean
+                default: True
             hdr_action:
+                description: "HTTP header rewrite action."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPHdrAction'
             index:
-                description: "Index of the rule"
+                description: "Index of the rule."
                 type: integer
                 format: int32
             log:
-                description: "Log HTTP request upon rule match"
+                description: "Log HTTP request upon rule match."
                 type: boolean
             match:
+                description: "Add match criteria to the rule."
                 $ref: '#/definitions/MatchTarget'
             name:
-                description: "Name of the rule"
+                description: "Name of the rule."
                 type: string
             redirect_action:
+                description: "HTTP redirect action."
                 $ref: '#/definitions/HTTPRedirectAction'
             rewrite_url_action:
+                description: "HTTP request URL rewrite action."
                 $ref: '#/definitions/HTTPRewriteURLAction'
             switching_action:
+                description: "Content switching action."
                 $ref: '#/definitions/HTTPSwitchingAction'
     HTTPResponsePolicy:
         type: object
         properties:
             rules:
+                description: "Add rules to the HTTP response policy."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPResponseRule'
@@ -504,28 +553,32 @@ definitions:
             -   name
         properties:
             all_headers:
-                description: "Log all HTTP headers upon rule match"
+                description: "Log all HTTP headers upon rule match."
                 type: boolean
             enable:
-                description: "Enable or disable the rule"
+                description: "Enable or disable the rule."
                 type: boolean
+                default: True
             hdr_action:
+                description: "HTTP header rewrite action."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPHdrAction'
             index:
-                description: "Index of the rule"
+                description: "Index of the rule."
                 type: integer
                 format: int32
             loc_hdr_action:
+                description: "Location header rewrite action."
                 $ref: '#/definitions/HTTPRewriteLocHdrAction'
             log:
-                description: "Log HTTP request upon rule match"
+                description: "Log HTTP request upon rule match."
                 type: boolean
             match:
+                description: "Add match criteria to the rule."
                 $ref: '#/definitions/ResponseMatchTarget'
             name:
-                description: "Name of the rule"
+                description: "Name of the rule."
                 type: string
     HTTPRewriteLocHdrAction:
         type: object
@@ -533,28 +586,33 @@ definitions:
             -   protocol
         properties:
             host:
+                description: "Host config."
                 $ref: '#/definitions/URIParam'
             keep_query:
-                description: "Keep or drop the query from the server side redirect URI"
+                description: "Keep or drop the query from the server side redirect URI."
                 type: boolean
+                default: True
             path:
+                description: "Path config."
                 $ref: '#/definitions/URIParam'
             port:
-                description: "Port to use in the redirected URI"
+                description: "Port to use in the redirected URI. Allowed values are 1-65535."
                 type: integer
                 format: int32
             protocol:
-                description: "HTTP protocol type. Enum options - HTTP, HTTPS"
-                type: number
-                format: int64
+                description: "HTTP protocol type. Enum options - HTTP, HTTPS."
+                type: string
     HTTPRewriteURLAction:
         type: object
         properties:
             host_hdr:
+                description: "Host config."
                 $ref: '#/definitions/URIParam'
             path:
+                description: "Path config."
                 $ref: '#/definitions/URIParam'
             query:
+                description: "Query config."
                 $ref: '#/definitions/URIParamQuery'
     HTTPSecurityAction:
         type: object
@@ -562,25 +620,26 @@ definitions:
             -   action
         properties:
             action:
-                description: "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT"
-                type: number
-                format: int64
+                description: "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT."
+                type: string
             file:
+                description: "File to be used for generating HTTP local response."
                 $ref: '#/definitions/HTTPLocalFile'
             https_port:
-                description: "Secure SSL/TLS port to redirect the HTTP request to"
+                description: "Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535."
                 type: integer
                 format: int32
             rate_limit:
+                description: "Rate Limit profile to be used to rate-limit the flow."
                 $ref: '#/definitions/RateProfile'
             status_code:
-                description: "HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
-                type: number
-                format: int64
+                description: "HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                type: string
     HTTPSecurityPolicy:
         type: object
         properties:
             rules:
+                description: "Add rules to the HTTP security policy."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPSecurityRule'
@@ -592,21 +651,24 @@ definitions:
             -   name
         properties:
             action:
+                description: "Action to be performed upon successful matching."
                 $ref: '#/definitions/HTTPSecurityAction'
             enable:
-                description: "Enable or disable the rule"
+                description: "Enable or disable the rule."
                 type: boolean
+                default: True
             index:
-                description: "Index of the rule"
+                description: "Index of the rule."
                 type: integer
                 format: int32
             log:
-                description: "Log HTTP request upon rule match"
+                description: "Log HTTP request upon rule match."
                 type: boolean
             match:
+                description: "Add match criteria to the rule."
                 $ref: '#/definitions/MatchTarget'
             name:
-                description: "Name of the rule"
+                description: "Name of the rule."
                 type: string
     HTTPStatusMatch:
         type: object
@@ -614,15 +676,15 @@ definitions:
             -   match_criteria
         properties:
             match_criteria:
-                description: "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN."
+                type: string
             ranges:
+                description: "HTTP response status code range(s)."
                 type: array
                 items:
                     $ref: '#/definitions/HTTPStatusRange'
             status_codes:
-                description: "HTTP response status code(s)"
+                description: "HTTP response status code(s)."
                 type: array
                 items:
                     type: integer
@@ -634,11 +696,11 @@ definitions:
             -   end
         properties:
             begin:
-                description: "Starting HTTP response status code"
+                description: "Starting HTTP response status code."
                 type: integer
                 format: int32
             end:
-                description: "Ending HTTP response status code"
+                description: "Ending HTTP response status code."
                 type: integer
                 format: int32
     HTTPSwitchingAction:
@@ -647,38 +709,36 @@ definitions:
             -   action
         properties:
             action:
-                description: "Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP"
-                type: number
-                format: int64
+                description: "Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP."
+                type: string
             file:
+                description: "File from which to serve local response to the request."
                 $ref: '#/definitions/HTTPLocalFile'
             pool_group_ref:
-                description: "UUID of the pool group to serve the request object ref PoolGroup."
+                description: "UUID of the pool group to serve the request. It is a reference to an object of type PoolGroup."
                 type: string
             pool_ref:
-                description: "UUID of the pool of servers to serve the request object ref Pool."
+                description: "UUID of the pool of servers to serve the request. It is a reference to an object of type Pool."
                 type: string
             server:
+                description: "Specific pool server to select."
                 $ref: '#/definitions/PoolServer'
             status_code:
-                description: "HTTP status code to use when serving local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
-                type: number
-                format: int64
+                description: "HTTP status code to use when serving local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                type: string
     HTTPVersionMatch:
         type: object
         required:
             -   match_criteria
         properties:
             match_criteria:
-                description: "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             versions:
-                description: "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE"
+                description: "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE."
                 type: array
                 items:
-                    type: number
-                format: int64
+                    type: string
     IpAddr:
         type: object
         required:
@@ -686,35 +746,36 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrMatch:
         type: object
         required:
             -   match_criteria
         properties:
             addrs:
+                description: "IP address(es)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
             group_refs:
-                description: "UUID of IP address group(s) object ref IpAddrGroup."
+                description: "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
                 type: array
                 items:
                     type: string
             match_criteria:
-                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             prefixes:
+                description: "IP address prefix(es)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             ranges:
+                description: "IP address range(s)."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrRange'
@@ -725,9 +786,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     IpAddrRange:
@@ -737,8 +799,10 @@ definitions:
             -   end
         properties:
             begin:
+                description: "Starting IP address of the range."
                 $ref: '#/definitions/IpAddr'
             end:
+                description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
     LocationHdrMatch:
         type: object
@@ -746,15 +810,14 @@ definitions:
             -   match_criteria
         properties:
             match_case:
-                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching location header value in the HTTP response. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL"
-                type: number
-                format: int64
+                description: "Criterion to use for matching location header value in the HTTP response. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
             value:
-                description: "String value(s) in the location header"
+                description: "String value(s) in the location header."
                 type: array
                 items:
                     type: string
@@ -762,26 +825,36 @@ definitions:
         type: object
         properties:
             client_ip:
+                description: "Configure client ip addresses."
                 $ref: '#/definitions/IpAddrMatch'
             cookie:
+                description: "Configure HTTP cookie(s)."
                 $ref: '#/definitions/CookieMatch'
             hdrs:
+                description: "Configure HTTP header(s)."
                 type: array
                 items:
                     $ref: '#/definitions/HdrMatch'
             host_hdr:
+                description: "Configure the host header."
                 $ref: '#/definitions/HostHdrMatch'
             method:
+                description: "Configure HTTP methods."
                 $ref: '#/definitions/MethodMatch'
             path:
+                description: "Configure request paths."
                 $ref: '#/definitions/PathMatch'
             protocol:
+                description: "Configure the type of HTTP protocol."
                 $ref: '#/definitions/ProtocolMatch'
             query:
+                description: "Configure request query."
                 $ref: '#/definitions/QueryMatch'
             version:
+                description: "Configure versions of the HTTP protocol."
                 $ref: '#/definitions/HTTPVersionMatch'
             vs_port:
+                description: "Configure virtual service ports."
                 $ref: '#/definitions/PortMatch'
     MethodMatch:
         type: object
@@ -789,35 +862,32 @@ definitions:
             -   match_criteria
         properties:
             match_criteria:
-                description: "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             methods:
-                description: "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE"
+                description: "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE."
                 type: array
                 items:
-                    type: number
-                format: int64
+                    type: string
     PathMatch:
         type: object
         required:
             -   match_criteria
         properties:
             match_case:
-                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH"
-                type: number
-                format: int64
+                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
             match_str:
-                description: "String values"
+                description: "String values."
                 type: array
                 items:
                     type: string
             string_group_refs:
-                description: "UUID of the string group(s) object ref StringGroup."
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
                 type: array
                 items:
                     type: string
@@ -830,9 +900,10 @@ definitions:
                 description: "DNS resolvable name of the server.  May be used in place of the IP address."
                 type: string
             ip:
+                description: "IP address of the server in the poool."
                 $ref: '#/definitions/IpAddr'
             port:
-                description: "Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool."
+                description: "Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool. Allowed values are 1-65535."
                 type: integer
                 format: int32
     PortMatch:
@@ -841,11 +912,10 @@ definitions:
             -   match_criteria
         properties:
             match_criteria:
-                description: "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             ports:
-                description: "TCP port(s) listening for HTTP/HTTPS"
+                description: "Listening TCP port(s). Allowed values are 1-65535."
                 type: array
                 items:
                     type: integer
@@ -857,33 +927,30 @@ definitions:
             -   protocols
         properties:
             match_criteria:
-                description: "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN"
-                type: number
-                format: int64
+                description: "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
             protocols:
-                description: "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS"
-                type: number
-                format: int64
+                description: "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS."
+                type: string
     QueryMatch:
         type: object
         required:
             -   match_criteria
         properties:
             match_case:
-                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE"
-                type: number
-                format: int64
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS"
-                type: number
-                format: int64
+                description: "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS."
+                type: string
             match_str:
-                description: "String value(s)"
+                description: "String value(s)."
                 type: array
                 items:
                     type: string
             string_group_refs:
-                description: "UUID of the string group(s) object ref StringGroup."
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
                 type: array
                 items:
                     type: string
@@ -891,72 +958,95 @@ definitions:
         type: object
         properties:
             file:
+                description: "File to be used for HTTP Local response rate limit action."
                 $ref: '#/definitions/HTTPLocalFile'
             redirect:
+                description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action.Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
-                type: number
-                format: int64
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                type: string
+                default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
-                description: "Type of action to be enforced upon hitting the rate limit.Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT"
-                type: number
-                format: int64
+                description: "Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT."
+                type: string
+                default: "RL_ACTION_NONE"
     RateProfile:
         type: object
         properties:
             action:
+                description: "Action to perform upon rate limiting."
                 $ref: '#/definitions/RateLimiterAction'
             burst_sz:
-                description: "Maximum number of connections or requests or packets to be let through instantaneously"
+                description: "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'."
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets"
+                description: "Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
             explicit_tracking:
-                description: "Explicitly tracks an attacker across rate periods"
+                description: "Explicitly tracks an attacker across rate periods."
                 type: boolean
             fine_grain:
-                description: "Enable fine granularity"
+                description: "Enable fine granularity."
                 type: boolean
+            http_cookie:
+                description: "HTTP cookie name. Field introduced in 17.1.1."
+                type: string
+            http_header:
+                description: "HTTP header name. Field introduced in 17.1.1."
+                type: string
             period:
-                description: "Time value in seconds to enforce rate count"
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
+                default: 1
                 format: int32
     ResponseMatchTarget:
         type: object
         properties:
             client_ip:
+                description: "Configure client ip addresses."
                 $ref: '#/definitions/IpAddrMatch'
             cookie:
+                description: "Configure HTTP cookie(s)."
                 $ref: '#/definitions/CookieMatch'
             hdrs:
+                description: "Configure HTTP headers."
                 type: array
                 items:
                     $ref: '#/definitions/HdrMatch'
             host_hdr:
+                description: "Configure the host header."
                 $ref: '#/definitions/HostHdrMatch'
             loc_hdr:
+                description: "Configure the location header."
                 $ref: '#/definitions/LocationHdrMatch'
             method:
+                description: "Configure HTTP methods."
                 $ref: '#/definitions/MethodMatch'
             path:
+                description: "Configure request paths."
                 $ref: '#/definitions/PathMatch'
             protocol:
+                description: "Configure the type of HTTP protocol."
                 $ref: '#/definitions/ProtocolMatch'
             query:
+                description: "Configure request query."
                 $ref: '#/definitions/QueryMatch'
             rsp_hdrs:
+                description: "Configure the HTTP headers in response."
                 type: array
                 items:
                     $ref: '#/definitions/HdrMatch'
             status:
+                description: "Configure the HTTP status code(s)."
                 $ref: '#/definitions/HTTPStatusMatch'
             version:
+                description: "Configure versions of the HTTP protocol."
                 $ref: '#/definitions/HTTPVersionMatch'
             vs_port:
+                description: "Configure virtual service ports."
                 $ref: '#/definitions/PortMatch'
     URIParam:
         type: object
@@ -964,39 +1054,39 @@ definitions:
             -   type
         properties:
             tokens:
+                description: "Token config either for the URI components or a constant string."
                 type: array
                 items:
                     $ref: '#/definitions/URIParamToken'
             type:
-                description: "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED"
-                type: number
-                format: int64
+                description: "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                type: string
     URIParamQuery:
         type: object
         properties:
             add_string:
-                description: "Concatenate a string to the query of the incoming request URI and then use it in the request URI going to the backend server"
+                description: "Concatenate a string to the query of the incoming request URI and then use it in the request URI going to the backend server."
                 type: string
             keep_query:
-                description: "Use or drop the query of the incoming request URI in the request URI to the backend server"
+                description: "Use or drop the query of the incoming request URI in the request URI to the backend server."
                 type: boolean
+                default: True
     URIParamToken:
         type: object
         required:
             -   type
         properties:
             end_index:
-                description: "Index of the ending token in the incoming URI"
+                description: "Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - 'end of string'."
                 type: integer
                 format: int32
             start_index:
-                description: "Index of the starting token in the incoming URI"
+                description: "Index of the starting token in the incoming URI."
                 type: integer
                 format: int32
             str_value:
-                description: "Constant string to use as a token"
+                description: "Constant string to use as a token."
                 type: string
             type:
-                description: "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX"
-                type: number
-                format: int64
+                description: "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX."
+                type: string

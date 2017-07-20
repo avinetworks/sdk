@@ -12,11 +12,11 @@ LOG = logging.getLogger(__name__)
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_virtualservice_attributes, prefix):
+    def get_instance(cls, version, f5_virtualservice_attributes, prefix, con_snatpool):
         if version == '10':
-            return VSConfigConvV10(f5_virtualservice_attributes, prefix)
+            return VSConfigConvV10(f5_virtualservice_attributes, prefix, con_snatpool)
         if version in ['11', '12']:
-            return VSConfigConvV11(f5_virtualservice_attributes, prefix)
+            return VSConfigConvV11(f5_virtualservice_attributes, prefix, con_snatpool)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -54,7 +54,7 @@ class VSConfigConv(object):
                                          cloud_name, controller_version)
                 if vs_obj:
                     avi_config['VirtualService'].append(vs_obj)
-                LOG.debug("Conversion successful for VS: %s" % vs_name)
+                    LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
 
@@ -76,19 +76,27 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(profiles, avi_config,
                                                           self.prefix)
-        app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
-            profiles, avi_config, tenant, self.prefix)
-        ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
-                                                    self.prefix)
         oc_prof = False
         for prof in profiles:
             if prof in avi_config.get('OneConnect', []):
                 oc_prof = True
+        app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
+            profiles, avi_config, tenant, self.prefix, oc_prof)
+
+        if not app_prof:
+            LOG.warning('Profile type not supported by Avi Skipping VS : %s'
+                        % vs_name)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED)
+            return None
+
+        ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
+                                                    self.prefix)
 
         # If one connect profile is not assigned to f5 VS and avi app profile
         # assigned to VS has connection_multiplexing_enabled value True then
         # clone profile and make connection_multiplexing_enabled as False
-
+        pool_ref = f5_vs.get("pool", None)
         app_prof_obj = [obj for obj in avi_config['ApplicationProfile']
                         if obj['name'] == app_prof[0]]
         cme = True
@@ -98,7 +106,6 @@ class VSConfigConv(object):
         if app_prof_type == 'APPLICATION_PROFILE_TYPE_HTTP':
             cme = app_prof_obj[0]['http_profile'].get(
                 'connection_multiplexing_enabled', False)
-
         if not (cme or oc_prof):
             # Check if already cloned profile present
             app_prof_cmd = [obj for obj in avi_config['ApplicationProfile']
@@ -118,14 +125,16 @@ class VSConfigConv(object):
         destination = f5_vs.get("destination", None)
         d_tenant, destination = conv_utils.get_tenant_ref(destination)
         # if destination is not present then skip vs.
-        services_obj, ip_addr, vsvip_ref = conv_utils.get_service_obj(
+        services_obj, ip_addr, vsvip_ref, vrf_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
-            cloud_name, self.prefix)
+            cloud_name, self.prefix, vs_name)
+        # Added Check for if port is no digit skip vs.
+        if not services_obj and not ip_addr and not vsvip_ref:
+            LOG.debug("Skipped: Virtualservice: %s" % vs_name)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED)
+            return
 
-        if '%' in ip_addr:
-            ip_addr, vrf = ip_addr.split('%')
-            conv_utils.add_vrf(avi_config, vrf)
-        pool_ref = f5_vs.get("pool", None)
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
@@ -175,7 +184,6 @@ class VSConfigConv(object):
             if f_host:
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
-
         ip_addr = ip_addr.strip()
         matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
         if not matches or ip_addr == '0.0.0.0':
@@ -192,7 +200,6 @@ class VSConfigConv(object):
             },
             'vip_id': 0
         }
-
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -205,6 +212,9 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+
+        if vrf_ref:
+            vs_obj['vrf_context_ref'] = vrf_ref
         if parse_version(controller_version) >= parse_version('17.1'):
             vs_obj['vip'] = [vip]
             vs_obj['vsvip_ref'] = vsvip_ref
@@ -290,8 +300,16 @@ class VSConfigConv(object):
             vs_obj['http_policies'] = policy_set
 
         source = f5_vs.get('source', '0.0.0.0/0')
-        if not source == '0.0.0.0/0':
+        if '%' in source:
+            s_parts = source.split('%')
+        elif '/' in source:
+            s_parts = source.split('/')
+        else:
+            s_parts = [source]
+        if not s_parts[0] == '0.0.0.0':
             parts = source.split('/')
+            if '%' in parts[0]:
+                parts[0] = parts[0].split('%')[0]
             mask = 24
             if len(parts) > 1:
                 mask = parts[1]
@@ -302,26 +320,31 @@ class VSConfigConv(object):
             vs_obj['network_security_policy_ref'] = conv_utils.get_object_ref(
                 policy_name, 'networksecuritypolicy', tenant=tenant)
 
+        # Checking snat conversion flag and snat info for creating snat ip object
         snat = f5_vs.get("source-address-translation", {})
-        snat_pool_name = snat.get("pool", None)
-        if not snat_pool_name:
-            snat_pool_name = f5_vs.get("snatpool", None)
-        snat_pool = None
-        if snat_pool_name:
-            snat_pool = snat_config.pop(snat_pool_name, None)
+        snat_pool_name = snat.get("pool", f5_vs.get("snatpool", None))
+        snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
-            snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
-            if len(snat_list) > 32:
-                vs_obj["snat_ip"] = snat_list[0:32]
-                LOG.warning(
-                    'Ignore the snat IPs, its count is beyond 32 for vs : %s' %
-                    vs_name)
+            if self.con_snatpool:
+                LOG.debug("Converting the snat as input flag and snat information is set")
+                snat_list = conv_utils.get_snat_list_for_vs(snat_pool)
+                if len(snat_list) > 32:
+                    vs_obj["snat_ip"] = snat_list[0:32]
+                    LOG.warning(
+                        'Ignore the snat IPs, its count is beyond 32 for vs : %s' %
+                        vs_name)
+                else:
+                    vs_obj["snat_ip"] = snat_list
+                conv_status = {'status': final.STATUS_SUCCESSFUL}
+                message = 'Mapped indirectly to VS -> SNAT IP Address'
+                conv_utils.add_conv_status('snatpool', '', snat_pool_name,
+                                           conv_status, message)
             else:
-                vs_obj["snat_ip"] = snat_list
-            conv_status = {'status': final.STATUS_SUCCESSFUL}
-            message = 'Mapped indirectly to VS -> SNAT IP Address'
-            conv_utils.add_conv_status('snatpool', '', snat_pool_name,
-                                       conv_status, message)
+                LOG.debug("Skipped: snat conversion as input flag is not set for vs : %s" % vs_name)
+                skipped.append("source-address-translation" if f5_vs.get(
+                    "source-address-translation") else "snatpool" if f5_vs.get(
+                    "snatpool") else None)
+
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -340,6 +363,23 @@ class VSConfigConv(object):
                     app_profiles[0]["http_profile"]["pki_profile_ref"] = \
                         ssl_vs[0]["pki"]
 
+        # Added code to skipped L4 VS if pool or pool group not present
+        if vs_obj['application_profile_ref']:
+            app_profile_name = \
+                str(vs_obj['application_profile_ref']).split(
+                    '&name=')[1]
+            application_profile_obj = \
+                [obj for obj in avi_config['ApplicationProfile']
+                 if obj['name'] == app_profile_name]
+            if application_profile_obj and application_profile_obj[0]['type'] \
+                    == 'APPLICATION_PROFILE_TYPE_L4':
+                if not 'pool_ref' and not 'pool_group_ref' in vs_obj:
+                    LOG.debug("Failed to convert L4 VS dont have "
+                              "pool or pool group ref: %s" % vs_name)
+                    conv_utils.add_status_row('virtual', None,
+                                              vs_name,
+                                              final.STATUS_SKIPPED)
+                    return
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]
             actual_val = f5_vs.get(attr, None)
@@ -349,7 +389,6 @@ class VSConfigConv(object):
                 skipped.remove(attr)
             elif isinstance(ignore_val, list) and actual_val in ignore_val:
                 skipped.remove(attr)
-
         conv_status = dict()
         conv_status['user_ignore'] = [val for val in skipped
                                       if val in user_ignore]
@@ -376,7 +415,7 @@ class VSConfigConv(object):
 
 
 class VSConfigConvV11(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -387,6 +426,8 @@ class VSConfigConvV11(VSConfigConv):
         self.connection_limit = 'connection-limit'
         # Added prefix for objects
         self.prefix = prefix
+        # Added flag for snat conversion
+        self.con_snatpool = con_snatpool
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
@@ -406,7 +447,7 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -417,6 +458,8 @@ class VSConfigConvV10(VSConfigConv):
         self.connection_limit = 'limit'
         # Added prefix for objects
         self.prefix = prefix
+        # Added flag for snat conversion
+        self.con_snatpool = con_snatpool
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)

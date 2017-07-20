@@ -65,12 +65,17 @@ VERSION_11:
     - "recv-disable"
     - "reverse"
     - "send"
+    - "destination"
 
     Monitor_https_attr:
     - "recv"
     - "recv-disable"
     - "reverse"
     - "send"
+    - "destination"
+    - "cert"
+    - "cipherlist"
+    - "key"
 
     Monitor_dns_attr:
     - "recv"
@@ -153,6 +158,7 @@ VERSION_11:
     - "fastl4"
     - "tcp"
     - "udp"
+    - "one-connect"
 
     Profile_ignore_for_defaults:
         'app-service': 'none'
@@ -560,6 +566,9 @@ VERSION_10:
     - "recv disable"
     - "reverse"
     - "send"
+    - "cert"
+    - "cipherlist"
+    - "key"
 
     Monitor_tcp_attr:
     - "dest"
@@ -632,6 +641,7 @@ VERSION_10:
     - "fasthttp"
     - "tcp"
     - "udp"
+    - "oneconnect"
 
     Profile_supported_ssl:
     - "cert"

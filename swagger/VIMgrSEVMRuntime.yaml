@@ -2,13 +2,19 @@
 ---
 swagger: '2.0'
 info:
-    version: '16.4'
-    title: Avi API
+    version: '17.1.3'
+    title: Avi VIMgrSEVMRuntime Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
-    description: VIMgrSEVMRuntime API documentation
+    description: |
+        ##CLI##
+        ```
+        - show vinfra serviceengine <key>
+        ```
+
+
 securityDefinitions:
     basicAuth:
         type: basic
@@ -37,11 +43,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
             security:
                 - basicAuth: []
             responses:
@@ -67,11 +78,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrSEVMRuntime object creation
@@ -109,11 +125,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   name: uuid
                     in: path
                     description: UUID of the object to fetch
@@ -149,11 +170,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrSEVMRuntime object creation
@@ -195,11 +221,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
                     description: VIMgrSEVMRuntime object creation
@@ -241,11 +272,16 @@ paths:
                     type: string
                     required: false
                     description: Avi Tenant Header UUID
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
                     required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -261,6 +297,7 @@ paths:
                 404:
                     description: not found
 
+
 definitions:
     IpAddr:
         type: object
@@ -269,12 +306,11 @@ definitions:
             -   type
         properties:
             addr:
-                description: "IP address"
+                description: "IP address."
                 type: string
             type:
-                description: "Enum options - V4, DNS"
-                type: number
-                format: int64
+                description: " Enum options - V4, DNS."
+                type: string
     IpAddrPrefix:
         type: object
         required:
@@ -282,9 +318,10 @@ definitions:
             -   mask
         properties:
             ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
                 $ref: '#/definitions/IpAddr'
             mask:
-                description: ""
+                description: "Number of mask."
                 type: integer
                 format: int32
     VIMgrGuestNicRuntime:
@@ -294,74 +331,76 @@ definitions:
             -   type
         properties:
             avi_internal_network:
-                description: ""
+                description: "Placeholder for description of property avi_internal_network of obj type VIMgrGuestNicRuntime field type str  type boolean"
                 type: boolean
             connected:
-                description: ""
+                description: "Placeholder for description of property connected of obj type VIMgrGuestNicRuntime field type str  type boolean"
                 type: boolean
             del_pending:
-                description: ""
+                description: "Placeholder for description of property del_pending of obj type VIMgrGuestNicRuntime field type str  type boolean"
                 type: boolean
             guest_ip:
+                description: "Placeholder for description of property guest_ip of obj type VIMgrGuestNicRuntime field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VIMgrIPSubnetRuntime'
             label:
-                description: ""
+                description: "label of VIMgrGuestNicRuntime."
                 type: string
+                default: "Unknown"
             mac_addr:
-                description: ""
+                description: "mac_addr of VIMgrGuestNicRuntime."
                 type: string
             mgmt_vnic:
-                description: ""
+                description: "Placeholder for description of property mgmt_vnic of obj type VIMgrGuestNicRuntime field type str  type boolean"
                 type: boolean
             network_name:
-                description: ""
+                description: "network_name of VIMgrGuestNicRuntime."
                 type: string
             network_uuid:
-                description: ""
+                description: "Unique object identifier of network."
                 type: string
             os_port_uuid:
-                description: ""
+                description: "Unique object identifier of os_port."
                 type: string
             type:
-                description: "Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
-                type: number
-                format: int64
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                type: string
     VIMgrIPSubnetRuntime:
         type: object
         required:
             -   prefix
         properties:
             fip_available:
-                description: "Indicates floating/elastic IP association possibility"
+                description: "Indicates floating/elastic IP association possibility."
                 type: boolean
             fip_subnet_uuids:
-                description: "If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list"
+                description: "If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list."
                 type: array
                 items:
                     type: string
             ip_subnet:
-                description: ""
+                description: "ip_subnet of VIMgrIPSubnetRuntime."
                 type: string
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             prefix:
+                description: "Placeholder for description of property prefix of obj type VIMgrIPSubnetRuntime field type str  type object"
                 $ref: '#/definitions/IpAddrPrefix'
             primary:
-                description: "True if prefix is primary IP on interface, else false"
+                description: "True if prefix is primary IP on interface, else false."
                 type: boolean
             ref_count:
-                description: ""
+                description: "Number of ref_count."
                 type: integer
                 format: int32
             se_ref_count:
-                description: ""
+                description: "Number of se_ref_count."
                 type: integer
                 format: int32
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
     VIMgrSEVMRuntime:
         type: object
@@ -371,119 +410,116 @@ definitions:
             -   type
         properties:
             availability_zone:
-                description: ""
+                description: "availability_zone of VIMgrSEVMRuntime."
                 type: string
             cloud_name:
-                description: ""
+                description: "cloud_name of VIMgrSEVMRuntime."
                 type: string
             cloud_ref:
-                description: " object ref Cloud."
+                description: " It is a reference to an object of type Cloud."
                 type: string
             connection_state:
-                description: ""
+                description: "connection_state of VIMgrSEVMRuntime."
                 type: string
             controller_cluster_uuid:
-                description: ""
+                description: "Unique object identifier of controller_cluster."
                 type: string
             controller_ip_addr:
-                description: ""
+                description: "controller_ip_addr of VIMgrSEVMRuntime."
                 type: string
             creation_in_progress:
-                description: ""
+                description: "Placeholder for description of property creation_in_progress of obj type VIMgrSEVMRuntime field type str  type boolean"
                 type: boolean
             deletion_in_progress:
-                description: ""
+                description: "Placeholder for description of property deletion_in_progress of obj type VIMgrSEVMRuntime field type str  type boolean"
                 type: boolean
             discovery_response:
-                description: ""
+                description: "discovery_response of VIMgrSEVMRuntime."
                 type: string
             discovery_status:
-                description: ""
+                description: "Number of discovery_status."
                 type: integer
                 format: int32
             flavor:
-                description: ""
+                description: "flavor of VIMgrSEVMRuntime."
                 type: string
             guest_nic:
+                description: "Placeholder for description of property guest_nic of obj type VIMgrSEVMRuntime field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/VIMgrGuestNicRuntime'
             host:
-                description: ""
+                description: "host of VIMgrSEVMRuntime."
                 type: string
             host_ref:
-                description: " object ref VIMgrHostRuntime."
+                description: " It is a reference to an object of type VIMgrHostRuntime."
                 type: string
             hostid:
-                description: ""
+                description: "hostid of VIMgrSEVMRuntime."
                 type: string
             hypervisor:
-                description: "Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN"
-                type: number
-                format: int64
+                description: " Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                type: string
             init_vnics:
-                description: ""
+                description: "Number of init_vnics."
                 type: integer
                 format: int32
             last_discovery:
-                description: ""
+                description: "Number of last_discovery."
                 type: integer
                 format: int32
             managed_object_id:
-                description: ""
+                description: "managed_object_id of VIMgrSEVMRuntime."
                 type: string
             name:
-                description: ""
+                description: "Name of the object."
                 type: string
             powerstate:
-                description: ""
+                description: "powerstate of VIMgrSEVMRuntime."
                 type: string
             security_group_uuid:
-                description: ""
+                description: "Unique object identifier of security_group."
                 type: string
-            segroup_uuid:
-                description: ""
+            segroup_ref:
+                description: " It is a reference to an object of type ServiceEngineGroup."
                 type: string
             server_group_uuid:
-                description: ""
+                description: "Unique object identifier of server_group."
                 type: string
             tenant_ref:
-                description: " object ref Tenant."
+                description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S"
-                type: number
-                format: int64
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: ""
+                description: "Unique object identifier of the object."
                 type: string
             vcenter_datacenter_uuid:
-                description: ""
+                description: "Unique object identifier of vcenter_datacenter."
                 type: string
             vcenter_rm_cookie:
-                description: ""
+                description: "vcenter_rm_cookie of VIMgrSEVMRuntime."
                 type: string
             vcenter_se_type:
-                description: "Enum options - VIMGR_SE_NETWORK_ADMIN, VIMGR_SE_UNIFIED_ADMIN"
-                type: number
-                format: int64
+                description: " Enum options - VIMGR_SE_NETWORK_ADMIN, VIMGR_SE_UNIFIED_ADMIN."
+                type: string
             vcenter_template_vm:
-                description: ""
+                description: "Placeholder for description of property vcenter_template_vm of obj type VIMgrSEVMRuntime field type str  type boolean"
                 type: boolean
             vcenter_vAppName:
-                description: ""
+                description: "vcenter_vAppName of VIMgrSEVMRuntime."
                 type: string
             vcenter_vAppVendor:
-                description: ""
+                description: "vcenter_vAppVendor of VIMgrSEVMRuntime."
                 type: string
             vcenter_vm_type:
-                description: "Enum options - VMTYPE_SE_VM, VMTYPE_POOL_SRVR"
-                type: number
-                format: int64
+                description: " Enum options - VMTYPE_SE_VM, VMTYPE_POOL_SRVR."
+                type: string
     VIMgrSEVMRuntimeApiResponse:
         type: object
         required:
