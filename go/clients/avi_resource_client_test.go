@@ -21,6 +21,14 @@ func TestAviPoolClient(t *testing.T) {
 	objp, err := pclient.Create(&obj)
 	log.Printf("res: %+v; err: %+v", *objp, err)
 
+	aserver := models.Server{}
+	aserver.IP = &models.IPAddr{Addr: "10.10.10.10", Type: "V4"}
+	objp.Servers = append(objp.Servers, &aserver)
+
+	objp, err = pclient.Update(objp)
+	log.Printf("After update -- res: %+v; err: %+v", *objp, err)
+	log.Printf("After update -- server: %+v", objp.Servers[0])
+
 	lobjp, err := pclient.GetAll()
 	log.Printf("res: %+v; err: %+v", *lobjp[0], err)
 
