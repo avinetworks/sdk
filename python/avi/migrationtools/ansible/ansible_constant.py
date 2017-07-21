@@ -7,11 +7,11 @@ common_task_args = {'controller': "{{ controller }}",
 
 
 ansible_dict = dict({
-        'connection': 'local',
-        'hosts': 'localhost',
-        'roles': ['avinetworks.avisdk'],
-        'vars': deepcopy(common_task_args),
-        'tasks': []})
+    'connection': 'local',
+    'hosts': 'localhost',
+    'roles': ['avinetworks.avisdk'],
+    'vars': deepcopy(common_task_args),
+    'tasks': []})
 
 ansible_dict['vars']['state'] = 'present'
 

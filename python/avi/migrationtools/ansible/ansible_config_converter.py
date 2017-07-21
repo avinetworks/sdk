@@ -42,13 +42,14 @@ class AviAnsibleConverter(object):
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
-                 filter_types=None):
+                 filter_types=None, test_vip=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
         # Added prefix flag for object
         self.prefix = prefix
         self.not_in_use = not_in_use
+        self.test_vip = test_vip
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -142,7 +143,7 @@ class AviAnsibleConverter(object):
         vs_ref_dict = get_vs_ref()
 
         for obj in objs:
-            task = deepcopy(obj)
+            task = deepcopy(obj)            
             # Added tag for checking object ref.
             used_tag = 'in_use'
             if isinstance(task, str):
@@ -154,6 +155,22 @@ class AviAnsibleConverter(object):
             task_name = ("Create or Update %s: %s" % (obj_type, obj['name'])
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
+            
+            # replacing test vips for both versions 17.1 and 
+            test_vip = self.test_vip.split('.')[:3]
+            if self.api_version == '16.4':
+                if task.get('ip_address', []):
+                    task['ip_address']['addr']\
+                        = '.'.join(test_vip +\
+                         task['ip_address']['addr'].split('.')[3:])
+            else:
+                if task.get('vip', []):
+                    for id, ip in enumerate(task['vip']):
+                        task['vip'][id]['ip_address']['addr']\
+                         = '.'.join(test_vip +\
+                         task['vip'][id]['ip_address']['addr'].split('.')[3:])
+                    if task.get('vsvip_ref', []):
+                            task.get('vsvip_ref', [])
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
             name = '%s-%s' % (obj['name'], obj_type)
@@ -215,7 +232,7 @@ class AviAnsibleConverter(object):
 
     def get_f5_attributes(self, vs_dict):
         """
-        This function used for generating f5 playbook configuration.
+        This function used fo   r generating f5 playbook configuration.
         It pop out the parameters like ip address, services, controller,
         and user name.
         It adds related parameters for f5 yaml generation.
@@ -435,6 +452,17 @@ class AviAnsibleConverter(object):
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']
+
+        # # Updating the test vips
+        # for avi_obj in self.avi_cfg:
+        #     if self.api_version == '17.1.1':
+        #         if avi_obj == 'VirtualService':
+        #             for obj in self.avi_cfg[avi_obj]:
+        #                 for ip in obj['vip']:
+        #                     print ip['ip_address']['addr']
+        #     if avi_obj == 'VsVip':
+        #         pass
+
         if 'order' not in meta:
             meta['order'] = self.default_meta_order['avi_resource_types']
         total_size = len(meta['order'])

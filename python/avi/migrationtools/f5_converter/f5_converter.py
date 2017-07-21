@@ -8,7 +8,7 @@ import avi.migrationtools
 import yaml
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.vs_filter import filter_for_vs
-#from avi.migrationtools.config_patch import ConfigPatch
+# from avi.migrationtools.config_patch import ConfigPatch
 from requests.packages import urllib3
 
 from avi.migrationtools.f5_converter import (f5_config_converter,
@@ -28,6 +28,7 @@ DEFAULT_SKIP_TYPES = [
     'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
     'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
     'SeProperties', 'ControllerProperties', 'CloudProperties']
+
 
 class F5Converter(AviConverter):
     def __init__(self, args):
@@ -72,6 +73,7 @@ class F5Converter(AviConverter):
         self.vs_level_status = args.vs_level_status
         # Created f5 util object.
         self.conversion_util = F5Util()
+        self.test_vip = args.test_vip
 
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
@@ -151,7 +153,8 @@ class F5Converter(AviConverter):
                 with open(partition, "r") as p_source_file:
                     p_src_str = p_source_file.read()
                     total_size = p_source_file.tell()
-                LOG.debug('Parsing partition config file:' + p_source_file.name)
+                LOG.debug('Parsing partition config file:' +
+                          p_source_file.name)
                 print "Parsing Partitions Configuration..."
                 partition_dict, not_supported_list = f5_parser.parse_config(
                     p_src_str, total_size, self.f5_config_version)
@@ -186,7 +189,7 @@ class F5Converter(AviConverter):
             self.tenant, self.cloud_name, self.f5_passphrase_file,
             self.vs_level_status)
 
-        avi_config_dict["META"] = self.meta(self.tenant, 
+        avi_config_dict["META"] = self.meta(self.tenant,
                                             self.controller_version)
 
         avi_config = self.process_for_utils(avi_config_dict)
@@ -196,8 +199,10 @@ class F5Converter(AviConverter):
         self.write_output(avi_config, output_dir, '%s-Output.json' %
                           report_name)
         if self.create_ansible:
+            # print "inside f5", self.test_vip
             avi_traffic = AviAnsibleConverter(
-                avi_config, output_dir, self.prefix, self.not_in_use)
+                avi_config, output_dir, self.prefix, self.not_in_use,
+                test_vip=self.test_vip)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password)
         if self.option == 'auto-upload':
@@ -268,6 +273,7 @@ class F5Converter(AviConverter):
             else:
                 dct[k] = merge_dct[k]
 
+
 if __name__ == "__main__":
 
     HELP_STR = '''
@@ -288,7 +294,7 @@ if __name__ == "__main__":
     Example to auto upload to controller after conversion:
             f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
             username -p password -t tenant
-            
+
     Example to patch the config after conversion:
         f5_converter.py -f bigip.conf --patch test/patch.yaml
 
@@ -299,7 +305,6 @@ if __name__ == "__main__":
         f5_converter.py -f bigip.conf --vs_level_status
     Usecase: To get the vs level status for the avi objects in excel sheet
     '''
-
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
@@ -364,10 +369,10 @@ if __name__ == "__main__":
                                             'virtualservices')
     # Added command line args to take skip type for ansible playbook
     parser.add_argument('--ansible_skip_types',
-                        help='Comma separated list of Avi Object types to skip '
+                        help='Comma separated list of Avi Object types to skip'
                              'during conversion.\n  Eg. -s DebugController,'
-                             'ServiceEngineGroup will skip debugcontroller and '
-                             'serviceengine objects',default=DEFAULT_SKIP_TYPES)
+                             'ServiceEngineGroup will skip debugcontroller and'
+                             'serviceengine objects', default=DEFAULT_SKIP_TYPES)
     # Added command line args to take skip type for ansible playbook
     parser.add_argument('--ansible_filter_types',
                         help='Comma separated list of Avi Objects types to '
@@ -379,35 +384,42 @@ if __name__ == "__main__":
     parser.add_argument('--ansible',
                         help='Flag for create ansible file',
                         action='store_true')
+                        help = 'Flag for create ansible file', action = 'store_true')
+
+    # Adding support for test vip
+    parser.add_argument('--test_vip',
+                        help = 'Enable test vip for ansible generated file '
+                             'It will replace the original vip '
+                             'Note: The actual ip will vary from input to output'
+                             'use it with caution ')
     # Added prefix for objects
-    parser.add_argument('--prefix', help='Prefix for objects')
+    parser.add_argument('--prefix', help = 'Prefix for objects')
 
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
-                        help='Flag for converting snatpool into '
+                        help = 'Flag for converting snatpool into '
                              'individual addresses',
-                        action="store_true")
+                        action = "store_true")
     # Added not in use flag
     parser.add_argument('--not_in_use',
-                        help='Flag for skipping not in use object',
-                        action="store_true")
+                        help = 'Flag for skipping not in use object',
+                        action = "store_true")
     # Added args for baseline profile json file
-    parser.add_argument('--baseline_profile', help='asolute path for json '
+    parser.add_argument('--baseline_profile', help = 'asolute path for json '
                                     'file containing baseline profiles')
     parser.add_argument('--f5_passphrase_file',
-                        help='F5 key passphrase yaml file path')
+                        help = 'F5 key passphrase yaml file path')
 
-    parser.add_argument('--vs_level_status', action='store_true',
-                        help='Add columns of vs reference and overall skipped '
+    parser.add_argument('--vs_level_status', action = 'store_true',
+                        help = 'Add columns of vs reference and overall skipped '
                              'settings in status excel sheet')
 
 
-    args = parser.parse_args()
+    args=parser.parse_args()
     # print avi f5 converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \
               (sdk_version, args.controller_version)
         exit(0)
-    f5_converter = F5Converter(args)
+    f5_converter=F5Converter(args)
     f5_converter.convert()
-    
