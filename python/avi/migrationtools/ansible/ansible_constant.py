@@ -70,7 +70,12 @@ WHEN = 'when'
 REGISTER = 'register'
 VALUE = 'result'
 RESULT = "result.success!=0"
+<<<<<<< d6530ff2b3b3d1070ef12749f0f38d2f4cb1c177
 VS_NAME = 'vs_name'
+=======
+RESULT_SUCCESS = "result.success==0"
+VS_NAME = 'virtualservice_name'
+>>>>>>> Added code for traffic
 TENANT = 'tenant'
 ANSIBLE_STR = '# Auto-generated from Avi Configuration\n'
 
