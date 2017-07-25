@@ -3,8 +3,6 @@ import os
 import re
 import yaml
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-import avi.migrationtools.netscaler_converter.ns_util as ns_util
-
 from datetime import datetime
 from OpenSSL import crypto as c
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -12,8 +10,11 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
-LOG = logging.getLogger(__name__)
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
+LOG = logging.getLogger(__name__)
+# Creating f5 object for util library.
+ns_util = NsUtil()
 tmp_ssl_key_and_cert_list = []
 tmp_pki_profile_list = []
 app_merge_count = {'count': 0}
@@ -131,8 +132,12 @@ class ProfileConverter(object):
             self.netscalar_passphrase_keys = yaml.safe_load(open(keypassphrase))
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
     def convert(self, ns_config, avi_config, input_dir, sysdict):
+
         """
         This function defines that convert netscalar profiles to avi profiles
         :param ns_config: It is dict of all netscalar commands which are
@@ -154,15 +159,16 @@ class ProfileConverter(object):
         bind_ssl_service = ns_config.get('bind ssl service', {})
         set_ssl_service_group = ns_config.get('set ssl serviceGroup', {})
         bind_ssl_service_group = ns_config.get('bind ssl serviceGroup', {})
-
-        #avi_config['ApplicationProfile'] = []
-        #avi_config['NetworkProfile'] = []
         avi_config["SSLKeyAndCertificate"] = []
-        #avi_config["SSLProfile"] = []
-        #avi_config["PKIProfile"] = []
         LOG.debug("Conversion started for HTTP profiles")
+        # Calculate total object length for progress bar.
+        self.total_size = len(http_profiles.keys()) + len(tcp_profiles.keys()) \
+                          + len(set_ssl_service) + len(ssl_vs_mapping) + \
+                          len(set_ssl_service_group) + len(ssl_mappings)
+        print "Converting Profiles.."
         for key in http_profiles.keys():
             ns_http_profile_command = 'add ns httpProfile'
+            self.progressbar_count += 1
             profile = http_profiles[key]
             ns_http_profile_complete_command = \
                 ns_util.get_netscalar_full_command(ns_http_profile_command,
@@ -193,12 +199,14 @@ class ProfileConverter(object):
 
                 else:
                     avi_config['ApplicationProfile'].append(app_profile)
-
+            msg = "Application profile conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size, msg,
+                                     prefix='Progress', suffix='')
         LOG.debug("HTTP profiles conversion completed")
-
         LOG.debug("Conversion started for TCP profiles")
         for key in tcp_profiles.keys():
             ns_tcp_profile_command = 'add ns tcpProfile'
+            self.progressbar_count += 1
             profile = tcp_profiles[key]
             ns_tcp_profile_complete_command = \
                 ns_util.get_netscalar_full_command(ns_tcp_profile_command,
@@ -228,12 +236,14 @@ class ProfileConverter(object):
                         avi_config['NetworkProfile'].append(net_profile)
                 else:
                     avi_config['NetworkProfile'].append(net_profile)
+            msg = "TCP profile conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
         LOG.debug("TCP profiles conversion completed")
-
         LOG.debug("Conversion started for SSL profiles")
-
         for key in ssl_mappings:
             mapping = ssl_mappings[key]
+            self.progressbar_count += 1
             if isinstance(mapping, dict):
                 mapping = [mapping]
             obj = self.get_key_cert(mapping, ssl_key_and_cert,
@@ -256,7 +266,9 @@ class ProfileConverter(object):
                         avi_config["PKIProfile"].append(obj['pki'])
                 else:
                     avi_config["PKIProfile"].append(obj['pki'])
-
+            msg = "SSL profile conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                         msg, prefix='Progress', suffix='')
         # set ssl vserver conversion
         self.convert_ssl_service_profile(
             set_ssl_service, bind_ssl_service, ssl_key_and_cert, input_dir,
@@ -296,6 +308,7 @@ class ProfileConverter(object):
         """
 
         for key in set_ssl_service:
+            self.progressbar_count += 1
             ssl_service = set_ssl_service[key]
             full_set_ssl_service_command = ns_util.get_netscalar_full_command(
                 set_ssl_service_command, ssl_service)
@@ -388,6 +401,9 @@ class ProfileConverter(object):
             ns_util.add_conv_status(
                 ssl_service['line_no'], set_ssl_service_command, key,
                 full_set_ssl_service_command, conv_status, ssl_profile)
+            msg = "SSL Service conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
 
         LOG.debug("SSL profiles conversion completed")
 

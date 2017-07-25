@@ -25,10 +25,13 @@ from avi.migrationtools.ansible.ansible_constant import \
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
      AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
      ANSIBLE_STR)
+from avi.migrationtools.avi_migration_utils import MigrationUtil
+
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
-
+# Added util object
+mg_util = MigrationUtil()
 
 class AviAnsibleConverter(object):
     skip_fields = SKIP_FIELDS
@@ -340,7 +343,12 @@ class AviAnsibleConverter(object):
         :param: f5password: password of f5server
         :return: None
         """
+        # Added variable to check progress.
+        total_size = len(self.avi_cfg['VirtualService'])
+        progressbar_count = 0
+        print "Conversion Started For Ansible Generate Traffic..."
         for vs in self.avi_cfg['VirtualService']:
+            progressbar_count += 1
             if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
                 tenant = 'admin'
                 vs_dict = dict()
@@ -370,6 +378,10 @@ class AviAnsibleConverter(object):
                                                 )
                 self.create_avi_ansible_disable(vs_dict, ansible_dict)
                 self.create_f5_ansible_enable(f5_dict, ansible_dict)
+            # Added call to check progress.
+            msg = "Ansible Generate Traffic..."
+            mg_util.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
 
     def write_ansible_playbook(self, f5server=None, f5user=None,
                                f5password=None):
@@ -393,7 +405,15 @@ class AviAnsibleConverter(object):
         meta = self.avi_cfg['META']
         if 'order' not in meta:
             meta['order'] = self.default_meta_order
+        total_size = len(meta['order'])
+        progressbar_count = 0
+        print "Conversion Started For Ansible Create Object..."
         for obj_type in meta['order']:
+            progressbar_count += 1
+            # Added call to check progress.
+            msg = "Ansible Create Object..."
+            mg_util.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
             if self.filter_types and obj_type not in self.filter_types:
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:

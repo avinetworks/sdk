@@ -2,9 +2,7 @@ import logging
 import copy
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
 from pkg_resources import parse_version
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.lbvs_converter \
     import (redirect_pools, used_pool_group_ref)
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -18,11 +16,15 @@ from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.profile_converter import \
     app_merge_count
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 LOG = logging.getLogger(__name__)
 
 tmp_used_pool_group_ref = used_pool_group_ref
 tmp_policy_ref = []
+# Creating object for util library.
+ns_util = NsUtil()
+
 
 
 class CsvsConverter(object):
@@ -62,6 +64,9 @@ class CsvsConverter(object):
         self.csvs_bind_user_ignore = user_ignore.get('csvs_bind', [])
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
     def convert(self, ns_config, avi_config, vs_state, sysdict):
         """
@@ -78,14 +83,20 @@ class CsvsConverter(object):
             self.csvs_bind_skipped, self.csvs_na_attrs, self.csvs_ignore_vals,
             self.csvs_bind_user_ignore, self.prefix)
         cs_vs_conf = ns_config.get('add cs vserver', {})
+        lb_vs_conf = ns_config.get('add lb vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['StringGroup'] = []
+        # get the total size of object.
+        self.progressbar_count = len(lb_vs_conf)
+        self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['VirtualService'] = ns_util.remove_duplicate_objects(
             'VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
+            # Increment count
+            self.progressbar_count += 1
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
@@ -501,6 +512,10 @@ class CsvsConverter(object):
                 cs_vs['line_no'], ns_add_cs_vserver_command,
                 key, ns_add_cs_vserver_complete_command, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
+            # Calling progress bar function.
+            msg = "VirtualService Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list

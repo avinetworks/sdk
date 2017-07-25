@@ -1,12 +1,13 @@
 import copy
 import logging
 import os
-
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
-
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 LOG = logging.getLogger(__name__)
 ssl_count = {'count': 0}
+# Creating f5 object for util library.
+conv_utils = F5Util()
+
 
 class ProfileConfigConv(object):
     @classmethod
@@ -46,7 +47,12 @@ class ProfileConfigConv(object):
         if not persistence:
             f5_config['persistence'] = {}
         avi_config['UnsupportedProfiles'] = []
+        print "\nConverting Profiles ..."
+        # Added variable to get total object count.
+        progressbar_count = 0
+        total_size = len(profile_config.keys())
         for key in profile_config.keys():
+            progressbar_count += 1
             profile_type = None
             name = None
             try:
@@ -82,6 +88,10 @@ class ProfileConfigConv(object):
                 else:
                     conv_utils.add_status_row('profile', key, key,
                                               final.STATUS_ERROR)
+            # Added call to check progress.
+            msg = "Profile conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                             prefix='Progress', suffix='')
         count = len(avi_config["SSLProfile"])
         count += len(avi_config["PKIProfile"])
         count += len(avi_config["ApplicationProfile"])

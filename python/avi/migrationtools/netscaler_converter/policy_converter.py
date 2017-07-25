@@ -6,16 +6,15 @@ import re
 import copy
 import random
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_DATASCRIPT,
             OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_STRING_GROUP)
-
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 
 LOG = logging.getLogger(__name__)
-
+# Creating  object for util library.
+ns_util = NsUtil()
 
 class PolicyConverter(object):
     """

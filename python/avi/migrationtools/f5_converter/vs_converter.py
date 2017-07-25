@@ -2,13 +2,14 @@ import logging
 import copy
 import random
 import re
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 from pkg_resources import parse_version
 
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+conv_utils = F5Util()
 
 class VSConfigConv(object):
     @classmethod
@@ -33,8 +34,12 @@ class VSConfigConv(object):
         avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
         avi_config['VsVip'] = []
-
+        print "Converting VirtualServices ..."
+        # Added variable to get total object count.
+        total_size = len(vs_config.keys())
+        progressbar_count = 0
         for vs_name in vs_config.keys():
+            progressbar_count += 1
             try:
                 LOG.debug("Converting VS: %s" % vs_name)
                 f5_vs = vs_config[vs_name]
@@ -58,7 +63,10 @@ class VSConfigConv(object):
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
-
+            # Added call to get the progress.
+            msg = "virtualservice conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                             prefix='Progress', suffix='')
         LOG.debug("Converted %s VS" % len(avi_config['VirtualService']))
         f5_config.pop("virtual", {})
 
@@ -103,7 +111,7 @@ class VSConfigConv(object):
         # assigned to VS has connection_multiplexing_enabled value True then
         # clone profile and make connection_multiplexing_enabled as False
         pool_ref = f5_vs.get("pool", None)
-        app_name = conv_utils.get_name_from_ref(app_prof[0])
+        app_name = conv_utils.get_name(app_prof[0])
         app_prof_obj = [obj for obj in (sys_dict['ApplicationProfile'] +
                                         avi_config['ApplicationProfile']) if
                         obj['name'] == app_name]
@@ -122,7 +130,7 @@ class VSConfigConv(object):
             if app_prof_cmd:
                 app_name = app_prof_cmd[0]['name']
                 app_prof[0] = conv_utils.get_object_ref(app_name,
-                      'applicationprofile', tenant=conv_utils.get_name_from_ref(
+                      'applicationprofile', tenant=conv_utils.get_name(
                                                  app_prof_cmd[0]['tenant_ref']))
             else:
                 app_prof_cmd = copy.deepcopy(app_prof_obj[0])
@@ -131,7 +139,7 @@ class VSConfigConv(object):
                 avi_config['ApplicationProfile'].append(app_prof_cmd)
                 app_name = app_prof_cmd['name']
                 app_prof[0] = conv_utils.get_object_ref(app_name,
-                     'applicationprofile', tenant=conv_utils.get_name_from_ref(
+                     'applicationprofile', tenant=conv_utils.get_name(
                                                  app_prof_cmd['tenant_ref']))
         destination = f5_vs.get("destination", None)
         d_tenant, destination = conv_utils.get_tenant_ref(destination)

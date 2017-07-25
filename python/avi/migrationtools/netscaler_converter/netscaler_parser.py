@@ -1,16 +1,18 @@
 import logging
-import avi.migrationtools.netscaler_converter.ns_util as ns_util
+import time
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constant
 
 from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
                        Word, originalTextFor, Optional, ZeroOrMore, Group,
                        SkipTo, restOfLine, quotedString, LineStart, OneOrMore,
                        Keyword)
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 ParserElement.enablePackrat()
 
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+ns_util = NsUtil()
 
 def parse_config_file(filepath):
     """
@@ -37,7 +39,10 @@ def parse_config_file(filepath):
     command.ignore(comment | blank_line)
     with open(filepath) as infile:
         line_no = 1
-        for line in infile:
+        print "Parsing Input Configuration..."
+        lines = infile.readlines()
+        total_lines = len(lines)
+        for line in lines:
             try:
                 tmp = command.parseString(line)
                 tokens = tmp.asList()
@@ -48,6 +53,10 @@ def parse_config_file(filepath):
             except Exception as exception:
                 line_no += 1
                 LOG.error("Parsing error: " + line)
+            msg = "Parsing started..."
+            if line_no <= total_lines:
+                ns_util.print_progress_bar(line_no, total_lines, msg, prefix='Progress',
+                                 suffix='')
         return result
 
 

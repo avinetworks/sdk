@@ -1,8 +1,11 @@
 from pyparsing import *
 import logging
+import sys
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+conversion_util = F5Util()
 
 def generate_grammar_v11():
     # define data types that might be in the values
@@ -122,7 +125,7 @@ def generate_grammar_v10():
     return data_set
 
 
-def parse_config(source_str, version=11):
+def parse_config(source_str, total_size, version=11):
     grammar = get_grammar_by_version(version)
     result = []
     skipped_list = []
@@ -150,7 +153,17 @@ def parse_config(source_str, version=11):
                         not_supported_list.append(skipconfig)
                 skipped_list.append(skipped_info)
         last_end = end
-
+        # Added call to check progress for parsing.
+        msg = "Parsing configuration..."
+        if end <= total_size:
+            conversion_util.print_progress_bar(end, total_size, msg, prefix='Progress',
+                               suffix='')
+        else:
+            conversion_util.print_progress_bar(total_size, total_size, msg, prefix='Progress',
+                             suffix='')
+    if last_end < total_size:
+        conversion_util.print_progress_bar(total_size - 1, total_size, None, prefix='Progress',
+                       suffix='')
     for skipped in skipped_list:
         LOG.warn("Skipped for parse unmatched from offset:%s to offset:%s" %
                  (skipped["start"], skipped["end"]))
@@ -170,6 +183,7 @@ def get_grammar_by_version(version):
 
 def convert_to_dict(result):
     result_dict = {}
+    total_size = len(result)
     for item in result:
         # determine the key and value to be inserted into the dict
         key = None

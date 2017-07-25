@@ -1,6 +1,5 @@
 import logging
 import re
-import avi.migrationtools.netscaler_converter.ns_util as ns_util
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -12,10 +11,12 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             STATUS_EXTERNAL_MONITOR)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
-
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 app_per_merge_count = {'count': 0}
 
 LOG = logging.getLogger(__name__)
+# Creating f5 object for util library.
+ns_util = NsUtil()
 
 
 class ServiceConverter(object):
@@ -71,8 +72,12 @@ class ServiceConverter(object):
             user_ignore.get('nsservice_server', [])
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
     def convert(self, ns_config, avi_config, sysdict):
+
         """
         Converts service or service groups bound to VS to avi Pool entity
         :param ns_config: Netscaler parsed config
@@ -84,6 +89,8 @@ class ServiceConverter(object):
 
         used_pool_ref = []
         groups = ns_config.get('bind lb vserver', {})
+        # Added total size.
+        self.total_size = self.total_size + len(groups)
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['PoolGroup'] = []
         set_lb_groups = ns_config.get('set lb group', {})
@@ -107,8 +114,9 @@ class ServiceConverter(object):
                 ns_util.add_status_row(
                     element['line_no'], ns_dns_command, dns_key,
                     ns_dns_complate_command, STATUS_INDIRECT)
-
         for group_key in groups:
+            # incremented progress bar
+            self.progressbar_count += 1
             try:
                 if not group_key:
                     skipped_status = 'Skipped: No bind lb vserver found. ' \
@@ -205,7 +213,9 @@ class ServiceConverter(object):
             except Exception as e:
                 LOG.error('Error in bind lb vserver conversion bound to: %s' %
                           group_key, exc_info=True)
-
+            msg = "PoolGroup Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
         # Support for set lb group and bind lb group
         for set_lb_group_key in set_lb_groups:
             set_lb_group = set_lb_groups.get(set_lb_group_key)
@@ -328,8 +338,13 @@ class ServiceConverter(object):
         set_ssl_service = ns_config.get('set ssl service', {})
         bind_ssl_service = ns_config.get('bind ssl service', {})
         bind_ssl_service_group = ns_config.get('bind ssl serviceGroup', {})
-
+        # Get the total size of object
+        self.total_size = self.total_size + len(ns_services) + \
+                          len(ns_service_groups)
+        print "Converting Pools..."
         for key in ns_services:
+            # Added count to increment progress.
+            self.progressbar_count += 1
             service = ns_services.get(key, {})
             service_command = 'add service'
             service_name = key
@@ -445,8 +460,14 @@ class ServiceConverter(object):
             ns_util.add_conv_status(
                 service['line_no'], service_command, service_name,
                 service_netscalar_full_command, conv_status, pool_obj)
+            # Calling progressbar function.
+            msg = "Pool Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg,prefix='Progress', suffix='')
 
         for group_key in ns_service_groups:
+            # Added count to increment progress.
+            self.progressbar_count += 1
             service_group_command = 'add serviceGroup'
             service_group = ns_service_groups.get(group_key, {})
             service_group_name = group_key
@@ -572,7 +593,10 @@ class ServiceConverter(object):
                 service_group['line_no'], service_group_command,
                 service_group_name, service_group_netscalar_full_command,
                 conv_status, pool_obj)
-
+            # Calling progress bar function.
+            msg = "Pool Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
 
     def get_service_montor(self, service_name, bind_ns_service, avi_config,
                            sysdict):

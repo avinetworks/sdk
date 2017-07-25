@@ -1,11 +1,11 @@
 import logging
 import copy
 import re
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as conv_const
-
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+conv_utils = F5Util()
 
 class PoolConfigConv(object):
     @classmethod
@@ -36,7 +36,12 @@ class PoolConfigConv(object):
             "static_routes": []
         }
         avi_config['VrfContext'].append(vrf_context)
+        total_size = len(pool_config.keys())
+        # Added variable to get total object count.
+        progressbar_count = 0
+        print "Converting Pools..."
         for pool_name in pool_config.keys():
+            progressbar_count += 1
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
             if not f5_pool:
@@ -63,6 +68,10 @@ class PoolConfigConv(object):
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name,
                                           conv_const.STATUS_ERROR)
+            # Added call to check progress.
+            msg = "Pool and PoolGroup conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                             prefix='Progress', suffix='')
             # labels_dict = avi_config.pop('PriorityLabels', None)
             # if labels_dict:
             #     for tenant in labels_dict:
@@ -109,7 +118,7 @@ class PoolConfigConv(object):
                           obj["name"] == monitor or monitor in
                           obj.get("dup_of", []))]
             if monitor_obj:
-                tenant = conv_utils.get_name_from_ref(
+                tenant = conv_utils.get_name(
                     monitor_obj[0]['tenant_ref'])
                 monitor_refs.append(conv_utils.get_object_ref(
                     monitor_obj[0]['name'], 'healthmonitor',

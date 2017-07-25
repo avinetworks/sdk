@@ -1,6 +1,7 @@
 import logging
 import avi.migrationtools.f5_converter.converter_constants as conv_const
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
+import os
+import json
 
 from avi.migrationtools.f5_converter.monitor_converter \
     import MonitorConfigConv
@@ -10,8 +11,8 @@ from avi.migrationtools.f5_converter.pool_converter import PoolConfigConv
 from avi.migrationtools.f5_converter.profile_converter import \
     ProfileConfigConv, ssl_count
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
-import os
-import json
+from avi.migrationtools.f5_converter import conversion_util
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 
 LOG = logging.getLogger(__name__)
@@ -26,6 +27,9 @@ merge_object_mapping = {
     'pki_profile': {'no': 0},
     'health_monitor': {'no': 0}
 }
+
+# Creating f5 object for util library.
+conv_utils = F5Util()
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
@@ -131,10 +135,10 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             if key == 'VirtualService':
                 LOG.info('Total Objects of %s : %s (%s full conversions)'
                          % (key, len(avi_config_dict[key]),
-                            conv_utils.fully_migrated))
+                            conversion_util.fully_migrated))
                 print 'Total Objects of %s : %s (%s full conversions)' \
-                      % (
-                      key, len(avi_config_dict[key]), conv_utils.fully_migrated)
+                      % (key, len(avi_config_dict[key]),
+                         conversion_util.fully_migrated)
                 continue
             # Added code to print merged count.
             elif object_merge_check and key == 'SSLProfile':
