@@ -284,6 +284,12 @@ class AviAnsibleConverter(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = True
+        # Adding test vip to create mock test
+        if self.test_vip:
+            test_vip = self.test_vip.split('.')[:3]
+            avi_enable['vip'][0]['ip_address']['addr'] =\
+                '.'.join(test_vip + avi_enable['vip'][0]
+                         ['ip_address']['addr'].split('.')[3:])
         name = "Enable Avi virtualservice: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
