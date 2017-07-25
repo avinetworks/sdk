@@ -12,13 +12,16 @@ from avi.migrationtools.netscaler_converter.lbvs_converter import \
     LbvsConverter, tmp_avi_config
 from avi.migrationtools.netscaler_converter.csvs_converter import \
     CsvsConverter
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.profile_converter import \
     ProfileConverter, app_merge_count
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.netscaler_converter import ns_util
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 
 LOG = logging.getLogger(__name__)
+# Creating object for util library.
+ns_util = NsUtil()
 
 
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
@@ -127,7 +130,8 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                              % (key,len(avi_config[key]),
                                 ns_util.fully_migrated))
                     print 'Total Objects of %s : %s (%s full conversions)'\
-                          % (key, len(avi_config[key]), ns_util.fully_migrated)
+                          % (key, len(avi_config[key]),
+                             ns_util.fully_migrated)
                     continue
                 # Added code to print merged count.
                 elif object_merge_check and key == 'SSLProfile':

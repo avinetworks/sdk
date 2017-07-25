@@ -8,17 +8,17 @@ import avi.migrationtools
 import yaml
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.vs_filter import filter_for_vs
-from avi.migrationtools.config_patch import ConfigPatch
+#from avi.migrationtools.config_patch import ConfigPatch
 from requests.packages import urllib3
+
 from avi.migrationtools.f5_converter import (f5_config_converter,
-                                            f5_parser, scp_util,
-                                            conversion_util)
+                                            f5_parser, scp_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 from pkg_resources import parse_version
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
-
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -69,7 +69,6 @@ class F5Converter(AviConverter):
         # Added args for baseline profile json file to be changed
         self.profile_path = args.baseline_profile
 
-
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
         LOG.info("Input parameters: %s" % ' '.join(sys.argv))
@@ -115,6 +114,7 @@ class F5Converter(AviConverter):
 
         if is_download_from_host:
             LOG.debug("Copying files from host")
+            print "Copying Files from Host..."
             scp_util.get_files_from_f5(input_dir, self.f5_host_ip,
                                        self.f5_ssh_user, self.f5_ssh_password)
             LOG.debug("Copied input files")
@@ -129,9 +129,11 @@ class F5Converter(AviConverter):
             print 'Not found ns configuration file'
             return
         source_str = source_file.read()
+        total_size = source_file.tell()
         LOG.debug('Parsing config file:' + source_file.name)
-        f5_config_dict, not_supported_list = f5_parser.parse_config(source_str,
-                                                self.f5_config_version)
+        print "Parsing Input Configuration..."
+        f5_config_dict, not_supported_list = f5_parser.parse_config(
+            source_str, total_size, self.f5_config_version)
         LOG.debug('Config file %s parsed successfully' % source_file.name)
         avi_config_dict = None
         LOG.debug('Parsing defaults files')
@@ -144,9 +146,11 @@ class F5Converter(AviConverter):
             for partition in partitions:
                 with open(partition, "r") as p_source_file:
                     p_src_str = p_source_file.read()
+                    total_size = p_source_file.tell()
                 LOG.debug('Parsing partition config file:' + p_source_file.name)
-                partition_dict, not_supported_list = \
-                    f5_parser.parse_config(p_src_str, self.f5_config_version)
+                print "Parsing Partitions Configuration..."
+                partition_dict, not_supported_list = f5_parser.parse_config(
+                    p_src_str, total_size, self.f5_config_version)
                 LOG.debug(
                     'Config file %s parsed successfully' % p_source_file.name)
                 # TO get all not supported configuration.
@@ -204,21 +208,24 @@ class F5Converter(AviConverter):
     def get_default_config(self, is_download, path):
         f5_defaults_dict = {}
         if is_download:
+            print "Copying Files from Host..."
             with open(path + os.path.sep + "profile_base.conf", "r") as \
                     profile:
                 profile_base = profile.read()
+                total_size = profile.tell()
             with open(path + os.path.sep + "base_monitors.conf", "r") as \
                     monitor:
                 monitor_base = monitor.read()
+                total_size_mnt = monitor.tell()
             if bool(self.skip_default_file):
                 LOG.warning('Skipped default profile base file : %s\nSkipped '
                             'default monitor base file : %s'
                             % (profile.name, monitor.name))
                 return f5_defaults_dict
-            profile_dict, not_supported_list = f5_parser.parse_config(profile_base,
-                                                  self.f5_config_version)
-            monitor_dict, not_supported_list = f5_parser.parse_config(monitor_base,
-                                                  self.f5_config_version)
+            profile_dict, not_supported_list = f5_parser.parse_config(
+                profile_base, total_size, self.f5_config_version)
+            monitor_dict, not_supported_list = f5_parser.parse_config(
+                monitor_base, total_size_mnt, self.f5_config_version)
             if int(self.f5_config_version) == 10:
                 default_mon = monitor_dict.get("monitor", {})
                 root_mon = monitor_dict["monitorroot"]
@@ -236,8 +243,8 @@ class F5Converter(AviConverter):
                 # running in a exe bundle
                 dir_path = os.path.abspath(os.path.dirname(__file__))
             else:
-                # running from source
-                dir_path = conversion_util.get_project_path()
+                # Added to get directory path.
+                dir_path = os.path.abspath(os.path.dirname(__file__))
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
                 if bool(self.skip_default_file):
@@ -245,8 +252,8 @@ class F5Converter(AviConverter):
                         'Skipped default file : %s' % defaults_file.name)
                     return f5_defaults_dict
                 f5_defaults_dict, not_supported_list = f5_parser.parse_config(
-                    defaults_file.read(), self.f5_config_version)
-
+                    defaults_file.read(), defaults_file.tell(),
+                    self.f5_config_version)
         return f5_defaults_dict
 
     def dict_merge(self, dct, merge_dct):
@@ -378,7 +385,8 @@ if __name__ == "__main__":
         print "SDK Version: %s\nController Version: %s" % \
               (sdk_version, args.controller_version)
         exit(0)
-
+    # Creating f5 object for util library.
+    conversion_util = F5Util()
     f5_converter = F5Converter(args)
     f5_converter.convert()
     

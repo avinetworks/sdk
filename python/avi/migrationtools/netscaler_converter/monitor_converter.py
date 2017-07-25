@@ -1,16 +1,17 @@
 import os
 import re
 import logging
-import avi.migrationtools.netscaler_converter.ns_util as ns_util
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 import math
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_EXTERNAL_MONITOR, STATUS_MISSING_FILE)
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 
 
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+ns_util = NsUtil()
 # Define Dict of merge_object_mapping to update the merged monitor, profile
 # name of ssl_profile, application_profile, network_profile etc
 merge_object_mapping = {
@@ -69,7 +70,11 @@ class MonitorConverter(object):
         netscalar_command = 'add lb monitor'
         LOG.debug("Conversion started for Health Monitors")
         ns_monitors = ns_config.get('add lb monitor', {})
+        total_size = len(ns_monitors.keys())
+        count = 0
+        print "Converting Monitors..."
         for name in ns_monitors.keys():
+            count = count + 1
             ns_monitor = ns_monitors.get(name)
             ns_monitor_complete_command = \
                 ns_util.get_netscalar_full_command(netscalar_command,
@@ -126,6 +131,9 @@ class MonitorConverter(object):
                     avi_config['HealthMonitor'].append(avi_monitor)
             else:
                 avi_config['HealthMonitor'].append(avi_monitor)
+            msg = "monitor conversion started..."
+            ns_util.print_progress_bar(count, total_size, msg,
+                                     prefix='Progress', suffix='')
             LOG.debug("Health monitor conversion completed : %s" % name)
 
     def convert_monitor(self, ns_monitor, input_dir, netscalar_command,

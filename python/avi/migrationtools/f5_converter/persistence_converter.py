@@ -1,11 +1,11 @@
 import logging
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
 import avi.migrationtools.f5_converter.converter_constants as conv_const
-
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
-
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 LOG = logging.getLogger(__name__)
+# Creating f5 object for util library.
+conv_utils = F5Util()
 
 
 class PersistenceConfigConv(object):
@@ -47,10 +47,19 @@ class PersistenceConfigConv(object):
         converted_objs = []
         f5_persistence_dict = f5_config.get('persistence')
         user_ignore = user_ignore.get('persistence', {})
+        # Added variable to get total object count.
+        progressbar_count = 0
+        total_size = len(f5_persistence_dict.keys())
+        print "Converting Persistence Profiles..."
         for key in f5_persistence_dict.keys():
+            progressbar_count += 1
             persist_mode = None
             name = None
             skipped = []
+            # Added call to check the progress.
+            msg = "persistence conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                             prefix='Progress', suffix='')
             try:
                 persist_mode, name = key.split(" ")
                 LOG.debug("Converting persistence profile: %s" % name)
@@ -120,7 +129,6 @@ class PersistenceConfigConv(object):
                 LOG.error("Failed to convert persistance profile : %s" % key,
                           exc_info=True)
                 self.update_conv_status_for_error(name, persist_mode, key)
-
         count = len(avi_config["ApplicationPersistenceProfile"])
         LOG.debug("Converted %s persistence profiles" % count)
         f5_config.pop('persistence')

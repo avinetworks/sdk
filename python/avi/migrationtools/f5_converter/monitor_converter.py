@@ -1,13 +1,14 @@
 import copy
 import logging
 import os
-
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from pkg_resources import parse_version
 from avi.migrationtools.f5_converter.profile_converter import ssl_count
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 LOG = logging.getLogger(__name__)
+# Creating f5 object for util library.
+conv_utils = F5Util()
 
 
 class MonitorConfigConv(object):
@@ -160,10 +161,19 @@ class MonitorConfigConv(object):
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict):
         LOG.debug("Converting health monitors")
+        print "Converting Monitors..."
         converted_objs = []
         m_user_ignore = user_ignore.get('monitor', {})
         monitor_config = f5_config.pop("monitor", {})
+        # Added varibles to  get total count of object.
+        total_size = len(monitor_config.keys())
+        progressbar_count = 0
         for key in monitor_config.keys():
+            progressbar_count += 1
+            # Added call to check progress.
+            msg = "Monitor conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
             f5_monitor = monitor_config[key]
             if not f5_monitor:
                 if " " in key:

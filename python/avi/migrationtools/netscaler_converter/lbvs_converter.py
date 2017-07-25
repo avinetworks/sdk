@@ -2,7 +2,6 @@ import logging
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_INDIRECT, STATUS_INCOMPLETE_CONFIGURATION,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_APPLICATION_PROFILE,
@@ -10,7 +9,6 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_NETWORK_PROFILE, OBJECT_TYPE_PKI_PROFILE,
             OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE, OBJECT_TYPE_POOL)
-
 from avi.migrationtools.netscaler_converter.policy_converter \
     import PolicyConverter
 from avi.migrationtools.netscaler_converter.ns_service_converter \
@@ -19,11 +17,14 @@ from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.profile_converter import \
     app_merge_count
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 LOG = logging.getLogger(__name__)
 redirect_pools = {}
 tmp_avi_config = {}
 used_pool_group_ref = []
+# Creating  object for util library.
+ns_util = NsUtil()
 
 
 class LbvsConverter(object):
@@ -62,8 +63,12 @@ class LbvsConverter(object):
         self.lbvs_user_ignore = user_ignore.get('lbvs', [])
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
     def convert(self, ns_config, avi_config, vs_state, sysdict):
+
         """
         This function defines that it convert netscalar lb vs config to vs
         config of AVI
@@ -75,9 +80,12 @@ class LbvsConverter(object):
         """
         lb_vs_conf = ns_config.get('add lb vserver', {})
         bind_lb_vs_config = ns_config.get('bind lb vserver', {})
+        cs_vs_conf = ns_config.get('add cs vserver', {})
         avi_config['VirtualService'] = []
         avi_config['Lbvs'] = []
         tmp_avi_config['VirtualService'] = []
+        # get the total size of object.
+        self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['HTTPPolicySet'] = []
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config['VsVip'] = []
@@ -89,9 +97,12 @@ class LbvsConverter(object):
             self.lbvs_skip_attrs, self.lbvs_na_attrs, self.lbvs_ignore_vals,
             self.lbvs_user_ignore, self.prefix)
         tmp_policy_ref = []
+        print "Converting VirtualServices..."
         for key in lb_vs_conf.keys():
             try:
                 LOG.debug('LB VS conversion started for: %s' % key)
+                # Increment the count
+                self.progressbar_count += 1
                 lb_vs = lb_vs_conf[key]
                 type = lb_vs['attrs'][1]
                 cmd = 'add lb vserver'
@@ -577,6 +588,10 @@ class LbvsConverter(object):
             except:
                 LOG.error('Error in lb vs conversion for: %s' %
                           key, exc_info=True)
+            # Calling progress bar function.
+            msg = "VirtualService Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
 
     def update_pool_for_persist(self, avi_config, pool_group, profile_name):
         """
