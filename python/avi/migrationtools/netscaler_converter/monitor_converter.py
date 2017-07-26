@@ -102,20 +102,39 @@ class MonitorConverter(object):
                             'external monitor:%s' %
                             (ns_monitor_type, name))
                 continue
+
             avi_monitor = self.convert_monitor(
                  ns_monitor, input_dir, netscalar_command,
                  ns_monitor_complete_command)
             if not avi_monitor:
                 continue
+
             # Add summery of this lb vs in CSV/report
             conv_status = ns_util.get_conv_status(
                 ns_monitor, self.monitor_skip_attrs, self.monitor_na_attrs,
                 self.monitor_indirect_list,
                 ignore_for_val=self.monitor_ignore_vals,
                 user_ignore_val=self.user_ignore)
+            # Checking for custom headers inorder to decide on conversion status
+            if ns_monitor_type in ['HTTP', 'HTTP-ECV']:
+                cus_header = ns_monitor.get('customHeaders')
+                if cus_header:
+                    repls = ('"', ''), ('\\r\\n', '')
+                    cus_header = reduce(lambda a, kv: a.replace(*kv), repls,
+                                        cus_header)
+                    cus_header_list = [{i.split(':')[0]: i.split(':')[1]} for
+                                       i in cus_header.split() if ':' in i]
+                    if len(cus_header_list) == 1 and 'Host' in \
+                            cus_header_list[0]:
+                        LOG.debug("Monitor %s contains only 'Host' in 'custom "
+                               "headers' attribute, " %name + "removing from "
+                                                              "skipped")
+                        conv_status['skipped'].remove('customHeaders')
+
             ns_util.add_conv_status(
                 ns_monitor['line_no'], netscalar_command, name,
                 ns_monitor_complete_command, conv_status, avi_monitor)
+
             if self.object_merge_check:
                 # Check health monitor is duplicate of other
                 # health monitor then skipped this health
