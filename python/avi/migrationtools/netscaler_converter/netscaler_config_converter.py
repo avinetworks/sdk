@@ -15,7 +15,7 @@ from avi.migrationtools.netscaler_converter.csvs_converter import \
 from avi.migrationtools.netscaler_converter.profile_converter import \
     ProfileConverter, app_merge_count
 from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.netscaler_converter import ns_util
+from avi.migrationtools.netscaler_converter import ns_util as nsu
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 
@@ -128,10 +128,10 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 if key == 'VirtualService':
                     LOG.info('Total Objects of %s : %s (%s full conversions)'
                              % (key,len(avi_config[key]),
-                                ns_util.fully_migrated))
+                                nsu.fully_migrated))
                     print 'Total Objects of %s : %s (%s full conversions)'\
                           % (key, len(avi_config[key]),
-                             ns_util.fully_migrated)
+                             nsu.fully_migrated)
                     continue
                 # Added code to print merged count.
                 elif object_merge_check and key == 'SSLProfile':
