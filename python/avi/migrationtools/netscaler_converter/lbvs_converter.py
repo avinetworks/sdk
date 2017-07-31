@@ -260,7 +260,8 @@ class LbvsConverter(object):
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                         'System-UDP-Fast-Path', 'networkprofile',
                         tenant='admin')
-                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS_TCP':
+                elif not http_prof and (
+                        lb_vs['attrs'][1]).upper() in ['DNS_TCP', 'TCP']:
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
                         tenant='admin')

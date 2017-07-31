@@ -350,7 +350,8 @@ class ServiceConverter(object):
             service_name = key
             service_netscalar_full_command = \
                 ns_util.get_netscalar_full_command(service_command, service)
-            server = self.convert_ns_service(service, ns_servers, ns_dns)
+            server, use_service_port = self.convert_ns_service(
+                service, ns_servers, ns_dns)
             if not server:
                 LOG.warning('Skipped:No server found %s' %
                             service_netscalar_full_command)
@@ -371,6 +372,9 @@ class ServiceConverter(object):
                 'tenant_ref': self.tenant_ref,
                 'cloud_ref': self.cloud_ref
             }
+
+            if use_service_port:
+                pool_obj['use_service_port'] = use_service_port
             # Add health monitor reference to pool
             monitor_refs = self.get_service_montor(service_name,
                                         bind_ns_service, avi_config, sysdict)
@@ -679,7 +683,7 @@ class ServiceConverter(object):
         attrs = ns_service.get('attrs')
         server = ns_servers.get(attrs[1])
         if not server:
-            return []
+            return [], False
         ns_add_server_command = 'add server'
         status = ns_util.get_conv_status(
             server, self.nsservice_server_skip, [], [],
@@ -692,8 +696,10 @@ class ServiceConverter(object):
         if not state == 'ENABLED':
             enabled = False
         port = attrs[3]
+        use_service_port = False
         if port in ("*", "0"):
             port = "1"
+            use_service_port = True
         ip_addr = str(ip_addr).lower()
         if ip_addr in ns_dns:
             if isinstance(ns_dns[ip_addr], list):
@@ -709,7 +715,7 @@ class ServiceConverter(object):
                 ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
             LOG.warning('Not found IP of server : %s' %
                         ns_add_server_complete_command)
-            return []
+            return [], use_service_port
         server_obj = {
             'ip': {
                 'addr': ip_addr,
@@ -722,7 +728,7 @@ class ServiceConverter(object):
         ns_util.add_conv_status(
             server['line_no'], ns_add_server_command, server['attrs'][0],
             ns_add_server_complete_command, status, server_obj)
-        return server_obj
+        return server_obj, use_service_port
 
 
     def convert_ns_service_group(self, ns_service_group, ns_servers,
