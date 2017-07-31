@@ -244,7 +244,7 @@ class F5Converter(AviConverter):
                 dir_path = os.path.abspath(os.path.dirname(__file__))
             else:
                 # Added to get directory path.
-                dir_path = os.path.abspath(os.path.dirname(__file__))
+                dir_path = conversion_util.get_project_path()
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
                 if bool(self.skip_default_file):

@@ -247,7 +247,8 @@ class F5Util(MigrationUtil):
             uri = {"key": content_type}
             kv.append(uri)
         sg_obj["kv"] = kv
-        sg_obj['tenant_ref'] = tenant
+        # Changed tenant ref to new reference.
+        sg_obj['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
         return sg_obj
 
 
