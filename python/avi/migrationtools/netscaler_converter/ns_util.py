@@ -197,19 +197,17 @@ class NsUtil(MigrationUtil):
             # Converted to int.
             code = int(code)
             if code < 200:
-                avi_resp_codes.append({"code": "HTTP_1XX"})
+                avi_resp_codes.append("HTTP_1XX")
             elif code < 300:
-                avi_resp_codes.append({"code": "HTTP_2XX"})
+                avi_resp_codes.append("HTTP_2XX")
             elif code < 400:
-                avi_resp_codes.append({"code": "HTTP_3XX"})
+                avi_resp_codes.append("HTTP_3XX")
             elif code < 500:
-                avi_resp_codes.append({"code": "HTTP_4XX"})
+                avi_resp_codes.append("HTTP_4XX")
             elif code < 600:
-                avi_resp_codes.append({"code": "HTTP_5XX"})
+                avi_resp_codes.append("HTTP_5XX")
         # Get the unique dict from list.
-        return [dict(avi_health_resp) for avi_health_resp in
-                 set(tuple(item.items()) for item in avi_resp_codes)]
-
+        return list(set(avi_resp_codes))
 
     def get_conv_status(self, ns_object, skipped_list, na_list, indirect_list,
                         ignore_for_val=None, indirect_commands=None,
