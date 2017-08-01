@@ -67,12 +67,10 @@ class Test(unittest.TestCase):
         vs_obj = basic_vs_cfg["vs_obj"]
         resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
                         api_version='17.1.1')
-        print resp.status_code, resp.text
         assert resp.status_code in (200, 201)
         vs_obj["pool_ref"] = api.get_obj_ref(resp.json())
         resp = api.post('virtualservice', data=json.dumps(vs_obj),
                         api_version='17.1.1')
-        print resp.status_code, resp.text
         assert resp.status_code in (200, 201)
         pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
         resp = api.get('virtualservice', tenant='admin',

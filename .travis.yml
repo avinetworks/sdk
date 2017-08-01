@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+  
+# command to install dependencies
+install:
+- pip install pytest
+- python avinetworks/sdk/python/avi/migrationtools/setup.py -q install
+- python avinetworks/sdk/python/avi/sdk/setup.py -q install
+
+# command to execute unit tests
+script:
+- pytest avinetworks/sdk/python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv
+- pytest avinetworks/sdk/python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -vvvv
