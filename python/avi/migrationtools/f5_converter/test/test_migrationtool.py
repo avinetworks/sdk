@@ -4,10 +4,14 @@ f5 converter tool along with its options / parameters
 """
 
 import logging
+import pytest
+import os
 
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
+# from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.excel_reader \
-    import percentage_success, output_sanitization
+import percentage_success, output_sanitization
+
 
 setup = dict(
     controller_version='16.4.4',
@@ -29,14 +33,17 @@ setup = dict(
     cloud_name='vmware',
     tenant='test',
     input_folder_location='',
-    config_file_name_v10='bigip_v10.conf',
-    config_file_name_v11='bigip_v11.conf',
+    config_file_name_v10=os.path.abspath(
+        os.path.dirname(__file__)) + os.sep + 'bigip_v10.conf',
+    config_file_name_v11=os.path.abspath(
+        os.path.dirname(__file__)) + os.sep + 'bigip_v11.conf',
     config_file_name_passphrase='ns_passphrase.conf',
     # ns_passphrase_file='passphrase.yaml',
     partition_config = 'new',  # this is new
     ns_key_file='cd_rt_key.pem',
-    ignore_config='ignore-config.yaml',
-    patch='patch.yml',
+    ignore_config=os.path.abspath(
+        os.path.dirname(__file__)) + os.sep + 'ignore-config.yaml',
+    patch=os.path.abspath(os.path.dirname(__file__)) + os.sep + 'patch.yml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
@@ -81,13 +88,14 @@ def f5_conv(
     return avi_config
 
 class TestF5Converter:
-
+    @pytest.mark.travis
     def test_excel_report_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 output_file_path='output')
         percentage_success('./output/bigip_v10-ConversionStatus.xlsx')
 
+    @pytest.mark.travis
     def test_output_sanitization_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -95,12 +103,14 @@ class TestF5Converter:
         output_sanitization('./output/bigip_v10-ConversionStatus.xlsx',
                             './output/bigip_v10-Output.json')
 
+    @pytest.mark.travis
     def test_excel_report_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 output_file_path='output')
         percentage_success('./output/bigip_v11-ConversionStatus.xlsx')
 
+    @pytest.mark.travis
     def test_output_sanitization_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -108,6 +118,7 @@ class TestF5Converter:
         output_sanitization('./output/bigip_v11-ConversionStatus.xlsx',
                             './output/bigip_v11-Output.json')
 
+    @pytest.mark.travis
     def test_without_options_v10(self):
         """
         Check the Configuration file for V10
@@ -116,6 +127,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 )
 
+    @pytest.mark.travis
     def test_without_options_v11(self):
         """
         Check the configuration file for v11
@@ -123,6 +135,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'))
 
+    @pytest.mark.skip_travis
     def test_download(self):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -132,6 +145,7 @@ class TestF5Converter:
                 f5_ssh_password=setup.get('f5_ssh_password'),
                 f5_config_version=setup.get('file_version_v11'))
 
+    @pytest.mark.travis
     def test_no_profile_merge_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -141,6 +155,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
+    @pytest.mark.travis
     def test_no_profile_merge_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -150,6 +165,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
+    @pytest.mark.travis
     def test_prefix_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -159,6 +175,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 prefix=setup.get('prefix'))
 
+    @pytest.mark.travis
     def test_prefix_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -168,6 +185,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 prefix=setup.get('prefix'))
 
+    @pytest.mark.travis
     def test_cloud_name_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -177,6 +195,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 cloud_name=setup.get('cloud_name'))
 
+    @pytest.mark.travis
     def test_cloud_name_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -186,6 +205,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 cloud_name=setup.get('cloud_name'))
 
+    @pytest.mark.travis
     def test_tenant_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -195,6 +215,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 tenant=setup.get('tenant'))
 
+    @pytest.mark.travis
     def test_tenant_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -204,6 +225,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 tenant=setup.get('tenant'))
 
+    @pytest.mark.travis
     def test_input_folder_path_not_provided_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -213,6 +235,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 input_folder_location=setup.get('input_folder_location'))
 
+    @pytest.mark.travis
     def test_input_folder_path_not_provided_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -222,6 +245,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 input_folder_location=setup.get('input_folder_location'))
 
+    @pytest.mark.travis
     def test_ignore_config_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -231,6 +255,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 ignore_config=setup.get('ignore_config'))
 
+    @pytest.mark.travis
     def test_ignore_config_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -240,6 +265,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 ignore_config=setup.get('ignore_config'))
 
+    @pytest.mark.travis
     def test_patch_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -249,6 +275,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 patch=setup.get('patch'))
 
+    @pytest.mark.travis
     def test_patch_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -258,6 +285,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 patch=setup.get('patch'))
 
+    @pytest.mark.travis
     def test_not_in_use_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -267,6 +295,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 not_in_use=setup.get('not_in_use'))
 
+    @pytest.mark.travis
     def test_not_in_use_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
