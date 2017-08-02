@@ -1,14 +1,21 @@
 language: python
 python:
   - "2.7"
-  
+
+# safelist
+branches:
+  only:
+  - 17.1.4_pytest
+  - 17.1.4
+
 # command to install dependencies
 install:
-- pip install pytest
-- python avinetworks/sdk/python/avi/migrationtools/setup.py -q install
-- python avinetworks/sdk/python/avi/sdk/setup.py -q install
+- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd
+- export PYTHONPATH=$PWD/python/
+- echo $PYTHONPATH
+
 
 # command to execute unit tests
 script:
-- pytest avinetworks/sdk/python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv
-- pytest avinetworks/sdk/python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -vvvv
+- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis -vvvv  --color=yes
+- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis  --color=yes

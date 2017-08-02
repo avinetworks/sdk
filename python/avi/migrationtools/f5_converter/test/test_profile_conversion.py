@@ -7,8 +7,8 @@ import copy
 gSAMPLE_CONFIG = None
 LOG = logging.getLogger(__name__)
 
-from avi.f5_converter.profile_converter import ProfileConfigConv
-import avi.f5_converter.conversion_util as conv_util
+from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
+import avi.migrationtools.f5_converter.conversion_util as conv_util
 
 def setUpModule():
     LOG.setLevel(logging.DEBUG)
