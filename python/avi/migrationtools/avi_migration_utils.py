@@ -206,4 +206,62 @@ class MigrationUtil(object):
         else:
             print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
 
+    def validate_value(self, entity_name, prop_name, value, type_entity):
+
+        """
+        :param entity_name: name of the avi entity/object
+        :param prop_name: property name
+        :param value: property value
+        :param type_entity: entity/object type
+        :return: validity and new value
+        Examples : print validate_value('ApplicationProfile',
+                    'preserve_client_ip', None, 'HTTPApplicationProfile')
+        print validate_value('ApplicationProfile', 'max_rps_uri', None,
+                             'HTTPApplicationProfile')
+        print validate_value('SSLKeyRSAParams', 'key_size', None, None)
+        print validate_value('SSLKeyRSAParams', 'key_size', 'hjh', None)
+        print validate_value('SSLKeyRSAParams', 'key_size', 'SSL_KEY_1024_BITS',
+                            None)
+        """
+        valid = True
+        new_value = value if value is not None else None
+        dir_path = os.path.abspath(os.path.dirname(__file__))
+        if os.path.exists(dir_path + os.path.sep + 'limit.json'):
+            with open(dir_path + os.path.sep + 'limit.json') as limit_data:
+                ld = json.load(limit_data)
+            for key, val in ld.iteritems():
+                p_key = (val.get(entity_name, {}).get('properties', {}).get(
+                    prop_name, {})) or (val.get(type_entity, {}).get(
+                    'properties', {}).get(prop_name, {}))
+                if not p_key:
+                    continue
+                typ = p_key.get('py_type')
+                if new_value is not None:
+                    if type(new_value) == eval(typ):
+                        if typ == 'int':
+                            lval = p_key.get('range')
+                            if lval:
+                                low, high = lval.split('-')
+                                if new_value < int(low):
+                                    valid = False
+                                    new_value = int(low)
+                                if new_value > int(high):
+                                    valid = False
+                                    new_value = int(high)
+                        if typ == 'str':
+                            if new_value not in p_key.get('option_values', []):
+                                valid = False
+                                new_value = p_key.get('default_value')
+                    else:
+                        valid, new_value = None, None
+                else:
+                    valid = False
+                    new_value = p_key.get('default_value')
+                    if typ == 'bool':
+                        new_value = False if new_value == 'False' else True
+
+        return valid, new_value
+
+    
+
 
