@@ -68,6 +68,8 @@ class F5Converter(AviConverter):
         self.not_in_use = args.not_in_use
         # Added args for baseline profile json file to be changed
         self.profile_path = args.baseline_profile
+        # Created f5 util object.
+        self.conversion_util = F5Util()
 
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
@@ -167,7 +169,7 @@ class F5Converter(AviConverter):
             d = command.rsplit('/', 1)
             object_type = d[0].rsplit(' ', 1)
             object_name = '%s/%s' % (object_type[-1], d[-1])
-            conversion_util.add_status_row(object_type[0], '', object_name,
+            self.conversion_util.add_status_row(object_type[0], '', object_name,
                                            conv_const.STATUS_NOT_SUPPORTED)
         LOG.debug('Defaults files parsed successfully')
         LOG.debug('Conversion started')
@@ -204,8 +206,13 @@ class F5Converter(AviConverter):
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
 
-
     def get_default_config(self, is_download, path):
+        """
+
+        :param is_download:
+        :param path:
+        :return:
+        """
         f5_defaults_dict = {}
         if is_download:
             print "Copying Files from Host..."
@@ -244,7 +251,7 @@ class F5Converter(AviConverter):
                 dir_path = os.path.abspath(os.path.dirname(__file__))
             else:
                 # Added to get directory path.
-                dir_path = conversion_util.get_project_path()
+                dir_path = self.conversion_util.get_project_path()
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
                 if bool(self.skip_default_file):
@@ -263,6 +270,7 @@ class F5Converter(AviConverter):
                 self.dict_merge(dct[k], merge_dct[k])
             else:
                 dct[k] = merge_dct[k]
+
 if __name__ == "__main__":
 
     HELP_STR = '''
@@ -385,8 +393,6 @@ if __name__ == "__main__":
         print "SDK Version: %s\nController Version: %s" % \
               (sdk_version, args.controller_version)
         exit(0)
-    # Creating f5 object for util library.
-    conversion_util = F5Util()
     f5_converter = F5Converter(args)
     f5_converter.convert()
     
