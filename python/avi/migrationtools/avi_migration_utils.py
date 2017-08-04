@@ -225,44 +225,46 @@ class MigrationUtil(object):
         """
         valid = None
         new_value = value if value is not None else None
+        limit_data = None
         dir_path = os.path.abspath(os.path.dirname(__file__))
         if os.path.exists(dir_path + os.path.sep + 'limit.json'):
             with open(dir_path + os.path.sep + 'limit.json') as data:
                 limit_data = json.load(data)
-        for key, val in limit_data.iteritems():
-            p_key = (val.get(entity_name, {}).get('properties', {}).get(
-                prop_name, {})) or (val.get(type_entity, {}).get(
-                'properties', {}).get(prop_name, {}))
-            if not p_key:
-                continue
-            typ = p_key.get('py_type')
-            if new_value is not None:
-                if type(new_value) == eval(typ):
-                    if typ == 'int':
-                        lval = p_key.get('range')
-                        if lval:
-                            low, high = lval.split('-')
-                            if new_value < int(low):
+        if limit_data:
+            for key, val in limit_data.iteritems():
+                p_key = (val.get(entity_name, {}).get('properties', {}).get(
+                    prop_name, {})) or (val.get(type_entity, {}).get(
+                    'properties', {}).get(prop_name, {}))
+                if not p_key:
+                    continue
+                typ = p_key.get('py_type')
+                if new_value is not None:
+                    if type(new_value) == eval(typ):
+                        if typ == 'int':
+                            lval = p_key.get('range')
+                            if lval:
+                                low, high = lval.split('-')
+                                if new_value < int(low):
+                                    valid = False
+                                    new_value = int(low)
+                                elif new_value > int(high):
+                                    valid = False
+                                    new_value = int(high)
+                                else:
+                                    valid = True
+                        if typ == 'str':
+                            if new_value not in p_key.get('option_values', []):
                                 valid = False
-                                new_value = int(low)
-                            elif new_value > int(high):
-                                valid = False
-                                new_value = int(high)
+                                new_value = p_key.get('default_value')
                             else:
                                 valid = True
-                    if typ == 'str':
-                        if new_value not in p_key.get('option_values', []):
-                            valid = False
-                            new_value = p_key.get('default_value')
-                        else:
-                            valid = True
+                    else:
+                        valid, new_value = None, None
                 else:
-                    valid, new_value = None, None
-            else:
-                valid = False
-                new_value = p_key.get('default_value')
-                if typ == 'bool':
-                    new_value = False if new_value == 'False' else True
+                    valid = False
+                    new_value = p_key.get('default_value')
+                    if typ == 'bool':
+                        new_value = False if new_value == 'False' else True
 
         return valid, new_value
 
