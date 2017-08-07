@@ -1,8 +1,11 @@
 from pyparsing import *
 import logging
+import sys
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 LOG = logging.getLogger(__name__)
-
+# Creating f5 object for util library.
+conversion_util = F5Util()
 
 def generate_grammar_v11():
     # define data types that might be in the values
@@ -122,10 +125,11 @@ def generate_grammar_v10():
     return data_set
 
 
-def parse_config(source_str, version=11):
+def parse_config(source_str, total_size, version=11):
     grammar = get_grammar_by_version(version)
     result = []
     skipped_list = []
+    not_supported_list = []
     last_end = 0
     source_str = source_str.replace("\t", "    ")
     source_str = source_str.replace("user-defined ", "user-defined_")
@@ -137,15 +141,35 @@ def parse_config(source_str, version=11):
                                 "str_start":
                                     source_str[last_end:last_end+10]+"...",
                                 "str_end": "..."+source_str[start-10:start]}
+                skipped_str = source_str[last_end:start]
+                # Added checks to get not supported configuration
+                skip_obj_list = ZeroOrMore(originalTextFor(SkipTo('{')) +
+                                           nestedExpr('{', '}').suppress()
+                                           ).parseString(skipped_str).asList()
+                # list for not supported commands.
+                for skipconfig in skip_obj_list:
+                    skipconfig = str(skipconfig.replace('}', ''))
+                    if skipconfig:
+                        not_supported_list.append(skipconfig)
                 skipped_list.append(skipped_info)
         last_end = end
-
+        # Added call to check progress for parsing.
+        msg = "Parsing configuration..."
+        if end <= total_size:
+            conversion_util.print_progress_bar(end, total_size, msg, prefix='Progress',
+                               suffix='')
+        else:
+            conversion_util.print_progress_bar(total_size, total_size, msg, prefix='Progress',
+                             suffix='')
+    if last_end < total_size:
+        conversion_util.print_progress_bar(total_size - 1, total_size, None, prefix='Progress',
+                       suffix='')
     for skipped in skipped_list:
         LOG.warn("Skipped for parse unmatched from offset:%s to offset:%s" %
                  (skipped["start"], skipped["end"]))
     result_dict = convert_to_dict(result)
     LOG.debug("Parsing complete...")
-    return result_dict
+    return result_dict, not_supported_list
 
 
 def get_grammar_by_version(version):
@@ -159,13 +183,16 @@ def get_grammar_by_version(version):
 
 def convert_to_dict(result):
     result_dict = {}
+    total_size = len(result)
     for item in result:
         # determine the key and value to be inserted into the dict
         key = None
         dict_val = None
         if isinstance(item, list):
             try:
-                key = item[0].replace("/Common/", "")
+                key = "/Common/" in item[0] and \
+                      item[0].replace("/Common/", "") or \
+                      item[0].replace("Common/", "")
                 if isinstance(item[1], list):
                     dict_val = convert_to_dict(item)
                     if isinstance(result_dict.get(key, ""), dict):
@@ -174,7 +201,9 @@ def convert_to_dict(result):
                         result_dict[key] = dict_val
                 else:
                     if isinstance(item[1], str):
-                        result_dict[key] = item[1].replace("/Common/", "")
+                        result_dict[key] = "/Common/" in item[1] and \
+                                           item[1].replace("/Common/", "") or \
+                                            item[1].replace("Common/", "")
                     else:
                         result_dict[key] = item[1]
             except IndexError:
@@ -187,8 +216,10 @@ def convert_to_dict(result):
                         else:
                             old = result_dict[key]
                             new = [old]
-                            dict_val = dict_val.replace("/Common/", "") \
-                                if dict_val else None
+                            dict_val = "/Common/" in dict_val and \
+                                       dict_val.replace("/Common/", "") or \
+                                       dict_val.replace("Common/", "") \
+                                        if dict_val else None
                             new.append(dict_val)
                             result_dict[key] = new
                     else:

@@ -13,7 +13,8 @@ import yaml
 import argparse
 import re
 import requests
-from avi.migrationtools.avi_orphan_object import filter_for_vs
+from avi.migrationtools.avi_orphan_object import \
+     filter_for_vs, get_vs_ref, get_name_and_entity
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -25,10 +26,13 @@ from avi.migrationtools.ansible.ansible_constant import \
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
      AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
      ANSIBLE_STR)
+from avi.migrationtools.avi_migration_utils import MigrationUtil
+
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
-
+# Added util object
+mg_util = MigrationUtil()
 
 class AviAnsibleConverter(object):
     skip_fields = SKIP_FIELDS
@@ -126,6 +130,10 @@ class AviAnsibleConverter(object):
         Returns
             Ansible dict
         """
+
+        # get the reference dict
+        vs_ref_dict = get_vs_ref()
+
         for obj in objs:
             task = deepcopy(obj)
             # Added tag for checking object ref.
@@ -141,14 +149,32 @@ class AviAnsibleConverter(object):
             task_id = 'avi_%s' % obj_type.lower()
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
-            name = '%s-%s'%(obj['name'], obj_type)
+            name = '%s-%s' % (obj['name'], obj_type)
             if inuse_list and name not in inuse_list:
                 used_tag = 'not_in_use'
+
+            tname = None
+            if 'tenant_ref' in obj:
+                    entity, tname = get_name_and_entity(obj['tenant_ref'])
+
+            # creating the equivalent key
+            vs_ref_type = '%s$$%s$$%s' % (obj['name'], obj_type.lower(), tname)
+            vs_ref_tags = None
+
+            if vs_ref_type in vs_ref_dict:
+                vs_ref_tags = vs_ref_dict[vs_ref_type]
+
+            tags = [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
+
+            # eliminate nonetype in vs_ref_tags
+            if vs_ref_tags:
+                tags.extend(vs_ref_tags)
+
             ansible_dict[TASKS].append(
                 {
                     task_id: task,
                     NAME: task_name,
-                    TAGS: [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
+                    TAGS: tags
                 })
         return ansible_dict
 
@@ -262,14 +288,14 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[CONTROLLER] = CONTROLLER_INPUT
             avi_traffic_dict[USERNAME] = USER_NAME
             avi_traffic_dict[PASSWORD] = PASSWORD_NAME
-            avi_traffic_dict[REGISTER] = VALUE
             avi_traffic_dict[TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
                 AVI_TRAFFIC: avi_traffic_dict,
-                TAGS: [vs_dict[NAME], GEN_TRAFFIC]
+                TAGS: [vs_dict[NAME], GEN_TRAFFIC],
+                REGISTER: VALUE
             })
 
     def create_avi_ansible_disable(self, vs_dict, ansible_dict):
@@ -340,7 +366,12 @@ class AviAnsibleConverter(object):
         :param: f5password: password of f5server
         :return: None
         """
+        # Added variable to check progress.
+        total_size = len(self.avi_cfg['VirtualService'])
+        progressbar_count = 0
+        print "Conversion Started For Ansible Generate Traffic..."
         for vs in self.avi_cfg['VirtualService']:
+            progressbar_count += 1
             if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
                 tenant = 'admin'
                 vs_dict = dict()
@@ -370,6 +401,10 @@ class AviAnsibleConverter(object):
                                                 )
                 self.create_avi_ansible_disable(vs_dict, ansible_dict)
                 self.create_f5_ansible_enable(f5_dict, ansible_dict)
+            # Added call to check progress.
+            msg = "Ansible Generate Traffic..."
+            mg_util.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
 
     def write_ansible_playbook(self, f5server=None, f5user=None,
                                f5password=None):
@@ -393,7 +428,15 @@ class AviAnsibleConverter(object):
         meta = self.avi_cfg['META']
         if 'order' not in meta:
             meta['order'] = self.default_meta_order
+        total_size = len(meta['order'])
+        progressbar_count = 0
+        print "Conversion Started For Ansible Create Object..."
         for obj_type in meta['order']:
+            progressbar_count += 1
+            # Added call to check progress.
+            msg = "Ansible Create Object..."
+            mg_util.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
             if self.filter_types and obj_type not in self.filter_types:
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:
@@ -452,3 +495,4 @@ if __name__ == '__main__':
             avi_cfg, args.output_dir, skip_types=args.skip_types,
             filter_types=args.filter_types)
         aac.write_ansible_playbook()
+# avi_cfg, outdir, prefix, not_in_use, skip_types=None, filter_types=None

@@ -12,13 +12,16 @@ from avi.migrationtools.netscaler_converter.lbvs_converter import \
     LbvsConverter, tmp_avi_config
 from avi.migrationtools.netscaler_converter.csvs_converter import \
     CsvsConverter
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.profile_converter import \
     ProfileConverter, app_merge_count
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.netscaler_converter import ns_util as nsu
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 
 LOG = logging.getLogger(__name__)
+# Creating object for util library.
+ns_util = NsUtil()
 
 
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
@@ -53,6 +56,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
     try:
         # call meta from super class
         avi_config = dict()
+        sys_dict = dict()
         avi_config['META'] = meta  # avi_obj.meta(tenant_name, version)
 
         if parse_version(version) >= parse_version('17.1'):
@@ -60,61 +64,54 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 '17_1_1')
         avi_config['META']['supported_migrations']['versions'].append(
             'current_version')
+        merge_object_type = ['ApplicationProfile', 'NetworkProfile',
+                             'SSLProfile', 'PKIProfile',
+                             'ApplicationPersistenceProfile', 'HealthMonitor']
+        for key in merge_object_type:
+            sys_dict[key] = []
+            avi_config[key] = []
 
         if profile_path and os.path.exists(profile_path):
             with open(profile_path) as data:
                 prof_data = json.load(data)
-                avi_config['ApplicationProfile'] = \
-                    prof_data.get('ApplicationProfile', [])
-                avi_config['NetworkProfile'] = prof_data.get(
-                    'NetworkProfile', [])
-                avi_config["SSLProfile"] = prof_data.get('SSLProfile', [])
-                avi_config['PKIProfile'] = prof_data.get('PKIProfile', [])
-                avi_config['ApplicationPersistenceProfile'] = \
-                    prof_data.get('ApplicationPersistenceProfile', [])
-                avi_config['HealthMonitor'] = prof_data.get('HealthMonitor', [])
-        else:
-            avi_config['ApplicationProfile'] = []
-            avi_config['NetworkProfile'] = []
-            avi_config["SSLProfile"] = []
-            avi_config['PKIProfile'] = []
-            avi_config['ApplicationPersistenceProfile'] = []
-            avi_config['HealthMonitor'] = []
+                for key in merge_object_type:
+                    sys_dict[key] = prof_data.get(key, [])
 
         monitor_converter = MonitorConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore,
             prefix, object_merge_check)
-        monitor_converter.convert(ns_config_dict, avi_config, input_dir)
+        monitor_converter.convert(ns_config_dict, avi_config, input_dir,
+                                  sys_dict)
 
         profile_converter = ProfileConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, ssl_ciphers,
             object_merge_check, user_ignore, prefix, key_passphrase)
-        profile_converter.convert(ns_config_dict, avi_config, input_dir)
+        profile_converter.convert(ns_config_dict, avi_config, input_dir,
+                                  sys_dict)
 
         service_converter = ServiceConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, object_merge_check,
             user_ignore, prefix)
-        service_converter.convert(ns_config_dict, avi_config)
+        service_converter.convert(ns_config_dict, avi_config, sys_dict)
 
         lbvs_converter = LbvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
-        lbvs_converter.convert(ns_config_dict, avi_config, vs_state)
+        lbvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict)
 
         csvs_converter = CsvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
-        csvs_converter.convert(ns_config_dict, avi_config, vs_state)
+        csvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict)
         # Updating the reference for application persistence profile as we
         # are assigning reference at the time of profile creation
         ns_util.update_profile_ref('application_persistence_profile_ref',
-                                   tenant_name, avi_config['Pool'],
-                                   merge_object_mapping['app_persist_profile'])
+                avi_config['Pool'], merge_object_mapping['app_persist_profile'])
         # Updating the reference for application persistence profile as we
         # are assigning reference at the time of profile creation
         ns_util.update_profile_ref('application_profile_ref',
-                                   tenant_name, avi_config['VirtualService'],
-                                   merge_object_mapping['app_profile'])
+                avi_config['VirtualService'], merge_object_mapping[
+                                       'app_profile'])
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
         # Add/update CSV/report
@@ -131,9 +128,10 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 if key == 'VirtualService':
                     LOG.info('Total Objects of %s : %s (%s full conversions)'
                              % (key,len(avi_config[key]),
-                                ns_util.fully_migrated))
+                                nsu.fully_migrated))
                     print 'Total Objects of %s : %s (%s full conversions)'\
-                          % (key, len(avi_config[key]), ns_util.fully_migrated)
+                          % (key, len(avi_config[key]),
+                             nsu.fully_migrated)
                     continue
                 # Added code to print merged count.
                 elif object_merge_check and key == 'SSLProfile':

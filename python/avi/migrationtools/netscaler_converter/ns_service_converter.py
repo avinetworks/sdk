@@ -1,6 +1,5 @@
 import logging
 import re
-import avi.migrationtools.netscaler_converter.ns_util as ns_util
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -12,10 +11,12 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             STATUS_EXTERNAL_MONITOR)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
-
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 app_per_merge_count = {'count': 0}
 
 LOG = logging.getLogger(__name__)
+# Creating f5 object for util library.
+ns_util = NsUtil()
 
 
 class ServiceConverter(object):
@@ -71,8 +72,12 @@ class ServiceConverter(object):
             user_ignore.get('nsservice_server', [])
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
-    def convert(self, ns_config, avi_config):
+    def convert(self, ns_config, avi_config, sysdict):
+
         """
         Converts service or service groups bound to VS to avi Pool entity
         :param ns_config: Netscaler parsed config
@@ -84,6 +89,8 @@ class ServiceConverter(object):
 
         used_pool_ref = []
         groups = ns_config.get('bind lb vserver', {})
+        # Added total size.
+        self.total_size = self.total_size + len(groups)
         lb_vs_conf = ns_config.get('add lb vserver', {})
         avi_config['PoolGroup'] = []
         set_lb_groups = ns_config.get('set lb group', {})
@@ -92,7 +99,7 @@ class ServiceConverter(object):
         ns_bind_lb_vserver_command = 'bind lb vserver'
 
         # Conversion set ssl service netscalar commands to pool in AVI
-        self.service_convert(ns_config, avi_config)
+        self.service_convert(ns_config, avi_config, sysdict)
         ns_dns = ns_config.get('add dns addRec', {})
         for dns_key in ns_dns:
             dns_obj = ns_dns.get(dns_key, [])
@@ -107,8 +114,9 @@ class ServiceConverter(object):
                 ns_util.add_status_row(
                     element['line_no'], ns_dns_command, dns_key,
                     ns_dns_complate_command, STATUS_INDIRECT)
-
         for group_key in groups:
+            # incremented progress bar
+            self.progressbar_count += 1
             try:
                 if not group_key:
                     skipped_status = 'Skipped: No bind lb vserver found. ' \
@@ -205,7 +213,9 @@ class ServiceConverter(object):
             except Exception as e:
                 LOG.error('Error in bind lb vserver conversion bound to: %s' %
                           group_key, exc_info=True)
-
+            msg = "PoolGroup Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
         # Support for set lb group and bind lb group
         for set_lb_group_key in set_lb_groups:
             set_lb_group = set_lb_groups.get(set_lb_group_key)
@@ -231,7 +241,8 @@ class ServiceConverter(object):
                         application_persistence_profile, avi_config[
                             'ApplicationPersistenceProfile'],
                         'app_persist_profile', merge_object_mapping,
-                        app_persist_profile_name, persistenceType, self.prefix)
+                        app_persist_profile_name, persistenceType, self.prefix,
+                        sysdict['ApplicationPersistenceProfile'])
                     if dup_of:
                         app_per_merge_count['count'] += 1
                         app_persist_profile_name = merge_object_mapping[
@@ -307,7 +318,7 @@ class ServiceConverter(object):
                             ns_bind_lb_group_complate_command,
                             STATUS_SUCCESSFUL, pool_group[0])
 
-    def service_convert(self, ns_config, avi_config):
+    def service_convert(self, ns_config, avi_config, sysdict):
         """
         This function is defines that convert service to pool
         :param ns_config: Dict of netscalar commands
@@ -327,14 +338,20 @@ class ServiceConverter(object):
         set_ssl_service = ns_config.get('set ssl service', {})
         bind_ssl_service = ns_config.get('bind ssl service', {})
         bind_ssl_service_group = ns_config.get('bind ssl serviceGroup', {})
-
+        # Get the total size of object
+        self.total_size = self.total_size + len(ns_services) + \
+                          len(ns_service_groups)
+        print "Converting Pools..."
         for key in ns_services:
+            # Added count to increment progress.
+            self.progressbar_count += 1
             service = ns_services.get(key, {})
             service_command = 'add service'
             service_name = key
             service_netscalar_full_command = \
                 ns_util.get_netscalar_full_command(service_command, service)
-            server = self.convert_ns_service(service, ns_servers, ns_dns)
+            server, use_service_port = self.convert_ns_service(
+                service, ns_servers, ns_dns)
             if not server:
                 LOG.warning('Skipped:No server found %s' %
                             service_netscalar_full_command)
@@ -355,9 +372,12 @@ class ServiceConverter(object):
                 'tenant_ref': self.tenant_ref,
                 'cloud_ref': self.cloud_ref
             }
+
+            if use_service_port:
+                pool_obj['use_service_port'] = use_service_port
             # Add health monitor reference to pool
             monitor_refs = self.get_service_montor(service_name,
-                                                   bind_ns_service, avi_config)
+                                        bind_ns_service, avi_config, sysdict)
             if monitor_refs:
                 pool_obj['health_monitor_refs'] = list(set(monitor_refs))
             ssl_service = set_ssl_service.get(key, None)
@@ -373,8 +393,8 @@ class ServiceConverter(object):
                         if self.object_merge_check:
                             pkiname = merge_object_mapping['pki_profile'].get(
                                 pkiname, None)
-                        if [pki for pki in avi_config['PKIProfile']
-                             if pki['name'] == pkiname]:
+                        if [pki for pki in (sysdict['PKIProfile'] +
+                           avi_config['PKIProfile']) if pki['name'] == pkiname]:
                             updated_pki_ref = ns_util.get_object_ref(pkiname,
                                     OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
                             pool_obj['pki_profile_ref'] = updated_pki_ref
@@ -408,8 +428,9 @@ class ServiceConverter(object):
                     # Get the merge ssl profile name
                     ssl_profile_name = merge_object_mapping['ssl_profile'].get(
                         ssl_profile_name, None)
-                if [ssl_prof for ssl_prof in avi_config['SSLProfile']
-                    if ssl_prof['name'] == ssl_profile_name]:
+                if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] +
+                   avi_config['SSLProfile']) if ssl_prof['name'] ==
+                        ssl_profile_name]:
                     updated_ssl_profile_ref = ns_util.get_object_ref(
                         ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
@@ -419,7 +440,8 @@ class ServiceConverter(object):
                         pool_obj.get('ssl_profile_ref', None):
                     # Remove health monitor reference of http type if pool has
                     # ssl profile or pki profile or ssl cert key
-                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                      sysdict)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
@@ -442,8 +464,14 @@ class ServiceConverter(object):
             ns_util.add_conv_status(
                 service['line_no'], service_command, service_name,
                 service_netscalar_full_command, conv_status, pool_obj)
+            # Calling progressbar function.
+            msg = "Pool Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg,prefix='Progress', suffix='')
 
         for group_key in ns_service_groups:
+            # Added count to increment progress.
+            self.progressbar_count += 1
             service_group_command = 'add serviceGroup'
             service_group = ns_service_groups.get(group_key, {})
             service_group_name = group_key
@@ -452,7 +480,7 @@ class ServiceConverter(object):
                     service_group_command, service_group)
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
             servers, monitor_ref = self.convert_ns_service_group(
-                bind_groups, ns_servers, ns_dns, avi_config)
+                bind_groups, ns_servers, ns_dns, avi_config, sysdict)
             if not servers:
                 LOG.warning('Skipped:No server found %s' %
                             service_group_netscalar_full_command)
@@ -496,8 +524,8 @@ class ServiceConverter(object):
                         if self.object_merge_check:
                             pkiname = merge_object_mapping['pki_profile'].get(
                                 pkiname, None)
-                        if [pki for pki in avi_config['PKIProfile']
-                                 if pki['name'] == pkiname]:
+                        if [pki for pki in (sysdict['PKIProfile'] + \
+                           avi_config['PKIProfile']) if pki['name'] == pkiname]:
                             updated_pki_ref = ns_util.get_object_ref(pkiname,
                             OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
                             pool_obj['pki_profile_ref'] = updated_pki_ref
@@ -530,8 +558,9 @@ class ServiceConverter(object):
                     # Get the merge ssl profile name
                     ssl_profile_name = merge_object_mapping['ssl_profile'].get(
                         ssl_profile_name, None)
-                if [ssl_prof for ssl_prof in avi_config['SSLProfile']
-                    if ssl_prof['name'] == ssl_profile_name]:
+                if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] + \
+                   avi_config['SSLProfile']) if ssl_prof['name'] ==
+                        ssl_profile_name]:
                     updated_ssl_profile_ref = ns_util.get_object_ref(
                         ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
@@ -541,7 +570,8 @@ class ServiceConverter(object):
                         pool_obj.get('ssl_profile_ref', None):
                     # Remove health monitor reference of http type if pool has
                     # ssl profile or pki profile or ssl cert key
-                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj)
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                      sysdict)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
@@ -567,9 +597,13 @@ class ServiceConverter(object):
                 service_group['line_no'], service_group_command,
                 service_group_name, service_group_netscalar_full_command,
                 conv_status, pool_obj)
+            # Calling progress bar function.
+            msg = "Pool Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
 
-
-    def get_service_montor(self, service_name, bind_ns_service, avi_config):
+    def get_service_montor(self, service_name, bind_ns_service, avi_config,
+                           sysdict):
         """
         This function defines that return the list of health monitor references
         which is bind to service
@@ -598,8 +632,9 @@ class ServiceConverter(object):
                         # Get the merge health monitor name
                         monitor_name = merge_object_mapping[
                             'health_monitor'].get(monitor_name, None)
-                    monitor = [monitor for monitor in avi_config['HealthMonitor']
-                            if monitor['name'] == monitor_name]
+                    monitor = [monitor for monitor in (sysdict['HealthMonitor']
+                              + avi_config['HealthMonitor']) if monitor[
+                              'name'] == monitor_name]
                     if not monitor:
                         monitor_name = '%s-%s' %(monitor_name, 'dummy')
                         monitor = [monitor for monitor in
@@ -648,7 +683,7 @@ class ServiceConverter(object):
         attrs = ns_service.get('attrs')
         server = ns_servers.get(attrs[1])
         if not server:
-            return []
+            return [], False
         ns_add_server_command = 'add server'
         status = ns_util.get_conv_status(
             server, self.nsservice_server_skip, [], [],
@@ -661,8 +696,10 @@ class ServiceConverter(object):
         if not state == 'ENABLED':
             enabled = False
         port = attrs[3]
+        use_service_port = False
         if port in ("*", "0"):
             port = "1"
+            use_service_port = True
         ip_addr = str(ip_addr).lower()
         if ip_addr in ns_dns:
             if isinstance(ns_dns[ip_addr], list):
@@ -678,7 +715,7 @@ class ServiceConverter(object):
                 ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
             LOG.warning('Not found IP of server : %s' %
                         ns_add_server_complete_command)
-            return []
+            return [], use_service_port
         server_obj = {
             'ip': {
                 'addr': ip_addr,
@@ -691,11 +728,11 @@ class ServiceConverter(object):
         ns_util.add_conv_status(
             server['line_no'], ns_add_server_command, server['attrs'][0],
             ns_add_server_complete_command, status, server_obj)
-        return server_obj
+        return server_obj, use_service_port
 
 
     def convert_ns_service_group(self, ns_service_group, ns_servers,
-                                 ns_dns, avi_config):
+                                 ns_dns, avi_config, sysdict):
         """
         This function defines that returns the monitor ref and servers
         :param ns_service_group: Object of service group
@@ -728,8 +765,14 @@ class ServiceConverter(object):
                     # Get the merge health monitor name
                     monitor_name = merge_object_mapping['health_monitor'].get(
                         monitor_name, None)
-                monitor = [monitor for monitor in avi_config['HealthMonitor']
-                           if monitor['name'] == monitor_name]
+                monitor = [monitor for monitor in (sysdict['HealthMonitor'] +
+                          avi_config['HealthMonitor']) if monitor['name'] ==
+                           monitor_name]
+                if not monitor:
+                    monitor_name = '%s-%s' % (monitor_name, 'dummy')
+                    monitor = [monitor for monitor in
+                               avi_config['HealthMonitor']
+                               if monitor['name'] == monitor_name]
                 if monitor:
                     # Add summery of service group in CSV/report
                     ns_util.add_conv_status(

@@ -1,0 +1,22 @@
+language: python
+python:
+  - "2.7"
+
+# safelist
+branches:
+  only:
+  - master
+  - 17.1.5
+
+
+# command to install dependencies
+install:
+- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd
+- export PYTHONPATH=$PWD/python/
+- echo $PYTHONPATH
+
+
+# command to execute unit tests
+script:
+- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis -vvvv  --color=yes
+- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis  --color=yes

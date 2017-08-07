@@ -98,6 +98,7 @@ class NetscalerConverter(AviConverter):
         self.print_pip_and_controller_version()
         if is_download_from_host:
             LOG.debug("Copying files from host")
+            print "Copying Files from Host..."
             scp_util.get_files_from_ns(input_dir, self.ns_host_ip,
                                        self.ns_ssh_user, self.ns_ssh_password)
             LOG.debug("Copied input files")
