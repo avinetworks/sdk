@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import os
 import json
@@ -27,7 +28,13 @@ except:
     pass
 
 def spprint(s, i = '', **kwargs):
-    print('\r\n'.join(textwrap.wrap(s, width = T_SIZE, subsequent_indent = i, break_on_hyphens = False)), **kwargs)
+    flush = kwargs.pop('flush', False)
+    print('\r\n'.join(textwrap.wrap(s, width=T_SIZE, subsequent_indent=i,
+                                    break_on_hyphens=False)), **kwargs)
+    if flush:
+        file = kwargs.get('file', sys.stdout)
+        file.flush() if file is not None else sys.stdout.flush()
+
 
 class AviClone:
     def __init__(self, api):
@@ -214,7 +221,7 @@ class AviClone:
                 while pg_obj_check is not None:
                     new_pool_group_name = new_pool_group_name_prefix + '-' + str(i)
                     i += 1
-                    pg_obj_check = self.api.get_object_by_name('poolgroup', new_pool_name, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+                    pg_obj_check = self.api.get_object_by_name('poolgroup', new_pool_group_name, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
             else:
                 raise Exception('A pool group with name %s already exists' % (new_pool_group_name))
 

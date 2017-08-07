@@ -25,6 +25,7 @@ import traceback
 import yaml
 import re
 from copy import deepcopy
+from avi.migrationtools.avi_migration_utils import MigrationUtil
 
 log = logging.getLogger(__name__)
 
@@ -200,13 +201,22 @@ class ConfigPatch(object):
         apply patches to the copy of configuration.
         :return:
         """
+        # Creating util object for calling progressbar.
+        mg_util = MigrationUtil()
         new_cfg = deepcopy(self.avi_cfg)
+        total_size = len(self.patches)
+        progressbar_count = 0
+        print "Conversion For Patching of objects started..."
         for obj_type, obj_patches in self.patches.iteritems():
+            progressbar_count += 1
             # for each object that is being patched need to iterate
             #   over all the configuration that matches either reference
             #   or name of object.
             for patch_data in obj_patches:
                 self.apply_patch(obj_type, patch_data, new_cfg)
+            msg = "Patching conversion started..."
+            mg_util.print_progress_bar(progressbar_count, total_size, msg,
+                               prefix='Progress', suffix='')
         return new_cfg
 
 

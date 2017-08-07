@@ -1,11 +1,13 @@
 import copy
 import logging
 import os
-
-import avi.migrationtools.f5_converter.conversion_util as conv_utils
 import avi.migrationtools.f5_converter.converter_constants as final
-
+from avi.migrationtools.f5_converter.conversion_util import F5Util
 LOG = logging.getLogger(__name__)
+ssl_count = {'count': 0}
+# Creating f5 object for util library.
+conv_utils = F5Util()
+
 
 class ProfileConfigConv(object):
     @classmethod
@@ -29,11 +31,12 @@ class ProfileConfigConv(object):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping,
+                        sys_dict):
         pass
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore,
-                tenant_ref, cloud_ref):
+                tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
         profile_config = f5_config.get("profile", {})
         avi_config["SSLKeyAndCertificate"] = []
         avi_config["StringGroup"] = []
@@ -44,7 +47,12 @@ class ProfileConfigConv(object):
         if not persistence:
             f5_config['persistence'] = {}
         avi_config['UnsupportedProfiles'] = []
+        print "\nConverting Profiles ..."
+        # Added variable to get total object count.
+        progressbar_count = 0
+        total_size = len(profile_config.keys())
         for key in profile_config.keys():
+            progressbar_count += 1
             profile_type = None
             name = None
             try:
@@ -69,7 +77,8 @@ class ProfileConfigConv(object):
                 u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(
                     profile, key, f5_config, profile_config, avi_config,
-                    input_dir, u_ignore, tenant, key_and_cert_mapping_list)
+                    input_dir, u_ignore, tenant, key_and_cert_mapping_list,
+                    merge_object_mapping, sys_dict)
                 LOG.debug("Conversion successful for profile: %s" % name)
             except:
                 LOG.error("Failed to convert profile: %s" % key, exc_info=True)
@@ -79,6 +88,10 @@ class ProfileConfigConv(object):
                 else:
                     conv_utils.add_status_row('profile', key, key,
                                               final.STATUS_ERROR)
+            # Added call to check progress.
+            msg = "Profile conversion started..."
+            conv_utils.print_progress_bar(progressbar_count, total_size, msg,
+                             prefix='Progress', suffix='')
         count = len(avi_config["SSLProfile"])
         count += len(avi_config["PKIProfile"])
         count += len(avi_config["ApplicationProfile"])
@@ -157,9 +170,13 @@ class ProfileConfigConv(object):
             LOG.info('Added new SSL key and certificate for %s' % name)
 
         if ssl_kc_obj:
-            conv_utils.update_skip_duplicates(
-                ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
-                'key_cert', converted_objs, name, default_profile_name)
+            if 'dummy' not in ssl_kc_obj['name']:
+                conv_utils.update_skip_duplicates(
+                    ssl_kc_obj, avi_config['SSLKeyAndCertificate'], 'key_cert',
+                    converted_objs, name, default_profile_name, None,
+                    None, None, None)
+            else:
+                avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
@@ -202,7 +219,6 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.object_merge_check = object_merge_check
         # added code to handel count of sslmerge, applicationmerge,
         # networkmerge count
-        self.ssl_count = 0
         self.app_count = 0
         self.net_count = 0
         self.pki_count = 0
@@ -211,7 +227,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping,
+                        sys_dict):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -291,8 +308,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    converted_objs, name, default_profile_name)
-                self.ssl_count += 1
+                    converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['SSLProfile'])
+                ssl_count['count'] += 1
             else:
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl-file', None)
@@ -339,7 +358,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     if self.object_merge_check:
                         conv_utils.update_skip_duplicates(pki_profile,
                                     avi_config['PKIProfile'], 'pki_profile',
-                                    converted_objs, name, default_profile_name)
+                                    converted_objs, name, default_profile_name,
+                                    merge_object_mapping, None, self.prefix,
+                                                        sys_dict['PKIProfile'])
                         self.pki_count += 1
                     else:
                         avi_config['PKIProfile'].append(pki_profile)
@@ -431,7 +452,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -453,7 +476,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -505,7 +530,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -560,7 +587,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -615,7 +644,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -624,7 +655,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile', converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -652,7 +684,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -681,7 +715,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile', converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -767,7 +802,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile', converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -798,7 +834,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile', converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -833,7 +870,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
         self.object_merge_check = object_merge_check
         # code to get count to merge profile
-        self.ssl_count = 0
         self.app_count = 0
         self.net_count = 0
         self.pki_count = 0
@@ -842,7 +878,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
-                        key_and_cert_mapping_list):
+                        key_and_cert_mapping_list, merge_object_mapping,
+                        sys_dict):
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -920,8 +957,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    converted_objs, name, default_profile_name)
-                self.ssl_count += 1
+                    converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['SSLProfile'])
+                ssl_count['count'] += 1
             else:
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl file', None)
@@ -967,7 +1006,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     if self.object_merge_check:
                         conv_utils.update_skip_duplicates(pki_profile,
                                     avi_config['PKIProfile'], 'pki_profile',
-                                    converted_objs, name, default_profile_name)
+                                    converted_objs, name, default_profile_name,
+                                    merge_object_mapping, None, self.prefix,
+                                                         sys_dict['PKIProfile'])
                         self.pki_count += 1
                     else:
                         avi_config['PKIProfile'].append(pki_profile)
@@ -981,7 +1022,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -999,7 +1042,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -1051,7 +1096,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile',converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -1059,7 +1105,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
-                    'app_profile', converted_objs, name, default_profile_name)
+                    'app_profile', converted_objs, name, default_profile_name,
+                    merge_object_mapping, profile_type, self.prefix,
+                    sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -1087,7 +1135,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if self.object_merge_check:
                 conv_utils.update_skip_duplicates\
                     (app_profile, avi_config['ApplicationProfile'],
-                     'app_profile',converted_objs, name, default_profile_name)
+                     'app_profile',converted_objs, name, default_profile_name,
+                     merge_object_mapping, profile_type, self.prefix,
+                     sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
                 avi_config['ApplicationProfile'].append(app_profile)
@@ -1110,7 +1160,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates\
                     (ntwk_profile, avi_config['NetworkProfile'],
                      'network_profile',converted_objs, name,
-                     default_profile_name)
+                     default_profile_name, merge_object_mapping,
+                     profile_type, self.prefix, sys_dict['NetworkProfile'])
                 self.net_count += 1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)
@@ -1193,7 +1244,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates\
                     (ntwk_profile, avi_config['NetworkProfile'],
                      'network_profile',converted_objs, name,
-                     default_profile_name)
+                     default_profile_name, merge_object_mapping,
+                     profile_type, self.prefix, sys_dict['NetworkProfile'])
 
                 self.net_count += 1
             else:
@@ -1224,7 +1276,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 conv_utils.update_skip_duplicates(
                     ntwk_profile, avi_config['NetworkProfile'],
                     'network_profile', converted_objs, name,
-                    default_profile_name)
+                    default_profile_name, merge_object_mapping, profile_type,
+                    self.prefix, sys_dict['NetworkProfile'])
                 self.net_count += 1
             else:
                 avi_config['NetworkProfile'].append(ntwk_profile)

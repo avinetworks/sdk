@@ -4,9 +4,13 @@ converter tool along with its options / parameters
 """
 
 import logging
+import os
+import pytest
 
 from avi.migrationtools.netscaler_converter.netscaler_converter \
     import NetscalerConverter
+from avi.migrationtools.test.common.excel_reader \
+    import percentage_success, output_sanitization
 
 
 setup = dict(
@@ -31,9 +35,11 @@ setup = dict(
     config_file_name_passphrase='ns_passphrase.conf',
     ns_passphrase_file='passphrase.yaml',
     ns_key_file='cd_rt_key.pem',
-    ignore_config='ignore-config.yaml',
+    ignore_config=os.path.abspath(os.path.dirname(__file__)) + os.sep + 'ignore-config.yaml',
     patch='patch.yml',
-    vs_filter='vs_ksl.com,vs_NStoAvi-SG'
+    vs_filter='vs_ksl.com,vs_NStoAvi-SG',
+    not_in_use=True,
+    baseline_profile=None
 )
 
 
@@ -54,7 +60,7 @@ def netscaler_conv(
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
         patch=None, vs_filter=None, ignore_config=None,
-        prefix=None):
+        prefix=None, not_in_use=False, baseline_profile=None):
 
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
@@ -64,8 +70,9 @@ def netscaler_conv(
         controller_version=controller_version, ns_host_ip=ns_host_ip,
         ns_ssh_user=ns_ssh_user, ns_ssh_password=ns_ssh_password,
         ns_key_file=ns_key_file, ns_passphrase_file=ns_passphrase_file,
-        version=version, no_profile_merge=no_profile_merge, patch=patch,
-        vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix)
+        version=version, no_object_merge=no_profile_merge, patch=patch,
+        vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
+        not_in_use=not_in_use, baseline_profile=baseline_profile)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
@@ -73,12 +80,42 @@ def netscaler_conv(
 
 class TestNetscalerConverter:
 
+    @pytest.mark.travis
+    def test_excel_report_16_4(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       controller_version=setup.get('controller_version'),
+                output_file_path='output')
+        percentage_success('./output/ns-ConversionStatus.xlsx')
+
+    @pytest.mark.travis
+    def test_output_sanitization_17_1_1(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       output_file_path='output')
+        percentage_success('./output/ns-ConversionStatus.xlsx',
+                            './output/ns-Output.json')
+
+    @pytest.mark.travis
+    def test_excel_report_16_4(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       controller_version=setup.get('controller_version'),
+                output_file_path='output')
+        percentage_success('./output/ns-ConversionStatus.xlsx')
+
+    @pytest.mark.travis
+    def test_output_sanitization_17_1_1(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                output_file_path='output')
+        output_sanitization('./output/ns-ConversionStatus.xlsx',
+                            './output/ns-Output.json')
+
+    @pytest.mark.travis
     def test_without_options_17_1_1(self):
         """
         Input File on Local Filesystem, Controller v17.1.1
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'))
 
+    @pytest.mark.travis
     def test_without_options_16_4_4(self):
         """
         Input File on Local Filesystem, Controller v16.4.4
@@ -86,29 +123,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version'))
 
-    def test_auto_upload_17_1_1(self):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1,
-        AutoUpload Flow
-        """
-        netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       option=setup.get('option'),
-                       controller_ip=setup.get('controller_ip_17_1_1'),
-                       user=setup.get('controller_user_17_1_1'),
-                       password=setup.get('controller_password_17_1_1'))
-
-    def test_auto_upload_16_4_4(self):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4,
-        AutoUpload Flow
-        """
-        netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       controller_version=setup.get('controller_version'),
-                       option=setup.get('option'),
-                       controller_ip=setup.get('controller_ip_16_4_4'),
-                       user=setup.get('controller_user_16_4_4'),
-                       password=setup.get('controller_password_16_4_4'))
-
+    @pytest.mark.skip_travis
     def test_download_17_1_1(self):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -117,6 +132,7 @@ class TestNetscalerConverter:
                        ns_ssh_user=setup.get('ns_ssh_user'),
                        ns_ssh_password=setup.get('ns_ssh_password'))
 
+    @pytest.mark.skip_travis
     def test_download_16_4_4(self):
         """
         Download Input File Flow, Test for Controller v16.4.4
@@ -126,31 +142,7 @@ class TestNetscalerConverter:
                        ns_ssh_password=setup.get('ns_ssh_password'),
                        controller_version=setup.get('controller_version'))
 
-    def test_download_auto_upload_17_1_1(self):
-        """
-        Test for Controller v17.1.1, Download Input File + Auto-Upload Flow
-        """
-        netscaler_conv(controller_ip=setup.get('controller_ip_17_1_1'),
-                       user=setup.get('controller_user_17_1_1'),
-                       password=setup.get('controller_password_17_1_1'),
-                       option=setup.get('option'),
-                       ns_host_ip=setup.get('ns_host_ip'),
-                       ns_ssh_user=setup.get('ns_ssh_user'),
-                       ns_ssh_password=setup.get('ns_ssh_password'))
-
-    def test_download_auto_upload_16_4_4(self):
-        """
-        Test for Controller v16.4.4, Download Input File + Auto-Upload Flow
-        """
-        netscaler_conv(controller_ip=setup.get('controller_ip_16_4_4'),
-                       user=setup.get('controller_user_16_4_4'),
-                       password=setup.get('controller_password_16_4_4'),
-                       option=setup.get('option'),
-                       ns_host_ip=setup.get('ns_host_ip'),
-                       controller_version=setup.get('controller_version'),
-                       ns_ssh_user=setup.get('ns_ssh_user'),
-                       ns_ssh_password=setup.get('ns_ssh_password'))
-
+    @pytest.mark.travis
     def test_no_profile_merge_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -159,6 +151,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        no_profile_merge=setup.get('no_profile_merge'))
 
+    @pytest.mark.travis
     def test_no_profile_merge_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -168,64 +161,7 @@ class TestNetscalerConverter:
                        no_profile_merge=setup.get('no_profile_merge'),
                        controller_version=setup.get('controller_version'))
 
-    def test_vs_filter_17_1_1(self):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1,
-        vs_filter attributes set
-        """
-        avconf = netscaler_conv(config_file_name=setup.get('config_file_name'),
-                                vs_filter=setup.get('vs_filter'))
-        assert isinstance(avconf, dict)
-        assert 'VirtualService' in avconf
-        assert len(avconf['VirtualService']) == 2
-        actual_vsnames = [obj['name'] for obj in avconf['VirtualService']]
-        actual_vsnames.sort()
-        expected_vsnames = ['vs_ksl.com,vs_NStoAvi-SG']
-        expected_vsnames.sort()
-        assert actual_vsnames == expected_vsnames
-
-    def test_vs_filter_16_4_4(self):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4,
-        vs_filter attributes set
-        """
-        avconf = netscaler_conv(config_file_name=setup.get('config_file_name'),
-                                vs_filter=setup.get('vs_filter'),
-                                controller_version=setup.get('controller_version'))
-        assert isinstance(avconf, dict)
-        assert 'VirtualService' in avconf
-        assert len(avconf['VirtualService']) == 2
-        actual_vsnames = [obj['name'] for obj in avconf['VirtualService']]
-        actual_vsnames.sort()
-        expected_vsnames = ['vs_ksl.com,vs_NStoAvi-SG']
-        expected_vsnames.sort()
-        assert actual_vsnames == expected_vsnames
-
-    def test_passphrase_auto_upload_17_1_1(self):
-        """
-        Input File on Local Filesystem,Test for Controller v17.1.1,
-        Passphrase Usage + Auto-Upload
-        """
-        netscaler_conv(controller_ip=setup.get('controller_ip_17_1_1'),
-                       user=setup.get('controller_user_17_1_1'),
-                       password=setup.get('controller_password_17_1_1'),
-                       option=setup.get('option'),
-                       config_file_name=setup.get('config_file_name_passphrase'),
-                       ns_passphrase_file=setup.get('ns_passphrase_file'))
-
-    def test_passphrase_auto_upload_16_4_4(self):
-        """
-        Input File on Local Filesystem,Test for Controller v16.4.4,
-        Passphrase Usage + Auto-Upload
-        """
-        netscaler_conv(controller_ip=setup.get('controller_ip_16_4_4'),
-                       user=setup.get('controller_user_16_4_4'),
-                       password=setup.get('controller_password_16_4_4'),
-                       option=setup.get('option'),
-                       config_file_name=setup.get('config_file_name_passphrase'),
-                       controller_version=setup.get('controller_version'),
-                       ns_passphrase_file=setup.get('ns_passphrase_file'))
-
+    @pytest.mark.travis
     def test_prefix_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -234,6 +170,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        prefix=setup.get('prefix'))
 
+    @pytest.mark.travis
     def test_prefix_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -243,6 +180,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version'),
                        prefix=setup.get('prefix'))
 
+    @pytest.mark.travis
     def test_cloud_name_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -251,6 +189,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        cloud_name=setup.get('cloud_name'))
 
+    @pytest.mark.travis
     def test_cloud_name_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -260,6 +199,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version'),
                        cloud_name=setup.get('cloud_name'))
 
+    @pytest.mark.travis
     def test_tenant_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -268,6 +208,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=setup.get('tenant'))
 
+    @pytest.mark.travis
     def test_tenant_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -277,6 +218,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version'),
                        tenant=setup.get('tenant'))
 
+    @pytest.mark.travis
     def test_input_folder_path_not_provided_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -285,6 +227,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        input_folder_location=setup.get('input_folder_location'))
 
+    @pytest.mark.travis
     def test_input_folder_path_not_provided_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -294,6 +237,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version'),
                        input_folder_location=setup.get('input_folder_location'))
 
+    @pytest.mark.travis
     def test_ignore_config_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -302,6 +246,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        ignore_config=setup.get('ignore_config'))
 
+    @pytest.mark.travis
     def test_ignore_config_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
@@ -311,22 +256,24 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version'),
                        ignore_config=setup.get('ignore_config'))
 
-    def test_patch_17_1_1(self):
+    @pytest.mark.travis
+    def test_not_in_use_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
-        Patch option usage
+        No_profile_merge Flag Reset
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       patch=setup.get('patch'))
+                       not_in_use=setup.get('not_in_use'))
 
-    def test_patch_16_4_4(self):
+    @pytest.mark.travis
+    def test_not_in_use_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
-        Patch option usage
+        No_profile_merge Flag Reset
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       controller_version=setup.get('controller_version'),
-                       patch=setup.get('patch'))
+                       not_in_use=setup.get('not_in_use'),
+                       controller_version=setup.get('controller_version'))
 
 
 def teardown():

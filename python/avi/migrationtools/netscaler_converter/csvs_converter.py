@@ -2,9 +2,7 @@ import logging
 import copy
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
 from pkg_resources import parse_version
-from avi.migrationtools.netscaler_converter import ns_util
 from avi.migrationtools.netscaler_converter.lbvs_converter \
     import (redirect_pools, used_pool_group_ref)
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -18,11 +16,15 @@ from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.profile_converter import \
     app_merge_count
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 LOG = logging.getLogger(__name__)
 
 tmp_used_pool_group_ref = used_pool_group_ref
 tmp_policy_ref = []
+# Creating object for util library.
+ns_util = NsUtil()
+
 
 
 class CsvsConverter(object):
@@ -62,8 +64,11 @@ class CsvsConverter(object):
         self.csvs_bind_user_ignore = user_ignore.get('csvs_bind', [])
         # Added prefix for objects
         self.prefix = prefix
+        # Progressbar count and total size.
+        self.progressbar_count = 0
+        self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state):
+    def convert(self, ns_config, avi_config, vs_state, sysdict):
         """
         This function defines that it convert netscalar cs vs config to vs
         config of AVI
@@ -78,14 +83,20 @@ class CsvsConverter(object):
             self.csvs_bind_skipped, self.csvs_na_attrs, self.csvs_ignore_vals,
             self.csvs_bind_user_ignore, self.prefix)
         cs_vs_conf = ns_config.get('add cs vserver', {})
+        lb_vs_conf = ns_config.get('add lb vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
         avi_config['StringGroup'] = []
+        # get the total size of object.
+        self.progressbar_count = len(lb_vs_conf)
+        self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['VirtualService'] = ns_util.remove_duplicate_objects(
             'VirtualService', avi_config['VirtualService'])
         for cs_vs_index, key in enumerate(cs_vs_conf):
+            # Increment count
+            self.progressbar_count += 1
             LOG.debug("Context Switch VS conversion started for: %s" % key)
             lbvs_bindings = []
             cs_vs = cs_vs_conf[key]
@@ -177,9 +188,10 @@ class CsvsConverter(object):
                 # Get the merge application profile name
                 if self.object_merge_check:
                     http_prof = merge_object_mapping['app_profile'].get(
-                        http_prof, http_prof)
+                                http_prof)
                 if ns_util.object_exist('ApplicationProfile', http_prof,
-                                        avi_config):
+                   sysdict) or ns_util.object_exist('ApplicationProfile',
+                   http_prof, avi_config):
                     LOG.info('Conversion successful: Added application profile '
                              '%s for %s' % (http_prof, updated_vs_name))
                     http_prof_ref = \
@@ -206,9 +218,10 @@ class CsvsConverter(object):
                 # Get the merge network profile name
                 if self.object_merge_check:
                     ntwk_prof = merge_object_mapping['network_profile'].get(
-                        ntwk_prof, ntwk_prof)
+                                ntwk_prof)
                 if ns_util.object_exist('NetworkProfile', ntwk_prof,
-                                        avi_config):
+                   sysdict) or ns_util.object_exist('NetworkProfile', ntwk_prof,
+                   avi_config):
                     LOG.info('Conversion successful: Added network profile %s '
                              'for %s' % (ntwk_prof, updated_vs_name))
                     ntwk_prof_ref = \
@@ -234,7 +247,8 @@ class CsvsConverter(object):
                     tenant='admin')
                 vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                     'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
-            elif not http_prof and (cs_vs['attrs'][1]).upper() == 'DNS_TCP':
+            elif not http_prof and (
+                    cs_vs['attrs'][1]).upper() in ['DNS_TCP', 'TCP']:
                 vs_obj[
                     'application_profile_ref'] = ns_util.get_object_ref(
                     'System-L4-Application', 'applicationprofile',
@@ -267,45 +281,24 @@ class CsvsConverter(object):
                         if self.object_merge_check:
                             pki_ref = merge_object_mapping[
                                 'pki_profile'].get(pki_ref)
-                        if [pki_profile for pki_profile in
-                            avi_config["PKIProfile"] if
-                            pki_profile['name'] == pki_ref]:
-                            pki_ref = \
-                                ns_util.get_object_ref(pki_ref,
-                                                       OBJECT_TYPE_PKI_PROFILE,
-                                                       self.tenant_name)
-                            app_profile_with_pki_profile = \
+                        if [pki_profile for pki_profile in (sysdict[
+                           'PKIProfile'] + avi_config["PKIProfile"]) if
+                           pki_profile['name'] == pki_ref]:
+                            pki_ref = ns_util.get_object_ref(pki_ref,
+                                      OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
+                            app_profile_name = \
                                 ns_util.update_application_profile(
                                     http_prof, pki_ref, self.tenant_ref,
-                                    updated_vs_name, avi_config)
-                            app_profile_name = \
-                                app_profile_with_pki_profile['name']
-                            # Get the merge application profile name
-                            if self.object_merge_check:
-                                dup_of = ns_util.update_skip_duplicates(
-                                    app_profile_with_pki_profile, avi_config[
-                                    'ApplicationProfile'], 'app_profile',
-                                    merge_object_mapping, app_profile_name,
-                                    'HTTP', self.prefix)
-                                if dup_of:
-                                    app_merge_count['count'] += 1
-                                    app_profile_name = \
-                                        merge_object_mapping['app_profile'].get(
-                                            app_profile_name)
-                                else:
-                                    avi_config["ApplicationProfile"].append(
-                                        app_profile_with_pki_profile)
-                            else:
-                                avi_config["ApplicationProfile"].append(
-                                    app_profile_with_pki_profile)
-                            app_profile_with_pki_profile_ref = \
-                                ns_util.get_object_ref(app_profile_name,
-                                    OBJECT_TYPE_APPLICATION_PROFILE,
-                                    self.tenant_name)
-                            vs_obj['application_profile_ref'] = \
-                                app_profile_with_pki_profile_ref
-                            LOG.info(
-                                'Added: %s PKI profile %s' % (pki_ref, key))
+                                    updated_vs_name, avi_config, sysdict)
+                            if app_profile_name:
+                                app_profile_with_pki_profile_ref = \
+                                    ns_util.get_object_ref(app_profile_name,
+                                        OBJECT_TYPE_APPLICATION_PROFILE,
+                                        self.tenant_name)
+                                vs_obj['application_profile_ref'] = \
+                                    app_profile_with_pki_profile_ref
+                                LOG.info(
+                                    'Added: %s PKI profile %s' % (pki_ref, key))
                     elif 'certkeyName' in mapping:
                         avi_ssl_ref = 'ssl_key_and_certificate_refs'
                         ckname = mapping['certkeyName']
@@ -346,9 +339,9 @@ class CsvsConverter(object):
                 if self.object_merge_check:
                     ssl_profile_name = merge_object_mapping['ssl_profile'].get(
                         ssl_profile_name, None)
-                if mapping and [ssl_profile for ssl_profile in
-                                avi_config["SSLProfile"] if
-                                ssl_profile['name'] == ssl_profile_name]:
+                if mapping and [ssl_profile for ssl_profile in (sysdict[
+                   'SSLProfile'] + avi_config["SSLProfile"]) if
+                   ssl_profile['name'] == ssl_profile_name]:
                     updated_ssl_profile_ref = ns_util.get_object_ref(
                         ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
@@ -520,6 +513,10 @@ class CsvsConverter(object):
                 cs_vs['line_no'], ns_add_cs_vserver_command,
                 key, ns_add_cs_vserver_complete_command, conv_status, vs_obj)
             LOG.debug("Context Switch VS conversion completed for: %s" % key)
+            # Calling progress bar function.
+            msg = "VirtualService Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg, prefix='Progress', suffix='')
         vs_list = [obj for obj in lbvs_avi_conf if obj not in lb_vs_mapped]
         vs_list += cs_vs_list
         avi_config['VirtualService'] = vs_list
