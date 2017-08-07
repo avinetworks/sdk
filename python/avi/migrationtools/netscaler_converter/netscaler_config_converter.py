@@ -80,7 +80,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
         monitor_converter = MonitorConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore,
-            prefix, object_merge_check)
+            prefix, object_merge_check, version)
         monitor_converter.convert(ns_config_dict, avi_config, input_dir,
                                   sys_dict)
 
