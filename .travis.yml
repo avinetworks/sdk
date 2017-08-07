@@ -5,8 +5,9 @@ python:
 # safelist
 branches:
   only:
-  - 17.1.4_pytest
-  - 17.1.4
+  - master
+  - 17.1.5
+
 
 # command to install dependencies
 install:
