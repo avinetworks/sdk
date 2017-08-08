@@ -149,7 +149,9 @@ def parse_config(source_str, total_size, version=11):
                 # list for not supported commands.
                 for skipconfig in skip_obj_list:
                     skipconfig = str(skipconfig.replace('}', ''))
-                    if skipconfig:
+                    if skipconfig.strip(' ').startswith(
+                            ('security', 'ltm', 'wam', 'sys', 'waf', 'asm',
+                             'apm')):
                         not_supported_list.append(skipconfig)
                 skipped_list.append(skipped_info)
         last_end = end
