@@ -1,9 +1,8 @@
 import copy
 import logging
 import os
-import urlparse
 import pandas
-import json
+import ast
 import re
 import random
 import avi.migrationtools.f5_converter.converter_constants as conv_const
@@ -1140,15 +1139,7 @@ class F5Util(MigrationUtil):
         :return: Return converted string
         """
         avi_string = avi_string.split('__/__')[0]
-        avi_string = re.sub(r"\"(.)+\"", "''", avi_string)
-        repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
-                ("None", "null"), ('u"', '"')
-        avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
-        try:
-            return json.loads(avi_string)
-        except Exception as e:
-            LOG.error(e)
-            pass
+        return ast.literal_eval(avi_string)
 
 
     def get_csv_object_list(self, csv_writer_dict_list, command_list):
