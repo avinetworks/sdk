@@ -19,3 +19,4 @@ install:
 script:
 - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis -vvvv  --color=yes
 - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis  --color=yes
+- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
