@@ -274,8 +274,6 @@ class MigrationUtil(object):
             else:
                 LOG.debug("Type of value '%s' doesn't match with type '%s' "
                        "defined" % (str(type(new_value)), typ))
-                print ("Type of value '%s' doesn't match with type '%s' "
-                       "defined" % (str(type(new_value)), typ))
                 valid, new_value = None, None
         else:
             if eval(p_key.get('required')):
@@ -334,8 +332,6 @@ class MigrationUtil(object):
                         heir = []
                         LOG.debug("Validating %s of Object %s" %
                                   (val['name'], obj))
-                        print("Validating %s of Object %s" %
-                                  (val['name'], obj))
                         self.validate_prop(val, heir, limit_data, obj)
 
     def validate_prop(self, dictval, heir, limit_data, obj):
@@ -346,7 +342,7 @@ class MigrationUtil(object):
                      'application_profile_ref', 'network_profile_ref',
                      'pki_profile_ref', 'pool_ref', 'pool_group_ref',
                      'http_policy_set_ref', 'ssl_key_and_certificate_refs',
-                     'vsvip_ref']:
+                     'vsvip_ref', 'description']:
                 LOG.debug("Skipping validation checks for '%s'" % k)
                 continue
             else:
@@ -357,8 +353,6 @@ class MigrationUtil(object):
                             self.validate_prop(listval, heir, limit_data, obj)
                             heir and heir.pop() or None
                         else:
-                            print("Property '%s' has value as a list %s, "
-                                  "not supported currently" % (k, str(v)))
                             LOG.debug("Property '%s' has value as a list %s, "
                                   "not supported currently" % (k, str(v)))
                             #valid, val = self.validate_value(heir, k, listval,
