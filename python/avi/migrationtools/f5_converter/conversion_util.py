@@ -1581,7 +1581,7 @@ class F5Util(MigrationUtil):
         :return: Return static route object
         """
         msg = None
-        next_hop_ip = route.get('gw', None)
+        next_hop_ip = route.get('gw', route.get('gateway'))
         if next_hop_ip and '%' in next_hop_ip:
             next_hop_ip = next_hop_ip.split('%')[0]
 
