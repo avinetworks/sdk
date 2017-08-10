@@ -72,6 +72,7 @@ class MonitorConfigConv(object):
         # Condition to create ssl profile.
         converted_objs = []
         cipher = f5_monitor.get('cipherlist', None)
+        cipher = cipher.replace('\"', '') if cipher is not None else None
         ssl_profile = dict()
         ssl_profile["accepted_versions"] = [
             {"type": "SSL_VERSION_TLS1"},
