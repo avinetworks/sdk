@@ -150,7 +150,7 @@ class ServiceConverter(object):
                             STATUS_INCOMPLETE_CONFIGURATION)
                         LOG.warning(skipped_status)
                     continue
-                ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
+                ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pg_members = []
                 for element in group:

@@ -173,8 +173,10 @@ class NsUtil(MigrationUtil):
         :return: Avi LB algorithm enum value
         """
 
-        avi_algorithm = 'LB_ALGORITHM_ROUND_ROBIN'
-        if not ns_algorithm or ns_algorithm == 'ROUNDROBIN':
+        avi_algorithm = None
+        if ns_algorithm == 'LEASTCONNECTIONS':
+            avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
+        elif ns_algorithm == 'ROUNDROBIN':
             avi_algorithm = 'LB_ALGORITHM_ROUND_ROBIN'
         elif ns_algorithm in ['LEASTRESPONSETIME', 'LRTM']:
             avi_algorithm = 'LB_ALGORITHM_FASTEST_RESPONSE'
