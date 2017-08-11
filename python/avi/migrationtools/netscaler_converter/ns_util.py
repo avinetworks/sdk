@@ -1523,4 +1523,48 @@ class NsUtil(MigrationUtil):
                     cl['AVI Object'] = 'Redirected to %s' % vsrem[cl[
                                         'Object Name']]
 
+    def merge_pool(self, avi_config):
+        mp=[]
+        for pg in avi_config['PoolGroup']:
+            pool_member = pg['members']
+            l = len(pool_member)
+            for i in range(l):
+                pool_name = pool_member[i]['pool_ref'].split('&')[1].split(
+                    '=')[1]
+                if pool_name in mp:
+                    continue
+                pool = [pl for pl in avi_config['Pool']
+                        if pl['name'] == pool_name]
+                if not pool:
+                    LOG.debug("'%s' not present" % pool_name)
+                    continue
+                for j in range(i+1,l):
+                    pname = pool_member[j]['pool_ref'].split('&')[1].split(
+                        '=')[1]
+                    p = [pol for pol in avi_config['Pool']
+                        if pol['name'] == pname]
+
+                    if not p:
+                        LOG.debug("'%s' not present" % pname)
+                        continue
+                    if pool[0]['health_monitor_refs'].sort() == p[0][
+                        'health_monitor_refs'].sort():
+                        LOG.debug("Merging pool '%s' in '%s'" % (p[0]['name'],
+                                                            pool[0]['name']))
+                        ip_port = set()
+                        for ser in pool[0]['servers']:
+                            ip_port.add(str(ser['ip']['addr']) + ':' + str(
+                                ser['port']))
+                        for server in p[0]['servers']:
+                            ipport = str(server['ip']['addr']) + ':' + str(
+                                        server['port'])
+                            if ipport not in list(ip_port):
+                                pool[0]['servers'].append(server)
+                        mp.append(p[0]['name'])
+        for plg in avi_config['PoolGroup']:
+            plg['members'] = [m for m in plg['members'] if
+                              m['pool_ref'].split('&')[1].split('=')[1] not
+                              in mp]
+        avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
+                                'name'] not in mp]
 
