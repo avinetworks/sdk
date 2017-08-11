@@ -118,6 +118,8 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         if redirect:
             # Removing VS and changing the status in CSV which got redirected
             ns_util.vs_redirect_http_to_https(avi_config, sys_dict)
+        # Merging the pool in pool group
+        ns_util.merge_pool(avi_config)
         # Add/update CSV/report
         ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
                                          report_name)

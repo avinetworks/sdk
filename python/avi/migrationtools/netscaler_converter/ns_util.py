@@ -1525,4 +1525,48 @@ class NsUtil(MigrationUtil):
                     cl['AVI Object'] = 'Redirected to %s' % vsrem[cl[
                                         'Object Name']]
 
+    def merge_pool(self, avi_config):
+        mergelist=[]
+        for poolgrp in avi_config['PoolGroup']:
+            pool_member = poolgrp['members']
+            length = len(pool_member)
+            for count in range(length):
+                pool_name = pool_member[count]['pool_ref'].split('&')[1].split(
+                    '=')[1]
+                if pool_name in mergelist:
+                    continue
+                pool = [pl for pl in avi_config['Pool']
+                        if pl['name'] == pool_name]
+                if not pool:
+                    LOG.debug("'%s' not present" % pool_name)
+                    continue
+                for count2 in range(count+1, length):
+                    pname = pool_member[count2]['pool_ref'].split('&')[1].split(
+                        '=')[1]
+                    nextpool = [pol for pol in avi_config['Pool']
+                        if pol['name'] == pname]
+
+                    if not nextpool:
+                        LOG.debug("'%s' not present" % pname)
+                        continue
+                    if pool[0]['health_monitor_refs'].sort() == nextpool[0][
+                      'health_monitor_refs'].sort():
+                        LOG.debug("Merging pool '%s' in '%s'" % (nextpool[0][
+                                                    'name'], pool[0]['name']))
+                        ip_port = set()
+                        for ser in pool[0]['servers']:
+                            ip_port.add(str(ser['ip']['addr']) + ':' + str(
+                                ser['port']))
+                        for server in nextpool[0]['servers']:
+                            ipport = str(server['ip']['addr']) + ':' + str(
+                                        server['port'])
+                            if ipport not in list(ip_port):
+                                pool[0]['servers'].append(server)
+                        mergelist.append(nextpool[0]['name'])
+        for plg in avi_config['PoolGroup']:
+            plg['members'] = [member for member in plg['members'] if
+                              member['pool_ref'].split('&')[1].split('=')[1] not
+                              in mergelist]
+        avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
+                                'name'] not in mergelist]
 
