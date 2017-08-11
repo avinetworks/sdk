@@ -1524,47 +1524,47 @@ class NsUtil(MigrationUtil):
                                         'Object Name']]
 
     def merge_pool(self, avi_config):
-        mp=[]
-        for pg in avi_config['PoolGroup']:
-            pool_member = pg['members']
-            l = len(pool_member)
-            for i in range(l):
-                pool_name = pool_member[i]['pool_ref'].split('&')[1].split(
+        mergelist=[]
+        for poolgrp in avi_config['PoolGroup']:
+            pool_member = poolgrp['members']
+            length = len(pool_member)
+            for count in range(length):
+                pool_name = pool_member[count]['pool_ref'].split('&')[1].split(
                     '=')[1]
-                if pool_name in mp:
+                if pool_name in mergelist:
                     continue
                 pool = [pl for pl in avi_config['Pool']
                         if pl['name'] == pool_name]
                 if not pool:
                     LOG.debug("'%s' not present" % pool_name)
                     continue
-                for j in range(i+1,l):
-                    pname = pool_member[j]['pool_ref'].split('&')[1].split(
+                for count2 in range(count+1, length):
+                    pname = pool_member[count2]['pool_ref'].split('&')[1].split(
                         '=')[1]
-                    p = [pol for pol in avi_config['Pool']
+                    nextpool = [pol for pol in avi_config['Pool']
                         if pol['name'] == pname]
 
-                    if not p:
+                    if not nextpool:
                         LOG.debug("'%s' not present" % pname)
                         continue
-                    if pool[0]['health_monitor_refs'].sort() == p[0][
-                        'health_monitor_refs'].sort():
-                        LOG.debug("Merging pool '%s' in '%s'" % (p[0]['name'],
-                                                            pool[0]['name']))
+                    if pool[0]['health_monitor_refs'].sort() == nextpool[0][
+                      'health_monitor_refs'].sort():
+                        LOG.debug("Merging pool '%s' in '%s'" % (nextpool[0][
+                                                    'name'], pool[0]['name']))
                         ip_port = set()
                         for ser in pool[0]['servers']:
                             ip_port.add(str(ser['ip']['addr']) + ':' + str(
                                 ser['port']))
-                        for server in p[0]['servers']:
+                        for server in nextpool[0]['servers']:
                             ipport = str(server['ip']['addr']) + ':' + str(
                                         server['port'])
                             if ipport not in list(ip_port):
                                 pool[0]['servers'].append(server)
-                        mp.append(p[0]['name'])
+                        mergelist.append(nextpool[0]['name'])
         for plg in avi_config['PoolGroup']:
-            plg['members'] = [m for m in plg['members'] if
-                              m['pool_ref'].split('&')[1].split('=')[1] not
-                              in mp]
+            plg['members'] = [member for member in plg['members'] if
+                              member['pool_ref'].split('&')[1].split('=')[1] not
+                              in mergelist]
         avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
-                                'name'] not in mp]
+                                'name'] not in mergelist]
 
