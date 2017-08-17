@@ -113,7 +113,7 @@ class F5Converter(AviConverter):
 
         if self.partition_config:
             partitions = self.partition_config.split(',')
-
+        source_file = None
         if is_download_from_host:
             LOG.debug("Copying files from host")
             print "Copying Files from Host..."

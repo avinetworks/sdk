@@ -98,7 +98,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict)
-
+        # Updating application profile from L4 to http if service has ssl enable
+        conv_utils.update_app_profile(avi_config_dict, sys_dict, tenant)
         conv_utils.net_to_static_route(f5_config, avi_config_dict)
         # Updating the ssl profile ref for monitors with merged name
         conv_utils.update_monitor_ssl_ref(avi_config_dict, merge_object_mapping,
