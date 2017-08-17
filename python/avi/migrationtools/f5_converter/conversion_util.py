@@ -1524,7 +1524,7 @@ class F5Util(MigrationUtil):
         csv_objects = [row for row in csv_writer_dict_list
                        if row['Status'] in [conv_const.STATUS_PARTIAL,
                                             conv_const.STATUS_SUCCESSFUL]
-                       and row['F5 type'] != 'virtual']
+                       and row['F5 type'] not in ('virtual', 'route')]
 
         # Update the vs reference not in used if objects are not attached to
         # VS directly or indirectly
@@ -1580,8 +1580,8 @@ class F5Util(MigrationUtil):
         :param route: Object of net static route
         :return: Return static route object
         """
-
-        next_hop_ip = route.get('gw', None)
+        msg = None
+        next_hop_ip = route.get('gw', route.get('gateway'))
         if next_hop_ip and '%' in next_hop_ip:
             next_hop_ip = next_hop_ip.split('%')[0]
 
@@ -1615,9 +1615,12 @@ class F5Util(MigrationUtil):
                     "addr": next_hop_ip
                 }
             }
-            return static_route, vrf
+            return static_route, vrf, msg
         else:
-            return None, None
+            msg = ("Next hop ip is not present") if not next_hop_ip else ("Ip "
+                                                    "Address is not present")
+            LOG.debug(msg)
+            return None, None, msg
 
 
     def get_vrf_context_ref(self, f5_entity_mem, vrf_config, entity_string,
@@ -1651,7 +1654,9 @@ class F5Util(MigrationUtil):
         avi_vrf = avi_config["VrfContext"]
         # Convert net static route to vrf static route
         for key, route in net_config.iteritems():
-            static_route, vrf = self.update_static_route(route)
+            LOG.debug("Starting conversion from net route to static for '%s'"
+                      % key)
+            static_route, vrf, msg = self.update_static_route(route)
             if static_route:
                 for obj in avi_vrf:
                     if obj['name'] == vrf:
@@ -1662,6 +1667,14 @@ class F5Util(MigrationUtil):
                             obj['static_routes'].append(static_route)
                         else:
                             obj['static_routes'] = [static_route]
+                LOG.debug("Conversion completed for route '%s'" % key)
+                self.add_conv_status('route', None, key,
+                                     {'status': conv_const.STATUS_SUCCESSFUL},
+                                      static_route)
+            else:
+                LOG.debug("Conversion unsuccessful for route '%s'" % key)
+                self.add_conv_status('route', None, key,
+                                     {'status': conv_const.STATUS_SKIPPED}, msg)
 
     def update_monitor_ssl_ref(self, avi_dict, merge_obj_dict, sysdict):
         for obj in avi_dict['HealthMonitor']:
