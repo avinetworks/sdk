@@ -949,7 +949,8 @@ class F5Util(MigrationUtil):
             name = parts[1]
         if tenant.lower() == 'common':
             tenant = 'admin'
-
+        if '/' in name:
+            name = name.split('/')[1]
         return tenant, name
 
     def get_app_profile_type(self, profile_name, avi_config):
@@ -1649,7 +1650,13 @@ class F5Util(MigrationUtil):
         return vrf_ref
 
     def net_to_static_route(self, f5_config, avi_config):
-
+        """
+        This method converts the net route to static routes and updates the
+        VrfContext objects
+        :param f5_config: parsed f5 config
+        :param avi_config: converted config in avi
+        :return:
+        """
         net_config = f5_config.get('route', {})
         avi_vrf = avi_config["VrfContext"]
         # Convert net static route to vrf static route
@@ -1677,6 +1684,14 @@ class F5Util(MigrationUtil):
                                      {'status': conv_const.STATUS_SKIPPED}, msg)
 
     def update_monitor_ssl_ref(self, avi_dict, merge_obj_dict, sysdict):
+        """
+        This method updates the first ssl profile reference from merge
+        perspective in monitors, which get attached at the time of creation
+        :param avi_dict: avi configuration dict
+        :param merge_obj_dict: dict having merge objects
+        :param sysdict: system object dicts
+        :return:
+        """
         for obj in avi_dict['HealthMonitor']:
             obj_ref = obj.get('https_monitor', {}).get('ssl_attributes',
                                                        {}).get(
@@ -1689,8 +1704,34 @@ class F5Util(MigrationUtil):
                         'SSLProfile']) if ob['name'] == updated_name]
                     tenant = self.get_name(prof[0]['tenant_ref'])
                     type_cons = conv_const.OBJECT_TYPE_SSL_PROFILE
-                    obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] = \
+                    obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] =\
                         self.get_object_ref(updated_name, type_cons, tenant)
+
+    def update_app_profile(self, aviconfig, sys_dict, tenant):
+        """
+        This method updates the application profile to http when there are
+        multiple services to a L4 app VS in which one of them is ssl enabled
+        :param aviconfig: avi config dict
+        :param sys_dict: system config dict
+        :param tenant: tenant to be used for reference
+        :return:
+        """
+        for vs_obj in aviconfig['VirtualService']:
+            if len(vs_obj['services']) > 1:
+                app_profile = self.get_name(vs_obj['application_profile_ref'])
+                app_profile_obj = [app for app in sys_dict[
+                        'ApplicationProfile'] + aviconfig['ApplicationProfile']
+                                   if app['name'] == app_profile]
+                if app_profile_obj and app_profile_obj[0][
+                    'type'] == 'APPLICATION_PROFILE_TYPE_L4':
+                    for service in vs_obj['services']:
+                        if service['enable_ssl']:
+                            vs_obj['application_profile_ref'] = \
+                                self.get_object_ref('System-HTTP',
+                                    conv_const.OBJECT_TYPE_APPLICATION_PROFILE,
+                                                    tenant)
+
+                            break
 
 
 
