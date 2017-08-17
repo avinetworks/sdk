@@ -219,6 +219,7 @@ class LbvsConverter(object):
 
                 http_prof = lb_vs.get('httpProfileName', None)
                 persistence_attached = False
+                persistence_type = lb_vs.get('persistenceType', '')
                 if http_prof:
                     # Added prefix for objects
                     if self.prefix:
@@ -282,7 +283,7 @@ class LbvsConverter(object):
                     LOG.debug("Defaulted to L4 profile for '%s' VS of type "
                               "SSL_BRIDGE" % updated_vs_name)
                     # Defaulting to 'client ip' persistence profile
-                    if pool_group:
+                    if pool_group and persistence_type != 'NONE':
                         persistence_attached = self.update_pool_for_persist(
                                                 avi_config, pool_group[0],
                                                 'System-Persistence-Client-IP')
@@ -416,8 +417,6 @@ class LbvsConverter(object):
                     service['port'] = "1"
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
-
-                persistence_type = lb_vs.get('persistenceType', '')
                 if pool_group_ref and not persistence_attached:
                     if persistence_type in self.lbvs_supported_persist_types:
                         profile_name = '%s-persistance-profile' % vs_name
