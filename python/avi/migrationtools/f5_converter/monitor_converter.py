@@ -186,9 +186,10 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
+                msg = "Empty config for monitor: %s " % name
+                LOG.warn(msg)
                 conv_utils.add_status_row('monitor', m_type, name,
-                                          conv_const.STATUS_SKIPPED)
-                LOG.warn("Empty config for monitor: %s " % name)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
@@ -198,10 +199,11 @@ class MonitorConfigConv(object):
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
-                    LOG.warn("Monitor type not supported by Avi : "+name)
+                    msg = "Monitor type not supported by Avi : "+name
+                    LOG.warn(msg)
                     conv_utils.add_status_row(
                         'monitor', monitor_type, name,
-                        conv_const.STATUS_EXTERNAL_MONITOR)
+                        conv_const.STATUS_EXTERNAL_MONITOR, msg)
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
@@ -302,10 +304,11 @@ class MonitorConfigConv(object):
                 skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
                 ignore_for_defaults.update({'qtype': 'a'})
             else:
-                LOG.warning('No value for mandatory field query_name, skipped '
-                            'DNS Monitor %s' % key)
+                msg = ('No value for mandatory field query_name, skipped '
+                       'DNS Monitor %s' % key)
+                LOG.warning(msg)
                 conv_utils.add_status_row('monitor', monitor_type, name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 return None
         elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
