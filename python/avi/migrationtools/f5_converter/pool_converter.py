@@ -45,15 +45,17 @@ class PoolConfigConv(object):
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
             if not f5_pool:
-                LOG.debug("Empty pool skipped for conversion :%s" % pool_name)
+                msg = "Empty pool skipped for conversion :%s" % pool_name
+                LOG.debug(msg)
                 conv_utils.add_status_row('pool', None, pool_name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             if 'gateway-failsafe-device' in f5_pool:
-                LOG.debug("Not supported gateway-failsafe-device, pool skipped "
+                msg = ("Not supported gateway-failsafe-device, pool skipped "
                           "for conversion :%s" % pool_name)
+                LOG.debug()
                 conv_utils.add_status_row('pool', None, pool_name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             try:
                 converted_objs = self.convert_pool(

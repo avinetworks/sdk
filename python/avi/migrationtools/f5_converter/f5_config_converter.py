@@ -112,6 +112,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     datascript_objs = ['data-group']
     # Added support node as not applicable
     na_list_objs = f5_attributes['na_list_objs']
+    accept_list = ['snatpool']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
@@ -123,10 +124,17 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                           conv_const.STATUS_DATASCRIPT)
             elif f5_type in na_list_objs:
                 conv_utils.add_status_row(f5_type, sub_type, key,
-                                          conv_const.STATUS_NOT_APPLICABLE)
+                                          conv_const.STATUS_NOT_APPLICABLE,
+                                          f5_type + " object not applicable")
+            elif f5_type in accept_list:
+                msg = (" skipped because of object "
+                       "associated with this is skipped")
+                conv_utils.add_status_row(f5_type, sub_type, key,
+                                          conv_const.STATUS_SKIPPED,
+                                          f5_type + msg)
             else:
                 conv_utils.add_status_row(f5_type, sub_type, key,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_NOT_SUPPORTED)
 
     # Add f5 converter status report in xslx report
     conv_utils.add_complete_conv_status(
