@@ -26,7 +26,8 @@ ns_util = NsUtil()
 
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
-            prefix, profile_path, key_passphrase=None, user_ignore={}):
+            prefix, profile_path, redirect, key_passphrase=None,
+            user_ignore={}):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -79,7 +80,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
 
         monitor_converter = MonitorConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore,
-            prefix, object_merge_check)
+            prefix, object_merge_check, version)
         monitor_converter.convert(ns_config_dict, avi_config, input_dir,
                                   sys_dict)
 
@@ -103,21 +104,25 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
         csvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict)
-        # Updating the reference for application persistence profile as we
-        # are assigning reference at the time of profile creation
-        ns_util.update_profile_ref('application_persistence_profile_ref',
+        if object_merge_check:
+            # Updating the reference for application persistence profile as we
+            # are assigning reference at the time of profile creation
+            ns_util.update_profile_ref('application_persistence_profile_ref',
                 avi_config['Pool'], merge_object_mapping['app_persist_profile'])
-        # Updating the reference for application persistence profile as we
-        # are assigning reference at the time of profile creation
-        ns_util.update_profile_ref('application_profile_ref',
-                avi_config['VirtualService'], merge_object_mapping[
-                                       'app_profile'])
+            # Updating the reference for application persistence profile as we
+            # are assigning reference at the time of profile creation
+            ns_util.update_profile_ref('application_profile_ref',
+              avi_config['VirtualService'], merge_object_mapping['app_profile'])
         # Add status for skipped netscalar commands in CSV/report
         ns_util.update_status_for_skipped(skipped_cmds)
+        if redirect:
+            # Removing VS and changing the status in CSV which got redirected
+            ns_util.vs_redirect_http_to_https(avi_config, sys_dict)
+        # Merging the pool in pool group
+        ns_util.merge_pool(avi_config)
         # Add/update CSV/report
         ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
                                          report_name)
-
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
         ns_util.cleanup_dupof(avi_config)
