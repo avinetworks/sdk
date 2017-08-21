@@ -83,6 +83,8 @@ class MigrationUtil(object):
         :param obj_list: List of oll objects to search in
         :return: Name of object for which given object is duplicate of
         """
+        if not syslist:
+            syslist = []
         src_cp = copy.deepcopy(src_obj)
         src_cp.pop("name")
         src_cp.pop("description", [])
@@ -123,6 +125,8 @@ class MigrationUtil(object):
         """
 
         file_str = None
+        if '/Common/' in file_path:
+            file_path = file_path.replace('/Common/', '')
         try:
             with open(file_path, "r") as file_obj:
                 file_str = file_obj.read()

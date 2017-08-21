@@ -39,7 +39,8 @@ setup = dict(
     patch='patch.yml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
-    baseline_profile=None
+    baseline_profile=None,
+    redirect=False
 )
 
 
@@ -60,7 +61,7 @@ def netscaler_conv(
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
         patch=None, vs_filter=None, ignore_config=None,
-        prefix=None, not_in_use=False, baseline_profile=None):
+        prefix=None, not_in_use=False, baseline_profile=None, redirect=True):
 
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
@@ -72,7 +73,8 @@ def netscaler_conv(
         ns_key_file=ns_key_file, ns_passphrase_file=ns_passphrase_file,
         version=version, no_object_merge=no_profile_merge, patch=patch,
         vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
-        not_in_use=not_in_use, baseline_profile=baseline_profile)
+        not_in_use=not_in_use, baseline_profile=baseline_profile,
+        redirect=redirect)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
@@ -273,6 +275,42 @@ class TestNetscalerConverter:
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        not_in_use=setup.get('not_in_use'),
+                       controller_version=setup.get('controller_version'))
+
+    @pytest.mark.travis
+    def test_no_redirect_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        redirect Flag Reset
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       redirect=setup.get('redirect'))
+
+    @pytest.mark.travis
+    def test_no_redirect_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4,
+        redirect Flag Reset
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       no_profile_merge=setup.get('redirect'),
+                       controller_version=setup.get('controller_version'))
+
+    @pytest.mark.travis
+    def test_redirect_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        redirect Flag Reset
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'))
+
+    @pytest.mark.travis
+    def test_redirect_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4,
+        redirect Flag Reset
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version'))
 
 

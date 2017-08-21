@@ -150,7 +150,7 @@ class ServiceConverter(object):
                             STATUS_INCOMPLETE_CONFIGURATION)
                         LOG.warning(skipped_status)
                     continue
-                ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTION')
+                ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pg_members = []
                 for element in group:
@@ -442,6 +442,16 @@ class ServiceConverter(object):
                     # ssl profile or pki profile or ssl cert key
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+            # adding condition to attach default ssl and certkey profile
+            elif service.get('attrs') and len(service['attrs']) > 2 and \
+                    service['attrs'][2] == 'SSL':
+                pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
+                        'System-Standard', OBJECT_TYPE_SSL_PROFILE,
+                        self.tenant_name)
+                pool_obj['ssl_key_and_certificate_ref'] = \
+                    ns_util.get_object_ref('System-Default-Cert',
+                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                                               self.tenant_name)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
@@ -572,6 +582,16 @@ class ServiceConverter(object):
                     # ssl profile or pki profile or ssl cert key
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+            # adding condition to attach default ssl and certkey profile
+            elif (service_group.get('attrs') and len(service_group['attrs']) > 2
+                    and service_group['attrs'][2] == 'SSL'):
+                pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
+                    'System-Standard', OBJECT_TYPE_SSL_PROFILE,
+                    self.tenant_name)
+                pool_obj['ssl_key_and_certificate_ref'] = \
+                    ns_util.get_object_ref('System-Default-Cert',
+                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                           self.tenant_name)
             if len(pool_obj['health_monitor_refs']) > 6:
                 pool_obj['health_monitor_refs'] = \
                     pool_obj['health_monitor_refs'][:6]
