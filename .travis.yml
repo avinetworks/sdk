@@ -9,6 +9,7 @@ branches:
   - 17.1.5
   - 17.1.6
   - 17.2.1
+  - 17.2.2
 
 # command to install dependencies
 install:
