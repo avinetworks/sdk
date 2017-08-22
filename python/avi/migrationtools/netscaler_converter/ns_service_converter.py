@@ -800,13 +800,15 @@ class ServiceConverter(object):
                         attrs[0], ns_bind_service_group_complete_command,
                         group_status, monitor[0])
                 else:
-                    LOG.warning('External Health monitor: %s' %
-                                ns_bind_service_group_complete_command)
+                    msg = ('External Health monitor: %s because bind service'
+                           'is not in server' %
+                           ns_bind_service_group_complete_command)
+                    LOG.warning(msg)
                     # Skipped bind service group if doen not server
                     ns_util.add_status_row(
                         server_binding['line_no'], ns_bind_service_group_command,
                         attrs[0], ns_bind_service_group_complete_command,
-                        STATUS_EXTERNAL_MONITOR)
+                        STATUS_EXTERNAL_MONITOR, msg)
 
                 continue
 
