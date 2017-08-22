@@ -19,15 +19,15 @@ log = logging.getLogger(__name__)
 login_info = None
 
 urllib3.disable_warnings()
-gapi_version = '17.2.1'
+gapi_version = '17.1.6'
 
 
 def setUpModule():
-    cfg_file = open('test_api.cfg', 'r')
+    cfg_file = open(os.path.abspath(os.path.dirname(__file__)) + os.sep + 'test_api.cfg', 'r')
     cfg = cfg_file.read()
     global gSAMPLE_CONFIG
     gSAMPLE_CONFIG = json.loads(cfg)
-    log.debug(' read cofig %s', gSAMPLE_CONFIG)
+    log.debug(' read config %s', gSAMPLE_CONFIG)
 
     global login_info
     login_info = gSAMPLE_CONFIG["LoginInfo"]
@@ -98,14 +98,15 @@ class Test(unittest.TestCase):
 
     def test_ssl_vs(self):
         papi = ApiSession('10.10.25.42', 'admin', 'avi123',
-                          verify=False, api_version="17.2.1")
+                          verify=False, api_version="17.1.6")
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
         resp = papi.post('pool', data=gSAMPLE_CONFIG["SSL-VS"]["pool_obj"])
         assert resp.status_code == 201
         pool_ref = papi.get_obj_ref(resp.json())
-        cert, key, _, _ = get_sample_ssl_params(folder_path='../samples/')
+        cert, key, _, _ = get_sample_ssl_params\
+            (folder_path=os.path.abspath(os.path.join(os.path.dirname(__file__),'..','samples')) + os.sep)
         api_utils = ApiUtils(papi)
         try:
             resp = api_utils.import_ssl_certificate("ssl-vs-kc", key, cert)
