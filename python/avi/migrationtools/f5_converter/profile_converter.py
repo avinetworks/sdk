@@ -1,6 +1,7 @@
 import copy
 import logging
 import os
+import yaml
 import avi.migrationtools.f5_converter.converter_constants as final
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 LOG = logging.getLogger(__name__)
@@ -12,14 +13,16 @@ conv_utils = F5Util()
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
-                     object_merge_check, prefix):
+                     object_merge_check, prefix, keypassphrase):
         f5_profile_attributes = f5_profile_attributes
         if version == '10':
-            return ProfileConfigConvV10(f5_profile_attributes,
-                                        object_merge_check, prefix)
+            return ProfileConfigConvV10(
+                f5_profile_attributes, object_merge_check, prefix,
+                keypassphrase)
         if version in ['11', '12']:
-            return ProfileConfigConvV11(f5_profile_attributes,
-                                        object_merge_check, prefix)
+            return ProfileConfigConvV11(
+                f5_profile_attributes, object_merge_check, prefix,
+                keypassphrase)
 
     default_key = None
 
@@ -133,6 +136,7 @@ class ProfileConfigConv(object):
         cert_name = [cert['name'] for cert in key_and_cert_mapping_list if
                      cert['key_file_name'] == key_file_name and
                      cert['cert_file_name'] == cert_file_name]
+
         if cert_name:
             LOG.warning(
                 'SSL key and Certificate is already exist for %s and %s is %s' %
@@ -142,8 +146,26 @@ class ProfileConfigConv(object):
         key = None
         cert = None
         if key_file_name and cert_file_name:
+            if '/' in key_file_name:
+                key_file_name = key_file_name.split('/')[-1]
+            if '/' in cert_file_name:
+                cert_file_name = cert_file_name.split('/')[-1]
             key = conv_utils.upload_file(folder_path + key_file_name)
             cert = conv_utils.upload_file(folder_path + cert_file_name)
+
+        is_key_protected = False
+        if key:
+            # Check kay is passphrase protected or not
+            is_key_protected = conv_utils.is_certificate_key_protected(
+                input_dir + os.path.sep + key_file_name)
+
+        key_passphrase = None
+        # Get the key passphrase for key_file
+        if is_key_protected and self.f5_passphrase_keys:
+            key_passphrase = self.f5_passphrase_keys.get(key_file_name, None)
+
+        if is_key_protected and not key_passphrase:
+            key = None
 
         if not key or not cert:
             key, cert = conv_utils.create_self_signed_cert()
@@ -158,10 +180,10 @@ class ProfileConfigConv(object):
                 'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
                 'key': key,
                 'certificate': cert,
-                'key_passphrase': '',
                 'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
             }
-
+        if key_passphrase:
+            ssl_kc_obj['key_passphrase'] = key_passphrase
         if ssl_kc_obj:
             cert_obj = {'key_file_name': key_file_name,
                         'cert_file_name': cert_file_name,
@@ -181,7 +203,8 @@ class ProfileConfigConv(object):
 
 
 class ProfileConfigConvV11(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes, object_merge_check, prefix):
+    def __init__(self, f5_profile_attributes, object_merge_check, prefix,
+                 keypassphrase):
         self.supported_types = \
             f5_profile_attributes['Profile_supported_types']
         self.ignore_for_defaults = \
@@ -217,6 +240,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.supported_udp = f5_profile_attributes['Profile_supported_udp']
         self.indirect_udp = f5_profile_attributes['Profile_indirect_udp']
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
+        if keypassphrase:
+            self.f5_passphrase_keys = yaml.safe_load(open(keypassphrase))
+        else:
+            self.f5_passphrase_keys = None
         self.object_merge_check = object_merge_check
         # added code to handel count of sslmerge, applicationmerge,
         # networkmerge count
@@ -847,7 +874,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                    converted_objs)
 
 class ProfileConfigConvV10(ProfileConfigConv):
-    def __init__(self, f5_profile_attributes, object_merge_check, prefix):
+    def __init__(self, f5_profile_attributes, object_merge_check, prefix,
+                 keypassphrase):
         self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
         self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
@@ -870,6 +898,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.supported_udp = f5_profile_attributes['Profile_supported_udp']
         self.indirect_udp = []
         self.supported_oc = f5_profile_attributes['Profile_supported_oc']
+        if keypassphrase:
+            self.f5_passphrase_keys = yaml.safe_load(open(keypassphrase))
+        else:
+            self.f5_passphrase_keys = None
         self.object_merge_check = object_merge_check
         # code to get count to merge profile
         self.app_count = 0

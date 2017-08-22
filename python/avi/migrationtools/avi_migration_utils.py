@@ -52,6 +52,23 @@ class MigrationUtil(object):
         key = crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
         return key, cert
 
+    def is_certificate_key_protected(self, key_file):
+        """
+        This functions defines that whether key is passphrase protected or not
+        :param key_file: Path of key file
+        :return: Return True if key is passphrase protected else return False
+        """
+        try:
+            child = pexpect.spawn(
+                'openssl rsa -in %s -check -noout' % key_file)
+            # Expect for enter pass phrase if key is protected else it will raise
+            # an exception
+            child.expect('Enter pass phrase for')
+            return True
+        except Exception as e:
+            print e
+            return False
+
     def update_vs_complexity_level(self, vs_csv_row, virtual_service):
         """
         This function defines that update complexity level of VS objects.

@@ -34,7 +34,7 @@ conv_utils = F5Util()
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
-            cloud_name='Default-Cloud'):
+            cloud_name='Default-Cloud', keypassphrase=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -73,7 +73,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     sys_dict[key] = prof_data.get(key, [])
 
         profile_conv = ProfileConfigConv.get_instance(
-            version, f5_attributes, object_merge_check, prefix)
+            version, f5_attributes, object_merge_check, prefix, keypassphrase)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant, cloud_name, merge_object_mapping, sys_dict)
 

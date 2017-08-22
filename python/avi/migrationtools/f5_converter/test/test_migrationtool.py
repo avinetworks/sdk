@@ -47,7 +47,9 @@ setup = dict(
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
-    baseline_profile=None
+    baseline_profile=None,
+    f5_passphrase_file=os.path.abspath(
+        os.path.dirname(__file__)) + os.sep + 'passphrase.yaml'
 )
 
 logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
@@ -68,7 +70,7 @@ def f5_conv(
         ignore_config=None, partition_config=None, version=None,
         no_profile_merge=None, patch=None, vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
-        convertsnat=None, not_in_use=None, baseline_profile=None):
+        convertsnat=None, not_in_use=None, baseline_profile=None, f5_passphrase_file=None):
 
     args = Namespace(
         bigip_config_file=bigip_config_file, skip_default_file=skip_default_file, 
@@ -81,7 +83,8 @@ def f5_conv(
         version=version, no_object_merge=no_profile_merge, patch=patch,
         vs_filter=vs_filter, ansible_skip_types=ansible_skip_types,
         ansible_filter_types=ansible_filter_types, ansible=ansible, 
-        prefix=prefix,convertsnat=convertsnat, not_in_use=not_in_use, baseline_profile=baseline_profile)
+        prefix=prefix,convertsnat=convertsnat, not_in_use=not_in_use,
+        baseline_profile=baseline_profile, f5_passphrase_file=f5_passphrase_file)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -304,3 +307,23 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 not_in_use=setup.get('not_in_use'))
+
+    @pytest.mark.travis
+    def test_passphrase_v10(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        No_profile_merge Flag Reset
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                f5_passphrase_file=setup.get('f5_passphrase_file'))
+
+    @pytest.mark.travis
+    def test_passphrase_v11(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        No_profile_merge Flag Reset
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                f5_passphrase_file=setup.get('f5_passphrase_file'))
