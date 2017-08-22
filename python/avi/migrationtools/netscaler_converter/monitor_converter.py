@@ -192,14 +192,10 @@ class MonitorConverter(object):
             # 17 version and above
             if parse_version(self.controller_version) >= parse_version('17.1')\
                     and 'HTTPS' in ns_monitor.get('attrs', []):
-                key_ref = ns_util.get_object_ref('System-Default-Cert',
-                                                 'sslkeyandcertificate',
-                                                 'admin')
                 profile_ref = ns_util.get_object_ref('System-Standard',
                                                      'sslprofile',
                                                      'admin')
                 ssl_attributes = {
-                                  'ssl_key_and_certificate_ref': key_ref,
                                   'ssl_profile_ref': profile_ref
                                  }
         try:
