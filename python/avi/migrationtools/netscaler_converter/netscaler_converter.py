@@ -52,6 +52,8 @@ class NetscalerConverter(AviConverter):
         self.not_in_use = args.not_in_use
         # Added args for baseline profile json file
         self.profile_path = args.baseline_profile
+        # Added args for redirecting http vs to https vs
+        self.redirect = args.redirect
 
 
     def init_logger_path(self):
@@ -117,11 +119,12 @@ class NetscalerConverter(AviConverter):
         # getting meta tag from superclass
         meta = self.meta(self.tenant, self.controller_version)
         report_name = os.path.splitext(os.path.basename(source_file))[0]
-        avi_config = ns_conf_converter.convert(
-            meta, ns_config, self.tenant, self.cloud_name, self.controller_version,
-            output_dir, input_dir, skipped_cmds, self.vs_state,
-            self.object_merge_check, report_name, self.prefix,
-            self.profile_path, self.ns_passphrase_file, user_ignore)
+        avi_config = ns_conf_converter.convert(meta, ns_config, self.tenant,
+                     self.cloud_name, self.controller_version, output_dir,
+                     input_dir, skipped_cmds, self.vs_state,
+                     self.object_merge_check, report_name, self.prefix,
+                     self.profile_path, self.redirect, self.ns_passphrase_file,
+                     user_ignore)
 
         avi_config = self.process_for_utils(
             avi_config)
@@ -236,7 +239,9 @@ if __name__ == "__main__":
     # Added args for baseline profile json file
     parser.add_argument('--baseline_profile', help='asolute path for json '
                                     'file containing baseline profiles')
-
+    # Added args for redirecting http vs to https vs
+    parser.add_argument('--redirect', help='redirect http vs to https vs if '
+                               'there is no pool assigned', action="store_true")
 
     args = parser.parse_args()
     # print avi netscaler converter version

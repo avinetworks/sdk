@@ -173,8 +173,10 @@ class NsUtil(MigrationUtil):
         :return: Avi LB algorithm enum value
         """
 
-        avi_algorithm = 'LB_ALGORITHM_ROUND_ROBIN'
-        if not ns_algorithm or ns_algorithm == 'ROUNDROBIN':
+        avi_algorithm = None
+        if ns_algorithm == 'LEASTCONNECTIONS':
+            avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
+        elif ns_algorithm == 'ROUNDROBIN':
             avi_algorithm = 'LB_ALGORITHM_ROUND_ROBIN'
         elif ns_algorithm in ['LEASTRESPONSETIME', 'LRTM']:
             avi_algorithm = 'LB_ALGORITHM_FASTEST_RESPONSE'
@@ -1401,59 +1403,11 @@ class NsUtil(MigrationUtil):
                         type_cons = OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE
                     if ref == 'application_profile_ref':
                         type_cons = OBJECT_TYPE_APPLICATION_PROFILE
-                    obj[ref] = self.get_object_ref(updated_name, type_cons, tenant)
+                    obj[ref] = self.get_object_ref(updated_name, type_cons,
+                                                   tenant)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def check_for_duplicates(self, src_obj, obj_list, obj_type, merge_object_mapping,
-                             ent_type, prefix, syslist):
+    def check_for_duplicates(self, src_obj, obj_list, obj_type,
+                             merge_object_mapping, ent_type, prefix, syslist):
         """
         Checks for duplicate objects except name and description values
         :param src_obj: Object to be checked for duplicate
@@ -1491,3 +1445,128 @@ class NsUtil(MigrationUtil):
                     tmp_obj["name"] = new_name
                 return tmp_obj["name"], old_name
         return None, None
+
+    def vs_redirect_http_to_https(self, avi_config, sysdict):
+
+        """
+        Removes the VS which is redirected to another VS amd update the
+        status and avi object for that VS
+        :param avi_config: avi configuration after all conversion
+        :param sysdict: system configuration
+        :return:
+        """
+
+        vsrem = {}
+        LOG.debug("Check started for redirect from HTTP VS to HTTPS VS with "
+                  "no pool")
+        for vs in avi_config['VirtualService']:
+            if not vs.get('pool_group_ref') and not vs.get(
+                    'application_profile_ref') and vs.get('services', []) and \
+                    not all([s.get('enable_ssl', True)for s in vs['services']])\
+                    and vs.get('http_policies',[]) and vs['http_policies'][
+                    0].get('http_policy_set_ref'):
+                polname = self.get_name(vs['http_policies'][0][
+                                        'http_policy_set_ref'])
+                pol = [pl for pl in avi_config['HTTPPolicySet'] if pl['name']
+                        == polname]
+                if pol and pol[0].get('http_request_policy', {}).get('rules',
+                        []) and pol[0]['http_request_policy']['rules'][0].get(
+                        'redirect_action'):
+                    iplist = [ip['ip_address']['addr'] for ip in vs.get('vip',
+                             []) if ip.get('ip_address',{}).get('addr')] or (
+                             [vs['ip_address']['addr']] if vs.get(
+                             'ip_address',{}).get('addr') else [])
+                    if iplist:
+                        for nvs in avi_config['VirtualService']:
+                            if vs['name'] != nvs['name'] and [ip for ip in
+                               iplist if ip in ([nip['ip_address']['addr']
+                               for nip in nvs.get('vip', []) if nip.get(
+                               'ip_address',{}).get('addr')] or [nvs[
+                               'ip_address']['addr']] if nvs.get(
+                               'ip_address',{}).get('addr') else [])]:
+                                appname = self.get_name(nvs[
+                                            'application_profile_ref']) if \
+                                            nvs.get('application_profile_ref') \
+                                            else None
+                                if appname == 'System-Secure-HTTP':
+                                    LOG.debug("%s has redirect to %s, hence "
+                                              "removing %s" % (vs['name'],
+                                                       nvs['name'], vs['name']))
+                                    vsrem[vs['name']] = nvs['name']
+                                appprof = [pr for pr in (avi_config[
+                                          'ApplicationProfile'] + sysdict[
+                                          'ApplicationProfile']) if pr['name']
+                                           == appname]
+                                if appprof and appprof[0]['type'] == \
+                                        'APPLICATION_PROFILE_TYPE_HTTP':
+                                    if appprof[0].get('http_profile'):
+                                        appprof[0]['http_profile'][
+                                            'http_to_https'] = True
+                                    else:
+                                        appprof[0]['http_profile'] = {
+                                            'http_to_https': True}
+                                    LOG.debug("%s has redirect to %s, hence "
+                                              "setting 'http_to_https' as true "
+                                              "and removing %s" %(vs['name'],
+                                                    nvs['name'], vs['name']))
+                                    vsrem[vs['name']] = nvs['name']
+        LOG.debug("Check completed for redirect from HTTP VS to HTTPS VS with "
+                  "no pool")
+        if vsrem:
+            avi_config['VirtualService'] = [v for v in avi_config[
+                                           'VirtualService'] if v['name'] not
+                                            in vsrem.keys()]
+            LOG.debug('%s VS got removed from AVI configuration' % str(len(
+                        vsrem)))
+            for cl in csv_writer_dict_list:
+                if cl['Object Name'] in vsrem.keys() and cl[
+                   'Netscaler Command'] in ['add lb vserver', 'add cs vserver']:
+                    cl['Status'] = STATUS_INDIRECT
+                    cl['AVI Object'] = 'Redirected to %s' % vsrem[cl[
+                                        'Object Name']]
+
+    def merge_pool(self, avi_config):
+        mergelist=[]
+        for poolgrp in avi_config['PoolGroup']:
+            pool_member = poolgrp['members']
+            length = len(pool_member)
+            for count in range(length):
+                pool_name = pool_member[count]['pool_ref'].split('&')[1].split(
+                    '=')[1]
+                if pool_name in mergelist:
+                    continue
+                pool = [pl for pl in avi_config['Pool']
+                        if pl['name'] == pool_name]
+                if not pool:
+                    LOG.debug("'%s' not present" % pool_name)
+                    continue
+                for count2 in range(count+1, length):
+                    pname = pool_member[count2]['pool_ref'].split('&')[1].split(
+                        '=')[1]
+                    nextpool = [pol for pol in avi_config['Pool']
+                        if pol['name'] == pname]
+
+                    if not nextpool:
+                        LOG.debug("'%s' not present" % pname)
+                        continue
+                    if pool[0]['health_monitor_refs'].sort() == nextpool[0][
+                      'health_monitor_refs'].sort():
+                        LOG.debug("Merging pool '%s' in '%s'" % (nextpool[0][
+                                                    'name'], pool[0]['name']))
+                        ip_port = set()
+                        for ser in pool[0]['servers']:
+                            ip_port.add(str(ser['ip']['addr']) + ':' + str(
+                                ser['port']))
+                        for server in nextpool[0]['servers']:
+                            ipport = str(server['ip']['addr']) + ':' + str(
+                                        server['port'])
+                            if ipport not in list(ip_port):
+                                pool[0]['servers'].append(server)
+                        mergelist.append(nextpool[0]['name'])
+        for plg in avi_config['PoolGroup']:
+            plg['members'] = [member for member in plg['members'] if
+                              member['pool_ref'].split('&')[1].split('=')[1] not
+                              in mergelist]
+        avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
+                                'name'] not in mergelist]
+
