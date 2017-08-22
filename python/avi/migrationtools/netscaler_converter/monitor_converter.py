@@ -6,6 +6,7 @@ import math
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_EXTERNAL_MONITOR, STATUS_MISSING_FILE)
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from pkg_resources import parse_version
 
 
 
@@ -27,7 +28,8 @@ merge_object_mapping = {
 class MonitorConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
-                 user_ignore, prefix, object_merge_check):
+                 user_ignore, prefix, object_merge_check,
+                 controller_version=None):
         """
         Construct a new 'MonitorConverter' object.
         :param tenant_name: Name of tenant
@@ -58,6 +60,7 @@ class MonitorConverter(object):
         self.prefix = prefix
         self.object_merge_check = object_merge_check
         self.monitor_merge_count = 0
+        self.controller_version = controller_version
 
     def convert(self, ns_config, avi_config, input_dir, sysdict):
         """
@@ -168,6 +171,36 @@ class MonitorConverter(object):
         """
 
         avi_monitor = dict()
+        
+        # Adding ssl-key and ssl-certificate for Secure
+        ssl_attributes = None
+        if ns_monitor.get('secure', []) == 'YES':
+            # Force changing HTTP/HTTP-ECV to HTTPS in attributes 
+            if ns_monitor.get('attrs', []):
+                attr = ns_monitor['attrs']
+                if 'HTTP' in attr:
+                    attr.append('HTTPS')
+                    attr.remove('HTTP')
+                if 'HTTP-ECV' in attr:
+                    attr.append('HTTPS')
+                    attr.remove('HTTP-ECV')
+                ns_monitor['attrs'] = attr
+            # IF controller version is greater than 17.1 and type HTTP/S
+            # add ssl-key and ssl-certificate
+            # TODO: Remove this after all the clients are moved to 
+            # 17 version and above
+            if parse_version(self.controller_version) >= parse_version('17.1')\
+                    and 'HTTPS' in ns_monitor.get('attrs', []):
+                key_ref = ns_util.get_object_ref('System-Default-Cert',
+                                                 'sslkeyandcertificate',
+                                                 'admin')
+                profile_ref = ns_util.get_object_ref('System-Standard',
+                                                     'sslprofile',
+                                                     'admin')
+                ssl_attributes = {
+                                  'ssl_key_and_certificate_ref': key_ref,
+                                  'ssl_profile_ref': profile_ref
+                                 }
         try:
             mon_name = ns_monitor['attrs'][0]
             # Added prefix for objects
@@ -212,6 +245,22 @@ class MonitorConverter(object):
                     "tcp_response": response,
                     "tcp_half_open": False
                 }
+            elif mon_type == 'HTTPS':
+                avi_monitor["type"] = "HEALTH_MONITOR_HTTPS"
+                send = ns_monitor.get('httpRequest', None)
+                if send:
+                    send = send.replace('"', '')
+                resp_code = ns_monitor.get('respCode', None)
+                if resp_code:
+                    resp_code = ns_util.get_avi_resp_code(resp_code)
+                # TODO: Remove this after all the clients are moved to 
+                # 17 version and above
+                if parse_version(self.controller_version) >= parse_version('17.1'):
+                    avi_monitor["https_monitor"] = {
+                        "http_request": send,
+                        "http_response_code": resp_code,
+                        "ssl_attributes": ssl_attributes
+                    }
             elif mon_type == 'HTTP':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get('httpRequest', None)

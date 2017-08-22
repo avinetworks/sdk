@@ -20,14 +20,14 @@ def generate_grammar_v11():
     monitor_kw = Keyword("monitor")
     empty_object = Keyword("{ }")
 
-    common = Suppress("/Common/")
+    # common = Suppress("/Common/")
     comment = Suppress("#") + Suppress(restOfLine)
     BS, LBRACE, RBRACE = map(Suppress, " {}")
     SOL = LineStart().suppress()
     EOL = LineEnd().suppress()
     reserved_words = (ltm | apm | auth | net | sys).suppress()
 
-    ignore = (common | comment)
+    ignore = comment
 
     entity_type = SOL.suppress()+Optional(reserved_words).\
         suppress() + unquoted_string
@@ -149,7 +149,9 @@ def parse_config(source_str, total_size, version=11):
                 # list for not supported commands.
                 for skipconfig in skip_obj_list:
                     skipconfig = str(skipconfig.replace('}', ''))
-                    if skipconfig:
+                    if skipconfig.strip(' ').startswith(
+                            ('security', 'ltm', 'wam', 'sys', 'waf', 'asm',
+                             'apm')):
                         not_supported_list.append(skipconfig)
                 skipped_list.append(skipped_info)
         last_end = end
@@ -190,9 +192,7 @@ def convert_to_dict(result):
         dict_val = None
         if isinstance(item, list):
             try:
-                key = "/Common/" in item[0] and \
-                      item[0].replace("/Common/", "") or \
-                      item[0].replace("Common/", "")
+                key = item[0]
                 if isinstance(item[1], list):
                     dict_val = convert_to_dict(item)
                     if isinstance(result_dict.get(key, ""), dict):
@@ -201,9 +201,7 @@ def convert_to_dict(result):
                         result_dict[key] = dict_val
                 else:
                     if isinstance(item[1], str):
-                        result_dict[key] = "/Common/" in item[1] and \
-                                           item[1].replace("/Common/", "") or \
-                                            item[1].replace("Common/", "")
+                        result_dict[key] = item[1]
                     else:
                         result_dict[key] = item[1]
             except IndexError:
@@ -216,10 +214,7 @@ def convert_to_dict(result):
                         else:
                             old = result_dict[key]
                             new = [old]
-                            dict_val = "/Common/" in dict_val and \
-                                       dict_val.replace("/Common/", "") or \
-                                       dict_val.replace("Common/", "") \
-                                        if dict_val else None
+                            dict_val = dict_val if dict_val else None
                             new.append(dict_val)
                             result_dict[key] = new
                     else:
