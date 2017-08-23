@@ -430,23 +430,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
         if parse_version(controller_version) >= parse_version('17.1'):
-            cipher_flag = False
-            # Added code to handel ssl attribute and certificate.
+            # Added code to handle ssl attribute.
+            # Removed ssl cert key ref from monitor's ssl attribute
             if f5_monitor.get('cipherlist', None):
-                # Added flag to track the presence of cipherlist
-                cipher_flag = True
                 self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
                                tenant_ref, cloud_name, merge_object_mapping,
                                        sys_dict)
-            # Added code to check for ssl key cert.
-            if f5_monitor.get('key', None) != 'none' and f5_monitor.get(
-               'cert', None) != 'none':
-                self.create_sslkeyandcert(
-                    monitor_dict, f5_monitor, avi_config, tenant_ref,
-                    input_dir, cloud_name)
-                # Using the flag to attach default ssl profile
-                if not cipher_flag:
-                    monitor_dict["https_monitor"]['ssl_attributes'][
+            else:
+                monitor_dict["https_monitor"]['ssl_attributes'][
                     'ssl_profile_ref'] = conv_utils.get_object_ref(
                                          'System-Standard',
                                          conv_const.OBJECT_TYPE_SSL_PROFILE,
@@ -735,26 +726,17 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added code to handel ssl attribute and certificate.
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
         if parse_version(controller_version) >= parse_version('17.1'):
-            cipher_flag = False
-            # Added code to handle ssl attribute and certificate.
+            # Added code to handle ssl attribute
+            # Removed ssl cert and key ref to monitor' ssl attribute
             if f5_monitor.get('cipherlist', None):
-                # Added flag to track the presence of cipherlist
-                cipher_flag = True
                 self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
                             tenant, cloud_name, merge_object_mapping, sys_dict)
-            # Added code to check for ssl key cert.
-            if f5_monitor.get('key', None) != 'none' and f5_monitor.get(
-               'cert', None) != 'none':
-                self.create_sslkeyandcert(
-                    monitor_dict, f5_monitor, avi_config, tenant,
-                    input_dir, cloud_name)
-                # Using the flag to attach default ssl profile
-                if not cipher_flag:
-                    monitor_dict["https_monitor"]['ssl_attributes'][
+            else:
+                monitor_dict["https_monitor"]['ssl_attributes'][
                     'ssl_profile_ref'] = conv_utils.get_object_ref(
-                                         'System-Standard',
-                                         conv_const.OBJECT_TYPE_SSL_PROFILE,
-                                                                    tenant)
+                                            'System-Standard',
+                                            conv_const.OBJECT_TYPE_SSL_PROFILE,
+                                            tenant)
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get(self.dest_key, "*:*")
