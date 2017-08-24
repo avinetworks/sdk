@@ -729,7 +729,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 "profile": {
                     "tcp_proxy_profile": {
                         "receive_window": receive_window,
-                        "idle_connection_timeout": timeout
+                        "idle_connection_timeout": timeout,
+                        'automatic': False
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },
@@ -807,7 +808,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         "idle_connection_type": conn_type,
                         "time_wait_delay": delay,
                         "receive_window": window,
-                        "cc_algo": cc_algo
+                        "cc_algo": cc_algo,
+                        'automatic': False
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },
@@ -1179,7 +1181,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
             ntwk_profile = {
                 "profile": {
                     "tcp_proxy_profile": {
-                        "idle_connection_timeout": timeout
+                        "idle_connection_timeout": timeout,
+                        'automatic': False
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },
@@ -1255,7 +1258,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
                         "idle_connection_type": conn_type,
                         "time_wait_delay": delay,
                         "receive_window": window,
-                        "cc_algo": cc_algo
+                        "cc_algo": cc_algo,
+                        'automatic': False
                     },
                     "type": "PROTOCOL_TYPE_TCP_PROXY"
                 },
