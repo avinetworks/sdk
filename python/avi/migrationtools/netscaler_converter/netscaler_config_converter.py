@@ -127,6 +127,8 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         ns_util.cleanup_config(tmp_avi_config)
         ns_util.cleanup_dupof(avi_config)
         avi_config.pop('Lbvs', None)
+        # Validating the aviconfig after generation
+        ns_util.validation(avi_config)
         # added code to get fully converted virtual service.
         for key in avi_config:
             if key != 'META':
