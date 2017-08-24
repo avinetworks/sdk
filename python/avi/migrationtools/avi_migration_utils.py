@@ -178,7 +178,6 @@ class MigrationUtil(object):
         :param prefix : Prefix for objects
         :return: Return generated object ref
         """
-        global tenants
         # Added prefix for objects
         if prefix:
             object_name = prefix + '-' + object_name

@@ -12,11 +12,11 @@ from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 from pkg_resources import parse_version
-from avi.migrationtools.avi_migration_utils import MigrationUtil
+from avi.migrationtools.avi_migration_utils import MigrationUtil, tenants
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
-tenants = []
+
 # Added variable for checking progress and get overall object.
 ppcount = 0
 ptotal_count = 0
@@ -1070,7 +1070,6 @@ class F5Util(MigrationUtil):
         return pg_ref
 
     def add_tenants(self, avi_config_dict):
-        global tenants
         if tenants:
             avi_config_dict['Tenant'] = []
             for tenant in tenants:
@@ -1595,8 +1594,8 @@ class F5Util(MigrationUtil):
         # Get the mask from subnet mask
         if ip_addr and '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
-            vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf else \
-                None
+            vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf \
+                    else None
         if ip_addr and '/' in ip_addr:
             ip_addr = ip_addr.split('/')[0]
 
@@ -1640,8 +1639,8 @@ class F5Util(MigrationUtil):
         :return: returns list of vrf refs assigned to entity in avi config
         """
         vrf_ref = None
-        f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] or \
-                        f5_entity_mem if f5_entity_mem else None
+        f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] \
+                        or f5_entity_mem if f5_entity_mem else None
         vrf = 'vrf-' + f5_entity_mem.split('%')[1] \
             if f5_entity_mem and '%' in f5_entity_mem else None
         vrf_obj = [obj for obj in vrf_config if vrf and obj["name"] == vrf]
@@ -1670,7 +1669,8 @@ class F5Util(MigrationUtil):
             static_route, vrf, msg = self.update_static_route(route)
             if static_route:
                 for obj in avi_vrf:
-                    if obj['name'] == vrf:
+                    if obj['name'] == vrf or (not vrf and obj['name'] ==
+                       'global'):
                         if obj.get('static_routes'):
                             rid = max(
                                 [i['route_id'] for i in obj['static_routes']])
@@ -1736,6 +1736,35 @@ class F5Util(MigrationUtil):
                                                     tenant)
 
                             break
+
+    def set_pool_group_vrf(self, pool_ref, vrf_ref, avi_config):
+        """
+        This method will set vrf_ref for all pools in poolgroup
+        :param pool_ref: pool group name
+        :param vrf_ref: vrf ref of VS
+        :param avi_config: avi config json
+        :return:
+        """
+        pg_obj = [poolgrp for poolgrp in avi_config['PoolGroup'] if
+                  poolgrp['name'] == pool_ref]
+        if pg_obj:
+            for member in pg_obj[0]['members']:
+                poolname = self.get_name(member.get('pool_ref'))
+                self.set_pool_vrf(poolname, vrf_ref, avi_config)
+
+    def set_pool_vrf(self, pool_ref, vrf_ref, avi_config):
+        """
+        This method will set vrf_ref for pool
+        :param pool_ref: pool name
+        :param vrf_ref: vrf ref of VS
+        :param avi_config: avi config json
+        :return:
+        """
+        pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] ==
+                    pool_ref]
+        if pool_obj and not pool_obj[0].get('vrf_ref'):
+            pool_obj[0]['vrf_ref'] = vrf_ref
+            LOG.debug("Added vrf ref to the pool %s", pool_ref)
 
 
 
