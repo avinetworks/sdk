@@ -293,6 +293,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             else:
                 ssl_profile['send_close_notify'] = False
             options = profile.get("options", {})
+            options = {} if options == 'none' else options
             options = options.keys()+options.values()
             if None in options:
                 options.remove(None)

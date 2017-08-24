@@ -6,7 +6,6 @@ import sys
 import time
 import json
 import xlsxwriter
-import ast
 from jinja2 import Environment, FileSystemLoader
 import avi.migrationtools
 from avi.migrationtools.gss_convertor.gss_config_convertor import \
@@ -53,7 +52,7 @@ class GssConvertor(AviConverter):
 
         # getting meta tags from super class
         meta = self.meta(self.tenant, '17.1')
-        meta = (str(meta).replace('\'', '"').strip('{}'))
+        meta = json.dumps(meta)[1: -1]
 
         # filling the jinja template to get avi conig json
         config_content = Environment(loader=FileSystemLoader(template_loc)
@@ -69,14 +68,10 @@ class GssConvertor(AviConverter):
         with open(self.out_loc + sep + "config.json", 'r') as reader:
             output = json.load(reader)
         
-        # print type(output)
-        # print output
-
         converted_obj = dict()
         for gslb in output.get('GslbService', []):
             converted_obj.update({gslb['name']: gslb })
 
-        # print converted_obj
 
         # finally creating the excel sheet
         workbook = xlsxwriter.Workbook(self.out_loc + sep +
@@ -106,7 +101,6 @@ class GssConvertor(AviConverter):
 
         # getting excel dict 
         excel_dict = get_excel_dict()
-        # print "\n\n Excel ", excel_dict
 
         row = 1
         col = 0
@@ -130,9 +124,6 @@ class GssConvertor(AviConverter):
                 partial_count += 1
             elif excel_dict[key].get('status', []) == 'hang':
                 hang_count += 1
-            # else :
-            #     print "status fails", excel_dict[key]
-            # print "writing "
             worksheet.write(row, col, str(excel_dict[key]['type']).strip())
             worksheet.write(row, col+1, str(excel_dict[key]['name']).strip())
 
@@ -156,7 +147,7 @@ class GssConvertor(AviConverter):
             worksheet.write(row, col+5, str(excel_dict[key]['na']))
             worksheet.write(row, col+3, str(excel_dict[key]['skipped']))
 
-            if excel_dict[key]['rule'] == 'no rule':
+            if excel_dict[key]['rule'] == 'no_rule':
                 worksheet.write(row, col+8,
                                 "NA",
                                 success
@@ -255,8 +246,8 @@ Optional:
 
         # creating output directory if not present
         if not os.path.exists(pargs.output_loc):
-            print " Folder not found " + pargs.output_loc
-            print " Creating ..."
+            print "Folder not found " + pargs.output_loc
+            print "Creating ..."
             os.makedirs(pargs.output_loc)
 
         # initiate logging

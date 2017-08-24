@@ -117,7 +117,8 @@ class LbvsConverter(object):
                         skipped_status)
                     continue
                 enable_ssl = False
-                if type in ['SSL', 'SSL_BRIDGE', 'SSL_TCP']:
+                # removing 'SSL_BRIDGE' so as to have L4 app profile
+                if type in ['SSL', 'SSL_TCP']:
                     enable_ssl = True
                 vs_name = key
                 ip_addr = lb_vs['attrs'][2]
@@ -217,6 +218,8 @@ class LbvsConverter(object):
                     avi_config['HTTPPolicySet'].append(policy)
 
                 http_prof = lb_vs.get('httpProfileName', None)
+                persistence_attached = False
+                persistence_type = lb_vs.get('persistenceType', '')
                 if http_prof:
                     # Added prefix for objects
                     if self.prefix:
@@ -271,6 +274,23 @@ class LbvsConverter(object):
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-Secure-HTTP', 'applicationprofile',
                         tenant='admin')
+                # Adding L4 as a default profile when SSL_BRIDGE
+                elif not http_prof and (lb_vs['attrs'][1]).upper() == \
+                        'SSL_BRIDGE':
+                    vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                        'System-L4-Application', 'applicationprofile',
+                        tenant='admin')
+                    LOG.debug("Defaulted to L4 profile for '%s' VS of type "
+                              "SSL_BRIDGE" % updated_vs_name)
+                    # Defaulting to 'client ip' persistence profile
+                    if pool_group and persistence_type != 'NONE':
+                        persistence_attached = self.update_pool_for_persist(
+                                                avi_config, pool_group[0],
+                                                'System-Persistence-Client-IP')
+                        LOG.debug("Defaulted to Client IP persistence profile "
+                                  "for '%s' Pool group in '%s' VS of type "
+                                  "SSL_BRIDGE" % (pool_group_ref,
+                                                  updated_vs_name))
 
                 if pool_group:
                     # clone the pool group if it is referenced to other
@@ -397,41 +417,41 @@ class LbvsConverter(object):
                     service['port'] = "1"
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
-
-                persistence_type = lb_vs.get('persistenceType', '')
-                if pool_group_ref and persistence_type in \
-                        self.lbvs_supported_persist_types:
-
-                    profile_name = '%s-persistance-profile' % vs_name
-                    # Added prefix for objects
-                    if self.prefix:
-                        profile_name = self.prefix + '-' + profile_name
-                    persist_profile = \
-                        ns_util.convert_persistance_prof(lb_vs, profile_name,
-                                                         self.tenant_ref)
-                    persist_profile_name = persist_profile['name']
-                    if self.object_merge_check:
-                        dup_of = ns_util.update_skip_duplicates(persist_profile,
-                                avi_config['ApplicationPersistenceProfile'],
-                            'app_persist_profile', merge_object_mapping,
-                            persist_profile_name, persistence_type, self.prefix,
-                                    sysdict['ApplicationPersistenceProfile'])
-                        if dup_of:
-                            app_per_merge_count['count'] += 1
-                            persist_profile_name = merge_object_mapping[
-                                'app_persist_profile'].get(
-                                persist_profile_name, None)
+                if pool_group_ref and not persistence_attached:
+                    if persistence_type in self.lbvs_supported_persist_types:
+                        profile_name = '%s-persistance-profile' % vs_name
+                        # Added prefix for objects
+                        if self.prefix:
+                            profile_name = self.prefix + '-' + profile_name
+                        persist_profile = \
+                            ns_util.convert_persistance_prof(lb_vs,
+                                                  profile_name, self.tenant_ref)
+                        persist_profile_name = persist_profile['name']
+                        if self.object_merge_check:
+                            dup_of = ns_util.update_skip_duplicates(
+                                    persist_profile,
+                                    avi_config['ApplicationPersistenceProfile'],
+                                    'app_persist_profile', merge_object_mapping,
+                                    persist_profile_name, persistence_type,
+                                    self.prefix, sysdict[
+                                               'ApplicationPersistenceProfile'])
+                            if dup_of:
+                                app_per_merge_count['count'] += 1
+                                persist_profile_name = merge_object_mapping[
+                                    'app_persist_profile'].get(
+                                    persist_profile_name, None)
+                            else:
+                                avi_config[
+                                    'ApplicationPersistenceProfile'].append(
+                                    persist_profile)
                         else:
                             avi_config['ApplicationPersistenceProfile'].append(
                                 persist_profile)
-                    else:
-                        avi_config['ApplicationPersistenceProfile'].append(
-                            persist_profile)
-                    self.update_pool_for_persist(avi_config, pool_group,
-                                                 persist_profile_name)
-                elif not persistence_type == 'NONE':
-                    LOG.warning('Persistance type %s not supported by Avi' %
-                                persistence_type)
+                        self.update_pool_for_persist(avi_config, pool_group,
+                                                     persist_profile_name)
+                    elif not persistence_type == 'NONE':
+                        LOG.warning('Persistance type %s not supported by Avi' %
+                                    persistence_type)
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     # Added prefix for objects
@@ -603,6 +623,7 @@ class LbvsConverter(object):
         :param profile_name: Name of persistent profile ref
         :return: None
         """
+        attached_flag = False
         for pool_ref in pool_group['members']:
             pool_ref = pool_ref['pool_ref'].split('&')[1].split('=')[1]
             pool = [pool for pool in avi_config['Pool'] if
@@ -616,3 +637,5 @@ class LbvsConverter(object):
                         OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
                         self.tenant_name)
                 pool_obj[persist_ref_key] = persist_ref
+                attached_flag = True
+        return attached_flag
