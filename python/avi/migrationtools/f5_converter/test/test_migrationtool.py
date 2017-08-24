@@ -45,9 +45,12 @@ setup = dict(
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
+    ansible=True,
     baseline_profile=None,
     f5_passphrase_file=os.path.abspath(
-        os.path.dirname(__file__)) + os.sep + 'passphrase.yaml'
+        os.path.dirname(__file__)) + os.sep + 'passphrase.yaml',
+    f5_ansible_object=os.path.abspath
+    (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml'))
 )
 
 logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
@@ -379,6 +382,38 @@ class TestF5Converter:
                 controller_ip=setup.get('controller_ip_16_4_4'),
                 user=setup.get('controller_user_16_4_4'),
                 password=setup.get('controller_password_16_4_4'))
+
+    @pytest.mark.travis
+    def test_create_ansible_object_v10(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4
+        Create Ansible Script based on Flag
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version = setup.get('file_version_v10'),
+                ansible=setup.get('ansible'))
+
+    @pytest.mark.travis
+    def test_create_ansible_object_creation_v11(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4
+        Create Ansible Script based on Flag
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                ansible=setup.get('ansible'))
+
+    @pytest.mark.skip_travis
+    def test_ansible_object_auto_upload_v10(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4
+        AutoUpload Flow
+        """
+
+        os.system('sudo pip install avisdk --upgrade')
+        os.system('sudo ansible-galaxy install avinetworks.avisdk')
+        os.system('sudo ansible-playbook  -s output/avi_config_create_object.yml '
+                  '--extra-vars "controller=10.10.26.133 username=admin password=avi123$%"')
 
 
 def teardown():
