@@ -1,9 +1,8 @@
 import copy
 import logging
 import os
-import urlparse
 import pandas
-import json
+import ast
 import re
 import random
 import avi.migrationtools.f5_converter.converter_constants as conv_const
@@ -950,7 +949,8 @@ class F5Util(MigrationUtil):
             name = parts[1]
         if tenant.lower() == 'common':
             tenant = 'admin'
-
+        if '/' in name:
+            name = name.split('/')[1]
         return tenant, name
 
     def get_app_profile_type(self, profile_name, avi_config):
@@ -1140,15 +1140,7 @@ class F5Util(MigrationUtil):
         :return: Return converted string
         """
         avi_string = avi_string.split('__/__')[0]
-        avi_string = re.sub(r"\"(.)+\"", "''", avi_string)
-        repls = ('True', 'true'), ('False', 'false'), ("\"", ""), ("'", "\""), \
-                ("None", "null"), ('u"', '"')
-        avi_string = reduce(lambda a, kv: a.replace(*kv), repls, avi_string)
-        try:
-            return json.loads(avi_string)
-        except Exception as e:
-            LOG.error(e)
-            pass
+        return ast.literal_eval(avi_string)
 
 
     def get_csv_object_list(self, csv_writer_dict_list, command_list):
@@ -1533,7 +1525,7 @@ class F5Util(MigrationUtil):
         csv_objects = [row for row in csv_writer_dict_list
                        if row['Status'] in [conv_const.STATUS_PARTIAL,
                                             conv_const.STATUS_SUCCESSFUL]
-                       and row['F5 type'] != 'virtual']
+                       and row['F5 type'] not in ('virtual', 'route')]
 
         # Update the vs reference not in used if objects are not attached to
         # VS directly or indirectly
@@ -1589,8 +1581,8 @@ class F5Util(MigrationUtil):
         :param route: Object of net static route
         :return: Return static route object
         """
-
-        next_hop_ip = route.get('gw', None)
+        msg = None
+        next_hop_ip = route.get('gw', route.get('gateway'))
         if next_hop_ip and '%' in next_hop_ip:
             next_hop_ip = next_hop_ip.split('%')[0]
 
@@ -1624,9 +1616,12 @@ class F5Util(MigrationUtil):
                     "addr": next_hop_ip
                 }
             }
-            return static_route, vrf
+            return static_route, vrf, msg
         else:
-            return None, None
+            msg = ("Next hop ip is not present") if not next_hop_ip else ("Ip "
+                                                    "Address is not present")
+            LOG.debug(msg)
+            return None, None, msg
 
 
     def get_vrf_context_ref(self, f5_entity_mem, vrf_config, entity_string,
@@ -1655,12 +1650,20 @@ class F5Util(MigrationUtil):
         return vrf_ref
 
     def net_to_static_route(self, f5_config, avi_config):
-
+        """
+        This method converts the net route to static routes and updates the
+        VrfContext objects
+        :param f5_config: parsed f5 config
+        :param avi_config: converted config in avi
+        :return:
+        """
         net_config = f5_config.get('route', {})
         avi_vrf = avi_config["VrfContext"]
         # Convert net static route to vrf static route
         for key, route in net_config.iteritems():
-            static_route, vrf = self.update_static_route(route)
+            LOG.debug("Starting conversion from net route to static for '%s'"
+                      % key)
+            static_route, vrf, msg = self.update_static_route(route)
             if static_route:
                 for obj in avi_vrf:
                     if obj['name'] == vrf:
@@ -1671,8 +1674,24 @@ class F5Util(MigrationUtil):
                             obj['static_routes'].append(static_route)
                         else:
                             obj['static_routes'] = [static_route]
+                LOG.debug("Conversion completed for route '%s'" % key)
+                self.add_conv_status('route', None, key,
+                                     {'status': conv_const.STATUS_SUCCESSFUL},
+                                      static_route)
+            else:
+                LOG.debug("Conversion unsuccessful for route '%s'" % key)
+                self.add_conv_status('route', None, key,
+                                     {'status': conv_const.STATUS_SKIPPED}, msg)
 
     def update_monitor_ssl_ref(self, avi_dict, merge_obj_dict, sysdict):
+        """
+        This method updates the first ssl profile reference from merge
+        perspective in monitors, which get attached at the time of creation
+        :param avi_dict: avi configuration dict
+        :param merge_obj_dict: dict having merge objects
+        :param sysdict: system object dicts
+        :return:
+        """
         for obj in avi_dict['HealthMonitor']:
             obj_ref = obj.get('https_monitor', {}).get('ssl_attributes',
                                                        {}).get(
@@ -1685,8 +1704,34 @@ class F5Util(MigrationUtil):
                         'SSLProfile']) if ob['name'] == updated_name]
                     tenant = self.get_name(prof[0]['tenant_ref'])
                     type_cons = conv_const.OBJECT_TYPE_SSL_PROFILE
-                    obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] = \
+                    obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] =\
                         self.get_object_ref(updated_name, type_cons, tenant)
+
+    def update_app_profile(self, aviconfig, sys_dict, tenant):
+        """
+        This method updates the application profile to http when there are
+        multiple services to a L4 app VS in which one of them is ssl enabled
+        :param aviconfig: avi config dict
+        :param sys_dict: system config dict
+        :param tenant: tenant to be used for reference
+        :return:
+        """
+        for vs_obj in aviconfig['VirtualService']:
+            if len(vs_obj['services']) > 1:
+                app_profile = self.get_name(vs_obj['application_profile_ref'])
+                app_profile_obj = [app for app in sys_dict[
+                        'ApplicationProfile'] + aviconfig['ApplicationProfile']
+                                   if app['name'] == app_profile]
+                if app_profile_obj and app_profile_obj[0][
+                    'type'] == 'APPLICATION_PROFILE_TYPE_L4':
+                    for service in vs_obj['services']:
+                        if service['enable_ssl']:
+                            vs_obj['application_profile_ref'] = \
+                                self.get_object_ref('System-HTTP',
+                                    conv_const.OBJECT_TYPE_APPLICATION_PROFILE,
+                                                    tenant)
+
+                            break
 
 
 

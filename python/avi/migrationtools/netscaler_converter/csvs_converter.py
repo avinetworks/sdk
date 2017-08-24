@@ -259,6 +259,12 @@ class CsvsConverter(object):
                 vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                     'System-Secure-HTTP', 'applicationprofile',
                     tenant='admin')
+            # Adding L4 as a default profile when SSL_BRIDGE
+            elif not http_prof and (cs_vs['attrs'][1]).upper() == \
+                    'SSL_BRIDGE':
+                vs_obj['application_profile_ref'] = ns_util.get_object_ref(
+                    'System-L4-Application', 'applicationprofile',
+                    tenant='admin')
             bind_conf_list = bindings.get(vs_name, None)
             if not bind_conf_list:
                 continue
