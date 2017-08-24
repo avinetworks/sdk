@@ -17,13 +17,13 @@ setup = dict(
     controller_version='16.4.4',
     version=True,
     option='auto-upload',
-    controller_ip_17_1_1='10.10.26.194',
+    controller_ip_17_1_1='10.10.24.179',
     controller_user_17_1_1='admin',
-    controller_password_17_1_1='avi123$%',
-    controller_ip_16_4_4='10.10.26.253',
+    controller_password_17_1_1='Avi123$%',
+    controller_ip_16_4_4='10.10.24.16',
     controller_user_16_4_4='admin',
-    controller_password_16_4_4='avi123',
-    ns_host_ip='10.10.27.115',
+    controller_password_16_4_4='Avi123$%',
+    ns_host_ip='10.10.27.116',
     ns_ssh_user='nsroot',
     ns_ssh_password='nsroot',
     no_profile_merge=False,
@@ -312,6 +312,31 @@ class TestNetscalerConverter:
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       option=setup.get('option'),
+                       controller_ip=setup.get('controller_ip_17_1_1'),
+                       user=setup.get('controller_user_17_1_1'),
+                       password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4,
+        AutoUpload Flow
+        """
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       controller_version=setup.get('controller_version'),
+                       option=setup.get('option'),
+                       controller_ip=setup.get('controller_ip_16_4_4'),
+                       user=setup.get('controller_user_16_4_4'),
+                       password=setup.get('controller_password_16_4_4'))
 
 
 def teardown():
