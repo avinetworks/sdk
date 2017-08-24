@@ -1545,6 +1545,13 @@ class NsUtil(MigrationUtil):
                                         server['port'])
                             if ipport not in list(ip_port):
                                 pool[0]['servers'].append(server)
+                        for cl in csv_writer_dict_list:
+                            if cl['Object Name'] == (nextpool[0][
+                             'name'].replace('-pool','')) and cl[
+                             'Netscaler Command'] in ['add service',
+                             'add serviceGroup']:
+                                cl['AVI Object'] = 'Merged to %s' % pool[0][
+                                                                        'name']
                         mergelist.append(nextpool[0]['name'])
         for plg in avi_config['PoolGroup']:
             plg['members'] = [member for member in plg['members'] if
