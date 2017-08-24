@@ -403,17 +403,17 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 ansible=setup.get('ansible'))
 
-    @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v10(self):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4
-        AutoUpload Flow
-        """
+    #@pytest.mark.skip_travis
+    #def test_ansible_object_auto_upload_v10(self):
+    #    """
+    #    Input File on Local Filesystem, Test for Controller v16.4.4
+    #    AutoUpload Flow
+    #    """
 
-        os.system('sudo pip install avisdk --upgrade')
-        os.system('sudo ansible-galaxy install avinetworks.avisdk')
-        os.system('sudo ansible-playbook  -s output/avi_config_create_object.yml '
-                  '--extra-vars "controller=10.10.26.133 username=admin password=avi123$%"')
+    #    os.system('sudo pip install avisdk --upgrade')
+    #    os.system('sudo ansible-galaxy install avinetworks.avisdk')
+    #    os.system('sudo ansible-playbook  -s output/avi_config_create_object.yml '
+    #              '--extra-vars "controller=10.10.26.133 username=admin password=avi123$%"')
 
 
 def teardown():
