@@ -10,7 +10,7 @@ import os
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 # from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.excel_reader \
-import percentage_success, output_sanitization
+    import percentage_success, output_sanitization
 
 
 setup = dict(
@@ -19,12 +19,12 @@ setup = dict(
     file_version_v11='11',
     version=True,
     option='auto-upload',
-    controller_ip_17_1_1='10.10.26.194',
+    controller_ip_17_1_1='10.10.24.179',
     controller_user_17_1_1='admin',
-    controller_password_17_1_1='avi123$%',
-    controller_ip_16_4_4='10.10.26.253',
+    controller_password_17_1_1='Avi123$%',
+    controller_ip_16_4_4='10.10.24.16',
     controller_user_16_4_4='admin',
-    controller_password_16_4_4='avi123',
+    controller_password_16_4_4='Avi123$%',
     f5_host_ip='10.90.117.120',
     f5_ssh_user='admin',
     f5_ssh_password='avi123',
@@ -37,10 +37,8 @@ setup = dict(
         os.path.dirname(__file__)) + os.sep + 'bigip_v10.conf',
     config_file_name_v11=os.path.abspath(
         os.path.dirname(__file__)) + os.sep + 'bigip_v11.conf',
-    config_file_name_passphrase='ns_passphrase.conf',
-    # ns_passphrase_file='passphrase.yaml',
     partition_config = 'new',  # this is new
-    ns_key_file='cd_rt_key.pem',
+    f5_key_file='cd_rt_key.pem',
     ignore_config=os.path.abspath(
         os.path.dirname(__file__)) + os.sep + 'ignore-config.yaml',
     patch=os.path.abspath(os.path.dirname(__file__)) + os.sep + 'patch.yml',
@@ -327,3 +325,61 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_v10_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_v10_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4,
+        AutoUpload Flow
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_16_4_4'),
+                user=setup.get('controller_user_16_4_4'),
+                password=setup.get('controller_password_16_4_4'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_v11_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_auto_upload_v11_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4,
+        AutoUpload Flow
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_16_4_4'),
+                user=setup.get('controller_user_16_4_4'),
+                password=setup.get('controller_password_16_4_4'))
+
+
+def teardown():
+    pass
