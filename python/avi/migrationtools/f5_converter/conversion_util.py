@@ -12,11 +12,11 @@ from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 from pkg_resources import parse_version
-from avi.migrationtools.avi_migration_utils import MigrationUtil
+from avi.migrationtools.avi_migration_utils import MigrationUtil, tenants
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
-tenants = []
+
 # Added variable for checking progress and get overall object.
 ppcount = 0
 ptotal_count = 0
@@ -1070,7 +1070,6 @@ class F5Util(MigrationUtil):
         return pg_ref
 
     def add_tenants(self, avi_config_dict):
-        global tenants
         if tenants:
             avi_config_dict['Tenant'] = []
             for tenant in tenants:
@@ -1763,8 +1762,9 @@ class F5Util(MigrationUtil):
         """
         pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] ==
                     pool_ref]
-        if pool_obj:
+        if pool_obj and not pool_obj[0].get('vrf_ref'):
             pool_obj[0]['vrf_ref'] = vrf_ref
+            LOG.debug("Added vrf ref to the pool %s", pool_ref)
 
 
 

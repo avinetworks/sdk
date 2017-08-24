@@ -238,7 +238,8 @@ class VSConfigConv(object):
 
         if vrf_ref:
             vs_obj['vrf_context_ref'] = vrf_ref
-            # Added code for assigning VS's vrf ref to poolgroup/pool
+            # Added code for assigning VS's vrf ref to poolgroup/pool having no
+            # vrf ref
             if is_pool_group:
                 conv_utils.set_pool_group_vrf(pool_ref, vrf_ref, avi_config)
             elif pool_ref:
