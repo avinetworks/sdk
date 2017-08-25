@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// NetworkProfileClient is a client for avi NetworkProfile resource
+type NetworkProfileClient struct {
+	aviSession *session.AviSession
+}
+
+// NewNetworkProfileClient creates a new client for NetworkProfile resource
+func NewNetworkProfileClient(aviSession *session.AviSession) *NetworkProfileClient {
+	return &NetworkProfileClient{aviSession: aviSession}
+}
+
+func (client *NetworkProfileClient) getAPIPath(uuid string) string {
+	path := "api/networkprofile"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of NetworkProfile objects
+func (client *NetworkProfileClient) GetAll() ([]*models.NetworkProfile, error) {
+	var plist []*models.NetworkProfile
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing NetworkProfile by uuid
+func (client *NetworkProfileClient) Get(uuid string) (*models.NetworkProfile, error) {
+	var obj *models.NetworkProfile
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing NetworkProfile by name
+func (client *NetworkProfileClient) GetByName(name string) (*models.NetworkProfile, error) {
+	var obj *models.NetworkProfile
+	err := client.aviSession.GetObjectByName("networkprofile", name, &obj)
+	return obj, err
+}
+
+// Create a new NetworkProfile object
+func (client *NetworkProfileClient) Create(obj *models.NetworkProfile) (*models.NetworkProfile, error) {
+	var robj *models.NetworkProfile
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing NetworkProfile object
+func (client *NetworkProfileClient) Update(obj *models.NetworkProfile) (*models.NetworkProfile, error) {
+	var robj *models.NetworkProfile
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing NetworkProfile object with a given UUID
+func (client *NetworkProfileClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing NetworkProfile object with a given name
+func (client *NetworkProfileClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
