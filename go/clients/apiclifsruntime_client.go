@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// APICLifsRuntimeClient is a client for avi APICLifsRuntime resource
+type APICLifsRuntimeClient struct {
+	aviSession *session.AviSession
+}
+
+// NewAPICLifsRuntimeClient creates a new client for APICLifsRuntime resource
+func NewAPICLifsRuntimeClient(aviSession *session.AviSession) *APICLifsRuntimeClient {
+	return &APICLifsRuntimeClient{aviSession: aviSession}
+}
+
+func (client *APICLifsRuntimeClient) getAPIPath(uuid string) string {
+	path := "api/apiclifsruntime"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of APICLifsRuntime objects
+func (client *APICLifsRuntimeClient) GetAll() ([]*models.APICLifsRuntime, error) {
+	var plist []*models.APICLifsRuntime
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing APICLifsRuntime by uuid
+func (client *APICLifsRuntimeClient) Get(uuid string) (*models.APICLifsRuntime, error) {
+	var obj *models.APICLifsRuntime
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing APICLifsRuntime by name
+func (client *APICLifsRuntimeClient) GetByName(name string) (*models.APICLifsRuntime, error) {
+	var obj *models.APICLifsRuntime
+	err := client.aviSession.GetObjectByName("apiclifsruntime", name, &obj)
+	return obj, err
+}
+
+// Create a new APICLifsRuntime object
+func (client *APICLifsRuntimeClient) Create(obj *models.APICLifsRuntime) (*models.APICLifsRuntime, error) {
+	var robj *models.APICLifsRuntime
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing APICLifsRuntime object
+func (client *APICLifsRuntimeClient) Update(obj *models.APICLifsRuntime) (*models.APICLifsRuntime, error) {
+	var robj *models.APICLifsRuntime
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing APICLifsRuntime object with a given UUID
+func (client *APICLifsRuntimeClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing APICLifsRuntime object with a given name
+func (client *APICLifsRuntimeClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}

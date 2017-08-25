@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// ApplicationProfileClient is a client for avi ApplicationProfile resource
+type ApplicationProfileClient struct {
+	aviSession *session.AviSession
+}
+
+// NewApplicationProfileClient creates a new client for ApplicationProfile resource
+func NewApplicationProfileClient(aviSession *session.AviSession) *ApplicationProfileClient {
+	return &ApplicationProfileClient{aviSession: aviSession}
+}
+
+func (client *ApplicationProfileClient) getAPIPath(uuid string) string {
+	path := "api/applicationprofile"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of ApplicationProfile objects
+func (client *ApplicationProfileClient) GetAll() ([]*models.ApplicationProfile, error) {
+	var plist []*models.ApplicationProfile
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing ApplicationProfile by uuid
+func (client *ApplicationProfileClient) Get(uuid string) (*models.ApplicationProfile, error) {
+	var obj *models.ApplicationProfile
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing ApplicationProfile by name
+func (client *ApplicationProfileClient) GetByName(name string) (*models.ApplicationProfile, error) {
+	var obj *models.ApplicationProfile
+	err := client.aviSession.GetObjectByName("applicationprofile", name, &obj)
+	return obj, err
+}
+
+// Create a new ApplicationProfile object
+func (client *ApplicationProfileClient) Create(obj *models.ApplicationProfile) (*models.ApplicationProfile, error) {
+	var robj *models.ApplicationProfile
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing ApplicationProfile object
+func (client *ApplicationProfileClient) Update(obj *models.ApplicationProfile) (*models.ApplicationProfile, error) {
+	var robj *models.ApplicationProfile
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing ApplicationProfile object with a given UUID
+func (client *ApplicationProfileClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing ApplicationProfile object with a given name
+func (client *ApplicationProfileClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}

@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// VIDCInfoClient is a client for avi VIDCInfo resource
+type VIDCInfoClient struct {
+	aviSession *session.AviSession
+}
+
+// NewVIDCInfoClient creates a new client for VIDCInfo resource
+func NewVIDCInfoClient(aviSession *session.AviSession) *VIDCInfoClient {
+	return &VIDCInfoClient{aviSession: aviSession}
+}
+
+func (client *VIDCInfoClient) getAPIPath(uuid string) string {
+	path := "api/vidcinfo"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of VIDCInfo objects
+func (client *VIDCInfoClient) GetAll() ([]*models.VIDCInfo, error) {
+	var plist []*models.VIDCInfo
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing VIDCInfo by uuid
+func (client *VIDCInfoClient) Get(uuid string) (*models.VIDCInfo, error) {
+	var obj *models.VIDCInfo
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing VIDCInfo by name
+func (client *VIDCInfoClient) GetByName(name string) (*models.VIDCInfo, error) {
+	var obj *models.VIDCInfo
+	err := client.aviSession.GetObjectByName("vidcinfo", name, &obj)
+	return obj, err
+}
+
+// Create a new VIDCInfo object
+func (client *VIDCInfoClient) Create(obj *models.VIDCInfo) (*models.VIDCInfo, error) {
+	var robj *models.VIDCInfo
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing VIDCInfo object
+func (client *VIDCInfoClient) Update(obj *models.VIDCInfo) (*models.VIDCInfo, error) {
+	var robj *models.VIDCInfo
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing VIDCInfo object with a given UUID
+func (client *VIDCInfoClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing VIDCInfo object with a given name
+func (client *VIDCInfoClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
