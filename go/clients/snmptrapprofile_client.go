@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// SnmpTrapProfileClient is a client for avi SnmpTrapProfile resource
+type SnmpTrapProfileClient struct {
+	aviSession *session.AviSession
+}
+
+// NewSnmpTrapProfileClient creates a new client for SnmpTrapProfile resource
+func NewSnmpTrapProfileClient(aviSession *session.AviSession) *SnmpTrapProfileClient {
+	return &SnmpTrapProfileClient{aviSession: aviSession}
+}
+
+func (client *SnmpTrapProfileClient) getAPIPath(uuid string) string {
+	path := "api/snmptrapprofile"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of SnmpTrapProfile objects
+func (client *SnmpTrapProfileClient) GetAll() ([]*models.SnmpTrapProfile, error) {
+	var plist []*models.SnmpTrapProfile
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing SnmpTrapProfile by uuid
+func (client *SnmpTrapProfileClient) Get(uuid string) (*models.SnmpTrapProfile, error) {
+	var obj *models.SnmpTrapProfile
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing SnmpTrapProfile by name
+func (client *SnmpTrapProfileClient) GetByName(name string) (*models.SnmpTrapProfile, error) {
+	var obj *models.SnmpTrapProfile
+	err := client.aviSession.GetObjectByName("snmptrapprofile", name, &obj)
+	return obj, err
+}
+
+// Create a new SnmpTrapProfile object
+func (client *SnmpTrapProfileClient) Create(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
+	var robj *models.SnmpTrapProfile
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing SnmpTrapProfile object
+func (client *SnmpTrapProfileClient) Update(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
+	var robj *models.SnmpTrapProfile
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing SnmpTrapProfile object with a given UUID
+func (client *SnmpTrapProfileClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing SnmpTrapProfile object with a given name
+func (client *SnmpTrapProfileClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
