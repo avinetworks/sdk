@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// HealthMonitorClient is a client for avi HealthMonitor resource
+type HealthMonitorClient struct {
+	aviSession *session.AviSession
+}
+
+// NewHealthMonitorClient creates a new client for HealthMonitor resource
+func NewHealthMonitorClient(aviSession *session.AviSession) *HealthMonitorClient {
+	return &HealthMonitorClient{aviSession: aviSession}
+}
+
+func (client *HealthMonitorClient) getAPIPath(uuid string) string {
+	path := "api/healthmonitor"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of HealthMonitor objects
+func (client *HealthMonitorClient) GetAll() ([]*models.HealthMonitor, error) {
+	var plist []*models.HealthMonitor
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing HealthMonitor by uuid
+func (client *HealthMonitorClient) Get(uuid string) (*models.HealthMonitor, error) {
+	var obj *models.HealthMonitor
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing HealthMonitor by name
+func (client *HealthMonitorClient) GetByName(name string) (*models.HealthMonitor, error) {
+	var obj *models.HealthMonitor
+	err := client.aviSession.GetObjectByName("healthmonitor", name, &obj)
+	return obj, err
+}
+
+// Create a new HealthMonitor object
+func (client *HealthMonitorClient) Create(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
+	var robj *models.HealthMonitor
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing HealthMonitor object
+func (client *HealthMonitorClient) Update(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
+	var robj *models.HealthMonitor
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing HealthMonitor object with a given UUID
+func (client *HealthMonitorClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing HealthMonitor object with a given name
+func (client *HealthMonitorClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
