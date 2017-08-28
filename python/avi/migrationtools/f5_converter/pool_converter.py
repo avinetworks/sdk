@@ -327,7 +327,7 @@ class PoolConfigConvV11(PoolConfigConv):
                 PoolConfigConvV11, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant,
                 merge_object_mapping, sys_dict['HealthMonitor'])
-            pool_obj["health_monitor_refs"] = monitor_refs
+            pool_obj["health_monitor_refs"] = list(set(monitor_refs))
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')
@@ -518,7 +518,7 @@ class PoolConfigConvV10(PoolConfigConv):
                 PoolConfigConvV10, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant_ref,
                 merge_object_mapping, sys_dict['HealthMonitor'])
-            pool_obj["health_monitor_refs"] = monitor_refs
+            pool_obj["health_monitor_refs"] = list(set(monitor_refs))
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')

@@ -66,7 +66,7 @@ class ProfileConfigConv(object):
                 if profile_type not in self.supported_types:
                     msg = ("Skipped not supported profile: %s of type: %s"
                             % (name, profile_type))
-                    LOG.warning()
+                    LOG.warning(msg)
                     conv_utils.add_status_row('profile', profile_type, name,
                                               final.STATUS_SKIPPED, msg)
                     avi_config['UnsupportedProfiles'].append(name)
