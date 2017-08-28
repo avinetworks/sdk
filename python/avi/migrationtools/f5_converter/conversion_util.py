@@ -273,6 +273,7 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for key in profiles.keys():
+            # Called tenant ref to get object name.
             tenant, name = self.get_tenant_ref(key)
             # Added prefix for objects
             if prefix:
@@ -359,6 +360,8 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for name in profiles.keys():
+            # Called tenant ref to get object name.
+            name = self.get_tenant_ref(name)[1]
             # Added prefix for objects
             if prefix:
                 name = '%s-%s' % (prefix, name)
@@ -444,6 +447,7 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for name in profiles.keys():
+            # Called tenant method to get object name
             tenant, name = self.get_tenant_ref(name)
             # Added prefix for objects
             if prefix:
@@ -959,6 +963,8 @@ class F5Util(MigrationUtil):
 
     def get_app_profile_type(self, profile_name, avi_config):
         profiles = avi_config.get('ApplicationProfile', [])
+        # Called tenant method to get object name
+        profile_name = self.get_tenant_ref(profile_name)[1]
         profile = [obj for obj in profiles if obj['name'] == profile_name]
         if profile:
             return profile[0]['type']

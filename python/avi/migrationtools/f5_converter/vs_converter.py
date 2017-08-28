@@ -186,6 +186,8 @@ class VSConfigConv(object):
 
             persist_ref = self.get_persist_ref(f5_vs)
             if persist_ref:
+                # Called tenant ref to get object name
+                persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
                 avi_persistence = avi_config['ApplicationPersistenceProfile']
                 syspersist = sys_dict['ApplicationPersistenceProfile']
                 if is_pool_group:
@@ -354,7 +356,6 @@ class VSConfigConv(object):
         snat_pool_name = snat.get("pool", f5_vs.get("snatpool", None))
         snat_pool = snat_config.pop(snat_pool_name, None)
         if snat_pool:
-            print snat_pool_name
             if self.con_snatpool:
                 LOG.debug("Converting the snat as input flag and snat "
                           "information is set")
@@ -370,7 +371,6 @@ class VSConfigConv(object):
                 conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                            conv_status, message)
             else:
-                print "else: ",snat_pool_name
                 msg = ("Skipped: snat conversion as input flag is not set"
                        " for vs : %s" % vs_name)
                 LOG.debug(msg)
