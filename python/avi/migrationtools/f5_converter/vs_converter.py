@@ -187,6 +187,8 @@ class VSConfigConv(object):
             persist_ref = self.get_persist_ref(f5_vs)
             persist_type = None
             if persist_ref:
+                # Called tenant ref to get object name
+                persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
                 avi_persistence = avi_config['ApplicationPersistenceProfile']
                 syspersist = sys_dict['ApplicationPersistenceProfile']
                 if is_pool_group:
