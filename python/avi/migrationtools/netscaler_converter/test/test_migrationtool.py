@@ -40,7 +40,8 @@ setup = dict(
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     baseline_profile=None,
-    redirect=False
+    redirect=False,
+    create_ansible=False
 )
 
 
@@ -60,7 +61,7 @@ def netscaler_conv(
         vs_state='disable', controller_version='17.1.1', ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
-        patch=None, vs_filter=None, ignore_config=None,
+        patch=None, vs_filter=None, ignore_config=None, create_ansible=False,
         prefix=None, not_in_use=False, baseline_profile=None, redirect=True):
 
     args = Namespace(
@@ -74,7 +75,7 @@ def netscaler_conv(
         version=version, no_object_merge=no_profile_merge, patch=patch,
         vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
         not_in_use=not_in_use, baseline_profile=baseline_profile,
-        redirect=redirect)
+        redirect=redirect, ansible=create_ansible)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
