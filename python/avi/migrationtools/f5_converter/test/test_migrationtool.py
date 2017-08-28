@@ -6,6 +6,7 @@ f5 converter tool along with its options / parameters
 import logging
 import pytest
 import os
+import subprocess
 
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 # from avi.migrationtools.test.common.excel_reader \
@@ -403,17 +404,17 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 ansible=setup.get('ansible'))
 
-    #@pytest.mark.skip_travis
-    #def test_ansible_object_auto_upload_v10(self):
-    #    """
-    #    Input File on Local Filesystem, Test for Controller v16.4.4
-    #    AutoUpload Flow
-    #    """
-
-    #    os.system('sudo pip install avisdk --upgrade')
-    #    os.system('sudo ansible-galaxy install avinetworks.avisdk')
-    #    os.system('sudo ansible-playbook  -s output/avi_config_create_object.yml '
-    #              '--extra-vars "controller=10.10.26.133 username=admin password=avi123$%"')
+    # @pytest.mark.skip_travis
+    # def test_ansible_object_auto_upload_v10(self):
+    #     """
+    #     Input File on Local Filesystem, Test for Controller v16.4.4
+    #     AutoUpload Flow
+    #     """
+    #     print(subprocess.check_output ('pip install avisdk --upgrade', shell=True))
+    #     print(subprocess.check_output ('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+    #     print(subprocess.check_output ('/usr/local/bin/ansible-playbook -s ' + setup.get ('f5_ansible_object') +
+    #                                    ' --extra-vars "controller=10.10.24.16 username=admin password=Avi123$%"',
+    #                                    shell=True))
 
 
 def teardown():
