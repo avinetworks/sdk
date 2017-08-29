@@ -10,6 +10,7 @@ import random
 import csv
 import pexpect
 import yaml
+import string
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
@@ -28,7 +29,8 @@ from avi.migrationtools.netscaler_converter.ns_constants \
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
 tenants = []
-
+ran_str = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase
+                                + string.digits) for _ in range(3))
 
 class MigrationUtil(object):
 
@@ -67,7 +69,6 @@ class MigrationUtil(object):
             child.expect('Enter pass phrase for')
             return True
         except Exception as e:
-            print e
             return False
 
     def update_vs_complexity_level(self, vs_csv_row, virtual_service):
@@ -126,11 +127,11 @@ class MigrationUtil(object):
                 if tmp_obj["name"] in merge_object_mapping[obj_type].keys():
                     merge_object_mapping[obj_type]['no'] += 1
                     no = merge_object_mapping[obj_type]['no']
-                    mid_name = ent_type and (
-                    'Merged-' + ent_type + '-' + obj_type
-                    + '-' + str(no)) or ('Merged-' +
-                                         obj_type + '-' + str(no))
-                    new_name = prefix + '-' + mid_name if prefix else mid_name
+                    mid_name = ent_type and ('Merged-%s-%s-%s-%s' % (ent_type,
+                               obj_type, ran_str, str(no))) or (
+                               'Merged-%s-%s-%s' % (obj_type, ran_str, str(no)))
+                    new_name = '%s-%s' %(prefix, mid_name) if prefix else \
+                                mid_name
                     tmp_obj["name"] = new_name
                 return tmp_obj["name"], old_name
         return None, None

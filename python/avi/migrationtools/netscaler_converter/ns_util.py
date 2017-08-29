@@ -9,7 +9,6 @@ import ast
 import pandas
 import pexpect
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
 from pkg_resources import parse_version
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
@@ -1388,46 +1387,6 @@ class NsUtil(MigrationUtil):
                         type_cons = OBJECT_TYPE_APPLICATION_PROFILE
                     obj[ref] = self.get_object_ref(updated_name, type_cons,
                                                    tenant)
-
-    def check_for_duplicates(self, src_obj, obj_list, obj_type,
-                             merge_object_mapping, ent_type, prefix, syslist):
-        """
-        Checks for duplicate objects except name and description values
-        :param src_obj: Object to be checked for duplicate
-        :param obj_list: List of oll objects to search in
-        :return: Name of object for which given object is duplicate of
-        """
-        src_cp = copy.deepcopy(src_obj)
-        src_cp.pop("name")
-        src_cp.pop("description", [])
-        for obj in syslist:
-            ob_cp = copy.deepcopy(obj)
-            ob_cp.pop("name")
-            ob_cp.pop("description", [])
-            ob_cp.pop('url', [])
-            ob_cp.pop('uuid', [])
-            if cmp(src_cp, ob_cp) == 0:
-                return obj["name"], src_obj['name']
-        for tmp_obj in obj_list:
-            tmp_cp = copy.deepcopy(tmp_obj)
-            tmp_cp.pop("name")
-            tmp_cp.pop("description", [])
-            dup_lst = tmp_cp.pop("dup_of", [tmp_obj["name"]])
-            if cmp(src_cp, tmp_cp) == 0:
-                dup_lst.append(src_obj["name"])
-                tmp_obj["dup_of"] = dup_lst
-                old_name = tmp_obj['name']
-                if tmp_obj["name"] in merge_object_mapping[obj_type].keys():
-                    merge_object_mapping[obj_type]['no'] += 1
-                    no = merge_object_mapping[obj_type]['no']
-                    mid_name = ent_type and (
-                    'Merged-' + ent_type + '-' + obj_type
-                    + '-' + str(no)) or ('Merged-' +
-                                         obj_type + '-' + str(no))
-                    new_name = prefix + '-' + mid_name if prefix else mid_name
-                    tmp_obj["name"] = new_name
-                return tmp_obj["name"], old_name
-        return None, None
 
     def vs_redirect_http_to_https(self, avi_config, sysdict):
 
