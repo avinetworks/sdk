@@ -489,7 +489,7 @@ class ServiceConverter(object):
                 ns_util.get_netscalar_full_command(
                     service_group_command, service_group)
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
-            servers, monitor_ref = self.convert_ns_service_group(
+            servers, monitor_ref, use_service_port = self.convert_ns_service_group(
                 bind_groups, ns_servers, ns_dns, avi_config, sysdict)
             if not servers:
                 LOG.warning('Skipped:No server found %s' %
@@ -513,6 +513,9 @@ class ServiceConverter(object):
                 'cloud_ref': self.cloud_ref
             }
 
+            # Added code to disable translation port
+            if use_service_port:
+                pool_obj['use_service_port'] = use_service_port
             # Add health monitor reference to pool
             if monitor_ref and [monitor for monitor in
                                 avi_config['HealthMonitor']
@@ -765,7 +768,7 @@ class ServiceConverter(object):
         monitor_name = None
         if isinstance(ns_service_group, dict):
             ns_service_group = [ns_service_group]
-
+        use_service_port = False
         for server_binding in ns_service_group:
             attrs = server_binding.get('attrs')
             ns_bind_service_group_command = 'bind serviceGroup'
@@ -843,6 +846,7 @@ class ServiceConverter(object):
             port = attrs[2]
             if port in ("*", "0"):
                 port = "1"
+                use_service_port = True
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
                 'ip': {
@@ -880,4 +884,4 @@ class ServiceConverter(object):
                     server_binding['line_no'], ns_bind_service_group_command,
                     attrs[0], ns_bind_service_group_complete_command,
                     group_status, server_obj)
-        return servers, monitor_name
+        return servers, monitor_name, use_service_port
