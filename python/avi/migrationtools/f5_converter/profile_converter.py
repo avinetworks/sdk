@@ -159,6 +159,11 @@ class ProfileConfigConv(object):
             is_key_protected = conv_utils.is_certificate_key_protected(
                 input_dir + os.path.sep + key_file_name)
 
+        if cert and key:
+            if not conv_utils.check_certificate_expiry(input_dir,
+                                                    cert_file_name):
+                cert, key = None, None
+
         key_passphrase = None
         # Get the key passphrase for key_file
         if is_key_protected and self.f5_passphrase_keys:
