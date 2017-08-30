@@ -685,8 +685,8 @@ class NsUtil(MigrationUtil):
 
         profile = None
         persistenceType = vs.get('persistenceType', '')
-        timeout = vs.get('timeout', 2)
         if persistenceType == 'COOKIEINSERT':
+            timeout = vs.get('timeout', 2)
             profile = {
                 "http_cookie_persistence_profile": {
                     "always_send_cookie": False,
@@ -697,6 +697,8 @@ class NsUtil(MigrationUtil):
                 "name": name,
             }
         elif persistenceType == 'SOURCEIP':
+            # Set timeout equal to 2 if not provided.
+            timeout = vs.get('timeout', 120)
             timeout = int(timeout) / 60
             if timeout < 1:
                 timeout = 1
