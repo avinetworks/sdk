@@ -13,13 +13,14 @@ import yaml
 import argparse
 import re
 import requests
+import os
 from avi.migrationtools.avi_orphan_object import \
      filter_for_vs, get_vs_ref, get_name_and_entity
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
      CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC,common_task_args, ansible_dict,
-     SKIP_FIELDS, DEFAULT_SKIP_TYPES, DEFAULT_META_ORDER, HELP_STR, NAME, VIP,
+     SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
      SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, AVI_VIRTUALSERVICE,
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
@@ -37,7 +38,11 @@ mg_util = MigrationUtil()
 class AviAnsibleConverter(object):
     skip_fields = SKIP_FIELDS
     skip_types = set(DEFAULT_SKIP_TYPES)
-    default_meta_order = DEFAULT_META_ORDER
+    # Read file to get meta order.
+    ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
+                                          'ansible_order_constant.yml')
+    with open(ansible_rest_file_path, 'r') as f:
+        default_meta_order = yaml.load(f)
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
