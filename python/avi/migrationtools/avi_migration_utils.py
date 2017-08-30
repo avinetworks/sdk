@@ -16,6 +16,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from socket import gethostname
 from OpenSSL import crypto
+from datetime import datetime
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -393,6 +394,18 @@ class MigrationUtil(object):
                                   "'%s'", k, str(v), str(val))
                         dictval[k] = val
 
-    
+    def check_certificate_expiry(self, input_dir, cert_file_name):
+        cert_date = crypto.load_certificate(crypto.FILETYPE_PEM,
+                                       file(input_dir + os.path.sep
+                                            + cert_file_name).read())
+        expiry_date = datetime.strptime(cert_date.get_notAfter(),
+                                        "%Y%m%d%H%M%SZ")
+        present_date = datetime.now()
+        if expiry_date < present_date:
+            LOG.warning("Certificate %s is expired creating self "
+                        "signed cert." % cert_file_name)
+            return False
+        else:
+            return True
 
 

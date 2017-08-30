@@ -646,15 +646,8 @@ class ProfileConverter(object):
                         input_dir + os.path.sep + key_file_name)
 
                 if cert and key:
-                    cert_date = c.load_certificate(c.FILETYPE_PEM,
-                                                   file(input_dir + os.path.sep
-                                                        + cert_file_name).read())
-                    expiry_date = datetime.strptime(cert_date.get_notAfter(),
-                                                    "%Y%m%d%H%M%SZ")
-                    present_date = datetime.now()
-                    if expiry_date < present_date:
-                        LOG.warning("Certificate %s is expired creating self "
-                                    "signed cert." % cert_file_name)
+                    if not ns_util.check_certificate_expiry(input_dir,
+                                                        cert_file_name):
                         cert, key = None, None
 
                 key_passphrase = None
