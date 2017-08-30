@@ -283,7 +283,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             module.params['controller'],
             module.params['username'],
             module.params['password'],
-            tenant=module.params['tenant'])
+            tenant=module.params['tenant'],
+            timeout=300)
     state = module.params['state']
     # Get the api version.
     api_version = module.params.get('api_version', '16.4')
