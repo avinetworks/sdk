@@ -52,7 +52,7 @@ def create_sessions(args):
         api = ApiSession(
             login_info["controller_ip"], login_info.get("username", "admin"),
             login_info.get("password", "avi123"), api_version=login_info.get(
-                "api_version", "17.1"))
+                "api_version", "17.1"), data_log=login_info['data_log'])
     return 1 if key in ApiSession.sessionDict else 0
 
 
@@ -85,7 +85,7 @@ class Test(unittest.TestCase):
 
     def test_reuse_server_session(self):
         api2 = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=api.tenant, tenant_uuid=api.tenant_uuid)
+                          tenant=api.tenant, tenant_uuid=api.tenant_uuid, data_log=login_info['data_log'])
         assert api.headers["X-CSRFToken"] == api2.headers["X-CSRFToken"]
 
     def test_reuse_api_session(self):
@@ -98,7 +98,7 @@ class Test(unittest.TestCase):
 
     def test_ssl_vs(self):
         papi = ApiSession('10.10.25.42', 'admin', 'avi123',
-                          verify=False, api_version="17.1.6")
+                          verify=False, api_version="17.1.6", data_log=True)
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
@@ -131,7 +131,7 @@ class Test(unittest.TestCase):
     def test_cloned_session_headers(self):
         api2 = ApiSession(api.controller_ip, api.username, api.password,
                           tenant=api.tenant, tenant_uuid=api.tenant_uuid,
-                          api_version=api.api_version, verify=False)
+                          api_version=api.api_version, verify=False,data_log=api.data_log)
         SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer']
         for hdr in SHARED_USER_HDRS:
             if hdr in api.headers:
@@ -201,7 +201,7 @@ class Test(unittest.TestCase):
         resp = api.post('tenant', data=tobj)
         assert resp.status_code in (200, 201)
         tapi = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=tobj['name'], verify=False)
+                          tenant=tobj['name'], verify=False, data_log=api.data_log)
         t_obj = tapi.get_object_by_name('tenant', tobj['name'])
         # created pool.
         log.info('tenant %s', t_obj)
@@ -286,7 +286,7 @@ class Test(unittest.TestCase):
 
     def test_session_reset(self):
         papi = ApiSession(api.controller_ip, api.username, api.password,
-                          verify=False, api_version=api.api_version)
+                          verify=False, api_version=api.api_version, data_log=api.data_log)
         res = papi.get('pool', params={'fields': 'name'})
         assert res.status_code == 200
         papi.reset_session()
@@ -301,7 +301,7 @@ class Test(unittest.TestCase):
 
     def test_session_multi_reset(self):
         papi = ApiSession(api.controller_ip, api.username, api.password,
-                          verify=False, api_version=api.api_version)
+                          verify=False, api_version=api.api_version, data_log=api.data_log)
         papi.reset_session()
         papi.reset_session()
 
