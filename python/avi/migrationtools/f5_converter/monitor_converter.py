@@ -101,8 +101,9 @@ class MonitorConfigConv(object):
         monitor_dict["https_monitor"]['ssl_attributes'][
             'ssl_profile_ref'] = ref
 
-    def create_sslkeyandcert(self, monitor_dict, f5_monitor, avi_config,
-                              tenant, input_dir, cloud_name):
+    def create_sslkeyandcert(self, monitor_dict, f5_monitor, avi_config, tenant,
+                             input_dir, cloud_name, merge_object_mapping,
+                             sys_dict):
         """
 
         :param monitor_dict:
@@ -112,7 +113,8 @@ class MonitorConfigConv(object):
         :param tenant:
         :param input_dir:
         :param cloud_name:
-        :param controller_version:
+        :param merge_object_mapping:
+        :param sys_dict:
         :return:
         """
         # Condition create  sslkeyandcert.
@@ -146,15 +148,18 @@ class MonitorConfigConv(object):
             }
         # Added condition for merging sslkeyandcert
         if ssl_kc_obj and 'dummy' not in ssl_kc_obj['name']:
-            conv_utils.update_skip_duplicates(
-                ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
-                'key_cert', converted_objs, name, None)
+            conv_utils.update_skip_duplicates(ssl_kc_obj,
+                avi_config['SSLKeyAndCertificate'], 'ssl_cert_key',
+                converted_objs, name, None, merge_object_mapping,
+                None, self.prefix, sys_dict['SSLKeyAndCertificate'])
         else:
             avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
         ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
-        key_cert = [obj for obj in ssl_key_cert_list if
-                    (obj['name'] == name or obj['name'] == name + '-dummy'
-                     or name in obj.get("dup_of", []))]
+        key_cert = [ob for ob in sys_dict['SSLKeyAndCertificate'] if
+                   ob['name'] == merge_object_mapping['ssl_cert_key'].get(
+                   name)] or [obj for obj in ssl_key_cert_list if
+                   (obj['name'] == name or obj['name'] == name + '-dummy'
+                   or name in obj.get("dup_of", []))]
         if key_cert:
             name = key_cert[0]['name']
         ref = conv_utils.get_object_ref(
