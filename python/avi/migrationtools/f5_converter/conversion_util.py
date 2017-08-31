@@ -282,15 +282,16 @@ class F5Util(MigrationUtil):
             sys_ssl = sys_dict['SSLProfile']
             ssl_profiles = [ob for ob in sys_ssl if ob['name'] ==
                             merge_object_mapping['ssl_profile'].get(name)] or [
-                               obj for obj in ssl_profile_list if
-                               (obj['name'] ==
-                                name or name in obj.get("dup_of", []))]
+                            obj for obj in ssl_profile_list if (obj['name'] ==
+                            name or name in obj.get("dup_of", []))]
             if ssl_profiles:
                 ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
-                key_cert = [obj for obj in ssl_key_cert_list if
-                            (obj['name'] == name or obj[
-                                'name'] == name + '-dummy'
-                             or name in obj.get("dup_of", []))]
+                sys_key_cert = sys_dict['SSLKeyAndCertificate']
+                key_cert = [ob for ob in sys_key_cert if ob['name'] ==
+                           merge_object_mapping['ssl_cert_key'].get(name)] or [
+                           obj for obj in ssl_key_cert_list if (obj['name'] ==
+                           name or obj['name'] == name + '-dummy' or name in
+                           obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
                     key_cert = self.get_object_ref(

@@ -25,7 +25,8 @@ merge_object_mapping = {
     'network_profile': {'no': 0},
     'app_per_profile': {'no': 0},
     'pki_profile': {'no': 0},
-    'health_monitor': {'no': 0}
+    'health_monitor': {'no': 0},
+    'ssl_cert_key' : {'no': 0}
 }
 
 # Creating f5 object for util library.
@@ -60,7 +61,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
-                             'SSLProfile', 'PKIProfile',
+                             'SSLProfile', 'PKIProfile', 'SSLKeyAndCertificate',
                              'ApplicationPersistenceProfile', 'HealthMonitor']
         for key in merge_object_type:
             sys_dict[key] = []
@@ -209,6 +210,16 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                      persist_conv.app_per_count)
                 LOG.info(profile_merged_message)
                 print profile_merged_message
+                continue
+            elif object_merge_check and key == 'SSLKeyAndCertificate':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.certkey_count
+                certkey_merged_message = \
+                    'Total Objects of %s : %s (%s/%s cert key merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.certkey_count)
+                LOG.info(certkey_merged_message)
+                print certkey_merged_message
                 continue
             LOG.info('Total Objects of %s : %s' % (key, len(
                 avi_config_dict[key])))

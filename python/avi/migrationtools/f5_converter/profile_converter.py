@@ -41,7 +41,6 @@ class ProfileConfigConv(object):
     def convert(self, f5_config, avi_config, input_dir, user_ignore,
                 tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
         profile_config = f5_config.get("profile", {})
-        avi_config["SSLKeyAndCertificate"] = []
         avi_config["StringGroup"] = []
         avi_config['HTTPPolicySet'] = []
         avi_config['OneConnect'] = []
@@ -131,7 +130,8 @@ class ProfileConfigConv(object):
 
     def update_key_cert_obj(self, name, key_file_name, cert_file_name,
                             input_dir, tenant, avi_config, converted_objs,
-                            default_profile_name, key_and_cert_mapping_list):
+                            default_profile_name, key_and_cert_mapping_list,
+                            merge_object_mapping, sys_dict):
 
         cert_name = [cert['name'] for cert in key_and_cert_mapping_list if
                      cert['key_file_name'] == key_file_name and
@@ -198,11 +198,16 @@ class ProfileConfigConv(object):
             LOG.info('Added new SSL key and certificate for %s' % name)
 
         if ssl_kc_obj:
-            if 'dummy' not in ssl_kc_obj['name']:
-                conv_utils.update_skip_duplicates(
-                    ssl_kc_obj, avi_config['SSLKeyAndCertificate'], 'key_cert',
-                    converted_objs, name, default_profile_name, None,
-                    None, None, None)
+            if self.object_merge_check:
+                if 'dummy' not in ssl_kc_obj['name']:
+                    conv_utils.update_skip_duplicates(ssl_kc_obj,
+                        avi_config['SSLKeyAndCertificate'],'ssl_cert_key',
+                        converted_objs, name, default_profile_name,
+                        merge_object_mapping, None, self.prefix, sys_dict[
+                        'SSLKeyAndCertificate'])
+                else:
+                    avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
+                self.certkey_count += 1
             else:
                 avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
 
@@ -251,10 +256,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             self.f5_passphrase_keys = None
         self.object_merge_check = object_merge_check
         # added code to handel count of sslmerge, applicationmerge,
-        # networkmerge count
+        # networkmerge count, certkey_count
         self.app_count = 0
         self.net_count = 0
         self.pki_count = 0
+        self.certkey_count = 0
         # Added prefix for objects
         self.prefix = prefix
 
@@ -310,7 +316,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
             parent_cls.update_key_cert_obj(
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
-                converted_objs, default_profile_name, key_and_cert_mapping_list)
+                converted_objs, default_profile_name, key_and_cert_mapping_list,
+                merge_object_mapping, sys_dict)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
             # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
@@ -910,10 +917,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         else:
             self.f5_passphrase_keys = None
         self.object_merge_check = object_merge_check
-        # code to get count to merge profile
+        # code to get count to merge objects
         self.app_count = 0
         self.net_count = 0
         self.pki_count = 0
+        self.certkey_count = 0
         # Added prefix for objects
         self.prefix = prefix
 
@@ -964,7 +972,8 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
             parent_cls.update_key_cert_obj(
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
-                converted_objs, default_profile_name, key_and_cert_mapping_list)
+                converted_objs, default_profile_name, key_and_cert_mapping_list,
+                merge_object_mapping, sys_dict)
 
             # ciphers = ciphers.replace('\"', '')
             # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
