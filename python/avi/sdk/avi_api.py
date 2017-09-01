@@ -370,15 +370,10 @@ class ApiSession(Session):
             logger.error('Error in Requests library %s', e)
             raise
         if not connection_error:
-            responses = resp.json()
-            if self.data_log:
-                logger.debug('path: %s http_method: %s hdrs: %s params: '
-                             '%s data: %s rsp: %s', fullpath, api_name.upper(),
-                             api_hdrs, kwargs, data, resp.text)
-            else:
-                logger.debug('path: %s http_method: %s hdrs: %s params: '
-                             '%s data: %s', fullpath, api_name.upper(),
-                             api_hdrs, kwargs, data)
+            logger.debug('path: %s http_method: %s hdrs: %s params: '
+                         '%s data: %s rsp: %s', fullpath, api_name.upper(),
+                         api_hdrs, kwargs, data,
+                         (resp.text if self.data_log else 'None'))
 
         if connection_error or resp.status_code in (401, 419):
             if connection_error:
