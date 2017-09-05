@@ -1,58 +1,61 @@
-- SeProperties
-- UserAccountProfile
-- Tenant
-- ControllerProperties
-- CloudProperties
-- Role
-- AuthProfile
-- CloudConnectorUser
-- SnmpTrapProfile
-- HardwareSecurityModuleGroup
-- Gslb
-- GslbGeoDbProfile
-- ApplicationPersistenceProfile
-- AutoScaleLaunchConfig
-- CertificateManagementProfile
-- Webhook
-- AnalyticsProfile
-- StringGroup
-- Cluster
-- PKIProfile
-- AlertSyslogConfig
-- SSLProfile
-- WafProfile
-- AlertScriptConfig
-- NetworkProfile
-- IpAddrGroup
-- BackupConfiguration
-- SSLKeyAndCertificate
-- MicroServiceGroup
-- WafPolicy
-- IpamDnsProviderProfile
-- DnsPolicy
-- ApplicationProfile
-- Scheduler
-- SystemConfiguration
-- HealthMonitor
-- NetworkSecurityPolicy
-- Cloud
-- Backup
-- AlertEmailConfig
-- GslbService
-- VrfContext
-- PriorityLabels
-- PoolGroupDeploymentPolicy
-- ActionGroupConfig
-- AlertConfig
-- ServerAutoScalePolicy
-- Network
-- TrafficCloneProfile
-- Pool
-- VsVip
-- ServiceEngineGroup
-- PoolGroup
-- ServiceEngine
-- HTTPPolicySet
-- VSDataScriptSet
-- VirtualService
-
+# Automatically Generated File
+# Copyright Avi Networks
+---
+avi_resource_types:
+  - seproperties
+  - useraccountprofile
+  - tenant
+  - controllerproperties
+  - cloudproperties
+  - role
+  - authprofile
+  - cloudconnectoruser
+  - snmptrapprofile
+  - hardwaresecuritymodulegroup
+  - gslb
+  - gslbgeodbprofile
+  - applicationpersistenceprofile
+  - autoscalelaunchconfig
+  - certificatemanagementprofile
+  - webhook
+  - analyticsprofile
+  - stringgroup
+  - cluster
+  - pkiprofile
+  - alertsyslogconfig
+  - sslprofile
+  - wafprofile
+  - alertscriptconfig
+  - networkprofile
+  - ipaddrgroup
+  - backupconfiguration
+  - sslkeyandcertificate
+  - microservicegroup
+  - wafpolicy
+  - ipamdnsproviderprofile
+  - dnspolicy
+  - applicationprofile
+  - scheduler
+  - systemconfiguration
+  - healthmonitor
+  - networksecuritypolicy
+  - cloud
+  - backup
+  - alertemailconfig
+  - gslbservice
+  - vrfcontext
+  - prioritylabels
+  - poolgroupdeploymentpolicy
+  - actiongroupconfig
+  - alertconfig
+  - serverautoscalepolicy
+  - network
+  - trafficcloneprofile
+  - pool
+  - vsvip
+  - serviceenginegroup
+  - poolgroup
+  - serviceengine
+  - httppolicyset
+  - vsdatascriptset
+  - virtualservice
