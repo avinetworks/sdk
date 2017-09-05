@@ -120,6 +120,49 @@ class ApiResponse(Response):
         return resp
 
 
+class AviCredentials(object):
+    controller = ''
+    username = ''
+    password = ''
+    api_version = '16.4.4'
+    tenant = None
+    tenant_uuid = None
+    token = None
+    port = None
+    timeout = 300
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    def update_from_ansible_module(self, module):
+        """
+        :param module: ansible module
+        :return:
+        """
+        if module.params['avi_credentials']:
+            for k, v in list(module.params['avi_credentials'].items()):
+                if hasattr(self, k):
+                    setattr(self, k, v)
+        if module.params['controller']:
+            self.controller = module.params['controller']
+        if module.params['username']:
+            self.username = module.params['username']
+        if module.params['password']:
+            self.password = module.params['password']
+        if (module.params['api_version'] and
+                (module.params['api_version'] != '16.4')):
+            self.api_version = module.params['api_version']
+        if module.params['tenant']:
+            self.tenant = module.params['tenant']
+        if module.params['tenant_uuid']:
+            self.tenant_uuid = module.params['tenant_uuid']
+
+    def __str__(self):
+        return 'controller %s user %s api %s tenant %s' % (
+            self.controller, self.username, self.api_version, self.tenant)
+
+
 class ApiSession(Session):
     """
     Extends the Request library's session object to provide helper
