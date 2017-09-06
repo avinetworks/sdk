@@ -520,9 +520,12 @@ class PolicyConverter(object):
             if not match_str:
                 LOG.warning('No Matches found for %s' % query)
                 return None
-            match = {"path": path_query}
-            match["path"]["match_str"].append(match_str)
-            match["path"]["match_criteria"] = "EQUALS"
+            if match_str == '/':
+                match = {'any': 'any'}
+            else:
+                match = {"path": path_query}
+                match["path"]["match_str"].append(match_str)
+                match["path"]["match_criteria"] = "EQUALS"
 
         elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
                         'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
@@ -778,8 +781,7 @@ class PolicyConverter(object):
         if match:
             if match.get('path', None) and \
                             match['path']['match_str'][0] == '/*':
-                match['path']['match_str'][0] = '/'
-                match['path']['match_criteria'] = 'CONTAINS'
+                match = {'any': 'any'}
             elif match.get('path', None) and \
                     match['path']['match_str'][0].endswith('*'):
                 match['path']['match_criteria'] = 'BEGINS_WITH'
