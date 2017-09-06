@@ -13,8 +13,10 @@ from avi.migrationtools.netscaler_converter.netscaler_converter \
     import NetscalerConverter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
+from avi.migrationtools.test.common.test_clean_reboot \
+    import verify_controller_is_up, clean_reboot
 
-config_file=pytest.config.getoption("--config")
+config_file = pytest.config.getoption("--config")
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -42,9 +44,9 @@ setup = dict(
     config_file_name_passphrase='ns_passphrase.conf',
     ns_passphrase_file='passphrase.yaml',
     ns_key_file='cd_rt_key.pem',
-    ignore_config=os.path.abspath(os.path.dirname(__file__)) + os.sep + 'ignore-config.yaml',
+    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
     ns_ansible_object=os.path.abspath
-      (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
+     (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
     patch='patch.yml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
@@ -114,8 +116,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
                        output_file_path='output')
-        percentage_success('./output/ns-ConversionStatus.xlsx',
-                            './output/ns-Output.json')
+        percentage_success('./output/ns-ConversionStatus.xlsx')
 
     @pytest.mark.travis
     def test_excel_report_16_4(self):
@@ -327,6 +328,22 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v16'))
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_v11_17_1_1(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                         file_attribute['controller_user_17_1_1'],
+                                         file_attribute['controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                          file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
     def test_auto_upload_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -338,6 +355,22 @@ class TestNetscalerConverter:
                        controller_ip=setup.get('controller_ip_17_1_1'),
                        user=setup.get('controller_user_17_1_1'),
                        password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v11_16_4_4(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
+                                         file_attribute['controller_user_16_4_4'],
+                                         file_attribute['controller_password_16_4_4'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
 
     @pytest.mark.skip_travis
     def test_auto_upload_16_4_4(self):
@@ -362,17 +395,38 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'),
                        ansible=setup.get('ansible'))
 
-    # @pytest.mark.skip_travis
-    # def test_ansible_object_auto_upload_v10(self):
-    #     """
-    #     Input File on Local Filesystem, Test for Controller v16.4.4
-    #     AutoUpload Flow
-    #     """
-    #     print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
-    #     print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
-    #     print(subprocess.check_output('/usr/local/bin/ansible-playbook -s ' + setup.get('f5_ansible_object') +
-    #                                    ' --extra-vars "controller=10.10.24.16 username=admin password=Avi123$%"',
-    #                                    shell=True))
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v11_16_4_4(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
+                                         file_attribute['controller_user_16_4_4'],
+                                         file_attribute['controller_password_16_4_4'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_ansible_object_auto_upload_v10(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4
+        AutoUpload Flow
+        """
+        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+        try:
+            output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
+                                         '"controller=%s username=%s password=%s"' %
+                                        (setup.get('ns_ansible_object'), setup.get('controller_ip_16_4_4'),
+                                          setup.get('controller_user_16_4_4'),
+                                          setup.get('controller_password_16_4_4')), shell=True)
+        except subprocess.CalledProcessError as e:
+            output = e.output
 
 
 def teardown():
