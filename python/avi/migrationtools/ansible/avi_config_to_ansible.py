@@ -17,6 +17,29 @@ DEFAULT_SKIP_TYPES = [
     'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
     'SeProperties', 'ControllerProperties', 'CloudProperties']
 
+DEFAULT_SKIP_PARAMS = {
+    'sslprofile': ['dhparam']
+    }
+
+def should_use_block(value):
+    for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029":
+        if c in value:
+            return True
+    return False
+
+def my_represent_scalar(self, tag, value, style=None):
+    if style is None:
+        if should_use_block(value):
+             style='|'
+        else:
+            style = self.default_style
+
+    node = yaml.representer.ScalarNode(tag, value, style=style)
+    if self.alias_key is not None:
+        self.represented_objects[self.alias_key] = node
+    return node
+
+yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
 class AviAnsibleConverter(object):
     common_task_args = {'controller': "{{ controller }}",
@@ -112,7 +135,7 @@ class AviAnsibleConverter(object):
 
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
-    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
+    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None):
         self.outdir = outdir
@@ -198,18 +221,6 @@ class AviAnsibleConverter(object):
             tenant = obj['tenant_ref'].split('name=')[1].strip()
             obj.update({'tenant': tenant})
 
-    def update_multi_line_values(self, obj):
-        if not isinstance(obj, dict):
-            return
-        for k, v in obj.items():
-            if isinstance(v, dict):
-                self.update_multi_line_values(v)
-            elif isinstance(v, list):
-                for e in v:
-                    self.update_multi_line_values(e)
-            elif isinstance(v, (basestring, unicode)) and '\n' in v:
-                obj[k] = "%s" % v.replace('\n', '\\n')
-                #obj[k] = "".join(v.split('\n'))
     def build_ansible_objects(self, obj_type, objs, ansible_dict):
         """
         adds per object type ansible task
@@ -221,7 +232,6 @@ class AviAnsibleConverter(object):
         """
         for obj in objs:
             task = deepcopy(obj)
-            self.update_multi_line_values(task)
             for skip_field in self.skip_fields:
                 task.pop(skip_field, None)
             self.transform_obj_refs(task)
@@ -247,17 +257,23 @@ class AviAnsibleConverter(object):
             Ansible dict
         """
         rsrc_type = obj_type.lower()
+        if not objs:
+            return ansible_dict
+        if rsrc_type not in ansible_dict['avi_config']:
+            ansible_dict['avi_config'][rsrc_type] = []
         for obj in objs:
             rsrc = deepcopy(obj)
-            self.update_multi_line_values(rsrc)
+            if rsrc['name'].startswith('System-'):
+                continue
+            for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
+                rsrc.pop(skip_param, None)
             for skip_field in self.skip_fields:
                 rsrc.pop(skip_field, None)
             self.transform_obj_refs(rsrc)
             rsrc.update(
                 {'api_version': self.avi_cfg['META']['version']['Version']})
             self.update_tenant(rsrc)
-            if rsrc_type not in ansible_dict:
-                ansible_dict['avi_config'][rsrc_type] = []
+            print 'processed', obj_type, rsrc['name']
             ansible_dict['avi_config'][rsrc_type].append(rsrc)
         return ansible_dict
 
@@ -318,10 +334,6 @@ Example to export a single virtualservice:
 
 Example to export a single serviceengine:
     api/configuration/export/serviceengine/>se_uuid>?include_name=true&uuid_refs=true
-
-Example to run Ansible converter with YAML output for aviconfig role
-    python avi_config_to_ansible.py -y -c avi_config.json
-
 '''
 
 if __name__ == '__main__':
