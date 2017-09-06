@@ -62,7 +62,7 @@ class AviAnsibleConverter(object):
             
         # Read file to get meta order.
         self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
-                                          'ansible_order_constant.yml')
+                                          'ansible_order_constant.yaml')
 
         with open(self.ansible_rest_file_path, 'r') as f:
             self.default_meta_order = yaml.load(f)

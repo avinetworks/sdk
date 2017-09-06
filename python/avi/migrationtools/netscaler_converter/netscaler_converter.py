@@ -179,7 +179,12 @@ if __name__ == "__main__":
             Example:
             mcqcim.key: ZcZawJ7ps0AJ+5TMDi7UA==
             avi_key.pem : foobar
-
+            
+        Example to provide baseline json file absolute location:
+            netscaler_converter.py -f ns.conf --baseline_profile 
+            /home/<'sys_conf.json' or 'ns-Output.json'>
+        Usecase: Need to merge objects if there is migration of two netscaler
+                 instances/box to single controller.
         '''
 
     parser = argparse.ArgumentParser(
