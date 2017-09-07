@@ -263,7 +263,7 @@ class AviAnsibleConverter(object):
             ansible_dict['avi_config'][rsrc_type] = []
         for obj in objs:
             rsrc = deepcopy(obj)
-            if rsrc['name'].startswith('System-'):
+            if rsrc.get('name', '').startswith('System-'):
                 continue
             for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
                 rsrc.pop(skip_param, None)
@@ -273,7 +273,7 @@ class AviAnsibleConverter(object):
             rsrc.update(
                 {'api_version': self.avi_cfg['META']['version']['Version']})
             self.update_tenant(rsrc)
-            print 'processed', obj_type, rsrc['name']
+            print 'processed', obj_type, rsrc.get('name', 'N/A')
             ansible_dict['avi_config'][rsrc_type].append(rsrc)
         return ansible_dict
 
