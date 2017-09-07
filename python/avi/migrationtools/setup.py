@@ -19,7 +19,7 @@ setup(
              'avi/migrationtools/vs_filter.py',
              'avi/migrationtools/gss_convertor/gss_convertor.py',
              'avi/migrationtools/config_patch.py',
-             'avi/ansible/avi_config_to_ansible.py'],
+             'avi/migrationtools/ansible/avi_config_to_ansible.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
