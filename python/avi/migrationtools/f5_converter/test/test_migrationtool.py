@@ -4,18 +4,19 @@ f5 converter tool along with its options / parameters
 """
 
 import logging
-import pytest
 import os
 import subprocess
+
+import pytest
 import yaml
 
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
-# from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
+from avi.migrationtools.test.common.test_clean_reboot \
+    import verify_controller_is_up, clean_reboot
 
-
-config_file=pytest.config.getoption("--config")
+config_file = pytest.config.getoption("--config")
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -43,29 +44,24 @@ setup = dict(
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
     input_folder_location='',
-    config_file_name_v10=os.path.abspath (
-        os.path.dirname (__file__)) + os.sep + 'bigip_v10.conf',
-    config_file_name_v11=os.path.abspath (
-        os.path.dirname (__file__)) + os.sep + 'bigip_v11.conf',
+    config_file_name_v10=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
+    config_file_name_v11=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
     partition_config='new',  # this is new
     f5_key_file='cd_rt_key.pem',
-    ignore_config=os.path.abspath(
-        os.path.dirname(__file__)) + os.sep + 'ignore-config.yaml',
-    patch=os.path.abspath(os.path.dirname(__file__)) + os.sep + 'patch.yml',
+    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
+    patch=os.path.abspath(os.path.join(os.path.dirname(__file__), 'patch.yml')),
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
     ansible=True,
     baseline_profile=None,
-    f5_passphrase_file=os.path.abspath(
-        os.path.dirname(__file__)) + os.sep + 'passphrase.yaml',
-    f5_ansible_object=os.path.abspath
-  (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml'))
+    f5_passphrase_file=os.path.abspath(os.path.join(os.path.dirname(__file__), 'passphrase.yaml')),
+    f5_ansible_object=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                     'output', 'avi_config_create_object.yml'))
 )
 
 logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
 mylogger = logging.getLogger()
-
 
 
 class Namespace:
@@ -103,7 +99,6 @@ def f5_conv(
 
 
 class TestF5Converter:
-
     @pytest.mark.skip_travis
     def test_download_v11(self):
         """
@@ -141,7 +136,7 @@ class TestF5Converter:
                  controller_version=setup.get('controller_version_v17'),
                  output_file_path='output')
         output_sanitization('./output/bigip_v10-ConversionStatus.xlsx',
-                            './output/bigip_v10-Output.json')
+                             './output/bigip_v10-Output.json')
 
     @pytest.mark.travis
     def test_excel_report_v11(self):
@@ -158,7 +153,7 @@ class TestF5Converter:
                  controller_version=setup.get('controller_version_v17'),
                  output_file_path='output')
         output_sanitization('./output/bigip_v11-ConversionStatus.xlsx',
-                            './output/bigip_v11-Output.json')
+                             './output/bigip_v11-Output.json')
 
     @pytest.mark.travis
     def test_without_options_v10(self):
@@ -378,6 +373,22 @@ class TestF5Converter:
                  f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_v10_17_1_1(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                         file_attribute['controller_user_17_1_1'],
+                                         file_attribute['controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                          file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
     def test_auto_upload_v10_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -390,6 +401,23 @@ class TestF5Converter:
                  controller_ip=setup.get('controller_ip_17_1_1'),
                  user=setup.get('controller_user_17_1_1'),
                  password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v10_16_4_4(self):
+        """""
+        Verify Controller v16.4.4 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        print file_attribute['license_file_path']
+        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
+                                         file_attribute['controller_user_16_4_4'],
+                                         file_attribute['controller_password_16_4_4'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
 
     @pytest.mark.skip_travis
     def test_auto_upload_v10_16_4_4(self):
@@ -406,6 +434,22 @@ class TestF5Converter:
                  password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_v11_17_1_1(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                         file_attribute['controller_user_17_1_1'],
+                                         file_attribute['controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                          file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
     def test_auto_upload_v11_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -418,6 +462,22 @@ class TestF5Converter:
                  controller_ip=setup.get('controller_ip_17_1_1'),
                  user=setup.get('controller_user_17_1_1'),
                  password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v11_16_4_4(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
+                                         file_attribute['controller_user_16_4_4'],
+                                         file_attribute['controller_password_16_4_4'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
 
     @pytest.mark.skip_travis
     def test_auto_upload_v11_16_4_4(self):
@@ -434,17 +494,6 @@ class TestF5Converter:
                  password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.travis
-    def test_create_ansible_object_v10(self):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1
-        Create Ansible Script based on Flag
-        """
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                 controller_version=setup.get('controller_version_v17'),
-                 f5_config_version=setup.get('file_version_v10'),
-                 ansible=setup.get('ansible'))
-
-    @pytest.mark.travis
     def test_create_ansible_object_creation_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -455,17 +504,82 @@ class TestF5Converter:
                  f5_config_version=setup.get('file_version_v11'),
                  ansible=setup.get('ansible'))
 
-    # @pytest.mark.skip_travis
-    # def test_ansible_object_auto_upload_v10(self):
-    #     """
-    #     Input File on Local Filesystem, Test for Controller v16.4.4
-    #     AutoUpload Flow
-    #     """
-    #     print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
-    #     print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
-    #     print(subprocess.check_output('/usr/local/bin/ansible-playbook -s ' + setup.get('f5_ansible_object') +
-    #                                    ' --extra-vars "controller=10.10.24.16 username=admin password=Avi123$%"',
-    #                                    shell=True))
+    @pytest.mark.skip_travis
+    def test_reboot_clean_ansible_v11_17_1_1(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                         file_attribute['controller_user_17_1_1'],
+                                         file_attribute['controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                          file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_ansible_object_auto_upload_v11_17_1_1(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1
+        AutoUpload Flow
+        """
+        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+        try:
+            output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
+                                              '"controller=%s username=%s password=%s"' %
+                                             (setup.get('f5_ansible_object'), setup.get('controller_ip_17_1_1'),
+                                               setup.get('controller_user_17_1_1'),
+                                               setup.get('controller_password_17_1_1')), shell=True)
+        except subprocess.CalledProcessError as e:
+            output = e.output
+
+    @pytest.mark.travis
+    def test_create_ansible_object_v10(self):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1
+        Create Ansible Script based on Flag
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                 controller_version=setup.get('controller_version_v17'),
+                 f5_config_version=setup.get('file_version_v10'),
+                 ansible=setup.get('ansible'))
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_ansible_v10_16_4_4(self):
+        """""
+        Verify Controller v16.4.4 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
+                                         file_attribute['controller_user_16_4_4'],
+                                         file_attribute['controller_password_16_4_4'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_ansible_object_auto_upload_v10_16_4_4(self):
+        """
+        Input File on Local Filesystem, Test for Controller v16.4.4
+        AutoUpload Flow
+        """
+        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+        try:
+            output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
+                                              '"controller=%s username=%s password=%s"' %
+                                             (setup.get('f5_ansible_object'), setup.get('controller_ip_16_4_4'),
+                                              setup.get('controller_user_16_4_4'),
+                                              setup.get('controller_password_16_4_4')), shell=True)
+        except subprocess.CalledProcessError as e:
+            output = e.output
 
 
 def teardown():
