@@ -131,6 +131,9 @@ class NsUtil(MigrationUtil):
         total_count = total_count + len(row_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
+        else:
+            # Call to calculate vs complexity
+            self.vs_complexity_level()
         # Write status report and pivot table in xlsx report
         self.write_status_report_and_pivot_table_in_xlsx(
             row_list, output_dir, report_name, vs_level_status)
@@ -1094,6 +1097,22 @@ class NsUtil(MigrationUtil):
                                         'Application Persistence profile'][
                                         'skipped_list'] = skipped
 
+    def vs_complexity_level(self):
+        """
+        This method calculate complexity of vs.
+        :return:
+        """
+        vs_csv_objects = [row for row in csv_writer_dict_list
+                          if
+                          row['Status'] in [STATUS_PARTIAL, STATUS_SUCCESSFUL]
+                          and row['Netscaler Command'] in [
+                              'add cs vserver', 'add lb vserver']]
+        for vs_csv_object in vs_csv_objects:
+            virtual_service = self.format_string_to_json(
+                vs_csv_object['AVI Object'])
+            # Update the complexity level of VS as Basic or Advanced
+            self.update_vs_complexity_level(vs_csv_object, virtual_service)
+
     def vs_per_skipped_setting_for_references(self, avi_config):
         """
         This functions defines that Add the skipped setting per VS CSV row
@@ -1251,7 +1270,7 @@ class NsUtil(MigrationUtil):
             fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
                           'Full Command', 'Status', 'Skipped settings',
                           'Indirect mapping', 'Not Applicable', 'User Ignored',
-                          'AVI Object']
+                          'Complexity Level' , 'AVI Object']
         xlsx_report = output_dir + os.path.sep + ("%s-ConversionStatus.xlsx" %
                                                   report_name)
         # xlsx workbook

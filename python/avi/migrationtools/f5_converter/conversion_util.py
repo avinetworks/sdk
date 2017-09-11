@@ -162,6 +162,9 @@ class F5Util(MigrationUtil):
         ptotal_count = ptotal_count + len(csv_writer_dict_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
+        else:
+            # Update the complexity level of VS as Basic or Advanced
+            self.vs_complexity_level()
         self.write_status_report_and_pivot_table_in_xlsx(
             output_dir, report_name, vs_level_status)
 
@@ -1423,6 +1426,22 @@ class F5Util(MigrationUtil):
             if pool_skipped_setting:
                 skipped_setting['pools'].append(pool_skipped_setting)
                 return skipped_setting
+
+    def vs_complexity_level(self):
+        """
+        This method calculate the complexity of vs.
+        :return:
+        """
+        # Get the VS object list which is having status successful and partial.
+        vs_csv_objects = [row for row in csv_writer_dict_list
+                          if row['Status'] in [conv_const.STATUS_PARTIAL,
+                                               conv_const.STATUS_SUCCESSFUL]
+                          and row['F5 type'] == 'virtual']
+        for vs_csv_object in vs_csv_objects:
+            virtual_service = self.format_string_to_json(
+                vs_csv_object['Avi Object'])
+            # Update the complexity level of VS as Basic or Advanced
+            self.update_vs_complexity_level(vs_csv_object, virtual_service)
 
     def vs_per_skipped_setting_for_references(self, avi_config):
         """
