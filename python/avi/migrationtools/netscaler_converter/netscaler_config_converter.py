@@ -2,6 +2,7 @@ import logging
 import yaml
 import os
 import json
+import time
 
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.ns_service_converter \
@@ -27,7 +28,7 @@ ns_util = NsUtil()
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
             prefix, profile_path, redirect, key_passphrase=None,
-            user_ignore={}):
+            user_ignore={}, vs_level_status=False):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -44,6 +45,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
     :param: prefix: prefix for objects
     :param key_passphrase: path of passphrase yaml file
     :param user_ignore: Dict of user ignore attributes
+    :param vs_level_status: Add columns of vs reference overall skipped settings
     :return: None
     """
 
@@ -122,7 +124,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         ns_util.merge_pool(avi_config)
         # Add/update CSV/report
         ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
-                                         report_name)
+                                         report_name, vs_level_status)
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
         ns_util.cleanup_dupof(avi_config)

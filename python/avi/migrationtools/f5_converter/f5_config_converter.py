@@ -35,7 +35,8 @@ conv_utils = F5Util()
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
-            cloud_name='Default-Cloud', keypassphrase=None):
+            cloud_name='Default-Cloud', keypassphrase=None,
+            vs_level_status=False):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -141,7 +142,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
     # Add f5 converter status report in xslx report
     conv_utils.add_complete_conv_status(
-        output_dir, avi_config_dict, report_name)
+        output_dir, avi_config_dict, report_name, vs_level_status)
     for key in avi_config_dict:
         if key != 'META':
             if key == 'VirtualService':

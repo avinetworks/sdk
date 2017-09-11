@@ -8,6 +8,7 @@ import urlparse
 import ast
 import pandas
 import pexpect
+import time
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from xlsxwriter import Workbook
@@ -66,12 +67,13 @@ class NsUtil(MigrationUtil):
         csv_writer_dict_list.append(row)
 
     def add_complete_conv_status(self, ns_config, output_dir, avi_config,
-                                 report_name):
+                                 report_name, vs_level_status):
         """
         Adds as status row in conversion status csv
         :param cmd: netscaler command
         :param conv_status: dict of conversion status
         :param avi_object: Converted objectconverted avi object
+        :param vs_level_status: add vs level details in XL sheet
         """
 
         global csv_writer_dict_list
@@ -124,12 +126,15 @@ class NsUtil(MigrationUtil):
                            row['Status'] == status]
             print '%s: %s' % (status, len(status_list))
         # add skipped list of each object at vs level
+        start_time = time.time()
         print "Writing Excel Sheet For Converted Configuration..."
         total_count = total_count + len(row_list)
-        self.vs_per_skipped_setting_for_references(avi_config)
+        if vs_level_status:
+            self.vs_per_skipped_setting_for_references(avi_config)
         # Write status report and pivot table in xlsx report
-        self.write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
-                                                         report_name)
+        self.write_status_report_and_pivot_table_in_xlsx(
+            row_list, output_dir, report_name, vs_level_status)
+        print 'Excel sheet genaration time : %s' % (time.time() - start_time)
 
     def add_status_row(self, line_no, cmd, object_type, full_command, status,
                        avi_object=None):
@@ -1231,16 +1236,22 @@ class NsUtil(MigrationUtil):
         for csv_object in csv_objects:
             csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
-    def write_status_report_and_pivot_table_in_xlsx(self, row_list, output_dir,
-                                                    report_name):
+    def write_status_report_and_pivot_table_in_xlsx(
+            self, row_list, output_dir, report_name, vs_level_status):
         global total_count
         global progressbar_count
         # List of fieldnames for headers
-        fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
-                      'Full Command', 'Status', 'Skipped settings',
-                      'Indirect mapping', 'Not Applicable', 'User Ignored',
-                      'Overall skipped settings', 'Complexity Level',
-                      'VS Reference', 'AVI Object']
+        if vs_level_status:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'Overall skipped settings', 'Complexity Level',
+                          'VS Reference', 'AVI Object']
+        else:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'AVI Object']
         xlsx_report = output_dir + os.path.sep + ("%s-ConversionStatus.xlsx" %
                                                   report_name)
         # xlsx workbook
