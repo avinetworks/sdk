@@ -149,7 +149,8 @@ class F5Util(MigrationUtil):
         csv_writer_dict_list.append(row)
 
 
-    def add_complete_conv_status(self, output_dir, avi_config, report_name):
+    def add_complete_conv_status(self, output_dir, avi_config, report_name,
+                                 vs_level_status):
 
         global csv_writer_dict_list
         global ptotal_count
@@ -159,8 +160,10 @@ class F5Util(MigrationUtil):
             print '%s: %s' % (status, len(status_list))
         print "Writing Excel Sheet For Converted Configuration..."
         ptotal_count = ptotal_count + len(csv_writer_dict_list)
-        self.vs_per_skipped_setting_for_references(avi_config)
-        self.write_status_report_and_pivot_table_in_xlsx(output_dir, report_name)
+        if vs_level_status:
+            self.vs_per_skipped_setting_for_references(avi_config)
+        self.write_status_report_and_pivot_table_in_xlsx(
+            output_dir, report_name, vs_level_status)
 
 
     def get_port_by_protocol(self, protocol):
@@ -1100,7 +1103,8 @@ class F5Util(MigrationUtil):
                     'local': True
                 })
 
-    def write_status_report_and_pivot_table_in_xlsx(self, output_dir, report_name):
+    def write_status_report_and_pivot_table_in_xlsx(
+            self, output_dir, report_name, vs_level_status):
         """
         This function defines that add status sheet and pivot table sheet in xlsx
         format
@@ -1110,11 +1114,18 @@ class F5Util(MigrationUtil):
         global ppcount
         global ptotal_count
         # List of fieldnames for headers
-        fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
+        if vs_level_status:
+            fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                       'Skipped settings', 'Indirect mapping', 'Not Applicable',
                       'User Ignored', 'Skipped for defaults',
                       'Complexity Level',
                       'VS Reference', 'Overall skipped settings', 'Avi Object']
+        else:
+            fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
+                          'Skipped settings', 'Indirect mapping',
+                          'Not Applicable',
+                          'User Ignored', 'Skipped for defaults',
+                          'Complexity Level', 'Avi Object']
 
         # xlsx workbook
         report_path = output_dir + os.path.sep + "%s-ConversionStatus.xlsx" % \
@@ -1136,8 +1147,8 @@ class F5Util(MigrationUtil):
                 status_ws.write(row, col, _value)
             # Added call for progress function.
             msg = "excel sheet conversion started..."
-            self.print_progress_bar(ppcount, ptotal_count, msg, prefix='Progress',
-                               suffix='')
+            self.print_progress_bar(ppcount, ptotal_count, msg,
+                                    prefix='Progress', suffix='')
             row += 1
         status_wb.close()
         # create dataframe for row list

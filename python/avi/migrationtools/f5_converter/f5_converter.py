@@ -69,6 +69,7 @@ class F5Converter(AviConverter):
         # Added args for baseline profile json file to be changed
         self.profile_path = args.baseline_profile
         self.f5_passphrase_file = args.f5_passphrase_file
+        self.vs_level_status = args.vs_level_status
         # Created f5 util object.
         self.conversion_util = F5Util()
 
@@ -182,7 +183,8 @@ class F5Converter(AviConverter):
             self.f5_config_version, self.object_merge_check,
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
-            self.tenant, self.cloud_name, self.f5_passphrase_file)
+            self.tenant, self.cloud_name, self.f5_passphrase_file,
+            self.vs_level_status)
 
         avi_config_dict["META"] = self.meta(self.tenant, 
                                             self.controller_version)
@@ -371,13 +373,15 @@ if __name__ == "__main__":
                         default=[])
     # Create Ansible Script based on Flag
     parser.add_argument('--ansible',
-                        help='Flag for create ansible file', action='store_true')
+                        help='Flag for create ansible file',
+                        action='store_true')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
 
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
-                        help='Flag for converting snatpool into individual addresses',
+                        help='Flag for converting snatpool into '
+                             'individual addresses',
                         action = "store_true")
     # Added not in use flag
     parser.add_argument('--not_in_use',
@@ -388,6 +392,10 @@ if __name__ == "__main__":
                                     'file containing baseline profiles')
     parser.add_argument('--f5_passphrase_file',
                         help='F5 key passphrase yaml file path')
+
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                             'settings in status excel sheet')
 
 
     args = parser.parse_args()
