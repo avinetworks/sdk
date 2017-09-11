@@ -18,7 +18,8 @@ setup(
              'avi/migrationtools/netscaler_converter/netscaler_converter.py',
              'avi/migrationtools/vs_filter.py',
              'avi/migrationtools/gss_convertor/gss_convertor.py',
-             'avi/migrationtools/config_patch.py'],
+             'avi/migrationtools/config_patch.py',
+             'avi/migrationtools/ansible/avi_config_to_ansible.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
