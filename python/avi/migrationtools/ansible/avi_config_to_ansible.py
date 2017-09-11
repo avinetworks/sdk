@@ -221,6 +221,23 @@ class AviAnsibleConverter(object):
             tenant = obj['tenant_ref'].split('name=')[1].strip()
             obj.update({'tenant': tenant})
 
+    def purge_fields(self, rsrc_type, rsrc):
+        for skip_field in self.skip_fields:
+            rsrc.pop(skip_field, None)
+        for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
+            rsrc.pop(skip_param, None)
+        for skip_field in self.skip_fields:
+            rsrc.pop(skip_field, None)
+        if rsrc_type == 'vsvip':
+            # check for floating IP and normal IP
+            for vip in rsrc.get('vip', []):
+                if vip.get('avi_allocated_fip', False):
+                    print ('purged floating ip from %s', vip['floating_ip']['addr'])
+                    vip.pop('floating_ip', None)
+                if vip.get('avi_allocated_vip', False):
+                    print ('purged avi vip %s', vip['ip_address']['addr'])
+                    vip.pop('ip_address', None)
+
     def build_ansible_objects(self, obj_type, objs, ansible_dict):
         """
         adds per object type ansible task
@@ -232,8 +249,7 @@ class AviAnsibleConverter(object):
         """
         for obj in objs:
             task = deepcopy(obj)
-            for skip_field in self.skip_fields:
-                task.pop(skip_field, None)
+            self.purge_fields(obj_type, task)
             self.transform_obj_refs(task)
             task.update(self.common_task_args)
             task.update(
@@ -265,10 +281,7 @@ class AviAnsibleConverter(object):
             rsrc = deepcopy(obj)
             if rsrc.get('name', '').startswith('System-'):
                 continue
-            for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
-                rsrc.pop(skip_param, None)
-            for skip_field in self.skip_fields:
-                rsrc.pop(skip_field, None)
+            self.purge_fields(rsrc_type, rsrc)
             self.transform_obj_refs(rsrc)
             rsrc.update(
                 {'api_version': self.avi_cfg['META']['version']['Version']})
