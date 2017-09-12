@@ -393,13 +393,11 @@ class CsvsConverter(object):
                             'redirect_action': {
                                 'keep_query': True,
                                 'status_code': "HTTP_REDIRECT_STATUS_CODE_302",
-                                'host': {
+                                'path': {
                                     'tokens': [{
                                         'str_value': policy_vs[0][
                                             binding]['redirect_url'],
-                                        'type': "URI_TOKEN_TYPE_HOST",
-                                        'start_index': 0,
-                                        'end_index': 65535
+                                        'type': "URI_TOKEN_TYPE_STRING"
                                     }],
                                     'type': "URI_PARAM_TYPE_TOKENIZED"
                                 },

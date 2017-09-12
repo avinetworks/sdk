@@ -850,13 +850,11 @@ class PolicyConverter(object):
             protocol = str(redirect_url.scheme).upper()
             action = {
                 'protocol': protocol,
-                'host': {
+                'path': {
                     'type': 'URI_PARAM_TYPE_TOKENIZED',
                     'tokens': [{
-                        'type': 'URI_TOKEN_TYPE_HOST',
-                        'str_value': redirect_pools[targetLBVserver],
-                        'start_index': '0',
-                        'end_index': '65535'
+                        'type': 'URI_TOKEN_TYPE_STRING',
+                        'str_value': redirect_pools[targetLBVserver]
                     }]
                 }
             }
