@@ -35,7 +35,8 @@ conv_utils = F5Util()
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
-            cloud_name='Default-Cloud', keypassphrase=None):
+            cloud_name='Default-Cloud', keypassphrase=None,
+            vs_level_status=False):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -141,16 +142,23 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
     # Add f5 converter status report in xslx report
     conv_utils.add_complete_conv_status(
-        output_dir, avi_config_dict, report_name)
+        output_dir, avi_config_dict, report_name, vs_level_status)
     for key in avi_config_dict:
         if key != 'META':
             if key == 'VirtualService':
-                LOG.info('Total Objects of %s : %s (%s full conversions)'
-                         % (key, len(avi_config_dict[key]),
-                            conversion_util.fully_migrated))
-                print 'Total Objects of %s : %s (%s full conversions)' \
-                      % (key, len(avi_config_dict[key]),
-                         conversion_util.fully_migrated)
+                if vs_level_status:
+                    LOG.info('Total Objects of %s : %s (%s full conversions)'
+                             % (key, len(avi_config_dict[key]),
+                                conversion_util.fully_migrated))
+                    print 'Total Objects of %s : %s (%s full conversions)' \
+                          % (key, len(avi_config_dict[key]),
+                             conversion_util.fully_migrated)
+                else:
+                    LOG.info('Total Objects of %s : %s'
+                             % (key, len(avi_config_dict[key])))
+                    print 'Total Objects of %s : %s' \
+                          % (key, len(avi_config_dict[key]))
+
                 continue
             # Added code to print merged count.
             elif object_merge_check and key == 'SSLProfile':
