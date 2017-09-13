@@ -410,5 +410,5 @@ def avi_common_argument_spec():
             password=dict(default=os.environ.get('AVI_PASSWORD', ''), no_log=True),
             tenant=dict(default='admin'),
             tenant_uuid=dict(default=''),
-            api_version=dict(default='16.4', type='str'),
+            api_version=dict(default='16.4.4', type='str'),
             avi_credentials=dict(default=None, no_log=True, type='dict'))
