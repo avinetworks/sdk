@@ -66,12 +66,13 @@ class NsUtil(MigrationUtil):
         csv_writer_dict_list.append(row)
 
     def add_complete_conv_status(self, ns_config, output_dir, avi_config,
-                                 report_name):
+                                 report_name, vs_level_status):
         """
         Adds as status row in conversion status csv
         :param cmd: netscaler command
         :param conv_status: dict of conversion status
         :param avi_object: Converted objectconverted avi object
+        :param vs_level_status: add vs level details in XL sheet
         """
 
         global csv_writer_dict_list
@@ -126,10 +127,14 @@ class NsUtil(MigrationUtil):
         # add skipped list of each object at vs level
         print "Writing Excel Sheet For Converted Configuration..."
         total_count = total_count + len(row_list)
-        self.vs_per_skipped_setting_for_references(avi_config)
+        if vs_level_status:
+            self.vs_per_skipped_setting_for_references(avi_config)
+        else:
+            # Call to calculate vs complexity
+            self.vs_complexity_level()
         # Write status report and pivot table in xlsx report
-        self.write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
-                                                         report_name)
+        self.write_status_report_and_pivot_table_in_xlsx(
+            row_list, output_dir, report_name, vs_level_status)
 
     def add_status_row(self, line_no, cmd, object_type, full_command, status,
                        avi_object=None):
@@ -1089,6 +1094,22 @@ class NsUtil(MigrationUtil):
                                         'Application Persistence profile'][
                                         'skipped_list'] = skipped
 
+    def vs_complexity_level(self):
+        """
+        This method calculate complexity of vs.
+        :return:
+        """
+        vs_csv_objects = [row for row in csv_writer_dict_list
+                          if
+                          row['Status'] in [STATUS_PARTIAL, STATUS_SUCCESSFUL]
+                          and row['Netscaler Command'] in [
+                              'add cs vserver', 'add lb vserver']]
+        for vs_csv_object in vs_csv_objects:
+            virtual_service = self.format_string_to_json(
+                vs_csv_object['AVI Object'])
+            # Update the complexity level of VS as Basic or Advanced
+            self.update_vs_complexity_level(vs_csv_object, virtual_service)
+
     def vs_per_skipped_setting_for_references(self, avi_config):
         """
         This functions defines that Add the skipped setting per VS CSV row
@@ -1231,16 +1252,22 @@ class NsUtil(MigrationUtil):
         for csv_object in csv_objects:
             csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
-    def write_status_report_and_pivot_table_in_xlsx(self, row_list, output_dir,
-                                                    report_name):
+    def write_status_report_and_pivot_table_in_xlsx(
+            self, row_list, output_dir, report_name, vs_level_status):
         global total_count
         global progressbar_count
         # List of fieldnames for headers
-        fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
-                      'Full Command', 'Status', 'Skipped settings',
-                      'Indirect mapping', 'Not Applicable', 'User Ignored',
-                      'Overall skipped settings', 'Complexity Level',
-                      'VS Reference', 'AVI Object']
+        if vs_level_status:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'Overall skipped settings', 'Complexity Level',
+                          'VS Reference', 'AVI Object']
+        else:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'Complexity Level' , 'AVI Object']
         xlsx_report = output_dir + os.path.sep + ("%s-ConversionStatus.xlsx" %
                                                   report_name)
         # xlsx workbook
