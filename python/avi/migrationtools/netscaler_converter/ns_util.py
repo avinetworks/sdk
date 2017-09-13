@@ -8,7 +8,6 @@ import urlparse
 import ast
 import pandas
 import pexpect
-import time
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from xlsxwriter import Workbook
@@ -126,7 +125,6 @@ class NsUtil(MigrationUtil):
                            row['Status'] == status]
             print '%s: %s' % (status, len(status_list))
         # add skipped list of each object at vs level
-        start_time = time.time()
         print "Writing Excel Sheet For Converted Configuration..."
         total_count = total_count + len(row_list)
         if vs_level_status:
@@ -137,7 +135,6 @@ class NsUtil(MigrationUtil):
         # Write status report and pivot table in xlsx report
         self.write_status_report_and_pivot_table_in_xlsx(
             row_list, output_dir, report_name, vs_level_status)
-        print 'Excel sheet genaration time : %s' % (time.time() - start_time)
 
     def add_status_row(self, line_no, cmd, object_type, full_command, status,
                        avi_object=None):

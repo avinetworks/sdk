@@ -146,12 +146,19 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     for key in avi_config_dict:
         if key != 'META':
             if key == 'VirtualService':
-                LOG.info('Total Objects of %s : %s (%s full conversions)'
-                         % (key, len(avi_config_dict[key]),
-                            conversion_util.fully_migrated))
-                print 'Total Objects of %s : %s (%s full conversions)' \
-                      % (key, len(avi_config_dict[key]),
-                         conversion_util.fully_migrated)
+                if vs_level_status:
+                    LOG.info('Total Objects of %s : %s (%s full conversions)'
+                             % (key, len(avi_config_dict[key]),
+                                conversion_util.fully_migrated))
+                    print 'Total Objects of %s : %s (%s full conversions)' \
+                          % (key, len(avi_config_dict[key]),
+                             conversion_util.fully_migrated)
+                else:
+                    LOG.info('Total Objects of %s : %s'
+                             % (key, len(avi_config_dict[key])))
+                    print 'Total Objects of %s : %s' \
+                          % (key, len(avi_config_dict[key]))
+
                 continue
             # Added code to print merged count.
             elif object_merge_check and key == 'SSLProfile':

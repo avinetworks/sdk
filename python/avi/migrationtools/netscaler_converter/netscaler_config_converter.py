@@ -134,13 +134,21 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         # added code to get fully converted virtual service.
         for key in avi_config:
             if key != 'META':
-                if key == 'VirtualService' and vs_level_status:
-                    LOG.info('Total Objects of %s : %s (%s full conversions)'
-                             % (key,len(avi_config[key]),
-                                nsu.fully_migrated))
-                    print 'Total Objects of %s : %s (%s full conversions)'\
-                          % (key, len(avi_config[key]),
-                             nsu.fully_migrated)
+                if key == 'VirtualService':
+                    if vs_level_status:
+                        LOG.info('Total Objects of %s : %s (%s full conversions)'
+                                 % (key,len(avi_config[key]),
+                                    nsu.fully_migrated))
+                        print 'Total Objects of %s : %s (%s full conversions)'\
+                              % (key, len(avi_config[key]),
+                                 nsu.fully_migrated)
+                    else:
+                        LOG.info(
+                            'Total Objects of %s : %s'
+                            % (key, len(avi_config[key])))
+                        print 'Total Objects of %s : %s' \
+                              % (key, len(avi_config[key]))
+
                     continue
                 # Added code to print merged count.
                 elif object_merge_check and key == 'SSLProfile':
