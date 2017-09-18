@@ -1,6 +1,7 @@
 import json
 import logging
 import unittest
+import pytest
 from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
                              avi_timedelta)
 from avi.sdk.utils.api_utils import ApiUtils
@@ -21,12 +22,14 @@ login_info = None
 urllib3.disable_warnings()
 gapi_version = '17.1.6'
 
+config_file = pytest.config.getoption("--config")
+with open(config_file) as f:
+    cfg = json.load(f)
+
 
 def setUpModule():
-    cfg_file = open(os.path.abspath(os.path.dirname(__file__)) + os.sep + 'test_api.cfg', 'r')
-    cfg = cfg_file.read()
     global gSAMPLE_CONFIG
-    gSAMPLE_CONFIG = json.loads(cfg)
+    gSAMPLE_CONFIG = cfg
     log.debug(' read config %s', gSAMPLE_CONFIG)
 
     global login_info
@@ -97,8 +100,9 @@ class Test(unittest.TestCase):
         assert api == api2
 
     def test_ssl_vs(self):
-        papi = ApiSession('10.10.25.42', 'admin', 'avi123',
-                          verify=False, api_version="17.1.6", data_log=True)
+        papi = ApiSession(api.controller_ip, api.username,
+                          api.password,api_version=api.api_version,
+                          verify=False,data_log=True)
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
