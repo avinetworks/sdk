@@ -44,20 +44,25 @@ setup = dict(
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
     input_folder_location='',
-    config_file_name_v10=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
-    config_file_name_v11=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
+    config_file_name_v10=os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
+    config_file_name_v11=os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
     partition_config='new',  # this is new
     f5_key_file='cd_rt_key.pem',
-    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
+    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'ignore-config.yaml')),
     patch=os.path.abspath(os.path.join(os.path.dirname(__file__), 'patch.yml')),
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
     ansible=True,
     baseline_profile=None,
-    f5_passphrase_file=os.path.abspath(os.path.join(os.path.dirname(__file__), 'passphrase.yaml')),
-    f5_ansible_object=os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                     'output', 'avi_config_create_object.yml'))
+    f5_passphrase_file=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                    'passphrase.yaml')),
+    f5_ansible_object=os.path.abspath(os.path.join(
+        os.path.dirname(__file__),'output', 'avi_config_create_object.yml')),
+    vs_level_status=False
 )
 
 logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
@@ -78,7 +83,8 @@ def f5_conv(
         ignore_config=None, partition_config=None, version=None,
         no_profile_merge=None, patch=None, vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
-        convertsnat=None, not_in_use=None, baseline_profile=None, f5_passphrase_file=None):
+        convertsnat=None, not_in_use=None, baseline_profile=None,
+        f5_passphrase_file=None, vs_level_status=False):
     args = Namespace(
         bigip_config_file=bigip_config_file, skip_default_file=skip_default_file,
         f5_config_version=f5_config_version, input_folder_location=input_folder_location,
@@ -91,7 +97,8 @@ def f5_conv(
         vs_filter=vs_filter, ansible_skip_types=ansible_skip_types,
         ansible_filter_types=ansible_filter_types, ansible=ansible,
         prefix=prefix, convertsnat=convertsnat, not_in_use=not_in_use,
-        baseline_profile=baseline_profile, f5_passphrase_file=f5_passphrase_file)
+        baseline_profile=baseline_profile,
+        f5_passphrase_file=f5_passphrase_file, vs_level_status=vs_level_status)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
