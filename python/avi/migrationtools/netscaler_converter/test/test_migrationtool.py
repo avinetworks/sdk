@@ -52,7 +52,8 @@ setup = dict(
     not_in_use=True,
     baseline_profile=None,
     redirect=False,
-    ansible=True
+    ansible=True,
+    vs_level_status=False
 )
 
 
@@ -73,7 +74,8 @@ def netscaler_conv(
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
         patch=None, vs_filter=None, ignore_config=None, ansible=None,
-        prefix=None, not_in_use=False, baseline_profile=None, redirect=True):
+        prefix=None, not_in_use=False, baseline_profile=None, redirect=True,
+        vs_level_status=False):
 
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
@@ -86,7 +88,7 @@ def netscaler_conv(
         version=version, no_object_merge=no_profile_merge, patch=patch,
         vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
         not_in_use=not_in_use, baseline_profile=baseline_profile,
-        redirect=redirect, ansible=ansible)
+        redirect=redirect, ansible=ansible, vs_level_status=vs_level_status)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
