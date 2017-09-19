@@ -610,12 +610,12 @@ class F5Util(MigrationUtil):
         return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
 
-    def clone_pool(self, pool_name, vs_name, avi_pool_list, tenant=None):
+    def clone_pool(self, pool_name, clone_for, avi_pool_list, tenant=None):
         """
         If pool is shared with other VS pool is cloned for other VS as Avi dose not
         support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_name: Name of the pool to be cloned
-        :param vs_name: Name of the VS for pool to be cloned
+        :param clone_for: Name of the VS for pool to be cloned
         :param avi_pool_list: new pool to be added to this list
         :param tenant: if pool is shared across partition then coned for tenant
         :return: new pool object
@@ -627,7 +627,7 @@ class F5Util(MigrationUtil):
                 new_pool = copy.deepcopy(pool)
                 break
         if new_pool:
-            new_pool["name"] = pool_name + "-" + vs_name
+            new_pool["name"] = pool_name + "-" + clone_for
             if tenant:
                 new_pool["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
             # removing config added from VS config to pool
@@ -1067,13 +1067,13 @@ class F5Util(MigrationUtil):
 
         return ref, is_pool_group
 
-    def clone_pool_group(self, pool_group_name, vs_name, avi_config, tenant='admin',
-                         cloud_name='Default-Cloud'):
+    def clone_pool_group(self, pool_group_name, clone_for, avi_config,
+                         tenant='admin', cloud_name='Default-Cloud'):
         """
         If pool is shared with other VS pool is cloned for other VS as Avi dose not
         support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_group_name: Name of the pool group to be cloned
-        :param vs_name: Name of the VS for pool group to be cloned
+        :param clone_for: Name of the object/entity for pool group to be cloned
         :param avi_config: new pool to be added to avi config
         :param tenant: if f5 pool is shared across partition then coned for tenant
         :return: new pool group name
@@ -1085,14 +1085,14 @@ class F5Util(MigrationUtil):
                 new_pool_group = copy.deepcopy(pool_group)
                 break
         if new_pool_group:
-            new_pool_group["name"] = pool_group_name + "-" + vs_name
+            new_pool_group["name"] = pool_group_name + "-" + clone_for
             pg_ref = new_pool_group["name"]
             new_pool_group["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
             avi_config['PoolGroup'].append(new_pool_group)
             for member in new_pool_group['members']:
                 pool_name = self.get_name(member['pool_ref'])
                 pool_name = self.clone_pool(
-                    pool_name, vs_name, avi_config['Pool'], tenant)
+                    pool_name, clone_for, avi_config['Pool'], tenant)
                 member['pool_ref'] = self.get_object_ref(
                     pool_name, 'pool', tenant=tenant, cloud_name=cloud_name)
         return pg_ref
@@ -1307,8 +1307,8 @@ class F5Util(MigrationUtil):
         """
 
         policy_set_name = self.get_name(policy_set_ref)
-        skipped_list = self.get_csv_skipped_list(profile_csv_list, policy_set_name,
-                                            vs_ref, field_key='policy_set')
+        skipped_list = self.get_csv_skipped_list(profile_csv_list,
+                                policy_set_name, vs_ref, field_key='policy_set')
         return policy_set_name, skipped_list
 
     def get_app_persistence_profile_skipped(self, csv_writer_dict_list, pool_object,
@@ -1509,9 +1509,11 @@ class F5Util(MigrationUtil):
                     skipped_setting['Pool Group'] = pool_group_skipped_settings
             # Get the skipepd list for http policy.
             if 'http_policies' in virtual_service:
+                policy_csv_list = self.get_csv_object_list(csv_writer_dict_list,
+                                                        ['policy', 'profile'])
                 for http_ref in virtual_service['http_policies']:
                     policy_set_name, skipped_list = self.get_policy_set_skipped(
-                        profile_csv_list, http_ref['http_policy_set_ref'],
+                        policy_csv_list, http_ref['http_policy_set_ref'],
                         vs_ref)
                     if skipped_list:
                         skipped_setting['Httppolicy'] = {}
@@ -1523,22 +1525,13 @@ class F5Util(MigrationUtil):
                         self.get_csv_object_list(csv_writer_dict_list, ['pool'])
                     for each_http_policy in avi_config['HTTPPolicySet']:
                         if each_http_policy['name'] == policy_set_name:
-                            for http_req in \
-                                    each_http_policy['http_request_policy'][
-                                        'rules']:
-                                if http_req.get('switching_action'):
-                                    pool_group_name = \
-                                        self.get_name(http_req['switching_action']
-                                                 ['pool_group_ref'])
-                                    pool_group_skipped_settings = \
-                                        self.get_pool_skipped_list(
-                                            avi_config, pool_group_name,
-                                            pool_csv_rows, csv_writer_dict_list,
-                                            vs_ref, profile_csv_list)
-                                    if pool_group_skipped_settings:
-                                        skipped_setting['Httppolicy'][
-                                            'Pool Group'] \
-                                            = pool_group_skipped_settings
+                            for http_req in each_http_policy[
+                              'http_request_policy']['rules']:
+                                if http_req.get('switching_action',{}):
+                                    self.get_skip_pools_policy(
+                                        policy_set_name, http_req,
+                                        avi_config, pool_csv_rows, vs_ref,
+                                        profile_csv_list, skipped_setting)
 
             # # Get the skipped list for application_profile_ref.
             if 'application_profile_ref' in virtual_service and 'admin:System' \
@@ -1818,6 +1811,156 @@ class F5Util(MigrationUtil):
             pool_obj[0]['vrf_ref'] = vrf_ref
             LOG.debug("Added vrf ref to the pool %s", pool_ref)
 
+    def clone_http_policy_set(self, policy, vs_name, avi_config, tenant_name,
+                              cloud_name):
+        """
+        This function clones policy which is shared with more than one vs
+        :param policy: name of policy
+        :param vs_name: vs name
+        :param avi_config: avi config dict
+        :param tenant_name: tenant
+        :param cloud_name: cloud
+        :return: cloned policy object
+        """
+
+        policy_name = policy['name']
+        clone_policy = copy.deepcopy(policy)
+        for rule in clone_policy['http_request_policy']['rules']:
+            if 'switching_action' in rule:
+                if rule['switching_action'].get('pool_group_ref'):
+                    pool_group_ref = self.get_name(rule['switching_action'][
+                                                       'pool_group_ref'])
+                    pool_group_ref = self.clone_pool_group(pool_group_ref,
+                                        policy_name, avi_config, tenant_name,
+                                                                cloud_name)
+                    if pool_group_ref:
+                        updated_pool_group_ref = self.get_object_ref(
+                            pool_group_ref, conv_const.OBJECT_TYPE_POOL_GROUP,
+                            tenant_name, cloud_name)
+                        rule['switching_action']['pool_group_ref'] = \
+                            updated_pool_group_ref
+                elif rule['switching_action'].get('pool_ref'):
+                    pool_ref = self.get_name(rule['switching_action'][
+                                                 'pool_ref'])
+                    pool_ref = self.clone_pool(pool_ref, policy_name,
+                                               avi_config['Pool'], tenant_name)
+                    if pool_ref:
+                        updated_pool_ref = self.get_object_ref(pool_ref,
+                                            conv_const.OBJECT_TYPE_POOL,
+                                            tenant_name, cloud_name)
+                        rule['switching_action']['pool_ref'] = updated_pool_ref
+        clone_policy['name'] += '-%s-clone' % vs_name
+        return clone_policy
+
+    def get_skipped_pool(self, avi_config, pool_name, pool_csv_rows,
+                         csv_writer_dict_list, vs_ref, profile_csv_list):
+        """
+        This method get the skipped list for pool by going over the
+        references attached to it
+        :param avi_config:
+        :param pool_name:
+        :param pool_csv_rows:
+        :param csv_writer_dict_list:
+        :param vs_ref:
+        :param profile_csv_list:
+        :return: skipped setting for pool
+        """
+        skipped_setting = {
+            'pools': []
+        }
+        pool_skipped_setting = {}
+        skipped_list = self.get_pool_skipped(pool_csv_rows, pool_name, vs_ref)
+        pool_object = [pool for pool in avi_config["Pool"]
+                       if pool['name'] == pool_name]
+        if skipped_list:
+            pool_skipped_setting['pool_name'] = pool_name
+            pool_skipped_setting['pool_skipped_list'] = skipped_list
+        if pool_object:
+            if 'health_monitor_refs' in pool_object[0]:
+                health_monitor_skipped_setting = []
+                for health_monitor_ref in pool_object[0]['health_monitor_refs']:
+                    health_monitor_ref = self.get_name(health_monitor_ref)
+                    monitor_csv_object = self.get_csv_object_list(
+                        csv_writer_dict_list, ['monitor'])
+                    skipped_list = self.get_csv_skipped_list(
+                        monitor_csv_object, health_monitor_ref, vs_ref)
+                    if skipped_list:
+                        health_monitor_skipped_setting.append(
+                            {'health_monitor_name': health_monitor_ref,
+                             'monitor_skipped_list': skipped_list})
+                if health_monitor_skipped_setting:
+                    pool_skipped_setting['pool_name'] = pool_name
+                    pool_skipped_setting['health_monitor'] = \
+                        health_monitor_skipped_setting
+            if 'ssl_key_and_certificate_ref' in pool_object[0] and \
+                    pool_object[0]['ssl_key_and_certificate_ref']:
+                ssl_key_cert = self.get_name(
+                    pool_object[0]['ssl_key_and_certificate_ref'])
+                self.get_csv_skipped_list(profile_csv_list, ssl_key_cert,
+                                          vs_ref, field_key='ssl_cert_key')
+            if 'ssl_profile_ref' in pool_object[0] and \
+                    pool_object[0]['ssl_profile_ref']:
+                name, skipped = self.get_ssl_profile_skipped(
+                    profile_csv_list, pool_object[0]['ssl_profile_ref'], vs_ref)
+                if skipped:
+                    pool_skipped_setting['pool_name'] = pool_name
+                    pool_skipped_setting['ssl profile'] = {}
+                    pool_skipped_setting['ssl profile']['name'] = name
+                    pool_skipped_setting['ssl profile'][
+                        'skipped_list'] = skipped
+
+            if 'application_persistence_profile_ref' in pool_object[0] and \
+                    pool_object[0]['application_persistence_profile_ref']:
+                name, skipped = self.get_app_persistence_profile_skipped(
+                    csv_writer_dict_list, pool_object[0], vs_ref)
+                if skipped:
+                    pool_skipped_setting['pool_name'] = pool_name
+                    pool_skipped_setting['Application Persistence profile'] = {}
+                    pool_skipped_setting['Application Persistence profile'][
+                        'name'] = name
+                    pool_skipped_setting['Application Persistence profile'][
+                        'skipped_list'] = skipped
+
+        if pool_skipped_setting:
+            skipped_setting['pools'].append(pool_skipped_setting)
+            return skipped_setting
+
+    def get_skip_pools_policy(self, policy_set_name, http_req, avi_config,
+                              pool_csv_rows, vs_ref, profile_csv_list,
+                              skipped_setting):
+        """
+        This method gets the skiplist for pool used in policy
+        :param http_req:
+        :param avi_config:
+        :param pool_csv_rows:
+        :param vs_ref:
+        :param profile_csv_list:
+        :param skipped_setting:
+        :return:
+        """
+        if http_req['switching_action'].get('pool_group_ref'):
+            pool_group_name = self.get_name(http_req['switching_action']
+                                            ['pool_group_ref'])
+            pool_group_skipped_settings = self.get_pool_skipped_list(avi_config,
+                                            pool_group_name, pool_csv_rows,
+                                            csv_writer_dict_list, vs_ref,
+                                            profile_csv_list)
+            if pool_group_skipped_settings:
+                if 'Httppolicy' not in skipped_setting:
+                    skipped_setting['Httppolicy'] = {}
+                    skipped_setting['Httppolicy']['name'] = policy_set_name
+                skipped_setting['Httppolicy']['Pool Group'] =\
+                    pool_group_skipped_settings
+        elif http_req['switching_action'].get('pool_ref'):
+            pool_name = self.get_name(http_req['switching_action']['pool_ref'])
+            pool_skipped_settings = self.get_skipped_pool(avi_config, pool_name,
+                                        pool_csv_rows, csv_writer_dict_list,
+                                        vs_ref, profile_csv_list)
+            if pool_skipped_settings:
+                if 'Httppolicy' not in skipped_setting:
+                    skipped_setting['Httppolicy'] = {}
+                    skipped_setting['Httppolicy']['name'] = policy_set_name
+                skipped_setting['Httppolicy']['Pool'] = pool_skipped_settings
 
 
 

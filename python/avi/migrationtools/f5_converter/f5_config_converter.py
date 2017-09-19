@@ -13,7 +13,7 @@ from avi.migrationtools.f5_converter.profile_converter import \
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
 from avi.migrationtools.f5_converter import conversion_util
 from avi.migrationtools.f5_converter.conversion_util import F5Util
-
+from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -94,6 +94,9 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             version, f5_attributes, prefix, object_merge_check)
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                              merge_object_mapping, sys_dict)
+
+        policy_conv = PolicyConfigConv.get_instance(version, prefix)
+        policy_conv.convert(f5_config, avi_config_dict, tenant)
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
                                             con_snatpool)
