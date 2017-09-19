@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
 from requests.sessions import Session
+from ssl import SSLError
 
 logger = logging.getLogger(__name__)
 
@@ -181,7 +182,7 @@ class ApiSession(Session):
     def __init__(self, controller_ip, username, password=None, token=None,
                  tenant=None, tenant_uuid=None, verify=False, port=None,
                  timeout=60, api_version=None,
-                 retry_conxn_errors=False, data_log=False):
+                 retry_conxn_errors=True, data_log=False):
         """
         initialize new session object with authenticated token from login api.
         It also keeps a cache of user sessions that are cleaned up if inactive
@@ -247,9 +248,10 @@ class ApiSession(Session):
         return
 
     @staticmethod
-    def get_session(controller_ip, username, password=None, token=None,
-                    tenant=None, tenant_uuid=None, verify=False, port=None,
-                    timeout=60, retry_conxn_errors=False, api_version=None, data_log=False):
+    def get_session(
+            controller_ip, username, password=None, token=None, tenant=None,
+            tenant_uuid=None, verify=False, port=None, timeout=60,
+            retry_conxn_errors=True, api_version=None, data_log=False):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -404,7 +406,7 @@ class ApiSession(Session):
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
                           timeout=timeout, **kwargs)
-        except ConnectionError as e:
+        except (ConnectionError, SSLError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
                 raise
@@ -420,6 +422,11 @@ class ApiSession(Session):
 
         if connection_error or resp.status_code in (401, 419):
             if connection_error:
+                try:
+                    self.close()
+                except:
+                    # ignoring exception in cleanup path
+                    pass
                 logger.warning('Connection failed, retrying.')
             else:
                 logger.info('received error %d %s so resetting connection',
