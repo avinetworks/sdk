@@ -98,12 +98,13 @@ class MonitorConverter(object):
                 }
                 avi_monitor["external_monitor"] = ext_monitor
                 avi_config['HealthMonitor'].append(avi_monitor)
-                ns_util.add_status_row(
-                    ns_monitor['line_no'], netscalar_command,
-                    name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR)
-                LOG.warning('Monitor type %s not supported created dummy '
+                msg = ('Monitor type %s not supported created dummy '
                             'external monitor:%s' %
                             (ns_monitor_type, name))
+                LOG.warning(msg)
+                ns_util.add_status_row(
+                    ns_monitor['line_no'], netscalar_command,
+                    name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR, msg)
                 continue
 
             avi_monitor = self.convert_monitor(
@@ -191,14 +192,10 @@ class MonitorConverter(object):
             # 17 version and above
             if parse_version(self.controller_version) >= parse_version('17.1')\
                     and 'HTTPS' in ns_monitor.get('attrs', []):
-                key_ref = ns_util.get_object_ref('System-Default-Cert',
-                                                 'sslkeyandcertificate',
-                                                 'admin')
                 profile_ref = ns_util.get_object_ref('System-Standard',
                                                      'sslprofile',
                                                      'admin')
                 ssl_attributes = {
-                                  'ssl_key_and_certificate_ref': key_ref,
                                   'ssl_profile_ref': profile_ref
                                  }
         try:

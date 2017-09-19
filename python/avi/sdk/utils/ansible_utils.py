@@ -7,7 +7,8 @@ import os
 import re
 import logging
 from copy import deepcopy
-from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger
+from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
+    AviCredentials
 
 if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
     log = logging.getLogger(__name__)
@@ -279,14 +280,17 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         success: module.exit_json with obj=avi object
         faliure: module.fail_json
     """
+
+    api_creds = AviCredentials()
+    api_creds.update_from_ansible_module(module)
     api = ApiSession.get_session(
-            module.params['controller'],
-            module.params['username'],
-            module.params['password'],
-            tenant=module.params['tenant'])
+        api_creds.controller, api_creds.username, password=api_creds.password,
+        timeout=api_creds.timeout, tenant=api_creds.tenant,
+        tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
+        port=api_creds.port)
     state = module.params['state']
     # Get the api version.
-    api_version = module.params.get('api_version', '16.4')
+    api_version = api_creds.api_version
     name = module.params.get('name', None)
     check_mode = module.check_mode
     obj_path = None
@@ -299,6 +303,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj.pop('password', None)
     # pop avi_version
     obj.pop('api_version', None)
+    obj.pop('avi_credentials', None)
 
     # Special code to handle situation where object has a field
     # named username. This is used in case of api/user
@@ -405,4 +410,5 @@ def avi_common_argument_spec():
             password=dict(default=os.environ.get('AVI_PASSWORD', ''), no_log=True),
             tenant=dict(default='admin'),
             tenant_uuid=dict(default=''),
-            api_version=dict(default='16.4', type='str'))
+            api_version=dict(default='16.4.4', type='str'),
+            avi_credentials=dict(default=None, no_log=True, type='dict'))

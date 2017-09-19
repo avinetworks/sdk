@@ -489,7 +489,7 @@ class ServiceConverter(object):
                 ns_util.get_netscalar_full_command(
                     service_group_command, service_group)
             bind_groups = bind_service_group.get(service_group['attrs'][0], [])
-            servers, monitor_ref = self.convert_ns_service_group(
+            servers, monitor_ref, use_service_port = self.convert_ns_service_group(
                 bind_groups, ns_servers, ns_dns, avi_config, sysdict)
             if not servers:
                 LOG.warning('Skipped:No server found %s' %
@@ -513,6 +513,9 @@ class ServiceConverter(object):
                 'cloud_ref': self.cloud_ref
             }
 
+            # Added code to disable translation port
+            if use_service_port:
+                pool_obj['use_service_port'] = use_service_port
             # Add health monitor reference to pool
             if monitor_ref and [monitor for monitor in
                                 avi_config['HealthMonitor']
@@ -711,6 +714,8 @@ class ServiceConverter(object):
         ns_add_server_complete_command = \
             ns_util.get_netscalar_full_command(ns_add_server_command, server)
         ip_addr = server['attrs'][1]
+        # Get the server name
+        server_name = server['attrs'][0]
         enabled = True
         state = server.get('state', 'ENABLED')
         if not state == 'ENABLED':
@@ -744,6 +749,9 @@ class ServiceConverter(object):
             'port': port,
             'enabled': enabled
         }
+        if server_name:
+            # Get the server name
+            server_obj['hostname'] = server_name
         # Successful this server if it has an IP
         ns_util.add_conv_status(
             server['line_no'], ns_add_server_command, server['attrs'][0],
@@ -765,7 +773,7 @@ class ServiceConverter(object):
         monitor_name = None
         if isinstance(ns_service_group, dict):
             ns_service_group = [ns_service_group]
-
+        use_service_port = False
         for server_binding in ns_service_group:
             attrs = server_binding.get('attrs')
             ns_bind_service_group_command = 'bind serviceGroup'
@@ -800,13 +808,15 @@ class ServiceConverter(object):
                         attrs[0], ns_bind_service_group_complete_command,
                         group_status, monitor[0])
                 else:
-                    LOG.warning('External Health monitor: %s' %
-                                ns_bind_service_group_complete_command)
+                    msg = ('External Health monitor: %s because bind service'
+                           'is not in server' %
+                           ns_bind_service_group_complete_command)
+                    LOG.warning(msg)
                     # Skipped bind service group if doen not server
                     ns_util.add_status_row(
                         server_binding['line_no'], ns_bind_service_group_command,
                         attrs[0], ns_bind_service_group_complete_command,
-                        STATUS_EXTERNAL_MONITOR)
+                        STATUS_EXTERNAL_MONITOR, msg)
 
                 continue
 
@@ -829,6 +839,8 @@ class ServiceConverter(object):
                 server, self.nsservice_server_skip, [], [],
                 user_ignore_val=self.nsservice_server_user_ignore)
             ip_addr = server['attrs'][1]
+            # Get the server name
+            server_name = server['attrs'][0]
             if ip_addr in ns_dns:
                 if isinstance(ns_dns[ip_addr], list):
                     ip_addr = ns_dns[ip_addr][0]['attrs'][1]
@@ -841,6 +853,7 @@ class ServiceConverter(object):
             port = attrs[2]
             if port in ("*", "0"):
                 port = "1"
+                use_service_port = True
             matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
             server_obj = {
                 'ip': {
@@ -852,6 +865,9 @@ class ServiceConverter(object):
                 'health_monitor': server_binding.get('monitorName')
 
             }
+            if server_name:
+                # Get the server name
+                server_obj['hostname'] = server_name
             if not matches:
                 # Skipped this server if it does not have an Ip
                 ns_util.add_status_row(
@@ -878,4 +894,4 @@ class ServiceConverter(object):
                     server_binding['line_no'], ns_bind_service_group_command,
                     attrs[0], ns_bind_service_group_complete_command,
                     group_status, server_obj)
-        return servers, monitor_name
+        return servers, monitor_name, use_service_port

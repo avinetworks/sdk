@@ -1,0 +1,1027 @@
+{
+    "NetworkProfile": [
+        {
+            "profile": {
+                "tcp_proxy_profile": {
+                    "max_segment_size": 0, 
+                    "receive_window": 2048, 
+                    "nagles_algorithm": false, 
+                    "use_interface_mtu": false
+                }, 
+                "type": "PROTOCOL_TYPE_TCP_PROXY"
+            }, 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "sspvisionservices_tcp_ws8_prof"
+        }
+    ],
+
+   "HealthMonitor": [
+        {
+            "receive_timeout": "5", 
+            "name": "voiceportalvzitest_ctiint_mon", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "failed_checks": 3, 
+            "send_interval": "6", 
+            "http_monitor": {
+                "http_request": "HEAD /CTIInterface?XmlRequest=", 
+                "http_response_code": [
+                    "HTTP_2XX"
+                ]
+            }, 
+            "type": "HEALTH_MONITOR_HTTP", 
+            "successful_checks": 1
+        }, 
+	{
+            "monitor_port": "389", 
+            "receive_timeout": "5", 
+            "name": "Merged-TCP-ECV-health_monitor-59", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "failed_checks": 3, 
+            "tcp_monitor": {
+                "tcp_request": null, 
+                "tcp_response": null, 
+                "tcp_half_open": false
+            }, 
+            "send_interval": "6", 
+            "type": "HEALTH_MONITOR_TCP", 
+            "successful_checks": 1
+        }, 
+	{
+            "receive_timeout": "5", 
+            "name": "ldaps_mon-dummy", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "failed_checks": 3, 
+            "send_interval": "6", 
+            "external_monitor": {
+                "command_code": ""
+            }, 
+            "type": "HEALTH_MONITOR_EXTERNAL", 
+            "successful_checks": 1
+        },
+	{
+            "receive_timeout": "5", 
+            "name": "Merged-HTTP-ECV-health_monitor-164", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "failed_checks": 3, 
+            "send_interval": "6", 
+            "http_monitor": {
+                "http_request": "GET /keepalive.html", 
+                "http_response_code": [
+                    "HTTP_ANY"
+                ], 
+                "http_response": "GET /keepalive.html"
+            }, 
+            "type": "HEALTH_MONITOR_HTTP", 
+            "successful_checks": 1
+        }
+   ],
+    "ApplicationPersistenceProfile": [
+        
+        {
+            "name": "Merged-COOKIEINSERT-app_persist_profile-2", 
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER", 
+            "http_cookie_persistence_profile": {
+                "always_send_cookie": false, 
+                "timeout": "0"
+            }
+        }, 
+        {
+            "name": "Merged-SOURCEIP-app_persist_profile-4", 
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER", 
+            "ip_persistence_profile": {
+                "ip_persistent_timeout": 4
+            }
+        }, 
+        {
+            "persistence_type": "PERSISTENCE_TYPE_TLS", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER", 
+            "name": "Merged-SSLSESSION-app_persist_profile-3"
+        }
+    ],
+    "Pool": [
+	{
+            "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN", 
+            "name": "acd_external_sg-pool-acd_external_pol-rule-400-4223", 
+            "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "servers": [
+                {
+                    "ip": {
+                        "type": "V4", 
+                        "addr": "10.77.121.104"
+                    }, 
+                    "enabled": true, 
+                    "port": "80", 
+                    "health_monitor": null
+                }, 
+                {
+                    "ip": {
+                        "type": "V4", 
+                        "addr": "10.77.121.105"
+                    }, 
+                    "enabled": true, 
+                    "port": "80", 
+                    "health_monitor": null
+                }, 
+                {
+                    "ip": {
+                        "type": "V4", 
+                        "addr": "10.77.121.106"
+                    }, 
+                    "enabled": true, 
+                    "port": "80", 
+                    "health_monitor": null
+                }, 
+                {
+                    "ip": {
+                        "type": "V4", 
+                        "addr": "10.77.121.107"
+                    }, 
+                    "enabled": true, 
+                    "port": "80", 
+                    "health_monitor": null
+                }
+            ], 
+            "health_monitor_refs": [
+                "/api/healthmonitor/?tenant=admin&name=acd_external_mon"
+            ]
+        }
+    ],
+    "VirtualService": [
+	{
+            "name": "voiceportaluat_443_csv", 
+            "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud", 
+            "enabled": false, 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "ssl_profile_ref": "/api/sslprofile/?tenant=admin&name=Merged-ssl_profile-3", 
+            "application_profile_ref": "/api/applicationprofile/?tenant=admin&name=System-Secure-HTTP", 
+            "http_policies": [
+                {
+                    "index": 11, 
+                    "http_policy_set_ref": "/api/httppolicyset/?tenant=admin&name=voiceportalsit_srcip_24429_polvoiceportaluat_ncr_polvoiceportaluat_cmpgnmgr_polvoiceportaluat_cis_gwy_as_polvoiceportaluat_vcsvp_polvoiceportaluat_rmvp_polvoiceportaluat_cache_polcatchall_polvoiceportaluat_443_csv"
+                }
+            ], 
+            "type": "VS_TYPE_NORMAL", 
+            "services": [
+                {
+                    "enable_ssl": true, 
+                    "port": "443"
+                }
+            ], 
+            "ip_address": {
+                "type": "V4", 
+                "addr": "113.132.208.59"
+            }, 
+            "ssl_key_and_certificate_refs": [
+                "/api/sslkeyandcertificate/?tenant=admin&name=voiceportaluat-dummy"
+            ]
+        }
+    ],
+    "HTTPPolicySet": [
+        {
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "index": 0, 
+                        "redirect_action": {
+                            "host": {
+                                "tokens": [
+                                    {
+                                        "str_value": "https://rmt-dev.ebiz.verizon.com", 
+                                        "type": "URI_TOKEN_TYPE_HOST", 
+                                        "start_index": "0", 
+                                        "end_index": "65535"
+                                    }
+                                ], 
+                                "type": "URI_PARAM_TYPE_TOKENIZED"
+                            }, 
+                            "protocol": "HTTPS"
+                        }, 
+                        "name": "rmt-dev_80_redir_lbvs-redirect-policy-rule-0", 
+                        "match": {
+                            "path": {
+                                "match_case": "INSENSITIVE", 
+                                "match_str": [
+                                    "/"
+                                ], 
+                                "match_criteria": "EQUALS"
+                            }
+                        }
+                    }
+                ]
+            }, 
+            "enable": "false", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "rmt-dev_80_redir_lbvs-redirect-policy"
+        },
+	{
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "index": 0, 
+                        "name": "sslversion_insert_pol-rule-100", 
+                        "match": {
+                            "path": {
+                                "match_case": "INSENSITIVE", 
+                                "match_str": [
+                                    "/"
+                                ], 
+                                "match_criteria": "CONTAINS"
+                            }
+                        }, 
+                        "hdr_action": [
+                            {
+                                "action": "HTTP_ADD_HDR", 
+                                "hdr": {
+                                    "name": "insert_http_header", 
+                                    "value": {
+                                        "val": "CLIENT.SSL.VERSION"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            "enable": "false", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "sslversion_insert_pol"
+        },
+	{
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "index": 0, 
+                        "name": "ddcexternal_corescatcon_pol-rule-100", 
+                        "match": {
+                            "path": {
+                                "match_case": "INSENSITIVE", 
+                                "match_str": [
+                                    "/Core/Secure/Catalog/Content/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddcexternal_corescatcon_lbv-poolgroup-ddcexternal_corescatcon_pol-rule-100-441&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 1, 
+                        "name": "ddcexternal_ddcrep_pol-rule-200", 
+                        "match": {
+                            "path": {
+                                "match_case": "INSENSITIVE", 
+                                "match_str": [
+                                    "/ddccore/reports/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddcexternal_ddcrep_lbv-poolgroup-ddcexternal_ddcrep_pol-rule-200-2402&cloud=Default-Cloud"
+                        }
+                    }
+                ]
+            }, 
+            "enable": "false", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "ddcexternal_corescatcon_polddcexternal_ddcrep_polddcexternal_443_csv"
+        },
+	{
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "index": 0, 
+                        "redirect_action": {
+                            "host": {
+                                "tokens": [
+                                    {
+                                        "str_value": "https://insightdev.ebiz.verizon.com/admin/MainPage.aspx", 
+                                        "type": "URI_TOKEN_TYPE_HOST", 
+                                        "start_index": "0", 
+                                        "end_index": "65535"
+                                    }
+                                ], 
+                                "type": "URI_PARAM_TYPE_TOKENIZED"
+                            }, 
+                            "protocol": "HTTPS"
+                        }, 
+                        "name": "insightdev_slash_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/"
+                                ], 
+                                "match_criteria": "EQUALS"
+                            }
+                        }
+                    }, 
+                    {
+                        "index": 1, 
+                        "name": "catchall_pol-rule-1000", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/"
+                                ], 
+                                "match_criteria": "CONTAINS"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=insightdev_lbv-poolgroup-catchall_pol-rule-1000-4697&cloud=Default-Cloud"
+                        }
+                    }
+                ]
+            }, 
+            "enable": "false", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "insightdev_slash_polcatchall_polinsightdev_443_csv"
+        },
+	{
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "index": 0, 
+                        "name": "ddctpast_corescatconvid_pol-rule-50", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/Core/Secure/Catalog/Content/Videos/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_corescatconvid_lbv-poolgroup-ddctpast_corescatconvid_pol-rule-50-17&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 1, 
+                        "name": "ddctpast_coressystool_pol-rule-100", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/Core/Secure/System/Tools/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_coressystool_lbv-poolgroup-ddctpast_coressystool_pol-rule-100-6789&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 2, 
+                        "name": "ddctpast_corescatcon_pol-rule-100", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/Core/Secure/Catalog/Content/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_corescatcon_lbv-poolgroup-ddctpast_corescatcon_pol-rule-100-6027&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 3, 
+                        "name": "ddctpast_ambeanws_pol-rule-300", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/ambeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ambeanws_lbv-poolgroup-ddctpast_ambeanws_pol-rule-300-2560&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 4, 
+                        "name": "ddctpast_core_svcs_pol-rule-300", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/Core/services/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_core_svcs_lbv-poolgroup-ddctpast_core_svcs_pol-rule-300-9463&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 5, 
+                        "name": "ddctpast_ddcsec_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/ddc-security/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcsec_lbv-poolgroup-ddctpast_ddcsec_pol-rule-400-1738&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 6, 
+                        "name": "ddctpast_ddcsecsit_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/ddc-security-sit"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcsecsit_lbv-poolgroup-ddctpast_ddcsecsit_pol-rule-400-9261&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 7, 
+                        "name": "ddctpast_adap_found_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/adaptor-foundation/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_adap_found_lbv-poolgroup-ddctpast_adap_found_pol-rule-400-9639&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 8, 
+                        "name": "ddctpast_adap_svcs_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/adapter/services/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_adap_svcs_lbv-poolgroup-ddctpast_adap_svcs_pol-rule-400-5098&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 9, 
+                        "name": "ddctpast_rhozet_182_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-182"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_182_lbv-poolgroup-ddctpast_rhozet_182_pol-rule-400-144&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 10, 
+                        "name": "ddctpast_rhozet_183_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-183"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_183_lbv-poolgroup-ddctpast_rhozet_183_pol-rule-400-6816&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 11, 
+                        "name": "ddctpast_rhozet_187_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-187"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_187_lbv-poolgroup-ddctpast_rhozet_187_pol-rule-400-7013&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 12, 
+                        "name": "ddctpast_rhozet_188_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-188"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_188_lbv-poolgroup-ddctpast_rhozet_188_pol-rule-400-6065&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 13, 
+                        "name": "ddctpast_rhozet_189_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-189"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_189_lbv-poolgroup-ddctpast_rhozet_189_pol-rule-400-1757&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 14, 
+                        "name": "ddctpast_rhozet_190_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-190"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_190_lbv-poolgroup-ddctpast_rhozet_190_pol-rule-400-6846&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 15, 
+                        "name": "ddctpast_rhozet_192_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-129-192"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozet_192_lbv-poolgroup-ddctpast_rhozet_192_pol-rule-400-8814&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 16, 
+                        "name": "ddctpast_adbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/adbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_adbeanws_lbv-poolgroup-ddctpast_adbeanws_pol-rule-400-8365&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 17, 
+                        "name": "ddctpast_corech_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/CoreCH/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_corech_lbv-poolgroup-ddctpast_corech_pol-rule-400-6484&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 18, 
+                        "name": "ddctpast_mcbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/mcbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_mcbeanws_lbv-poolgroup-ddctpast_mcbeanws_pol-rule-400-8036&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 19, 
+                        "name": "ddctpast_ombeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/ombeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ombeanws_lbv-poolgroup-ddctpast_ombeanws_pol-rule-400-7903&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 20, 
+                        "name": "ddctpast_rabeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/rabeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rabeanws_lbv-poolgroup-ddctpast_rabeanws_pol-rule-400-7051&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 21, 
+                        "name": "ddctpast_rmbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/rmbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rmbeanws_lbv-poolgroup-ddctpast_rmbeanws_pol-rule-400-1384&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 22, 
+                        "name": "ddctpast_srchasst_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/SearchAssetWS"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_srchasst_lbv-poolgroup-ddctpast_srchasst_pol-rule-400-2320&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 23, 
+                        "name": "ddctpast_umbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/umbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_umbeanws_lbv-poolgroup-ddctpast_umbeanws_pol-rule-400-9207&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 24, 
+                        "name": "ddctpast_wfbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/wfbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_wfbeanws_lbv-poolgroup-ddctpast_wfbeanws_pol-rule-400-9267&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 25, 
+                        "name": "ddctpast_wmbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/wmbeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_wmbeanws_lbv-poolgroup-ddctpast_wmbeanws_pol-rule-400-3269&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 26, 
+                        "name": "ddctpast_wobeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/wobeanws"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_wobeanws_lbv-poolgroup-ddctpast_wobeanws_pol-rule-400-8515&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 27, 
+                        "name": "ddctpast_ddcdw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCDistributionWeb"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcdw_lbv-poolgroup-ddctpast_ddcdw_pol-rule-400-8515&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 28, 
+                        "name": "ddctpast_ddcftpdisw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCFtpsDistributionWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcftpdisw_lbv-poolgroup-ddctpast_ddcftpdisw_pol-rule-400-7641&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 29, 
+                        "name": "ddctpast_ddchttpdisw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCHttpDistributionWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddchttpdisw_lbv-poolgroup-ddctpast_ddchttpdisw_pol-rule-400-7071&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 30, 
+                        "name": "ddctpast_ddcitdisw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCITunesDistributionWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcitdisw_lbv-poolgroup-ddctpast_ddcitdisw_pol-rule-400-8300&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 31, 
+                        "name": "ddctpast_ddclpw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCLowProxyWeb"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddclpw_lbv-poolgroup-ddctpast_ddclpw_pol-rule-400-570&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 32, 
+                        "name": "ddctpast_ddcsigdisw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCSigniantDistributionWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcsigdisw_lbv-poolgroup-ddctpast_ddcsigdisw_pol-rule-400-7938&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 33, 
+                        "name": "ddctpast_ddcwfdw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/DDCWatchFolderDistributionWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_ddcwfdw_lbv-poolgroup-ddctpast_ddcwfdw_pol-rule-400-7257&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 34, 
+                        "name": "ddctpast_kfwuw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/KeyFramesWorkUnitWeb"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_kfwuw_lbv-poolgroup-ddctpast_kfwuw_pol-rule-400-2951&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 35, 
+                        "name": "ddctpast_rhozaw_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/rhozetAdapterWeb/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_rhozaw_lbv-poolgroup-ddctpast_rhozaw_pol-rule-400-3086&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 36, 
+                        "name": "ddctpast_tgbeanws_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/tgbeanws/"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_tgbeanws_lbv-poolgroup-ddctpast_tgbeanws_pol-rule-400-4826&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 37, 
+                        "name": "ddctpast_simulator_151_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-248-151"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_simulator_151_lbv-poolgroup-ddctpast_simulator_151_pol-rule-400-5735&cloud=Default-Cloud"
+                        }
+                    }, 
+                    {
+                        "index": 38, 
+                        "name": "ddctpast_simulator_156_pol-rule-400", 
+                        "match": {
+                            "path": {
+                                "match_str": [
+                                    "/113-132-248-156"
+                                ], 
+                                "match_criteria": "BEGINS_WITH"
+                            }
+                        }, 
+                        "switching_action": {
+                            "action": "HTTP_SWITCHING_SELECT_POOLGROUP", 
+                            "status_code": 200, 
+                            "pool_group_ref": "/api/poolgroup/?tenant=admin&name=ddctpast_simulator_156_lbv-poolgroup-ddctpast_simulator_156_pol-rule-400-2080&cloud=Default-Cloud"
+                        }
+                    }
+                ]
+            }, 
+            "enable": "false", 
+            "tenant_ref": "/api/tenant/?name=admin", 
+            "name": "ddctpast_corescatconvid_polddctpast_coressystool_polddctpast_corescatcon_polddctpast_ambeanws_polddctpast_core_svcs_polddctpast_ddcsec_polddctpast_ddcsecsit_polddctpast_adap_found_polddctpast_adap_svcs_polddctpast_rhozet_182_polddctpast_rhozet_183_polddctpast_rhozet_187_polddctpast_rhozet_188_polddctpast_rhozet_189_polddctpast_rhozet_190_polddctpast_rhozet_192_polddctpast_adbeanws_polddctpast_corech_polddctpast_mcbeanws_polddctpast_ombeanws_polddctpast_rabeanws_polddctpast_rmbeanws_polddctpast_srchasst_polddctpast_umbeanws_polddctpast_wfbeanws_polddctpast_wmbeanws_polddctpast_wobeanws_polddctpast_ddcdw_polddctpast_ddcftpdisw_polddctpast_ddchttpdisw_polddctpast_ddcitdisw_polddctpast_ddclpw_polddctpast_ddcsigdisw_polddctpast_ddcwfdw_polddctpast_kfwuw_polddctpast_rhozaw_polddctpast_tgbeanws_polddctpast_simulator_151_polddctpast_simulator_156_polddctpast_443_csv"
+        }
+    ]
+
+
+}

@@ -15,6 +15,8 @@ from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.config_patch import ConfigPatch
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
+from avi.migrationtools.ansible.ansible_config_converter import\
+                                AviAnsibleConverter
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -54,6 +56,8 @@ class NetscalerConverter(AviConverter):
         self.profile_path = args.baseline_profile
         # Added args for redirecting http vs to https vs
         self.redirect = args.redirect
+        # for ansible 
+        self.create_ansible = args.ansible
 
 
     def init_logger_path(self):
@@ -133,9 +137,18 @@ class NetscalerConverter(AviConverter):
             avi_config = wipe_out_not_in_use(avi_config)
         self.write_output(
             avi_config, output_dir, '%s-Output.json' % report_name)
+
+        if self.create_ansible:
+            avi_ansible = AviAnsibleConverter(avi_config, output_dir,
+                                              self.prefix, self.not_in_use)
+            avi_ansible.write_ansible_playbook(self.ns_host_ip,
+                                               self.ns_ssh_user,
+                                               self.ns_ssh_password)
+        
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
         return avi_config
+        
 
 
 if __name__ == "__main__":
@@ -166,7 +179,12 @@ if __name__ == "__main__":
             Example:
             mcqcim.key: ZcZawJ7ps0AJ+5TMDi7UA==
             avi_key.pem : foobar
-
+            
+        Example to provide baseline json file absolute location:
+            netscaler_converter.py -f ns.conf --baseline_profile 
+            /home/<'sys_conf.json' or 'ns-Output.json'>
+        Usecase: Need to merge objects if there is migration of two netscaler
+                 instances/box to single controller.
         '''
 
     parser = argparse.ArgumentParser(
@@ -242,6 +260,10 @@ if __name__ == "__main__":
     # Added args for redirecting http vs to https vs
     parser.add_argument('--redirect', help='redirect http vs to https vs if '
                                'there is no pool assigned', action="store_true")
+
+    # Ansible tags
+    parser.add_argument('--ansible', help='Flag for create ansible file',
+                        action="store_true")
 
     args = parser.parse_args()
     # print avi netscaler converter version
