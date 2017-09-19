@@ -138,7 +138,9 @@ class VSConfigConv(object):
             else:
                 app_prof_cmd = copy.deepcopy(app_prof_obj[0])
                 app_prof_cmd['name'] = '%s-cmd' % app_prof_cmd['name']
-                app_prof_cmd['connection_multiplexing_enabled'] = False
+                if 'http_profile' in app_prof_cmd:
+                    app_prof_cmd['http_profile'][
+                        'connection_multiplexing_enabled'] = False
                 avi_config['ApplicationProfile'].append(app_prof_cmd)
                 app_name = app_prof_cmd['name']
                 app_prof[0] = conv_utils.get_object_ref(app_name,
