@@ -204,7 +204,24 @@ class MonitorConfigConv(object):
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
-                    msg = "Monitor type not supported by Avi : "+name
+                    avi_monitor = self.convert_monitor(
+                        f5_monitor, key, monitor_config, input_dir,
+                        m_user_ignore,
+                        tenant, avi_config, cloud_name, controller_version,
+                        merge_object_mapping, sys_dict)
+                    if not avi_monitor:
+                        continue
+                    avi_monitor['name'] = '%s-%s' % (avi_monitor['name'],
+                                                     'dummy')
+                    avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
+                    ext_monitor = {
+                        "command_code": "",
+                    }
+                    avi_monitor["external_monitor"] = ext_monitor
+                    avi_config['HealthMonitor'].append(avi_monitor)
+                    msg = "Monitor type {} not supported, created dummy " \
+                          "external monitor {}".format(monitor_type,
+                                                       avi_monitor['name'])
                     LOG.warn(msg)
                     conv_utils.add_status_row(
                         'monitor', monitor_type, name,
@@ -246,7 +263,10 @@ class MonitorConfigConv(object):
                    if val not in self.supported_attributes]
         indirect = copy.deepcopy(self.indirect_mappings)
         timeout = int(f5_monitor.get("timeout", conv_const.DEFAULT_TIMEOUT))
-        interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
+        # Supporting value 'auto' and changing it to default value for interval
+        interval = str(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
+        interval = int(interval) if interval.isdigit() else \
+                    conv_const.DEFAULT_INTERVAL
         time_until_up = int(f5_monitor.get(self.tup,
                                            conv_const.DEFAULT_TIME_UNTIL_UP))
         # Fixed Successful interval and failed checks
