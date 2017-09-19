@@ -4,12 +4,13 @@ import random
 import re
 import avi.migrationtools.f5_converter.converter_constants as final
 from avi.migrationtools.f5_converter.conversion_util import F5Util
-
+from avi.migrationtools.f5_converter.policy_converter import used_pools
 from pkg_resources import parse_version
 
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
+used_policy=[]
 
 class VSConfigConv(object):
     @classmethod
@@ -265,9 +266,10 @@ class VSConfigConv(object):
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
-                vs_ds_rules = [f5_vs['rules']]
+                vs_ds_rules = [conv_utils.get_tenant_ref(f5_vs['rules'])[1]]
             else:
-                vs_ds_rules = f5_vs['rules'].keys()
+                vs_ds_rules = [conv_utils.get_tenant_ref(name)[1] for name in
+                               f5_vs['rules'].keys()]
             for index, rule in enumerate(vs_ds_rules):
                 # converted _sys_https_redirect data script to rule in
                 # http policy
@@ -312,9 +314,51 @@ class VSConfigConv(object):
                                                       'httppolicyset',
                                                       tenant=tenant)
                     }
-                    vs_obj['http_policies'] = []
+                    if not vs_obj.get('http_policies'):
+                        vs_obj['http_policies'] = []
+                    else:
+                        ind = max([pol_index['index'] for pol_index in vs_obj[
+                                  'http_policies']])
+                        http_policies['index'] = ind + 1
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
+        if 'policies' in f5_vs:
+            if isinstance(f5_vs['policies'], basestring):
+                vs_policies = ['%s-%s' % (self.prefix,
+                               conv_utils.get_tenant_ref(f5_vs['policies'])[1])
+                               if self.prefix else conv_utils.get_tenant_ref(
+                               f5_vs['policies'])[1]]
+            else:
+                vs_policies = ['%s-%s' % (self.prefix,
+                               conv_utils.get_tenant_ref(name)[1]) if
+                               self.prefix else conv_utils.get_tenant_ref(
+                               name)[1] for name in f5_vs['policies'].keys()]
+            self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
+                               cloud_name, vs_obj)
+            p_ref = None
+            if is_pool_group:
+                p_ref = conv_utils.get_object_ref(pool_ref, 'poolgroup',
+                                                   tenant=p_tenant)
+            elif pool_ref:
+                p_ref = conv_utils.get_object_ref(pool_ref, 'pool',
+                                                  tenant=p_tenant)
+            if p_ref and used_pools.get(p_ref):
+                not_same = [pol_obj for pol_obj in used_pools[p_ref] if pol_obj
+                            not in vs_policies]
+                if not_same:
+                    if is_pool_group:
+                        LOG.debug('Pool group %s attached to vs %s is shared '
+                                  'with policy %s of another vs', pool_ref,
+                                  vs_name, str(not_same))
+                        pool_ref = conv_utils.clone_pool_group(pool_ref,
+                                        vs_name, avi_config, p_tenant,
+                                        cloud_name=cloud_name)
+                    else:
+                        LOG.debug('Pool %s attached to vs %s is shared with '
+                                  'policy %s of another vs', pool_ref,
+                                  vs_name, str(not_same))
+                        pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
+                                                   avi_config['Pool'], p_tenant)
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
                 pool_ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)
@@ -339,7 +383,13 @@ class VSConfigConv(object):
             vs_obj['client_auth'] = realm
 
         if policy_set:
-            vs_obj['http_policies'] = policy_set
+            if not vs_obj.get('http_policies'):
+                vs_obj['http_policies'] = []
+            else:
+                ind = max([pol_index['index'] for pol_index in vs_obj[
+                          'http_policies']])
+                policy_set[0]['index'] = ind + 1
+            vs_obj['http_policies'].append(policy_set[0])
 
         source = f5_vs.get('source', '0.0.0.0/0')
         if '%' in source:
@@ -456,6 +506,48 @@ class VSConfigConv(object):
                                    conv_status, vs_obj)
 
         return vs_obj
+
+    def get_policy_vs(self, vs_policies, avi_config, vs_name, tenant,
+                      cloud_name, vs_obj):
+        """
+        This method gets all the policy attached to vs, also clone it if
+        required
+        :param vs_policies:
+        :param avi_config:
+        :param vs_name:
+        :param tenant:
+        :param cloud_name:
+        :param vs_obj:
+        :return:
+        """
+        for pol_name in vs_policies:
+            policy_obj = [ob for ob in avi_config['HTTPPolicySet'] if ob[
+                'name'] == pol_name]
+            if policy_obj:
+                if pol_name in used_policy:
+                    LOG.debug('Cloning the policy %s for vs %s',
+                              pol_name, vs_name)
+                    clone_policy = conv_utils.clone_http_policy_set(
+                        policy_obj[0], vs_name, avi_config, tenant,
+                        cloud_name)
+                    pol_name = clone_policy['name']
+                    avi_config['HTTPPolicySet'].append(clone_policy)
+                    LOG.debug('Policy cloned %s for vs %s', pol_name,
+                              vs_name)
+                used_policy.append(pol_name)
+                pol = {
+                    'index': 11,
+                    'http_policy_set_ref':
+                        conv_utils.get_object_ref(pol_name, 'httppolicyset',
+                                                  tenant=tenant)
+                }
+                if not vs_obj.get('http_policies'):
+                    vs_obj['http_policies'] = []
+                else:
+                    ind = max([pol_index['index'] for pol_index in vs_obj[
+                        'http_policies']])
+                    pol['index'] = ind + 1
+                vs_obj['http_policies'].append(pol)
 
 
 class VSConfigConvV11(VSConfigConv):
