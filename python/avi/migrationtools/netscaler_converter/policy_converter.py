@@ -86,7 +86,6 @@ class PolicyConverter(object):
         policy_obj = {
             'name': '',
             'tenant_ref': self.tenant_ref,
-            'enable': 'false',
         }
 
         is_policy_obj = False

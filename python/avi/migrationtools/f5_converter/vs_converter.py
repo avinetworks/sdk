@@ -46,10 +46,11 @@ class VSConfigConv(object):
                 vs_type = [key for key in f5_vs.keys()
                            if key in self.unsupported_types]
                 if vs_type:
-                    LOG.warn("VS type: %s not supported by Avi skipped VS: %s" %
-                             (vs_type, vs_name))
+                    msg = ("VS type: %s not supported by Avi skipped VS: %s" %
+                           (vs_type, vs_name))
+                    LOG.warn(msg)
                     conv_utils.add_status_row('virtual', None, vs_name,
-                                              final.STATUS_SKIPPED)
+                                              final.STATUS_SKIPPED, msg)
                     continue
                 # Added prefix for objects
                 if self.prefix:
@@ -98,10 +99,11 @@ class VSConfigConv(object):
             merge_object_mapping, sys_dict)
 
         if not app_prof:
-            LOG.warning('Profile type not supported by Avi Skipping VS : %s'
-                        % vs_name)
+            msg = ('Profile type not supported by Avi Skipping VS : %s'
+                   % vs_name)
+            LOG.warning(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
-                                      final.STATUS_SKIPPED)
+                                      final.STATUS_SKIPPED, msg)
             return None
 
         ntwk_prof = conv_utils.get_vs_ntwk_profiles(profiles, avi_config,
@@ -149,9 +151,10 @@ class VSConfigConv(object):
             cloud_name, self.prefix, vs_name)
         # Added Check for if port is no digit skip vs.
         if not services_obj and not ip_addr and not vsvip_ref:
-            LOG.debug("Skipped: Virtualservice: %s" % vs_name)
+            msg = "Skipped is not a digit: Virtualservice : %s" % vs_name
+            LOG.debug(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
-                                      final.STATUS_SKIPPED)
+                                      final.STATUS_SKIPPED, msg)
             return
 
         is_pool_group = False
@@ -182,25 +185,38 @@ class VSConfigConv(object):
                         avi_config, pool_ref, tenant, sys_dict)
 
             persist_ref = self.get_persist_ref(f5_vs)
+            persist_type = None
             if persist_ref:
+                # Called tenant ref to get object name
+                persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
                 avi_persistence = avi_config['ApplicationPersistenceProfile']
                 syspersist = sys_dict['ApplicationPersistenceProfile']
                 if is_pool_group:
-                    pool_updated = conv_utils.update_pool_group_for_persist(
+                    pool_updated, persist_type = \
+                        conv_utils.update_pool_group_for_persist(
                         avi_config, pool_ref, persist_ref, hash_profiles,
                         avi_persistence, tenant, merge_object_mapping,
-                        syspersist)
+                        syspersist, app_prof_type)
                 else:
-                    pool_updated = conv_utils.update_pool_for_persist(
+                    pool_updated, persist_type = \
+                        conv_utils.update_pool_for_persist(
                         avi_config['Pool'], pool_ref, persist_ref,
                         hash_profiles, avi_persistence, tenant,
-                        merge_object_mapping, syspersist)
+                        merge_object_mapping, syspersist, app_prof_type)
 
                 if not pool_updated:
                     skipped.append("persist")
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
+            if oc_prof and not ssl_vs and persist_type == \
+                    'PERSISTENCE_TYPE_TLS':
+                msg = ("Skipped VS : '%s' Secure persistence is applicable only"
+                       " if SSL is enabled for Virtual Service" % vs_name)
+                LOG.warning(msg)
+                conv_utils.add_status_row('virtual', None, vs_name,
+                                          final.STATUS_SKIPPED, msg)
+                return
             if f_host:
                 conv_utils.update_pool_for_fallback(
                     f_host, avi_config['Pool'], pool_ref)
@@ -235,6 +251,12 @@ class VSConfigConv(object):
 
         if vrf_ref:
             vs_obj['vrf_context_ref'] = vrf_ref
+            # Added code for assigning VS's vrf ref to poolgroup/pool having no
+            # vrf ref
+            if is_pool_group:
+                conv_utils.set_pool_group_vrf(pool_ref, vrf_ref, avi_config)
+            elif pool_ref:
+                conv_utils.set_pool_vrf(pool_ref, vrf_ref, avi_config)
         if parse_version(controller_version) >= parse_version('17.1'):
             vs_obj['vip'] = [vip]
             vs_obj['vsvip_ref'] = vsvip_ref
@@ -360,12 +382,15 @@ class VSConfigConv(object):
                 conv_utils.add_conv_status('snatpool', '', snat_pool_name,
                                            conv_status, message)
             else:
-                LOG.debug("Skipped: snat conversion as input flag is not set"
-                          " for vs : %s" % vs_name)
+                msg = ("Skipped: snat conversion as input flag is not set"
+                       " for vs : %s" % vs_name)
+                LOG.debug(msg)
+                conv_status = {'status': final.STATUS_SKIPPED}
                 skipped.append("source-address-translation" if f5_vs.get(
                     "source-address-translation") else "snatpool" if f5_vs.get(
                     "snatpool") else None)
-
+                conv_utils.add_conv_status('snatpool', '', snat_pool_name,
+                                           conv_status, msg)
         if ntwk_prof:
             vs_obj['network_profile_ref'] = ntwk_prof[0]
         if enable_ssl:
@@ -390,12 +415,14 @@ class VSConfigConv(object):
                 avi_config['ApplicationProfile']) if obj['name'] == app_name]
             if application_profile_obj and application_profile_obj[0]['type'] \
                     == 'APPLICATION_PROFILE_TYPE_L4':
-                if not 'pool_ref' and not 'pool_group_ref' in vs_obj:
-                    LOG.debug("Failed to convert L4 VS dont have "
+                if not vs_obj.get('pool_ref',vs_obj.get('pool_group_ref')):
+                    msg = ("Failed to convert L4 VS dont have "
                               "pool or pool group ref: %s" % vs_name)
+                    LOG.debug(msg)
                     conv_utils.add_status_row('virtual', None,
                                               vs_name,
-                                              final.STATUS_SKIPPED)
+                                              final.STATUS_SKIPPED,
+                                              msg)
                     return
         for attr in self.ignore_for_value:
             ignore_val = self.ignore_for_value[attr]

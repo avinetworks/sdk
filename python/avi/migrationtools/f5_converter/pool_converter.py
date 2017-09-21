@@ -45,15 +45,17 @@ class PoolConfigConv(object):
             LOG.debug("Converting Pool: %s" % pool_name)
             f5_pool = pool_config[pool_name]
             if not f5_pool:
-                LOG.debug("Empty pool skipped for conversion :%s" % pool_name)
+                msg = "Empty pool skipped for conversion :%s" % pool_name
+                LOG.debug(msg)
                 conv_utils.add_status_row('pool', None, pool_name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             if 'gateway-failsafe-device' in f5_pool:
-                LOG.debug("Not supported gateway-failsafe-device, pool skipped "
+                msg = ("Not supported gateway-failsafe-device, pool skipped "
                           "for conversion :%s" % pool_name)
+                LOG.debug(msg)
                 conv_utils.add_status_row('pool', None, pool_name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             try:
                 converted_objs = self.convert_pool(
@@ -325,7 +327,7 @@ class PoolConfigConvV11(PoolConfigConv):
                 PoolConfigConvV11, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant,
                 merge_object_mapping, sys_dict['HealthMonitor'])
-            pool_obj["health_monitor_refs"] = monitor_refs
+            pool_obj["health_monitor_refs"] = list(set(monitor_refs))
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')
@@ -516,7 +518,7 @@ class PoolConfigConvV10(PoolConfigConv):
                 PoolConfigConvV10, self).get_monitor_refs(
                 monitor_names, monitor_config, pool_name, tenant_ref,
                 merge_object_mapping, sys_dict['HealthMonitor'])
-            pool_obj["health_monitor_refs"] = monitor_refs
+            pool_obj["health_monitor_refs"] = list(set(monitor_refs))
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')

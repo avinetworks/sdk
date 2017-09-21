@@ -6,20 +6,20 @@ Created on September 15, 2016
 '''
 
 import json
-from copy import deepcopy
-
 import logging
 import yaml
 import argparse
 import re
 import requests
+import os
+from copy import deepcopy
 from avi.migrationtools.avi_orphan_object import \
      filter_for_vs, get_vs_ref, get_name_and_entity
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
      CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC,common_task_args, ansible_dict,
-     SKIP_FIELDS, DEFAULT_SKIP_TYPES, DEFAULT_META_ORDER, HELP_STR, NAME, VIP,
+     SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
      SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, AVI_VIRTUALSERVICE,
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
@@ -37,7 +37,6 @@ mg_util = MigrationUtil()
 class AviAnsibleConverter(object):
     skip_fields = SKIP_FIELDS
     skip_types = set(DEFAULT_SKIP_TYPES)
-    default_meta_order = DEFAULT_META_ORDER
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
@@ -60,6 +59,14 @@ class AviAnsibleConverter(object):
                  else set(filter_types.split(',')))
         else:
             self.filter_types = None
+            
+        # Read file to get meta order.
+        self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
+                                          'ansible_order_constant.yaml')
+
+        with open(self.ansible_rest_file_path, 'r') as f:
+            self.default_meta_order = yaml.load(f)
+        
 
     def transform_ref(self, x, obj):
         """
@@ -427,7 +434,7 @@ class AviAnsibleConverter(object):
         generate_traffic_dict = deepcopy(ansible_dict)
         meta = self.avi_cfg['META']
         if 'order' not in meta:
-            meta['order'] = self.default_meta_order
+            meta['order'] = self.default_meta_order['avi_resource_types']
         total_size = len(meta['order'])
         progressbar_count = 0
         print "Conversion Started For Ansible Create Object..."
@@ -439,9 +446,12 @@ class AviAnsibleConverter(object):
                                prefix='Progress', suffix='')
             if self.filter_types and obj_type not in self.filter_types:
                 continue
-            if obj_type not in self.avi_cfg or obj_type in self.skip_types:
+            # have a temp dict for accessing lowercase keys
+            avi_cfg_temp = {k.lower(): v for k, v in self.avi_cfg.items()}
+
+            if obj_type not in avi_cfg_temp or obj_type in self.skip_types:
                 continue
-            self.build_ansible_objects(obj_type, self.avi_cfg[obj_type], ad,
+            self.build_ansible_objects(obj_type, avi_cfg_temp[obj_type], ad,
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
