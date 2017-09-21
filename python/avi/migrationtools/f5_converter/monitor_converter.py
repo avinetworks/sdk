@@ -101,8 +101,9 @@ class MonitorConfigConv(object):
         monitor_dict["https_monitor"]['ssl_attributes'][
             'ssl_profile_ref'] = ref
 
-    def create_sslkeyandcert(self, monitor_dict, f5_monitor, avi_config,
-                              tenant, input_dir, cloud_name):
+    def create_sslkeyandcert(self, monitor_dict, f5_monitor, avi_config, tenant,
+                             input_dir, cloud_name, merge_object_mapping,
+                             sys_dict):
         """
 
         :param monitor_dict:
@@ -112,7 +113,8 @@ class MonitorConfigConv(object):
         :param tenant:
         :param input_dir:
         :param cloud_name:
-        :param controller_version:
+        :param merge_object_mapping:
+        :param sys_dict:
         :return:
         """
         # Condition create  sslkeyandcert.
@@ -146,15 +148,18 @@ class MonitorConfigConv(object):
             }
         # Added condition for merging sslkeyandcert
         if ssl_kc_obj and 'dummy' not in ssl_kc_obj['name']:
-            conv_utils.update_skip_duplicates(
-                ssl_kc_obj, avi_config['SSLKeyAndCertificate'],
-                'key_cert', converted_objs, name, None)
+            conv_utils.update_skip_duplicates(ssl_kc_obj,
+                avi_config['SSLKeyAndCertificate'], 'ssl_cert_key',
+                converted_objs, name, None, merge_object_mapping,
+                None, self.prefix, sys_dict['SSLKeyAndCertificate'])
         else:
             avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
         ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
-        key_cert = [obj for obj in ssl_key_cert_list if
-                    (obj['name'] == name or obj['name'] == name + '-dummy'
-                     or name in obj.get("dup_of", []))]
+        key_cert = [ob for ob in sys_dict['SSLKeyAndCertificate'] if
+                   ob['name'] == merge_object_mapping['ssl_cert_key'].get(
+                   name)] or [obj for obj in ssl_key_cert_list if
+                   (obj['name'] == name or obj['name'] == name + '-dummy'
+                   or name in obj.get("dup_of", []))]
         if key_cert:
             name = key_cert[0]['name']
         ref = conv_utils.get_object_ref(
@@ -186,9 +191,10 @@ class MonitorConfigConv(object):
                 else:
                     m_type = None
                     name = key
+                msg = "Empty config for monitor: %s " % name
+                LOG.warn(msg)
                 conv_utils.add_status_row('monitor', m_type, name,
-                                          conv_const.STATUS_SKIPPED)
-                LOG.warn("Empty config for monitor: %s " % name)
+                                          conv_const.STATUS_SKIPPED, msg)
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
@@ -198,10 +204,11 @@ class MonitorConfigConv(object):
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
-                    LOG.warn("Monitor type not supported by Avi : "+name)
+                    msg = "Monitor type not supported by Avi : "+name
+                    LOG.warn(msg)
                     conv_utils.add_status_row(
                         'monitor', monitor_type, name,
-                        conv_const.STATUS_EXTERNAL_MONITOR)
+                        conv_const.STATUS_EXTERNAL_MONITOR, msg)
                     continue
                 avi_monitor = self.convert_monitor(
                     f5_monitor, key, monitor_config, input_dir, m_user_ignore,
@@ -302,10 +309,11 @@ class MonitorConfigConv(object):
                 skipped = self.convert_dns(monitor_dict, f5_monitor, skipped)
                 ignore_for_defaults.update({'qtype': 'a'})
             else:
-                LOG.warning('No value for mandatory field query_name, skipped '
-                            'DNS Monitor %s' % key)
+                msg = ('No value for mandatory field query_name, skipped '
+                       'DNS Monitor %s' % key)
+                LOG.warning(msg)
                 conv_utils.add_status_row('monitor', monitor_type, name,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_SKIPPED, msg)
                 return None
         elif monitor_type in ["tcp", "tcp_half_open", "tcp-half-open"]:
             na_list = self.na_tcp
@@ -427,23 +435,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
         if parse_version(controller_version) >= parse_version('17.1'):
-            cipher_flag = False
-            # Added code to handel ssl attribute and certificate.
+            # Added code to handle ssl attribute.
+            # Removed ssl cert key ref from monitor's ssl attribute
             if f5_monitor.get('cipherlist', None):
-                # Added flag to track the presence of cipherlist
-                cipher_flag = True
                 self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
                                tenant_ref, cloud_name, merge_object_mapping,
                                        sys_dict)
-            # Added code to check for ssl key cert.
-            if f5_monitor.get('key', None) != 'none' and f5_monitor.get(
-               'cert', None) != 'none':
-                self.create_sslkeyandcert(
-                    monitor_dict, f5_monitor, avi_config, tenant_ref,
-                    input_dir, cloud_name)
-                # Using the flag to attach default ssl profile
-                if not cipher_flag:
-                    monitor_dict["https_monitor"]['ssl_attributes'][
+            else:
+                monitor_dict["https_monitor"]['ssl_attributes'][
                     'ssl_profile_ref'] = conv_utils.get_object_ref(
                                          'System-Standard',
                                          conv_const.OBJECT_TYPE_SSL_PROFILE,
@@ -732,26 +731,17 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added code to handel ssl attribute and certificate.
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
         if parse_version(controller_version) >= parse_version('17.1'):
-            cipher_flag = False
-            # Added code to handle ssl attribute and certificate.
+            # Added code to handle ssl attribute
+            # Removed ssl cert and key ref to monitor' ssl attribute
             if f5_monitor.get('cipherlist', None):
-                # Added flag to track the presence of cipherlist
-                cipher_flag = True
                 self.create_sslprofile(monitor_dict, f5_monitor, avi_config,
                             tenant, cloud_name, merge_object_mapping, sys_dict)
-            # Added code to check for ssl key cert.
-            if f5_monitor.get('key', None) != 'none' and f5_monitor.get(
-               'cert', None) != 'none':
-                self.create_sslkeyandcert(
-                    monitor_dict, f5_monitor, avi_config, tenant,
-                    input_dir, cloud_name)
-                # Using the flag to attach default ssl profile
-                if not cipher_flag:
-                    monitor_dict["https_monitor"]['ssl_attributes'][
+            else:
+                monitor_dict["https_monitor"]['ssl_attributes'][
                     'ssl_profile_ref'] = conv_utils.get_object_ref(
-                                         'System-Standard',
-                                         conv_const.OBJECT_TYPE_SSL_PROFILE,
-                                                                    tenant)
+                                            'System-Standard',
+                                            conv_const.OBJECT_TYPE_SSL_PROFILE,
+                                            tenant)
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
         destination = f5_monitor.get(self.dest_key, "*:*")

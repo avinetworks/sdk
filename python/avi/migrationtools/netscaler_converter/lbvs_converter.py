@@ -117,8 +117,8 @@ class LbvsConverter(object):
                         skipped_status)
                     continue
                 enable_ssl = False
-                # removing 'SSL_BRIDGE' so as to have L4 app profile
-                if type in ['SSL', 'SSL_TCP']:
+                # removing 'SSL_BRIDGE' 'SSL_TCP' so as to have L4 app profile
+                if type in ['SSL']:
                     enable_ssl = True
                 vs_name = key
                 ip_addr = lb_vs['attrs'][2]
@@ -274,14 +274,14 @@ class LbvsConverter(object):
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-Secure-HTTP', 'applicationprofile',
                         tenant='admin')
-                # Adding L4 as a default profile when SSL_BRIDGE
-                elif not http_prof and (lb_vs['attrs'][1]).upper() == \
-                        'SSL_BRIDGE':
+                # Adding L4 as a default profile when SSL_BRIDGE and SSL_TCP
+                elif not http_prof and (lb_vs['attrs'][1]).upper() \
+                        in ['SSL_BRIDGE', "SSL_TCP"]:
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
                         tenant='admin')
-                    LOG.debug("Defaulted to L4 profile for '%s' VS of type "
-                              "SSL_BRIDGE" % updated_vs_name)
+                    LOG.debug("Defaulted to L4 profile for '%s' VS of type %s" %
+                              (updated_vs_name, lb_vs['attrs'][1]))
                     # Defaulting to 'client ip' persistence profile
                     if pool_group and persistence_type != 'NONE':
                         persistence_attached = self.update_pool_for_persist(

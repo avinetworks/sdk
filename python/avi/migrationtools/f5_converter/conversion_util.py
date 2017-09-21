@@ -12,11 +12,11 @@ from openpyxl import load_workbook
 from OpenSSL import crypto
 from socket import gethostname
 from pkg_resources import parse_version
-from avi.migrationtools.avi_migration_utils import MigrationUtil
+from avi.migrationtools.avi_migration_utils import MigrationUtil, tenants
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
-tenants = []
+
 # Added variable for checking progress and get overall object.
 ppcount = 0
 ptotal_count = 0
@@ -126,7 +126,7 @@ class F5Util(MigrationUtil):
         }
         csv_writer_dict_list.append(row)
 
-    def add_status_row(self, f5_type, f5_sub_type, f5_id, status):
+    def add_status_row(self, f5_type, f5_sub_type, f5_id, status, avi_obj=None):
         """
         Adds as status row in conversion status csv
         :param f5_type: Object type
@@ -140,8 +140,12 @@ class F5Util(MigrationUtil):
             'F5 type': f5_type,
             'F5 SubType': f5_sub_type if f5_sub_type else ' ',
             'F5 ID': f5_id,
-            'Status': status,
+            'Status': status
         }
+        if avi_obj:
+            row.update({
+                'Avi Object': str(avi_obj)
+            })
         csv_writer_dict_list.append(row)
 
 
@@ -269,6 +273,7 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for key in profiles.keys():
+            # Called tenant ref to get object name.
             tenant, name = self.get_tenant_ref(key)
             # Added prefix for objects
             if prefix:
@@ -277,15 +282,16 @@ class F5Util(MigrationUtil):
             sys_ssl = sys_dict['SSLProfile']
             ssl_profiles = [ob for ob in sys_ssl if ob['name'] ==
                             merge_object_mapping['ssl_profile'].get(name)] or [
-                               obj for obj in ssl_profile_list if
-                               (obj['name'] ==
-                                name or name in obj.get("dup_of", []))]
+                            obj for obj in ssl_profile_list if (obj['name'] ==
+                            name or name in obj.get("dup_of", []))]
             if ssl_profiles:
                 ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
-                key_cert = [obj for obj in ssl_key_cert_list if
-                            (obj['name'] == name or obj[
-                                'name'] == name + '-dummy'
-                             or name in obj.get("dup_of", []))]
+                sys_key_cert = sys_dict['SSLKeyAndCertificate']
+                key_cert = [ob for ob in sys_key_cert if ob['name'] ==
+                           merge_object_mapping['ssl_cert_key'].get(name)] or [
+                           obj for obj in ssl_key_cert_list if (obj['name'] ==
+                           name or obj['name'] == name + '-dummy' or name in
+                           obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
                     key_cert = self.get_object_ref(
@@ -355,6 +361,8 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for name in profiles.keys():
+            # Called tenant ref to get object name.
+            name = self.get_tenant_ref(name)[1]
             # Added prefix for objects
             if prefix:
                 name = '%s-%s' % (prefix, name)
@@ -440,6 +448,7 @@ class F5Util(MigrationUtil):
             profiles = profiles.replace(" {}", "")
             profiles = {profiles: None}
         for name in profiles.keys():
+            # Called tenant method to get object name
             tenant, name = self.get_tenant_ref(name)
             # Added prefix for objects
             if prefix:
@@ -726,7 +735,8 @@ class F5Util(MigrationUtil):
 
     def update_pool_for_persist(self, avi_pool_list, pool_ref, persist_profile,
                                 hash_profiles, persist_config, tenant,
-                                merge_object_mapping, syspersist):
+                                merge_object_mapping, syspersist,
+                                app_prof_type):
         """
         Updates pool for persistence profile assigned in F5 VS config
         :param avi_pool_list: List of all converted pool objects to avi config
@@ -735,9 +745,11 @@ class F5Util(MigrationUtil):
         :param hash_profiles: list of profile name for which pool's lb algorithm
         updated to hash
         :param persist_config: list of all converted persistence profiles
+        :param app_prof_type: type of application profile for the VS
         :return: Boolean of is pool updated successfully
         """
         pool_updated = True
+        persist_type = None
         pool_obj = [pool for pool in avi_pool_list if pool["name"] == pool_ref]
         if not pool_obj:
             LOG.error("Pool %s not found to add profile %s" %
@@ -752,35 +764,47 @@ class F5Util(MigrationUtil):
                                                ("dup_of",[]))]
         persist_ref_key = "application_persistence_profile_ref"
         if persist_profile_obj:
-            obj_tenant = persist_profile_obj[0]['tenant_ref']
-            pool_obj[persist_ref_key] = self.get_object_ref(
-                persist_profile_obj[0]['name'], 'applicationpersistenceprofile',
-                tenant=self.get_name(obj_tenant))
+            if app_prof_type != 'APPLICATION_PROFILE_TYPE_L4':
+                obj_tenant = persist_profile_obj[0]['tenant_ref']
+                pool_obj[persist_ref_key] = self.get_object_ref(
+                                                persist_profile_obj[0]['name'],
+                                                'applicationpersistenceprofile',
+                                            tenant=self.get_name(obj_tenant))
+                persist_type = persist_profile_obj[0]['persistence_type']
+            else:
+                pool_obj[persist_ref_key] = self.get_object_ref(
+                                                'System-Persistence-Client-IP',
+                                                'applicationpersistenceprofile')
+                persist_type = 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'
+                LOG.debug("Defaulted to Client IP persistence profile for '%s' "
+                          "Pool in VS of L4 app type " % pool_ref)
         elif persist_profile == "hash" or persist_profile in hash_profiles:
             del pool_obj["lb_algorithm"]
             hash_algorithm = "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
             pool_obj["lb_algorithm_hash"] = hash_algorithm
         else:
             pool_updated = False
-        return pool_updated
+        return pool_updated, persist_type
 
     def update_pool_group_for_persist(self, avi_config, pool_ref, persist_profile,
                                       hash_profiles, persist_config, tenant,
-                                      merge_object_mapping, syspersist):
+                                      merge_object_mapping, syspersist,
+                                      app_prof_type):
         pool_group_updated = True
+        persist_type = None
         pool_group = [obj for obj in avi_config['PoolGroup']
                       if obj['name'] == pool_ref]
         if pool_group:
             pool_group = pool_group[0]
             for member in pool_group['members']:
                 pool_name = self.get_name(member['pool_ref'])
-                pool_updated = self.update_pool_for_persist(
+                pool_updated, persist_type = self.update_pool_for_persist(
                     avi_config['Pool'], pool_name, persist_profile,
-                    hash_profiles,
-                    persist_config, tenant, merge_object_mapping, syspersist)
+                    hash_profiles, persist_config, tenant, merge_object_mapping,
+                    syspersist, app_prof_type)
                 if not pool_updated:
                     pool_group_updated = False
-        return pool_group_updated
+        return pool_group_updated, persist_type
 
 
     def update_pool_for_fallback(self, host, avi_pool_list, pool_ref):
@@ -955,6 +979,8 @@ class F5Util(MigrationUtil):
 
     def get_app_profile_type(self, profile_name, avi_config):
         profiles = avi_config.get('ApplicationProfile', [])
+        # Called tenant method to get object name
+        profile_name = self.get_tenant_ref(profile_name)[1]
         profile = [obj for obj in profiles if obj['name'] == profile_name]
         if profile:
             return profile[0]['type']
@@ -1066,7 +1092,6 @@ class F5Util(MigrationUtil):
         return pg_ref
 
     def add_tenants(self, avi_config_dict):
-        global tenants
         if tenants:
             avi_config_dict['Tenant'] = []
             for tenant in tenants:
@@ -1591,8 +1616,8 @@ class F5Util(MigrationUtil):
         # Get the mask from subnet mask
         if ip_addr and '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
-            vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf else \
-                None
+            vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf \
+                    else None
         if ip_addr and '/' in ip_addr:
             ip_addr = ip_addr.split('/')[0]
 
@@ -1636,8 +1661,8 @@ class F5Util(MigrationUtil):
         :return: returns list of vrf refs assigned to entity in avi config
         """
         vrf_ref = None
-        f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] or \
-                        f5_entity_mem if f5_entity_mem else None
+        f5_entity_mem = ':' in f5_entity_mem and f5_entity_mem.split(':')[0] \
+                        or f5_entity_mem if f5_entity_mem else None
         vrf = 'vrf-' + f5_entity_mem.split('%')[1] \
             if f5_entity_mem and '%' in f5_entity_mem else None
         vrf_obj = [obj for obj in vrf_config if vrf and obj["name"] == vrf]
@@ -1666,7 +1691,8 @@ class F5Util(MigrationUtil):
             static_route, vrf, msg = self.update_static_route(route)
             if static_route:
                 for obj in avi_vrf:
-                    if obj['name'] == vrf:
+                    if obj['name'] == vrf or (not vrf and obj['name'] ==
+                       'global'):
                         if obj.get('static_routes'):
                             rid = max(
                                 [i['route_id'] for i in obj['static_routes']])
@@ -1732,6 +1758,35 @@ class F5Util(MigrationUtil):
                                                     tenant)
 
                             break
+
+    def set_pool_group_vrf(self, pool_ref, vrf_ref, avi_config):
+        """
+        This method will set vrf_ref for all pools in poolgroup
+        :param pool_ref: pool group name
+        :param vrf_ref: vrf ref of VS
+        :param avi_config: avi config json
+        :return:
+        """
+        pg_obj = [poolgrp for poolgrp in avi_config['PoolGroup'] if
+                  poolgrp['name'] == pool_ref]
+        if pg_obj:
+            for member in pg_obj[0]['members']:
+                poolname = self.get_name(member.get('pool_ref'))
+                self.set_pool_vrf(poolname, vrf_ref, avi_config)
+
+    def set_pool_vrf(self, pool_ref, vrf_ref, avi_config):
+        """
+        This method will set vrf_ref for pool
+        :param pool_ref: pool name
+        :param vrf_ref: vrf ref of VS
+        :param avi_config: avi config json
+        :return:
+        """
+        pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] ==
+                    pool_ref]
+        if pool_obj and not pool_obj[0].get('vrf_ref'):
+            pool_obj[0]['vrf_ref'] = vrf_ref
+            LOG.debug("Added vrf ref to the pool %s", pool_ref)
 
 
 

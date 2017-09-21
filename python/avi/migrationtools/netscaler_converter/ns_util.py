@@ -9,7 +9,6 @@ import ast
 import pandas
 import pexpect
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
 from pkg_resources import parse_version
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
@@ -686,8 +685,8 @@ class NsUtil(MigrationUtil):
 
         profile = None
         persistenceType = vs.get('persistenceType', '')
-        timeout = vs.get('timeout', 2)
         if persistenceType == 'COOKIEINSERT':
+            timeout = vs.get('timeout', 2)
             profile = {
                 "http_cookie_persistence_profile": {
                     "always_send_cookie": False,
@@ -698,6 +697,8 @@ class NsUtil(MigrationUtil):
                 "name": name,
             }
         elif persistenceType == 'SOURCEIP':
+            # Set timeout equal to 2 if not provided.
+            timeout = vs.get('timeout', 120)
             timeout = int(timeout) / 60
             if timeout < 1:
                 timeout = 1
@@ -1343,23 +1344,6 @@ class NsUtil(MigrationUtil):
             }
             vsvip_config.append(vsvip_object)
 
-    def is_certificate_key_protected(self, key_file):
-        """
-        This functions defines that whether key is passphrase protected or not
-        :param key_file: Path of key file
-        :return: Return True if key is passphrase protected else return False
-        """
-        try:
-            child = pexpect.spawn(
-                'openssl rsa -in %s -check -noout' % key_file)
-            # Expect for enter pass phrase if key is protected else it will raise
-            # an exception
-            child.expect('Enter pass phrase for')
-            return True
-        except:
-            return False
-
-
     def get_redirect_fail_action(self, url):
         parsed = urlparse.urlparse(url)
         redirect_fail_action = {
@@ -1405,46 +1389,6 @@ class NsUtil(MigrationUtil):
                         type_cons = OBJECT_TYPE_APPLICATION_PROFILE
                     obj[ref] = self.get_object_ref(updated_name, type_cons,
                                                    tenant)
-
-    def check_for_duplicates(self, src_obj, obj_list, obj_type,
-                             merge_object_mapping, ent_type, prefix, syslist):
-        """
-        Checks for duplicate objects except name and description values
-        :param src_obj: Object to be checked for duplicate
-        :param obj_list: List of oll objects to search in
-        :return: Name of object for which given object is duplicate of
-        """
-        src_cp = copy.deepcopy(src_obj)
-        src_cp.pop("name")
-        src_cp.pop("description", [])
-        for obj in syslist:
-            ob_cp = copy.deepcopy(obj)
-            ob_cp.pop("name")
-            ob_cp.pop("description", [])
-            ob_cp.pop('url', [])
-            ob_cp.pop('uuid', [])
-            if cmp(src_cp, ob_cp) == 0:
-                return obj["name"], src_obj['name']
-        for tmp_obj in obj_list:
-            tmp_cp = copy.deepcopy(tmp_obj)
-            tmp_cp.pop("name")
-            tmp_cp.pop("description", [])
-            dup_lst = tmp_cp.pop("dup_of", [tmp_obj["name"]])
-            if cmp(src_cp, tmp_cp) == 0:
-                dup_lst.append(src_obj["name"])
-                tmp_obj["dup_of"] = dup_lst
-                old_name = tmp_obj['name']
-                if tmp_obj["name"] in merge_object_mapping[obj_type].keys():
-                    merge_object_mapping[obj_type]['no'] += 1
-                    no = merge_object_mapping[obj_type]['no']
-                    mid_name = ent_type and (
-                    'Merged-' + ent_type + '-' + obj_type
-                    + '-' + str(no)) or ('Merged-' +
-                                         obj_type + '-' + str(no))
-                    new_name = prefix + '-' + mid_name if prefix else mid_name
-                    tmp_obj["name"] = new_name
-                return tmp_obj["name"], old_name
-        return None, None
 
     def vs_redirect_http_to_https(self, avi_config, sysdict):
 
@@ -1562,6 +1506,13 @@ class NsUtil(MigrationUtil):
                                         server['port'])
                             if ipport not in list(ip_port):
                                 pool[0]['servers'].append(server)
+                        for cl in csv_writer_dict_list:
+                            if cl['Object Name'] == (nextpool[0][
+                             'name'].replace('-pool','')) and cl[
+                             'Netscaler Command'] in ['add service',
+                             'add serviceGroup']:
+                                cl['AVI Object'] = 'Merged to %s' % pool[0][
+                                                                        'name']
                         mergelist.append(nextpool[0]['name'])
         for plg in avi_config['PoolGroup']:
             plg['members'] = [member for member in plg['members'] if

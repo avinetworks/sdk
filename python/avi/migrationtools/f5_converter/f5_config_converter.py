@@ -25,7 +25,8 @@ merge_object_mapping = {
     'network_profile': {'no': 0},
     'app_per_profile': {'no': 0},
     'pki_profile': {'no': 0},
-    'health_monitor': {'no': 0}
+    'health_monitor': {'no': 0},
+    'ssl_cert_key' : {'no': 0}
 }
 
 # Creating f5 object for util library.
@@ -34,7 +35,7 @@ conv_utils = F5Util()
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
-            cloud_name='Default-Cloud'):
+            cloud_name='Default-Cloud', keypassphrase=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -60,7 +61,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         # load the yaml file attribute in f5_attributes.
         f5_attributes = conv_const.init(version)
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
-                             'SSLProfile', 'PKIProfile',
+                             'SSLProfile', 'PKIProfile', 'SSLKeyAndCertificate',
                              'ApplicationPersistenceProfile', 'HealthMonitor']
         for key in merge_object_type:
             sys_dict[key] = []
@@ -73,7 +74,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     sys_dict[key] = prof_data.get(key, [])
 
         profile_conv = ProfileConfigConv.get_instance(
-            version, f5_attributes, object_merge_check, prefix)
+            version, f5_attributes, object_merge_check, prefix, keypassphrase)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant, cloud_name, merge_object_mapping, sys_dict)
 
@@ -106,12 +107,15 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                           sys_dict)
         conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
+        # Validating the aviconfig after generation
+        conv_utils.validation(avi_config_dict)
 
     except:
         LOG.error("Conversion error", exc_info=True)
     datascript_objs = ['data-group']
     # Added support node as not applicable
     na_list_objs = f5_attributes['na_list_objs']
+    accept_list = ['snatpool']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
@@ -123,10 +127,17 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                           conv_const.STATUS_DATASCRIPT)
             elif f5_type in na_list_objs:
                 conv_utils.add_status_row(f5_type, sub_type, key,
-                                          conv_const.STATUS_NOT_APPLICABLE)
+                                          conv_const.STATUS_NOT_APPLICABLE,
+                                          f5_type + " object not applicable")
+            elif f5_type in accept_list:
+                msg = (" skipped because of object "
+                       "associated with this is skipped")
+                conv_utils.add_status_row(f5_type, sub_type, key,
+                                          conv_const.STATUS_SKIPPED,
+                                          f5_type + msg)
             else:
                 conv_utils.add_status_row(f5_type, sub_type, key,
-                                          conv_const.STATUS_SKIPPED)
+                                          conv_const.STATUS_NOT_SUPPORTED)
 
     # Add f5 converter status report in xslx report
     conv_utils.add_complete_conv_status(
@@ -199,6 +210,16 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                      persist_conv.app_per_count)
                 LOG.info(profile_merged_message)
                 print profile_merged_message
+                continue
+            elif object_merge_check and key == 'SSLKeyAndCertificate':
+                mergedfile = len(avi_config_dict[key]) - \
+                             profile_conv.certkey_count
+                certkey_merged_message = \
+                    'Total Objects of %s : %s (%s/%s cert key merged)' % \
+                    (key, len(avi_config_dict[key]), abs(mergedfile),
+                     profile_conv.certkey_count)
+                LOG.info(certkey_merged_message)
+                print certkey_merged_message
                 continue
             LOG.info('Total Objects of %s : %s' % (key, len(
                 avi_config_dict[key])))

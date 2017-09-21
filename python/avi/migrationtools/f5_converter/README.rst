@@ -118,3 +118,22 @@ Usage Examples
                             config json to skip the config in conversion
       --partition_config PARTITION_CONFIG
                             comma separated partition config files
+      --version             Print product version and exit
+      --no_object_merge     Flag for object merge
+      --patch PATCH         Run config_patch please provide location of patch.yaml
+      --vs_filter VS_FILTER
+                        comma seperated names of virtualservices
+      --ansible_skip_types ANSIBLE_SKIP_TYPES
+                        Comma separated list of Avi Object types to skip during conversion.
+                          Eg. -s DebugController,ServiceEngineGroup will skip debugcontroller and serviceengine objects
+      --ansible_filter_types ANSIBLE_FILTER_TYPES
+                        Comma separated list of Avi Objects types to include during conversion.
+                         Eg. -f VirtualService, Pool will do ansible conversion only for Virtualservice and Pool objects
+      --ansible             Flag for create ansible file
+      --prefix PREFIX       Prefix for objects
+      --convertsnat         Flag for converting snatpool into individual addresses
+      --not_in_use          Flag for skipping not in use object
+      --baseline_profile BASELINE_PROFILE
+                        asolute path for json file containing baseline profiles
+      --f5_passphrase_file F5_PASSPHRASE_FILE
+                        F5 key passphrase yaml file path

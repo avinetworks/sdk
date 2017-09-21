@@ -68,6 +68,7 @@ class F5Converter(AviConverter):
         self.not_in_use = args.not_in_use
         # Added args for baseline profile json file to be changed
         self.profile_path = args.baseline_profile
+        self.f5_passphrase_file = args.f5_passphrase_file
         # Created f5 util object.
         self.conversion_util = F5Util()
 
@@ -181,7 +182,7 @@ class F5Converter(AviConverter):
             self.f5_config_version, self.object_merge_check,
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
-            self.tenant, self.cloud_name)
+            self.tenant, self.cloud_name, self.f5_passphrase_file)
 
         avi_config_dict["META"] = self.meta(self.tenant, 
                                             self.controller_version)
@@ -385,6 +386,8 @@ if __name__ == "__main__":
     # Added args for baseline profile json file
     parser.add_argument('--baseline_profile', help='asolute path for json '
                                     'file containing baseline profiles')
+    parser.add_argument('--f5_passphrase_file',
+                        help='F5 key passphrase yaml file path')
 
 
     args = parser.parse_args()
