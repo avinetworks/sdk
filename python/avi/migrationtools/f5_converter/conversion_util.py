@@ -993,10 +993,30 @@ class F5Util(MigrationUtil):
         else:
             return 'APPLICATION_PROFILE_TYPE_HTTP'
 
-    def update_pool_for_service_port(self, pool_list, pool_name):
+    def update_pool_for_service_port(self, pool_list, pool_name, hm_list,
+                                     skipped, sys_hm_list):
+        rem_hm = []
         pool = [obj for obj in pool_list if obj['name'] == pool_name]
         if pool:
             pool[0]['use_service_port'] = True
+            # Checking monitor ports if use_service_port is true
+            if pool[0].get('health_monitor_refs'):
+                for hm in pool[0]['health_monitor_refs']:
+                    hm_name = self.get_name(hm)
+                    hm_ob = [ob for ob in (hm_list + sys_hm_list) if
+                             ob['name'] == hm_name]
+                    if hm_ob and (not hm_ob[0].get('monitor_port')):
+                        rem_hm.append(hm)
+                        skipped.append("monitor:{} should have monitor "
+                                       "port as 'use_service_port' is "
+                                       "true".format(hm_name))
+                        LOG.debug("Removing monitor reference of %s from pool"
+                                  " %s as 'use_service_port' is true but "
+                                  "monitor has no port", hm_name,
+                                  pool_name)
+                pool[0]['health_monitor_refs'] = [h_monitor for h_monitor in
+                                                  pool[0]['health_monitor_refs']
+                                                  if h_monitor not in rem_hm]
 
     def rreplace(self, s, old, new, occurrence):
         li = s.rsplit(old, occurrence)
