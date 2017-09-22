@@ -51,7 +51,7 @@ class PolicyConfigConv(object):
                 avi_config['HTTPPolicySet'].append(httppolicy)
                 if isinstance(skip, dict):
                     if skip:
-                        conv_status = {'skipped': skip,
+                        conv_status = {'skipped': [skip],
                                        'status': final.STATUS_PARTIAL}
                     else:
                         conv_status = {'status': final.STATUS_SUCCESSFUL}
@@ -195,7 +195,8 @@ class PolicyConfigConv(object):
                         }
                         if 'Internal' in result:
                             client_ip['group_refs'].append(
-                                              '/api/ipaddrgroup/?name=Internal')
+                                        conv_utils.get_object_ref('Internal',
+                                                      'ipaddrgroup'))
                         if 'local' in result:
                             skip_parameter.append('local')
                         ipgrp_name = 'ipaddrgroup%s-%s' % (rule_name,
@@ -204,13 +205,15 @@ class PolicyConfigConv(object):
                                          'tenant_ref':
                                                       conv_utils.get_object_ref(
                                                             'admin', 'tenant'),
-                                         'country_code': result['values'].keys()
+                                         'country_codes': result[
+                                                                'values'].keys()
                                          }
                         if 'IpAddrGroup' not in avi_config:
                             avi_config['IpAddrGroup'] = []
                         avi_config['IpAddrGroup'].append(ip_addr_group)
                         client_ip['group_refs'].append(
-                                       '/api/ipaddrgroup/?name=%s' % ipgrp_name)
+                            conv_utils.get_object_ref(ipgrp_name,
+                                                      'ipaddrgroup'))
                         match['client_ip'] = client_ip
                     else:
                         if 'starts-with' in result:
@@ -616,14 +619,16 @@ class PolicyConfigConv(object):
                                                        'values'].keys()[0]}]
                             string_group['type'] = 'SG_TYPE_KEYVAL'
                             query['string_group_refs'].append(
-                                '/api/stringgroup/?name=%s' % strgrp_name)
+                                conv_utils.get_object_ref(strgrp_name,
+                                            final.OBJECT_TYPE_STRING_GROUP))
                             match['query'] = query
                         else:
                             string_group['kv'] = list({'key': val} for val in
                                                       result['values'].keys())
                             string_group['type'] = 'SG_TYPE_STRING'
                             query['string_group_refs'].append(
-                                '/api/stringgroup/?name=%s' % strgrp_name)
+                                conv_utils.get_object_ref(strgrp_name,
+                                            final.OBJECT_TYPE_STRING_GROUP))
                             match['query'] = query
                         if string_group['kv']:
                             if 'StringGroup' not in avi_config:

@@ -130,7 +130,7 @@ class F5Converter(AviConverter):
         elif self.bigip_config_file:
             source_file = open(self.bigip_config_file, "r")
         if not source_file:
-            print 'Not found ns configuration file'
+            print 'Not found F5 configuration file'
             return
         source_str = source_file.read()
         total_size = source_file.tell()
