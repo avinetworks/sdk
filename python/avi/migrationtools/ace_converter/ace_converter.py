@@ -12,6 +12,7 @@ from avi.migrationtools.ace_converter.ace_config_converter import\
                                                             ConfigConverter
 from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
 from pkg_resources import resource_filename
+from avi.migrationtools.avi_converter import AviConverter
 
 template_loc, template_name =\
                        os.path.split(resource_filename(
@@ -19,33 +20,32 @@ template_loc, template_name =\
                         'gslb_template.jinja'))
 
 
-file_loc = os.path.split(os.path.abspath(__file__))[0]
 sep = os.path.sep
-LOG = logging.getLogger(file_loc + sep + 'out' + sep + 'conversion.log')
+LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
 
 
-class AceConvertor():
+class AceConvertor(AviConverter):
     """ GSS Converstion happens here """
     def __init__(self, args):
         self.in_file = args.input_file
-        self.out_loc = args.output_loc
+        self.output_file_path = args.output_loc
         self.version = args.version
         self.sdk_version = sdk_version
 
-    def init_logger_path(self):
-        """ Enabling logging all over """
-        LOG.setLevel(logging.DEBUG)
-        formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] \
-    %(message)s'
-        logging.basicConfig(filename=self.out_loc + sep + 'conversion.log',
-                            level=logging.DEBUG, format=formatter)
+    # def init_logger_path(self):
+    #     """ Enabling logging all over """
+    #     LOG.setLevel(logging.DEBUG)
+    #     formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] \
+    # %(message)s'
+    #     logging.basicConfig(filename=self.output_file_path + sep + 'conversion.log',
+    #                         level=logging.DEBUG, format=formatter)
 
     def avi_json_bakery(self, config):
         """ Here we make json cakes for avi """
         LOG.info('Config Conversion mappings started')
 
-    def ace_converter(self):  # (self, in_file, out_loc, tenant):
+    def ace_converter(self):  # (self, in_file, output_file_path, tenant):
         """ Call the main converter class
             3 steps
                 - Parsing
@@ -62,7 +62,7 @@ class AceConvertor():
         converted_output = cfgConvert.conversion()
 
         # Writing Output JSON
-        with open(self.out_loc + '/config.json', 'w') as writer:
+        with open(self.output_file_path + '/config.json', 'w') as writer:
             json.dump(converted_output, writer, sort_keys=True, indent=4)
 
         # create excel sheet
@@ -70,7 +70,7 @@ class AceConvertor():
 
     def excel_sheet_writing(self):
         """ Excel Sheet Creation. """
-        workbook = xlsxwriter.Workbook(self.out_loc + sep +
+        workbook = xlsxwriter.Workbook(self.output_file_path + sep +
                                        'Conversion_status.xlsx')
         worksheet = workbook.add_worksheet()
 

@@ -6,11 +6,11 @@ from pyparsing import Keyword, Word, OneOrMore, printables, Group, nums,\
 from itertools import cycle
 from avi.migrationtools.ace_converter.ace_utils import printProgressBar,\
                                                        set_excel_dict
-
-file_loc = os.path.split(os.path.abspath(__file__))[0]
-sep = os.path.sep
-# logging.basicConfig(level=logging.WARNING)
-LOG = logging.getLogger(file_loc + sep + 'out' + sep + 'conversion.log')
+LOG = logging.getLogger(__name__)
+# file_loc = os.path.split(os.path.abspath(__file__))[0]
+# sep = os.path.sep
+# # logging.basicConfig(level=logging.WARNING)
+# LOG = logging.getLogger(file_loc + sep + 'out' + sep + 'conversion.log')
 
 
 class Parser():
