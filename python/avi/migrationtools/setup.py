@@ -18,6 +18,7 @@ setup(
              'avi/migrationtools/netscaler_converter/netscaler_converter.py',
              'avi/migrationtools/vs_filter.py',
              'avi/migrationtools/gss_convertor/gss_convertor.py',
+             'avi/migrationtools/ace_converter/ace_converter.py',
              'avi/migrationtools/config_patch.py',
              'avi/migrationtools/ansible/avi_config_to_ansible.py'],
     classifiers=[
