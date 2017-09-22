@@ -24,7 +24,7 @@ class VSConfigConv(object):
         pass
 
     def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
-                               skipped, sys_dict):
+                               sys_dict):
         pass
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
@@ -369,7 +369,7 @@ class VSConfigConv(object):
                 pool_ref, 'pool', tenant=tenant, cloud_name=cloud_name)
         # app prof ref is not used inside the below method call
         self.convert_translate_port(avi_config, f5_vs, app_prof[0], pool_ref,
-                                    skipped, sys_dict)
+                                    sys_dict)
         conn_limit = int(f5_vs.get(self.connection_limit, '0'))
         if conn_limit > 0:
             vs_obj["performance_limits"] = {
@@ -574,7 +574,7 @@ class VSConfigConvV11(VSConfigConv):
         return persist_ref
 
     def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
-                               skipped, sys_dict):
+                               sys_dict):
         """
         This method looks for translate-port property and sets the service
         port in pool and remove the monitor if monitor don't have port
@@ -582,7 +582,6 @@ class VSConfigConvV11(VSConfigConv):
         :param f5_vs:
         :param app_prof:
         :param pool_ref:
-        :param skipped:
         :param sys_dict:
         :return:
         """
@@ -590,7 +589,7 @@ class VSConfigConvV11(VSConfigConv):
         if port_translate:
             if port_translate == 'disabled':
                 conv_utils.update_pool_for_service_port(avi_config['Pool'],
-                        pool_ref, avi_config['HealthMonitor'], skipped,
+                                        pool_ref, avi_config['HealthMonitor'],
                                                     sys_dict['HealthMonitor'])
             elif port_translate == 'enabled':
                 return
@@ -616,7 +615,7 @@ class VSConfigConvV10(VSConfigConv):
         return persist_ref
 
     def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,
-                               skipped, sys_dict):
+                               sys_dict):
         """
         This method looks for translate-port property and sets the service
         port in pool and remove the monitor if monitor don't have port
@@ -624,7 +623,6 @@ class VSConfigConvV10(VSConfigConv):
         :param f5_vs:
         :param app_prof:
         :param pool_ref:
-        :param skipped:
         :param sys_dict:
         :return:
         """
@@ -632,7 +630,7 @@ class VSConfigConvV10(VSConfigConv):
         if port_translate:
             if port_translate == 'disabled':
                 conv_utils.update_pool_for_service_port(avi_config['Pool'],
-                            pool_ref, avi_config['HealthMonitor'], skipped,
+                                        pool_ref, avi_config['HealthMonitor'],
                                                     sys_dict['HealthMonitor'])
             elif port_translate == 'enabled':
                 return
