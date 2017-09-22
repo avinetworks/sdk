@@ -994,7 +994,7 @@ class F5Util(MigrationUtil):
             return 'APPLICATION_PROFILE_TYPE_HTTP'
 
     def update_pool_for_service_port(self, pool_list, pool_name, hm_list,
-                                     skipped, sys_hm_list):
+                                     sys_hm_list):
         rem_hm = []
         pool = [obj for obj in pool_list if obj['name'] == pool_name]
         if pool:
@@ -1007,16 +1007,36 @@ class F5Util(MigrationUtil):
                              ob['name'] == hm_name]
                     if hm_ob and (not hm_ob[0].get('monitor_port')):
                         rem_hm.append(hm)
-                        skipped.append("monitor:{} should have monitor "
-                                       "port as 'use_service_port' is "
-                                       "true".format(hm_name))
                         LOG.debug("Removing monitor reference of %s from pool"
                                   " %s as 'use_service_port' is true but "
                                   "monitor has no port", hm_name,
                                   pool_name)
-                pool[0]['health_monitor_refs'] = [h_monitor for h_monitor in
+                if rem_hm:
+                    pool[0]['health_monitor_refs'] = [h_monitor for h_monitor in
                                                   pool[0]['health_monitor_refs']
-                                                  if h_monitor not in rem_hm]
+                                                     if h_monitor not in rem_hm]
+                    rem_hm = [self.get_name(hmonitor) for hmonitor in rem_hm]
+                    csv_row = [cl for cl in csv_writer_dict_list if cl[
+                               'F5 type'] == 'pool' and self.get_tenant_ref(cl[
+                               'F5 ID'])[1] == pool_name]
+                    if csv_row:
+                        if csv_row[0]['Skipped settings'] in ('[]', ''):
+                            csv_row[0]['Skipped settings'] = str([{
+                                                            'monitor': rem_hm}])
+                        else:
+                            init_val = eval(csv_row[0]['Skipped settings'])
+                            if not isinstance(init_val, list):
+                                init_val = [init_val]
+                            mon_val = [val['monitor'].extend(rem_hm) for val in
+                                      init_val if isinstance(val, dict) and
+                                      'monitor' in val]
+                            if bool(mon_val):
+                                csv_row[0]['Skipped settings'] = str(init_val)
+                            else:
+                                init_val.append({'monitor': rem_hm})
+                                csv_row[0]['Skipped settings'] = str(init_val)
+                        csv_row[0]['Status'] = conv_const.STATUS_PARTIAL
+                        csv_row[0]['Avi Object'] = str({'pools': pool})
 
     def rreplace(self, s, old, new, occurrence):
         li = s.rsplit(old, occurrence)
