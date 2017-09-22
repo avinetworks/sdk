@@ -1806,7 +1806,8 @@ class F5Util(MigrationUtil):
         :return:
         """
         for vs_obj in aviconfig['VirtualService']:
-            if len(vs_obj['services']) > 1:
+            if vs_obj.get('services') and len(vs_obj['services']) > 1 and \
+                    vs_obj.get('application_profile_ref'):
                 app_profile = self.get_name(vs_obj['application_profile_ref'])
                 app_profile_obj = [app for app in sys_dict[
                         'ApplicationProfile'] + aviconfig['ApplicationProfile']
@@ -1819,7 +1820,26 @@ class F5Util(MigrationUtil):
                                 self.get_object_ref('System-HTTP',
                                     conv_const.OBJECT_TYPE_APPLICATION_PROFILE,
                                                     tenant)
-
+                            LOG.debug('Changed the application profile '
+                                      'reference from L4 to System-HTTP')
+                            if vs_obj.get('network_profile_ref'):
+                                nw_profile = self.get_name(vs_obj[
+                                                         'network_profile_ref'])
+                                nw_profile_obj = [nw for nw in sys_dict[
+                                                  'NetworkProfile'] + aviconfig[
+                                                  'NetworkProfile'] if
+                                                  nw['name'] == nw_profile]
+                                if nw_profile_obj and nw_profile_obj[0][
+                                    'profile']['type'] != \
+                                        'PROTOCOL_TYPE_TCP_PROXY':
+                                    LOG.debug('Changed the network profile '
+                                              'reference from %s to TCP-Proxy',
+                                              nw_profile_obj[0]['profile'][
+                                              'type'])
+                                    vs_obj['network_profile_ref'] = \
+                                        self.get_object_ref('System-TCP-Proxy',
+                                         conv_const.OBJECT_TYPE_NETWORK_PROFILE,
+                                                    tenant)
                             break
 
     def set_pool_group_vrf(self, pool_ref, vrf_ref, avi_config):
