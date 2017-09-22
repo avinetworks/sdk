@@ -4,42 +4,11 @@ import sys
 import os
 
 excel_dict = list()
-total_stats = {
-    "Skipped Attributes": 0,
-    "Total Objects Parsed": 0,
-    "Partially Converted": 0,
-    "Not supported": 0,
-    "Successfull Conversions": 0,
-    "Incomplete Configuration": 0
-}
 
 
 def get_loc():
     """ Give the location of the script running """
     return os.path.dirname(os.path.abspath(__file__))
-
-
-def get_total_stats():
-    """ Keep all the stats here """
-    global total_stats
-    return total_stats
-
-def set_total_stats(key, val=1):
-    global total_stats
-    """ Return the total stats gathered """
-    if key == 'total':
-        total_stats['Total Objects Parsed'] = total_stats['Total Objects Parsed'] + val
-    elif key == 'success':
-        total_stats['Successfull Conversions'] = total_stats['Successfull Conversions'] + val
-    elif key == 'skip':
-        total_stats['Skipped Attributes'] = total_stats['Skipped Attributes'] + val
-    elif key == 'partial':
-        total_stats['Partially Converted'] = total_stats['Partially Converted'] + val
-    elif key == 'not_supported':
-        total_stats['Not supported'] = total_stats['Not supported'] + val
-    elif key == 'hang':
-        total_stats['Incomplete Configuration'] = total_stats['Incomplete Configuration'] + val
-
 
 def get_excel_dict():
     """ Returning the excel dict"""
