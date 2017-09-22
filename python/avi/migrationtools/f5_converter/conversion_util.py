@@ -2002,5 +2002,32 @@ class F5Util(MigrationUtil):
                     skipped_setting['Httppolicy']['name'] = policy_set_name
                 skipped_setting['Httppolicy']['Pool'] = pool_skipped_settings
 
+    def remove_pool_group_vrf(self, pool_ref, avi_config):
+        """
+        This method will remove vrf_ref for all pools in poolgroup
+        :param pool_ref: pool group name
+        :param avi_config: avi config json
+        :return:
+        """
+        pg_obj = [poolgrp for poolgrp in avi_config['PoolGroup'] if
+                  poolgrp['name'] == pool_ref]
+        if pg_obj:
+            for member in pg_obj[0]['members']:
+                poolname = self.get_name(member.get('pool_ref'))
+                self.remove_pool_vrf(poolname, avi_config)
+
+    def remove_pool_vrf(self, pool_ref, avi_config):
+        """
+        This method will remove vrf_ref for pool
+        :param pool_ref: pool name
+        :param avi_config: avi config json
+        :return:
+        """
+        pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] ==
+                    pool_ref]
+        if pool_obj and pool_obj[0].get('vrf_ref'):
+            pool_obj[0].pop('vrf_ref')
+            LOG.debug("Removed vrf ref from the pool %s", pool_ref)
+
 
 
