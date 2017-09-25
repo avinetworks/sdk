@@ -290,6 +290,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         port=api_creds.port)
     state = module.params['state']
     # Get the api version.
+    avi_update_method = module.params.get('avi_api_update_method', 'put')
+    avi_patch_op = module.params.get('avi_api_patch_op', 'add')
+
     api_version = api_creds.api_version
     name = module.params.get('name', None)
     check_mode = module.check_mode
@@ -304,6 +307,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     # pop avi_version
     obj.pop('api_version', None)
     obj.pop('avi_credentials', None)
+    obj.pop('avi_api_update_method', None)
+    obj.pop('avi_api_patch_op', None)
 
     # Special code to handle situation where object has a field
     # named username. This is used in case of api/user
@@ -352,9 +357,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                     api_version=api_version)
             else:
                 # added api version to avi api call.
-                rsp = api.delete(obj_path, tenant=tenant,
-                                 tenant_uuid=tenant_uuid,
-                                 api_version=api_version)
+                rsp = api.delete(
+                    obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+                    api_version=api_version)
         except ObjectNotFound:
             return module.exit_json(changed=False)
         if rsp.status_code == 204:
@@ -367,23 +372,39 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
-        changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
-        obj = cleanup_absent_fields(obj)
-        if changed:
-            log.debug('EXISTING OBJ %s', existing_obj)
-            log.debug('NEW OBJ %s', obj)
-            if name is not None:
-                obj_uuid = existing_obj['uuid']
-                obj_path = '%s/%s' % (obj_type, obj_uuid)
-            req = obj
+        if name is not None:
+            obj_uuid = existing_obj['uuid']
+            obj_path = '%s/%s' % (obj_type, obj_uuid)
+        if avi_update_method == 'put':
+            changed = not avi_obj_cmp(obj, existing_obj, sensitive_fields)
+            obj = cleanup_absent_fields(obj)
+            if changed:
+                req = obj
+                if check_mode:
+                    # No need to process any further.
+                    rsp = AviCheckModeResponse(obj=existing_obj)
+                else:
+                    rsp = api.put(
+                        obj_path, data=req, tenant=tenant,
+                        tenant_uuid=tenant_uuid, api_version=api_version)
+            elif check_mode:
+                rsp = AviCheckModeResponse(obj=existing_obj)
+        else:
             if check_mode:
                 # No need to process any further.
                 rsp = AviCheckModeResponse(obj=existing_obj)
+                changed = True
             else:
-                rsp = api.put(obj_path, data=req, tenant=tenant,
-                              tenant_uuid=tenant_uuid, api_version=api_version)
-        elif check_mode:
-            rsp = AviCheckModeResponse(obj=existing_obj)
+                obj.pop('name', None)
+                patch_data = {avi_patch_op: obj}
+                rsp = api.patch(
+                    obj_path, data=patch_data, tenant=tenant,
+                    tenant_uuid=tenant_uuid, api_version=api_version)
+                obj = rsp.json()
+                changed = not avi_obj_cmp(obj, existing_obj)
+        if changed:
+            log.debug('EXISTING OBJ %s', existing_obj)
+            log.debug('NEW OBJ %s', obj)
     else:
         changed = True
         req = obj
@@ -407,7 +428,8 @@ def avi_common_argument_spec():
     return dict(
             controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
             username=dict(default=os.environ.get('AVI_USERNAME', '')),
-            password=dict(default=os.environ.get('AVI_PASSWORD', ''), no_log=True),
+            password=dict(default=os.environ.get('AVI_PASSWORD', ''),
+                          no_log=True),
             tenant=dict(default='admin'),
             tenant_uuid=dict(default=''),
             api_version=dict(default='16.4.4', type='str'),
