@@ -152,7 +152,7 @@ class AviCredentials(object):
         if module.params['password']:
             self.password = module.params['password']
         if (module.params['api_version'] and
-                (module.params['api_version'] != '16.4')):
+                (module.params['api_version'] != '16.4.4')):
             self.api_version = module.params['api_version']
         if module.params['tenant']:
             self.tenant = module.params['tenant']
