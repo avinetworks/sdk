@@ -37,6 +37,7 @@ class VSConverter(object):
         global USED_POOLS
         port = None
         vs_ref = None
+        port_end =None
         for policy_map in self.parsed['policy-map']:
             pool_obj = dict()
             temp_vs = dict()
@@ -44,8 +45,8 @@ class VSConverter(object):
                 name = policy_map['name']
                 pool = None
                 pool_ref = None
-                vs_ref, port, ip = self.get_vsref_and_port_from_class(name)
-                if not vs_ref or  not port or not ip:
+                vs_ref, port, port_end, ip = self.get_vsref_and_port_from_class(name)
+                if not vs_ref or  port is None or not ip:
                     continue
                 # Excel Sheet Update for class
                 update_excel('class-map', name, avi_obj="Refer Policy-map {}".format(name))
@@ -96,7 +97,7 @@ class VSConverter(object):
                         "vip": vip,
                         "services": [{
                             "enable_ssl": enable_ssl,
-                            "port": port
+                            "port": port,
                         }],
                         "pool_ref": pool_ref,
                         "description": None,
@@ -105,9 +106,11 @@ class VSConverter(object):
                         "tenant_ref": self.tenant_ref,
                         "type": "VS_TYPE_NORMAL"
                     }
+                if port_end:
+                    temp_vs['services'][0]['port_range_end'] = 65535
                 if ssl:
-                    temp_vs['ssl_key_and_certificate_refs'] = [ ssl ]
-                    pass
+                    # temp_vs['ssl_key_and_certificate_refs'] = [ ssl ]
+                    temp_vs['ssl_profile_ref'] = ssl
                 return temp_vs, pool_obj
         return False, False
 
@@ -159,6 +162,7 @@ class VSConverter(object):
         vs_ref = None
         port = None
         vs_ip = None
+        port_end = None
         for class_map in self.parsed['class-map']:
             if 'match' in class_map['type'] and class_map['class-map'] == class_name:
                 port = class_map['desc'][0].get('tcp', class_map['desc'][0].get('udp', ''))
@@ -167,13 +171,15 @@ class VSConverter(object):
                 if port == 'https':
                     port = 443
                 if port == 'any':
-                    port = 80
+                    port = 123
+                    # port = 1
+                    # port_end = 65535
                 vs_ip = class_map['desc'][0].get('virtual-address', [])
                 if vs_ip:
                     vs_ip_temp = '{}-vip'.format(vs_ip)
                     vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
                                                               'vsvip')
-        return vs_ref, port, vs_ip
+        return vs_ref, port, port_end, vs_ip
 
     def virtual_service_conversion(self, data):
         vs_list = list()
@@ -191,7 +197,7 @@ class VSConverter(object):
                                 policy_name = obj['type']
                             if obj.get('ssl-proxy', ''):
                                 ssl = self.common_utils.get_object_ref(obj['type'],
-                                                                       'sslkeyandcertificate')
+                                                                       'sslprofile')
                         if policy_name:
                             # if self.virtual_service_conversion_policy(policy_name, data, ssl=ssl):
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name, data, ssl=ssl)
