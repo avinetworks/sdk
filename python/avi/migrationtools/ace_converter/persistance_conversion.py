@@ -20,7 +20,7 @@ class PersistanceConverter(object):
         persistance_list = list()
         persistance_type = 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'
 
-        for sticky in self.parsed['sticky']:
+        for sticky in self.parsed.get('sticky', ''):
 
             if 'ip-netmask' in sticky:
                 persistance_type = "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS"

@@ -106,7 +106,9 @@ class AviConverter(object):
                     "16_3_2",
                     "16_3_4",
                     "16_4_1",
-                    "16_4_2"
+                    "16_4_2",
+                    "17_1_1",
+                    "current_version"
                 ]
             },
             "version": {
@@ -119,5 +121,3 @@ class AviConverter(object):
             "use_tenant": tenant
         }
         return avi_config_dict
-
-
