@@ -20,7 +20,7 @@ class MonitorConverter(object):
         # monitor list
         monitor_list = list()
 
-        for health_monitor in self.parsed['probe']:
+        for health_monitor in self.parsed.get('probe', ''):
             receive_timeout = DEFAULT_TIMEOUT
             failed_checks = DEFAULT_FAILED_CHECKS
             send_interval = health_monitor.get('interval', DEFAULT_INTERVAL)
