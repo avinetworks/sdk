@@ -166,6 +166,8 @@ class VSConverter(object):
                     port = 80
                 if port == 'https':
                     port = 443
+                if port == 'any':
+                    port = 80
                 vs_ip = class_map['desc'][0].get('virtual-address', [])
                 if vs_ip:
                     vs_ip_temp = '{}-vip'.format(vs_ip)
