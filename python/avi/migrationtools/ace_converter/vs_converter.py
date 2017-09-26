@@ -6,7 +6,7 @@ from avi.migrationtools.ace_converter.ace_utils import update_excel
 #logging init
 LOG = logging.getLogger(__name__)
 USED_POOLS = list()
-
+PORT_END = 65535
 
 class VSConverter(object):
     """ Vsvip and Vs Conversion """
@@ -45,7 +45,7 @@ class VSConverter(object):
                 name = policy_map['name']
                 pool = None
                 pool_ref = None
-                vs_ref, port, port_end, ip = self.get_vsref_and_port_from_class(name)
+                vs_ref, port, ip = self.get_vsref_and_port_from_class(name)
                 if not vs_ref or  port is None or not ip:
                     continue
                 # Excel Sheet Update for class
@@ -106,8 +106,8 @@ class VSConverter(object):
                         "tenant_ref": self.tenant_ref,
                         "type": "VS_TYPE_NORMAL"
                     }
-                if port_end:
-                    temp_vs['services'][0]['port_range_end'] = 65535
+                # if port_end:
+                #     temp_vs['services'][0]['port_range_end'] = 65535
                 if ssl_profile:
                     temp_vs['ssl_profile_ref'] = ssl_profile
                 if ssl_cert:
@@ -156,7 +156,6 @@ class VSConverter(object):
                     "name": vip_name
                 }
             )
-
         return vip_obj_list
 
     def get_vsref_and_port_from_class(self, class_name):
@@ -171,16 +170,16 @@ class VSConverter(object):
                     port = 80
                 if port == 'https':
                     port = 443
-                if port == 'any':
-                    port = 123
-                    # port = 1
-                    # port_end = 65535
+                # if port == 'any':
+                #     # port = 123
+                #     port = 1
+                #     port_end = 65535
                 vs_ip = class_map['desc'][0].get('virtual-address', [])
                 if vs_ip:
                     vs_ip_temp = '{}-vip'.format(vs_ip)
                     vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
                                                               'vsvip')
-        return vs_ref, port, port_end, vs_ip
+        return vs_ref, port, vs_ip
 
     def virtual_service_conversion(self, data):
         vs_list = list()
@@ -203,7 +202,6 @@ class VSConverter(object):
                                 ssl_cert = self.common_utils.get_object_ref(obj['type'],
                                                                             'sslkeyandcertificate')
                         if policy_name:
-                            # if self.virtual_service_conversion_policy(policy_name, data, ssl=ssl):
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
                                                                                      data,
                                                                                      ssl_profile=ssl,
@@ -224,4 +222,37 @@ class VSConverter(object):
                                 update_excel('policy-map', cls['class'], status='Skipped', avi_obj='Sticky-ServerFarm not allowed in Avi')
                         else:
                             update_excel('policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')    
+        self.port_fix(vs_list)
         return vs_list, cloned_pool_list
+
+    def port_fix(self, vs_list):
+        vs_list = vs_list
+        min_port = 1
+        max_port = 65535
+        for index, vs in enumerate(vs_list):
+            if vs['services'][0]['port'] == 'any':
+                name = vs['name']
+                addr = vs['vip'][0]['ip_address']['addr']
+                port_list = list()
+                for vs1 in vs_list:
+                    if name <> vs1['name']:
+                        port_list.append(int(vs1['services'][0]['port']))
+
+                port_list = list(set(port_list))
+                port_list.sort()
+                start = min_port
+                # end = max_port
+                services_obj = list()
+                if max_port not in port_list:
+                    port_list.append(max_port + 1)
+                for i in range(len(port_list)):
+                    if start == port_list[i]:
+                        start += 1
+                        continue
+                    end = int(port_list[i]) - 1
+                    services_obj.append({'port': start,
+                                            'port_range_end': end,
+                                            'enable_ssl': False})
+                    start = int(port_list[i]) + 1
+                vs_list[index]['services'] = services_obj
+        return vs_list
