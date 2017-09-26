@@ -16,30 +16,75 @@ class SSLConverter(object):
         self.common_utils = common_utils
         self.in_path = in_path
 
+    def upload_file(self, file_path):
+        """
+        Reads the given file and returns the UTF-8 string
+        :param file_path: Path of file to read
+        :return: UTF-8 string read from file
+        """
+
+        file_str = None
+        if '/Common/' in file_path:
+            file_path = file_path.replace('/Common/', '')
+        try:
+            with open(file_path, "r") as file_obj:
+                file_str = file_obj.read()
+                file_str = file_str.decode("utf-8")
+        except UnicodeDecodeError:
+            try:
+                file_str = file_str.decode('latin-1')
+            except:
+                LOG.error("Error to read file %s" % file_path, exc_info=True)
+        except:
+            LOG.error("Error to read file %s" % file_path, exc_info=True)
+        return file_str
+
+    def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
+        """
+        :param name:name of ssl cert.
+        :param key_file_name:  key file (ie.pem)
+        :param cert_file_name: certificate file name
+        :param input_dir: input directory for certificate file name
+        :return: returns dict of ssl object
+        """
+        folder_path = input_dir + os.path.sep
+        key = self.upload_file(folder_path + key_file_name)
+        cert = self.upload_file(folder_path + cert_file_name)
+        ssl_kc_obj = None
+        if key and cert:
+            cert = {"certificate": cert}
+            ssl_kc_obj = {
+                'name': name,
+                'key': key,
+                'certificate': cert,
+                'key_passphrase': ''
+            }
+        return ssl_kc_obj
+
+
+
     def ssl_key_and_cert(self):
         key_list = list()
         for ssl in self.parsed.get('ssl-proxy', '') :
             key = None
             cert = None
             name = ssl['name']
-            # for val in ssl['desc']:
-            #     key_and_cert = None
-            #     if val.get('key', ''):
-            #         key_loc = '%s/%s' % (self.in_path, val['key'])
-            #         # print key_loc
-            #         if os.path.isfile(key_loc):
-            #             with open(key_loc, 'r') as reader:
-            #                 key = reader.read().replace('\n', '')
-            #         else:
-            #             pass
-            #     if val.get('cert', ''):
-            #         cert_loc = '%s/%s' % (self.in_path, val['cert'])
-            #         if os.path.isfile(cert_loc):
-            #             with open(cert_loc, 'r') as reader:
-            #                 cert = reader.read().replace('\n', '')
-            #         else:
-            #             pass
-            if not key or not cert:
+            key_and_cert = None
+            for val in ssl['desc']:
+                if val.get('key', ''):
+                    key_file = val['key']
+                    key_loc = '%s/%s' % (self.in_path, val['key'])
+                    if not os.path.isfile(key_loc):
+                        key_loc = None
+                if val.get('cert', ''):
+                    cert_file = val['cert']
+                    cert_loc = '%s/%s' % (self.in_path, val['cert'])
+                    if not os.path.isfile(cert_loc):
+                        cert_loc = None
+            if key_loc and cert_loc:
+                key_and_cert = self.get_key_cert_obj(name, key_file, cert_file,
+                                                     self.in_path)
+            else:
                 key, cert = self.common_utils.create_self_signed_cert()
             if key and cert and name:
                 key_and_cert = {

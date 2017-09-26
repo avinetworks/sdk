@@ -62,7 +62,6 @@ class ConfigConverter(object):
         data['ApplicationPersistenceProfile'] = self.persistance.app_persistance_conversion()
         data['VsVip'] = self.vs.vsvip_conversion()
         vs_list, cloned_pool_list = self.vs.virtual_service_conversion(data)
-        # print cloned_pool_list
         data['VirtualService'] = vs_list
         data['Pool'].extend(cloned_pool_list)
         data['SSLProfile'] = self.ssl.ssl_profile()

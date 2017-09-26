@@ -32,7 +32,7 @@ class VSConverter(object):
                 return cloned_pool
         return False
 
-    def virtual_service_conversion_policy(self, name, data, ssl=None):
+    def virtual_service_conversion_policy(self, name, data, ssl_profile=None, ssl_cert=None):
         cloud_ref = self.common_utils.get_object_ref('Default-Cloud', 'cloud')
         global USED_POOLS
         port = None
@@ -108,9 +108,10 @@ class VSConverter(object):
                     }
                 if port_end:
                     temp_vs['services'][0]['port_range_end'] = 65535
-                if ssl:
-                    # temp_vs['ssl_key_and_certificate_refs'] = [ ssl ]
-                    temp_vs['ssl_profile_ref'] = ssl
+                if ssl_profile:
+                    temp_vs['ssl_profile_ref'] = ssl_profile
+                if ssl_cert:
+                    temp_vs['ssl_key_and_certificate_refs'] = [ ssl_cert ]
                 return temp_vs, pool_obj
         return False, False
 
@@ -192,15 +193,21 @@ class VSConverter(object):
                     if cls.get('class', []):
                         policy_name = None
                         ssl = []
+                        ssl_cert = []
                         for obj in cls['class_desc']:
                             if obj.get('loadbalance', '') == 'policy':
                                 policy_name = obj['type']
                             if obj.get('ssl-proxy', ''):
                                 ssl = self.common_utils.get_object_ref(obj['type'],
                                                                        'sslprofile')
+                                ssl_cert = self.common_utils.get_object_ref(obj['type'],
+                                                                            'sslkeyandcertificate')
                         if policy_name:
                             # if self.virtual_service_conversion_policy(policy_name, data, ssl=ssl):
-                            vs, cloned_pool = self.virtual_service_conversion_policy(policy_name, data, ssl=ssl)
+                            vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
+                                                                                     data,
+                                                                                     ssl_profile=ssl,
+                                                                                     ssl_cert=ssl_cert)
                             if vs:
                                 for class_dec in cls['class_desc']:
                                     if "loadbalance" in class_dec.keys():
