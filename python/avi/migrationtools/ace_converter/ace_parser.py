@@ -111,28 +111,36 @@ class Parser():
                                                    grammer_4_4 | grammer_4_5))
 
         # grammer 5
-        # parameter-map type <connection|http> ALLOW_TEST
+        # parameter-map type <connection|http|ssl> ALLOW_TEST
         #   tcp-options selective-ack allow
         #   tcp-options timestamp allow
         #   tcp-options window-scale allow
         #   persistence-rebalance strict
         #   set timeout inactivity 9999
+        #   session-cache timeout 300
+        #   queue-delay timeout 1
 
         param_key = Keyword('parameter-map')
         type_key = Word('type')
-        connection = Word('connection') | Word('http')
+        connection = Word('connection') | Word('http') | Word('ssl')
         param_name = Word(printables)
         tcp_key = Word('tcp-options')
         tcp_type = Keyword('timestamp') | Keyword('window-scale') | Keyword('selective-ack')
         allow = Word('allow')
+        sess_queue  = Keyword('session-cache') | Keyword('queue-delay')
+        timeout = Keyword('timeout')
 
         grammer_5_1 = Group(param_key + type_key + connection + param_name)
         grammer_5_2 = Group(tcp_key + tcp_type + allow)
         grammer_5_3 = Group(Keyword('persistence-rebalance') + Keyword('strict'))
         grammer_5_4 = Group(Keyword('set') + Keyword('timeout') + Keyword('inactivity')+\
                             Word(nums))
+        grammer_param_sess_q = Group(sess_queue + timeout + num)
 
-        grammer_5 = Group(grammer_5_1 + ZeroOrMore(grammer_5_2 | grammer_5_3 | grammer_5_4))
+        grammer_5 = Group(grammer_5_1 + ZeroOrMore(grammer_5_2 |
+                                                   grammer_5_3 |
+                                                   grammer_5_4 |
+                                                   grammer_param_sess_q))
 
         # Grammer 6:
         # sticky ip-netmask 255.255.255.255 address source test-adfdas-$5D
@@ -164,10 +172,11 @@ class Parser():
         #     3 match source-address 127.0.0.1 255.255.255.0
         #     2 match virtual-address 127.0.0.1 tcp eq 1234
         #     2 match virtual-address 127.0.0.1 tcp any
+        #     2 match http url .*
 
         classmap = Keyword('class-map')
         classmap_type = Keyword('type') 
-        mgmt = Keyword('management')
+        mgmt = Keyword('management') | ( Keyword('http') + Keyword('loadbalance') )
         type_key_att = classmap_type + mgmt
         match_key = Keyword('match-any') | Keyword('match-all')
 
@@ -175,6 +184,7 @@ class Parser():
 
         match_key = Keyword('match')
         proto_key = Keyword('protocol')
+        grammer_url = Group( num + match_key + Keyword('http') + Keyword('url') + name )
         proto_type = Keyword('tcp') | Keyword('icmp') | Keyword('snmp') | Keyword('http') | Keyword('https') | Keyword('udp')
         proto = proto_key + proto_type
         source_dest = Keyword('source-address') | Keyword('destination-address')
@@ -185,7 +195,7 @@ class Parser():
         add_att = Optional(proto) + source_dest + ipaddress + ipaddress
         virt_att = virtual_add + ipaddress + proto_type + ((eq_key + eq_val) | any_key)
 
-        grammer7_2 = Group(num + match_key + (add_att | virt_att))
+        grammer7_2 = Group(num + match_key + (add_att | virt_att)) | grammer_url 
 
         grammer_7 = Group(grammer7_1 + ZeroOrMore(grammer7_2))
 
@@ -200,6 +210,7 @@ class Parser():
         #        loadbalance policy LB_TEST_123
         #        inspect ftp
         #        ssl-proxy server ssl_name
+        #        nat dynamic 5 vlan 2100
 
         policy_key = Keyword('policy-map')
         lb_key = Keyword('loadbalance')
@@ -217,12 +228,15 @@ class Parser():
         grammer_8_2_4 = Group(Keyword('loadbalance') + (lb_vip | lb_policy))
         grammer_8_2_5 = Group(Keyword('inspect') + Keyword('ftp'))
         grammer_8_2_6 = Group(Keyword('ssl-proxy') + Keyword('server') + name)
+        grammer_8_2_7 = Group(Keyword('nat') + Keyword('dynamic') + num + 
+                              Keyword('vlan') + num)
 
         grammer_8_2 = Group(grammer_8_2_1 + ZeroOrMore(grammer_8_2_2 |
                                                        grammer_8_2_3 |
                                                        grammer_8_2_4 |
                                                        grammer_8_2_5 |
-                                                       grammer_8_2_6))
+                                                       grammer_8_2_6 |
+                                                       grammer_8_2_7))
         
         grammer_8 = Group(grammer_8_1 + ZeroOrMore(grammer_8_2))
 
@@ -289,9 +303,26 @@ class Parser():
         grammer_12 = Group(grammer_12_1 + ZeroOrMore(grammer_12_2 | grammer_12_2 |
                                                      grammer_12_3 | grammer_12_4))
 
+        # grammer ssl
+        # ssl-proxy service SSL_CLIENT
+        #     key KEY12.PEM
+        #     cert CERT12.PEM
+        #     ssl advanced-options PM1
+        grammer_ssl = Group(Keyword('ssl-proxy') + Keyword('service') + name)
+        grammer_ssl_key = Group(Keyword('key') + name)
+        grammer_ssl_cert = Group(Keyword('cert') + name)
+        grammer_ssl_opt = Group(Keyword('ssl') + Keyword('advanced-options') +
+                                name)
+
+        grammer_ssl_comp = Group(grammer_ssl + ZeroOrMore(grammer_ssl_key |
+                                                          grammer_ssl_cert |
+                                                          grammer_ssl_opt))
+
+
         grammer = Group(grammer_1 | grammer_2 | grammer_3 | grammer_4 |
                         grammer_5 | grammer_6 | grammer_7 | grammer_8 |
-                        grammer_9 | grammer_10 | grammer_11 | grammer_12)
+                        grammer_9 | grammer_10 | grammer_11 | grammer_12 |
+                        grammer_ssl_comp)
 
         print "Grammer created .."
         LOG.info("Grammer created ..")
@@ -501,10 +532,6 @@ class Parser():
                     }
                     name_to_log = matched[0][2]
 
-                # if name_to_log == 'vs_SVCH1048_http-9118':
-                #     print matched
-                #     sys.exit(1)
-
                 for match in matched[1:]:
                     temp_dict = dict()
                     temp_dict = {
@@ -525,7 +552,6 @@ class Parser():
                         temp_dict['class_desc'].append(temp_dict_1)
                     extra_dict['desc'].append(temp_dict)
                 LOG.info('parsing: policy-map for value : {}'.format(name_to_log))
-                # LOG.debug('policy-map value {}'.format(extra_dict))
 
             if key == 'sticky':
                 matched = matched[0][0]
@@ -544,6 +570,22 @@ class Parser():
                     extra_dict['desc'].append(temp_dict)
                 LOG.info('parsing: sticky for value : {}'.format(name_to_log))
                 # LOG.debug('sticky value {}'.format(extra_dict))
+
+            if key == 'ssl-proxy':
+                matched = matched[0][0]
+                name_to_log = matched[0][2]
+                # print matched
+                extra_dict = {
+                    'type': matched[0][1],
+                    'name': name_to_log,
+                    'desc': []
+                }
+                for match in matched[1:]:
+                    temp_dict = {
+                        match[0]: match[1]
+                    }
+                    extra_dict['desc'].append(temp_dict)
+                # print extra_dict
 
             if key == 'probe':
                 matched = matched[0][0]
@@ -588,4 +630,7 @@ class Parser():
                 final_dict[key].append(extra_dict)
 
         set_excel_dict(final_excel)
+        # print final_dict['policy-map']
         return final_dict
+
+

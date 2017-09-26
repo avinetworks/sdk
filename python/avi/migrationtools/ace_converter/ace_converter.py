@@ -30,7 +30,7 @@ class AceConvertor(AviConverter):
     def __init__(self, args):
         self.in_file = args.input_file
         self.output_file_path = args.output_loc
-        self.version = args.version
+        self.version = args.controller_version
         self.sdk_version = sdk_version
 
     # def init_logger_path(self):
@@ -58,11 +58,14 @@ class AceConvertor(AviConverter):
 
         # Configuration Conversion
         print "configuration conversion started ..."
-        cfgConvert = ConfigConverter(parsed_output)
+        cfgConvert = ConfigConverter(parsed_output, in_file=self.in_file,
+                                     version=self.version)
         converted_output = cfgConvert.conversion()
 
-        # Writing Output JSON
-        with open(self.output_file_path + '/config.json', 'w') as writer:
+        out_file = "/%s-config.json" % os.path.splitext(os.path.basename(self.in_file))[0]
+        self.out_excel = "/%s-Conversion_status.xlsx" % os.path.splitext(os.path.basename(self.in_file))[0]
+
+        with open(self.output_file_path + out_file, 'w') as writer:
             json.dump(converted_output, writer, sort_keys=True, indent=4)
 
         # create excel sheet
@@ -71,7 +74,7 @@ class AceConvertor(AviConverter):
     def excel_sheet_writing(self):
         """ Excel Sheet Creation. """
         workbook = xlsxwriter.Workbook(self.output_file_path + sep +
-                                       'Conversion_status.xlsx')
+                                       self.out_excel)
         worksheet = workbook.add_worksheet()
 
         # Write some data headers.
@@ -91,7 +94,7 @@ class AceConvertor(AviConverter):
         worksheet.write('G1', 'User Ignore', bold)
         worksheet.write('H1', 'Overall Skip', bold)
         worksheet.write('I1', 'Avi Status', bold)
-
+        
         excel_dict = get_excel_dict()
 
         row = 1
@@ -105,7 +108,7 @@ class AceConvertor(AviConverter):
             worksheet.write(row, col+3, str(data['skipped']))
             worksheet.write(row, col+4, str(data['indirect']))
             worksheet.write(row, col+5, str(data['NA']))
-            worksheet.write(row, col+5, str(data['Avi Object']))
+            worksheet.write(row, col+8, str(data['Avi Object']))
 
             # increment the row value
             row += 1
@@ -140,7 +143,7 @@ Optional:
     parser.add_argument('-o', '--output_loc',
                         help='Out file location')
 
-    parser.add_argument('--version', default='17.2',
+    parser.add_argument('--controller_version', default='17.2',
                         help='Specify the particular version')
 
     pargs = parser.parse_args()

@@ -30,7 +30,7 @@ class PoolConverter(object):
                     if 'rserver' in server_name.keys():
                         if self.get_ips_of_server(server_name['rserver']):
                             pool_ip_list.append(self.get_ips_of_server(server_name['rserver']))
-        print pool_ip_list
+        # print pool_ip_list
         return pool_ip_list
 
 
@@ -40,7 +40,9 @@ class PoolConverter(object):
             - servers
         """
         pool_list = list()
-        for pool in self.parsed['serverfarm']:
+        for pool in self.parsed.get('serverfarm', ''):
+            probe = None
+            monitor_ref = None
             temp_pool = dict()
             name = pool.get('host', '')
             # print name
@@ -63,21 +65,24 @@ class PoolConverter(object):
                     server = self.server_converter(pools['rserver'])
                 if "probe" in pools.keys():
                     probe = pools['probe']
-
-            temp_pool.update({
+            if probe:
+                monitor_ref = self.common_utils.get_object_ref(probe, 'healthmonitor')
+            pool_dict = {
                         "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
                         "name": name,
                         "cloud_ref": cloud_ref,
                         "tenant_ref": self.tenant_ref,
                         "servers": server,
                         "health_monitor_refs": [
-                            self.common_utils.get_object_ref(probe, 'healthmonitor')
                         ],
                         "fail_action": {
                             "type": "FAIL_ACTION_CLOSE_CONN"
                         },
                         "description": None
-                    })
+                    }
+            if monitor_ref:
+                pool_dict['health_monitor_refs'].append(monitor_ref)
+            temp_pool.update(pool_dict)
             # update excel sheet
             update_excel('serverfarm', name, avi_obj=temp_pool, skip=skipped_list)
 
@@ -140,7 +145,7 @@ class PoolConverter(object):
     def find_app_persistance(self, pool_name):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
-        for sticky in self.parsed['sticky']:
+        for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
             for pool in sticky['desc']:
                 if pool.get('serverfarm', []) == pool_name:
