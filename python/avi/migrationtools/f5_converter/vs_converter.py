@@ -260,6 +260,13 @@ class VSConfigConv(object):
                 conv_utils.set_pool_group_vrf(pool_ref, vrf_ref, avi_config)
             elif pool_ref:
                 conv_utils.set_pool_vrf(pool_ref, vrf_ref, avi_config)
+        else:
+            # Added code for removing vrf ref from poolgroup/pool if VS is not
+            # having vrf ref
+            if is_pool_group:
+                conv_utils.remove_pool_group_vrf(pool_ref, avi_config)
+            elif pool_ref:
+                conv_utils.remove_pool_vrf(pool_ref, avi_config)
         if parse_version(controller_version) >= parse_version('17.1'):
             vs_obj['vip'] = [vip]
             vs_obj['vsvip_ref'] = vsvip_ref
