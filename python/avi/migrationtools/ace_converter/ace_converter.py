@@ -108,7 +108,7 @@ class AceConvertor(AviConverter):
             worksheet.write(row, col+3, str(data['skipped']))
             worksheet.write(row, col+4, str(data['indirect']))
             worksheet.write(row, col+5, str(data['NA']))
-            worksheet.write(row, col+5, str(data['Avi Object']))
+            worksheet.write(row, col+8, str(data['Avi Object']))
 
             # increment the row value
             row += 1
