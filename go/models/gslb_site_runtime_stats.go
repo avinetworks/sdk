@@ -85,6 +85,24 @@ type GslbSiteRuntimeStats struct {
 	// Number of num_glb_upd_txed.
 	NumGlbUpdTxed int32 `json:"num_glb_upd_txed,omitempty"`
 
+	//  Field introduced in 17.1.3.
+	NumGpkiCrRxed int32 `json:"num_gpki_cr_rxed,omitempty"`
+
+	//  Field introduced in 17.1.3.
+	NumGpkiCrTxed int32 `json:"num_gpki_cr_txed,omitempty"`
+
+	//  Field introduced in 17.1.3.
+	NumGpkiDelRxed int32 `json:"num_gpki_del_rxed,omitempty"`
+
+	//  Field introduced in 17.1.3.
+	NumGpkiDelTxed int32 `json:"num_gpki_del_txed,omitempty"`
+
+	//  Field introduced in 17.1.3.
+	NumGpkiUpdRxed int32 `json:"num_gpki_upd_rxed,omitempty"`
+
+	//  Field introduced in 17.1.3.
+	NumGpkiUpdTxed int32 `json:"num_gpki_upd_txed,omitempty"`
+
 	// Number of num_gs_cr_rxed.
 	NumGsCrRxed int32 `json:"num_gs_cr_rxed,omitempty"`
 

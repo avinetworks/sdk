@@ -55,7 +55,7 @@ type Server struct {
 	// Optionally specify the servers port number.  This will override the pool's default server port attribute. Allowed values are 1-65535. Special values are 0- 'use backend port in pool'.
 	Port int32 `json:"port,omitempty"`
 
-	// Header value for custom header persistence.
+	// Header value for custom header persistence. .
 	PrstHdrVal string `json:"prst_hdr_val,omitempty"`
 
 	// Ratio of selecting eligible servers in the pool. Allowed values are 1-20.

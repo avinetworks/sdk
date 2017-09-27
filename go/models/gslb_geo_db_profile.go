@@ -13,6 +13,10 @@ type GslbGeoDbProfile struct {
 	// List of Geodb entries. An entry can either be a geodb file or an ip address group with geo properties. . Field introduced in 17.1.1.
 	Entries []*GslbGeoDbEntry `json:"entries,omitempty"`
 
+	// This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3.
+	// Read Only: true
+	IsFederated bool `json:"is_federated,omitempty"`
+
 	// A user-friendly name for the geodb profile. Field introduced in 17.1.1.
 	// Required: true
 	Name string `json:"name"`

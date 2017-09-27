@@ -16,4 +16,7 @@ type FullClientLogs struct {
 	// Capture all client logs including connections and requests.  When disabled, only errors will be logged.
 	// Required: true
 	Enabled bool `json:"enabled"`
+
+	// This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	Throttle int32 `json:"throttle,omitempty"`
 }

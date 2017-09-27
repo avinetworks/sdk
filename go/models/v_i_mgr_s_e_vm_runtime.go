@@ -10,6 +10,9 @@ type VIMgrSEVMRuntime struct {
 	// availability_zone of VIMgrSEVMRuntime.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
 
+	//  Field introduced in 17.2.1.
+	AzureInfo *AzureInfo `json:"azure_info,omitempty"`
+
 	// cloud_name of VIMgrSEVMRuntime.
 	CloudName string `json:"cloud_name,omitempty"`
 
@@ -84,7 +87,7 @@ type VIMgrSEVMRuntime struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	// Required: true
 	Type string `json:"type"`
 

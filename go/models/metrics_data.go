@@ -65,6 +65,12 @@ type MetricsData struct {
 	// Required: true
 	Value *float64 `json:"value"`
 
+	//  Field introduced in 17.2.2.
+	ValueStr string `json:"value_str,omitempty"`
+
+	//  Field introduced in 17.2.2.
+	ValueStrDesc string `json:"value_str_desc,omitempty"`
+
 	// Placeholder for description of property waiting_time of obj type MetricsData field type str  type number
 	WaitingTime float64 `json:"waiting_time,omitempty"`
 }
