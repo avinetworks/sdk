@@ -1,5 +1,6 @@
 import paramiko
 import logging
+import os
 from stat import S_ISDIR
 
 LOG = logging.getLogger(__name__)
@@ -68,6 +69,29 @@ class SCPUtil(object):
                 except IOError as e:
                     LOG.error(
                         "conf file not found in partition dir : %s" % file)
+
+    def get_all_partition_certkey(self, partition_path, local_path):
+        """
+        This method gets all cert and key file from partition directories and
+        dumps into local path
+        :param partition_path:
+        :param local_path:
+        :return:
+        """
+        if not self.rexists(partition_path):
+            return
+        files = self.get_all_file_names(partition_path)
+        for filename in files:
+            if self.isdir(partition_path + os.sep + filename):
+                self.get_all_partition_certkey(partition_path + os.sep +
+                                               filename, local_path)
+            else:
+                try:
+                    self.get(partition_path + os.sep + filename, local_path +
+                             os.sep + filename)
+                except IOError as e:
+                    LOG.error("cert key file not found in partition dir : %s" %
+                              filename)
 
     def isdir(self, path):
         self._openSFTPConnection()

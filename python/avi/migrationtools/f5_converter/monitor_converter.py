@@ -269,11 +269,12 @@ class MonitorConfigConv(object):
                     conv_const.DEFAULT_INTERVAL
         time_until_up = int(f5_monitor.get(self.tup,
                                            conv_const.DEFAULT_TIME_UNTIL_UP))
-        # Fixed Successful interval and failed checks
-        failed_checks = int(timeout/interval)
+        # Fixed Successful interval and failed checks, also averting
+        # DivisionByZero error
+        failed_checks = int(timeout/interval) if interval else 0
         successful_checks = conv_const.DEFAULT_FAILED_CHECKS
         if time_until_up > 0:
-            successful_checks = int(time_until_up/interval)
+            successful_checks = int(time_until_up/interval) if interval else 0
             successful_checks = 1 \
                 if successful_checks == 0 else successful_checks
 
@@ -287,7 +288,7 @@ class MonitorConfigConv(object):
             tenant = tenant_ref
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
-        monitor_dict["receive_timeout"] = interval-1
+        monitor_dict["receive_timeout"] = interval-1 if interval else 0
         monitor_dict["failed_checks"] = failed_checks
         monitor_dict["send_interval"] = interval
         monitor_dict["successful_checks"] = successful_checks
