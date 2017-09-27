@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.2'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -43,6 +43,26 @@ paths:
                     description: object name
                     required: false
                     type: string
+                -   name: refers_to
+                    in: query
+                    description: Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid
+                    type: string
+                -   name: referred_by
+                    in: query
+                    description: Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
+                    type: string
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
@@ -63,6 +83,14 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: cloud_uuid
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
+                    type: string
+                -   name: cloud_ref.name
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
+                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -149,6 +177,18 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
             security:
                 - basicAuth: []
@@ -722,6 +762,47 @@ paths:
                 401:
                     description: log in failed
     /pool/{uuid}/runtime/debug/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /pool/{uuid}/vs/:
         get:
             consumes:
                 -   application/json
@@ -1603,10 +1684,14 @@ definitions:
                 default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-60. Special values are 0 - 'Immediate', -1 - 'Infinite'."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'."
                 type: integer
                 default: 1
                 format: int32
+            gslb_sp_enabled:
+                description: "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
+                readOnly: True
+                type: boolean
             health_monitor_refs:
                 description: "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
                 type: array
@@ -1850,7 +1935,7 @@ definitions:
                 type: integer
                 format: int32
             prst_hdr_val:
-                description: "Header value for custom header persistence."
+                description: "Header value for custom header persistence. ."
                 type: string
             ratio:
                 description: "Ratio of selecting eligible servers in the pool. Allowed values are 1-20."
@@ -1902,11 +1987,17 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/ServerId'
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
     ServerScaleOutParams:
         type: object
         properties:
             reason:
                 description: "Reason for the manual scaleout."
+                type: string
+            uuid:
+                description: "Unique object identifier of the object."
                 type: string
     URIParam:
         type: object

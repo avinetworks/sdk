@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.2'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -59,6 +59,26 @@ paths:
                     description: object name
                     required: false
                     type: string
+                -   name: refers_to
+                    in: query
+                    description: Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid
+                    type: string
+                -   name: referred_by
+                    in: query
+                    description: Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
+                    type: string
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
@@ -79,6 +99,14 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: cloud_uuid
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
+                    type: string
+                -   name: cloud_ref.name
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
+                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -165,6 +193,18 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
             security:
                 - basicAuth: []
@@ -1653,6 +1693,88 @@ paths:
                         type: string
                 401:
                     description: log in failed
+    /virtualservice/{uuid}/userdefineddatascriptcounters/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+    /virtualservice/{uuid}/wafstats/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
     /virtualservice/{uuid}/dosstat/:
         get:
             consumes:
@@ -2181,8 +2303,15 @@ definitions:
                 description: "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
                 type: string
                 default: "DNS_RECORD_RESPONSE_CONSISTENT_HASH"
+            cname:
+                description: "Canonical name in CNAME record. Field introduced in 17.2.1."
+                $ref: '#/definitions/DnsCnameRdata'
             fqdn:
                 description: "Fully qualified domain name."
+                type: string
+            metadata:
+                description: "Any metadata associated with this record. Field introduced in 17.2.2."
+                readOnly: True
                 type: string
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
@@ -2455,6 +2584,12 @@ definitions:
             subnet:
                 description: "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                $ref: '#/definitions/IpAddrPrefix'
+            subnet6_uuid:
+                description: "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                type: string
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 type: string
@@ -2570,6 +2705,12 @@ definitions:
         required:
             -   vip_id
         properties:
+            all_east_west:
+                description: "Retry placement operations for all East-West services. Field introduced in 17.1.6,17.2.2."
+                type: boolean
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
             vip_id:
                 description: "Indicates the vip_id that needs placement retrial. Field introduced in 17.1.2."
                 type: string
@@ -2703,13 +2844,22 @@ definitions:
                 type: boolean
                 default: True
             floating_ip:
-                description: "Floating IP to associate with this Vip. Field introduced in 17.1.1."
+                description: "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
+            floating_ip6:
+                description: "Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1."
+                $ref: '#/definitions/IpAddr'
+            floating_subnet6_uuid:
+                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1."
+                type: string
             floating_subnet_uuid:
                 description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
                 type: string
+            ip6_address:
+                description: "IPv6 Address of the Vip. Field introduced in 17.2.1."
+                $ref: '#/definitions/IpAddr'
             ip_address:
-                description: "IP Address of the Vip. Field introduced in 17.1.1."
+                description: "IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
             ipam_network_subnet:
                 description: "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1."
@@ -2723,6 +2873,12 @@ definitions:
             subnet:
                 description: "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1."
+                $ref: '#/definitions/IpAddrPrefix'
+            subnet6_uuid:
+                description: "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1."
+                type: string
             subnet_uuid:
                 description: "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1."
                 type: string
@@ -2773,7 +2929,7 @@ definitions:
                 readOnly: True
                 type: string
             cloud_type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 type: string
                 default: "CLOUD_NONE"
             connections_rate_limit:
@@ -2942,6 +3098,12 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
+            sp_pool_refs:
+                description: "Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2."
+                readOnly: True
+                type: array
+                items:
+                    type: string
             ssl_key_and_certificate_refs:
                 description: "Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate."
                 type: array
@@ -3010,6 +3172,9 @@ definitions:
             vsvip_ref:
                 description: "Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1."
                 type: string
+            waf_policy_ref:
+                description: "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."
+                type: string
             weight:
                 description: "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines."
                 type: integer
@@ -3062,6 +3227,9 @@ definitions:
             to_se_ref:
                 description: " It is a reference to an object of type ServiceEngine."
                 type: string
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
             vip_id:
                 description: " Field introduced in 17.1.1."
                 type: string
@@ -3073,6 +3241,9 @@ definitions:
                 type: array
                 items:
                     type: string
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
     VsScaleinParams:
         type: object
         required:
@@ -3087,6 +3258,9 @@ definitions:
             scalein_primary:
                 description: "Placeholder for description of property scalein_primary of obj type VsScaleinParams field type str  type boolean"
                 type: boolean
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
             vip_id:
                 description: " Field introduced in 17.1.1."
                 type: string
@@ -3111,6 +3285,9 @@ definitions:
             to_se_ref:
                 description: " It is a reference to an object of type ServiceEngine."
                 type: string
+            uuid:
+                description: "Unique object identifier of the object."
+                type: string
             vip_id:
                 description: " Field introduced in 17.1.1."
                 type: string
@@ -3121,6 +3298,9 @@ definitions:
         properties:
             se_uuid:
                 description: "Unique object identifier of se."
+                type: string
+            uuid:
+                description: "Unique object identifier of the object."
                 type: string
             vip_id:
                 description: " Field introduced in 17.1.1."
