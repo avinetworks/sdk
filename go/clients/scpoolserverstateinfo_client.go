@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// SCPoolServerStateInfoClient is a client for avi SCPoolServerStateInfo resource
+type SCPoolServerStateInfoClient struct {
+	aviSession *session.AviSession
+}
+
+// NewSCPoolServerStateInfoClient creates a new client for SCPoolServerStateInfo resource
+func NewSCPoolServerStateInfoClient(aviSession *session.AviSession) *SCPoolServerStateInfoClient {
+	return &SCPoolServerStateInfoClient{aviSession: aviSession}
+}
+
+func (client *SCPoolServerStateInfoClient) getAPIPath(uuid string) string {
+	path := "api/scpoolserverstateinfo"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of SCPoolServerStateInfo objects
+func (client *SCPoolServerStateInfoClient) GetAll() ([]*models.SCPoolServerStateInfo, error) {
+	var plist []*models.SCPoolServerStateInfo
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing SCPoolServerStateInfo by uuid
+func (client *SCPoolServerStateInfoClient) Get(uuid string) (*models.SCPoolServerStateInfo, error) {
+	var obj *models.SCPoolServerStateInfo
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing SCPoolServerStateInfo by name
+func (client *SCPoolServerStateInfoClient) GetByName(name string) (*models.SCPoolServerStateInfo, error) {
+	var obj *models.SCPoolServerStateInfo
+	err := client.aviSession.GetObjectByName("scpoolserverstateinfo", name, &obj)
+	return obj, err
+}
+
+// Create a new SCPoolServerStateInfo object
+func (client *SCPoolServerStateInfoClient) Create(obj *models.SCPoolServerStateInfo) (*models.SCPoolServerStateInfo, error) {
+	var robj *models.SCPoolServerStateInfo
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing SCPoolServerStateInfo object
+func (client *SCPoolServerStateInfoClient) Update(obj *models.SCPoolServerStateInfo) (*models.SCPoolServerStateInfo, error) {
+	var robj *models.SCPoolServerStateInfo
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing SCPoolServerStateInfo object with a given UUID
+func (client *SCPoolServerStateInfoClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing SCPoolServerStateInfo object with a given name
+func (client *SCPoolServerStateInfoClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}

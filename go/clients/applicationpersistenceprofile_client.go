@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// ApplicationPersistenceProfileClient is a client for avi ApplicationPersistenceProfile resource
+type ApplicationPersistenceProfileClient struct {
+	aviSession *session.AviSession
+}
+
+// NewApplicationPersistenceProfileClient creates a new client for ApplicationPersistenceProfile resource
+func NewApplicationPersistenceProfileClient(aviSession *session.AviSession) *ApplicationPersistenceProfileClient {
+	return &ApplicationPersistenceProfileClient{aviSession: aviSession}
+}
+
+func (client *ApplicationPersistenceProfileClient) getAPIPath(uuid string) string {
+	path := "api/applicationpersistenceprofile"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of ApplicationPersistenceProfile objects
+func (client *ApplicationPersistenceProfileClient) GetAll() ([]*models.ApplicationPersistenceProfile, error) {
+	var plist []*models.ApplicationPersistenceProfile
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing ApplicationPersistenceProfile by uuid
+func (client *ApplicationPersistenceProfileClient) Get(uuid string) (*models.ApplicationPersistenceProfile, error) {
+	var obj *models.ApplicationPersistenceProfile
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing ApplicationPersistenceProfile by name
+func (client *ApplicationPersistenceProfileClient) GetByName(name string) (*models.ApplicationPersistenceProfile, error) {
+	var obj *models.ApplicationPersistenceProfile
+	err := client.aviSession.GetObjectByName("applicationpersistenceprofile", name, &obj)
+	return obj, err
+}
+
+// Create a new ApplicationPersistenceProfile object
+func (client *ApplicationPersistenceProfileClient) Create(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
+	var robj *models.ApplicationPersistenceProfile
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing ApplicationPersistenceProfile object
+func (client *ApplicationPersistenceProfileClient) Update(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
+	var robj *models.ApplicationPersistenceProfile
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing ApplicationPersistenceProfile object with a given UUID
+func (client *ApplicationPersistenceProfileClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing ApplicationPersistenceProfile object with a given name
+func (client *ApplicationPersistenceProfileClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
