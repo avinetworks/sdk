@@ -19,6 +19,9 @@ type ServiceEngineGroup struct {
 	// In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED.
 	Algo string `json:"algo,omitempty"`
 
+	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
+	ArchiveShmLimit int32 `json:"archive_shm_limit,omitempty"`
+
 	// SSL handshakes will be handled by dedicated SSL Threads.
 	AsyncSsl bool `json:"async_ssl,omitempty"`
 
@@ -49,6 +52,12 @@ type ServiceEngineGroup struct {
 
 	// Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud.
 	CPUSocketAffinity bool `json:"cpu_socket_affinity,omitempty"`
+
+	// Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3.
+	CustomSecuritygroupsData []string `json:"custom_securitygroups_data,omitempty"`
+
+	// Custom Security Groups to be associated with management vNic for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3.
+	CustomSecuritygroupsMgmt []string `json:"custom_securitygroups_mgmt,omitempty"`
 
 	// Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name.
 	CustomTag []*CustomTag `json:"custom_tag,omitempty"`
@@ -95,14 +104,23 @@ type ServiceEngineGroup struct {
 	// Enable active health monitoring from the standby SE for all placed virtual services.
 	HmOnStandby bool `json:"hm_on_standby,omitempty"`
 
-	// Key of a (Key, Value) pair identifying a set of hosts. Currently used to separate North-South and East-West SE sizing requirements. This is useful in Container ecosystems where SEs on East-West traffic nodes are typically smaller than those on North-South traffic nodes.
+	// Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key.
 	HostAttributeKey string `json:"host_attribute_key,omitempty"`
 
-	// Value of a (Key, Value) pair identifying a set of hosts. Currently used to separate North-South and East-West SE sizing requirements. This is useful in Container ecosystems where SEs on East-West traffic nodes are typically smaller than those on North-South traffic nodes.
+	// Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key.
 	HostAttributeValue string `json:"host_attribute_value,omitempty"`
 
 	// Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	Hypervisor string `json:"hypervisor,omitempty"`
+
+	// Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.
+	IgnoreRttThreshold int32 `json:"ignore_rtt_threshold,omitempty"`
+
+	// Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5.
+	IngressAccessData string `json:"ingress_access_data,omitempty"`
+
+	// Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5.
+	IngressAccessMgmt string `json:"ingress_access_mgmt,omitempty"`
 
 	// Instance/Flavor type for SE instance.
 	InstanceFlavor string `json:"instance_flavor,omitempty"`
@@ -125,7 +143,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of Services Engines in this group. Allowed values are 0-1000.
 	MaxSe int32 `json:"max_se,omitempty"`
 
-	// Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000.
+	// Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.
 	MaxVsPerSe int32 `json:"max_vs_per_se,omitempty"`
 
 	// Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -149,6 +167,9 @@ type ServiceEngineGroup struct {
 	// Name of the object.
 	// Required: true
 	Name string `json:"name"`
+
+	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	NonSignificantLogThrottle int32 `json:"non_significant_log_throttle,omitempty"`
 
 	// Number of changes in num flow cores sum to ignore.
 	NumFlowCoresSumChangesToIgnore int32 `json:"num_flow_cores_sum_changes_to_ignore,omitempty"`
@@ -189,16 +210,22 @@ type ServiceEngineGroup struct {
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix string `json:"se_name_prefix,omitempty"`
 
+	// TCP port on SE where echo service will be run. Field introduced in 17.2.2, 18.1.1.
+	SeProbePort int32 `json:"se_probe_port,omitempty"`
+
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort int32 `json:"se_remote_punt_udp_port,omitempty"`
 
 	// Multiplier for SE threads based on vCPU. Allowed values are 1-10.
 	SeThreadMultiplier int32 `json:"se_thread_multiplier,omitempty"`
 
-	// Determines if DSR from secondary SE is active or not. 0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. Field introduced in 17.1.1.
+	// Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1.
 	SeTunnelMode int32 `json:"se_tunnel_mode,omitempty"`
 
-	// Determines if SE-SE IPC messages are encapsulated in an UDP header. 0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.
+	// UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.
+	SeTunnelUDPPort int32 `json:"se_tunnel_udp_port,omitempty"`
+
+	// Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don't use UDP encap. Field introduced in 17.1.2.
 	SeUDPEncapIpc int32 `json:"se_udp_encap_ipc,omitempty"`
 
 	// Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.
@@ -210,8 +237,14 @@ type ServiceEngineGroup struct {
 	// Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1.
 	ServiceIPSubnets []*IPAddrPrefix `json:"service_ip_subnets,omitempty"`
 
+	// This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	SignificantLogThrottle int32 `json:"significant_log_throttle,omitempty"`
+
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
+
+	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	UdfLogThrottle int32 `json:"udf_log_throttle,omitempty"`
 
 	// url
 	// Read Only: true

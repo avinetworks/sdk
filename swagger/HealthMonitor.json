@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.2", 
         "description": "##CLI##\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\n##Examples##\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -164,6 +164,36 @@
                         "description": "object name", 
                         "in": "query", 
                         "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }, 
                     {
                         "required": false, 
@@ -339,6 +369,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -570,7 +618,7 @@
                 "receive_timeout": {
                     "default": 4, 
                     "type": "integer", 
-                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-300.", 
+                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -662,6 +710,10 @@
                     }, 
                     "type": "array", 
                     "description": "List of HTTP response codes to match as successful.  Default is 2xx. Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX."
+                }, 
+                "exact_http_request": {
+                    "type": "boolean", 
+                    "description": "Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2."
                 }, 
                 "maintenance_response": {
                     "type": "string", 

@@ -7,6 +7,9 @@ package models
 // swagger:model HealthMonitorHttp
 type HealthMonitorHTTP struct {
 
+	// Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2.
+	ExactHTTPRequest bool `json:"exact_http_request,omitempty"`
+
 	// Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host  www.site.com Connection  Close.
 	HTTPRequest string `json:"http_request,omitempty"`
 

@@ -28,6 +28,9 @@ type ControllerProperties struct {
 	// Number of attach_ip_retry_limit.
 	AttachIPRetryLimit int32 `json:"attach_ip_retry_limit,omitempty"`
 
+	// Use Ansible for SE creation in baremetal. Field introduced in 17.2.2.
+	BmUseAnsible bool `json:"bm_use_ansible,omitempty"`
+
 	// Number of cluster_ip_gratuitous_arp_period.
 	ClusterIPGratuitousArpPeriod int32 `json:"cluster_ip_gratuitous_arp_period,omitempty"`
 
@@ -52,13 +55,16 @@ type ControllerProperties struct {
 	// Maximum number of pcap files stored per tenant.
 	MaxPcapPerTenant int32 `json:"max_pcap_per_tenant,omitempty"`
 
+	// Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2.
+	MaxSeqAttachIPFailures int32 `json:"max_seq_attach_ip_failures,omitempty"`
+
 	// Number of max_seq_vnic_failures.
 	MaxSeqVnicFailures int32 `json:"max_seq_vnic_failures,omitempty"`
 
 	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	PersistenceKeyRotatePeriod int32 `json:"persistence_key_rotate_period,omitempty"`
 
-	// Token used for uploading tech-support to portal. Field introduced in 17.1.2.
+	// Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2.
 	PortalToken string `json:"portal_token,omitempty"`
 
 	// Number of query_host_fail.
@@ -121,6 +127,9 @@ type ControllerProperties struct {
 
 	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	VsKeyRotatePeriod int32 `json:"vs_key_rotate_period,omitempty"`
+
+	// Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.
+	VsSeAttachIPFail int32 `json:"vs_se_attach_ip_fail,omitempty"`
 
 	// Number of vs_se_bootup_fail.
 	VsSeBootupFail int32 `json:"vs_se_bootup_fail,omitempty"`

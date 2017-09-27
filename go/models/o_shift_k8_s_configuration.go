@@ -19,7 +19,7 @@ type OShiftK8SConfiguration struct {
 	// UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate.
 	ClientTLSKeyAndCertificateRef string `json:"client_tls_key_and_certificate_ref,omitempty"`
 
-	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService.
+	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
 	ContainerPortMatchHTTPService bool `json:"container_port_match_http_service,omitempty"`
 
 	// Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change.
@@ -36,6 +36,9 @@ type OShiftK8SConfiguration struct {
 
 	// Disable auto service sync for front end services.
 	DisableAutoFrontendServiceSync bool `json:"disable_auto_frontend_service_sync,omitempty"`
+
+	// Disable auto sync for GSLB services. Field introduced in 17.1.3.
+	DisableAutoGsSync bool `json:"disable_auto_gs_sync,omitempty"`
 
 	// Disable SE creation.
 	DisableAutoSeCreation bool `json:"disable_auto_se_creation,omitempty"`
@@ -96,6 +99,9 @@ type OShiftK8SConfiguration struct {
 
 	// Authorization token for service account instead of client certificate. One of client certificate or token is required.
 	ServiceAccountToken string `json:"service_account_token,omitempty"`
+
+	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
+	ServicePortMatchHTTPService bool `json:"service_port_match_http_service,omitempty"`
 
 	// Parameters for SSH SE deployment. Field deprecated in 17.1.1.
 	SSHSeDeployment *SSHSeDeployment `json:"ssh_se_deployment,omitempty"`
