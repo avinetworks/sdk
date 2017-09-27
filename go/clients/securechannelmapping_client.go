@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// SecureChannelMappingClient is a client for avi SecureChannelMapping resource
+type SecureChannelMappingClient struct {
+	aviSession *session.AviSession
+}
+
+// NewSecureChannelMappingClient creates a new client for SecureChannelMapping resource
+func NewSecureChannelMappingClient(aviSession *session.AviSession) *SecureChannelMappingClient {
+	return &SecureChannelMappingClient{aviSession: aviSession}
+}
+
+func (client *SecureChannelMappingClient) getAPIPath(uuid string) string {
+	path := "api/securechannelmapping"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of SecureChannelMapping objects
+func (client *SecureChannelMappingClient) GetAll() ([]*models.SecureChannelMapping, error) {
+	var plist []*models.SecureChannelMapping
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing SecureChannelMapping by uuid
+func (client *SecureChannelMappingClient) Get(uuid string) (*models.SecureChannelMapping, error) {
+	var obj *models.SecureChannelMapping
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing SecureChannelMapping by name
+func (client *SecureChannelMappingClient) GetByName(name string) (*models.SecureChannelMapping, error) {
+	var obj *models.SecureChannelMapping
+	err := client.aviSession.GetObjectByName("securechannelmapping", name, &obj)
+	return obj, err
+}
+
+// Create a new SecureChannelMapping object
+func (client *SecureChannelMappingClient) Create(obj *models.SecureChannelMapping) (*models.SecureChannelMapping, error) {
+	var robj *models.SecureChannelMapping
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing SecureChannelMapping object
+func (client *SecureChannelMappingClient) Update(obj *models.SecureChannelMapping) (*models.SecureChannelMapping, error) {
+	var robj *models.SecureChannelMapping
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing SecureChannelMapping object with a given UUID
+func (client *SecureChannelMappingClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing SecureChannelMapping object with a given name
+func (client *SecureChannelMappingClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}

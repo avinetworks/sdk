@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// PriorityLabelsClient is a client for avi PriorityLabels resource
+type PriorityLabelsClient struct {
+	aviSession *session.AviSession
+}
+
+// NewPriorityLabelsClient creates a new client for PriorityLabels resource
+func NewPriorityLabelsClient(aviSession *session.AviSession) *PriorityLabelsClient {
+	return &PriorityLabelsClient{aviSession: aviSession}
+}
+
+func (client *PriorityLabelsClient) getAPIPath(uuid string) string {
+	path := "api/prioritylabels"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of PriorityLabels objects
+func (client *PriorityLabelsClient) GetAll() ([]*models.PriorityLabels, error) {
+	var plist []*models.PriorityLabels
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing PriorityLabels by uuid
+func (client *PriorityLabelsClient) Get(uuid string) (*models.PriorityLabels, error) {
+	var obj *models.PriorityLabels
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing PriorityLabels by name
+func (client *PriorityLabelsClient) GetByName(name string) (*models.PriorityLabels, error) {
+	var obj *models.PriorityLabels
+	err := client.aviSession.GetObjectByName("prioritylabels", name, &obj)
+	return obj, err
+}
+
+// Create a new PriorityLabels object
+func (client *PriorityLabelsClient) Create(obj *models.PriorityLabels) (*models.PriorityLabels, error) {
+	var robj *models.PriorityLabels
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing PriorityLabels object
+func (client *PriorityLabelsClient) Update(obj *models.PriorityLabels) (*models.PriorityLabels, error) {
+	var robj *models.PriorityLabels
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing PriorityLabels object with a given UUID
+func (client *PriorityLabelsClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing PriorityLabels object with a given name
+func (client *PriorityLabelsClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
