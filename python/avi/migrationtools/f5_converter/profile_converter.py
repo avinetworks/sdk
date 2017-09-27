@@ -313,7 +313,19 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_file = profile.get("key", None)
                 cert_file = None if cert_file == 'none' else cert_file
                 key_file = None if key_file == 'none' else key_file
-
+            # Added for getting correct file names from cache path in sys file
+            sys_file = f5_config.get('file', {})
+            for file_key in sys_file:
+                file_type, file_name = file_key.split(' ')
+                if file_type in ('ssl-key', 'ssl-cert'):
+                    if file_type == 'ssl-key' and file_name == key_file and \
+                            sys_file[file_key].get('cache-path'):
+                        key_file = sys_file[file_key]['cache-path'].rsplit(
+                                                                    '/', 1)[-1]
+                    elif file_type == 'ssl-cert' and file_name == cert_file \
+                            and sys_file[file_key].get('cache-path'):
+                        cert_file = sys_file[file_key]['cache-path'].rsplit(
+                                                                    '/', 1)[-1]
             parent_cls.update_key_cert_obj(
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
                 converted_objs, default_profile_name, key_and_cert_mapping_list,
