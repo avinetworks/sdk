@@ -13,6 +13,9 @@ type GslbPoolMember struct {
 	// The Cluster UUID of the Site.
 	ClusterUUID string `json:"cluster_uuid,omitempty"`
 
+	// User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.
+	Description string `json:"description,omitempty"`
+
 	// Enable or Disable member to decide if this address should be provided in DNS responses.
 	Enabled bool `json:"enabled,omitempty"`
 

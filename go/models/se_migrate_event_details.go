@@ -10,6 +10,9 @@ type SeMigrateEventDetails struct {
 	// Number of num_vs.
 	NumVs int32 `json:"num_vs,omitempty"`
 
+	// reason of SeMigrateEventDetails.
+	Reason []string `json:"reason,omitempty"`
+
 	// se_name of SeMigrateEventDetails.
 	SeName string `json:"se_name,omitempty"`
 

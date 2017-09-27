@@ -7,6 +7,12 @@ package models
 // swagger:model CloudConnectorUser
 type CloudConnectorUser struct {
 
+	//  Field introduced in 17.2.1.
+	AzureServiceprincipal *AzureServicePrincipalCredentials `json:"azure_serviceprincipal,omitempty"`
+
+	//  Field introduced in 17.2.1.
+	AzureUserpass *AzureUserPassCredentials `json:"azure_userpass,omitempty"`
+
 	// Name of the object.
 	// Required: true
 	Name string `json:"name"`

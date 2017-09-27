@@ -7,6 +7,9 @@ package models
 // swagger:model GslbPoolMemberRuntimeInfo
 type GslbPoolMemberRuntimeInfo struct {
 
+	// Application type of the VS. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL. Field introduced in 17.2.2.
+	AppType string `json:"app_type,omitempty"`
+
 	// The Site Controller Cluster UUID to which this member belongs.
 	ClusterUUID string `json:"cluster_uuid,omitempty"`
 
@@ -34,7 +37,7 @@ type GslbPoolMemberRuntimeInfo struct {
 	// Operational VIPs of the member  that can map to multiple VS IP addresses such as private, public and floating addresses.
 	OperIps []*IPAddr `json:"oper_ips,omitempty"`
 
-	// Pool member's consolidated operational status .
+	// Gslb Pool member's consolidated operational status .
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
 	// services configured on the virtual service.
@@ -42,6 +45,9 @@ type GslbPoolMemberRuntimeInfo struct {
 
 	// The Site 's name is required for event-generation etc.
 	SiteName string `json:"site_name,omitempty"`
+
+	// Site persistence pools associated with the VS. Field introduced in 17.2.2.
+	SpPools []*GslbServiceSitePersistencePool `json:"sp_pools,omitempty"`
 
 	// Describes the VIP type  Avi or third-party. Enum options - NON_AVI_VIP, AVI_VIP.
 	VipType string `json:"vip_type,omitempty"`

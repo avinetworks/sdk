@@ -15,4 +15,7 @@ type GslbDNSUpdate struct {
 
 	// Number of send_interval.
 	SendInterval int32 `json:"send_interval,omitempty"`
+
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
 }

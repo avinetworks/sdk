@@ -12,4 +12,7 @@ type ServerScaleInParams struct {
 
 	// List of server IDs that should be scaled in.
 	Servers []*ServerID `json:"servers,omitempty"`
+
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
 }

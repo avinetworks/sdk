@@ -22,6 +22,10 @@ type PKIprofile struct {
 	// When enabled, Avi will not trust Intermediate and Root certs presented by a client.  Instead, only the chain certs configured in the Certificate Authority section will be used to verify trust of the client's cert.
 	IgnorePeerChain bool `json:"ignore_peer_chain,omitempty"`
 
+	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
+	// Read Only: true
+	IsFederated bool `json:"is_federated,omitempty"`
+
 	// Name of the PKI Profile.
 	// Required: true
 	Name string `json:"name"`

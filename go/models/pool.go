@@ -68,14 +68,18 @@ type Pool struct {
 	// Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2.
 	ExternalAutoscaleGroups []string `json:"external_autoscale_groups,omitempty"`
 
-	// Enable an action - Close Connection, HTTP Redirect, Local HTTP Response, or Backup Pool - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.
+	// Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
 	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.
 	FewestTasksFeedbackDelay int32 `json:"fewest_tasks_feedback_delay,omitempty"`
 
-	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-60. Special values are 0 - 'Immediate', -1 - 'Infinite'.
+	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.
 	GracefulDisableTimeout int32 `json:"graceful_disable_timeout,omitempty"`
+
+	// Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1.
+	// Read Only: true
+	GslbSpEnabled bool `json:"gslb_sp_enabled,omitempty"`
 
 	// Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor.
 	HealthMonitorRefs []string `json:"health_monitor_refs,omitempty"`
@@ -89,11 +93,14 @@ type Pool struct {
 	// Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup.
 	IpaddrgroupRef string `json:"ipaddrgroup_ref,omitempty"`
 
-	// The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER.
+	// The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY.
 	LbAlgorithm string `json:"lb_algorithm,omitempty"`
 
 	// HTTP header name to be used for the hash key.
 	LbAlgorithmConsistentHashHdr string `json:"lb_algorithm_consistent_hash_hdr,omitempty"`
+
+	// Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3.
+	LbAlgorithmCoreNonaffinity int32 `json:"lb_algorithm_core_nonaffinity,omitempty"`
 
 	// Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER.
 	LbAlgorithmHash string `json:"lb_algorithm_hash,omitempty"`

@@ -10,8 +10,15 @@ type DNSInfo struct {
 	// Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1.
 	Algorithm string `json:"algorithm,omitempty"`
 
+	// Canonical name in CNAME record. Field introduced in 17.2.1.
+	Cname *DNSCnameRdata `json:"cname,omitempty"`
+
 	// Fully qualified domain name.
 	Fqdn string `json:"fqdn,omitempty"`
+
+	// Any metadata associated with this record. Field introduced in 17.2.2.
+	// Read Only: true
+	Metadata string `json:"metadata,omitempty"`
 
 	// Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.
 	NumRecordsInResponse int32 `json:"num_records_in_response,omitempty"`

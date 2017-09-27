@@ -13,4 +13,8 @@ type MemberInterface struct {
 	// if_name of MemberInterface.
 	// Required: true
 	IfName string `json:"if_name"`
+
+	//  Field introduced in 17.1.5.
+	// Read Only: true
+	MacAddress string `json:"mac_address,omitempty"`
 }

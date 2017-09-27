@@ -22,6 +22,9 @@ type SeRuntimeProperties struct {
 	// Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1.
 	DisableFlowProbes bool `json:"disable_flow_probes,omitempty"`
 
+	// Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1.
+	DisableGro bool `json:"disable_gro,omitempty"`
+
 	// Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object
 	DosProfile *DosThresholdProfile `json:"dos_profile,omitempty"`
 
@@ -307,4 +310,7 @@ type SeRuntimeProperties struct {
 
 	// Number of upstream_send_timeout.
 	UpstreamSendTimeout int32 `json:"upstream_send_timeout,omitempty"`
+
+	// Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5.
+	UserDefinedMetricAge int32 `json:"user_defined_metric_age,omitempty"`
 }
