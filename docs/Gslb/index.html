@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure gslb <key> - show gslb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -229,7 +229,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -261,6 +271,7 @@ font-style: italic;
       } ],
       "type" : "aeiou"
     },
+    "maintenance_mode" : true,
     "leader_cluster_uuid" : "aeiou",
     "view_id" : 123456789,
     "description" : "aeiou",
@@ -306,7 +317,8 @@ font-style: italic;
     "name" : "aeiou",
     "dns_configs" : [ {
       "domain_name" : "aeiou"
-    } ]
+    } ],
+    "is_federated" : true
   } ]
 }</code></pre>
 
@@ -376,6 +388,7 @@ font-style: italic;
     } ],
     "type" : "aeiou"
   },
+  "maintenance_mode" : true,
   "leader_cluster_uuid" : "aeiou",
   "view_id" : 123456789,
   "description" : "aeiou",
@@ -421,7 +434,8 @@ font-style: italic;
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
-  } ]
+  } ],
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -524,7 +538,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -554,6 +574,7 @@ font-style: italic;
     } ],
     "type" : "aeiou"
   },
+  "maintenance_mode" : true,
   "leader_cluster_uuid" : "aeiou",
   "view_id" : 123456789,
   "description" : "aeiou",
@@ -599,7 +620,8 @@ font-style: italic;
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
-  } ]
+  } ],
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -680,6 +702,7 @@ font-style: italic;
     } ],
     "type" : "aeiou"
   },
+  "maintenance_mode" : true,
   "leader_cluster_uuid" : "aeiou",
   "view_id" : 123456789,
   "description" : "aeiou",
@@ -725,7 +748,8 @@ font-style: italic;
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
-  } ]
+  } ],
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -806,6 +830,7 @@ font-style: italic;
     } ],
     "type" : "aeiou"
   },
+  "maintenance_mode" : true,
   "leader_cluster_uuid" : "aeiou",
   "view_id" : 123456789,
   "description" : "aeiou",
@@ -851,7 +876,8 @@ font-style: italic;
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
-  } ]
+  } ],
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1065,11 +1091,13 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Gslb">Gslb</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">clear_on_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max retries after which the remote site is treatedas a fresh start. In fresh start all the configsare downloaded. Allowed values are 1-1024. format: int32</div>
+      <div class="param">clear_on_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024. format: int32</div>
 <div class="param">client_ip_addr_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbClientIpAddrGroup">GslbClientIpAddrGroup</a></span> Group to specify if the client ip addresses are public or private. Field introduced in 17.1.2. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">dns_configs (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfig">array[DNSConfig]</a></span> Sub domain configuration for the GSLB.  GSLB service&#39;s FQDN must be a match one of these subdomains. . </div>
+<div class="param">is_federated (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3. </div>
 <div class="param">leader_cluster_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mark this Site as leader of GSLB configuration. This site is the one among the Avi sites. </div>
+<div class="param">maintenance_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field disables the configuration operations on the leader for all federated objects.  CUD operations on Gslb, GslbService, GslbGeoDbProfile and other federated objects will be rejected. The rest-api disabling helps in upgrade scenarios where we don&#39;t want configuration sync operations to the Gslb member when the member is being upgraded.  This configuration programmatically blocks the leader from accepting new Gslb configuration when member sites are undergoing upgrade. . Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the GSLB object. </div>
 <div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which group members communicate. Allowed values are 1-3600. format: int32</div>
 <div class="param">sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbSite">array[GslbSite]</a></span> Select Avi site member belonging to this Gslb. </div>
@@ -1077,7 +1105,7 @@ font-style: italic;
 <div class="param">third_party_sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbThirdPartySite">array[GslbThirdPartySite]</a></span> Third party site member belonging to this Gslb. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the GSLB object. </div>
-<div class="param">view_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> The view-id is used in maintenance mode to differentiate partitioned groups while they havethe same gslb namespace. Each partitioned groupwill be able to operate independently by using theview-id. format: int64</div>
+<div class="param">view_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> The view-id is used in change-leader mode to differentiate partitioned groups while they have the same GSLB namespace. Each partitioned group will be able to operate independently by using the view-id. format: int64</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
