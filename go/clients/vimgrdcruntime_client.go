@@ -1,0 +1,77 @@
+package clients
+
+// This file is auto-generated.
+// Please contact avi-sdk@avinetworks.com for any change requests.
+
+import (
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
+)
+
+// VIMgrDCRuntimeClient is a client for avi VIMgrDCRuntime resource
+type VIMgrDCRuntimeClient struct {
+	aviSession *session.AviSession
+}
+
+// NewVIMgrDCRuntimeClient creates a new client for VIMgrDCRuntime resource
+func NewVIMgrDCRuntimeClient(aviSession *session.AviSession) *VIMgrDCRuntimeClient {
+	return &VIMgrDCRuntimeClient{aviSession: aviSession}
+}
+
+func (client *VIMgrDCRuntimeClient) getAPIPath(uuid string) string {
+	path := "api/vimgrdcruntime"
+	if uuid != "" {
+		path += "/" + uuid
+	}
+	return path
+}
+
+// GetAll is a collection API to get a list of VIMgrDCRuntime objects
+func (client *VIMgrDCRuntimeClient) GetAll() ([]*models.VIMgrDCRuntime, error) {
+	var plist []*models.VIMgrDCRuntime
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	return plist, err
+}
+
+// Get an existing VIMgrDCRuntime by uuid
+func (client *VIMgrDCRuntimeClient) Get(uuid string) (*models.VIMgrDCRuntime, error) {
+	var obj *models.VIMgrDCRuntime
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	return obj, err
+}
+
+// GetByName - Get an existing VIMgrDCRuntime by name
+func (client *VIMgrDCRuntimeClient) GetByName(name string) (*models.VIMgrDCRuntime, error) {
+	var obj *models.VIMgrDCRuntime
+	err := client.aviSession.GetObjectByName("vimgrdcruntime", name, &obj)
+	return obj, err
+}
+
+// Create a new VIMgrDCRuntime object
+func (client *VIMgrDCRuntimeClient) Create(obj *models.VIMgrDCRuntime) (*models.VIMgrDCRuntime, error) {
+	var robj *models.VIMgrDCRuntime
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	return robj, err
+}
+
+// Update an existing VIMgrDCRuntime object
+func (client *VIMgrDCRuntimeClient) Update(obj *models.VIMgrDCRuntime) (*models.VIMgrDCRuntime, error) {
+	var robj *models.VIMgrDCRuntime
+	path := client.getAPIPath(obj.UUID)
+	err := client.aviSession.Put(path, obj, &robj)
+	return robj, err
+}
+
+// Delete an existing VIMgrDCRuntime object with a given UUID
+func (client *VIMgrDCRuntimeClient) Delete(uuid string) error {
+	return client.aviSession.Delete(client.getAPIPath(uuid))
+}
+
+// DeleteByName - Delete an existing VIMgrDCRuntime object with a given name
+func (client *VIMgrDCRuntimeClient) DeleteByName(name string) error {
+	res, err := client.GetByName(name)
+	if err != nil {
+		return err
+	}
+	return client.Delete(res.UUID)
+}
