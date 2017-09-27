@@ -10,6 +10,9 @@ type IPAMDNSProviderProfile struct {
 	// Provider details if type is AWS.
 	AwsProfile *IPAMDNSAwsProfile `json:"aws_profile,omitempty"`
 
+	// Provider details if type is Microsoft Azure. Field introduced in 17.2.1.
+	AzureProfile *IPAMDNSAzureProfile `json:"azure_profile,omitempty"`
+
 	// Provider details if type is Custom. Field introduced in 17.1.1.
 	CustomProfile *IPAMDNSCustomProfile `json:"custom_profile,omitempty"`
 
@@ -35,7 +38,7 @@ type IPAMDNSProviderProfile struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS.
+	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
 	// Required: true
 	Type string `json:"type"`
 

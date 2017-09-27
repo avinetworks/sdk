@@ -10,7 +10,7 @@ type GslbPerDNSState struct {
 	// This field describes the GeoDbProfile download status to the dns-vs. Field introduced in 17.1.1.
 	GeoDownload *GslbDownloadStatus `json:"geo_download,omitempty"`
 
-	// This field describes the Gslb, GslbService, GslbHealthMonitor download status to the dns-vs. Field introduced in 17.1.1.
+	// This field describes the Gslb, GslbService, HealthMonitor download status to the dns-vs. Field introduced in 17.1.1.
 	GslbDownload *GslbDownloadStatus `json:"gslb_download,omitempty"`
 
 	// Configured dns-vs-name at the site.

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.2'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -610,8 +610,8 @@ definitions:
             ref:
                 description: " It is a reference to an object of type VirtualService."
                 type: string
-            serviceengine_dosattklevel_scores:
-                description: "Placeholder for description of property serviceengine_dosattklevel_scores of obj type DosAttackLevelData field type str  type object"
+            serviceengine_dos_attack_level_scores:
+                description: "Placeholder for description of property serviceengine_dos_attack_level_scores of obj type DosAttackLevelData field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/ServiceEngineDosAttackLevel'
@@ -801,7 +801,7 @@ definitions:
                 description: "Placeholder for description of property statistics of obj type HealthScoreHeader field type str  type object"
                 $ref: '#/definitions/MetricStatistics'
             units:
-                description: "units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD."
+                description: "units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, STRING, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD, MICROSECONDS, HEALTH."
                 type: string
                 default: "METRIC_COUNT"
     HealthScorePerformanceData:
@@ -1011,7 +1011,7 @@ definitions:
             reason_attr:
                 description: "reason_attr of HealthScoreSecurityData."
                 type: string
-            se_dos_attack_level_data:
+            serviceengine_dos_attack_level_data:
                 description: "Threat associated with ServiceEngine DoS infrastructure."
                 $ref: '#/definitions/ServiceEngineDosAttackLevelData'
             ssl_score_data:
@@ -1830,6 +1830,10 @@ definitions:
                 description: "Placeholder for description of property apdexr of obj type VirtualServicePerformanceScoreData field type str  type number"
                 type: number
                 default: 100.0
+                format: double
+            avg_pool_performance_score:
+                description: "Average of all pool performance scores."
+                type: number
                 format: double
             oper_state:
                 description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."

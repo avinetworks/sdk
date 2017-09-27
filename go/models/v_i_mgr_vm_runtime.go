@@ -63,6 +63,9 @@ type VIMgrVMRuntime struct {
 	// Number of num_cpu.
 	NumCPU int32 `json:"num_cpu,omitempty"`
 
+	//  Field introduced in 17.1.3.
+	OvfAvisetypeField string `json:"ovf_avisetype_field,omitempty"`
+
 	// powerstate of VIMgrVMRuntime.
 	Powerstate string `json:"powerstate,omitempty"`
 
@@ -72,7 +75,7 @@ type VIMgrVMRuntime struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	// Required: true
 	Type string `json:"type"`
 

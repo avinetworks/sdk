@@ -22,6 +22,9 @@ type VsMigrateParams struct {
 	//  It is a reference to an object of type ServiceEngine.
 	ToSeRef string `json:"to_se_ref,omitempty"`
 
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	// Required: true
 	VipID string `json:"vip_id"`

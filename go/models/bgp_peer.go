@@ -22,11 +22,17 @@ type BgpPeer struct {
 	// Connect timer for this Peer. Allowed values are 1-120.
 	ConnectTimer int32 `json:"connect_timer,omitempty"`
 
+	// TTL for multihop ebgp Peer. Allowed values are 0-255. Field introduced in 17.1.3.
+	EbgpMultihop int32 `json:"ebgp_multihop,omitempty"`
+
 	// Hold time for this Peer. Allowed values are 3-7200.
 	HoldTime int32 `json:"hold_time,omitempty"`
 
 	// Keepalive interval for this Peer. Allowed values are 0-3600.
 	KeepaliveInterval int32 `json:"keepalive_interval,omitempty"`
+
+	// Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.
+	LocalAs int32 `json:"local_as,omitempty"`
 
 	// Peer Autonomous System Md5 Digest Secret Key.
 	Md5Secret string `json:"md5_secret,omitempty"`

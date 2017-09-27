@@ -79,6 +79,9 @@ type AnalyticsProfile struct {
 	// Exclude client closed connection before an HTTP request could be completed from being classified as an error.
 	ExcludeClientCloseBeforeRequestAsError bool `json:"exclude_client_close_before_request_as_error,omitempty"`
 
+	// Exclude dns policy drops from the list of errors. Field introduced in 17.2.2.
+	ExcludeDNSPolicyDropAsSignificant bool `json:"exclude_dns_policy_drop_as_significant,omitempty"`
+
 	// Exclude queries to GSLB services that are operationally down from the list of errors.
 	ExcludeGsDownAsError bool `json:"exclude_gs_down_as_error,omitempty"`
 
