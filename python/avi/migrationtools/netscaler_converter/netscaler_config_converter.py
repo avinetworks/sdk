@@ -62,11 +62,6 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         sys_dict = dict()
         avi_config['META'] = meta  # avi_obj.meta(tenant_name, version)
 
-        if parse_version(version) >= parse_version('17.1'):
-            avi_config['META']['supported_migrations']['versions'].append(
-                '17_1_1')
-        avi_config['META']['supported_migrations']['versions'].append(
-            'current_version')
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile',
                              'ApplicationPersistenceProfile', 'HealthMonitor']
