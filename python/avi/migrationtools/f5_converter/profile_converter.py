@@ -869,7 +869,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram-load-balancing", 'disabled')
-            timeout = profile.get("idle-timeout", 0)
+            timeout = str(profile.get("idle-timeout", 0))
             if not timeout.isdigit():
                 timeout = 0
             ntwk_profile = {

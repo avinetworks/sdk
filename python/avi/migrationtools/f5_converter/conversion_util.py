@@ -609,14 +609,15 @@ class F5Util(MigrationUtil):
                                                     cloud_name, prefix)
         return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
-
-    def clone_pool(self, pool_name, clone_for, avi_pool_list, tenant=None):
+    def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
+                   tenant=None):
         """
         If pool is shared with other VS pool is cloned for other VS as Avi dose not
         support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_name: Name of the pool to be cloned
         :param clone_for: Name of the VS for pool to be cloned
         :param avi_pool_list: new pool to be added to this list
+        :param is_vs: True if this cloning is for VS
         :param tenant: if pool is shared across partition then coned for tenant
         :return: new pool object
         """
@@ -630,11 +631,12 @@ class F5Util(MigrationUtil):
             new_pool["name"] = pool_name + "-" + clone_for
             if tenant:
                 new_pool["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
-            # removing config added from VS config to pool
-            new_pool["application_persistence_profile_ref"] = None
-            new_pool["ssl_profile_ref"] = None
-            new_pool["ssl_key_and_certificate_ref"] = None
-            new_pool["pki_profile_ref"] = None
+            if is_vs:
+                # removing config added from VS config to pool
+                new_pool["application_persistence_profile_ref"] = None
+                new_pool["ssl_profile_ref"] = None
+                new_pool["ssl_key_and_certificate_ref"] = None
+                new_pool["pki_profile_ref"] = None
             avi_pool_list.append(new_pool)
             pool_ref = new_pool["name"]
             return pool_ref
@@ -1045,9 +1047,9 @@ class F5Util(MigrationUtil):
     def get_project_path(self):
         return os.path.abspath(os.path.dirname(__file__))
 
-
     def clone_pool_if_shared(self, ref, avi_config, vs_name, tenant, p_tenant,
-                             cloud_name='Default-Cloud', prefix=None):
+                             persist_type, controller_version, app_prof_ref,
+                             sysdict, cloud_name='Default-Cloud', prefix=None):
         """
         clones pool or pool group if its shard between multiple VS or partitions
         in F5
@@ -1056,6 +1058,12 @@ class F5Util(MigrationUtil):
         :param vs_name: Name of the vs to be added
         :param tenant: tenant name of vs
         :param p_tenant: tenant name of pool
+        :param persist_type: persistence profile type
+        :param controller_version:
+        :param app_prof_type:
+        :param sysdict:
+        :param cloud_name:
+        :param prefix:
         :return:
         """
         is_pool_group = False
@@ -1066,7 +1074,16 @@ class F5Util(MigrationUtil):
         # Search the pool or pool group with name in avi config for the same
         # tenant as VS
         pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref
-                    and pool['tenant_ref'] == self.get_object_ref(tenant, 'tenant')]
+                    and pool['tenant_ref'] == self.get_object_ref(tenant,
+                    'tenant')]
+        pool_per_ref = pool_obj[0].get('application_persistence_profile_ref') \
+                        if pool_obj else None
+        pool_per_name = self.get_name(pool_per_ref) if pool_per_ref else None
+        pool_per_types = [obj['persistence_type'] for obj in (avi_config[
+                          'ApplicationPersistenceProfile'] + sysdict[
+                          'ApplicationPersistenceProfile']) if obj['name'] ==
+                          pool_per_name] if pool_per_name else []
+        pool_per_type = pool_per_types[0] if pool_per_types else None
         if not pool_obj:
             pool_group_obj = [pool for pool in avi_config['PoolGroup']
                               if pool['name'] == ref and
@@ -1094,28 +1111,71 @@ class F5Util(MigrationUtil):
                         ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)]
         if not tenant == p_tenant:
             if is_pool_group:
-                ref = self.clone_pool_group(
-                    ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
+                ref = self.clone_pool_group(ref, vs_name, avi_config, True,
+                                            tenant, cloud_name=cloud_name)
             else:
-                ref = self.clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+                ref = self.clone_pool(ref, vs_name, avi_config['Pool'],
+                                      True, tenant)
         if shared_vs:
             if is_pool_group:
-                ref = self.clone_pool_group(
-                    ref, vs_name, avi_config, tenant, cloud_name=cloud_name)
+                ref = self.clone_pool_group(ref, vs_name, avi_config, True,
+                                            tenant, cloud_name=cloud_name)
             else:
-                ref = self.clone_pool(ref, vs_name, avi_config['Pool'], tenant)
+                shared_appref = shared_vs[0].get('application_profile_ref')
+                shared_apptype = None
+                if shared_appref:
+                    shared_appname = self.get_name(shared_appref)
+                    shared_appobjs = [ob for ob in (avi_config[
+                                      'ApplicationProfile'] + sysdict[
+                                      'ApplicationProfile']) if ob['name'] ==
+                                      shared_appname]
+                    shared_appobj = shared_appobjs[0] if shared_appobjs else {}
+                    shared_apptype = shared_appobj['type'] if shared_appobj \
+                                        else None
+                app_prof_name = self.get_name(app_prof_ref)
+                app_prof_objs = [appob for appob in (avi_config[
+                                 'ApplicationProfile'] + sysdict[
+                                 'ApplicationProfile']) if appob['name'] ==
+                                 app_prof_name]
+                app_prof_obj = app_prof_objs[0] if app_prof_objs else {}
+                app_prof_type = app_prof_obj['type'] if app_prof_obj else None
+                if self.is_pool_clone_criteria(controller_version,
+                  app_prof_type, shared_apptype, persist_type, pool_per_type,
+                  shared_appobj, app_prof_obj):
+                    LOG.debug('Cloned the pool %s for VS %s', ref, vs_name)
+                    ref = self.clone_pool(ref, vs_name, avi_config['Pool'],
+                                          True, tenant)
+                else:
+                    LOG.debug("Shared pool %s for VS %s", ref, vs_name)
 
         return ref, is_pool_group
 
-    def clone_pool_group(self, pool_group_name, clone_for, avi_config,
+    def is_pool_clone_criteria(self, controller_version, app_prof_type,
+                               shared_apptype, persist_type, pool_per_type,
+                               shared_appobj, app_prof_obj):
+        if parse_version(controller_version) < parse_version(
+           '17.1.6') or app_prof_type != 'APPLICATION_PROFILE_TYPE_HTTP' \
+           or shared_apptype != app_prof_type or (persist_type and persist_type
+           != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (pool_per_type and
+           pool_per_type != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
+           shared_appobj.get('http_profile', {}).get(
+           'connection_multiplexing_enabled') != app_prof_obj.get(
+           'http_profile', {}).get('connection_multiplexing_enabled')):
+            return True
+        else:
+            return False
+
+    def clone_pool_group(self, pool_group_name, clone_for, avi_config, is_vs,
                          tenant='admin', cloud_name='Default-Cloud'):
         """
-        If pool is shared with other VS pool is cloned for other VS as Avi dose not
-        support shared pools with new pool name as <pool_name>-<vs_name>
+        If pool is shared with other VS pool is cloned for other VS as Avi dose
+        not support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_group_name: Name of the pool group to be cloned
         :param clone_for: Name of the object/entity for pool group to be cloned
         :param avi_config: new pool to be added to avi config
+        :param is_vs: True if clone is called for VS
         :param tenant: if f5 pool is shared across partition then coned for tenant
+        :param cloud_name:
         :return: new pool group name
         """
         pg_ref = None
@@ -1131,8 +1191,8 @@ class F5Util(MigrationUtil):
             avi_config['PoolGroup'].append(new_pool_group)
             for member in new_pool_group['members']:
                 pool_name = self.get_name(member['pool_ref'])
-                pool_name = self.clone_pool(
-                    pool_name, clone_for, avi_config['Pool'], tenant)
+                pool_name = self.clone_pool(pool_name, clone_for,
+                                            avi_config['Pool'], is_vs, tenant)
                 member['pool_ref'] = self.get_object_ref(
                     pool_name, 'pool', tenant=tenant, cloud_name=cloud_name)
         return pg_ref
@@ -1891,8 +1951,8 @@ class F5Util(MigrationUtil):
                     pool_group_ref = self.get_name(rule['switching_action'][
                                                        'pool_group_ref'])
                     pool_group_ref = self.clone_pool_group(pool_group_ref,
-                                        policy_name, avi_config, tenant_name,
-                                                                cloud_name)
+                                        policy_name, avi_config, False,
+                                        tenant_name, cloud_name)
                     if pool_group_ref:
                         updated_pool_group_ref = self.get_object_ref(
                             pool_group_ref, conv_const.OBJECT_TYPE_POOL_GROUP,
@@ -1903,7 +1963,8 @@ class F5Util(MigrationUtil):
                     pool_ref = self.get_name(rule['switching_action'][
                                                  'pool_ref'])
                     pool_ref = self.clone_pool(pool_ref, policy_name,
-                                               avi_config['Pool'], tenant_name)
+                                               avi_config['Pool'],
+                                               False, tenant_name)
                     if pool_ref:
                         updated_pool_ref = self.get_object_ref(pool_ref,
                                             conv_const.OBJECT_TYPE_POOL,
