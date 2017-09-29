@@ -1,8 +1,9 @@
 from xlrd import open_workbook
 import json
+import ast
 
 
-def output_sanitization(path_to_excel, path_to_out_json=None):
+def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
     ''' Find the Success percentage of each output report '''
     path = path_to_excel
 
@@ -19,17 +20,30 @@ def output_sanitization(path_to_excel, path_to_out_json=None):
                 cols_id = col
             if s.cell(0, col).value == "Status":
                 cols_status = col
+            if s.cell(0, col).value == "F5 SubType":
+                col_subtype = col
+            if s.cell(0, col).value == "Avi Object":
+                col_avi_obj = col
+            if s.cell(0, col).value == "F5 type":
+                col_type = col
         if cols_id and cols_status:
             for row in range(s.nrows):
                 if row == 0:
                     continue
                 if s.cell(row, cols_status).value == 'SUCCESSFUL' or \
-                                s.cell(row, cols_status).value == 'PARTIAL':
-                    if s.cell(row, cols_id) == 'hash' or \
-                                    s.cell(row, cols_id) == 'oneconnect':
+                   s.cell(row, cols_status).value == 'PARTIAL':
+                    if s.cell(row, cols_id).value == 'hash' or \
+                       s.cell(row, cols_id).value == 'oneconnect' or\
+                       s.cell(row, col_type).value == 'route' or\
+                       s.cell(row, col_subtype).value == 'oneconnect' or\
+                       s.cell(row, col_subtype).value == 'one-connect' or\
+                       "Indirectly mapped" in s.cell(row, col_avi_obj).value:
                         value = None
                     else:
                         value = s.cell(row, cols_id).value
+                    if s.cell(row, col_type).value == 'pool' or\
+                       s.cell(row, col_type).value == 'policy' :
+                        value = s.cell(row, cols_id).value.split('/')[-1]
                     if value:
                         excel_obj.append(value)
         break
@@ -38,22 +52,45 @@ def output_sanitization(path_to_excel, path_to_out_json=None):
         file_strem = json.load(file_strem)
         for entity in file_strem:
             if entity <> 'META' and entity <> 'VsVip':
-                # print file_strem
                 for obj in file_strem[entity]:
                     out_obj.append(obj.get('name'))
-    print len(out_obj)
-    print len(excel_obj)
+    # print len(out_obj)
+    # print len(excel_obj)
     excel_obj.sort()
     out_obj.sort()
-    print "Object Common in Both Excel and Output "
+    if path_to_log:
+        with open(path_to_log, 'r') as file_strem:
+            a = file_strem.readlines()
+            b = str(a).split('$$$$$$')[-2].replace('\'', '"')
+            c = eval(b)
+
+    count = 0
+    obj_list = list()
     for obj in excel_obj:
         if obj not in out_obj:
-            print obj
+            flag = 1
+            if path_to_log:
+                for key in c.keys():
+                    # print c[key].keys()
+                    if obj not in c[key].keys():
+                        flag = 1
+                    else:
+                        flag = 0
+                        break
+            if flag == 1:
+                obj_list.append(obj)
+                count = count + 1
+    print "Object Difference between Excel sheet and output is %s" % count
+    if count != 0:
+        print "Object not Common in Both Excel and Output %s", obj_list
+        return False
+    print "Excel sheet matches with Output.json"
+    return True
 
 
 def percentage_success(path_to_excel):
-    # Percetage Success from Excel Reportss
-    # find the status colummn
+    # Percentage Success from Excel Reports
+    # find the status column
     path = path_to_excel
     wb = open_workbook(path)
     for s in wb.sheets():
