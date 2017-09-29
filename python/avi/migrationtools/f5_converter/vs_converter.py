@@ -163,9 +163,28 @@ class VSConfigConv(object):
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
-            # TODO: need to revisit after shared pool support implemented
+            persist_ref = self.get_persist_ref(f5_vs)
+            avi_persistence = avi_config['ApplicationPersistenceProfile']
+            syspersist = sys_dict['ApplicationPersistenceProfile']
+            persist_type = None
+            if persist_ref:
+                # Called tenant ref to get object name
+                persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
+                persist_profile_objs = [ob for ob in syspersist if ob['name'] ==
+                                       merge_object_mapping[
+                                       'app_per_profile'].get(persist_ref)] or \
+                                       [obj for obj in avi_persistence if
+                                       (obj["name"] == persist_ref or
+                                        persist_ref in obj.get(
+                                       "dup_of", []))]
+                persist_type = persist_profile_objs[0]['persistence_type'] if\
+                                persist_profile_objs else None
+            # Pool cloned if controller version < 17.1.6 or VS has non http
+            # cookie persistence or app profile type is different and poolgroup
+            # cloned
             pool_ref, is_pool_group = conv_utils.clone_pool_if_shared(
-                pool_ref, avi_config, vs_name, tenant, p_tenant,
+                pool_ref, avi_config, vs_name, tenant, p_tenant, persist_type,
+                controller_version, app_prof[0], sys_dict,
                 cloud_name=cloud_name, prefix=self.prefix)
             if ssl_pool:
                 if is_pool_group:
@@ -187,13 +206,8 @@ class VSConfigConv(object):
                     conv_utils.remove_https_mon_from_pool(
                         avi_config, pool_ref, tenant, sys_dict)
 
-            persist_ref = self.get_persist_ref(f5_vs)
             persist_type = None
             if persist_ref:
-                # Called tenant ref to get object name
-                persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
-                avi_persistence = avi_config['ApplicationPersistenceProfile']
-                syspersist = sys_dict['ApplicationPersistenceProfile']
                 if is_pool_group:
                     pool_updated, persist_type = \
                         conv_utils.update_pool_group_for_persist(
@@ -331,6 +345,7 @@ class VSConfigConv(object):
                         http_policies['index'] = ind + 1
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
+        vs_policies = []
         if 'policies' in f5_vs:
             if isinstance(f5_vs['policies'], basestring):
                 vs_policies = ['%s-%s' % (self.prefix,
@@ -344,30 +359,30 @@ class VSConfigConv(object):
                                name)[1] for name in f5_vs['policies'].keys()]
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
                                cloud_name, vs_obj)
-            p_ref = None
-            if is_pool_group:
-                p_ref = conv_utils.get_object_ref(pool_ref, 'poolgroup',
-                                                   tenant=p_tenant)
-            elif pool_ref:
-                p_ref = conv_utils.get_object_ref(pool_ref, 'pool',
-                                                  tenant=p_tenant)
-            if p_ref and used_pools.get(p_ref):
-                not_same = [pol_obj for pol_obj in used_pools[p_ref] if pol_obj
-                            not in vs_policies]
-                if not_same:
-                    if is_pool_group:
-                        LOG.debug('Pool group %s attached to vs %s is shared '
-                                  'with policy %s of another vs', pool_ref,
-                                  vs_name, str(not_same))
-                        pool_ref = conv_utils.clone_pool_group(pool_ref,
-                                        vs_name, avi_config, p_tenant,
-                                        cloud_name=cloud_name)
-                    else:
-                        LOG.debug('Pool %s attached to vs %s is shared with '
-                                  'policy %s of another vs', pool_ref,
-                                  vs_name, str(not_same))
-                        pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
-                                                   avi_config['Pool'], p_tenant)
+        p_ref = None
+        if is_pool_group:
+            p_ref = conv_utils.get_object_ref(pool_ref, 'poolgroup',
+                                               tenant=p_tenant)
+        elif pool_ref:
+            p_ref = conv_utils.get_object_ref(pool_ref, 'pool',
+                                              tenant=p_tenant)
+        if p_ref and used_pools.get(p_ref):
+            not_same = [pol_obj for pol_obj in used_pools[p_ref] if pol_obj
+                        not in vs_policies]
+            if not_same:
+                if is_pool_group:
+                    LOG.debug('Pool group %s attached to vs %s is shared '
+                              'with policy %s of another vs, hence cloned',
+                              pool_ref, vs_name, str(not_same))
+                    pool_ref = conv_utils.clone_pool_group(pool_ref, vs_name,
+                                avi_config, False, p_tenant,
+                                cloud_name=cloud_name)
+                else:
+                    LOG.debug('Pool %s attached to vs %s is shared with '
+                              'policy %s of another vs, hence cloned', pool_ref,
+                              vs_name, str(not_same))
+                    pool_ref = conv_utils.clone_pool(pool_ref, vs_name,
+                                    avi_config['Pool'], False, p_tenant)
         if is_pool_group:
             vs_obj['pool_group_ref'] = conv_utils.get_object_ref(
                 pool_ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)
@@ -537,8 +552,7 @@ class VSConfigConv(object):
                     LOG.debug('Cloning the policy %s for vs %s',
                               pol_name, vs_name)
                     clone_policy = conv_utils.clone_http_policy_set(
-                        policy_obj[0], vs_name, avi_config, tenant,
-                        cloud_name)
+                        policy_obj[0], vs_name, avi_config, tenant, cloud_name)
                     pol_name = clone_policy['name']
                     avi_config['HTTPPolicySet'].append(clone_policy)
                     LOG.debug('Policy cloned %s for vs %s', pol_name,
