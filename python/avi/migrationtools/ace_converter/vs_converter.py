@@ -17,6 +17,7 @@ class VSConverter(object):
     
     def check_persistance(self, pool_name, data):
         # print data.keys()
+        print "POOl", data
         for pool in data['Pool']:
             if pool['name'] == pool_name:
                 if pool.get('application_persistence_profile_ref', ''):

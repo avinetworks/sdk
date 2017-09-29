@@ -1,0 +1,76 @@
+{
+    "serverfarm": [{
+        "host": "test_farm",
+        "desc": [{
+                "probe": "test_probe"
+            },
+            {
+                "type": "count",
+                "inband-health": "check"
+            },
+            {
+                "type": "inservice",
+                "rserver": "test_server"
+            }
+        ]
+    }],
+    "sticky": [{
+        "ip-netmask": "255.255.255.255",
+        "name": "test_sticky",
+        "desc": [{
+                "serverfarm": "test_farm"
+            },
+            {
+                "timeout": "1000"
+            },
+            {
+                "replicate": "sticky"
+            }
+        ]
+    }],
+    "rserver": [{
+        "host": "test_server",
+        "desc": [{
+                "description": "test_server"
+            },
+            {
+                "ip address": "127.0.0.1"
+            },
+            {
+                "probe": "test_probe"
+            },
+            {
+                "type": "inservice"
+            }
+        ]
+    }],
+    "probe": [{
+        "status": "200",
+        "url": "/test/test.server:ping",
+        "status1": "200",
+        "name": "test_probe",
+        "receive": "5",
+        "type": "http",
+        "port": "9114",
+        "method": "get"
+    }],
+    "ssl-proxy": [{
+        "type": "service",
+        "name": "test_ssl_noname",
+        "desc": [{
+                "key": "test.key"
+            },
+            {
+                "cert": "test.crt"
+            }
+        ]
+    }],
+    "Pool": [{
+        "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+        "name": "test_farm",
+        "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud",
+        "tenant_ref": "/api/tenant/?name=admin",
+        "servers": [{ "ip": { "type": "V4", "addr": "127.0.0.1" }, "enabled": true, "description": "testdesc", "port": 8080 }]
+
+    }]
+}
