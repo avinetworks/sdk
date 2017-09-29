@@ -1048,7 +1048,7 @@ class F5Util(MigrationUtil):
         return os.path.abspath(os.path.dirname(__file__))
 
     def clone_pool_if_shared(self, ref, avi_config, vs_name, tenant, p_tenant,
-                             persist_type, controller_version, app_prof_type,
+                             persist_type, controller_version, app_prof_ref,
                              sysdict, cloud_name='Default-Cloud', prefix=None):
         """
         clones pool or pool group if its shard between multiple VS or partitions
@@ -1074,7 +1074,16 @@ class F5Util(MigrationUtil):
         # Search the pool or pool group with name in avi config for the same
         # tenant as VS
         pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref
-                    and pool['tenant_ref'] == self.get_object_ref(tenant, 'tenant')]
+                    and pool['tenant_ref'] == self.get_object_ref(tenant,
+                    'tenant')]
+        pool_per_ref = pool_obj[0].get('application_persistence_profile_ref') \
+                        if pool_obj else None
+        pool_per_name = self.get_name(pool_per_ref) if pool_per_ref else None
+        pool_per_types = [obj['persistence_type'] for obj in (avi_config[
+                          'ApplicationPersistenceProfile'] + sysdict[
+                          'ApplicationPersistenceProfile']) if obj['name'] ==
+                          pool_per_name] if pool_per_name else []
+        pool_per_type = pool_per_types[0] if pool_per_types else None
         if not pool_obj:
             pool_group_obj = [pool for pool in avi_config['PoolGroup']
                               if pool['name'] == ref and
@@ -1112,23 +1121,49 @@ class F5Util(MigrationUtil):
                 ref = self.clone_pool_group(ref, vs_name, avi_config, True,
                                             tenant, cloud_name=cloud_name)
             else:
-                appref = shared_vs[0].get('application_profile_ref')
-                apptype = None
-                if appref:
-                    appname = self.get_name(appref)
-                    apptypes = [ob['type'] for ob in (avi_config[
-                        'ApplicationProfile'] + sysdict[
-                        'ApplicationProfile']) if ob['name'] == appname]
-                    apptype = apptypes[0] if apptypes else None
-                if parse_version(controller_version) < parse_version(
-                  '17.1.6') or app_prof_type != 'APPLICATION_PROFILE_TYPE_HTTP'\
-                  or apptype != app_prof_type or (persist_type and
-                  persist_type != 'PERSISTENCE_TYPE_HTTP_COOKIE'):
+                shared_appref = shared_vs[0].get('application_profile_ref')
+                shared_apptype = None
+                if shared_appref:
+                    shared_appname = self.get_name(shared_appref)
+                    shared_appobjs = [ob for ob in (avi_config[
+                                      'ApplicationProfile'] + sysdict[
+                                      'ApplicationProfile']) if ob['name'] ==
+                                      shared_appname]
+                    shared_appobj = shared_appobjs[0] if shared_appobjs else {}
+                    shared_apptype = shared_appobj['type'] if shared_appobj \
+                                        else None
+                app_prof_name = self.get_name(app_prof_ref)
+                app_prof_objs = [appob for appob in (avi_config[
+                                 'ApplicationProfile'] + sysdict[
+                                 'ApplicationProfile']) if appob['name'] ==
+                                 app_prof_name]
+                app_prof_obj = app_prof_objs[0] if app_prof_objs else {}
+                app_prof_type = app_prof_obj['type'] if app_prof_obj else None
+                if self.is_pool_clone_criteria(controller_version,
+                  app_prof_type, shared_apptype, persist_type, pool_per_type,
+                  shared_appobj, app_prof_obj):
                     LOG.debug('Cloned the pool %s for VS %s', ref, vs_name)
                     ref = self.clone_pool(ref, vs_name, avi_config['Pool'],
                                           True, tenant)
+                else:
+                    LOG.debug("Shared pool %s for VS %s", ref, vs_name)
 
         return ref, is_pool_group
+
+    def is_pool_clone_criteria(self, controller_version, app_prof_type,
+                               shared_apptype, persist_type, pool_per_type,
+                               shared_appobj, app_prof_obj):
+        if parse_version(controller_version) < parse_version(
+           '17.1.6') or app_prof_type != 'APPLICATION_PROFILE_TYPE_HTTP' \
+           or shared_apptype != app_prof_type or (persist_type and persist_type
+           != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (pool_per_type and
+           pool_per_type != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
+           shared_appobj.get('http_profile', {}).get(
+           'connection_multiplexing_enabled') != app_prof_obj.get(
+           'http_profile', {}).get('connection_multiplexing_enabled')):
+            return True
+        else:
+            return False
 
     def clone_pool_group(self, pool_group_name, clone_for, avi_config, is_vs,
                          tenant='admin', cloud_name='Default-Cloud'):
