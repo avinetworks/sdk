@@ -54,34 +54,31 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
             if entity <> 'META' and entity <> 'VsVip':
                 for obj in file_strem[entity]:
                     out_obj.append(obj.get('name'))
-    # print len(out_obj)
-    # print len(excel_obj)
     excel_obj.sort()
     out_obj.sort()
+    log_obj = {}
     if path_to_log:
         with open(path_to_log, 'r') as file_strem:
             a = file_strem.readlines()
-            b = str(a).split('$$$$$$')[-2].replace('\'', '"')
-            c = eval(b)
+            try:
+                b = str(a).split('$$$$$$')[-2].replace('\'', '"')
+                print b
+                log_obj = eval(b)
+            except:
+                pass
 
-    count = 0
     obj_list = list()
-    for obj in excel_obj:
-        if obj not in out_obj:
-            flag = 1
-            if path_to_log:
-                for key in c.keys():
-                    # print c[key].keys()
-                    if obj not in c[key].keys():
-                        flag = 1
-                    else:
-                        flag = 0
-                        break
-            if flag == 1:
-                obj_list.append(obj)
-                count = count + 1
-    print "Object Difference between Excel sheet and output is %s" % count
-    if count != 0:
+
+    # comparing excel objects with json out objects
+    obj_list = list(set(excel_obj) - set(out_obj))
+
+    # If object read from log is dict compare
+    if isinstance(log_obj, dict):
+        for key in log_obj.keys():
+            obj_list = list(set(obj_list) - set(log_obj[key].keys()))
+
+    print "Object Difference between Excel sheet and output is %s" % len(obj_list)
+    if obj_list:
         print "Object not Common in Both Excel and Output %s", obj_list
         return False
     print "Excel sheet matches with Output.json"
