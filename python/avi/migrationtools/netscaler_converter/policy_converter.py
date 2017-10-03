@@ -92,137 +92,138 @@ class PolicyConverter(object):
         rule_index = 0
         vs_policy_name = ''
         for bind_conf in bind_conf_list:
-            policy_name = ''
-            bind_lb_netscalar_complete_command = \
-                ns_util.get_netscalar_full_command(netscalar_command, bind_conf)
-            targetVserver = None
-            if 'lbvserver' in bind_conf:
-                continue
-            if 'policylabel' in bind_conf:
-                policyLabelName = bind_conf['policylabel']
-                if policyLabelName in policy_lables.keys():
-                    policyLabels = policy_lables[policyLabelName]
-                    if isinstance(policyLabels, dict):
-                        policyLabels = [policyLabels]
-                    targetVserver = self.get_targetvserver_policylabel(
-                        policyLabels, policy_lables)
-                    policy_label_netscalar_command = "bind cs policylabel"
-                    policy_label_netscalar_full_command = \
-                        ns_util.get_netscalar_full_command(
-                            policy_label_netscalar_command, policyLabels[0])
-                    if targetVserver:
-                        # Add status successful in CSV/report for bind if it has
-                        # targetVserver
-                        ns_util.update_status_target_lb_vs_to_indirect(
-                            targetVserver)
-                        ns_util.add_status_row(
-                            policyLabels[0]['line_no'],
-                            policy_label_netscalar_command, policyLabelName,
-                            policy_label_netscalar_full_command,
-                            STATUS_SUCCESSFUL, policyLabels[0])
-                        LOG.info('Conversion successful : %s %s' %
-                                 (policy_label_netscalar_command,
-                                  policyLabelName))
-                    else:
-                        # Skipped this bind if it does not have targetVserver
-                        skipped_status = 'Skipped: Do not have target vserver' \
-                                         ' %s %s' % (
-                            policy_label_netscalar_command, policyLabelName)
-                        ns_util.add_status_row(
-                            policyLabels[0]['line_no'],
-                            policy_label_netscalar_command, policyLabelName,
-                            policy_label_netscalar_full_command, STATUS_SKIPPED,
-                            skipped_status)
-                        LOG.warning(skipped_status)
-            if 'policyName' in bind_conf:
-                policy_name = bind_conf['policyName']
-            elif netscalar_command == 'bind lb vserver':
-                continue
-            else:
-                skipped_status = 'Skipped:Policy Name attribute not present %s'\
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                # Skipped this bind if it does not attach any policy
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
-            targetLBVserver = bind_conf.get('targetLBVserver', )
-            if targetLBVserver:
-                ns_util.update_status_target_lb_vs_to_indirect(
-                    targetLBVserver)
-            if not targetLBVserver and targetVserver:
-                targetLBVserver = targetVserver
-            priority_index = int(bind_conf.get('priority', rule_index))
-            policy, policy_type = self.get_policy_from_policy_name(
-                policy_name, policy_config, rewrite_policy_config,
-                responder_policy_config)
+            try:
+                policy_name = ''
+                bind_lb_netscalar_complete_command = \
+                    ns_util.get_netscalar_full_command(netscalar_command,
+                                                       bind_conf)
+                targetVserver = None
+                if 'lbvserver' in bind_conf:
+                    continue
+                if 'policylabel' in bind_conf:
+                    policyLabelName = bind_conf['policylabel']
+                    if policyLabelName in policy_lables.keys():
+                        policyLabels = policy_lables[policyLabelName]
+                        if isinstance(policyLabels, dict):
+                            policyLabels = [policyLabels]
+                        targetVserver = self.get_targetvserver_policylabel(
+                            policyLabels, policy_lables)
+                        policy_label_netscalar_command = "bind cs policylabel"
+                        policy_label_netscalar_full_command = \
+                            ns_util.get_netscalar_full_command(
+                                policy_label_netscalar_command, policyLabels[0])
+                        if targetVserver:
+                            # Add status successful in CSV/report for bind if it
+                            # has targetVserver
+                            ns_util.update_status_target_lb_vs_to_indirect(
+                                targetVserver)
+                            ns_util.add_status_row(
+                                policyLabels[0]['line_no'],
+                                policy_label_netscalar_command, policyLabelName,
+                                policy_label_netscalar_full_command,
+                                STATUS_SUCCESSFUL, policyLabels[0])
+                            LOG.info('Conversion successful : %s %s' %
+                                     (policy_label_netscalar_command,
+                                      policyLabelName))
+                        else:
+                            # Skipped this bind if it does not have
+                            # targetVserver
+                            skipped_status = 'Skipped: Do not have target ' \
+                                             'vserver %s %s' % (
+                                policy_label_netscalar_command, policyLabelName)
+                            ns_util.add_status_row(policyLabels[0]['line_no'],
+                                policy_label_netscalar_command, policyLabelName,
+                                policy_label_netscalar_full_command,
+                                STATUS_SKIPPED, skipped_status)
+                            LOG.warning(skipped_status)
+                if 'policyName' in bind_conf:
+                    policy_name = bind_conf['policyName']
+                elif netscalar_command == 'bind lb vserver':
+                    continue
+                else:
+                    skipped_status = 'Skipped:Policy Name attribute not ' \
+                               'present %s' % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    # Skipped this bind if it does not attach any policy
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+                targetLBVserver = bind_conf.get('targetLBVserver', )
+                if targetLBVserver:
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        targetLBVserver)
+                if not targetLBVserver and targetVserver:
+                    targetLBVserver = targetVserver
+                priority_index = int(bind_conf.get('priority', rule_index))
+                policy, policy_type = self.get_policy_from_policy_name(
+                    policy_name, policy_config, rewrite_policy_config,
+                    responder_policy_config)
 
-            if not policy:
-                skipped_status = 'Skipped: Policy is not created %s' \
-                                 % bind_lb_netscalar_complete_command
-                if not policy_type:
-                    skipped_status = 'Skipped: Policy not supported %s' \
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                # Skipped this bind if it does not have policy
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
-            rule, rule_index = self.rule_converter(
-                policy, policy_type, priority_index, redirect_pools,
-                bind_patset, patset_config, rewrite_action_config,
-                responder_action_config, policy_expression_config, avi_config,
-                tmp_pool_ref, targetLBVserver, case_sensitive)
-            conv_status = ns_util.get_conv_status(
-                bind_conf, self.bind_skipped, self.na_attrs, [],
-                ignore_for_val=self.ignore_vals,
-                user_ignore_val=self.user_ignore)
-            # TODO add support for || and + rules as datascript
-            if rule == STATUS_DATASCRIPT:
-                # Add status datascript in CSV/report if policy has status
-                # datascript
-                datascript_status = 'Datascript: %s' % \
-                                    bind_lb_netscalar_complete_command
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_DATASCRIPT)
-                LOG.warning(datascript_status)
-                continue
+                if not policy:
+                    skipped_status = 'Skipped: Policy is not created %s' \
+                                     % bind_lb_netscalar_complete_command
+                    if not policy_type:
+                        skipped_status = 'Skipped: Policy not supported %s' \
+                                     % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    # Skipped this bind if it does not have policy
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+                rule, rule_index = self.rule_converter(
+                    policy, policy_type, priority_index, redirect_pools,
+                    bind_patset, patset_config, rewrite_action_config,
+                    responder_action_config, policy_expression_config,
+                    avi_config, tmp_pool_ref, targetLBVserver, case_sensitive)
+                conv_status = ns_util.get_conv_status(
+                    bind_conf, self.bind_skipped, self.na_attrs, [],
+                    ignore_for_val=self.ignore_vals,
+                    user_ignore_val=self.user_ignore)
+                # TODO add support for || and + rules as datascript
+                if rule == STATUS_DATASCRIPT:
+                    # Add status datascript in CSV/report if policy has status
+                    # datascript
+                    datascript_status = 'Datascript: %s' % \
+                                        bind_lb_netscalar_complete_command
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, STATUS_DATASCRIPT)
+                    LOG.warning(datascript_status)
+                    continue
 
-            if rule and policy_type in ['cs', 'rewrite', 'responder']:
-                # Add status successful in CSV/report if policy is converted
-                # successfully in to AVI
-                ns_util.add_conv_status(bind_conf['line_no'], netscalar_command,
-                                       bind_conf['attrs'][0],
-                                       bind_lb_netscalar_complete_command,
-                                        conv_status, rule)
-                http_request_policy['rules'].append(rule)
-                vs_policy_name += policy_name
-            elif rule and policy_type in ['policy_expression']:
-                # Add status successful in CSV/report if policy is converted
-                # successfully in to AVI
-                ns_util.add_conv_status(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    conv_status, rule)
-                http_security_policy['rules'].append(rule)
-                vs_policy_name += policy_name
-            else:
-                # Add status Skipped in CSV/report if policy is converted in to
-                #  AVI
-                skipped_status = 'Skipped:  Policy not supported %s' \
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
+                if rule and policy_type in ['cs', 'rewrite', 'responder']:
+                    # Add status successful in CSV/report if policy is converted
+                    # successfully in to AVI
+                    ns_util.add_conv_status(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, conv_status, rule)
+                    http_request_policy['rules'].append(rule)
+                    vs_policy_name += policy_name
+                elif rule and policy_type in ['policy_expression']:
+                    # Add status successful in CSV/report if policy is converted
+                    # successfully in to AVI
+                    ns_util.add_conv_status(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, conv_status, rule)
+                    http_security_policy['rules'].append(rule)
+                    vs_policy_name += policy_name
+                else:
+                    # Add status Skipped in CSV/report if policy is converted in
+                    # to AVI
+                    skipped_status = 'Skipped:  Policy not supported %s' \
+                                     % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+            except:
+                LOG.error('Error in policy conversion', exc_info=True)
         if len(http_request_policy['rules']) > 0:
             policy_obj['http_request_policy'] = http_request_policy
             is_policy_obj = True

@@ -32,37 +32,41 @@ class PolicyConfigConv(object):
         # Get the policy config from converted parsing
         policy_config = f5_config.pop("policy", {})
         for each_policy in policy_config:
-            LOG.debug("Conversion started for the policy %s", each_policy)
-            tenant, policy_name = conv_utils.get_tenant_ref(each_policy)
-            if tenant_ref != 'admin':
-                tenant = tenant_ref
-            if self.prefix:
-                policy_name = '%s-%s' % (self.prefix, policy_name)
-            httppolicy = dict()
-            config = policy_config[each_policy]
-            skip = self.create_rules(config, httppolicy, avi_config,
-                                     policy_name)
-            if httppolicy.get('http_request_policy', httppolicy.get(
-                    'http_response_policy')):
-                httppolicy['name'] = policy_name
-                httppolicy['tenant_ref'] = conv_utils.get_object_ref(tenant,
-                                                                     'tenant')
-                httppolicy["is_internal_policy"] = False
-                avi_config['HTTPPolicySet'].append(httppolicy)
-                if isinstance(skip, dict):
-                    if skip:
-                        conv_status = {'skipped': [skip],
-                                       'status': final.STATUS_PARTIAL}
-                    else:
-                        conv_status = {'status': final.STATUS_SUCCESSFUL}
-                conv_utils.add_conv_status('policy', None, each_policy,
-                                           conv_status,
-                                           [{'policy_set': httppolicy}])
-            else:
-                conv_utils.add_conv_status("policy", None, each_policy,
-                                        {'status': final.STATUS_SKIPPED}, skip)
-                LOG.debug('Skipping:Conversion unsuccessful for the policy %s',
-                          each_policy)
+            try:
+                LOG.debug("Conversion started for the policy %s", each_policy)
+                tenant, policy_name = conv_utils.get_tenant_ref(each_policy)
+                if tenant_ref != 'admin':
+                    tenant = tenant_ref
+                if self.prefix:
+                    policy_name = '%s-%s' % (self.prefix, policy_name)
+                httppolicy = dict()
+                config = policy_config[each_policy]
+                skip = self.create_rules(config, httppolicy, avi_config,
+                                         policy_name)
+                if httppolicy.get('http_request_policy', httppolicy.get(
+                        'http_response_policy')):
+                    httppolicy['name'] = policy_name
+                    httppolicy['tenant_ref'] = conv_utils.get_object_ref(tenant,
+                                                                       'tenant')
+                    httppolicy["is_internal_policy"] = False
+                    avi_config['HTTPPolicySet'].append(httppolicy)
+                    if isinstance(skip, dict):
+                        if skip:
+                            conv_status = {'skipped': [skip],
+                                           'status': final.STATUS_PARTIAL}
+                        else:
+                            conv_status = {'status': final.STATUS_SUCCESSFUL}
+                    conv_utils.add_conv_status('policy', None, each_policy,
+                                               conv_status,
+                                               [{'policy_set': httppolicy}])
+                else:
+                    conv_utils.add_conv_status("policy", None, each_policy,
+                                         {'status': final.STATUS_SKIPPED}, skip)
+                    LOG.debug('Skipping:Conversion unsuccessful for the policy'
+                              ' %s', each_policy)
+            except:
+                LOG.error("Error in conversion of policy %s" % each_policy,
+                          exc_info=True)
 
     def create_rules(self, config, httppolicy, avi_config,
                      policy_name):
