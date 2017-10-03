@@ -10,13 +10,13 @@ PORT_END = 65535
 
 class VSConverter(object):
     """ Vsvip and Vs Conversion """
-    def __init__(self, parsed, tenant_ref, common_utils):
+    def __init__(self, parsed, tenant_ref, common_utils, enable_vs):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
+        self.enable_vs = enable_vs
     
     def check_persistance(self, pool_name, data):
-        # print data.keys()
         for pool in data['Pool']:
             if pool['name'] == pool_name:
                 if pool.get('application_persistence_profile_ref', ''):
@@ -207,10 +207,13 @@ class VSConverter(object):
                                                                                      ssl_profile=ssl,
                                                                                      ssl_cert=ssl_cert)
                             if vs:
+                                vs['enabled'] = False
                                 for class_dec in cls['class_desc']:
                                     if "loadbalance" in class_dec.keys():
-                                        if class_dec.get('type', []) == 'inservice':
-                                            vs['enabled'] = True
+                                        if class_dec.get('type', []) == 'inservice' and\
+                                           self.enable_vs:
+                                            vs['enabled'] = True 
+                                               
                                 # updating excel sheet
                                 update_excel('policy-map', vs['name'], avi_obj=vs)
 

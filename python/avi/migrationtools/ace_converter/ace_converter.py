@@ -32,6 +32,7 @@ class AceConvertor(AviConverter):
         self.output_file_path = args.output_loc
         self.version = args.controller_version
         self.sdk_version = sdk_version
+        self.enable_vs = args.enable_vs
 
     # def init_logger_path(self):
     #     """ Enabling logging all over """
@@ -59,7 +60,7 @@ class AceConvertor(AviConverter):
         # Configuration Conversion
         print "configuration conversion started ..."
         cfgConvert = ConfigConverter(parsed_output, in_file=self.in_file,
-                                     version=self.version)
+                                     version=self.version, enable_vs=self.enable_vs)
         converted_output = cfgConvert.conversion()
 
         out_file = "/%s-config.json" % os.path.splitext(os.path.basename(self.in_file))[0]
@@ -142,6 +143,9 @@ Optional:
 
     parser.add_argument('-o', '--output_loc',
                         help='Out file location')
+    # Ansible tags
+    parser.add_argument('--enable_vs', help='Flag for create vs in enabled mode',
+                        action="store_true")
 
     parser.add_argument('--controller_version', default='17.2',
                         help='Specify the particular version')

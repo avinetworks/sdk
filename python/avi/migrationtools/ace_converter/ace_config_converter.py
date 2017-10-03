@@ -17,13 +17,14 @@ LOG = logging.getLogger(__name__)
 class ConfigConverter(object):
     """ Configuration conversion happens here """
 
-    def __init__(self, parsed_output, in_file, version='17.1.1'):
+    def __init__(self, parsed_output, in_file, enable_vs=False, version='17.1.1'):
         """ Create Some common Objects over here """
         self.aviobj = AviConverter()
         self.parsed = parsed_output
         self.common_utils = MigrationUtil()
         self.in_path = in_file.rsplit('/', 1)[0]
         self.version = version
+        self.enable_vs = enable_vs
 
         self.tenant_ref = self.common_utils.get_object_ref('admin', 'tenant')
 
@@ -40,6 +41,7 @@ class ConfigConverter(object):
         self.vs = VSConverter(parsed=self.parsed,
                               tenant_ref=self.tenant_ref,
                               common_utils=self.common_utils,
+                              enable_vs=self.enable_vs
                               )
 
         self.persistance = PersistanceConverter(parsed=self.parsed,
