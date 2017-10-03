@@ -113,6 +113,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         conv_utils.add_tenants(avi_config_dict)
         # Validating the aviconfig after generation
         conv_utils.validation(avi_config_dict)
+        LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
 
     except:
         LOG.error("Conversion error", exc_info=True)

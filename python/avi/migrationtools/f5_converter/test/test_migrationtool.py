@@ -65,9 +65,6 @@ setup = dict(
     vs_level_status=True
 )
 
-logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
-mylogger = logging.getLogger()
-
 
 class Namespace:
     def __init__(self, **kwargs):
@@ -134,22 +131,39 @@ class TestF5Converter:
                  f5_ssh_password=setup.get('f5_ssh_password'),
                  f5_config_version=setup.get('file_version_v10'))
 
-    @pytest.mark.travis
-    def test_excel_report_v10(self, cleanup):
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                 f5_config_version=setup.get('file_version_v10'),
-                 controller_version=setup.get('controller_version_v17'),
-                 output_file_path='output')
-        percentage_success('./output/bigip_v10-ConversionStatus.xlsx')
+    @pytest.mark.skip_travis
+    def test_output_sanitization_v10(self):
+        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v10-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v10-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/converter.log'))
 
-    @pytest.mark.travis
-    def test_output_sanitization_v10(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                  f5_config_version=setup.get('file_version_v10'),
                  controller_version=setup.get('controller_version_v17'),
                  output_file_path='output')
-        output_sanitization('./output/bigip_v10-ConversionStatus.xlsx',
-                             './output/bigip_v10-Output.json')
+        assert output_sanitization(self.excel_path,
+                                   self.json_path,
+                                   self.log_path)
+
+    @pytest.mark.skip_travis
+    def test_output_sanitization_v11(self, cleanup):
+        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v11-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v11-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/converter.log'))
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                 f5_config_version=setup.get('file_version_v11'),
+                 controller_version=setup.get('controller_version_v17'),
+                 output_file_path='output')
+        assert output_sanitization(self.excel_path,
+                                   self.json_path,
+                                   self.log_path)
 
     @pytest.mark.travis
     def test_excel_report_v11(self, cleanup):
@@ -159,14 +173,6 @@ class TestF5Converter:
                  output_file_path='output')
         percentage_success('./output/bigip_v11-ConversionStatus.xlsx')
 
-    @pytest.mark.travis
-    def test_output_sanitization_v11(self, cleanup):
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                 f5_config_version=setup.get('file_version_v11'),
-                 controller_version=setup.get('controller_version_v17'),
-                 output_file_path='output')
-        output_sanitization('./output/bigip_v11-ConversionStatus.xlsx',
-                             './output/bigip_v11-Output.json')
 
     @pytest.mark.travis
     def test_without_options_v10(self, cleanup):
