@@ -97,11 +97,11 @@ class PoolConverter(object):
             * Reply - with server avi object
         """
         position = None
-
-        for index, elem in enumerate(self.parsed['rserver']):
-            if elem['host'] == name:
-                position = index
-                server_name = elem['host']
+        if self.parsed.get('rserver', ''):
+            for index, elem in enumerate(self.parsed['rserver']):
+                if elem['host'] == name:
+                    position = index
+                    server_name = elem['host']
 
         if position is None:
             print "rserver {} not found ..".format(name)
