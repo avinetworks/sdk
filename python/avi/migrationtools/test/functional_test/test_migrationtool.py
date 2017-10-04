@@ -1,6 +1,9 @@
 import os
 import sys
+import copy
 import argparse
+import unittest
+from avi.migrationtools.test.functional_test.f5_functional_test import *
 from avi.migrationtools.f5_converter import (f5_config_converter,
                                             f5_parser, scp_util)
 from avi.migrationtools.f5_converter.conversion_util import F5Util
@@ -47,13 +50,13 @@ class TestMigration(object):
             f5_defaults_dict = self.get_default_config()
             self.dict_merge(f5_defaults_dict, f5_config_dict)
             f5_config_dict = f5_defaults_dict
-
+            actual_f5_config_dict = copy.deepcopy(f5_config_dict)
             avi_config_dict = f5_config_converter.convert(
             f5_config_dict, self.outputlocation, self.vs_state, self.filelocation, self.f5_config_version, True,
                 self.controller_version,'test', None, False, {}, None, tenant='admin', cloud_name='Default-Cloud')
 
-            test = f5_functional_test.CompareMigrations()
-            test.compareDict(f5_config_dict,avi_config_dict)
+            test = f5_functional_test.Tester(actual_f5_config_dict,avi_config_dict)
+            #test.compareDict(actual_f5_config_dict,avi_config_dict)
             print  "converted output########", avi_config_dict
 
     def get_default_config(self):
