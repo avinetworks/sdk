@@ -10,11 +10,13 @@ PORT_END = 65535
 
 class VSConverter(object):
     """ Vsvip and Vs Conversion """
-    def __init__(self, parsed, tenant_ref, common_utils, enable_vs):
+    def __init__(self, parsed, tenant_ref, common_utils, enable_vs, cloud_ref, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
         self.enable_vs = enable_vs
+        self.cloud_ref = cloud_ref
+        self.tenant = tenant
     
     def check_persistance(self, pool_name, data):
         for pool in data['Pool']:
@@ -33,11 +35,11 @@ class VSConverter(object):
         return False
 
     def virtual_service_conversion_policy(self, name, data, ssl_profile=None, ssl_cert=None):
-        cloud_ref = self.common_utils.get_object_ref('Default-Cloud', 'cloud')
         global USED_POOLS
         port = None
         vs_ref = None
         port_end =None
+        l4_type = None
         for policy_map in self.parsed['policy-map']:
             pool_obj = dict()
             temp_vs = dict()
@@ -45,7 +47,7 @@ class VSConverter(object):
                 name = policy_map['name']
                 pool = None
                 pool_ref = None
-                vs_ref, port, ip = self.get_vsref_and_port_from_class(name)
+                vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(name)
                 if not vs_ref or  port is None or not ip:
                     continue
                 # Excel Sheet Update for class
@@ -87,7 +89,7 @@ class VSConverter(object):
                                                 "vip_id": 0
                                            })
 
-                            pool_ref = self.common_utils.get_object_ref(pool, 'pool')
+                            pool_ref = self.common_utils.get_object_ref(pool, 'pool',tenant=self.tenant)
                 if not pool:
                     continue
                 temp_vs = {
@@ -102,12 +104,19 @@ class VSConverter(object):
                         "pool_ref": pool_ref,
                         "description": None,
                         "name": name,
-                        "cloud_ref": cloud_ref,
+                        "cloud_ref": self.cloud_ref,
                         "tenant_ref": self.tenant_ref,
                         "type": "VS_TYPE_NORMAL"
                     }
-                # if port_end:
-                #     temp_vs['services'][0]['port_range_end'] = 65535
+                if l4_type:
+                    app_ref = self.common_utils.get_object_ref('System-L4-Application', 'applicationprofile', tenant='admin')
+                    nw_ref = None
+                    if l4_type == 'tcp':
+                        nw_ref = self.common_utils.get_object_ref('System-TCP-Proxy', 'networkprofile', tenant='admin')
+                    elif l4_type == 'udp':
+                        nw_ref = self.common_utils.get_object_ref('System-UDP-Fast-Path', 'networkprofile', tenant='admin')
+                    temp_vs['application_profile_ref'] = app_ref
+                    temp_vs['network_profile_ref'] = nw_ref
                 if ssl_profile:
                     temp_vs['ssl_profile_ref'] = ssl_profile
                 if ssl_cert:
@@ -118,7 +127,6 @@ class VSConverter(object):
 
     def vsvip_conversion(self):
         """vs vip take from virutal-server in class map"""
-        cloud_ref = "/api/cloud/?tenant=admin&name=Default-Cloud"
         vip_id = '0'
         vip_list = list()
         vip_obj_list = list()
@@ -144,7 +152,7 @@ class VSConverter(object):
             vip_name = "{}-vip".format(vs_ip)
             vip_obj_list.append(
                 {
-                    "cloud_ref": cloud_ref,
+                    "cloud_ref": self.cloud_ref,
                     "vip": [{
                         "ip_address": {
                             "type": "V4",
@@ -163,23 +171,25 @@ class VSConverter(object):
         port = None
         vs_ip = None
         port_end = None
+        l4_type = None
         for class_map in self.parsed['class-map']:
             if 'match' in class_map['type'] and class_map['class-map'] == class_name:
                 port = class_map['desc'][0].get('tcp', class_map['desc'][0].get('udp', ''))
+                if 'tcp' in class_map['desc'][0].keys():
+                    l4_type = 'tcp'
+                if 'udp' in class_map['desc'][0].keys():
+                    l4_type = 'udp'
                 if port == 'www':
                     port = 80
                 if port == 'https':
                     port = 443
-                # if port == 'any':
-                #     # port = 123
-                #     port = 1
-                #     port_end = 65535
                 vs_ip = class_map['desc'][0].get('virtual-address', [])
                 if vs_ip:
                     vs_ip_temp = '{}-vip'.format(vs_ip)
                     vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
-                                                              'vsvip')
-        return vs_ref, port, vs_ip
+                                                              'vsvip',
+                                                              tenant=self.tenant)
+        return vs_ref, port, vs_ip, l4_type
 
     def virtual_service_conversion(self, data):
         vs_list = list()
@@ -198,9 +208,11 @@ class VSConverter(object):
                                 policy_name = obj['type']
                             if obj.get('ssl-proxy', ''):
                                 ssl = self.common_utils.get_object_ref(obj['type'],
-                                                                       'sslprofile')
+                                                                       'sslprofile',
+                                                                       tenant=self.tenant)
                                 ssl_cert = self.common_utils.get_object_ref(obj['type'],
-                                                                            'sslkeyandcertificate')
+                                                                            'sslkeyandcertificate',
+                                                                            tenant=self.tenant)
                         if policy_name:
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
                                                                                      data,

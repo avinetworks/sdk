@@ -3,18 +3,25 @@ import os
 import logging
 from avi.migrationtools.ace_converter.ace_constants import\
         DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT
-from avi.migrationtools.ace_converter.ace_utils import update_excel
+from avi.migrationtools.ace_converter.ace_utils import update_excel, get_loc
 
 #logging init
 LOG = logging.getLogger(__name__)
 
 class SSLConverter(object):
     """ SSL Converter Class """
-    def __init__(self, parsed, tenant_ref, common_utils, in_path):
+    def __init__(self, parsed, tenant_ref, common_utils, in_path, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
-        self.in_path = in_path
+        self.tenant = tenant
+        if in_path:
+            self.in_path = in_path
+        else:
+            ''' if the in_path is not given the current location is considered
+                to check the key and cert files
+            '''
+            self.in_path = get_loc()
 
     def upload_file(self, file_path):
         """
@@ -97,15 +104,17 @@ class SSLConverter(object):
                     "key": key
                 }
             if key_and_cert:
-                key_list.append(key_and_cert)    
+                key_list.append(key_and_cert)
         return key_list
-    def ssl_profile(self): 
+
+    def ssl_profile(self):
+        """ Create SSL Profiles """
         ssl_profile_list = list()
         for ssl in self.parsed.get('ssl-proxy', ''):
-            temp_ssl_profile  = dict()
+            temp_ssl_profile = dict()
             temp_ssl_profile = {
-                "accepted_ciphers": "DEFAULT:+SHA:+3DES:+kEDH", 
-                "name": ssl['name'], 
+                "accepted_ciphers": "DEFAULT:+SHA:+3DES:+kEDH",
+                "name": ssl['name'],
                 "accepted_versions": [
                     {
                         "type": "SSL_VERSION_TLS1"

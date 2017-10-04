@@ -127,7 +127,6 @@ class AviConverter(object):
                 if parse_version(version.replace('_','.')) > parse_version(controller_version):
                     loc = index
                     break
-            print "loc", loc
             if loc:
                 part_1 = avi_config_dict['supported_migrations']['versions'][:loc]
                 part_2 = avi_config_dict['supported_migrations']['versions'][-1:]
