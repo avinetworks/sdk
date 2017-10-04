@@ -1,13 +1,19 @@
+from copy import deepcopy
+
 common_task_args = {'controller': "{{ controller }}",
-                        'username': "{{ username }}",
-                        'password': "{{ password }}"
-                        }
+                    'username': "{{ username }}",
+                    'password': "{{ password }}",
+                    'state': "{{ state | default(omit)}}"}
+
+
 ansible_dict = dict({
         'connection': 'local',
         'hosts': 'localhost',
         'roles': ['avinetworks.avisdk'],
-        'vars': common_task_args,
+        'vars': deepcopy(common_task_args),
         'tasks': []})
+
+ansible_dict['vars']['state'] = 'present'
 
 DEFAULT_SKIP_TYPES = [
     'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
