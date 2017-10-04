@@ -16,7 +16,7 @@ class Test(unittest.TestCase):
         with open('avi_config.json') as f:
             self.acfg = json.load(f)
 
-        with open('patch.yml') as f:
+        with open('patch.yaml') as f:
             self.patches = yaml.load(f)
 
     def tearDown(self):

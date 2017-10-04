@@ -47,7 +47,7 @@ setup = dict(
     ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
     ns_ansible_object=os.path.abspath
      (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
-    patch='patch.yml',
+    patch='patch.yaml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     baseline_profile=None,
