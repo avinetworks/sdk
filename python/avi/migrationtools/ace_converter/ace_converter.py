@@ -8,11 +8,13 @@ import json
 import avi.migrationtools
 import xlsxwriter
 from avi.migrationtools.ace_converter.ace_parser import Parser
+from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.ace_converter.ace_config_converter import\
                                                             ConfigConverter
 from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
 from pkg_resources import resource_filename
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 
 template_loc, template_name =\
                        os.path.split(resource_filename(
@@ -30,9 +32,23 @@ class AceConvertor(AviConverter):
     def __init__(self, args):
         self.in_file = args.input_file
         self.output_file_path = args.output_loc
-        self.version = args.controller_version
+        self.controller_version = args.controller_version
         self.sdk_version = sdk_version
-        self.enable_vs = args.enable_vs
+        self.enable_vs = (True if str(args.vs_state) == "enable" else False)
+        print "enable_vs", self.enable_vs, args.vs_state
+        self.input_folder_location = args.input_folder_location
+        self.tenant = args.tenant
+        self.cloud = args.cloud_name
+        # uploading params
+        self.option = args.option
+        self.user = args.user
+        self.password = args.password
+        self.controller_ip = args.controller_ip
+        # ansible param
+        self.create_ansible = args.ansible
+        # patch and vs_filter
+        self.patch = args.patch
+        self.vs_filter = args.vs_filter
 
     # def init_logger_path(self):
     #     """ Enabling logging all over """
@@ -53,24 +69,47 @@ class AceConvertor(AviConverter):
                 - Configuration Conversion
                 - Writing output JSON & Reporting
         """
+        #printing pip version
+        self.print_pip_and_controller_version()
+
         # Parsing
         parser = Parser(self.in_file)
         parsed_output = parser.parse_ace()
-
+        
         # Configuration Conversion
         print "configuration conversion started ..."
-        cfgConvert = ConfigConverter(parsed_output, in_file=self.in_file,
-                                     version=self.version, enable_vs=self.enable_vs)
+        cfgConvert = ConfigConverter(parsed_output,
+                                     version=self.controller_version, enable_vs=self.enable_vs,
+                                     input_folder_loc=self.input_folder_location,
+                                     tenant=self.tenant, cloud=self.cloud)
         converted_output = cfgConvert.conversion()
 
         out_file = "/%s-config.json" % os.path.splitext(os.path.basename(self.in_file))[0]
         self.out_excel = "/%s-Conversion_status.xlsx" % os.path.splitext(os.path.basename(self.in_file))[0]
 
+        # Avi Config
+        avi_config = self.process_for_utils(converted_output)
+
+        # writing config.json
         with open(self.output_file_path + out_file, 'w') as writer:
-            json.dump(converted_output, writer, sort_keys=True, indent=4)
+            json.dump(avi_config, writer, sort_keys=True, indent=4)
+
+        # writing ansible if needed
+        if self.create_ansible:
+            avi_traffic = AviAnsibleConverter(
+                avi_config, self.output_file_path, prefix=None, not_in_use=None)
+            avi_traffic.write_ansible_playbook()
+
 
         # create excel sheet
         self.excel_sheet_writing()
+
+        # if auto-upload enabled to auto upload
+        if self.option == 'auto-upload':
+            if self.controller_ip:
+                self.upload_config_to_controller(converted_output)
+            else:
+                print "Fatal: enter controller ip"
 
     def excel_sheet_writing(self):
         """ Excel Sheet Creation. """
@@ -114,6 +153,15 @@ class AceConvertor(AviConverter):
             # increment the row value
             row += 1
 
+    def print_pip_and_controller_version(self):
+        # Added input parameters to log file
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
+        # Add logger and print avi netscaler converter version
+        LOG.info('AVI sdk version: %s Controller Version: %s'
+                 % (sdk_version, self.controller_version))
+        print 'AVI sdk version: %s Controller Version: %s' \
+              % (sdk_version, self.controller_version)
+
 if __name__ == '__main__':
 
     # Getting the total running time
@@ -143,14 +191,65 @@ Optional:
 
     parser.add_argument('-o', '--output_loc',
                         help='Out file location')
-    # Ansible tags
-    parser.add_argument('--enable_vs', help='Flag for create vs in enabled mode',
-                        action="store_true")
 
-    parser.add_argument('--controller_version', default='17.2',
+    parser.add_argument('--controller_version', default='17.1.1',
                         help='Specify the particular version')
+    
+    # enable vs 
+    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
+                        help='state of VS created', default='disable')
+
+    # key and cert input location
+    parser.add_argument('-l', '--input_folder_location',
+                        help='location of key and cert file')
+
+    # Auto Upload Options
+    parser.add_argument('-O', '--option',
+                        choices=['cli-upload', 'auto-upload'],
+                        help='Upload option cli-upload genarates Avi config '
+                             'file auto upload will upload config to '
+                             'controller', default='cli-upload')
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
+    parser.add_argument('-p', '--password',
+                        help='controller password for auto upload',
+                        default='avi123')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
+
+    # tenant and cloud reference 
+    parser.add_argument('-t', '--tenant',
+                        help='tenant name for auto upload',
+                        default='admin')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
+
+    # Ansible 
+    parser.add_argument('--ansible',
+                        help='Flag for create ansible file',
+                        action='store_true')
+
+    # Added command line args to execute config_patch file with related avi
+    # json file location and patch location
+    parser.add_argument('--patch', help='Run config_patch please provide '
+                                        'location of patch.yaml')
+    # Added command line args to execute vs_filter.py with vs_name.
+    parser.add_argument('--vs_filter', help='comma seperated names of'
+                                            'virtualservices')
+
+    # Version Parameter 
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
 
     pargs = parser.parse_args()
+
+    if pargs.version:
+        print "SDK Version: %s\nController Version: %s" % \
+              (sdk_version, pargs.controller_version)
+        exit(0)
+
     if pargs.input_file is not None and pargs.output_loc is not None:
         LOG.info(' ----------------------------------------------------------')
         LOG.info(' Ace Convertor Started ')

@@ -8,10 +8,11 @@ LOG = logging.getLogger(__name__)
 
 class PersistanceConverter(object):
     """ Application Persistance Conversion """
-    def __init__(self, parsed, tenant_ref, common_utils):
+    def __init__(self, parsed, tenant_ref, common_utils, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
+        self.tenant = tenant
 
 
     def app_persistance_conversion(self):

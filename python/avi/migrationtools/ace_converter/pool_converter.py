@@ -7,10 +7,12 @@ from avi.migrationtools.ace_converter.ace_utils import update_excel
 LOG = logging.getLogger(__name__)
 
 class PoolConverter(object):
-    def __init__(self, parsed, tenant_ref, common_utils):
+    def __init__(self, parsed, tenant_ref, common_utils, cloud_ref, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
+        self.cloud_ref = cloud_ref
+        self.tenant = tenant
 
     def get_ips_of_server(self, server_name):
         for server in self.parsed['rserver']:
@@ -48,13 +50,13 @@ class PoolConverter(object):
             # print name
             app_persistance = self.find_app_persistance(name)
             app_ref = self.common_utils.get_object_ref(app_persistance,
-                                                'applicationpersistenceprofile')
+                                                'applicationpersistenceprofile',
+                                                tenant=self.tenant)
             if app_persistance:
                 temp_pool.update(
                     {
                         'application_persistence_profile_ref': app_ref
                     })
-            cloud_ref = "/api/cloud/?tenant=admin&name=Default-Cloud"
             skipped_list = list()
             for pools in pool['desc']:
                 farm_set = set(pools.keys())
@@ -66,11 +68,11 @@ class PoolConverter(object):
                 if "probe" in pools.keys():
                     probe = pools['probe']
             if probe:
-                monitor_ref = self.common_utils.get_object_ref(probe, 'healthmonitor')
+                monitor_ref = self.common_utils.get_object_ref(probe, 'healthmonitor', tenant=self.tenant)
             pool_dict = {
                         "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
                         "name": name,
-                        "cloud_ref": cloud_ref,
+                        "cloud_ref": self.cloud_ref,
                         "tenant_ref": self.tenant_ref,
                         "servers": server,
                         "health_monitor_refs": [

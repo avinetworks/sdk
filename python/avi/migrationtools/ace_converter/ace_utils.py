@@ -58,6 +58,3 @@ def update_excel(obj_type, name, status='Success', avi_obj=[], skip=[]):
             excel_dict[index]['Avi Object'] = avi_obj
             excel_dict[index]['status'] = status
             excel_dict[index]['skipped'] = skip
-
-if __name__ == '__main__':
-    update_excel('test', 'test', 'obj')

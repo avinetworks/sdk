@@ -9,10 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConverter(object):
     """ Monitor Converter Class """
-    def __init__(self, parsed, tenant_ref, common_utils):
+    def __init__(self, parsed, tenant_ref, common_utils, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
+        self.tenant = tenant
 
     def healthmonitor_conversion(self):
         """ Health monitor conversion happens here """
