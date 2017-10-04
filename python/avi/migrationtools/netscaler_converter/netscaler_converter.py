@@ -186,6 +186,9 @@ if __name__ == "__main__":
             /home/<'sys_conf.json' or 'ns-Output.json'>
         Usecase: Need to merge objects if there is migration of two netscaler
                  instances/box to single controller.
+        
+        Example to patch the config after conversion:
+          netscaler_converter.py -f ns.conf --patch test/patch.yaml
         '''
 
     parser = argparse.ArgumentParser(

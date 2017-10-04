@@ -288,6 +288,9 @@ if __name__ == "__main__":
     Example to auto upload to controller after conversion:
             f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
             username -p password -t tenant
+            
+    Example to patch the config after conversion:
+        f5_converter.py -f bigip.conf --patch test/patch.yaml
     '''
 
 
