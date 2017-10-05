@@ -301,7 +301,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj_path = None
     if uuid:
         obj_path = '%s/%s' % (obj_type, uuid)
-    elif not name and not uuid:
+    elif not name:
         obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
     obj.pop('state', None)
@@ -334,9 +334,13 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     if uuid:
         # Get the object based on uuid.
-        existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
-                               params={'include_refs': '', 'include_name': ''},
-                               api_version=api_version).json()
+        try:
+            existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+                                   params={'include_refs': '', 'include_name': ''},
+                                   api_version=api_version).json()
+        except:
+            log.error('Failed to get avi object for uuid : %s' % (uuid))
+            return
     elif name:
         params = {'include_refs': '', 'include_name': ''}
         if obj.get('cloud_ref', None):
