@@ -37,7 +37,7 @@ class MonitorConverter(object):
                 "name": health_monitor['name'],
                 "tenant_ref": self.tenant_ref,
                 "failed_checks": failed_checks,
-                "send_interval": send_interval,
+                "send_interval": int(send_interval),
                 "type": None,
                 "successful_checks": successful_checks
             }
