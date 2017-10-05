@@ -25,7 +25,7 @@ tmp_avi_config = {}
 used_pool_group_ref = []
 # Creating  object for util library.
 ns_util = NsUtil()
-
+tmp_policy_ref = []
 
 class LbvsConverter(object):
 
@@ -96,7 +96,7 @@ class LbvsConverter(object):
             self.tenant_name, self.cloud_name, self.tenant_ref, self.cloud_ref,
             self.lbvs_skip_attrs, self.lbvs_na_attrs, self.lbvs_ignore_vals,
             self.lbvs_user_ignore, self.prefix)
-        tmp_policy_ref = []
+
         print "Converting VirtualServices..."
         for key in lb_vs_conf.keys():
             try:

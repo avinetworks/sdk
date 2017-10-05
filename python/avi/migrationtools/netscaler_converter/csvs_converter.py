@@ -4,7 +4,7 @@ import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.lbvs_converter \
-    import (redirect_pools, used_pool_group_ref)
+    import (redirect_pools, used_pool_group_ref,tmp_policy_ref)
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, OBJECT_TYPE_APPLICATION_PROFILE,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HTTP_POLICY_SET,
@@ -21,7 +21,6 @@ from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 LOG = logging.getLogger(__name__)
 
 tmp_used_pool_group_ref = used_pool_group_ref
-tmp_policy_ref = []
 # Creating object for util library.
 ns_util = NsUtil()
 
@@ -447,32 +446,27 @@ class CsvsConverter(object):
                         else:
                             continue
                 vs_obj.pop('pool_group_ref', None)
-
-                # TODO move duplicate code for adding policy to vs in ns_util
+                # Took lbvs policy if any and clone for csvs
+                lbvs_policy = vs_obj.pop('http_policies', [])
+                if lbvs_policy:
+                    for policy_attr in lbvs_policy:
+                        policy_ref = policy_attr.get('http_policy_set_ref')
+                        policy_name = ns_util.get_name(policy_ref) if \
+                                        policy_ref else None
+                        policy_objs = [ob for ob in avi_config['HTTPPolicySet']
+                                      if ob['name'] == policy_name]
+                        policy_obj = policy_objs[0] if policy_objs else {}
+                        if policy_obj:
+                            ns_util.add_policy(policy_obj, updated_vs_name,
+                                 avi_config, tmp_policy_ref, vs_obj,
+                                 self.tenant_name, self.cloud_name, self.prefix)
                 # Add the http policy set reference to VS in AVI
                 if policy:
-                    # Added fix for same policy refferred in multiple vs
                     policy['name'] = policy['name'] + updated_vs_name
-                    if policy['name'] in tmp_policy_ref:
-                        # clone the http policy set if it is referenced to other
-                        # VS
-                        policy = ns_util.clone_http_policy_set(policy,
-                            updated_vs_name, avi_config, self.tenant_name,
-                            self.cloud_name, userprefix=self.prefix)
-                    updated_http_policy_ref = \
-                        ns_util.get_object_ref(policy['name'],
-                                               OBJECT_TYPE_HTTP_POLICY_SET,
-                                               self.tenant_name)
-
-                    tmp_policy_ref.append(policy['name'])
-                    http_policies = {
-                        'index': 11,
-                        'http_policy_set_ref': updated_http_policy_ref
-                    }
-                    vs_obj['http_policies'] = []
-                    vs_obj['http_policies'].append(http_policies)
-                    avi_config['HTTPPolicySet'].append(policy)
-
+                    # Added fix for same policy refferred in multiple vs
+                    ns_util.add_policy(policy, updated_vs_name, avi_config,
+                                     tmp_policy_ref, vs_obj, self.tenant_name,
+                                     self.cloud_name, self.prefix)
                 # Add reference of pool group to VS
                 if default_pool_group:
                     pool_group_ref = '%s-poolgroup' % default_pool_group
