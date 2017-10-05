@@ -1548,3 +1548,26 @@ class NsUtil(MigrationUtil):
         avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
                                 'name'] not in mergelist]
 
+    def add_policy(self, policy, updated_vs_name, avi_config, tmp_policy_ref,
+                   vs_obj, tenant_name, cloud_name, prefix):
+        if policy['name'] in tmp_policy_ref:
+            # clone the http policy set if it is referenced to other VS
+            policy = self.clone_http_policy_set(policy, updated_vs_name,
+                         avi_config, tenant_name, cloud_name, userprefix=prefix)
+        updated_http_policy_ref = self.get_object_ref(policy['name'],
+                                   OBJECT_TYPE_HTTP_POLICY_SET, tenant_name)
+
+        tmp_policy_ref.append(policy['name'])
+        http_policies = {
+            'index': 11,
+            'http_policy_set_ref': updated_http_policy_ref
+        }
+        if not vs_obj.get('http_policies'):
+            vs_obj['http_policies'] = []
+        else:
+            ind = max([policies['index'] for policies in vs_obj[
+                       'http_policies']])
+            http_policies['index'] = ind + 1
+        vs_obj['http_policies'].append(http_policies)
+        avi_config['HTTPPolicySet'].append(policy)
+
