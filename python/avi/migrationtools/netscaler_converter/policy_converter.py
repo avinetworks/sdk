@@ -502,19 +502,8 @@ class PolicyConverter(object):
             match = {"path": path_query}
             match["path"]["match_str"].append('/')
             match["path"]["match_criteria"] = "CONTAINS"
-        elif 'REQ.HTTP.URL ==' in query.upper():
-            match = {"query": path_query}
-            match["query"]["match_criteria"] = "EQUALS"
-            matches = query.split('||')
-            matches = list(set(matches))
-            for element in matches:
-                element = element.split('==')
-                if len(element) > 1:
-                    match["query"]["match_str"].append(element)
-            if not match["query"]["match_str"]:
-                LOG.warning('No Matches found for %s' % query)
-                return None
-        elif 'URL ==' in query.upper():
+
+        elif 'URL ==' in query.upper() or 'REQ.HTTP.URL ==' in query.upper():
             a, b = query.split("==")
             b = b.strip()
             match_str = b.strip("\\'")
