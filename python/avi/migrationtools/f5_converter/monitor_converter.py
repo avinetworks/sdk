@@ -403,7 +403,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         f5_monitor = monitor_config[key]
         monitor_type, monitor_name = key.split(" ")
         parent_name = f5_monitor.get("defaults-from", None)
-        parent_name = None if parent_name == 'none' else parent_name
+        parent_name = None if parent_name == 'none' else \
+                        conv_utils.get_tenant_ref(parent_name)[1] if \
+                        parent_name is not None else parent_name
         if parent_name and monitor_name != parent_name:
             key = monitor_type+" "+parent_name
             parent_monitor = monitor_config.get(key, None)
@@ -641,10 +643,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
         http_response = ''
         if "reverse" in f5_monitor and f5_monitor["reverse"] != 'disabled':
             maintenance_response = f5_monitor.get("recv", '')
-            http_response = f5_monitor.get('recv disable', '')
+            http_response = f5_monitor.get('recv disable', f5_monitor.get(
+                                'recv-disable', ''))
         else:
             http_response = f5_monitor.get("recv", '')
-            maintenance_response = f5_monitor.get('recv disable', '')
+            maintenance_response = f5_monitor.get('recv disable',
+                                            f5_monitor.get('recv-disable', ''))
         if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
@@ -652,7 +656,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             http_response = \
                 http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
-            maintenance_response = ''
+            maintenance_response = None
         if http_response == 'none':
             http_response = ''
         return maintenance_response, http_response
@@ -695,7 +699,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def get_defaults(self, monitor_config, key):
         f5_monitor = monitor_config[key]
         parent_name = f5_monitor.get("defaults from", None)
-        parent_name = None if parent_name == 'none' else parent_name
+        parent_name = None if parent_name == 'none' else \
+                        conv_utils.get_tenant_ref(parent_name)[1] if \
+                        parent_name is not None else parent_name
         if parent_name and key != parent_name:
             parent_monitor = monitor_config.get(parent_name, None)
             if parent_monitor:
@@ -928,7 +934,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             http_response = \
                 http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
-            maintenance_response = ''
+            maintenance_response = None
         if http_response == 'none':
             http_response = ''
         return maintenance_response, http_response
