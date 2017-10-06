@@ -116,6 +116,16 @@ class LbvsConverter(object):
                         lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
                         skipped_status)
                     continue
+                if type != 'SSL' and lb_vs.get('persistenceType') == \
+                  'SSLSESSION':
+                    skipped_status = "Skipped:Secure persistence is applicable"\
+                                     " only if SSL is enabled for Virtual " \
+                                     "Service %s" % key
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(
+                        lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
+                        skipped_status)
+                    continue
                 enable_ssl = False
                 # removing 'SSL_BRIDGE' 'SSL_TCP' so as to have L4 app profile
                 if type in ['SSL']:
