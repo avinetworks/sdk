@@ -53,7 +53,7 @@ class PolicyConverter(object):
 
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
-                redirect_pools, netscalar_command, case_sensitive):
+                redirect_pools, netscalar_command, case_sensitive, enable_ssl):
         """
         This function defines that convert netscalar policy to http policy set
         in AVI
@@ -174,11 +174,11 @@ class PolicyConverter(object):
                         bind_lb_netscalar_complete_command,
                         STATUS_SKIPPED, skipped_status)
                     continue
-                rule, rule_index = self.rule_converter(
-                    policy, policy_type, priority_index, redirect_pools,
-                    bind_patset, patset_config, rewrite_action_config,
-                    responder_action_config, policy_expression_config,
-                    avi_config, tmp_pool_ref, targetLBVserver, case_sensitive)
+                rule, rule_index = self.rule_converter(policy, policy_type,
+                    priority_index, redirect_pools, bind_patset, patset_config,
+                    rewrite_action_config, responder_action_config,
+                    policy_expression_config, avi_config, tmp_pool_ref,
+                    enable_ssl, targetLBVserver, case_sensitive)
                 conv_status = ns_util.get_conv_status(
                     bind_conf, self.bind_skipped, self.na_attrs, [],
                     ignore_for_val=self.ignore_vals,
@@ -271,7 +271,7 @@ class PolicyConverter(object):
                        redirect_pools, bind_patset, patset_config,
                        rewrite_action_config, responder_action_config,
                        policy_expression_config, avi_config, tmp_pool_ref,
-                       targetLBVserver=None, case_sensitive=True):
+                       enable_ssl, targetLBVserver=None, case_sensitive=True):
         """
         This function defines to convert netscalar rule to http policy rule
         :param policy: Object of policy
@@ -281,8 +281,13 @@ class PolicyConverter(object):
         :param bind_patset: dict of bind patset netscalar command
         :param patset_config: dict of patset config
         :param rewrite_action_config: dict of rewrite action
+        :param responder_action_config:
+        :param policy_expression_config:
         :param avi_config: dict of AVI
+        :param tmp_pool_ref:
+        :param enable_ssl:
         :param targetLBVserver: name tarhet lb vserver
+        :param case_sensitive:
         :return:  http policy rule
         """
         netscalar_command = None
@@ -357,9 +362,9 @@ class PolicyConverter(object):
             targetLBVserver = '%s-%s' %(self.prefix, targetLBVserver)
 
         if policy_type == 'cs':
-            cs_action, redirect_uri = self.get_cs_policy_action(
-                name, targetLBVserver, redirect_pools,
-                avi_config, tmp_pool_ref)
+            cs_action, redirect_uri = self.get_cs_policy_action(name,
+                      targetLBVserver, redirect_pools, avi_config, tmp_pool_ref,
+                                                                enable_ssl)
             targetLBVserver_name = [lb_name for lb_name in avi_config['Lbvs']
                                     if targetLBVserver in lb_name]
             if cs_action:
@@ -384,14 +389,14 @@ class PolicyConverter(object):
                     ).replace('"', '')
                     cs_action, redirect_uri = self.get_cs_policy_action(
                         name, targetLBVserver, redirect_pools, avi_config,
-                        tmp_pool_ref)
+                        tmp_pool_ref, enable_ssl)
                     policy_rules['redirect_action'] = cs_action
                 elif 'backupvserver' in targetLBVserver_name[targetLBVserver]:
                     tmp_pool_ref.append(str(targetLBVserver_name
                                             [targetLBVserver]['backupvserver']))
                     cs_action, redirect_uri = self.get_cs_policy_action(
                         name, targetLBVserver, redirect_pools,
-                        avi_config, tmp_pool_ref)
+                        avi_config, tmp_pool_ref, enable_ssl)
                     policy_rules['switching_action'] = cs_action
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
@@ -425,8 +430,8 @@ class PolicyConverter(object):
                     policy['line_no'], netscalar_command, rule_name,
                     ns_policy_complete_cmd, STATUS_SKIPPED, skipped_status)
         elif policy_type == 'responder':
-            policy_rules = self.get_responder_action(
-                policy['attrs'][2], policy_rules, responder_action_config)
+            policy_rules = self.get_responder_action(policy['attrs'][2],
+                              policy_rules, responder_action_config, enable_ssl)
             if policy_rules:
                 LOG.info('Conversion successful : %s %s' % (
                     netscalar_command, rule_name))
@@ -824,18 +829,23 @@ class PolicyConverter(object):
         LOG.warning("%s Patset policy is not supported" % match)
 
     def get_cs_policy_action(self, name, targetLBVserver, redirect_pools,
-                             avi_config, tmp_pool_ref):
+                             avi_config, tmp_pool_ref, enable_ssl):
         """
         This function defines that return the http request policy action
+        :param name
         :param targetLBVserver: name of terget lb vserver
         :param redirect_pools: list of redirect pools
         :param avi_config: dict of AVI
+        :param tmp_pool_ref:
+        :param enable_ssl:
         :return: http policy action
         """
         if targetLBVserver in redirect_pools:
             redirect_url = str(redirect_pools[targetLBVserver]).replace('"','')
             redirect_url = ns_util.parse_url(redirect_url)
             protocol = str(redirect_url.scheme).upper()
+            protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
+                        protocol
             action = {
                 'protocol': protocol,
                 'host': {
@@ -997,12 +1007,13 @@ class PolicyConverter(object):
 
 
     def get_responder_action(self, policy_name, policy_rules,
-                             responder_action_config):
+                             responder_action_config, enable_ssl):
         """
         This functions defines that return responder policy action
         :param policy_name: name of policy
         :param policy_rules: rules of policy
-        :param rewrite_action_config: dict of rewrite action
+        :param responder_action_config: dict of responder action
+        :param enable_ssl:
         :return: responder policy action
         """
 
@@ -1121,6 +1132,8 @@ class PolicyConverter(object):
                            policy_action['attrs'][2].strip('"').strip())
             redirect_url = str(path_matches[0]).replace('"', '')
             protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+            protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
+                        protocol
             redirect_action = {
                 'protocol': protocol,
                 'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
@@ -1152,6 +1165,8 @@ class PolicyConverter(object):
             if attrs[1] == '301':
                 redirect_url = str(attrs[4]).replace('"', '')
                 protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+                protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol \
+                            else protocol
                 redirect_action = {
                     'protocol': protocol,
                     'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',

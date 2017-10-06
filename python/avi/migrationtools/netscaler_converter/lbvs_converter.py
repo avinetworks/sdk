@@ -194,9 +194,11 @@ class LbvsConverter(object):
 
                 if bind_conf_list:
                     # Convert netscalar policy to AVI http policy set
+                    # Sending enable_ssl to policy in order to have protocol
+                    # in case it is not provided thru redirect action url
                     policy = policy_converter.convert(
                         bind_conf_list, ns_config, avi_config, [],
-                        redirect_pools, 'bind lb vserver', True)
+                        redirect_pools, 'bind lb vserver', True, enable_ssl)
                 # TODO move duplicate code for adding policy to vs in ns_util
                 # Convert netscalar policy to AVI http policy set
                 if policy:
