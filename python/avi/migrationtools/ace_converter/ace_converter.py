@@ -178,7 +178,20 @@ Mandatory
 :param output_file : the output file that needs to be generated
 
 Optional:
+:param controller_version: To Target which controller converting into
+:param vs_state: To enable or disable after the vs is create
+:param input_folder_location: Location of input key and cert files, if not use 
+                              current run location
+:param option: (auto-upload) Upload after conversion directly into controller
+    :param user: Username of Controller to upload 
+    :param password: Password of Controller to upload
+    :param controller_ip: The ip of the controller to upload
+
 :param tenant: Tenant for which config need to be converted
+:param cloudname: To change the cloud name
+:param ansible: To create ansible upload file
+:param vs_filter: To filter vs out of configuration
+:param patch: To patch the configuration file
 :param version: version of the controller (optional)
             '''
 
