@@ -198,20 +198,26 @@ class NsUtil(MigrationUtil):
         """
 
         avi_resp_codes = []
-        codes = respCode.split(' ')
+        codes = []
+        for res_code in respCode.split(' '):
+            if '-' in res_code:
+                codes.extend(res_code.split('-'))
+            else:
+                codes.append(res_code)
         for code in codes:
-            # Converted to int.
-            code = int(code)
-            if code < 200:
-                avi_resp_codes.append("HTTP_1XX")
-            elif code < 300:
-                avi_resp_codes.append("HTTP_2XX")
-            elif code < 400:
-                avi_resp_codes.append("HTTP_3XX")
-            elif code < 500:
-                avi_resp_codes.append("HTTP_4XX")
-            elif code < 600:
-                avi_resp_codes.append("HTTP_5XX")
+            if code and code.strip().isdigit():
+                # Converted to int.
+                code = int(code.strip())
+                if code < 200:
+                    avi_resp_codes.append("HTTP_1XX")
+                elif code < 300:
+                    avi_resp_codes.append("HTTP_2XX")
+                elif code < 400:
+                    avi_resp_codes.append("HTTP_3XX")
+                elif code < 500:
+                    avi_resp_codes.append("HTTP_4XX")
+                elif code < 600:
+                    avi_resp_codes.append("HTTP_5XX")
         # Get the unique dict from list.
         return list(set(avi_resp_codes))
 
