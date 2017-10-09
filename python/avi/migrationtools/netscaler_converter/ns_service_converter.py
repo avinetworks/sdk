@@ -488,8 +488,6 @@ class ServiceConverter(object):
 
         for group_key in ns_service_groups:
             try:
-                if group_key == 'vesoosdev1_1443_sg':
-                    print 'hi'
                 # Added count to increment progress.
                 self.progressbar_count += 1
                 service_group_command = 'add serviceGroup'
