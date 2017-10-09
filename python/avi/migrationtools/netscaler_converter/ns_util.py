@@ -747,7 +747,7 @@ class NsUtil(MigrationUtil):
             row[0]['Status'] = STATUS_INDIRECT
 
     def create_http_policy_set_for_redirect_url(self, vs_obj, redirect_uri,
-                                                avi_config, tenant_name, tenant_ref):
+                            avi_config, tenant_name, tenant_ref, enable_ssl):
         """
         This function defines that create http policy for redirect url
         :param vs_obj: object of VS
@@ -758,23 +758,7 @@ class NsUtil(MigrationUtil):
         :return: None
         """
         redirect_uri = str(redirect_uri).replace('"', '')
-        parsed = self.parse_url(redirect_uri)
-        protocol = str(parsed.scheme).upper()
-        if not protocol:
-            protocol = 'HTTP'
-
-        action = {
-            'protocol': protocol,
-            'host': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_HOST',
-                    'str_value': redirect_uri,
-                    'start_index': '0',
-                    'end_index': '65535'
-                }]
-            }
-        }
+        action = self.build_redirect_action_dict(redirect_uri, enable_ssl)
         policy_obj = {
             'name': vs_obj['name'] + '-redirect-policy',
             'tenant_ref': tenant_ref,
@@ -805,7 +789,8 @@ class NsUtil(MigrationUtil):
             'index': 11,
             'http_policy_set_ref': updated_http_policy_ref
         }
-        vs_obj['http_policies'] = []
+        if not vs_obj.get('http_policies'):
+            vs_obj['http_policies'] = []
         vs_obj['http_policies'].append(http_policies)
         avi_config['HTTPPolicySet'].append(policy_obj)
 
@@ -1578,4 +1563,43 @@ class NsUtil(MigrationUtil):
             http_policies['index'] = ind + 1
         vs_obj['http_policies'].append(http_policies)
         avi_config['HTTPPolicySet'].append(policy)
+
+    def build_redirect_action_dict(self, redirect_url, enable_ssl):
+        redirect_url = self.parse_url(redirect_url)
+        protocol = str(redirect_url.scheme).upper()
+        hostname = str(redirect_url.hostname)
+        pathstring = str(redirect_url.path)
+        querystring = str(redirect_url.query)
+        full_path = '%s?%s' % (pathstring, querystring) if pathstring and \
+                                querystring else pathstring
+        protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
+            protocol
+        action = {
+            'protocol': protocol
+        }
+        if hostname:
+            action.update({'host':
+                {
+                    'type': 'URI_PARAM_TYPE_TOKENIZED',
+                    'tokens': [{
+                        'type': 'URI_TOKEN_TYPE_STRING',
+                        'str_value': hostname,
+                        'start_index': '0',
+                        'end_index': '65535'
+                    }]
+                }
+            })
+        if full_path:
+            action.update({'path':
+                {
+                    'type': 'URI_PARAM_TYPE_TOKENIZED',
+                    'tokens': [{
+                        'type': 'URI_TOKEN_TYPE_STRING',
+                        'str_value': full_path,
+                        'start_index': '0',
+                        'end_index': '65535'
+                    }]
+                }
+            })
+        return action
 

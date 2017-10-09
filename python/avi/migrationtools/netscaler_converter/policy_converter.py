@@ -842,23 +842,8 @@ class PolicyConverter(object):
         """
         if targetLBVserver in redirect_pools:
             redirect_url = str(redirect_pools[targetLBVserver]).replace('"','')
-            redirect_url = ns_util.parse_url(redirect_url)
-            protocol = str(redirect_url.scheme).upper()
-            protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
-                        protocol
-            action = {
-                'protocol': protocol,
-                'host': {
-                    'type': 'URI_PARAM_TYPE_TOKENIZED',
-                    'tokens': [{
-                        'type': 'URI_TOKEN_TYPE_HOST',
-                        'str_value': redirect_pools[targetLBVserver],
-                        'start_index': '0',
-                        'end_index': '65535'
-                    }]
-                }
-            }
-
+            action = ns_util.build_redirect_action_dict(redirect_url,
+                                                        enable_ssl)
             return action, True
 
         else:
@@ -1134,21 +1119,39 @@ class PolicyConverter(object):
             protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
             protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
                         protocol
+            hostname = str(redirect_url.hostname)
+            pathstring = str(redirect_url.path)
+            querystring = str(redirect_url.query)
+            full_path = '%s?%s' % (pathstring, querystring) if pathstring and \
+                                                    querystring else pathstring
             redirect_action = {
                 'protocol': protocol,
                 'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
                 'keep_query': False,
-                'path': {
-                    'type': 'URI_PARAM_TYPE_TOKENIZED',
-                    'tokens': [{
-                        'type': 'URI_TOKEN_TYPE_STRING',
-                        'str_value': redirect_url
-                    }]
-                },
                 'query': {
                     'keep_query': False
                 }
             }
+            if hostname:
+                redirect_action.update({'host':
+                    {
+                        'type': 'URI_PARAM_TYPE_TOKENIZED',
+                        'tokens': [{
+                            'type': 'URI_TOKEN_TYPE_STRING',
+                            'str_value': hostname
+                        }]
+                    }
+                })
+            if full_path:
+                redirect_action.update({'path':
+                    {
+                        'type': 'URI_PARAM_TYPE_TOKENIZED',
+                        'tokens': [{
+                            'type': 'URI_TOKEN_TYPE_STRING',
+                            'str_value': full_path
+                        }]
+                    }
+                })
             policy_rule['redirect_action'] = redirect_action
             LOG.info('Conversion successful: %s %s' %
                      (ns_responder_action_command, policy_name))
@@ -1167,22 +1170,39 @@ class PolicyConverter(object):
                 protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
                 protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol \
                             else protocol
+                hostname = str(redirect_url.hostname)
+                pathstring = str(redirect_url.path)
+                querystring = str(redirect_url.query)
+                full_path = '%s?%s' % (pathstring, querystring) if pathstring \
+                                    and querystring else pathstring
                 redirect_action = {
                     'protocol': protocol,
                     'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',
                     'keep_query': False,
-
-                    'path': {
-                        'type': 'URI_PARAM_TYPE_TOKENIZED',
-                        'tokens': [{
-                            'type': 'URI_TOKEN_TYPE_STRING',
-                            'str_value': redirect_url
-                        }]
-                    },
                     'query': {
                         'keep_query': False
                     }
                 }
+                if hostname:
+                    redirect_action.update({'host':
+                        {
+                            'type': 'URI_PARAM_TYPE_TOKENIZED',
+                            'tokens': [{
+                                'type': 'URI_TOKEN_TYPE_STRING',
+                                'str_value': hostname
+                            }]
+                        }
+                    })
+                if full_path:
+                    redirect_action.update({'path':
+                        {
+                            'type': 'URI_PARAM_TYPE_TOKENIZED',
+                            'tokens': [{
+                                'type': 'URI_TOKEN_TYPE_STRING',
+                                'str_value': full_path
+                            }]
+                        }
+                    })
                 policy_rule['redirect_action'] = redirect_action
             elif attrs[1] in ['403', '429', '200', '404']:
                 switching_action ={

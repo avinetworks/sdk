@@ -490,7 +490,7 @@ class LbvsConverter(object):
                     redirect_pools.update({vs_obj['name']: redirect_url})
                     ns_util.create_http_policy_set_for_redirect_url(
                         vs_obj, redirect_url, avi_config, self.tenant_name,
-                        self.tenant_ref)
+                        self.tenant_ref, enable_ssl)
                 if redirect_url:
                     if parse_version(self.controller_version) >= parse_version(
                             '17.1'):
