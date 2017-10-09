@@ -438,7 +438,8 @@ class ProfileConverter(object):
             xff_enabled = True if xff_header else False
             http_profile['xff_enabled'] = xff_enabled
             # TODO: clientIpHdrExpr conversion to xff_alternate_name
-            websockets = profile.get('websockets_enabled', 'DISABLED')
+            websockets = profile.get('websockets_enabled', profile.get(
+                            'webSocket', 'DISABLED'))
             websockets = False if websockets == 'DISABLED' else True
             http_profile['websockets_enabled'] = websockets
             app_profile["http_profile"] = http_profile
