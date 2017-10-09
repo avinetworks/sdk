@@ -700,13 +700,15 @@ class NsUtil(MigrationUtil):
             timeout = vs.get('timeout', 2)
             profile = {
                 "http_cookie_persistence_profile": {
-                    "always_send_cookie": False,
-                    "timeout": timeout
+                    "always_send_cookie": False
                 },
                 "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
                 "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
                 "name": name,
             }
+            #  Added time if greater than zero
+            if int(timeout) > 0:
+                profile['http_cookie_persistence_profile']["timeout"] = timeout
         elif persistenceType == 'SOURCEIP':
             # Set timeout equal to 2 if not provided.
             timeout = vs.get('timeout', 120)
