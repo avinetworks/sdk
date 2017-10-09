@@ -439,16 +439,9 @@ class ServiceConverter(object):
                             ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                             self.tenant_name)
                         pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
-                    if pool_obj.get('pki_profile_ref', None) or \
-                      pool_obj.get('ssl_key_and_certificate_ref', None) or \
-                      pool_obj.get('ssl_profile_ref', None):
-                        # Remove health monitor reference of http type if pool
-                        # has ssl profile or pki profile or ssl cert key
-                        ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
-                                                          sysdict)
                 # adding condition to attach default ssl and certkey profile
-                elif service.get('attrs') and len(service['attrs']) > 2 and \
-                        service['attrs'][2] == 'SSL':
+                elif service.get('attrs') and len(service['attrs']) >= 2 and \
+                        'SSL' in service['attrs']:
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
                             'System-Standard', OBJECT_TYPE_SSL_PROFILE,
                             self.tenant_name)
@@ -456,6 +449,13 @@ class ServiceConverter(object):
                         ns_util.get_object_ref('System-Default-Cert',
                                             OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                             self.tenant_name)
+                if pool_obj.get('pki_profile_ref', None) or \
+                        pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                        pool_obj.get('ssl_profile_ref', None):
+                    # Remove health monitor reference of http type if pool
+                    # has ssl profile or pki profile or ssl cert key
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                      sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
@@ -488,6 +488,8 @@ class ServiceConverter(object):
 
         for group_key in ns_service_groups:
             try:
+                if group_key == 'vesoosdev1_1443_sg':
+                    print 'hi'
                 # Added count to increment progress.
                 self.progressbar_count += 1
                 service_group_command = 'add serviceGroup'
@@ -593,16 +595,9 @@ class ServiceConverter(object):
                             ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
                             self.tenant_name)
                         pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
-                    if pool_obj.get('pki_profile_ref', None) or \
-                      pool_obj.get('ssl_key_and_certificate_ref', None) or \
-                      pool_obj.get('ssl_profile_ref', None):
-                        # Remove health monitor reference of http type if pool
-                        # has ssl profile or pki profile or ssl cert key
-                        ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
-                                                          sysdict)
                 # adding condition to attach default ssl and certkey profile
                 elif (service_group.get('attrs') and len(service_group['attrs'])
-                        > 2 and service_group['attrs'][2] == 'SSL'):
+                        >= 2 and 'SSL' in service_group['attrs']):
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
                         'System-Standard', OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
@@ -610,6 +605,13 @@ class ServiceConverter(object):
                         ns_util.get_object_ref('System-Default-Cert',
                                             OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                                self.tenant_name)
+                if pool_obj.get('pki_profile_ref', None) or \
+                        pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                        pool_obj.get('ssl_profile_ref', None):
+                    # Remove health monitor reference of http type if pool
+                    # has ssl profile or pki profile or ssl cert key
+                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                      sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
