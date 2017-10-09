@@ -81,6 +81,8 @@ class LbvsConverter(object):
         lb_vs_conf = ns_config.get('add lb vserver', {})
         bind_lb_vs_config = ns_config.get('bind lb vserver', {})
         cs_vs_conf = ns_config.get('add cs vserver', {})
+        ns_service = ns_config.get('add service', {})
+        ns_sg = ns_config.get('add serviceGroup', {})
         avi_config['VirtualService'] = []
         avi_config['Lbvs'] = []
         tmp_avi_config['VirtualService'] = []
@@ -251,13 +253,33 @@ class LbvsConverter(object):
                                                    OBJECT_TYPE_APPLICATION_PROFILE,
                                                    self.tenant_name)
                         vs_obj['application_profile_ref'] = http_prof_ref
+                        addition_attr = {}
+                        if bind_conf_list:
+                            for bindlist in bind_conf_list:
+                                if bindlist.get('attrs') and len(bindlist[
+                                  'attrs']) == 2:
+                                    ser_conf = ns_service.get(bindlist[
+                                                                'attrs'][1])
+                                    ser_cmd = 'add service'
+                                    if not ser_conf:
+                                        ser_conf = ns_sg.get(bindlist[
+                                                                'attrs'][1])
+                                        ser_cmd = 'add serviceGroup'
+                                    command =\
+                                        ns_util.get_netscalar_full_command(
+                                            ser_cmd, ser_conf)
+                                    if 'x-forwarded-for' in command:
+                                        addition_attr['xff_enabled'] = True
+                                        addition_attr[
+                                            'ssl_everywhere_enabled'] = True
                         clttimeout = lb_vs.get('cltTimeout', None)
                         if clttimeout:
-                            ns_util.add_clttimeout_for_http_profile(
-                                http_prof, avi_config, clttimeout)
+                            addition_attr['clttimeout'] = clttimeout
                             clt_cmd = cmd + '%s cltTimeout %s' % (key,
                                                                   clttimeout)
                             LOG.info('Conversion successful : %s' % clt_cmd)
+                        ns_util.add_prop_for_http_profile(
+                            http_prof, avi_config, sysdict, addition_attr)
                     else:
                         LOG.warning("%s application profile doesn't exist for "
                                     "%s vs" %(http_prof, updated_vs_name))

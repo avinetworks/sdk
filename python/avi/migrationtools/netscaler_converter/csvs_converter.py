@@ -84,6 +84,8 @@ class CsvsConverter(object):
         cs_vs_conf = ns_config.get('add cs vserver', {})
         lb_vs_conf = ns_config.get('add lb vserver', {})
         bindings = ns_config.get('bind cs vserver', {})
+        ns_service = ns_config.get('add service', {})
+        ns_sg = ns_config.get('add serviceGroup', {})
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
@@ -190,7 +192,11 @@ class CsvsConverter(object):
                     service['port'] = "1"
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
-
+                bind_conf_list = bindings.get(vs_name, None)
+                if not bind_conf_list:
+                    continue
+                if isinstance(bind_conf_list, dict):
+                    bind_conf_list = [bind_conf_list]
                 http_prof = cs_vs.get('httpProfileName', None)
                 if http_prof:
                     # Added prefix for objects
@@ -210,13 +216,33 @@ class CsvsConverter(object):
                                         OBJECT_TYPE_APPLICATION_PROFILE,
                                         self.tenant_name)
                         vs_obj['application_profile_ref'] = http_prof_ref
+                        addition_attr = {}
+                        if bind_conf_list:
+                            for bindlist in bind_conf_list:
+                                if bindlist.get('attrs') and len(bindlist[
+                                  'attrs']) == 2:
+                                    ser_conf = ns_service.get(bindlist[
+                                                                  'attrs'][1])
+                                    ser_cmd = 'add service'
+                                    if not ser_conf:
+                                        ser_conf = ns_sg.get(bindlist[
+                                                                 'attrs'][1])
+                                        ser_cmd = 'add serviceGroup'
+                                    command = \
+                                        ns_util.get_netscalar_full_command(
+                                            ser_cmd, ser_conf)
+                                    if 'x-forwarded-for' in command:
+                                        addition_attr['xff_enabled'] = True
+                                        addition_attr[
+                                            'ssl_everywhere_enabled'] = True
                         clttimeout = cs_vs.get('cltTimeout', None)
                         if clttimeout:
-                            ns_util.add_clttimeout_for_http_profile(http_prof,
-                                                        avi_config, clttimeout)
+                            addition_attr['clttimeout'] = clttimeout
                             clt_cmd = ns_add_cs_vserver_command + \
                                       ' cltTimeout %s' % clttimeout
                             LOG.info('Conversion successful : %s' % clt_cmd)
+                        ns_util.add_prop_for_http_profile(
+                            http_prof, avi_config, sysdict, addition_attr)
                     else:
                         LOG.warning("%s application profile doesn't exist for "
                                     "%s vs" % (http_prof, updated_vs_name))
@@ -275,11 +301,6 @@ class CsvsConverter(object):
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
                         tenant='admin')
-                bind_conf_list = bindings.get(vs_name, None)
-                if not bind_conf_list:
-                    continue
-                if isinstance(bind_conf_list, dict):
-                    bind_conf_list = [bind_conf_list]
                 default_pool_group = None
                 lb_vserver_bind_conf = None
 
