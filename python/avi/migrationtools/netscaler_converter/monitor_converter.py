@@ -234,9 +234,15 @@ class MonitorConverter(object):
                 send = ns_monitor.get("send", None)
                 if send:
                     send = send.replace('"', '')
+                    # Removed \\ from response.
+                    if '\\' in send:
+                        send = send.replace('\\', '"')
                 response = ns_monitor.get('recv', None)
                 if response:
                     response = response.replace('"', '')
+                    # Removed \\ from response.
+                    if '\\' in response:
+                        response = response.replace('\\', '"')
                 avi_monitor["tcp_monitor"] = {
                     "tcp_request": send,
                     "tcp_response": response,
@@ -247,6 +253,9 @@ class MonitorConverter(object):
                 send = ns_monitor.get('httpRequest', None)
                 if send:
                     send = send.replace('"', '')
+                    # Removed \\ from send.
+                    if '\\' in send:
+                        send = send.replace('\\', '"')
                 resp_code = ns_monitor.get('respCode', None)
                 if resp_code:
                     resp_code = ns_util.get_avi_resp_code(resp_code)
@@ -263,6 +272,9 @@ class MonitorConverter(object):
                 send = ns_monitor.get('httpRequest', None)
                 if send:
                     send = send.replace('"', '')
+                    # Removed \\ from send.
+                    if '\\' in send:
+                        send = send.replace('\\', '"')
                 resp_code = ns_monitor.get('respCode', None)
                 if resp_code:
                     resp_code = ns_util.get_avi_resp_code(resp_code)
@@ -275,9 +287,15 @@ class MonitorConverter(object):
                 send = ns_monitor.get("send", None)
                 if send:
                     send = send.replace('"', '')
+                    # Removed \\ from send.
+                    if '\\' in send:
+                        send = send.replace('\\', '"')
                 response = ns_monitor.get('recv', None)
                 if response:
                     response = response.replace('"', '')
+                    # Removed \\ from response.
+                    if '\\' in response:
+                        response = response.replace('\\', '"')
                 avi_monitor["http_monitor"] = {
                     "http_request": send,
                     "http_response_code": ["HTTP_ANY"],
