@@ -269,18 +269,23 @@ class MigrationUtil(object):
                     typ) == int):
                 if typ == 'int':
                     new_value = int(new_value)
-                    lval = p_key.get('range')
-                    if lval:
-                        low, high = lval.split('-')
-                        if new_value < int(low):
-                            valid = False
-                            new_value = int(low)
-                        elif new_value > int(high):
-                            valid = False
-                            new_value = int(high)
-                        else:
-                            valid = True
-                            LOG.debug("Value '%s' is fine", str(new_value))
+                    if p_key.get('special_values') and new_value == 0:
+                        LOG.debug("Special value present, hence ignored for "
+                                  "value 0 for %s", msgvar)
+                        pass
+                    else:
+                        lval = p_key.get('range')
+                        if lval:
+                            low, high = lval.split('-')
+                            if new_value < int(low):
+                                valid = False
+                                new_value = int(low)
+                            elif new_value > int(high):
+                                valid = False
+                                new_value = int(high)
+                            else:
+                                valid = True
+                                LOG.debug("Value '%s' is fine", str(new_value))
                 if typ == 'str':
                     options = p_key.get('option_values')
                     if options and new_value not in options:
