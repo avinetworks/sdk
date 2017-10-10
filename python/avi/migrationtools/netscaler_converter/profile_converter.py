@@ -431,7 +431,7 @@ class ProfileConverter(object):
             app_profile['tenant_ref'] = self.tenant_ref
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
             http_profile = dict()
-            conn_mux = profile.get('conMultiplex', 'DISABLED')
+            conn_mux = profile.get('conMultiplex', 'ENABLED')
             conn_mux = False if conn_mux == 'DISABLED' else True
             http_profile['connection_multiplexing_enabled'] = conn_mux
             xff_header = profile.get('clientIpHdrExpr', None)
