@@ -546,15 +546,6 @@ class LbvsConverter(object):
                                                full_cmd, STATUS_SKIPPED,
                                                skipped_status)
                         continue
-                    avi_config['VirtualService'].append(vs_obj)
-                    # Add summery of this lb vs in CSV/report
-                    conv_status = ns_util.get_conv_status(
-                        lb_vs, self.lbvs_skip_attrs, self.lbvs_na_attrs,
-                        self.lbvs_indirect_list,
-                        ignore_for_val=self.lbvs_ignore_vals,
-                        user_ignore_val=self.lbvs_user_ignore)
-                    ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
-                                            full_cmd, conv_status, vs_obj)
                 if enable_ssl:
                     ssl_mappings = ns_config.get('bind ssl vserver', {})
                     ssl_bindings = ssl_mappings.get(key, [])
@@ -638,7 +629,36 @@ class LbvsConverter(object):
                         # Changed ssl profile name to ssl profile ref.
                         vs_obj['ssl_profile_ref'] = updated_ssl_profile_ref
                         LOG.debug('Added: %s SSL profile %s' % (key, key))
-
+                # Added code to skipped L4 VS if pool or pool group not present
+                if vs_obj.get('application_profile_ref'):
+                    app_name = ns_util.get_name(vs_obj[
+                                                    'application_profile_ref'])
+                    application_profile_obj = [obj for obj in (sysdict[
+                                              'ApplicationProfile'] +
+                                              avi_config['ApplicationProfile'])
+                                              if obj['name'] == app_name]
+                    if (application_profile_obj and application_profile_obj[0][
+                      'type'] == 'APPLICATION_PROFILE_TYPE_L4') or app_name == \
+                      'System-L4-Application':
+                        if not vs_obj.get('pool_ref', vs_obj.get(
+                                'pool_group_ref')):
+                            vs_conv_status = STATUS_SKIPPED
+                            skipped_status = "Skipped:Failed to convert L4 VS "\
+                                             "dont have pool or pool group ref"\
+                                             " %s" % full_cmd
+                            LOG.debug(skipped_status)
+                            ns_util.add_status_row(lb_vs['line_no'], cmd, key,
+                                    full_cmd, vs_conv_status, skipped_status)
+                            continue
+                avi_config['VirtualService'].append(vs_obj)
+                # Add summery of this lb vs in CSV/report
+                conv_status = ns_util.get_conv_status(
+                    lb_vs, self.lbvs_skip_attrs, self.lbvs_na_attrs,
+                    self.lbvs_indirect_list,
+                    ignore_for_val=self.lbvs_ignore_vals,
+                    user_ignore_val=self.lbvs_user_ignore)
+                ns_util.add_conv_status(lb_vs['line_no'], cmd, key,
+                                        full_cmd, conv_status, vs_obj)
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
                 LOG.error('Error in lb vs conversion for: %s' %
