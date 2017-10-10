@@ -445,10 +445,6 @@ class ServiceConverter(object):
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
                             'System-Standard', OBJECT_TYPE_SSL_PROFILE,
                             self.tenant_name)
-                    pool_obj['ssl_key_and_certificate_ref'] = \
-                        ns_util.get_object_ref('System-Default-Cert',
-                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                            self.tenant_name)
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
@@ -599,10 +595,6 @@ class ServiceConverter(object):
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
                         'System-Standard', OBJECT_TYPE_SSL_PROFILE,
                         self.tenant_name)
-                    pool_obj['ssl_key_and_certificate_ref'] = \
-                        ns_util.get_object_ref('System-Default-Cert',
-                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                               self.tenant_name)
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):

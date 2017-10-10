@@ -1116,7 +1116,8 @@ class PolicyConverter(object):
                 re.findall('\\\\(.+?)\\\\',
                            policy_action['attrs'][2].strip('"').strip())
             redirect_url = str(path_matches[0]).replace('"', '')
-            protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+            redirect_url = ns_util.parse_url(redirect_url)
+            protocol = str(redirect_url.scheme).upper()
             protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
                         protocol
             hostname = str(redirect_url.hostname)
@@ -1167,7 +1168,8 @@ class PolicyConverter(object):
                 return
             if attrs[1] == '301':
                 redirect_url = str(attrs[4]).replace('"', '')
-                protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+                redirect_url = ns_util.parse_url(redirect_url)
+                protocol = str(redirect_url.scheme).upper()
                 protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol \
                             else protocol
                 hostname = str(redirect_url.hostname)
