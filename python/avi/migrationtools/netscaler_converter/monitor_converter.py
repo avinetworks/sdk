@@ -267,12 +267,15 @@ class MonitorConverter(object):
                         "http_response_code": resp_code,
                         "ssl_attributes": ssl_attributes
                     }
-                custom_header = ns_monitor.get('customHeaders').decode(
-                                    'string_escape')
-                if custom_header:
-                    avi_monitor['https_monitor'].update({
-                        'exact_http_request': True,
-                        'http_request': send + "\n" + custom_header})
+                if parse_version(self.controller_version) >= parse_version(
+                        '17.1.6'):
+                    custom_header = ns_monitor.get('customHeaders')
+                    if custom_header:
+                        avi_monitor['https_monitor'].update({
+                            'exact_http_request': True,
+                            'http_request': (send + ' HTTP/1.0' + "\r\n" +
+                                             custom_header).replace('"',
+                                             '').replace('\\r\\n', '\r\n')})
             elif mon_type == 'HTTP':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get('httpRequest', None)
@@ -288,12 +291,15 @@ class MonitorConverter(object):
                     "http_request": send,
                     "http_response_code": resp_code
                 }
-                custom_header = ns_monitor.get('customHeaders').decode(
-                                    'string_escape')
-                if custom_header:
-                    avi_monitor['http_monitor'].update({
-                        'exact_http_request': True,
-                        'http_request': send + "\n" + custom_header})
+                if parse_version(self.controller_version) >= parse_version(
+                        '17.1.6'):
+                    custom_header = ns_monitor.get('customHeaders')
+                    if custom_header:
+                        avi_monitor['http_monitor'].update({
+                            'exact_http_request': True,
+                            'http_request': (send + ' HTTP/1.0' + "\r\n" +
+                                             custom_header).replace('"',
+                                             '').replace('\\r\\n', '\r\n')})
             elif mon_type == 'HTTP-ECV':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTP"
                 send = ns_monitor.get("send", None)
