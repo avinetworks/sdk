@@ -450,21 +450,66 @@ class NsUtil(MigrationUtil):
                 }
                 vs['services'].append(service)
 
-    def add_clttimeout_for_http_profile(self, profile_name, avi_config,
-                                        cltimeout):
+    def add_prop_for_http_profile(self, profile_name, avi_config, sysdict,
+                                  prop_dict):
         """
-        :param object_type:Type of object need to check for name
-        :param name: name of object
+        This method adds the additional attribute to application profile
+        :param name: name of application profile
         :param avi_config: avi config dict
-        :return: Bool Value
+        :param sysdict: system/baseline config dict
+        :param prop_dict: property dict
+        :return:
         """
 
-        profile = [p for p in avi_config['ApplicationProfile']
-                   if p['name'] == profile_name]
+        profile = [p for p in (avi_config['ApplicationProfile'] + sysdict[
+            'ApplicationProfile']) if p['name'] == profile_name]
         if profile:
-            profile[0]['client_header_timeout'] = int(cltimeout)
-            profile[0]['client_body_timeout'] = int(cltimeout)
-
+            if prop_dict.get('clttimeout'):
+                profile[0]['client_header_timeout'] = int(prop_dict[
+                                                              'clttimeout'])
+                profile[0]['client_body_timeout'] = int(prop_dict['clttimeout'])
+            if prop_dict.get('xff_enabled'):
+                if profile[0].get('http_profile'):
+                    profile[0]['http_profile'].update(
+                        {
+                            'xff_enabled': True,
+                            'xff_alternate_name': 'X-Forwarded-For'
+                        }
+                    )
+                else:
+                    profile[0].update({'http_profile':
+                        {
+                            'xff_enabled': True,
+                            'xff_alternate_name': 'X-Forwarded-For'
+                        }
+                    })
+            if prop_dict.get('ssl_everywhere_enabled'):
+                if profile[0].get('http_profile'):
+                    profile[0]['http_profile'].update(
+                        {
+                            'ssl_everywhere_enabled': True,
+                            'x_forwarded_proto_enabled': True,
+                            'hsts_enabled': True,
+                            'http_to_https': True,
+                            'httponly_enabled': True,
+                            'hsts_max_age': 365,
+                            'server_side_redirect_to_https': True,
+                            'secure_cookie_enabled': True
+                        }
+                    )
+                else:
+                    profile[0].update({'http_profile':
+                        {
+                            'ssl_everywhere_enabled': True,
+                            'x_forwarded_proto_enabled': True,
+                            'hsts_enabled': True,
+                            'http_to_https': True,
+                            'httponly_enabled': True,
+                            'hsts_max_age': 365,
+                            'server_side_redirect_to_https': True,
+                            'secure_cookie_enabled': True
+                        }
+                    })
 
     def object_exist(self, object_type, name, avi_config):
         data = avi_config[object_type]

@@ -4,7 +4,7 @@ import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.lbvs_converter \
-    import (redirect_pools, used_pool_group_ref,tmp_policy_ref)
+    import (redirect_pools, used_pool_group_ref)
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, OBJECT_TYPE_APPLICATION_PROFILE,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HTTP_POLICY_SET,
@@ -19,7 +19,7 @@ from avi.migrationtools.netscaler_converter.profile_converter import \
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 LOG = logging.getLogger(__name__)
-
+tmp_policy_ref = []
 tmp_used_pool_group_ref = used_pool_group_ref
 # Creating object for util library.
 ns_util = NsUtil()
