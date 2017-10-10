@@ -207,9 +207,12 @@ class MonitorConverter(object):
             avi_monitor["name"] = str(mon_name).strip().replace(" ", "_")
             avi_monitor["tenant_ref"] = self.tenant_ref
             recv_timeout = ns_monitor.get('resptimeout', '2')
-            if 'MSEC' in recv_timeout.upper():
+            if 'MSEC' in recv_timeout.upper() or 'MIN' in recv_timeout.upper():
                 match_ob = re.findall('[0-9]+', recv_timeout)
-                recv_timeout = int(math.ceil(float(match_ob[0])/1000))
+                if 'MSEC' in recv_timeout.upper():
+                    recv_timeout = int(math.ceil(float(match_ob[0])/1000))
+                else:
+                    recv_timeout = int(match_ob[0]) * 60
             avi_monitor["receive_timeout"] = recv_timeout
             avi_monitor["failed_checks"] = ns_monitor.get('failureRetries', 3)
             interval = ns_monitor.get('interval', '5')
