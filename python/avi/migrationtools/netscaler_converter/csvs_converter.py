@@ -546,6 +546,29 @@ class CsvsConverter(object):
                         ns_add_cs_vserver_complete_command, STATUS_SKIPPED,
                         skipped_status)
                     continue
+                # Added code to skipped L4 VS if pool or pool group not present
+                if vs_obj.get('application_profile_ref'):
+                    app_name = ns_util.get_name(vs_obj[
+                                                    'application_profile_ref'])
+                    application_profile_obj = [obj for obj in (sysdict[
+                                              'ApplicationProfile'] +
+                                              avi_config['ApplicationProfile'])
+                                               if obj['name'] == app_name]
+                    if (application_profile_obj and application_profile_obj[0][
+                      'type'] == 'APPLICATION_PROFILE_TYPE_L4') or app_name == \
+                      'System-L4-Application':
+                        if not vs_obj.get('pool_ref', vs_obj.get(
+                                'pool_group_ref')):
+                            vs_conv_status = STATUS_SKIPPED
+                            skipped_status = "Skipped:Failed to convert L4 VS "\
+                                             "dont have pool or pool group ref"\
+                                             " %s" % vs_name
+                            LOG.debug(skipped_status)
+                            ns_util.add_status_row(cs_vs['line_no'],
+                                            ns_add_cs_vserver_command, key,
+                                            ns_add_cs_vserver_complete_command,
+                                            vs_conv_status, skipped_status)
+                            continue
                 cs_vs_list.append(vs_obj)
                 # Add summery of this cs vs in CSV/report
                 conv_status = ns_util.get_conv_status(
