@@ -141,7 +141,7 @@ class AviCredentials(object):
         :param module: ansible module
         :return:
         """
-        if module.params['avi_credentials']:
+        if module.params.get('avi_credentials'):
             for k, v in list(module.params['avi_credentials'].items()):
                 if hasattr(self, k):
                     setattr(self, k, v)
