@@ -230,7 +230,23 @@ class LbvsConverter(object):
                     vs_obj['http_policies'] = []
                     vs_obj['http_policies'].append(http_policies)
                     avi_config['HTTPPolicySet'].append(policy)
-
+                if pool_group:
+                    # clone the pool group if it is referenced to other
+                    # VS ot http policy set
+                    if pool_group_ref in used_pool_group_ref:
+                        pool_group_ref = ns_util.clone_pool_group(
+                                            pool_group_ref, vs_name, avi_config,
+                                            self.tenant_name, self.cloud_name,
+                                            userprefix=self.prefix)
+                    pool_group_ref = re.sub('[:]', '-', pool_group_ref)
+                    used_pool_group_ref.append(pool_group_ref)
+                    updated_pool_group = [pg for pg in
+                                          avi_config.get('PoolGroup', [])
+                                          if pg['name'] == pool_group_ref]
+                    vs_obj['pool_group_ref'] = ns_util.get_object_ref(
+                                        pool_group_ref, OBJECT_TYPE_POOL_GROUP,
+                                        self.tenant_name, self.cloud_name)
+                    pool_group = updated_pool_group[0]
                 http_prof = lb_vs.get('httpProfileName', None)
                 persistence_attached = False
                 persistence_type = lb_vs.get('persistenceType', '')
@@ -319,32 +335,47 @@ class LbvsConverter(object):
                     # Defaulting to 'client ip' persistence profile
                     if pool_group and persistence_type != 'NONE':
                         persistence_attached = self.update_pool_for_persist(
-                                                avi_config, pool_group[0],
+                                                avi_config, pool_group,
                                                 'System-Persistence-Client-IP')
                         LOG.debug("Defaulted to Client IP persistence profile "
                                   "for '%s' Pool group in '%s' VS of type "
                                   "SSL_BRIDGE" % (pool_group_ref,
                                                   updated_vs_name))
-
-                if pool_group:
-                    # clone the pool group if it is referenced to other
-                    # VS ot http policy set
-                    if pool_group_ref in used_pool_group_ref:
-                        pool_group_ref = ns_util.clone_pool_group(
-                            pool_group_ref, vs_name, avi_config,
-                            self.tenant_name, self.cloud_name,
-                            userprefix=self.prefix)
-                    pool_group_ref = re.sub('[:]', '-', pool_group_ref)
-                    used_pool_group_ref.append(pool_group_ref)
-                    updated_pool_group = [pg for pg in
-                                          avi_config.get('PoolGroup', [])
-                                          if pg['name'] == pool_group_ref]
-
-                    vs_obj['pool_group_ref'] = ns_util.get_object_ref(
-                        pool_group_ref, OBJECT_TYPE_POOL_GROUP,
-                        self.tenant_name, self.cloud_name)
-                    pool_group = updated_pool_group[0]
-
+                if pool_group_ref and not persistence_attached:
+                    if persistence_type in self.lbvs_supported_persist_types:
+                        profile_name = '%s-persistance-profile' % vs_name
+                        # Added prefix for objects
+                        if self.prefix:
+                            profile_name = self.prefix + '-' + profile_name
+                        persist_profile = ns_util.convert_persistance_prof(
+                                           lb_vs, profile_name, self.tenant_ref)
+                        persist_profile_name = persist_profile['name']
+                        if self.object_merge_check:
+                            dup_of = ns_util.update_skip_duplicates(
+                                persist_profile,
+                                avi_config['ApplicationPersistenceProfile'],
+                                'app_persist_profile', merge_object_mapping,
+                                persist_profile_name, persistence_type,
+                                self.prefix, sysdict[
+                                'ApplicationPersistenceProfile'])
+                            if dup_of:
+                                app_per_merge_count['count'] += 1
+                                persist_profile_name = merge_object_mapping[
+                                    'app_persist_profile'].get(
+                                    persist_profile_name, None)
+                            else:
+                                avi_config[
+                                    'ApplicationPersistenceProfile'].append(
+                                    persist_profile)
+                        else:
+                            avi_config[
+                                'ApplicationPersistenceProfile'].append(
+                                persist_profile)
+                        self.update_pool_for_persist(avi_config, pool_group,
+                                                     persist_profile_name)
+                    elif not persistence_type == 'NONE':
+                        LOG.warning('Persistance type %s not supported by Avi' %
+                                    persistence_type)
                 # Update fail cation of pool as FAIL_ACTION_HTTP_REDIRECT in AVI
                 # if lb vs has redirect url
                 if redirect_url:
@@ -451,41 +482,6 @@ class LbvsConverter(object):
                     service['port'] = "1"
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
-                if pool_group_ref and not persistence_attached:
-                    if persistence_type in self.lbvs_supported_persist_types:
-                        profile_name = '%s-persistance-profile' % vs_name
-                        # Added prefix for objects
-                        if self.prefix:
-                            profile_name = self.prefix + '-' + profile_name
-                        persist_profile = \
-                            ns_util.convert_persistance_prof(lb_vs,
-                                                  profile_name, self.tenant_ref)
-                        persist_profile_name = persist_profile['name']
-                        if self.object_merge_check:
-                            dup_of = ns_util.update_skip_duplicates(
-                                    persist_profile,
-                                    avi_config['ApplicationPersistenceProfile'],
-                                    'app_persist_profile', merge_object_mapping,
-                                    persist_profile_name, persistence_type,
-                                    self.prefix, sysdict[
-                                               'ApplicationPersistenceProfile'])
-                            if dup_of:
-                                app_per_merge_count['count'] += 1
-                                persist_profile_name = merge_object_mapping[
-                                    'app_persist_profile'].get(
-                                    persist_profile_name, None)
-                            else:
-                                avi_config[
-                                    'ApplicationPersistenceProfile'].append(
-                                    persist_profile)
-                        else:
-                            avi_config['ApplicationPersistenceProfile'].append(
-                                persist_profile)
-                        self.update_pool_for_persist(avi_config, pool_group,
-                                                     persist_profile_name)
-                    elif not persistence_type == 'NONE':
-                        LOG.warning('Persistance type %s not supported by Avi' %
-                                    persistence_type)
                 ntwk_prof = lb_vs.get('tcpProfileName', None)
                 if ntwk_prof:
                     # Added prefix for objects
