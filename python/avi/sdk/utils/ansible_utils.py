@@ -340,8 +340,10 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                                    api_version=api_version)
             existing_obj = existing_obj.json()
         except:
-            log.error('Failed to get avi object for uuid : %s' % (uuid))
-            return module.fail_json(msg=existing_obj.text)
+            if existing_obj.status_code == 404:
+                existing_obj = None
+            else:
+                return module.fail_json(msg=existing_obj.text)
     elif name:
         params = {'include_refs': '', 'include_name': ''}
         if obj.get('cloud_ref', None):
