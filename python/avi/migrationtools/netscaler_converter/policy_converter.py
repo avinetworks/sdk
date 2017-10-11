@@ -234,6 +234,7 @@ class PolicyConverter(object):
             # Added prefix for objects
             if self.prefix:
                 vs_policy_name = self.prefix + '-' + vs_policy_name
+            vs_policy_name = vs_policy_name.replace('"', '').replace(' ', '_')
             policy_obj['name'] = vs_policy_name
             return policy_obj
 
@@ -318,6 +319,7 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
         name = '%s-rule-%s' % (rule_name, priority_index)
+        name = name.replace('"', '').replace(' ', '_')
         if self.prefix:
             name = '%s-%s' %(self.prefix, name)
         # TODO add support for || rules as datascript
@@ -764,6 +766,16 @@ class PolicyConverter(object):
                 return None
             match["hdrs"][0]["hdr"] = matches[0][0]
             match["hdrs"][0]["value"].append(matches[0][1])
+        elif 'CLIENT.TCP.DSTPORT.EQ' in query.upper():
+            matches = re.findall('(\d+)', query)
+            if not matches:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            service_port = {
+                'ports': matches,
+                'match_criteria': 'IS_IN'
+            }
+            match = {"vs_port": service_port}
         elif 'HTTP.REQ.IS_VALID' in query.upper():
             match = {'any': 'any'}
 
@@ -902,7 +914,8 @@ class PolicyConverter(object):
             policy_rule = copy.deepcopy(policy_rules)
             policy_rule['hdr_action'] = hdr_action
             if len(policy_action['attrs']) > 3:
-                matches = [policy_action['attrs'][3]]
+                matches = [policy_action['attrs'][3].replace('\\"',
+                                                            '').replace('"','')]
                 if matches:
                     value = {'val': matches[0]}
                     policy_rule['hdr_action'][0]['hdr']['value'].update(value)
