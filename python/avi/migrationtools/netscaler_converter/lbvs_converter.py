@@ -215,10 +215,10 @@ class LbvsConverter(object):
                 # Convert netscalar policy to AVI http policy set
                 if policy:
                     if policy['name'] in tmp_policy_ref:
-                        policy = ns_util.clone_http_policy_set(
-                            policy, updated_vs_name, avi_config,
-                            self.tenant_name, self.cloud_name,
-                            userprefix=self.prefix)
+                        policy = ns_util.clone_http_policy_set(policy,
+                                 updated_vs_name, avi_config, self.tenant_name,
+                                 self.cloud_name, used_pool_group_ref,
+                                 userprefix=self.prefix)
                     tmp_policy_ref.append(policy['name'])
                     updated_http_policy_ref = ns_util.get_object_ref(
                         policy['name'], OBJECT_TYPE_HTTP_POLICY_SET,
@@ -239,7 +239,6 @@ class LbvsConverter(object):
                                             self.tenant_name, self.cloud_name,
                                             userprefix=self.prefix)
                     pool_group_ref = re.sub('[:]', '-', pool_group_ref)
-                    used_pool_group_ref.append(pool_group_ref)
                     updated_pool_group = [pg for pg in
                                           avi_config.get('PoolGroup', [])
                                           if pg['name'] == pool_group_ref]
@@ -646,6 +645,8 @@ class LbvsConverter(object):
                             ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                     full_cmd, vs_conv_status, skipped_status)
                             continue
+                if vs_obj.get('pool_group_ref'):
+                    used_pool_group_ref.append(vs_obj['pool_group_ref'])
                 avi_config['VirtualService'].append(vs_obj)
                 # Add summery of this lb vs in CSV/report
                 conv_status = ns_util.get_conv_status(

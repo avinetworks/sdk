@@ -483,14 +483,16 @@ class CsvsConverter(object):
                         if policy_obj:
                             ns_util.add_policy(policy_obj, updated_vs_name,
                                  avi_config, tmp_policy_ref, vs_obj,
-                                 self.tenant_name, self.cloud_name, self.prefix)
+                                 self.tenant_name, self.cloud_name, self.prefix,
+                                 tmp_used_pool_group_ref)
                 # Add the http policy set reference to VS in AVI
                 if policy:
                     policy['name'] = policy['name'] + updated_vs_name
                     # Added fix for same policy refferred in multiple vs
                     ns_util.add_policy(policy, updated_vs_name, avi_config,
                                      tmp_policy_ref, vs_obj, self.tenant_name,
-                                     self.cloud_name, self.prefix)
+                                     self.cloud_name, self.prefix,
+                                     tmp_used_pool_group_ref)
                 # Add reference of pool group to VS
                 if default_pool_group:
                     pool_group_ref = '%s-poolgroup' % default_pool_group
@@ -516,7 +518,6 @@ class CsvsConverter(object):
                             updated_pool_group_ref, OBJECT_TYPE_POOL_GROUP,
                             self.tenant_name, self.cloud_name)
                         vs_obj['pool_group_ref'] = avi_pool_group_ref
-                        tmp_used_pool_group_ref.append(updated_pool_group_ref)
                 if lb_vserver_bind_conf:
                     bind_cs_vserver_command = 'bind cs vserver'
                     bind_cs_vserver_complete_command = ns_util. \
@@ -569,6 +570,8 @@ class CsvsConverter(object):
                                             ns_add_cs_vserver_complete_command,
                                             vs_conv_status, skipped_status)
                             continue
+                if vs_obj.get('pool_group_ref'):
+                    tmp_used_pool_group_ref.append(updated_pool_group_ref)
                 cs_vs_list.append(vs_obj)
                 # Add summery of this cs vs in CSV/report
                 conv_status = ns_util.get_conv_status(
