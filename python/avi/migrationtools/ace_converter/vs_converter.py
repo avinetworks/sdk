@@ -3,21 +3,24 @@ import logging
 from copy import deepcopy
 from avi.migrationtools.ace_converter.ace_utils import update_excel
 
-#logging init
+# logging init
 LOG = logging.getLogger(__name__)
 USED_POOLS = list()
 PORT_END = 65535
 
+
 class VSConverter(object):
     """ Vsvip and Vs Conversion """
-    def __init__(self, parsed, tenant_ref, common_utils, enable_vs, cloud_ref, tenant):
+
+    def __init__(self, parsed, tenant_ref, common_utils, enable_vs, cloud_ref, tenant, vrf_ref):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
         self.enable_vs = enable_vs
         self.cloud_ref = cloud_ref
         self.tenant = tenant
-    
+        self.vrf_ref = vrf_ref
+
     def check_persistance(self, pool_name, data):
         for pool in data['Pool']:
             if pool['name'] == pool_name:
@@ -38,7 +41,7 @@ class VSConverter(object):
         global USED_POOLS
         port = None
         vs_ref = None
-        port_end =None
+        port_end = None
         l4_type = None
         for policy_map in self.parsed['policy-map']:
             pool_obj = dict()
@@ -47,11 +50,13 @@ class VSConverter(object):
                 name = policy_map['name']
                 pool = None
                 pool_ref = None
-                vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(name)
-                if not vs_ref or  port is None or not ip:
+                vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
+                    name)
+                if not vs_ref or port is None or not ip:
                     continue
                 # Excel Sheet Update for class
-                update_excel('class-map', name, avi_obj="Refer Policy-map {}".format(name))
+                update_excel('class-map', name,
+                             avi_obj="Refer Policy-map {}".format(name))
 
                 enable_ssl = (True if port == '443' else False)
                 for class_dec in policy_map['desc']:
@@ -62,13 +67,15 @@ class VSConverter(object):
                         if 'serverfarm' in vsobj.keys():
                             pool = vsobj['serverfarm']
 
-                            # if pool is already used do clone the pool and 
+                            # if pool is already used do clone the pool and
                             # having persistance profile
                             if self.check_persistance(pool, data):
-                                if pool in USED_POOLS: # pool1
+                                if pool in USED_POOLS:  # pool1
                                     if self.clone_pool(name, pool, data):
-                                        pool_obj = self.clone_pool(name, pool, data)
-                                        pool = pool_obj['name'] # pool_merged_pf
+                                        pool_obj = self.clone_pool(
+                                            name, pool, data)
+                                        # pool_merged_pf
+                                        pool = pool_obj['name']
                                 USED_POOLS.append(pool)
                                 # else:
                                 #     USED_POOLS.append(pool)
@@ -82,48 +89,53 @@ class VSConverter(object):
                             vip = []
                             for ip in ip_list:
                                 vip.append({
-                                                "ip_address": {
-                                                    "type": "V4",
-                                                    "addr": ip
-                                                },
-                                                "vip_id": 0
-                                           })
+                                    "ip_address": {
+                                        "type": "V4",
+                                        "addr": ip
+                                    },
+                                    "vip_id": 0
+                                })
 
-                            pool_ref = self.common_utils.get_object_ref(pool, 'pool',tenant=self.tenant)
+                            pool_ref = self.common_utils.get_object_ref(
+                                pool, 'pool', tenant=self.tenant)
                 if not pool:
                     continue
                 temp_vs = {
-                        "vsvip_ref": vs_ref,
-                        "enabled": False,
-                        "vs_datascripts": [],
-                        "vip": vip,
-                        "services": [{
-                            "enable_ssl": enable_ssl,
-                            "port": port,
-                        }],
-                        "pool_ref": pool_ref,
-                        "description": None,
-                        "name": name,
-                        "cloud_ref": self.cloud_ref,
-                        "tenant_ref": self.tenant_ref,
-                        "type": "VS_TYPE_NORMAL"
-                    }
+                    "vsvip_ref": vs_ref,
+                    "enabled": False,
+                    "vs_datascripts": [],
+                    "vip": vip,
+                    "services": [{
+                        "enable_ssl": enable_ssl,
+                        "port": port,
+                    }],
+                    "pool_ref": pool_ref,
+                    "description": None,
+                    "name": name,
+                    "cloud_ref": self.cloud_ref,
+                    "tenant_ref": self.tenant_ref,
+                    "type": "VS_TYPE_NORMAL"
+                }
                 if l4_type:
-                    app_ref = self.common_utils.get_object_ref('System-L4-Application', 'applicationprofile', tenant='admin')
+                    app_ref = self.common_utils.get_object_ref(
+                        'System-L4-Application', 'applicationprofile', tenant='admin')
                     nw_ref = None
                     if l4_type == 'tcp':
-                        nw_ref = self.common_utils.get_object_ref('System-TCP-Proxy', 'networkprofile', tenant='admin')
+                        nw_ref = self.common_utils.get_object_ref(
+                            'System-TCP-Proxy', 'networkprofile', tenant='admin')
                     elif l4_type == 'udp':
-                        nw_ref = self.common_utils.get_object_ref('System-UDP-Fast-Path', 'networkprofile', tenant='admin')
+                        nw_ref = self.common_utils.get_object_ref(
+                            'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
                     temp_vs['application_profile_ref'] = app_ref
                     temp_vs['network_profile_ref'] = nw_ref
                 if ssl_profile:
                     temp_vs['ssl_profile_ref'] = ssl_profile
                 if ssl_cert:
-                    temp_vs['ssl_key_and_certificate_refs'] = [ ssl_cert ]
+                    temp_vs['ssl_key_and_certificate_refs'] = [ssl_cert]
+                if self.vrf_ref:
+                    temp_vs['vrf_context_ref'] = self.vrf_ref
                 return temp_vs, pool_obj
         return False, False
-
 
     def vsvip_conversion(self):
         """vs vip take from virutal-server in class map"""
@@ -134,13 +146,17 @@ class VSConverter(object):
         # get the number of vips available
         for class_map in self.parsed.get('class-map', ''):
             if 'match-all' not in class_map.values():
-                LOG.warning('This type of class map not supported : %s' % class_map['class-map'])
-                update_excel('class-map', class_map['class-map'], status='Skipped', avi_obj='This type of class map not supported')
+                LOG.warning('This type of class map not supported : %s' %
+                            class_map['class-map'])
+                update_excel(
+                    'class-map', class_map['class-map'], status='Skipped', avi_obj='This type of class map not supported')
                 continue
             for address in class_map['desc']:
                 if "source-address" in address or "destination-address" in address:
-                    LOG.warning('source-address or destination-address in class map not supported :%s' % class_map['class-map'])
-                    update_excel('class-map', class_map['class-map'], status='Skipped', avi_obj='source-address or destination-address in class map not supported')
+                    LOG.warning(
+                        'source-address or destination-address in class map not supported :%s' % class_map['class-map'])
+                    update_excel('class-map', class_map['class-map'], status='Skipped',
+                                 avi_obj='source-address or destination-address in class map not supported')
                     break
                 if "virtual-address" in address:
                     vip = address['virtual-address']
@@ -174,7 +190,8 @@ class VSConverter(object):
         l4_type = None
         for class_map in self.parsed['class-map']:
             if 'match' in class_map['type'] and class_map['class-map'] == class_name:
-                port = class_map['desc'][0].get('tcp', class_map['desc'][0].get('udp', ''))
+                port = class_map['desc'][0].get(
+                    'tcp', class_map['desc'][0].get('udp', ''))
                 if 'tcp' in class_map['desc'][0].keys():
                     l4_type = 'tcp'
                 if 'udp' in class_map['desc'][0].keys():
@@ -197,7 +214,8 @@ class VSConverter(object):
 
         for policy_map in self.parsed.get('policy-map', ''):
             if policy_map.get('match', '') == 'multi-match':
-                update_excel('policy-map', policy_map['policy-map'], status='Indirect')
+                update_excel(
+                    'policy-map', policy_map['policy-map'], status='Indirect')
                 for cls in policy_map['desc']:
                     if cls.get('class', []):
                         policy_name = None
@@ -224,19 +242,22 @@ class VSConverter(object):
                                     if "loadbalance" in class_dec.keys():
                                         if class_dec.get('type', []) == 'inservice' and\
                                            self.enable_vs:
-                                            vs['enabled'] = True 
-                                               
-                                # updating excel sheet
-                                update_excel('policy-map', vs['name'], avi_obj=vs)
+                                            vs['enabled'] = True
 
-                                #updating object
+                                # updating excel sheet
+                                update_excel(
+                                    'policy-map', vs['name'], avi_obj=vs)
+
+                                # updating object
                                 vs_list.append(vs)
                                 if cloned_pool:
                                     cloned_pool_list.append(cloned_pool)
                             else:
-                                update_excel('policy-map', cls['class'], status='Skipped', avi_obj='Sticky-ServerFarm not allowed in Avi')
+                                update_excel(
+                                    'policy-map', cls['class'], status='Skipped', avi_obj='Sticky-ServerFarm not allowed in Avi')
                         else:
-                            update_excel('policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')    
+                            update_excel(
+                                'policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')
         self.port_fix(vs_list)
         return vs_list, cloned_pool_list
 
@@ -266,8 +287,8 @@ class VSConverter(object):
                         continue
                     end = int(port_list[i]) - 1
                     services_obj.append({'port': start,
-                                            'port_range_end': end,
-                                            'enable_ssl': False})
+                                         'port_range_end': end,
+                                         'enable_ssl': False})
                     start = int(port_list[i]) + 1
                 vs_list[index]['services'] = services_obj
         return vs_list
