@@ -31,10 +31,14 @@ class TestModulesAce(unittest2.TestCase):
         tenant_ref = "/api/tenant/?name=admin"
         cloud_ref = "/api/cloud/?tenant=admin&name=Default-Cloud"
         tenant = "admin"
+        vrf_ref = None
+        self.vrf_ref_data = "/api/vrfcontext/?tenant=admin&name=testvrf1&cloud=Default-Cloud"
         self.pool_obj_app = PoolConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+        self.pool_obj_app_vrf = PoolConverter(
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=self.vrf_ref_data)
         self.pool_obj_app_empty = PoolConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
         self.MonitorConvertor_obj_app = MonitorConverter(
             parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, tenant=tenant)
         self.MonitorConvertor_empty = MonitorConverter(
@@ -48,9 +52,11 @@ class TestModulesAce(unittest2.TestCase):
         self.sslConvertor_empty = SSLConverter(
             parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, in_path=None, tenant=tenant)
         self.vs = VSConverter(parsed=data, tenant_ref=tenant_ref,
-                              common_utils=self.common_utils, enable_vs=True, cloud_ref=cloud_ref, tenant=tenant)
+                              common_utils=self.common_utils, enable_vs=True, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+        self.vs_vrf = VSConverter(parsed=data, tenant_ref=tenant_ref,
+                                  common_utils=self.common_utils, enable_vs=True, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=self.vrf_ref_data)
         self.vs_empty = VSConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, enable_vs=True,  cloud_ref=cloud_ref, tenant=tenant)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, enable_vs=True,  cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
 
     """ POOL CONVERTERS"""
 
@@ -87,6 +93,10 @@ class TestModulesAce(unittest2.TestCase):
     def test_server_converter_empty(self):
         self.assertNotEquals(
             self.pool_obj_app_empty.server_converter(server_name), server_name)
+
+    def test_pool_with_vrf_ref(self):
+        self.assert_(self.pool_obj_app_vrf.pool_conversion()
+                     [0]['vrf_ref'], self.vrf_ref_data)
 
     """ Monitor Converters """
 
@@ -139,3 +149,10 @@ class TestModulesAce(unittest2.TestCase):
     def test_vsConverter_False(self):
         self.assertEquals(
             self.vs_empty.virtual_service_conversion('{}'), ([], []))
+
+    def test_vsConverter_with_vrf(self):
+        self.assertEquals(
+            self.vs_vrf.virtual_service_conversion(
+                data)[0][0]['vrf_context_ref'],
+            self.vrf_ref_data
+        )
