@@ -426,6 +426,8 @@ class AviAnsibleConverter(object):
                                % self.outdir
         ansible_create_object_path = '%s/avi_config_create_object.yml'\
                                      % self.outdir
+        ansible_delete_object_path = '%s/avi_config_delete_object.yml'\
+                                     % self.outdir
         # Get the reference object list for not_in_use tag.
         inuse_list = []
         if not self.not_in_use:
@@ -466,8 +468,24 @@ class AviAnsibleConverter(object):
                                [generate_traffic_dict], outf,
                                default_flow_style=False, indent=2
                                )
-        with open(ansible_create_object_path, "w+") as outf:
+        with open(ansible_create_object_path, "w") as outf:
             outf.write(ANSIBLE_STR)
+            outf.write('---\n')
+            yaml.safe_dump([ad], outf, default_flow_style=False, indent=2)
+
+        # Added support to generate ansible delete object playbook
+        tasks = [task for task in reversed(ad['tasks'])]
+        for task in tasks:
+            for k, v in task.iteritems():
+                if k == 'name' or k == 'tags':
+                    continue
+                if v.get('system_default'):
+                    tasks.remove(task)
+                    continue
+                v['state'] = 'absent'
+        ad['tasks'] = tasks
+        with open(ansible_delete_object_path, "w") as outf:
+            outf.write('# Auto-generated from Avi Configuration\n')
             outf.write('---\n')
             yaml.safe_dump([ad], outf, default_flow_style=False, indent=2)
 
