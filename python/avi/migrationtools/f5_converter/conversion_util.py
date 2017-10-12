@@ -881,7 +881,9 @@ class F5Util(MigrationUtil):
             profile.pop('fallback_host', [])
         for profile in avi_config.get('PKIProfile', []):
             profile.pop('mode', None)
-
+        for tenant in avi_config['Tenants']:
+            if tenant['name'] == 'admin':
+                avi_config['Tenants'].remove(tenant)
 
     def create_hdr_erase_rule(self, name, hdr_name, rule_index):
         return self.create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",
@@ -964,6 +966,8 @@ class F5Util(MigrationUtil):
                 "cloud_ref": self.get_object_ref(cloud_ref, 'cloud'),
                 "tenant_ref": self.get_object_ref('admin', 'tenant')
             }
+            if vrf_name == 'global':
+                vrf_obj['system_default'] = True
             vrf_list.append(vrf_obj)
 
 
