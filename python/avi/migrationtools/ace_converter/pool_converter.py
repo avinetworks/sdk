@@ -3,16 +3,18 @@ import logging
 from avi.migrationtools.ace_converter.ace_constants import POOL_SKIP
 from avi.migrationtools.ace_converter.ace_utils import update_excel
 
-#logging init
+# logging init
 LOG = logging.getLogger(__name__)
 
+
 class PoolConverter(object):
-    def __init__(self, parsed, tenant_ref, common_utils, cloud_ref, tenant):
+    def __init__(self, parsed, tenant_ref, common_utils, cloud_ref, tenant, vrf_ref):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
         self.cloud_ref = cloud_ref
         self.tenant = tenant
+        self.vrf_ref = vrf_ref
 
     def get_ips_of_server(self, server_name):
         for server in self.parsed['rserver']:
@@ -31,10 +33,10 @@ class PoolConverter(object):
                 for server_name in val['desc']:
                     if 'rserver' in server_name.keys():
                         if self.get_ips_of_server(server_name['rserver']):
-                            pool_ip_list.append(self.get_ips_of_server(server_name['rserver']))
+                            pool_ip_list.append(
+                                self.get_ips_of_server(server_name['rserver']))
         # print pool_ip_list
         return pool_ip_list
-
 
     def pool_conversion(self):
         """ Pool conversion over here
@@ -50,8 +52,8 @@ class PoolConverter(object):
             # print name
             app_persistance = self.find_app_persistance(name)
             app_ref = self.common_utils.get_object_ref(app_persistance,
-                                                'applicationpersistenceprofile',
-                                                tenant=self.tenant)
+                                                       'applicationpersistenceprofile',
+                                                       tenant=self.tenant)
             if app_persistance:
                 temp_pool.update(
                     {
@@ -68,29 +70,32 @@ class PoolConverter(object):
                 if "probe" in pools.keys():
                     probe = pools['probe']
             if probe:
-                monitor_ref = self.common_utils.get_object_ref(probe, 'healthmonitor', tenant=self.tenant)
+                monitor_ref = self.common_utils.get_object_ref(
+                    probe, 'healthmonitor', tenant=self.tenant)
             pool_dict = {
-                        "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
-                        "name": name,
-                        "cloud_ref": self.cloud_ref,
-                        "tenant_ref": self.tenant_ref,
-                        "servers": server,
-                        "health_monitor_refs": [
-                        ],
-                        "fail_action": {
-                            "type": "FAIL_ACTION_CLOSE_CONN"
-                        },
-                        "description": None
-                    }
+                "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+                "name": name,
+                "cloud_ref": self.cloud_ref,
+                "tenant_ref": self.tenant_ref,
+                "servers": server,
+                "health_monitor_refs": [
+                ],
+                "fail_action": {
+                    "type": "FAIL_ACTION_CLOSE_CONN"
+                },
+                "description": None
+            }
             if monitor_ref:
                 pool_dict['health_monitor_refs'].append(monitor_ref)
+            if self.vrf_ref:
+                pool_dict['vrf_ref'] = self.vrf_ref
             temp_pool.update(pool_dict)
             # update excel sheet
-            update_excel('serverfarm', name, avi_obj=temp_pool, skip=skipped_list)
+            update_excel('serverfarm', name,
+                         avi_obj=temp_pool, skip=skipped_list)
 
             pool_list.append(temp_pool)
         return pool_list
-
 
     def server_converter(self, name):
         """ Server Conversion \n
@@ -130,19 +135,18 @@ class PoolConverter(object):
 
         server_list.append({
             "ip": {
-                    "addr": server,
-                    "type": "V4",
-                },
+                "addr": server,
+                "type": "V4",
+            },
             "enabled": enabled,
             "description": desc,
             "port": default_port
-            })
+        })
 
         # Update Excel Sheet
         update_excel('rserver', server_name, avi_obj=server_list)
 
         return server_list
-
 
     def find_app_persistance(self, pool_name):
         """ Find the app persistance tagged to the pool """

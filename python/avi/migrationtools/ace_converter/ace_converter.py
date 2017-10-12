@@ -10,16 +10,16 @@ import xlsxwriter
 from avi.migrationtools.ace_converter.ace_parser import Parser
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools.ace_converter.ace_config_converter import\
-                                                            ConfigConverter
+    ConfigConverter
 from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
 from pkg_resources import resource_filename
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
 
 template_loc, template_name =\
-                       os.path.split(resource_filename(
-                        'avi.migrationtools.gss_convertor.parser_files',
-                        'gslb_template.jinja'))
+    os.path.split(resource_filename(
+        'avi.migrationtools.gss_convertor.parser_files',
+        'gslb_template.jinja'))
 
 
 sep = os.path.sep
@@ -29,6 +29,7 @@ sdk_version = getattr(avi.migrationtools, '__version__', None)
 
 class AceConvertor(AviConverter):
     """ GSS Converstion happens here """
+
     def __init__(self, args):
         self.in_file = args.input_file
         self.output_file_path = args.output_loc
@@ -49,14 +50,8 @@ class AceConvertor(AviConverter):
         # patch and vs_filter
         self.patch = args.patch
         self.vs_filter = args.vs_filter
-
-    # def init_logger_path(self):
-    #     """ Enabling logging all over """
-    #     LOG.setLevel(logging.DEBUG)
-    #     formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] \
-    # %(message)s'
-    #     logging.basicConfig(filename=self.output_file_path + sep + 'conversion.log',
-    #                         level=logging.DEBUG, format=formatter)
+        # vrf name
+        self.vrf_name = args.vrf_name
 
     def avi_json_bakery(self, config):
         """ Here we make json cakes for avi """
@@ -69,23 +64,25 @@ class AceConvertor(AviConverter):
                 - Configuration Conversion
                 - Writing output JSON & Reporting
         """
-        #printing pip version
+        # printing pip version
         self.print_pip_and_controller_version()
 
         # Parsing
         parser = Parser(self.in_file)
         parsed_output = parser.parse_ace()
-        
+
         # Configuration Conversion
         print "configuration conversion started ..."
         cfgConvert = ConfigConverter(parsed_output,
                                      version=self.controller_version, enable_vs=self.enable_vs,
                                      input_folder_loc=self.input_folder_location,
-                                     tenant=self.tenant, cloud=self.cloud)
+                                     tenant=self.tenant, cloud=self.cloud, vrf=self.vrf_name)
         converted_output = cfgConvert.conversion()
 
-        out_file = "/%s-config.json" % os.path.splitext(os.path.basename(self.in_file))[0]
-        self.out_excel = "/%s-Conversion_status.xlsx" % os.path.splitext(os.path.basename(self.in_file))[0]
+        out_file = "/%s-config.json" % os.path.splitext(
+            os.path.basename(self.in_file))[0]
+        self.out_excel = "/%s-Conversion_status.xlsx" % os.path.splitext(
+            os.path.basename(self.in_file))[0]
 
         # Avi Config
         avi_config = self.process_for_utils(converted_output)
@@ -99,7 +96,6 @@ class AceConvertor(AviConverter):
             avi_traffic = AviAnsibleConverter(
                 avi_config, self.output_file_path, prefix=None, not_in_use=None)
             avi_traffic.write_ansible_playbook()
-
 
         # create excel sheet
         self.excel_sheet_writing()
@@ -134,7 +130,7 @@ class AceConvertor(AviConverter):
         worksheet.write('G1', 'User Ignore', bold)
         worksheet.write('H1', 'Overall Skip', bold)
         worksheet.write('I1', 'Avi Status', bold)
-        
+
         excel_dict = get_excel_dict()
 
         row = 1
@@ -143,12 +139,12 @@ class AceConvertor(AviConverter):
         for data in excel_dict:
             # writing values to excel
             worksheet.write(row, col, str(data['type']))
-            worksheet.write(row, col+1, str(data['name']))
-            worksheet.write(row, col+2, str(data['status']))
-            worksheet.write(row, col+3, str(data['skipped']))
-            worksheet.write(row, col+4, str(data['indirect']))
-            worksheet.write(row, col+5, str(data['NA']))
-            worksheet.write(row, col+8, str(data['Avi Object']))
+            worksheet.write(row, col + 1, str(data['name']))
+            worksheet.write(row, col + 2, str(data['status']))
+            worksheet.write(row, col + 3, str(data['skipped']))
+            worksheet.write(row, col + 4, str(data['indirect']))
+            worksheet.write(row, col + 5, str(data['NA']))
+            worksheet.write(row, col + 8, str(data['Avi Object']))
 
             # increment the row value
             row += 1
@@ -161,6 +157,7 @@ class AceConvertor(AviConverter):
                  % (sdk_version, self.controller_version))
         print 'AVI sdk version: %s Controller Version: %s' \
               % (sdk_version, self.controller_version)
+
 
 if __name__ == '__main__':
 
@@ -192,7 +189,8 @@ Optional:
 :param ansible: To create ansible upload file
 :param vs_filter: To filter vs out of configuration
 :param patch: To patch the configuration file
-:param version: version of the controller (optional)
+:param version: version of the controller
+:param vrf_name: Add vrf reference to pool and vs
             '''
 
     parser = argparse.ArgumentParser(
@@ -207,8 +205,8 @@ Optional:
 
     parser.add_argument('--controller_version', default='17.1.1',
                         help='Specify the particular version')
-    
-    # enable vs 
+
+    # enable vs
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of VS created', default='disable')
 
@@ -231,14 +229,14 @@ Optional:
     parser.add_argument('-c', '--controller_ip',
                         help='controller ip for auto upload')
 
-    # tenant and cloud reference 
+    # tenant and cloud reference
     parser.add_argument('-t', '--tenant',
                         help='tenant name for auto upload',
                         default='admin')
     parser.add_argument('--cloud_name', help='cloud name for auto upload',
                         default='Default-Cloud')
 
-    # Ansible 
+    # Ansible
     parser.add_argument('--ansible',
                         help='Flag for create ansible file',
                         action='store_true')
@@ -251,10 +249,14 @@ Optional:
     parser.add_argument('--vs_filter', help='comma seperated names of'
                                             'virtualservices')
 
-    # Version Parameter 
+    # Version Parameter
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
+
+    # vrf name Parameter
+    parser.add_argument('--vrf_name',
+                        help='Attach the vrf reference to pool and vs')
 
     pargs = parser.parse_args()
 
@@ -286,7 +288,7 @@ Optional:
         if elapsed < 60:
             elapsed_time = str(elapsed)[:3] + " Seconds"
         else:
-            elapsed_time = str(elapsed/60)[:4] + " Minutes"
+            elapsed_time = str(elapsed / 60)[:4] + " Minutes"
         print "\n(Elapsed Time: " + elapsed_time + ")"
 
     elif pargs.input_file is None:
