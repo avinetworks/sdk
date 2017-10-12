@@ -562,8 +562,7 @@ class NsUtil(MigrationUtil):
             vs['vsvip_ref'] = updated_vsvip_ref
 
     def clone_http_policy_set(self, policy, prefix, avi_config, tenant_name,
-                              cloud_name,
-                              userprefix=None):
+                              cloud_name, used_poolgrp_ref, userprefix=None):
         """
         This function clone pool reused in context switching rule
         :param policy: name of policy
@@ -582,9 +581,11 @@ class NsUtil(MigrationUtil):
                     rule['switching_action']['pool_group_ref'].split('&')[
                         1].split(
                         '=')[1]
-                pool_group_ref = self.clone_pool_group(
-                    pool_group_ref, policy_name, avi_config, tenant_name,
-                    cloud_name, userprefix=userprefix)
+                if pool_group_ref in used_poolgrp_ref:
+                    LOG.debug('Cloned the pool group for policy %s', policy_name)
+                    pool_group_ref = self.clone_pool_group(
+                        pool_group_ref, policy_name, avi_config, tenant_name,
+                        cloud_name, userprefix=userprefix)
                 if pool_group_ref:
                     updated_pool_group_ref = self.get_object_ref(
                         pool_group_ref, OBJECT_TYPE_POOL_GROUP, tenant_name,
@@ -1587,11 +1588,12 @@ class NsUtil(MigrationUtil):
                                 'name'] not in mergelist]
 
     def add_policy(self, policy, updated_vs_name, avi_config, tmp_policy_ref,
-                   vs_obj, tenant_name, cloud_name, prefix):
+                   vs_obj, tenant_name, cloud_name, prefix, used_poolgrp_ref):
         if policy['name'] in tmp_policy_ref:
             # clone the http policy set if it is referenced to other VS
             policy = self.clone_http_policy_set(policy, updated_vs_name,
-                         avi_config, tenant_name, cloud_name, userprefix=prefix)
+                         avi_config, tenant_name, cloud_name, used_poolgrp_ref,
+                         userprefix=prefix)
         updated_http_policy_ref = self.get_object_ref(policy['name'],
                                    OBJECT_TYPE_HTTP_POLICY_SET, tenant_name)
 
