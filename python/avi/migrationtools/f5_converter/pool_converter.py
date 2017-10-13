@@ -31,7 +31,7 @@ class PoolConfigConv(object):
         vrf_context = {
             "name": 'global',
             "system_default": True,
-            "tenant_ref": conv_utils.get_object_ref(tenant_ref, 'tenant'),
+            "tenant_ref": conv_utils.get_object_ref('admin', 'tenant'),
             "cloud_ref": conv_utils.get_object_ref(cloud_name, 'cloud'),
             "static_routes": []
         }
