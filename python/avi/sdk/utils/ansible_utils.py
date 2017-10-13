@@ -339,11 +339,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                                    params={'include_refs': '', 'include_name': ''},
                                    api_version=api_version)
             existing_obj = existing_obj.json()
-        except:
-            if existing_obj.status_code == 404:
-                existing_obj = None
-            else:
-                return module.fail_json(msg=existing_obj.text)
+        except ObjectNotFound:
+            existing_obj = None
     elif name:
         params = {'include_refs': '', 'include_name': ''}
         if obj.get('cloud_ref', None):
