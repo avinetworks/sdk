@@ -315,6 +315,7 @@ class AviAnsibleConverter(object):
                         tenant=tenant
                     )
                 # Added call to check progress.
+                progressbar_count+=1
                 msg = "Ansible Generate Traffic..."
                 mg_util.print_progress_bar(progressbar_count, total_size, msg,
                                        prefix='Progress', suffix='')
