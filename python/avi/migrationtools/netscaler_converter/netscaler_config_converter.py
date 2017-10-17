@@ -106,7 +106,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             # are assigning reference at the time of profile creation
             ns_util.update_profile_ref('application_persistence_profile_ref',
                 avi_config['Pool'], merge_object_mapping['app_persist_profile'])
-            # Updating the reference for application persistence profile as we
+            # Updating the reference for application profile as we
             # are assigning reference at the time of profile creation
             ns_util.update_profile_ref('application_profile_ref',
               avi_config['VirtualService'], merge_object_mapping['app_profile'])
@@ -114,8 +114,11 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         ns_util.update_status_for_skipped(skipped_cmds)
         if redirect:
             # Removing VS and changing the status in CSV which got redirected
+            # Scenario for redirect - HTTP VS having no pool but redirect to
+            # HTTPS VS
             ns_util.vs_redirect_http_to_https(avi_config, sys_dict)
-        # Merging the pool in pool group
+        # Merging the pools in a pool group if pools are having same health
+        # monitor
         ns_util.merge_pool(avi_config)
         # Add/update CSV/report
         ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
