@@ -295,9 +295,13 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     api_version = api_creds.api_version
     name = module.params.get('name', None)
+    # Added Support to get uuid
+    uuid = module.params.get('uuid', None)
     check_mode = module.check_mode
     obj_path = None
-    if name is None:
+    if uuid:
+        obj_path = '%s/%s' % (obj_type, uuid)
+    elif not name:
         obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
     obj.pop('state', None)
@@ -328,7 +332,16 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     log.info('passed object %s ', obj)
 
-    if name is not None:
+    if uuid:
+        # Get the object based on uuid.
+        try:
+            existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+                                   params={'include_refs': '', 'include_name': ''},
+                                   api_version=api_version)
+            existing_obj = existing_obj.json()
+        except ObjectNotFound:
+            existing_obj = None
+    elif name:
         params = {'include_refs': '', 'include_name': ''}
         if obj.get('cloud_ref', None):
             # this is the case when gets have to be scoped with cloud
