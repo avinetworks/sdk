@@ -221,7 +221,7 @@ class F5Converter(AviConverter):
                     monitor:
                 monitor_base = monitor.read()
                 total_size_mnt = monitor.tell()
-            if bool(self.skip_default_file):
+            if self.skip_default_file:
                 LOG.warning('Skipped default profile base file : %s\nSkipped '
                             'default monitor base file : %s'
                             % (profile.name, monitor.name))
@@ -251,7 +251,7 @@ class F5Converter(AviConverter):
                 dir_path = self.conversion_util.get_project_path()
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
-                if bool(self.skip_default_file):
+                if self.skip_default_file:
                     LOG.warning(
                         'Skipped default file : %s' % defaults_file.name)
                     return f5_defaults_dict
@@ -291,6 +291,13 @@ if __name__ == "__main__":
             
     Example to patch the config after conversion:
         f5_converter.py -f bigip.conf --patch test/patch.yaml
+
+    Example to use ansible option:
+        f5_converter.py -f bigip.conf --ansible
+
+    Example to use vs level status option:
+        f5_converter.py -f bigip.conf --vs_level_status
+    Usecase: To get the vs level status for the avi objects in excel sheet
     '''
 
 
@@ -301,7 +308,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('--skip_default_file',
-                        help='Flag for skip default file', default=False)
+                        help='Flag for skip default file', action='store_true')
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config file', default='11')
     parser.add_argument('-o', '--output_file_path',
@@ -379,7 +386,7 @@ if __name__ == "__main__":
     parser.add_argument('--convertsnat',
                         help='Flag for converting snatpool into '
                              'individual addresses',
-                        action = "store_true")
+                        action="store_true")
     # Added not in use flag
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
