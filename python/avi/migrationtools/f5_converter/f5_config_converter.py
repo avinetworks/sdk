@@ -109,8 +109,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         # Updating the ssl profile ref for monitors with merged name
         conv_utils.update_monitor_ssl_ref(avi_config_dict, merge_object_mapping,
                                           sys_dict)
-        conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
+        conv_utils.cleanup_config(avi_config_dict)
         # Validating the aviconfig after generation
         conv_utils.validation(avi_config_dict)
         LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
