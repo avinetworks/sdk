@@ -881,9 +881,10 @@ class F5Util(MigrationUtil):
             profile.pop('fallback_host', [])
         for profile in avi_config.get('PKIProfile', []):
             profile.pop('mode', None)
-        for tenant in avi_config['Tenants']:
-            if tenant['name'] == 'admin':
-                avi_config['Tenants'].remove(tenant)
+        if 'Tenant' in avi_config:
+            for tenant in avi_config['Tenant']:
+                if tenant['name'] == 'admin':
+                    avi_config['Tenant'].remove(tenant)
 
     def create_hdr_erase_rule(self, name, hdr_name, rule_index):
         return self.create_header_rule(name, hdr_name, "HDR_DOES_NOT_EXIST",
