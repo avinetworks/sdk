@@ -1861,13 +1861,12 @@ class F5Util(MigrationUtil):
                     obj['https_monitor']['ssl_attributes']['ssl_profile_ref'] =\
                         self.get_object_ref(updated_name, type_cons, tenant)
 
-    def update_app_profile(self, aviconfig, sys_dict, tenant):
+    def update_app_profile(self, aviconfig, sys_dict):
         """
         This method updates the application profile to http when there are
         multiple services to a L4 app VS in which one of them is ssl enabled
         :param aviconfig: avi config dict
         :param sys_dict: system config dict
-        :param tenant: tenant to be used for reference
         :return:
         """
         for vs_obj in aviconfig['VirtualService']:
@@ -1883,8 +1882,7 @@ class F5Util(MigrationUtil):
                         if service['enable_ssl']:
                             vs_obj['application_profile_ref'] = \
                                 self.get_object_ref('System-HTTP',
-                                    conv_const.OBJECT_TYPE_APPLICATION_PROFILE,
-                                                    tenant)
+                                    conv_const.OBJECT_TYPE_APPLICATION_PROFILE)
                             LOG.debug('Changed the application profile '
                                       'reference from L4 to System-HTTP')
                             if vs_obj.get('network_profile_ref'):
@@ -1898,13 +1896,13 @@ class F5Util(MigrationUtil):
                                     'profile']['type'] != \
                                         'PROTOCOL_TYPE_TCP_PROXY':
                                     LOG.debug('Changed the network profile '
-                                              'reference from %s to TCP-Proxy',
-                                              nw_profile_obj[0]['profile'][
-                                              'type'])
+                                              'reference from %s to TCP-Proxy '
+                                              'for VS %s', nw_profile_obj[0][
+                                              'profile']['type'], vs_obj[
+                                              'name'])
                                     vs_obj['network_profile_ref'] = \
                                         self.get_object_ref('System-TCP-Proxy',
-                                         conv_const.OBJECT_TYPE_NETWORK_PROFILE,
-                                                    tenant)
+                                         conv_const.OBJECT_TYPE_NETWORK_PROFILE)
                             break
 
     def set_pool_group_vrf(self, pool_ref, vrf_ref, avi_config):
@@ -2115,5 +2113,37 @@ class F5Util(MigrationUtil):
             pool_obj[0].pop('vrf_ref')
             LOG.debug("Removed vrf ref from the pool %s", pool_ref)
 
-
+    def update_network_profile(self, aviconfig, sys_dict):
+        """
+        This method updates the network profile to TCP PROXY when VS has HTTP
+        application profile
+        :param aviconfig: avi config dict
+        :param sys_dict: system config dict
+        :return:
+        """
+        for vs_obj in aviconfig['VirtualService']:
+            if vs_obj.get('application_profile_ref'):
+                app_profile = self.get_name(vs_obj['application_profile_ref'])
+                app_profile_obj = [app for app in sys_dict['ApplicationProfile']
+                                   + aviconfig['ApplicationProfile']
+                                   if app['name'] == app_profile]
+                if app_profile_obj and (app_profile_obj[0]['type'] ==
+                        'APPLICATION_PROFILE_TYPE_HTTP') or app_profile_obj[
+                        0]['name'] == 'System-HTTP':
+                    if vs_obj.get('network_profile_ref'):
+                        nw_profile = self.get_name(vs_obj[
+                                                       'network_profile_ref'])
+                        nw_profile_obj = [nw for nw in sys_dict[
+                                          'NetworkProfile'] + aviconfig[
+                                          'NetworkProfile'] if
+                                          nw['name'] == nw_profile]
+                        if nw_profile_obj and nw_profile_obj[0][
+                            'profile']['type'] != 'PROTOCOL_TYPE_TCP_PROXY':
+                            LOG.debug('Changed the network profile reference '
+                                      'from %s to TCP-Proxy as VS %s has HTTP '
+                                      'profile', nw_profile_obj[0]['profile'][
+                                      'type'], vs_obj['name'])
+                            vs_obj['network_profile_ref'] = \
+                                self.get_object_ref('System-TCP-Proxy',
+                                 conv_const.OBJECT_TYPE_NETWORK_PROFILE)
 
