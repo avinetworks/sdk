@@ -2128,8 +2128,8 @@ class F5Util(MigrationUtil):
                                    + aviconfig['ApplicationProfile']
                                    if app['name'] == app_profile]
                 if app_profile_obj and (app_profile_obj[0]['type'] ==
-                        'APPLICATION_PROFILE_TYPE_HTTP') or app_profile_obj[
-                        0]['name'] == 'System-HTTP':
+                        'APPLICATION_PROFILE_TYPE_HTTP' or app_profile_obj[
+                        0]['name'] == 'System-HTTP'):
                     if vs_obj.get('network_profile_ref'):
                         nw_profile = self.get_name(vs_obj[
                                                        'network_profile_ref'])
