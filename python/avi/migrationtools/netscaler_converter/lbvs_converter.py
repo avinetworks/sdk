@@ -15,8 +15,6 @@ from avi.migrationtools.netscaler_converter.ns_service_converter \
     import app_per_merge_count
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
-from avi.migrationtools.netscaler_converter.profile_converter import \
-    app_merge_count
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 LOG = logging.getLogger(__name__)
@@ -118,6 +116,7 @@ class LbvsConverter(object):
                         lb_vs['line_no'], cmd, key, full_cmd, STATUS_SKIPPED,
                         skipped_status)
                     continue
+                # Skipped VS if type is not SSL but persistence is of SSL type
                 if type != 'SSL' and lb_vs.get('persistenceType') == \
                   'SSLSESSION':
                     skipped_status = "Skipped:Secure persistence is applicable"\
@@ -215,6 +214,7 @@ class LbvsConverter(object):
                 # Convert netscalar policy to AVI http policy set
                 if policy:
                     if policy['name'] in tmp_policy_ref:
+                        # Cloned the policy if it is already used
                         policy = ns_util.clone_http_policy_set(policy,
                                  updated_vs_name, avi_config, self.tenant_name,
                                  self.cloud_name, used_pool_group_ref,
@@ -268,6 +268,9 @@ class LbvsConverter(object):
                                                    OBJECT_TYPE_APPLICATION_PROFILE,
                                                    self.tenant_name)
                         vs_obj['application_profile_ref'] = http_prof_ref
+                        # Added additional attribute like xff_enabled etc to
+                        # application profile on basis of service or service
+                        # group command
                         addition_attr = {}
                         if bind_conf_list:
                             for bindlist in bind_conf_list:
@@ -282,7 +285,7 @@ class LbvsConverter(object):
                                         ser_cmd = 'add serviceGroup'
                                     command =\
                                         ns_util.get_netscalar_full_command(
-                                            ser_cmd, ser_conf)
+                                        ser_cmd, ser_conf) if ser_conf else ''
                                     if 'x-forwarded-for' in command:
                                         addition_attr['xff_enabled'] = True
                                         addition_attr[
@@ -298,8 +301,30 @@ class LbvsConverter(object):
                     else:
                         LOG.warning("%s application profile doesn't exist for "
                                     "%s vs" %(http_prof, updated_vs_name))
-
-                elif not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
+                ntwk_prof = lb_vs.get('tcpProfileName', None)
+                if ntwk_prof:
+                    # Added prefix for objects
+                    if self.prefix:
+                        ntwk_prof = self.prefix + '-' + ntwk_prof
+                    # Get the merge network profile name
+                    if self.object_merge_check:
+                        ntwk_prof = merge_object_mapping['network_profile'].get(
+                            ntwk_prof)
+                    if ns_util.object_exist('NetworkProfile', ntwk_prof,
+                                            sysdict) or ns_util.object_exist(
+                        'NetworkProfile',
+                        ntwk_prof, avi_config):
+                        LOG.info('Conversion successful: Added network profile '
+                                 '%s for %s' % (ntwk_prof, updated_vs_name))
+                        ntwk_prof_ref = \
+                            ns_util.get_object_ref(ntwk_prof,
+                                                   OBJECT_TYPE_NETWORK_PROFILE,
+                                                   self.tenant_name)
+                        vs_obj['network_profile_ref'] = ntwk_prof_ref
+                    else:
+                        LOG.warning("%s netwrok profile doesn't exist for "
+                                    "%s vs" % (ntwk_prof, updated_vs_name))
+                if not http_prof and (lb_vs['attrs'][1]).upper() == 'DNS':
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
                         'System-DNS', 'applicationprofile', tenant='admin')
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
@@ -337,9 +362,9 @@ class LbvsConverter(object):
                                                 avi_config, pool_group,
                                                 'System-Persistence-Client-IP')
                         LOG.debug("Defaulted to Client IP persistence profile "
-                                  "for '%s' Pool group in '%s' VS of type "
-                                  "SSL_BRIDGE" % (pool_group_ref,
-                                                  updated_vs_name))
+                                  "for '%s' Pool group in '%s' VS of type %s" %
+                                  (pool_group_ref, updated_vs_name,
+                                   lb_vs['attrs'][1]))
                 if pool_group_ref and not persistence_attached:
                     if persistence_type in self.lbvs_supported_persist_types:
                         profile_name = '%s-persistance-profile' % vs_name
@@ -375,7 +400,7 @@ class LbvsConverter(object):
                     elif not persistence_type == 'NONE':
                         LOG.warning('Persistance type %s not supported by Avi' %
                                     persistence_type)
-                # Update fail cation of pool as FAIL_ACTION_HTTP_REDIRECT in AVI
+                # Update fail action of pool as FAIL_ACTION_HTTP_REDIRECT in AVI
                 # if lb vs has redirect url
                 if redirect_url:
                     fail_action = ns_util.get_redirect_fail_action(redirect_url)
@@ -481,28 +506,6 @@ class LbvsConverter(object):
                     service['port'] = "1"
                     service['port_range_end'] = "65535"
                 vs_obj['services'].append(service)
-                ntwk_prof = lb_vs.get('tcpProfileName', None)
-                if ntwk_prof:
-                    # Added prefix for objects
-                    if self.prefix:
-                        ntwk_prof = self.prefix + '-' + ntwk_prof
-                    # Get the merge network profile name
-                    if self.object_merge_check:
-                        ntwk_prof = merge_object_mapping['network_profile'].get(
-                                    ntwk_prof)
-                    if ns_util.object_exist('NetworkProfile', ntwk_prof,
-                       sysdict) or ns_util.object_exist('NetworkProfile',
-                       ntwk_prof, avi_config):
-                        LOG.info('Conversion successful: Added network profile '
-                                 '%s for %s' % (ntwk_prof, updated_vs_name))
-                        ntwk_prof_ref = \
-                            ns_util.get_object_ref(ntwk_prof,
-                                                   OBJECT_TYPE_NETWORK_PROFILE,
-                                                   self.tenant_name)
-                        vs_obj['network_profile_ref'] = ntwk_prof_ref
-                    else:
-                        LOG.warning("%s netwrok profile doesn't exist for "
-                                    "%s vs" %(ntwk_prof, updated_vs_name))
                 if redirect_url and not pool_group:
                     redirect_pools.update({vs_obj['name']: redirect_url})
                     ns_util.create_http_policy_set_for_redirect_url(
@@ -645,6 +648,8 @@ class LbvsConverter(object):
                             ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                     full_cmd, vs_conv_status, skipped_status)
                             continue
+                # Added this line here in order to track if a pool group is
+                # used in VS directly or through policy
                 if vs_obj.get('pool_group_ref'):
                     used_pool_group_ref.append(vs_obj['pool_group_ref'])
                 avi_config['VirtualService'].append(vs_obj)
