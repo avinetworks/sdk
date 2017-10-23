@@ -216,6 +216,9 @@ class CsvsConverter(object):
                                         OBJECT_TYPE_APPLICATION_PROFILE,
                                         self.tenant_name)
                         vs_obj['application_profile_ref'] = http_prof_ref
+                        # Added additional attribute like xff_enabled etc to
+                        # application profile on basis of service or service
+                        # group command
                         addition_attr = {}
                         if bind_conf_list:
                             for bindlist in bind_conf_list:
@@ -488,7 +491,7 @@ class CsvsConverter(object):
                 # Add the http policy set reference to VS in AVI
                 if policy:
                     policy['name'] = policy['name'] + updated_vs_name
-                    # Added fix for same policy refferred in multiple vs
+                    # Added fix for same policy referred in multiple vs
                     ns_util.add_policy(policy, updated_vs_name, avi_config,
                                      tmp_policy_ref, vs_obj, self.tenant_name,
                                      self.cloud_name, self.prefix,

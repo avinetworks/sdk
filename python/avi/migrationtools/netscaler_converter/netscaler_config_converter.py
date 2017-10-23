@@ -65,10 +65,12 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile',
                              'ApplicationPersistenceProfile', 'HealthMonitor']
+        # Constructed avi config dict and baseline object dict for objects
+        # which can be merged
         for key in merge_object_type:
             sys_dict[key] = []
             avi_config[key] = []
-
+        # Read the baseline json file and filled the baseline object dict
         if profile_path and os.path.exists(profile_path):
             with open(profile_path) as data:
                 prof_data = json.load(data)

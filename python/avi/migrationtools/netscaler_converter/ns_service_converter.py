@@ -168,6 +168,8 @@ class ServiceConverter(object):
                             if pool['name'] == pool_name]
                     if pool:
                         if pool_name in used_pool_ref:
+                            # Cloning the pool if it is attached to more than
+                            # one VS
                             pool_name = ns_util.clone_pool(
                                 pool_name, group_key, avi_config,
                                 userprefix=self.prefix)
@@ -456,6 +458,7 @@ class ServiceConverter(object):
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
+                # Updated the reference of HM in pool by deriving it from name
                 if pool_obj['health_monitor_refs']:
                     updated_health_monitor_ref = []
                     for health_monitor_ref in pool_obj['health_monitor_refs']:
@@ -546,7 +549,7 @@ class ServiceConverter(object):
                             if self.object_merge_check:
                                 pkiname = merge_object_mapping[
                                             'pki_profile'].get(pkiname, None)
-                            if [pki for pki in (sysdict['PKIProfile'] + \
+                            if [pki for pki in (sysdict['PKIProfile'] +
                                 avi_config['PKIProfile']) if pki['name'] ==
                                 pkiname]:
                                 updated_pki_ref = ns_util.get_object_ref(
@@ -607,18 +610,14 @@ class ServiceConverter(object):
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
-
+                # Updated the reference of HM in pool by deriving it from name
                 if pool_obj['health_monitor_refs']:
-                    if pool_obj['health_monitor_refs']:
-                        updated_health_monitor_ref = []
-                        for health_monitor_ref in pool_obj[
-                          'health_monitor_refs']:
-                            updated_health_monitor_ref.append(
-                                ns_util.get_object_ref(health_monitor_ref,
-                                                     OBJECT_TYPE_HEALTH_MONITOR,
-                                                     self.tenant_name))
-                        pool_obj['health_monitor_refs'] = \
-                            updated_health_monitor_ref
+                    updated_health_monitor_ref = []
+                    for health_monitor_ref in pool_obj['health_monitor_refs']:
+                        updated_health_monitor_ref.append(
+                                  ns_util.get_object_ref(health_monitor_ref,
+                                  OBJECT_TYPE_HEALTH_MONITOR, self.tenant_name))
+                    pool_obj['health_monitor_refs'] = updated_health_monitor_ref
 
                 avi_config['Pool'].append(pool_obj)
                 LOG.warning('Conversion successful: %s' %
