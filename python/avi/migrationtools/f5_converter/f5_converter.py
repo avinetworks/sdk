@@ -12,7 +12,7 @@ from avi.migrationtools.vs_filter import filter_for_vs
 from requests.packages import urllib3
 
 from avi.migrationtools.f5_converter import (f5_config_converter,
-                                            f5_parser, scp_util)
+                                             f5_parser, scp_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
@@ -98,11 +98,11 @@ class F5Converter(AviConverter):
         is_download_from_host = False
         if self.f5_host_ip:
             input_dir = output_dir + os.path.sep + self.f5_host_ip + \
-                        os.path.sep + "input"
+                os.path.sep + "input"
             if not os.path.exists(input_dir):
                 os.makedirs(input_dir)
             output_dir = output_dir + os.path.sep + self.f5_host_ip + \
-                         os.path.sep + "output"
+                os.path.sep + "output"
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
             is_download_from_host = True
@@ -162,20 +162,20 @@ class F5Converter(AviConverter):
                     'Config file %s parsed successfully' % p_source_file.name)
                 # TO get all not supported configuration.
                 not_supported_list_partition = not_supported_list_partition \
-                                               + not_supported_list
+                    + not_supported_list
                 self.dict_merge(partition_conf, partition_dict)
             self.dict_merge(partition_conf, f5_config_dict)
             f5_config_dict = partition_conf
         # Added not supported parse config to file
         merged_not_supported_list = not_supported_list + \
-                                    not_supported_list_partition
+            not_supported_list_partition
         # Added status of all command that are not supported in parsing.
         for command in merged_not_supported_list:
             d = command.rsplit('/', 1)
             object_type = d[0].rsplit(' ', 1)
             object_name = '%s/%s' % (object_type[-1], d[-1])
             self.conversion_util.add_status_row(object_type[0], '', object_name,
-                                           conv_const.STATUS_NOT_SUPPORTED)
+                                                conv_const.STATUS_NOT_SUPPORTED)
         LOG.debug('Defaults files parsed successfully')
         LOG.debug('Conversion started')
         self.dict_merge(f5_defaults_dict, f5_config_dict)
@@ -255,7 +255,7 @@ class F5Converter(AviConverter):
                 # Added to get directory path.
                 dir_path = self.conversion_util.get_project_path()
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
-                    self.f5_config_version, "r") as defaults_file:
+                      self.f5_config_version, "r") as defaults_file:
                 if self.skip_default_file:
                     LOG.warning(
                         'Skipped default file : %s' % defaults_file.name)
@@ -384,42 +384,40 @@ if __name__ == "__main__":
     parser.add_argument('--ansible',
                         help='Flag for create ansible file',
                         action='store_true')
-                        help = 'Flag for create ansible file', action = 'store_true')
 
     # Adding support for test vip
     parser.add_argument('--test_vip',
-                        help = 'Enable test vip for ansible generated file '
-                             'It will replace the original vip '
-                             'Note: The actual ip will vary from input to output'
+                        help='Enable test vip for ansible generated file '
+                        'It will replace the original vip '
+                        'Note: The actual ip will vary from input to output'
                              'use it with caution ')
     # Added prefix for objects
-    parser.add_argument('--prefix', help = 'Prefix for objects')
+    parser.add_argument('--prefix', help='Prefix for objects')
 
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
-                        help = 'Flag for converting snatpool into '
-                             'individual addresses',
-                        action = "store_true")
+                        help='Flag for converting snatpool into '
+                        'individual addresses',
+                        action="store_true")
     # Added not in use flag
     parser.add_argument('--not_in_use',
-                        help = 'Flag for skipping not in use object',
-                        action = "store_true")
+                        help='Flag for skipping not in use object',
+                        action="store_true")
     # Added args for baseline profile json file
-    parser.add_argument('--baseline_profile', help = 'asolute path for json '
-                                    'file containing baseline profiles')
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                        'file containing baseline profiles')
     parser.add_argument('--f5_passphrase_file',
-                        help = 'F5 key passphrase yaml file path')
+                        help='F5 key passphrase yaml file path')
 
-    parser.add_argument('--vs_level_status', action = 'store_true',
-                        help = 'Add columns of vs reference and overall skipped '
-                             'settings in status excel sheet')
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                        'settings in status excel sheet')
 
-
-    args=parser.parse_args()
+    args = parser.parse_args()
     # print avi f5 converter version
     if args.version:
         print "SDK Version: %s\nController Version: %s" % \
               (sdk_version, args.controller_version)
         exit(0)
-    f5_converter=F5Converter(args)
+    f5_converter = F5Converter(args)
     f5_converter.convert()
