@@ -51,7 +51,7 @@ class VSConverter(object):
                 pool = None
                 pool_ref = None
                 vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
-                    name)
+                    name,data)
                 if not vs_ref or port is None or not ip:
                     continue
                 # Excel Sheet Update for class
@@ -64,8 +64,11 @@ class VSConverter(object):
                         if 'sticky-serverfarm' in vsobj.keys():
                             LOG.warning('Skipping Sticky Serverfarm %s' % name)
                             return False, False
-                        if 'serverfarm' in vsobj.keys():
-                            pool = vsobj['serverfarm']
+
+                        for pool in data['Pool']:
+                            if 'serverfarm' in vsobj.keys():
+                                if data['Pool'] == 'serverfarm':
+                                    pool = vsobj['serverfarm']
 
                             # if pool is already used do clone the pool and
                             # having persistance profile
@@ -137,13 +140,14 @@ class VSConverter(object):
                 return temp_vs, pool_obj
         return False, False
 
-    def vsvip_conversion(self):
+    def vsvip_conversion(self,data):
         """vs vip take from virutal-server in class map"""
         vip_id = '0'
         vip_list = list()
         vip_obj_list = list()
 
         # get the number of vips available
+
         for class_map in self.parsed.get('class-map', ''):
             if 'match-all' not in class_map.values():
                 LOG.warning('This type of class map not supported : %s' %
@@ -164,6 +168,7 @@ class VSConverter(object):
                         vip_list.append(vip)
 
         # create vsvip object
+
         for vs_ip in vip_list:
             vip_name = "{}-vip".format(vs_ip)
             vip_obj_list.append(
@@ -182,12 +187,13 @@ class VSConverter(object):
             )
         return vip_obj_list
 
-    def get_vsref_and_port_from_class(self, class_name):
+    def get_vsref_and_port_from_class(self, class_name,data):
         vs_ref = None
         port = None
         vs_ip = None
         port_end = None
         l4_type = None
+
         for class_map in self.parsed['class-map']:
             if 'match' in class_map['type'] and class_map['class-map'] == class_name:
                 port = class_map['desc'][0].get(
@@ -201,18 +207,20 @@ class VSConverter(object):
                 if port == 'https':
                     port = 443
                 vs_ip = class_map['desc'][0].get('virtual-address', [])
-                if vs_ip:
-                    vs_ip_temp = '{}-vip'.format(vs_ip)
-                    vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
-                                                              'vsvip',
-                                                              tenant=self.tenant)
+                for vs_ip_temp in data['VsVip']:
+                    if vs_ip_temp.get('vip','') == vs_ip:
+                        vs_ip_temp = '{}-vip'.format(vs_ip)
+                        vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
+                                                                  'vsvip',
+                                                                  tenant=self.tenant)
+
         return vs_ref, port, vs_ip, l4_type
 
     def virtual_service_conversion(self, data):
         vs_list = list()
         cloned_pool_list = list()
-
         for policy_map in self.parsed.get('policy-map', ''):
+
             if policy_map.get('match', '') == 'multi-match':
                 update_excel(
                     'policy-map', policy_map['policy-map'], status='Indirect')
@@ -221,16 +229,19 @@ class VSConverter(object):
                         policy_name = None
                         ssl = []
                         ssl_cert = []
-                        for obj in cls['class_desc']:
-                            if obj.get('loadbalance', '') == 'policy':
-                                policy_name = obj['type']
-                            if obj.get('ssl-proxy', ''):
-                                ssl = self.common_utils.get_object_ref(obj['type'],
-                                                                       'sslprofile',
-                                                                       tenant=self.tenant)
-                                ssl_cert = self.common_utils.get_object_ref(obj['type'],
-                                                                            'sslkeyandcertificate',
-                                                                            tenant=self.tenant)
+
+                        for ssl1 in data['SSLProfile']:
+                            for obj in cls['class_desc']:
+                                if ssl1.get('type', '') == obj.get('type', ''):
+                                    if obj.get('loadbalance', '') == 'policy':
+                                        policy_name = obj['type']
+                                    if obj.get('ssl-proxy', ''):
+                                        ssl = self.common_utils.get_object_ref(obj['type'],
+                                                                               'sslprofile',
+                                                                               tenant=self.tenant)
+                                        ssl_cert = self.common_utils.get_object_ref(obj['type'],
+                                                                                'sslkeyandcertificate',
+                                                                                tenant=self.tenant)
                         if policy_name:
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
                                                                                      data,
