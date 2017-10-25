@@ -442,7 +442,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             skipped.append(self.dest_key)
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["http_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -485,7 +487,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp,http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["https_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -512,7 +516,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["dns_monitor"] = dns_monitor
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["dns_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["dns_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["dns_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -542,11 +548,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
-            tcp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            tcp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp-half-open':
             if tcp_monitor:
@@ -582,11 +590,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
-            udp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             udp_monitor["http_response"] = http_rsp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            udp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
@@ -739,7 +749,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["http_monitor"]["http_response"] = http_resp
         return skipped
 
@@ -786,7 +798,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["https_monitor"]["http_response"] = http_resp
         return skipped
 
@@ -818,11 +832,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
-            tcp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            tcp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp_half_open':
             if tcp_monitor:
@@ -859,11 +875,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
-            udp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             udp_monitor["http_response"] = http_resp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_resp}
+            udp_monitor = {"http_response": http_resp}
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
