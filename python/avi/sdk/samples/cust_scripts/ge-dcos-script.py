@@ -1,10 +1,21 @@
 #!/usr/bin/python
-import copy, json, os, string, sys
+import copy, json, os, string, sys, urlparse
 from avi.sdk.avi_api import ApiSession
-from avi.rest.url_utils import slug_from_uri
 
 RULE_NAME=string.Template("Rule--${name}--${tag}")
 POOL_NAME=string.Template("Pool--${name}--${tag}")
+
+def slug_from_uri(uri):
+    if not uri or '/' not in uri:
+        return uri
+
+    o = urlparse.urlparse(uri)
+    path = o.path
+    #assume url
+    uuid = os.path.basename(path)
+    if '#' in uuid:
+        uuid = uuid.split('#')[0]
+    return uuid
 
 def ParseCUDParams(argv):
     if len(argv) != 2:
