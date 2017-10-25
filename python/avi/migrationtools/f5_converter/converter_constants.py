@@ -73,7 +73,12 @@ COMPLEXITY_BASIC = 'BASIC'
 STATUS_NOT_SUPPORTED = 'NOT SUPPORTED'
 STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
                STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
-
+PROFILES = {'fasthttp': 'APPLICATION_PROFILE_TYPE_HTTP',
+            'fastL4': 'APPLICATION_PROFILE_TYPE_L4',
+            'dns': 'APPLICATION_PROFILE_TYPE_DNS',
+            'http-compression': 'APPLICATION_PROFILE_TYPE_HTTP',
+            'http': 'APPLICATION_PROFILE_TYPE_HTTP',
+            'web-acceleration': 'APPLICATION_PROFILE_TYPE_HTTP'}
 def init(version):
     """
     This function defines that to initialize constant from yaml file

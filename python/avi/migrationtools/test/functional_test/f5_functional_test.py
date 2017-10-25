@@ -9,10 +9,10 @@ class Tester():
     def __init__(self):
         self.conversion_util = F5Util()
 
-    def compareDict(self,f5_config_dict,avi_config_dict):
-       for each_vs in avi_config_dict['VirtualService']:
+    def compareDict(self):
+       for each_vs in self.avi_config_dict['VirtualService']:
             vs_name = each_vs['name']
-            exist = self.test_compareVsName(vs_name, f5_config_dict)
+            exist = self.test_compareVsName(vs_name, self.f5_config_dict)
             if exist:
                 if 'application_profile_ref' in each_vs:
                     application_profile_ref = each_vs['application_profile_ref']
@@ -20,6 +20,8 @@ class Tester():
                     app_type = [i['type'] for i in avi_config_dict['ApplicationProfile'] if i['name']==app_name]
                     self.test_getApplicationType(app_type[0],f5_config_dict)
             else:
+
+                print vs_name
                 print "Virtual service is not available";
 
             # if 'network_profile_ref' in each_vs:
@@ -34,7 +36,6 @@ class Tester():
             name =  each_parsed_vs.split('/')
             if vs_name == name[2]:
                 print name[2]
-                return True
 
 
     def test_getApplicationType(self,app_type,f5_config_dict):
