@@ -343,13 +343,13 @@ class AviAnsibleConverter(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
-        avi_enable[WHEN] = RESULT
         name = "Disable Avi virtualservice: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
                 AVI_VIRTUALSERVICE: avi_enable,
-                TAGS: [DISABLE_AVI, avi_enable[NAME], VIRTUALSERVICE]
+                TAGS: [DISABLE_AVI, avi_enable[NAME], VIRTUALSERVICE],
+                WHEN: RESULT
             })
 
     def update_avi_ansible_vip(self, vs_dict, ansible_dict):
@@ -360,8 +360,7 @@ class AviAnsibleConverter(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
-        avi_enable[WHEN] = RESULT_SUCCESS
+        avi_enable[ENABLE] = True
         name = "Update Avi virtualservice vip: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
@@ -380,7 +379,6 @@ class AviAnsibleConverter(object):
 
         f5_values = deepcopy(f5_dict)
         f5_values[STATE] = ENABLE
-        f5_values[WHEN] = RESULT
         # Remove prefix from vs name of big ip.
         if self.prefix:
             f5_values[NAME] = self.remove_prefix(f5_dict[NAME])
@@ -390,7 +388,8 @@ class AviAnsibleConverter(object):
                 NAME: name,
                 BIGIP_VS_SERVER: f5_values,
                 DELEGETE_TO: LOCAL_HOST,
-                TAGS: [ENABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
+                TAGS: [ENABLE_F5, f5_dict[NAME], VIRTUALSERVICE],
+                WHEN: RESULT
             })
 
     def get_request_type(self, name):
