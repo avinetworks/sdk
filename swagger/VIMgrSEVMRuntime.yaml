@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.2'
     title: Avi VIMgrSEVMRuntime Object API
     contact:
         name: Avi Networks Inc.
@@ -33,6 +33,26 @@ paths:
                     description: object name
                     required: false
                     type: string
+                -   name: refers_to
+                    in: query
+                    description: Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid
+                    type: string
+                -   name: referred_by
+                    in: query
+                    description: Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
+                    type: string
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
@@ -53,6 +73,14 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: cloud_uuid
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
+                    type: string
+                -   name: cloud_ref.name
+                    in: query
+                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
+                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -139,6 +167,18 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
             security:
                 - basicAuth: []
@@ -299,6 +339,47 @@ paths:
 
 
 definitions:
+    AzureInfo:
+        type: object
+        properties:
+            availability_set:
+                description: "Name of the availability set of which the VM is a part of. Field introduced in 17.2.1."
+                type: string
+            fault_domain:
+                description: "Fault domain within the availability set the VM is a part of. Field introduced in 17.2.1."
+                type: string
+            name:
+                description: "Name of the Azure VM. Field introduced in 17.2.1."
+                type: string
+            resource_group:
+                description: "Resource group name for the VM. Field introduced in 17.2.1."
+                type: string
+            subnet_id:
+                description: "Subnet ID of the primary nic of the VM. Field introduced in 17.2.1."
+                type: string
+            update_domain:
+                description: "Update domain within the availability set the VM is a part of. Field introduced in 17.2.1."
+                type: string
+            vm_uuid:
+                description: "Azure VM uuid for the SE VM. Field introduced in 17.2.1."
+                type: string
+            vnic_id:
+                description: "VNIC id of the primary nic of the VM. Field introduced in 17.2.1."
+                type: string
+    FloatingIpSubnet:
+        type: object
+        required:
+            -   name
+        properties:
+            name:
+                description: "FloatingIp subnet name if available, else uuid. Field introduced in 17.2.1."
+                type: string
+            prefix:
+                description: "FloatingIp subnet prefix. Field introduced in 17.2.1."
+                $ref: '#/definitions/IpAddrPrefix'
+            uuid:
+                description: "FloatingIp subnet uuid. Field introduced in 17.2.1."
+                type: string
     IpAddr:
         type: object
         required:
@@ -364,7 +445,7 @@ definitions:
                 description: "Unique object identifier of os_port."
                 type: string
             type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 type: string
     VIMgrIPSubnetRuntime:
         type: object
@@ -372,13 +453,18 @@ definitions:
             -   prefix
         properties:
             fip_available:
-                description: "Indicates floating/elastic IP association possibility."
+                description: "If true, capable of floating/elastic IP association."
                 type: boolean
             fip_subnet_uuids:
                 description: "If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list."
                 type: array
                 items:
                     type: string
+            floatingip_subnets:
+                description: "If fip_available is True, the list of associated FloatingIP subnets, possibly empty if unsupported or implictly defined by the Cloud. Field introduced in 17.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/FloatingIpSubnet'
             ip_subnet:
                 description: "ip_subnet of VIMgrIPSubnetRuntime."
                 type: string
@@ -412,6 +498,9 @@ definitions:
             availability_zone:
                 description: "availability_zone of VIMgrSEVMRuntime."
                 type: string
+            azure_info:
+                description: " Field introduced in 17.2.1."
+                $ref: '#/definitions/AzureInfo'
             cloud_name:
                 description: "cloud_name of VIMgrSEVMRuntime."
                 type: string
@@ -490,7 +579,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 type: string
             url:
                 description: "url"

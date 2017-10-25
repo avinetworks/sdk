@@ -189,12 +189,6 @@ class F5Converter(AviConverter):
         avi_config_dict["META"] = self.meta(self.tenant, 
                                             self.controller_version)
 
-        if parse_version(self.controller_version) >= parse_version('17.1'):
-            avi_config_dict['META']['supported_migrations']['versions'].append(
-                '17_1_1')
-        avi_config_dict['META']['supported_migrations']['versions'].append(
-            'current_version')
-
         avi_config = self.process_for_utils(avi_config_dict)
         # Check if flag true then skip not in use object
         if self.not_in_use:
@@ -294,6 +288,9 @@ if __name__ == "__main__":
     Example to auto upload to controller after conversion:
             f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
             username -p password -t tenant
+            
+    Example to patch the config after conversion:
+        f5_converter.py -f bigip.conf --patch test/patch.yaml
     '''
 
 

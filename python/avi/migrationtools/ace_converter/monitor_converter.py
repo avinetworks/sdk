@@ -9,10 +9,11 @@ LOG = logging.getLogger(__name__)
 
 class MonitorConverter(object):
     """ Monitor Converter Class """
-    def __init__(self, parsed, tenant_ref, common_utils):
+    def __init__(self, parsed, tenant_ref, common_utils, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
+        self.tenant = tenant
 
     def healthmonitor_conversion(self):
         """ Health monitor conversion happens here """
@@ -20,7 +21,7 @@ class MonitorConverter(object):
         # monitor list
         monitor_list = list()
 
-        for health_monitor in self.parsed['probe']:
+        for health_monitor in self.parsed.get('probe', ''):
             receive_timeout = DEFAULT_TIMEOUT
             failed_checks = DEFAULT_FAILED_CHECKS
             send_interval = health_monitor.get('interval', DEFAULT_INTERVAL)

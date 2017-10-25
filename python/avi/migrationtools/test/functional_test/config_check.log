@@ -1,0 +1,1044 @@
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:52845 to offset:54333
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:54391 to offset:54480
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:54521 to offset:54625
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:54644 to offset:54741
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:55048 to offset:55128
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:55436 to offset:55513
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:55819 to offset:55903
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:56215 to offset:56297
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:56607 to offset:57945
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:57969 to offset:64117
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:64146 to offset:65329
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:65358 to offset:65641
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:65699 to offset:65788
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:65829 to offset:65933
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:65952 to offset:66637
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:66695 to offset:66784
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:66825 to offset:66929
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:66948 to offset:67257
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:209533 to offset:223897
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:263376 to offset:264882
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:265073 to offset:266154
+WARNING:avi.migrationtools.f5_converter.f5_parser:Skipped for parse unmatched from offset:266435 to offset:274018
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodysey2014-16-17.key_54962_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodysey2014-16-17.key_54962_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodysey2014-16-17.crt_54966_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodysey2014-16-17.crt_54966_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_lvjcodyssey2014.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_lvjcodyssey2014.co.clark.nv.us-dummy
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_inside.co.clark.nv.us-16-17.key_55034_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_inside.co.clark.nv.us-16-17.key_55034_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_inside.co.clark.nv.us-16-17.crt_55038_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_inside.co.clark.nv.us-16-17.crt_55038_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_inside.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_inside.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_inside.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for crypto-client-default-serverssl-dummy
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.clarkcountyda.net-16-18.key_54950_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.clarkcountyda.net-16-18.key_54950_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.clarkcountyda.net-16-18.crt_54954_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.clarkcountyda.net-16-18.crt_54954_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_sts.clarkcountyda.net-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_sts.clarkcountyda.net-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_sts.clarkcountyda.net merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:aces.co.clark.nv.us-16-17.key_54783_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:aces.co.clark.nv.us-16-17.key_54783_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:aces.co.clark.nv.us-16-17.crt_54787_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:aces.co.clark.nv.us-16-17.crt_54787_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_aces-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_aces-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_aces merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: SSL-NO-SSl3.0 merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportaldev.co.clark.nv.us-10year.key_44867_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportaldev.co.clark.nv.us-10year.key_44867_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportaldev.co.clark.nv.us-10year.crt_44871_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportaldev.co.clark.nv.us-10year.crt_44871_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpportaldev.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpportaldev.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportaldev.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: serverssl merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-wan-optimized-compression-compression merged in Merged-http-compression-app_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:Skipped not supported profile: ldap_server_erpldap of type: server-ldap
+WARNING:avi.migrationtools.f5_converter.profile_converter:Skipped not supported profile: erpldap of type: client-ldap
+WARNING:avi.migrationtools.f5_converter.profile_converter:idle-timeout for profile: fastL4  is grater than maximum, changed to Avis maximum value
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.co.clark.nv.us_2015-2017.key_43437_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.co.clark.nv.us_2015-2017.key_43437_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.co.clark.nv.us_2015-2017.crt_43441_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_sts.co.clark.nv.us_2015-2017.crt_43441_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_sts.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_sts.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_sts.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltrain.co.clark.nv.us.key_54228_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltrain.co.clark.nv.us.key_54228_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltrain.co.clark.nv.us.crt_54232_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltrain.co.clark.nv.us.crt_54232_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpportaltrain.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpportaltrain.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportaltrain.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: test12 merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http_websphere-cache merged in Merged-web-acceleration-app_profile-sL2-2
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: wan-optimized-compression merged in Merged-http-compression-app_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-16-17.key_45685_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-16-17.key_45685_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-16-17.crt_45689_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-16-17.crt_45689_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_ijis-jc.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_ijis-jc.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_ijis-jc.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: serverssl-insecure-compatible merged in Merged-server-ssl-ssl_profile-sL2-2
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: RPC_Outlook_TCP_WAN merged in Merged-tcp-network_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: RPC_Outlook_TCP_LAN merged in Merged-tcp-network_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyint2014.key_43489_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyint2014.key_43489_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyint2014.crt_43493_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyint2014.crt_43493_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_lvjcodyint2014-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_lvjcodyint2014-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_lvjcodyint2014 merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: apm-default-serverssl merged in Merged-server-ssl-ssl_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/ca-bundle.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/ca-bundle.crt'
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-uccx merged in Merged-http-app_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-x-forwarded-for-cache merged in Merged-web-acceleration-app_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ldap_erpldap.co.clark.nv.us.key_52779_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ldap_erpldap.co.clark.nv.us.key_52779_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ldap_erpldap.co.clark.nv.us.crt_52783_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ldap_erpldap.co.clark.nv.us.crt_52783_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ldapsv1_erpldap.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ldapsv1_erpldap.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ldapsv1_erpldap.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us_16-17.key_55010_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us_16-17.key_55010_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us_16-17.crt_55014_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us_16-17.crt_55014_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : exchange_2010_template_clientssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for exchange_2010_template_clientssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_clientssl merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_defender.co.clark.nv.us-16-17.key_55340_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_defender.co.clark.nv.us-16-17.key_55340_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_defender.co.clark.nv.us-16-17.crt_55344_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_defender.co.clark.nv.us-16-17.crt_55344_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_defender.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_defender.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_defender.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpbw.co.clark.nv.us.key_19003_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpbw.co.clark.nv.us.key_19003_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpbw.co.clark.nv.us.crt_18935_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpbw.co.clark.nv.us.crt_18935_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpbw-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpbw-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpbw merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa.co.clark.nv.us-16-17.key_46173_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa.co.clark.nv.us-16-17.key_46173_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa.co.clark.nv.us-16-17.crt_46177_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa.co.clark.nv.us-16-17.crt_46177_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_acesqa-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_acesqa-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_acesqa merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acestrain.co.clark.nv.us-10year.key_45592_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acestrain.co.clark.nv.us-10year.key_45592_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acestrain.co.clark.nv.us-10year.crt_45596_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acestrain.co.clark.nv.us-10year.crt_45596_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_acestrain.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_acestrain.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_acestrain.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-cache merged in Merged-web-acceleration-app_profile-sL2-2
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ldap_erpldap.co.clark.nv.us_lan_optimized_tcp merged in Merged-tcp-network_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : wom-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for wom-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: wom-default-serverssl merged in Merged-server-ssl-ssl_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : clientssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for clientssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: clientssl merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpits.co.clark.nv.us.key_19005_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpits.co.clark.nv.us.key_19005_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpits.co.clark.nv.us.crt_18937_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:erpits.co.clark.nv.us.crt_18937_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpits-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpits-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpits merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ess-tcp-lan merged in Merged-tcp-network_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.profile_converter:one-connect profile exchange_2010_template_oneconnect will be mapped indirectly to HTTP Profile -> Connection Multiplex of the same VS if oneconnect-transformations is enabled
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-10year1.key_55022_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-10year1.key_55022_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-10year1.crt_55026_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-10year1.crt_55026_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_erpportaltempqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_erpportaltempqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_erpportaltempqa.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-wan-optimized-compression-cache merged in Merged-web-acceleration-app_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.profile_converter:one-connect profile oneconnect will be mapped indirectly to HTTP Profile -> Connection Multiplex of the same VS if oneconnect-transformations is enabled
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http_sharepoint merged in Merged-http-app_profile-sL2-4
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyssey.co.clark.nv.us-16-17.key_55155_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyssey.co.clark.nv.us-16-17.key_55155_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyssey.co.clark.nv.us-16-17.crt_55159_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcodyssey.co.clark.nv.us-16-17.crt_55159_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_lvjcodyssey.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_lvjcodyssey.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_lvjcodyssey.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : crypto-server-default-clientssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for crypto-server-default-clientssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: crypto-server-default-clientssl merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-x-forwarded-for-compression merged in Merged-http-compression-app_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for :Common:ldap_erpldap.co.clark.nv.us.key_52779_1 and :Common:ldap_erpldap.co.clark.nv.us.crt_52783_1 is ldapsv1_erpldap.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ldaps_erpldap.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_caching_profile merged in Merged-web-acceleration-app_profile-sL2-5
+WARNING:avi.migrationtools.f5_converter.profile_converter:Skipped not supported profile: smtp of type: smtp
+WARNING:avi.migrationtools.f5_converter.profile_converter:one-connect profile ess_oneconnect will be mapped indirectly to HTTP Profile -> Connection Multiplex of the same VS if oneconnect-transformations is enabled
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa2-10year.key_45600_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa2-10year.key_45600_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa2-10year.crt_45604_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acesqa2-10year.crt_45604_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_acesqa2.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_acesqa2.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_acesqa2.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_qa-ijis.co.clark.nv.us-16-17.key_55083_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_qa-ijis.co.clark.nv.us-16-17.key_55083_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_qa-ijis.co.clark.nv.us-16-17.crt_55087_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_qa-ijis.co.clark.nv.us-16-17.crt_55087_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_qa-ijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_qa-ijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_qa-ijis.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: optimized-caching merged in Merged-web-acceleration-app_profile-sL2-5
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalsbox.co.clark.nv.us_10year.key_44735_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalsbox.co.clark.nv.us_10year.key_44735_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalsbox.co.clark.nv.us_10year.crt_44739_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalsbox.co.clark.nv.us_10year.crt_44739_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_erpportalsbox.co.clarknv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_erpportalsbox.co.clarknv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_erpportalsbox.co.clarknv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_oem.co.clark.nv.us_7803.key_43162_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_oem.co.clark.nv.us_7803.key_43162_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_oem.co.clark.nv.us_7803.crt_43166_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_oem.co.clark.nv.us_7803.crt_43166_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : oem.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for oem.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: oem.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: tcp_sharepoint merged in Merged-tcp-network_profile-sL2-2
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-wan-optimized-compression merged in Merged-http-app_profile-sL2-6
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: test_weak_ciphers merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us.key_19045_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us.key_19045_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us.crt_18985_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_outlook.co.clark.nv.us.crt_18985_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : exchange_2010_template_serverssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for exchange_2010_template_serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_serverssl merged in Merged-server-ssl-ssl_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.profile_converter:SSL key and Certificate is already exist for None and None is crypto-client-default-serverssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: pcoip-default-serverssl merged in Merged-server-ssl-ssl_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_kronosqaapp.co.clark.nv.us_2.key_54771_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_kronosqaapp.co.clark.nv.us_2.key_54771_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_kronosqaapp.co.clark.nv.us_2.crt_54775_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_kronosqaapp.co.clark.nv.us_2.crt_54775_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_kronosqaapp.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_kronosqaapp.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_kronosqaapp.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http_sharepoint-cache merged in Merged-web-acceleration-app_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.profile_converter:one-connect profile oneconnect_websphere will be mapped indirectly to HTTP Profile -> Connection Multiplex of the same VS if oneconnect-transformations is enabled
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_websphere-compression merged in Merged-http-compression-app_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_cvijis.co.clark.nv.us.key_19009_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_cvijis.co.clark.nv.us.key_19009_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_cvijis.co.clark.nv.us.crt_18941_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_cvijis.co.clark.nv.us.crt_18941_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_cvijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_cvijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_cvijis.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ijis.co.clark.nv.us-16-17.key_55328_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ijis.co.clark.nv.us-16-17.key_55328_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ijis.co.clark.nv.us-16-17.crt_55332_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ijis.co.clark.nv.us-16-17.crt_55332_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_ijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_ijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_ijis.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : clientssl-insecure-compatible-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for clientssl-insecure-compatible-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: clientssl-insecure-compatible merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:oem.co.clark.nv.us_v2.key_52413_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:oem.co.clark.nv.us_v2.key_52413_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:oem.co.clark.nv.us_v2.crt_52417_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:oem.co.clark.nv.us_v2.crt_52417_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_oem.co.clark.nv.us_v2-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_oem.co.clark.nv.us_v2-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_oem.co.clark.nv.us_v2 merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acessystest-10year.key_45608_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acessystest-10year.key_45608_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acessystest-10year.crt_45612_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_acessystest-10year.crt_45612_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_acessystest.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_acessystest.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_acessystest.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-15-16.key_43649_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-15-16.key_43649_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-15-16.crt_43653_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportalqa.co.clark.nv.us-15-16.crt_43653_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpportalqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpportalqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalqa.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-2014-2015.key_19011_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-2014-2015.key_19011_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-2014-2015.crt_18943_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_ijis-jc.co.clark.nv.us-2014-2015.crt_18943_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : test-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for test-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: test merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : clientssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for clientssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: clientssl merged in Merged-client-ssl-ssl_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.conversion_util:http_sharepoint-compression content_types ['application/vnd.ms-excel', 'text/', 'application/pdf', 'application/vnd.msword', 'application/vnd.ms-publisher', 'application/(xml|x-javascript)', 'application/vnd.ms-powerpoint', None] has none
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-uccx-cache merged in Merged-web-acceleration-app_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.profile_converter:idle-timeout for profile: fl4_accella  is grater than maximum, changed to Avis maximum value
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: fl4_accella merged in Merged-fastl4-app_profile-sL2-7
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltempprod.co.clark.nv.us_2016-2017.key_55058_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltempprod.co.clark.nv.us_2016-2017.key_55058_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltempprod.co.clark.nv.us_2016-2017.crt_55062_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_erpportaltempprod.co.clark.nv.us_2016-2017.crt_55062_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpportaltempprod.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpportaltempprod.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportaltempprod.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_acesqa.co.clark.nv.us-16-17-a.key_46200_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_acesqa.co.clark.nv.us-16-17-a.key_46200_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_acesqa.co.clark.nv.us-16-17-a.crt_46204_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_acesqa.co.clark.nv.us-16-17-a.crt_46204_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_acesqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_acesqa.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_acesqa.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-uccx-compression merged in Merged-http-compression-app_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_lan-optimized_tcp_profile merged in Merged-tcp-network_profile-sL2-2
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_expires2024.key_43127_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_expires2024.key_43127_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_expires2024.crt_43131_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_expires2024.crt_43131_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_lvjcijis.co.clark.nv.us-new-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_lvjcijis.co.clark.nv.us-new-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_lvjcijis.co.clark.nv.us-new merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_2014-2024.key_19039_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_2014-2024.key_19039_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_2014-2024.crt_18979_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_lvjcijis.co.clark.nv.us_2014-2024.crt_18979_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_lvjcijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_lvjcijis.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_lvjcijis.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.key'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/default.crt'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : wom-default-clientssl-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for wom-default-clientssl-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: wom-default-clientssl merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_pwm.co.clark.nv.us-16-17.key_54998_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_pwm.co.clark.nv.us-16-17.key_54998_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_pwm.co.clark.nv.us-16-17.crt_55002_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_pwm.co.clark.nv.us-16-17.crt_55002_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_pwm.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_pwm.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_pwm.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:lvjcodyfst_domain_cert.key_43832_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:lvjcodyfst_domain_cert.key_43832_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:lvjcodyfst_domain_cert.crt_43836_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:lvjcodyfst_domain_cert.crt_43836_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : ssl_lvjcodyfst-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for ssl_lvjcodyfst-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ssl_lvjcodyfst merged in Merged-client-ssl-ssl_profile-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/ClarkCountyRoot.crt
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/ClarkCountyRoot.crt'
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: tcp-lan-optimized merged in Merged-tcp-network_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_rewrite_all_http_profile merged in Merged-http-app_profile-sL2-3
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportal.co.clark.nv.us-16-17.key_55194_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportal.co.clark.nv.us-16-17.key_55194_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportal.co.clark.nv.us-16-17.crt_55198_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:https_erpportal.co.clark.nv.us-16-17.crt_55198_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_erpportalprod.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_erpportalprod.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalprod.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: tcp_rdp-server merged in Merged-tcp-network_profile-sL2-4
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ccelapps.co.clark.nv.us.key_54860_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ccelapps.co.clark.nv.us.key_54860_1'
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ccelapps.co.clark.nv.us.crt_54864_1
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/:Common:ssl_ccelapps.co.clark.nv.us.crt_54864_1'
+WARNING:avi.migrationtools.f5_converter.profile_converter:Create self cerificate and key for : https_ccelapps.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.profile_converter:Added new SSL key and certificate for https_ccelapps.co.clark.nv.us-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_ccelapps.co.clark.nv.us merged in Merged-client-ssl-ssl_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: http-explicit merged in Merged-http-app_profile-sL2-6
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/autodiscover_eav
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/autodiscover_eav'
+WARNING:avi.migrationtools.f5_converter.monitor_converter:MISSING File: exchange_2010_template_f5monitor2_app_autodiscover_eav
+WARNING:avi.migrationtools.f5_converter.monitor_converter:Monitor type imap not supported, created dummy external monitor exchange_2010_template_f5monitor1_imap4_monitor-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ess_sap_https-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: tcp_terminal-services merged in RPC_Outlook_RPC
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: icmp merged in Merged-icmp-health_monitor-sL2-1
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/https_adfs_exchange_online.app/adfs_eav
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/https_adfs_exchange_online.app/adfs_eav'
+WARNING:avi.migrationtools.f5_converter.monitor_converter:MISSING File: https_adfs_exchange_online_adfs_eav
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor1_oa_https_monitor-sslprofile merged in Merged-ssl_profile-sL2-3
+WARNING:avi.migrationtools.f5_converter.monitor_converter:Monitor type ldap not supported, created dummy external monitor ldap_erpldap.co.clark.nv.us-dummy
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/sap_portal_monitor
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/sap_portal_monitor'
+WARNING:avi.migrationtools.f5_converter.monitor_converter:MISSING File: sap_portal_monitor
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_sl.clarkcountyda.com-sslprofile merged in Merged-ssl_profile-sL2-3
+ERROR:avi.migrationtools.avi_migration_utils:Error to read file /home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/autodiscover_eav
+Traceback (most recent call last):
+  File "/home/rohan/AVI/sdk/python/avi/migrationtools/avi_migration_utils.py", line 151, in upload_file
+    with open(file_path, "r") as file_obj:
+IOError: [Errno 20] Not a directory: '/home/rohan/AVI/avi-dev/thirdparty/customers/clarkscounty/bigip.conf.internal/autodiscover_eav'
+WARNING:avi.migrationtools.f5_converter.monitor_converter:MISSING File: exchange_2010_template_f5monitor1_app_autodiscover_eav
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_corrected-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor1_owa_https_monitor-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor2_as_https_monitor-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: essqa_sap_https-sslprofile merged in Merged-ssl_profile-sL2-3
+WARNING:avi.migrationtools.f5_converter.monitor_converter:No value for mandatory field query_name, skipped DNS Monitor dns dns
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_head_f5-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalqa.co.clark.nv.us-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalqa.co.clark.nv.us merged in essqa_sap_https
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalprod.co.clark.nv.us-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_erpportalprod.co.clark.nv.us merged in ess_sap_https
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor1_as_https_monitor-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: sts.co.clark.nv.us-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor2_oa_https_monitor-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_f5monitor2_oa_https_monitor merged in exchange_2010_template_f5monitor1_oa_https_monitor
+WARNING:avi.migrationtools.f5_converter.monitor_converter:Skipped monitor: external for no value in run attribute
+WARNING:avi.migrationtools.f5_converter.monitor_converter:Monitor type imap not supported, created dummy external monitor exchange_2010_template_f5monitor2_imap4_monitor-dummy
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: Aces_webshpere_HTTPS-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_blitz-available.html-sslprofile merged in Merged-ssl_profile-sL2-3
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_rpc_monitor merged in RPC_Outlook_RPC
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodyssey.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ExtensionMobility
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_UCCX3-ACD-Login
+WARNING:avi.migrationtools.f5_converter.pool_converter:Monitor not found: https_adfs_exchange_online_adfs_eav for pool /Common/https_adfs_exchange_online.app/https_adfs_exchange_online_adfs_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_adfs_exchange_online.app/https_adfs_exchange_online_adfs_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_Auth-DirectoryServices
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_oa_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_erpportaltempqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_mosstemp
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_sl.clarkcountyda.com
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ccerpdev14u.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_EndUserSelfService
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rpc_outlook.co.clark.nv.us_Add_Book
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_lvjcodyint2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_erpportalqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_rpc_wildcard_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_defender.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/ldap_erpldap.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_courttest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_assessorapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ccelweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_lvjcodyssey2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_UCCX2-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_sts.clarkcountyda.net
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_UCCX4-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_kronosapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rdp_ccentts2.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_acestrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_dev-internet
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_acesqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ccelapps.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_imap4_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ccentweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodyint.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_lvjcodyssey.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_rpc_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodyssey2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_pwm.co.clark.nv.us-new
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ExtensionMobility
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ijis
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_MiscServices
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_qa-ijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_oem.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ccelapps.co.clark.nv.us_8181
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_sts.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportalqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_lvjcijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportaldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ccelapps.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rpc_ccexcas00m.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_kronosqaapp_8888
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportalsbox.co.clark.nv.https_erpportalsbox.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/ldap_gc.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportaltempprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_webmailtest.clarkcountynv.gov
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ccelweb_8181
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_acesqa2.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_cccobweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportaltempqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_kronosapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ijis-jc.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportaltrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.pool_converter:Monitor not found: exchange_2010_template_f5monitor1_app_autodiscover_eav for pool /Common/exchange_2010_template.app/exchange_2010_template_ad_pool
+WARNING:avi.migrationtools.f5_converter.pool_converter:Monitor not found: exchange_2010_template_f5monitor2_app_autodiscover_eav for pool /Common/exchange_2010_template.app/exchange_2010_template_ad_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_ad_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rpc_outlook.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_pwm.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_erpportaldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_as_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_oem.co.clark.nv.us_7802
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_aatest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_blitzmldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_blitzmlprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_erpportalprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodysseyfs14q
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodysseymirror.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_aces.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_erpportalprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_kronoswdm.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rdp_ccentts.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_ccssapps10m
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_kronosqaapp
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_URL-Services
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_dev-redesign.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcijis6.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodyint2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_kronosqaapp
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_lvjcodyfst.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_cccogqaweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_UCCX1-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/rpc_outlook.co.clark.nv.us_MAPI
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_ccelapps.co.clark.nv.us_8080
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_idp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_acessystest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_avtest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/https_cvijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_lvjcodysseymirror14.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/exchange_2010_template.app/exchange_2010_template_owa_pool
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for pool /Common/http_LVJCES2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: universal
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: source_addr merged in Merged-source-addr-app_per_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: exchange_2010_template_cookie_persistence_profile
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: cookie_websphere
+WARNING:avi.migrationtools.f5_converter.persistence_converter:hash-persistence profile hash will be mapped indirectly to Pool -> Load Balance  Algorithm
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: cookie
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: ldap_erpldap.co.clark.nv.us_source_address_persistence merged in Merged-source-addr-app_per_profile-sL2-1
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: pp_sharepoint
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: ess_cookie
+WARNING:avi.migrationtools.f5_converter.persistence_converter:persist mode not supported skipping conversion: terminal-services
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: https_adfs_exchange_online_source_addr merged in Merged-source-addr-app_per_profile-sL2-1
+INFO:avi.migrationtools.f5_converter.conversion_util:Duplicate profiles: exchange_2010_template_source_address_persistence_profile merged in Merged-source-addr-app_per_profile-sL2-2
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_ijis-qa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodyssey.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_ExtensionMobility
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_UCCX3-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_Auth-DirectoryServices
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodyssey2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportaltempqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_mosstemp
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_sl.clarkcountyda.com
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https_sl.clarkcountyda.com this reference from https_sl.clarkcountyda.com pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_EndUserSelfService
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_idq.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https this reference from https_ccerpdev14u.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_cccogqaweb.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_lvjcodyint2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_adfs_exchange_online_adfs_vs
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_assessorapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ccelweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service htt_ijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_lvjcodyssey2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_UCCX2-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_sts.clarkcountyda.net
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_UCCX4-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_kronosapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service rdp_ccentts2.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile terminal-services not found for vs:rdp_ccentts2.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_acestrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile universal not found for vs:https_acestrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_acesqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile universal not found for vs:https_acesqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportalsbox.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ccelapps.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service exchange_2010_template_rpc_wildcard
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ccentweb
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile pp_sharepoint not found for vs:http_ccentweb
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodyint.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_inside.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ExtensionMobility
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_webmailtest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_MiscServices
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service ldap_erpldap.co.clark.nv.us_vs
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_dev-internet.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_sts.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodysseyfs14q.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie not found for vs:http_lvjcodysseyfs14q.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_lvjcijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportaldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service exchange_2010_template_rpc
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_ccelapps.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_courttest
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_kronosqaapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service exchange_2010_template_combined_http
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportaltempprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_webmailtest.clarkcountynv.gov
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie not found for vs:https_webmailtest.clarkcountynv.gov
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ijis-jc.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_ccelweb_8181
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_acesqa2.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_idp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https this reference from https_idp.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportaltempqa.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_kronosapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie not found for vs:http_kronosapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_ijis-jc.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportaltrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service rpc_outlook.co.clark.nv.us_Add_Book
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportaldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportaltrain.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service defender.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportalsbox.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_oem.co.clark.nv.us_7802
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=oem_v2_http_monitor this reference from http_oem.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_aatest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https_blitz-available.html this reference from https_aatest.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_blitzmldev.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service exchange_2010_template_combined_https
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_blitzmlprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_kronosqaapp.co.clark.nv.us_8888
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie not found for vs:http_kronosqaapp.co.clark.nv.us_8888
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportalprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_kronosqaapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie not found for vs:http_kronosqaapp.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodysseymirror.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service rpc_outlook.co.clark.nv.us_RPC
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service exchange_2010_template_imap4
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_aces.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile cookie_websphere not found for vs:https_aces.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_erpportalprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_kronoswdm.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service rdp_ccentts.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile terminal-services not found for vs:rdp_ccentts.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_ijis
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_URL-Services
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_dev-redesign.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcijis6.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_oem.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodyint2014.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_lvjcodyfst.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https this reference from https_lvjcodyfst.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_UCCX1-ACD-Login
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_lvjcodyssey.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_pwm.clarkcountynv.gov
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_acessystest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.vs_converter:persist profile universal not found for vs:https_acessystest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_cccobweb.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_avtest.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:Skipping /api/healthmonitor/?tenant=admin&name=https_blitz-available.html this reference from https_avtest.co.clark.nv.us pool because of health monitor type is HTTPS and VS has no ssl profile.
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service https_cvijis.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_erpportaltempprod.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_lvjcodysseymirror14.co.clark.nv.us
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service rpc_outlook.co.clark.nv.us_MAPI
+WARNING:avi.migrationtools.f5_converter.conversion_util:VRF not found for virtual service http_LVJCES2014.co.clark.nv.us
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of PoolGroup : 1
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of HTTPPolicySet : 2
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of VirtualService : 93
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of VrfContext : 1
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of NetworkSecurityPolicy : 0
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of SSLKeyAndCertificate : 45 (0/45 cert key merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of NetworkProfile : 22 (8/30 profile merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of VSDataScriptSet : 0
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of VsVip : 67
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of Tenant : 1
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of HealthMonitor : 42 (3/45 monitor merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of PriorityLabels : 0
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of ApplicationProfile : 22 (16/38 profile merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of SSLProfile : 3 (67/70 profile merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of PKIProfile : 0 (0/0 profile merged)
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of StringGroup : 3
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of Pool : 99
+INFO:avi.migrationtools.f5_converter.f5_config_converter:Total Objects of ApplicationPersistenceProfile : 4 (4/8 profile merged)
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing virtual service started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started
+INFO:avi.migrationtools.test.functional_test.test_migration:Comparing Application profile started

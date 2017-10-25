@@ -17,10 +17,7 @@ def get_files_from_f5(local_path, host, username, pw=None, key=None):
     scp.get_all_files('/config/monitors/', local_path)
     # Added support to get cert and key for V13.
     try:
-        scp.get_all_files('/config/filestore/files_d/Common_d/certificate_d/',
-                          local_path)
-        scp.get_all_files('/config/filestore/files_d/Common_d/key_d/',
-                          local_path)
+        scp.get_all_partition_certkey('/config/filestore/files_d/', local_path)
     except:
         pass
     scp.get('/config/bigip.conf', local_path + 'bigip.conf')

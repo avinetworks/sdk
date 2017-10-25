@@ -177,7 +177,7 @@ class NsUtil(MigrationUtil):
         :return: Avi LB algorithm enum value
         """
 
-        avi_algorithm = None
+        avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
         if ns_algorithm == 'LEASTCONNECTIONS':
             avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
         elif ns_algorithm == 'ROUNDROBIN':

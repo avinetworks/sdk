@@ -13,8 +13,8 @@ PATH_KEY_MAP = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                     'VSDataScriptSet', 'networksecuritypolicy':
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
                     'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels', 'vsvip': 'VsVip', 'tenant': "Tenant"
-                }
+                    'PriorityLabels', 'vsvip': 'VsVip', 'tenant': "Tenant",
+                'serviceenginegroup': 'ServiceEngineGroup'}
 
 DEFAULT_META_ORDER = [
         "ControllerLicense",
@@ -114,7 +114,7 @@ def search_obj(entity, name, new_config, avi_config, vs_ref_dict):
     :param avi_config: full config
     :param : Recursion  to determine level in the vs reference tree
     """
-    avi_conf_key = PATH_KEY_MAP[entity]
+    avi_conf_key = PATH_KEY_MAP.get(entity, '')
     found_obj = None
     name_obj = None
     if avi_conf_key in avi_config:

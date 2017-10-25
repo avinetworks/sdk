@@ -293,7 +293,7 @@ class ServiceConverter(object):
                               pool_group_name]
                 # Skipped if pool group not found in AVI
                 if not pool_group:
-                    skipped_status = "Skipped: Pool group not found" \
+                    skipped_status = "Skipped: Pool group %s not found" \
                                      % bind_lb_group['attrs'][1]
                     LOG.warning(skipped_status)
                     ns_util.add_status_row(
@@ -343,263 +343,122 @@ class ServiceConverter(object):
                           len(ns_service_groups)
         print "Converting Pools..."
         for key in ns_services:
-            # Added count to increment progress.
-            self.progressbar_count += 1
-            service = ns_services.get(key, {})
-            service_command = 'add service'
-            service_name = key
-            service_netscalar_full_command = \
-                ns_util.get_netscalar_full_command(service_command, service)
-            server, use_service_port = self.convert_ns_service(
-                service, ns_servers, ns_dns)
-            if not server:
-                LOG.warning('Skipped:No server found %s' %
-                            service_netscalar_full_command)
-                # Skipped service if No sserver node
-                ns_util.add_status_row(
-                    service['line_no'], service_command, service_name,
-                    service_netscalar_full_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                continue
-            pool_name = re.sub('[:]', '-', service_name + '-pool')
-            # Addded prefix for objects
-            if self.prefix:
-                pool_name = self.prefix + '-' + pool_name
-            pool_obj = {
-                'name': pool_name,
-                'servers': [server],
-                'health_monitor_refs': [],
-                'tenant_ref': self.tenant_ref,
-                'cloud_ref': self.cloud_ref
-            }
-
-            if use_service_port:
-                pool_obj['use_service_port'] = use_service_port
-            # Add health monitor reference to pool
-            monitor_refs = self.get_service_montor(service_name,
-                                        bind_ns_service, avi_config, sysdict)
-            if monitor_refs:
-                pool_obj['health_monitor_refs'] = list(set(monitor_refs))
-            ssl_service = set_ssl_service.get(key, None)
-            if ssl_service:
-                bind_ssl_service_conf = bind_ssl_service.get(key, [])
-                if isinstance(bind_ssl_service_conf, dict):
-                    bind_ssl_service_conf = [bind_ssl_service_conf]
-                for service_conf in bind_ssl_service_conf:
-                    if service_conf.get('CA', None):
-                        # Added prefix for objects
-                        pkiname = self.prefix + '-' + service_conf['CA'] if \
-                            self.prefix else service_conf['CA']
-                        if self.object_merge_check:
-                            pkiname = merge_object_mapping['pki_profile'].get(
-                                pkiname, None)
-                        if [pki for pki in (sysdict['PKIProfile'] +
-                           avi_config['PKIProfile']) if pki['name'] == pkiname]:
-                            updated_pki_ref = ns_util.get_object_ref(pkiname,
-                                    OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
-                            pool_obj['pki_profile_ref'] = updated_pki_ref
-                    if service_conf.get('certkeyName', None):
-                        # Added prefix for objects
-                        certname = self.prefix + '-' + \
-                                   service_conf['certkeyName'] if \
-                                    self.prefix else service_conf['certkeyName']
-                        if [key_cert for key_cert in avi_config[
-                            'SSLKeyAndCertificate'] if key_cert[
-                            'name'] == certname]:
-                            ssl_key_cert_ref = ns_util.get_object_ref(certname,
-                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                    self.tenant_name)
-                            pool_obj['ssl_key_and_certificate_ref'] = \
-                                ssl_key_cert_ref
-                        elif [key_cert for key_cert in avi_config[
-                            'SSLKeyAndCertificate'] if key_cert[
-                            'name'] == certname + '-dummy']:
-                            ssl_key_cert_ref = ns_util.get_object_ref(
-                                certname + '-dummy',
-                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                               self.tenant_name)
-                            pool_obj['ssl_key_and_certificate_ref'] = \
-                                ssl_key_cert_ref
-                ssl_profile_name = re.sub('[:]', '-', key)
-                # Added prefix for objects
+            try:
+                # Added count to increment progress.
+                self.progressbar_count += 1
+                service = ns_services.get(key, {})
+                service_command = 'add service'
+                service_name = key
+                service_netscalar_full_command = \
+                    ns_util.get_netscalar_full_command(service_command, service)
+                server, use_service_port = self.convert_ns_service(
+                    service, ns_servers, ns_dns)
+                if not server:
+                    LOG.warning('Skipped:No server found %s' %
+                                service_netscalar_full_command)
+                    # Skipped service if No sserver node
+                    ns_util.add_status_row(
+                        service['line_no'], service_command, service_name,
+                        service_netscalar_full_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    continue
+                pool_name = re.sub('[:]', '-', service_name + '-pool')
+                # Addded prefix for objects
                 if self.prefix:
-                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
-                if self.object_merge_check:
-                    # Get the merge ssl profile name
-                    ssl_profile_name = merge_object_mapping['ssl_profile'].get(
-                        ssl_profile_name, None)
-                if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] +
-                   avi_config['SSLProfile']) if ssl_prof['name'] ==
-                        ssl_profile_name]:
-                    updated_ssl_profile_ref = ns_util.get_object_ref(
-                        ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
-                        self.tenant_name)
-                    pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
-                if pool_obj.get('pki_profile_ref', None) or \
-                        pool_obj.get('ssl_key_and_certificate_ref', None) or \
-                        pool_obj.get('ssl_profile_ref', None):
-                    # Remove health monitor reference of http type if pool has
-                    # ssl profile or pki profile or ssl cert key
-                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
-                                                      sysdict)
-            # adding condition to attach default ssl and certkey profile
-            elif service.get('attrs') and len(service['attrs']) > 2 and \
-                    service['attrs'][2] == 'SSL':
-                pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
-                        'System-Standard', OBJECT_TYPE_SSL_PROFILE,
-                        self.tenant_name)
-                pool_obj['ssl_key_and_certificate_ref'] = \
-                    ns_util.get_object_ref('System-Default-Cert',
-                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                               self.tenant_name)
-            if len(pool_obj['health_monitor_refs']) > 6:
-                pool_obj['health_monitor_refs'] = \
-                    pool_obj['health_monitor_refs'][:6]
-            if pool_obj['health_monitor_refs']:
-                updated_health_monitor_ref = []
-                for health_monitor_ref in pool_obj['health_monitor_refs']:
-                    updated_health_monitor_ref.append(
-                        ns_util.get_object_ref(
-                            health_monitor_ref, OBJECT_TYPE_HEALTH_MONITOR,
-                            self.tenant_name))
-                pool_obj['health_monitor_refs'] = updated_health_monitor_ref
+                    pool_name = self.prefix + '-' + pool_name
+                pool_obj = {
+                    'name': pool_name,
+                    'servers': [server],
+                    'health_monitor_refs': [],
+                    'tenant_ref': self.tenant_ref,
+                    'cloud_ref': self.cloud_ref
+                }
 
-            avi_config['Pool'].append(pool_obj)
-            LOG.warning('Conversion successful: %s' %
-                        service_netscalar_full_command)
-            # Add summery of this service in CSV/report
-            conv_status = ns_util.get_conv_status(
-                service, self.nsservice_bind_lb_skipped, [], [],
-                user_ignore_val=self.nsservice_bind_lb_user_ignore)
-            ns_util.add_conv_status(
-                service['line_no'], service_command, service_name,
-                service_netscalar_full_command, conv_status, pool_obj)
-            # Calling progressbar function.
-            msg = "Pool Conversion started..."
-            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
-                                     msg,prefix='Progress', suffix='')
-
-        for group_key in ns_service_groups:
-            # Added count to increment progress.
-            self.progressbar_count += 1
-            service_group_command = 'add serviceGroup'
-            service_group = ns_service_groups.get(group_key, {})
-            service_group_name = group_key
-            service_group_netscalar_full_command = \
-                ns_util.get_netscalar_full_command(
-                    service_group_command, service_group)
-            bind_groups = bind_service_group.get(service_group['attrs'][0], [])
-            servers, monitor_ref, use_service_port = self.convert_ns_service_group(
-                bind_groups, ns_servers, ns_dns, avi_config, sysdict)
-            if not servers:
-                LOG.warning('Skipped:No server found %s' %
-                            service_group_netscalar_full_command)
-                # Skipped this service group if No server found
-                ns_util.add_status_row(
-                    service_group['line_no'], service_group_command,
-                    service_group_name, service_group_netscalar_full_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                continue
-
-            pool_name = re.sub('[:]', '-', service_group_name + '-pool')
-            # Added prefix for objects
-            if self.prefix:
-                pool_name = self.prefix + '-' + pool_name
-            pool_obj = {
-                'name': pool_name,
-                'servers': servers,
-                'health_monitor_refs': [],
-                'tenant_ref': self.tenant_ref,
-                'cloud_ref': self.cloud_ref
-            }
-
-            # Added code to disable translation port
-            if use_service_port:
-                pool_obj['use_service_port'] = use_service_port
-            # Add health monitor reference to pool
-            if monitor_ref and [monitor for monitor in
-                                avi_config['HealthMonitor']
-                                if monitor['name'] == monitor_ref]:
-
-                pool_obj['health_monitor_refs'].append(monitor_ref)
-
-            ssl_service_group = set_ssl_service_group.get(group_key, None)
-            if ssl_service_group:
-                bind_ssl_service_group_conf = \
-                    bind_ssl_service_group.get(group_key, [])
-                if isinstance(bind_ssl_service_group_conf, dict):
-                    bind_ssl_service_group_conf = [bind_ssl_service_group_conf]
-                for ssl_service_conf in bind_ssl_service_group_conf:
-                    if ssl_service_conf.get('CA', None):
-                        # Added prefix for objects
-                        pkiname = self.prefix + '-' + ssl_service_conf['CA'] \
-                                    if self.prefix else ssl_service_conf['CA']
-                        if self.object_merge_check:
-                            pkiname = merge_object_mapping['pki_profile'].get(
-                                pkiname, None)
-                        if [pki for pki in (sysdict['PKIProfile'] + \
-                           avi_config['PKIProfile']) if pki['name'] == pkiname]:
-                            updated_pki_ref = ns_util.get_object_ref(pkiname,
-                            OBJECT_TYPE_PKI_PROFILE, self.tenant_name)
-                            pool_obj['pki_profile_ref'] = updated_pki_ref
-                    if ssl_service_conf.get('certkeyName', None):
-                        certname = self.prefix + '-' + \
-                                   service_conf['certkeyName'] if \
-                            self.prefix else service_conf.get['certkeyName']
-                        if [key_cert for key_cert in avi_config[
-                            'SSLKeyAndCertificate'] if key_cert['name'] ==
-                                certname]:
-                            ssl_key_cert_ref = ns_util.get_object_ref(certname,
-                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                                            self.tenant_name)
-                            pool_obj['ssl_key_and_certificate_ref'] = \
-                                ssl_key_cert_ref
-                        elif [key_cert for key_cert in avi_config[
-                            'SSLKeyAndCertificate'] if key_cert[
-                                  'name'] == certname + '-dummy']:
-                            ssl_key_cert_ref = ns_util.get_object_ref(
-                                certname + '-dummy',
-                                OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                self.tenant_name)
-                            pool_obj['ssl_key_and_certificate_ref'] = \
-                                ssl_key_cert_ref
-                ssl_profile_name = re.sub('[:]', '-', group_key)
-                # Added prefix for objects
-                if self.prefix:
-                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
-                if self.object_merge_check:
-                    # Get the merge ssl profile name
-                    ssl_profile_name = merge_object_mapping['ssl_profile'].get(
-                        ssl_profile_name, None)
-                if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] + \
-                   avi_config['SSLProfile']) if ssl_prof['name'] ==
-                        ssl_profile_name]:
-                    updated_ssl_profile_ref = ns_util.get_object_ref(
-                        ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
-                        self.tenant_name)
-                    pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
-                if pool_obj.get('pki_profile_ref', None) or \
-                        pool_obj.get('ssl_key_and_certificate_ref', None) or \
-                        pool_obj.get('ssl_profile_ref', None):
-                    # Remove health monitor reference of http type if pool has
-                    # ssl profile or pki profile or ssl cert key
-                    ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
-                                                      sysdict)
-            # adding condition to attach default ssl and certkey profile
-            elif (service_group.get('attrs') and len(service_group['attrs']) > 2
-                    and service_group['attrs'][2] == 'SSL'):
-                pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
-                    'System-Standard', OBJECT_TYPE_SSL_PROFILE,
-                    self.tenant_name)
-                pool_obj['ssl_key_and_certificate_ref'] = \
-                    ns_util.get_object_ref('System-Default-Cert',
-                                        OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
-                                           self.tenant_name)
-            if len(pool_obj['health_monitor_refs']) > 6:
-                pool_obj['health_monitor_refs'] = \
-                    pool_obj['health_monitor_refs'][:6]
-
-            if pool_obj['health_monitor_refs']:
+                if use_service_port:
+                    pool_obj['use_service_port'] = use_service_port
+                # Add health monitor reference to pool
+                monitor_refs = self.get_service_montor(service_name,
+                                           bind_ns_service, avi_config, sysdict)
+                if monitor_refs:
+                    pool_obj['health_monitor_refs'] = list(set(monitor_refs))
+                ssl_service = set_ssl_service.get(key, None)
+                if ssl_service:
+                    bind_ssl_service_conf = bind_ssl_service.get(key, [])
+                    if isinstance(bind_ssl_service_conf, dict):
+                        bind_ssl_service_conf = [bind_ssl_service_conf]
+                    for service_conf in bind_ssl_service_conf:
+                        if service_conf.get('CA', None):
+                            # Added prefix for objects
+                            pkiname = self.prefix + '-' + service_conf['CA'] \
+                                        if self.prefix else service_conf['CA']
+                            if self.object_merge_check:
+                                pkiname = merge_object_mapping[
+                                            'pki_profile'].get(pkiname, None)
+                            if [pki for pki in (sysdict['PKIProfile'] +
+                               avi_config['PKIProfile']) if pki['name'] ==
+                               pkiname]:
+                                updated_pki_ref = ns_util.get_object_ref(
+                                              pkiname, OBJECT_TYPE_PKI_PROFILE,
+                                              self.tenant_name)
+                                pool_obj['pki_profile_ref'] = updated_pki_ref
+                        if service_conf.get('certkeyName', None):
+                            # Added prefix for objects
+                            certname = self.prefix + '-' + service_conf[
+                                        'certkeyName'] if self.prefix else \
+                                        service_conf['certkeyName']
+                            if [key_cert for key_cert in avi_config[
+                                'SSLKeyAndCertificate'] if key_cert[
+                                'name'] == certname]:
+                                ssl_key_cert_ref = ns_util.get_object_ref(
+                                            certname,
+                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                            self.tenant_name)
+                                pool_obj['ssl_key_and_certificate_ref'] = \
+                                    ssl_key_cert_ref
+                            elif [key_cert for key_cert in avi_config[
+                                'SSLKeyAndCertificate'] if key_cert[
+                                'name'] == certname + '-dummy']:
+                                ssl_key_cert_ref = ns_util.get_object_ref(
+                                            certname + '-dummy',
+                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                            self.tenant_name)
+                                pool_obj['ssl_key_and_certificate_ref'] = \
+                                    ssl_key_cert_ref
+                    ssl_profile_name = re.sub('[:]', '-', key)
+                    # Added prefix for objects
+                    if self.prefix:
+                        ssl_profile_name = self.prefix + '-' + ssl_profile_name
+                    if self.object_merge_check:
+                        # Get the merge ssl profile name
+                        ssl_profile_name = merge_object_mapping[
+                                      'ssl_profile'].get(ssl_profile_name, None)
+                    if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] +
+                       avi_config['SSLProfile']) if ssl_prof['name'] ==
+                            ssl_profile_name]:
+                        updated_ssl_profile_ref = ns_util.get_object_ref(
+                            ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
+                            self.tenant_name)
+                        pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
+                    if pool_obj.get('pki_profile_ref', None) or \
+                      pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                      pool_obj.get('ssl_profile_ref', None):
+                        # Remove health monitor reference of http type if pool
+                        # has ssl profile or pki profile or ssl cert key
+                        ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                          sysdict)
+                # adding condition to attach default ssl and certkey profile
+                elif service.get('attrs') and len(service['attrs']) > 2 and \
+                        service['attrs'][2] == 'SSL':
+                    pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
+                            'System-Standard', OBJECT_TYPE_SSL_PROFILE,
+                            self.tenant_name)
+                    pool_obj['ssl_key_and_certificate_ref'] = \
+                        ns_util.get_object_ref('System-Default-Cert',
+                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                            self.tenant_name)
+                if len(pool_obj['health_monitor_refs']) > 6:
+                    pool_obj['health_monitor_refs'] = \
+                        pool_obj['health_monitor_refs'][:6]
                 if pool_obj['health_monitor_refs']:
                     updated_health_monitor_ref = []
                     for health_monitor_ref in pool_obj['health_monitor_refs']:
@@ -609,17 +468,178 @@ class ServiceConverter(object):
                                 self.tenant_name))
                     pool_obj['health_monitor_refs'] = updated_health_monitor_ref
 
-            avi_config['Pool'].append(pool_obj)
-            LOG.warning('Conversion successful: %s' %
-                        service_group_netscalar_full_command)
-            # Add summery of this service group in CSV/report
-            conv_status = ns_util.get_conv_status(
-                service_group, self.nsservice_bind_lb_skipped, [], [],
-                user_ignore_val=self.nsservice_bind_lb_user_ignore)
-            ns_util.add_conv_status(
-                service_group['line_no'], service_group_command,
-                service_group_name, service_group_netscalar_full_command,
-                conv_status, pool_obj)
+                avi_config['Pool'].append(pool_obj)
+                LOG.warning('Conversion successful: %s' %
+                            service_netscalar_full_command)
+                # Add summery of this service in CSV/report
+                conv_status = ns_util.get_conv_status(
+                    service, self.nsservice_bind_lb_skipped, [], [],
+                    user_ignore_val=self.nsservice_bind_lb_user_ignore)
+                ns_util.add_conv_status(
+                    service['line_no'], service_command, service_name,
+                    service_netscalar_full_command, conv_status, pool_obj)
+            except:
+                LOG.error('Error in pool conversion for: %s' % key,
+                          exc_info=True)
+            # Calling progressbar function.
+            msg = "Pool Conversion started..."
+            ns_util.print_progress_bar(self.progressbar_count, self.total_size,
+                                     msg,prefix='Progress', suffix='')
+
+        for group_key in ns_service_groups:
+            try:
+                # Added count to increment progress.
+                self.progressbar_count += 1
+                service_group_command = 'add serviceGroup'
+                service_group = ns_service_groups.get(group_key, {})
+                service_group_name = group_key
+                service_group_netscalar_full_command = \
+                    ns_util.get_netscalar_full_command(
+                        service_group_command, service_group)
+                bind_groups = bind_service_group.get(service_group['attrs'][0],
+                                                     [])
+                servers, monitor_ref, use_service_port = \
+                    self.convert_ns_service_group(bind_groups, ns_servers,
+                                                  ns_dns, avi_config, sysdict)
+                if not servers:
+                    LOG.warning('Skipped:No server found %s' %
+                                service_group_netscalar_full_command)
+                    # Skipped this service group if No server found
+                    ns_util.add_status_row(service_group['line_no'],
+                        service_group_command, service_group_name,
+                        service_group_netscalar_full_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    continue
+
+                pool_name = re.sub('[:]', '-', service_group_name + '-pool')
+                # Added prefix for objects
+                if self.prefix:
+                    pool_name = self.prefix + '-' + pool_name
+                pool_obj = {
+                    'name': pool_name,
+                    'servers': servers,
+                    'health_monitor_refs': [],
+                    'tenant_ref': self.tenant_ref,
+                    'cloud_ref': self.cloud_ref
+                }
+
+                # Added code to disable translation port
+                if use_service_port:
+                    pool_obj['use_service_port'] = use_service_port
+                # Add health monitor reference to pool
+                if monitor_ref and [monitor for monitor in
+                                    avi_config['HealthMonitor']
+                                    if monitor['name'] == monitor_ref]:
+
+                    pool_obj['health_monitor_refs'].append(monitor_ref)
+
+                ssl_service_group = set_ssl_service_group.get(group_key, None)
+                if ssl_service_group:
+                    bind_ssl_service_group_conf = \
+                        bind_ssl_service_group.get(group_key, [])
+                    if isinstance(bind_ssl_service_group_conf, dict):
+                        bind_ssl_service_group_conf = [
+                                                    bind_ssl_service_group_conf]
+                    for ssl_service_conf in bind_ssl_service_group_conf:
+                        if ssl_service_conf.get('CA', None):
+                            # Added prefix for objects
+                            pkiname = '%s-%s' % (self.prefix,
+                                      ssl_service_conf['CA']) if self.prefix \
+                                      else ssl_service_conf['CA']
+                            if self.object_merge_check:
+                                pkiname = merge_object_mapping[
+                                            'pki_profile'].get(pkiname, None)
+                            if [pki for pki in (sysdict['PKIProfile'] + \
+                                avi_config['PKIProfile']) if pki['name'] ==
+                                pkiname]:
+                                updated_pki_ref = ns_util.get_object_ref(
+                                              pkiname, OBJECT_TYPE_PKI_PROFILE,
+                                              self.tenant_name)
+                                pool_obj['pki_profile_ref'] = updated_pki_ref
+                        if ssl_service_conf.get('certkeyName', None):
+                            certname = self.prefix + '-' + \
+                                       ssl_service_conf['certkeyName'] if \
+                                self.prefix else ssl_service_conf['certkeyName']
+                            if [key_cert for key_cert in avi_config[
+                                'SSLKeyAndCertificate'] if key_cert['name'] ==
+                                    certname]:
+                                ssl_key_cert_ref = ns_util.get_object_ref(
+                                            certname,
+                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                            self.tenant_name)
+                                pool_obj['ssl_key_and_certificate_ref'] = \
+                                    ssl_key_cert_ref
+                            elif [key_cert for key_cert in avi_config[
+                                'SSLKeyAndCertificate'] if key_cert[
+                                      'name'] == certname + '-dummy']:
+                                ssl_key_cert_ref = ns_util.get_object_ref(
+                                    certname + '-dummy',
+                                    OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                    self.tenant_name)
+                                pool_obj['ssl_key_and_certificate_ref'] = \
+                                    ssl_key_cert_ref
+                    ssl_profile_name = re.sub('[:]', '-', group_key)
+                    # Added prefix for objects
+                    if self.prefix:
+                        ssl_profile_name = self.prefix + '-' + ssl_profile_name
+                    if self.object_merge_check:
+                        # Get the merge ssl profile name
+                        ssl_profile_name = merge_object_mapping[
+                                      'ssl_profile'].get(ssl_profile_name, None)
+                    if [ssl_prof for ssl_prof in (sysdict['SSLProfile'] +
+                       avi_config['SSLProfile']) if ssl_prof['name'] ==
+                            ssl_profile_name]:
+                        updated_ssl_profile_ref = ns_util.get_object_ref(
+                            ssl_profile_name, OBJECT_TYPE_SSL_PROFILE,
+                            self.tenant_name)
+                        pool_obj['ssl_profile_ref'] = updated_ssl_profile_ref
+                    if pool_obj.get('pki_profile_ref', None) or \
+                      pool_obj.get('ssl_key_and_certificate_ref', None) or \
+                      pool_obj.get('ssl_profile_ref', None):
+                        # Remove health monitor reference of http type if pool
+                        # has ssl profile or pki profile or ssl cert key
+                        ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
+                                                          sysdict)
+                # adding condition to attach default ssl and certkey profile
+                elif (service_group.get('attrs') and len(service_group['attrs'])
+                        > 2 and service_group['attrs'][2] == 'SSL'):
+                    pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
+                        'System-Standard', OBJECT_TYPE_SSL_PROFILE,
+                        self.tenant_name)
+                    pool_obj['ssl_key_and_certificate_ref'] = \
+                        ns_util.get_object_ref('System-Default-Cert',
+                                            OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
+                                               self.tenant_name)
+                if len(pool_obj['health_monitor_refs']) > 6:
+                    pool_obj['health_monitor_refs'] = \
+                        pool_obj['health_monitor_refs'][:6]
+
+                if pool_obj['health_monitor_refs']:
+                    if pool_obj['health_monitor_refs']:
+                        updated_health_monitor_ref = []
+                        for health_monitor_ref in pool_obj[
+                          'health_monitor_refs']:
+                            updated_health_monitor_ref.append(
+                                ns_util.get_object_ref(health_monitor_ref,
+                                                     OBJECT_TYPE_HEALTH_MONITOR,
+                                                     self.tenant_name))
+                        pool_obj['health_monitor_refs'] = \
+                            updated_health_monitor_ref
+
+                avi_config['Pool'].append(pool_obj)
+                LOG.warning('Conversion successful: %s' %
+                            service_group_netscalar_full_command)
+                # Add summery of this service group in CSV/report
+                conv_status = ns_util.get_conv_status(
+                    service_group, self.nsservice_bind_lb_skipped, [], [],
+                    user_ignore_val=self.nsservice_bind_lb_user_ignore)
+                ns_util.add_conv_status(
+                    service_group['line_no'], service_group_command,
+                    service_group_name, service_group_netscalar_full_command,
+                    conv_status, pool_obj)
+            except:
+                LOG.error('Error in pool conversion for: %s' % group_key,
+                          exc_info=True)
             # Calling progress bar function.
             msg = "Pool Conversion started..."
             ns_util.print_progress_bar(self.progressbar_count, self.total_size,
