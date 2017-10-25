@@ -59,13 +59,6 @@ def extract_event_details(vs_cfg_dict):
 
         new_data = json.loads(new_data) if new_data else dict()
         old_data = json.loads(old_data) if old_data else dict()
-        new_svc_info = dict()
-        old_svc_info = dict()
-        if new_data.get('service_metadata', ''):
-            new_svc_info = json.loads(new_data['service_metadata'])
-        if old_data.get('service_metadata', ''):
-            old_svc_info = json.loads(old_data['service_metadata'])
-        #print new_svc_info, old_svc_info
 
     return new_data, old_data
 
