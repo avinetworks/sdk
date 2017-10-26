@@ -855,6 +855,10 @@ class NsUtil(MigrationUtil):
         }
         if not vs_obj.get('http_policies'):
             vs_obj['http_policies'] = []
+        else:
+            ind = max([policies['index'] for policies in vs_obj[
+                'http_policies']])
+            http_policies['index'] = ind + 1
         vs_obj['http_policies'].append(http_policies)
         avi_config['HTTPPolicySet'].append(policy_obj)
 
