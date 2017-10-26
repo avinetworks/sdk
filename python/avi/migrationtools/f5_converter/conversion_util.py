@@ -606,7 +606,7 @@ class F5Util(MigrationUtil):
             # VS VIP object to be put in admin tenant to shared across tenants
             updated_vsvip_ref = self.get_object_ref(vs_vip_name, 'vsvip',
                                                     'admin',
-                                                    cloud_name, prefix)
+                                                    cloud_name)
         return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
     def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
@@ -982,8 +982,10 @@ class F5Util(MigrationUtil):
             name = parts[2]
         elif name and '/' in name:
             parts = name.split('/')
-            tenant = parts[0]
-            name = parts[1]
+            # Changed the index to get the tenant and name in case of
+            # prefixed name
+            tenant = parts[-2]
+            name = parts[-1]
         if tenant.lower() == 'common':
             tenant = 'admin'
         if '/' in name:
