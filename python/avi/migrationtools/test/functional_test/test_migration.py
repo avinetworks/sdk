@@ -106,7 +106,8 @@ def checkHealthMonitor(pool):
                         if healthMonitors['name'] == healthMonitor]
             matchedmMnitor = compareHealthMonitor(monitors, healthMonitor)
             return matchedmMnitor
-    else: print "Health monitor is null"
+    else:
+        return False
 
 """ Compare health monitor type with
     F5 configurations health monitors
@@ -123,14 +124,14 @@ def compareHealthMonitor(healthMonitors, monitorName):
         if f5_config_version == "11":
             monitorType, name = get_monitor_type(key)
             type, name = conversion_util.get_tenant_ref(name)
-        else:
+        elif f5_config_version == "10":
             name = key
-
         if monitorName == name:
             for key in conv_const.HEALTH_MONITORS:
-                return True if conv_const.HEALTH_MONITORS[key] in healthMonitors else False
-        else: return False
-
+                if conv_const.HEALTH_MONITORS[key] in healthMonitors:
+                    return True
+    LOG.error("Health Monitor not found for %s " % (monitorName))
+    return False
 
 # Return monitor type and name
 def get_monitor_type(monitor):
@@ -156,27 +157,29 @@ def checkPersistenceType(pool):
     if pool['application_persistence_profile_ref']:
         profile = pool['application_persistence_profile_ref']
         applicationProfile = conversion_util.get_name(profile)
-        # f5Profiles = []
-        # f5_persistence = f5_config_dict.get('persistence', {})
-        # for key in f5_persistence:
-        #     if '/' in key:
-        #         prof = key.split(' ')
-        #         _, f5_profile = conversion_util.get_tenant_ref(prof[1])
-        #         f5Profiles.append(f5_profile)
-        #     else:
-        #         _, f5_profile = get_monitor_type(key)
-        #         f5Profiles.append(f5_profile)
+        if not applicationProfile.startswith("System"):
+            # f5Profiles = []
+            # f5_persistence = f5_config_dict.get('persistence', {})
+            # for key in f5_persistence:
+            #     if '/' in key:
+            #         prof = key.split(' ')
+            #         _, f5_profile = conversion_util.get_tenant_ref(prof[1])
+            #         f5Profiles.append(f5_profile)
+            #     else:
+            #         _, f5_profile = get_monitor_type(key)
+            #         f5Profiles.append(f5_profile)
 
-        profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
-                    if appProfile['name'] == applicationProfile]
-        if profiles:
-            for key in conv_const.PERSISTENCE_PROFILE_TYPES:
-                 if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
-                    return True
-        else:
-            LOG.error('Application persistence profile : %s not found in f5 configuration of application profiles' % (applicationProfile))
-            return False
-    else: print "Application profile is null"
+            profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
+                        if appProfile['name'] == applicationProfile]
+
+            if profiles:
+                for key in conv_const.PERSISTENCE_PROFILE_TYPES:
+                     if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
+                        return True
+            else:
+                LOG.error('Application persistence profile : %s not found in f5 configuration of application profiles' % (applicationProfile))
+                return False
+    else: return False
 
 class Test(unittest.TestCase):
     def test_compareVs(self):
@@ -186,20 +189,16 @@ class Test(unittest.TestCase):
                 f5VsName = compareVsName(vs_name)
                 assert f5VsName == vs_name
             except AssertionError:
-                _, _, tb = sys.exc_info()
-                traceback.print_tb(tb)
-                tb_info = traceback.extract_tb(tb)
-                filename, line, func, text = tb_info[-1]
-                print('An error occurred on line {} in statement {}'.format(line, text))
                 LOG.error(
-                    'Failed to compare : %s & %s' % (vs_name, f5VsName))
+                    'Virtual service not found in F5 configuration : %s ' % (vs_name))
+
             if f5VsName:
                 try:
                     if 'application_profile_ref' in each_vs:
                         profileStatus = comAppProf(each_vs)
                         self.assertTrue(profileStatus)
                 except AssertionError:
-                    print "Application profile not found for : %s" %(vs_name)
+                    LOG.error("Application profile not found for : %s" %(vs_name))
 
                 try:
                     if 'network_profile_ref' in each_vs:
@@ -207,7 +206,6 @@ class Test(unittest.TestCase):
                         self.assertTrue(networkProfile)
                 except AssertionError:
                     LOG.error("Network profile is not found for %s" %(vs_name))
-                    print ("Network profile is not found for %s" % (vs_name))
 
                 try:
                     if 'ssl_profile_ref' in each_vs:
@@ -231,11 +229,6 @@ class Test(unittest.TestCase):
                                         persistenceStatus = checkPersistenceType(pool)
                                         self.assertTrue(persistenceStatus)
                                 except AssertionError:
-                                    _, _, tb = sys.exc_info()
-                                    traceback.print_tb(tb)
-                                    tb_info = traceback.extract_tb(tb)
-                                    filename, line, func, text = tb_info[-1]
-                                    print('An error occurred on line {} in statement {}'.format(line, text))
                                     LOG.error(
                                         'Failed to compare Application persistence Profile : in service %s'
                                         % (vs_name))
@@ -244,11 +237,7 @@ class Test(unittest.TestCase):
                                         f5healthMonitorStatus = checkHealthMonitor(pool)
                                         self.assertTrue(f5healthMonitorStatus)
                                 except AssertionError:
-                                    _, _, tb = sys.exc_info()
-                                    traceback.print_tb(tb)
-                                    tb_info = traceback.extract_tb(tb)
-                                    filename, line, func, text = tb_info[-1]
-                                    print('An error occurred on line {} in statement {}'.format(line, text))
+                                    LOG.error("Health monitor not found for virtual service %s " % (vs_name))
                 except:
                     _, _, tb = sys.exc_info()
                     traceback.print_tb(tb)
@@ -273,8 +262,7 @@ class Test(unittest.TestCase):
                                         f5healthMonitorStatus = checkHealthMonitor(pool)
                                         self.assertTrue(f5healthMonitorStatus)
                                 except AssertionError:
-                                   LOG.error("Health monitor not found in %s " %(vs_name))
-
+                                    LOG.error("Health monitor not found for virtual service %s" % (vs_name))
                 except:
                     _, _, tb = sys.exc_info()
                     traceback.print_tb(tb)
