@@ -29,6 +29,7 @@ def setUpModule():
         vs_state, controller_version)
 
 
+#Compare virtual service name with virtual service in f5 configuration.
 def compareVsName(vs_name):
     """
 
@@ -59,6 +60,8 @@ def comAppProf(each_vs):
             if conv_const.PROFILES[profile_type] == type:
                 return True
     return False
+
+
 def compareNetworkProfile(each_vs):
     """
 
@@ -73,6 +76,8 @@ def compareNetworkProfile(each_vs):
     if network_type and network_type[0] in conv_const.NETWORK_PROFILES:
         return True
     else: False
+
+
 """ Compare ssl profile type with
     default profile types
     """
@@ -98,16 +103,27 @@ def checkHealthMonitor(pool):
     :return matchedMonitor: It contains health monitor list of avi health monitors
     :return monitors: It contains list of matched health monitors with F5 config
     """
-    if pool['health_monitor_refs']:
-        healthMonitorRef = pool['health_monitor_refs']
-        if healthMonitorRef:
-            healthMonitor = conversion_util.get_name(healthMonitorRef[0])
-            monitors = [healthMonitors['type'] for healthMonitors in avi_config_dict['HealthMonitor']
-                        if healthMonitors['name'] == healthMonitor]
-            matchedmMnitor = compareHealthMonitor(monitors, healthMonitor)
-            return matchedmMnitor
-    else:
-        return False
+    # healthMonitor = ""
+    # if pool['health_monitor_refs']:
+    #     healthMonitorRef = pool['health_monitor_refs']
+    #     if healthMonitorRef:
+    #         healthMonitor = conversion_util.get_name(healthMonitorRef[0])
+    #         monitors = [healthMonitors['type'] for healthMonitors in avi_config_dict['HealthMonitor']
+    #                     if healthMonitors['name'] == healthMonitor]
+    #         matchedmMnitor = compareHealthMonitor(monitors, healthMonitor)
+    #         return matchedmMnitor,healthMonitor
+    # else:
+    #     return False,healthMonitor
+
+    healthMonitor = ""
+    healthMonitorRef = pool['health_monitor_refs']
+    if healthMonitorRef:
+        healthMonitor = conversion_util.get_name(healthMonitorRef[0])
+        monitors = [healthMonitors['type'] for healthMonitors in avi_config_dict['HealthMonitor']
+                    if healthMonitors['name'] == healthMonitor]
+        matchedmMnitor = compareHealthMonitor(monitors, healthMonitor)
+        return matchedmMnitor, healthMonitor
+
 
 """ Compare health monitor type with
     F5 configurations health monitors
@@ -130,8 +146,8 @@ def compareHealthMonitor(healthMonitors, monitorName):
             for key in conv_const.HEALTH_MONITORS:
                 if conv_const.HEALTH_MONITORS[key] in healthMonitors:
                     return True
-    LOG.error("Health Monitor not found for %s " % (monitorName))
     return False
+
 
 # Return monitor type and name
 def get_monitor_type(monitor):
@@ -148,38 +164,35 @@ def get_monitor_type(monitor):
 
 
 # Check persistence profile
-def checkPersistenceType(pool):
+def checkPersistenceType(applicationProfile):
     """
 
     :param pool: It contains pool information.
     :return: returns True if profile type is matched with default profile type.
     """
-    if pool['application_persistence_profile_ref']:
-        profile = pool['application_persistence_profile_ref']
-        applicationProfile = conversion_util.get_name(profile)
-        if not applicationProfile.startswith("System"):
-            # f5Profiles = []
-            # f5_persistence = f5_config_dict.get('persistence', {})
-            # for key in f5_persistence:
-            #     if '/' in key:
-            #         prof = key.split(' ')
-            #         _, f5_profile = conversion_util.get_tenant_ref(prof[1])
-            #         f5Profiles.append(f5_profile)
-            #     else:
-            #         _, f5_profile = get_monitor_type(key)
-            #         f5Profiles.append(f5_profile)
 
-            profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
+    # f5Profiles = []
+    # f5_persistence = f5_config_dict.get('persistence', {})
+    # for key in f5_persistence:
+    #     if '/' in key:
+    #         prof = key.split(' ')
+    #         _, f5_profile = conversion_util.get_tenant_ref(prof[1])
+    #         f5Profiles.append(f5_profile)
+    #     else:
+    #         _, f5_profile = get_monitor_type(key)
+    #         f5Profiles.append(f5_profile)
+
+    profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
                         if appProfile['name'] == applicationProfile]
 
-            if profiles:
-                for key in conv_const.PERSISTENCE_PROFILE_TYPES:
-                     if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
-                        return True
+    if profiles:
+        for key in conv_const.PERSISTENCE_PROFILE_TYPES:
+            if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
+                return True,applicationProfile
             else:
                 LOG.error('Application persistence profile : %s not found in f5 configuration of application profiles' % (applicationProfile))
-                return False
-    else: return False
+                return False,applicationProfile
+    else: return False,applicationProfile
 
 class Test(unittest.TestCase):
     def test_compareVs(self):
@@ -214,61 +227,58 @@ class Test(unittest.TestCase):
                 except AssertionError:
                     LOG.error(
                         'Failed to compare Ssl Profile profile : in service %s' % (vs_name))
-                try:
-                    if 'pool_group_ref' in each_vs:
-                        poolRef = each_vs['pool_group_ref']
-                        poolGroupName = conversion_util.get_name(poolRef)
-                        poolGroups = [poolGroup for poolGroup in avi_config_dict['PoolGroup']
-                                      if poolGroup['name'] == poolGroupName]
-                        poolMembers = [conversion_util.get_name(i['pool_ref'])
-                                       for i in poolGroups[0]['members']]
-                        for pool in avi_config_dict['Pool']:
-                            if pool['name'] in poolMembers:
-                                try:
-                                    if 'application_persistence_profile_ref' in pool:
-                                        persistenceStatus = checkPersistenceType(pool)
-                                        self.assertTrue(persistenceStatus)
-                                except AssertionError:
-                                    LOG.error(
-                                        'Failed to compare Application persistence Profile : in service %s'
-                                        % (vs_name))
-                                try:
-                                    if 'health_monitor_refs' in pool:
-                                        f5healthMonitorStatus = checkHealthMonitor(pool)
-                                        self.assertTrue(f5healthMonitorStatus)
-                                except AssertionError:
-                                    LOG.error("Health monitor not found for virtual service %s " % (vs_name))
-                except:
-                    _, _, tb = sys.exc_info()
-                    traceback.print_tb(tb)
-                    tb_info = traceback.extract_tb(tb)
-                    filename, line, func, text = tb_info[-1]
-                    print('An error occurred on line {} in statement {}'.format(line, text))
 
-                try:
-                    if 'pool_ref' in each_vs:
-                        poolRef = each_vs['pool_ref']
-                        poolName = conversion_util.get_name(poolRef)
-                        for pool in avi_config_dict['Pool']:
-                            if pool['name'] in poolName:
-                                try:
-                                    if 'application_persistence_profile_ref' in pool:
-                                        persistenceStatus = checkPersistenceType(pool)
+                if 'pool_group_ref' in each_vs:
+                    poolRef = each_vs['pool_group_ref']
+                    poolGroupName = conversion_util.get_name(poolRef)
+                    print "pool group :"+poolGroupName
+                    poolGroups = [poolGroup for poolGroup in avi_config_dict['PoolGroup']
+                                  if poolGroup['name'] == poolGroupName]
+                    poolMembers = [conversion_util.get_name(i['pool_ref'])
+                                   for i in poolGroups[0]['members']]
+                    for pool in avi_config_dict['Pool']:
+                        if pool['name'] in poolMembers:
+                            try:
+                                if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
+                                    profile = pool['application_persistence_profile_ref']
+                                    applicationProfile = conversion_util.get_name(profile)
+                                    if not applicationProfile.startswith("System"):
+                                        persistenceStatus, profileName = checkPersistenceType(applicationProfile)
                                         self.assertTrue(persistenceStatus)
-                                except AssertionError:
-                                   LOG.error("Application profile not found in %s " % (vs_name))
-                                try:
-                                    if 'health_monitor_refs' in pool:
-                                        f5healthMonitorStatus = checkHealthMonitor(pool)
-                                        self.assertTrue(f5healthMonitorStatus)
-                                except AssertionError:
-                                    LOG.error("Health monitor not found for virtual service %s" % (vs_name))
-                except:
-                    _, _, tb = sys.exc_info()
-                    traceback.print_tb(tb)
-                    tb_info = traceback.extract_tb(tb)
-                    filename, line, func, text = tb_info[-1]
-                    print('An error occurred on line {} in statement {}'.format(line, text))
+                            except AssertionError:
+                                print "Application profile %s not found in %s " % (profileName, vs_name)
+                                LOG.error("Application profile %s not found in %s " % (profileName, vs_name))
+                            try:
+                                if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
+                                    f5healthMonitorStatus,monitorName = checkHealthMonitor(pool)
+                                    self.assertTrue(f5healthMonitorStatus)
+                            except AssertionError:
+                                print "Health monitor %s not found for virtual service %s" % (monitorName, vs_name)
+                                LOG.error("Health monitor %s not found for virtual service %s" % (monitorName, vs_name))
+
+                if 'pool_ref' in each_vs:
+                    poolRef = each_vs['pool_ref']
+                    poolName = conversion_util.get_name(poolRef)
+                    for pool in avi_config_dict['Pool']:
+                        if pool['name'] in poolName:
+                            try:
+                                if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
+                                    profile = pool['application_persistence_profile_ref']
+                                    applicationProfile = conversion_util.get_name(profile)
+                                    if not applicationProfile.startswith("System"):
+                                        persistenceStatus, profileName = checkPersistenceType(applicationProfile)
+                                        print persistenceStatus, " " ,profileName
+                                        self.assertTrue(persistenceStatus)
+                            except AssertionError:
+                                print "Application profile %s not found in %s " % (profileName, vs_name)
+                                LOG.error("Application profile %s not found in %s " % (profileName, vs_name))
+                            try:
+                                if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
+                                    f5healthMonitorStatus, monitorName = checkHealthMonitor(pool)
+                                    self.assertTrue(f5healthMonitorStatus)
+                            except AssertionError:
+                                print "Health monitor %s not found for virtual service %s" % (monitorName, vs_name)
+                                LOG.error("Health monitor %s not found for virtual service %s" % (monitorName, vs_name))
 
             else:
                 pass
