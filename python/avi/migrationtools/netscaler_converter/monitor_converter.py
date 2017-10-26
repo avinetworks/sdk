@@ -84,7 +84,7 @@ class MonitorConverter(object):
                                                    ns_monitor)
             ns_monitor_type = ns_monitor['attrs'][1]
             if ns_monitor_type not in self.ns_monitor_types_supported:
-                # Skipped health monitor if type is not supported
+                # Added external monitor if type is not supported
                 avi_monitor = self.convert_monitor(
                      ns_monitor, input_dir, netscalar_command,
                     ns_monitor_complete_command)
@@ -94,7 +94,7 @@ class MonitorConverter(object):
                 avi_monitor['name'] = '%s-%s' % (avi_monitor['name'], 'dummy')
                 avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
                 ext_monitor = {
-                    "command_code": "",
+                    "command_code": ""
                 }
                 avi_monitor["external_monitor"] = ext_monitor
                 avi_config['HealthMonitor'].append(avi_monitor)
@@ -102,9 +102,9 @@ class MonitorConverter(object):
                             'external monitor:%s' %
                             (ns_monitor_type, name))
                 LOG.warning(msg)
-                ns_util.add_status_row(
-                    ns_monitor['line_no'], netscalar_command,
-                    name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR, msg)
+                ns_util.add_status_row(ns_monitor['line_no'], netscalar_command,
+                    name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR,
+                    msg)
                 continue
 
             avi_monitor = self.convert_monitor(
@@ -237,7 +237,7 @@ class MonitorConverter(object):
                 send = ns_monitor.get("send", None)
                 if send:
                     send = send.replace('"', '')
-                    # Removed \\ from response.
+                    # Removed \\ from send.
                     if '\\' in send:
                         send = send.replace('\\', '"')
                 response = ns_monitor.get('recv', None)
@@ -264,7 +264,8 @@ class MonitorConverter(object):
                     resp_code = ns_util.get_avi_resp_code(resp_code)
                 # TODO: Remove this after all the clients are moved to 
                 # 17 version and above
-                if parse_version(self.controller_version) >= parse_version('17.1'):
+                if parse_version(self.controller_version) >= parse_version(
+                        '17.1'):
                     avi_monitor["https_monitor"] = {
                         "http_request": send,
                         "http_response_code": resp_code,
