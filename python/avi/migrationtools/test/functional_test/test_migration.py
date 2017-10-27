@@ -142,7 +142,7 @@ def compareHealthMonitor(healthMonitors, monitorName):
             type, name = conversion_util.get_tenant_ref(name)
         elif f5_config_version == "10":
             name = key
-        if monitorName == name:
+        if monitorName == name or monitorName.startswith("Merged"):
             for key in conv_const.HEALTH_MONITORS:
                 if conv_const.HEALTH_MONITORS[key] in healthMonitors:
                     return True
@@ -182,17 +182,22 @@ def checkPersistenceType(applicationProfile):
     #         _, f5_profile = get_monitor_type(key)
     #         f5Profiles.append(f5_profile)
 
+
     profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
                         if appProfile['name'] == applicationProfile]
-
     if profiles:
         for key in conv_const.PERSISTENCE_PROFILE_TYPES:
             if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
                 return True,applicationProfile
-            else:
-                LOG.error('Application persistence profile : %s not found in f5 configuration of application profiles' % (applicationProfile))
-                return False,applicationProfile
+
+        return False,applicationProfile
     else: return False,applicationProfile
+
+def getProfileName(pool):
+    profile = pool['application_persistence_profile_ref']
+    applicationProfile = conversion_util.get_name(profile)
+    if not applicationProfile.startswith("System"):
+        return applicationProfile
 
 class Test(unittest.TestCase):
     def test_compareVs(self):
@@ -231,7 +236,6 @@ class Test(unittest.TestCase):
                 if 'pool_group_ref' in each_vs:
                     poolRef = each_vs['pool_group_ref']
                     poolGroupName = conversion_util.get_name(poolRef)
-                    print "pool group :"+poolGroupName
                     poolGroups = [poolGroup for poolGroup in avi_config_dict['PoolGroup']
                                   if poolGroup['name'] == poolGroupName]
                     poolMembers = [conversion_util.get_name(i['pool_ref'])
@@ -240,17 +244,16 @@ class Test(unittest.TestCase):
                         if pool['name'] in poolMembers:
                             try:
                                 if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
-                                    profile = pool['application_persistence_profile_ref']
-                                    applicationProfile = conversion_util.get_name(profile)
-                                    if not applicationProfile.startswith("System"):
+                                    applicationProfile = getProfileName(pool)
+                                    if applicationProfile:
                                         persistenceStatus, profileName = checkPersistenceType(applicationProfile)
                                         self.assertTrue(persistenceStatus)
                             except AssertionError:
-                                print "Application profile %s not found in %s " % (profileName, vs_name)
-                                LOG.error("Application profile %s not found in %s " % (profileName, vs_name))
+                                print "Application persistence profile %s for pool group not found in %s " % (profileName, vs_name)
+                                LOG.error("Application persistence profile %s not found in %s " % (profileName, vs_name))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
-                                    f5healthMonitorStatus,monitorName = checkHealthMonitor(pool)
+                                    f5healthMonitorStatus, monitorName = checkHealthMonitor(pool)
                                     self.assertTrue(f5healthMonitorStatus)
                             except AssertionError:
                                 print "Health monitor %s not found for virtual service %s" % (monitorName, vs_name)
@@ -263,15 +266,13 @@ class Test(unittest.TestCase):
                         if pool['name'] in poolName:
                             try:
                                 if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
-                                    profile = pool['application_persistence_profile_ref']
-                                    applicationProfile = conversion_util.get_name(profile)
-                                    if not applicationProfile.startswith("System"):
+                                    applicationProfile = getProfileName(pool)
+                                    if applicationProfile:
                                         persistenceStatus, profileName = checkPersistenceType(applicationProfile)
-                                        print persistenceStatus, " " ,profileName
                                         self.assertTrue(persistenceStatus)
                             except AssertionError:
-                                print "Application profile %s not found in %s " % (profileName, vs_name)
-                                LOG.error("Application profile %s not found in %s " % (profileName, vs_name))
+                                print "Application persistence profile %s not found in %s " % (profileName, vs_name)
+                                LOG.error("Application persistence profile %s not found in %s " % (profileName, vs_name))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
                                     f5healthMonitorStatus, monitorName = checkHealthMonitor(pool)
