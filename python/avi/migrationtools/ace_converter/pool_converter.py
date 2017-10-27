@@ -38,7 +38,7 @@ class PoolConverter(object):
         # print pool_ip_list
         return pool_ip_list
 
-    def pool_conversion(self):
+    def pool_conversion(self, data):
         """ Pool conversion over here
             Pool Contains:
             - servers
@@ -51,7 +51,7 @@ class PoolConverter(object):
             temp_pool = dict()
             name = pool.get('host', '')
             # print name
-            app_persistance = self.find_app_persistance(name)
+            app_persistance = self.find_app_persistance(name, data)
             app_ref = self.common_utils.get_object_ref(app_persistance,
                                                        'applicationpersistenceprofile',
                                                        tenant=self.tenant)
@@ -71,8 +71,10 @@ class PoolConverter(object):
                 if "probe" in pools.keys():
                     probe = pools['probe']
             if probe:
-                monitor_ref = self.common_utils.get_object_ref(
-                    probe, 'healthmonitor', tenant=self.tenant)
+                for hm in data['HealthMonitor']:
+                    if hm.get('name') == probe:
+                        monitor_ref = self.common_utils.get_object_ref(
+                            probe, 'healthmonitor', tenant=self.tenant)
             if server:
                 pool_dict = {
                     "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
@@ -87,6 +89,7 @@ class PoolConverter(object):
                     },
                     "description": None
                 }
+
                 if monitor_ref:
                     pool_dict['health_monitor_refs'].append(monitor_ref)
                 if self.vrf_ref:
@@ -97,6 +100,7 @@ class PoolConverter(object):
                              avi_obj=temp_pool, skip=skipped_list)
 
                 pool_list.append(temp_pool)
+
         return pool_list
 
     def server_converter(self, name):
@@ -150,14 +154,14 @@ class PoolConverter(object):
 
         return server_list
 
-    def find_app_persistance(self, pool_name):
+    def find_app_persistance(self, pool_name, data):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
         for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
-            for pool in sticky['desc']:
-                if pool.get('serverfarm', []) == pool_name:
+            for app in data['ApplicationPersistenceProfile']:
+                if app['name'] == name:
                     app_persitance = name
                     break
-
+        print app_persitance
         return app_persitance

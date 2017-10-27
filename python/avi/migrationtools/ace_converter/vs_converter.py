@@ -66,7 +66,6 @@ class VSConverter(object):
                             return False, False
                         if 'serverfarm' in vsobj.keys():
                             pool = vsobj['serverfarm']
-
                             # if pool is already used do clone the pool and
                             # having persistance profile
                             if self.check_persistance(pool, data):
@@ -82,7 +81,8 @@ class VSConverter(object):
 
                             update_excel('class-map',
                                          pool,
-                                         avi_obj="Refer Class Map : {}".format(name))
+                                         avi_obj="Refer "
+                                                 "Class Map : {}".format(name))
 
                             # finding the ips for vip
                             ip_list = [ip]
@@ -95,9 +95,11 @@ class VSConverter(object):
                                     },
                                     "vip_id": 0
                                 })
-
                             pool_ref = self.common_utils.get_object_ref(
                                 pool, 'pool', tenant=self.tenant)
+
+
+
                 if not pool:
                     continue
                 temp_vs = {
@@ -224,13 +226,15 @@ class VSConverter(object):
                         for obj in cls['class_desc']:
                             if obj.get('loadbalance', '') == 'policy':
                                 policy_name = obj['type']
-                            if obj.get('ssl-proxy', ''):
-                                ssl = self.common_utils.get_object_ref(obj['type'],
+                            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if ssl1.get('name') == obj.get('type') and "ssl-proxy" in obj.keys()]
+                            if ssl_ref:
+                                ssl = self.common_utils.get_object_ref(ssl_ref[0],
                                                                        'sslprofile',
                                                                        tenant=self.tenant)
-                                ssl_cert = self.common_utils.get_object_ref(obj['type'],
+                                ssl_cert = self.common_utils.get_object_ref(ssl_ref[0],
                                                                             'sslkeyandcertificate',
                                                                             tenant=self.tenant)
+
                         if policy_name:
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
                                                                                      data,
@@ -266,7 +270,7 @@ class VSConverter(object):
         min_port = 1
         max_port = 65535
         for index, vs in enumerate(vs_list):
-            if vs['services'][0]['port'] == 'any':
+             if vs['services'][0]['port'] == 'any':
                 name = vs['name']
                 addr = vs['vip'][0]['ip_address']['addr']
                 port_list = list()
