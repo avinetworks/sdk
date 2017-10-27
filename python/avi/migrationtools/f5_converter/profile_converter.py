@@ -469,16 +469,28 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if header_erase or header_insert:
                 rules = []
                 rule_index = 1
-                if header_erase:
+                # Added condition of header insert and header erase present then
+                # create common rule with more action.
+                if header_erase and header_insert:
+                    header_erase = header_erase.split(':')[0]
+                    header, val = header_insert.split(':')
+                    header_erase_rule = conv_utils.create_hdr_erase_rule(
+                        'rule-header-erase', header_erase, rule_index)
+                    header_insert_rule = conv_utils.create_hdr_insert_rule(
+                        'rule-header-insert', header, val, rule_index)
+                    header_erase_rule['hdr_action'].append(header_insert_rule[
+                        'hdr_action'][0])
+                    rules.append(header_erase_rule)
+                elif header_erase:
                     if ':' in header_erase:
                         header_erase = header_erase.split(':', 1)[0]
                     rules.append(conv_utils.create_hdr_erase_rule(
                         'rule-header-erase', header_erase, rule_index))
-                    rule_index += 1
-                if header_insert:
+                elif header_insert:
                     header, val = header_insert.split(':', 1)
                     rules.append(conv_utils.create_hdr_insert_rule(
                         'rule-header-insert', header, val, rule_index))
+                rule_index += 1
                 policy_name = name + '-HTTP-Policy-Set'
                 policy = {
                     "name": policy_name,
@@ -1464,17 +1476,28 @@ class ProfileConfigConvV10(ProfileConfigConv):
         if header_erase or header_insert:
             rules = []
             rule_index = 1
-            if header_erase:
+            # Added condition of header insert and header erase present then
+            # create common rule with more action.
+            if header_erase and header_insert:
+                header_erase = header_erase.split(':')[0]
+                header, val = header_insert.split(':')
+                header_erase_rule = conv_utils.create_hdr_erase_rule(
+                    'rule-header-erase', header_erase, rule_index)
+                header_insert_rule = conv_utils.create_hdr_insert_rule(
+                    'rule-header-insert', header, val, rule_index)
+                header_erase_rule['hdr_action'].append(header_insert_rule[
+                                                           'hdr_action'][0])
+                rules.append(header_erase_rule)
+            elif header_erase:
                 if ':' in header_erase:
                     header_erase = header_erase.split(':')[0]
                 rules.append(conv_utils.create_hdr_erase_rule(
                     'rule-header-erase', header_erase, rule_index))
-                rule_index += 1
-            if header_insert:
+            elif header_insert:
                 header, val = header_insert.split(':')
                 rules.append(conv_utils.create_hdr_insert_rule(
                     'rule-header-insert', header, val, rule_index))
-                rule_index += 1
+            rule_index += 1
             policy_name = name + '-HTTP-Policy-Set'
             policy = {
                 "name": policy_name,
