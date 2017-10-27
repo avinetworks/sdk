@@ -41,17 +41,14 @@ def compareVsName(vs_name):
             return vsName
 
 # Compares the application profile.
-def comAppProf(each_vs):
+def compareAppProf(appName):
     """
 
-    :param appType: It contains a application profile type
+    :param appName: It contains a application profile name
     :return: It returns default profile type and avi application profile type
     """
-
-    application_profile_ref = each_vs['application_profile_ref']
-    app_name = conversion_util.get_name(application_profile_ref)
     app_type = [i['type'] for i in avi_config_dict['ApplicationProfile']
-                if i['name'] == app_name]
+                if i['name'] == appName]
     if app_type:
         type = app_type[0]
         for profile_type in conv_const.PROFILES.keys():
@@ -60,17 +57,14 @@ def comAppProf(each_vs):
     return False
 
 # Compare network profile.
-def compareNetworkProfile(each_vs):
+def compareNetworkProfile(profileName):
     """
 
-    :param each_vs: It contains virtual service information
-    :return networkProfile[0]: Type of default network profiles and avi network profiles
-    :return network_type[0]: Type of avi network profiles
+    :param profileName: It contains virtual service name.
+    :return: True or False.
     """
-    network_profile_ref = each_vs['network_profile_ref']
-    network_name = conversion_util.get_name(network_profile_ref)
     network_type = [i['profile']['type'] for i in avi_config_dict['NetworkProfile']
-                    if i['name'] == network_name]
+                    if i['name'] == profileName]
     if network_type and network_type[0] in conv_const.NETWORK_PROFILES:
         return True
     else: False
@@ -83,7 +77,7 @@ def compareSslProfile(each_vs):
     """
 
     :param each_vs: It contains virtual service information
-    :return: returns True if ssl profile type is matched with default profile types
+    :return: True or False.
     """
     ssl_profile_ref = each_vs['ssl_profile_ref']
     ssl_profile_name = conversion_util.get_name(ssl_profile_ref)
@@ -98,16 +92,16 @@ def checkHealthMonitor(pool):
     """
 
     :param pool: It contains pool information.
-    :return matchedMonitor: It contains health monitor list of avi health monitors
-    :return monitors: It contains list of matched health monitors with F5 config
+    :return monitorStatus: It contains True or False.
+    :return healthMonitor: It contains name of the health monitor.
     """
     healthMonitorRef = pool['health_monitor_refs']
     if healthMonitorRef:
         healthMonitor = conversion_util.get_name(healthMonitorRef[0])
         monitors = [healthMonitors['type'] for healthMonitors in avi_config_dict['HealthMonitor']
                     if healthMonitors['name'] == healthMonitor]
-        matchedmMnitor = compareHealthMonitor(monitors, healthMonitor)
-        return matchedmMnitor, healthMonitor
+        monitorStatus = compareHealthMonitor(monitors, healthMonitor)
+        return monitorStatus, healthMonitor
 
 
 """ Compare health monitor type with
@@ -118,7 +112,7 @@ def compareHealthMonitor(healthMonitors, monitorName):
 
     :param healthMonitors: List of health monitors.
     :param monitorName: health monitor name.
-    :return healthMonitor: health monitors list.
+    :return: True or False.
     """
     monitor_config = f5_config_dict.get("monitor", {})
     for key in monitor_config.keys():
@@ -138,9 +132,9 @@ def compareHealthMonitor(healthMonitors, monitorName):
 def get_monitor_type(monitor):
     """
 
-    :param monitor: It contains key of health monitor
-    :return healthMonitor[0]: It contains type of health monitor
-    :return healthMonitor[1]: It contains name of health monitor
+    :param monitor: It contains key of health monitor.
+    :return healthMonitor[0]: It contains type of health monitor.
+    :return healthMonitor[1]: It contains name of health monitor.
 
     """
     healthMonitor = monitor.split(' ')
@@ -153,33 +147,35 @@ def checkPersistenceType(applicationProfile):
     """
 
     :param pool: It contains pool information.
-    :return: returns True if profile type is matched with default profile type.
+    :return: True and applicationProfile if profile type is matched with default profile type.
+    :return: False and applicationProfile
     """
     profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
                         if appProfile['name'] == applicationProfile]
     if profiles:
         for key in conv_const.PERSISTENCE_PROFILE_TYPES:
             if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
-                return True,applicationProfile
+                return True, applicationProfile
 
-        return False,applicationProfile
-    else: return False,applicationProfile
+        return False, applicationProfile
+    else: return False, applicationProfile
 
 
 # Return profile application persistence profile name
-def getProfileName(pool):
+def getProfileName(object, key):
     """
 
-    :param pool: it contains pool information.
-    :return: returns profile name
+    :param object: it contains object information.
+    :param key: it contains profiles key.
+    :return persistenceProfile: returns persistence profile name.
     """
-    profile = pool['application_persistence_profile_ref']
+    profile = object[key]
     persistenceProfile = conversion_util.get_name(profile)
     if not persistenceProfile.startswith("System"):
         return persistenceProfile
 
 class Test(unittest.TestCase):
-    def test_compareVs(self):
+    def test_compareVirtualService(self):
         for each_vs in avi_config_dict['VirtualService']:
             try:
                 vs_name = each_vs['name']
@@ -192,15 +188,19 @@ class Test(unittest.TestCase):
             if f5VsName:
                 try:
                     if 'application_profile_ref' in each_vs:
-                        profileStatus = comAppProf(each_vs)
-                        self.assertTrue(profileStatus)
+                        appProfile = getProfileName(each_vs,conv_const.APP_PROF)
+                        if appProfile:
+                            profileStatus = compareAppProf(appProfile)
+                            self.assertTrue(profileStatus)
                 except AssertionError:
                     LOG.error("Application profile not found for : %s" %(vs_name))
 
                 try:
                     if 'network_profile_ref' in each_vs:
-                        networkProfile = compareNetworkProfile(each_vs)
-                        self.assertTrue(networkProfile)
+                        profileName = getProfileName(each_vs, conv_const.NETWORK_PROF)
+                        if profileName:
+                            networkProfile = compareNetworkProfile(profileName)
+                            self.assertTrue(networkProfile)
                 except AssertionError:
                     LOG.error("Network profile is not found for %s" %(vs_name))
 
@@ -213,8 +213,8 @@ class Test(unittest.TestCase):
                         "SSL Profile not found in %s" % (vs_name))
 
                 if 'pool_group_ref' in each_vs:
-                    poolRef = each_vs['pool_group_ref']
-                    poolGroupName = conversion_util.get_name(poolRef)
+                    poolGroupRef = each_vs['pool_group_ref']
+                    poolGroupName = conversion_util.get_name(poolGroupRef)
                     poolGroups = [poolGroup for poolGroup in avi_config_dict['PoolGroup']
                                   if poolGroup['name'] == poolGroupName]
                     poolMembers = [conversion_util.get_name(i['pool_ref'])
@@ -222,13 +222,15 @@ class Test(unittest.TestCase):
                     for pool in avi_config_dict['Pool']:
                         if pool['name'] in poolMembers:
                             try:
-                                if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
-                                    applicationProfile = getProfileName(pool)
+                                if 'application_persistence_profile_ref' in pool \
+                                        and pool['application_persistence_profile_ref']:
+                                    applicationProfile = getProfileName(pool, conv_const.APP_PERS_PROF)
                                     if applicationProfile:
                                         persistenceStatus, profileName = checkPersistenceType(applicationProfile)
                                         self.assertTrue(persistenceStatus)
                             except AssertionError:
-                                LOG.error("Application persistence profile %s not found in %s " % (profileName, vs_name))
+                                LOG.error("Application persistence profile %s not found in %s "
+                                          % (profileName, vs_name))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
                                     f5healthMonitorStatus, monitorName = checkHealthMonitor(pool)
@@ -242,13 +244,15 @@ class Test(unittest.TestCase):
                     for pool in avi_config_dict['Pool']:
                         if pool['name'] in poolName:
                             try:
-                                if 'application_persistence_profile_ref' in pool and pool['application_persistence_profile_ref']:
-                                    applicationProfile = getProfileName(pool)
+                                if 'application_persistence_profile_ref' in pool \
+                                        and pool['application_persistence_profile_ref']:
+                                    applicationProfile = getProfileName(pool, conv_const.APP_PERS_PROF)
                                     if applicationProfile:
                                         persistenceStatus, profileName = checkPersistenceType(applicationProfile)
                                         self.assertTrue(persistenceStatus)
                             except AssertionError:
-                                LOG.error("Application persistence profile %s not found in %s " % (profileName, vs_name))
+                                LOG.error("Application persistence profile %s not found in %s "
+                                          % (profileName, vs_name))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
                                     f5healthMonitorStatus, monitorName = checkHealthMonitor(pool)

@@ -22,3 +22,7 @@ HEALTH_MONITORS = {'https': 'HEALTH_MONITOR_HTTPS',
 PERSISTENCE_PROFILE_TYPES = {'ssl': 'PERSISTENCE_TYPE_TLS',
                              'cookie': 'PERSISTENCE_TYPE_APP_COOKIE',
                              'source_addr': 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'}
+
+APP_PERS_PROF = "application_persistence_profile_ref"
+APP_PROF = "application_profile_ref"
+NETWORK_PROF = "network_profile_ref"
