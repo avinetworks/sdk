@@ -47,6 +47,7 @@ class PoolConverter(object):
         for pool in self.parsed.get('serverfarm', ''):
             probe = None
             monitor_ref = None
+            server = None
             temp_pool = dict()
             name = pool.get('host', '')
             # print name
@@ -72,29 +73,30 @@ class PoolConverter(object):
             if probe:
                 monitor_ref = self.common_utils.get_object_ref(
                     probe, 'healthmonitor', tenant=self.tenant)
-            pool_dict = {
-                "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
-                "name": name,
-                "cloud_ref": self.cloud_ref,
-                "tenant_ref": self.tenant_ref,
-                "servers": server,
-                "health_monitor_refs": [
-                ],
-                "fail_action": {
-                    "type": "FAIL_ACTION_CLOSE_CONN"
-                },
-                "description": None
-            }
-            if monitor_ref:
-                pool_dict['health_monitor_refs'].append(monitor_ref)
-            if self.vrf_ref:
-                pool_dict['vrf_ref'] = self.vrf_ref
-            temp_pool.update(pool_dict)
-            # update excel sheet
-            update_excel('serverfarm', name,
-                         avi_obj=temp_pool, skip=skipped_list)
+            if server:
+                pool_dict = {
+                    "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+                    "name": name,
+                    "cloud_ref": self.cloud_ref,
+                    "tenant_ref": self.tenant_ref,
+                    "servers": server,
+                    "health_monitor_refs": [
+                    ],
+                    "fail_action": {
+                        "type": "FAIL_ACTION_CLOSE_CONN"
+                    },
+                    "description": None
+                }
+                if monitor_ref:
+                    pool_dict['health_monitor_refs'].append(monitor_ref)
+                if self.vrf_ref:
+                    pool_dict['vrf_ref'] = self.vrf_ref
+                temp_pool.update(pool_dict)
+                # update excel sheet
+                update_excel('serverfarm', name,
+                             avi_obj=temp_pool, skip=skipped_list)
 
-            pool_list.append(temp_pool)
+                pool_list.append(temp_pool)
         return pool_list
 
     def server_converter(self, name):
