@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -272,18 +282,27 @@ font-style: italic;
     "ipam_provider_ref" : "aeiou",
     "aws_configuration" : {
       "access_key_id" : "aeiou",
+      "use_sns_sqs" : true,
       "iam_assume_role" : "aeiou",
+      "wildcard_access" : true,
       "vpc_id" : "aeiou",
-      "route53_integration" : true,
-      "use_iam_roles" : true,
+      "ebs_encryption" : {
+        "mode" : "aeiou",
+        "master_key" : "aeiou"
+      },
       "secret_access_key" : "aeiou",
       "vpc" : "aeiou",
-      "region" : "aeiou",
       "zones" : [ {
         "availability_zone" : "aeiou",
         "mgmt_network_name" : "aeiou",
         "mgmt_network_uuid" : "aeiou"
       } ],
+      "ttl" : 123,
+      "asg_poll_interval" : 123,
+      "route53_integration" : true,
+      "s3_encryption" : "",
+      "use_iam_roles" : true,
+      "region" : "aeiou",
       "free_elasticips" : true
     },
     "east_west_ipam_provider_ref" : "aeiou",
@@ -442,6 +461,7 @@ font-style: italic;
       "disable_auto_backend_service_sync" : true,
       "se_volume" : "aeiou",
       "node_availability_zone_label" : "aeiou",
+      "service_port_match_http_service" : true,
       "http_container_ports" : [ "" ],
       "se_spawn_rate" : 123,
       "ca_tls_key_and_certificate_ref" : "aeiou",
@@ -454,6 +474,7 @@ font-style: italic;
       "use_controller_image" : true,
       "sdn_overlay" : true,
       "container_port_match_http_service" : true,
+      "disable_auto_gs_sync" : true,
       "disable_auto_se_creation" : true,
       "se_include_attributes" : [ "" ],
       "use_service_cluster_ip_as_ew_vip" : true,
@@ -463,7 +484,9 @@ font-style: italic;
       },
       "disable_auto_frontend_service_sync" : true,
       "app_sync_frequency" : 123,
+      "ns_include_attributes" : [ "" ],
       "feproxy_vips_enable_proxy_arp" : true,
+      "ns_exclude_attributes" : [ "" ],
       "ssh_se_deployment" : "",
       "enable_event_subscription" : true,
       "secure_egress_mode" : true,
@@ -471,6 +494,7 @@ font-style: italic;
       "docker_registry_se" : "",
       "routes_share_virtualservice" : true,
       "se_exclude_attributes" : [ "" ],
+      "shared_virtualservice_namespace" : true,
       "east_west_placement_subnet" : "",
       "avi_bridge_subnet" : "",
       "default_service_as_east_west_service" : true,
@@ -493,6 +517,10 @@ font-style: italic;
       "secret_access_key" : "aeiou",
       "mgmt_network_uuid" : "aeiou"
     },
+    "custom_tags" : [ {
+      "tag_key" : "aeiou",
+      "tag_val" : "aeiou"
+    } ],
     "enable_vip_static_routes" : true,
     "east_west_dns_provider_ref" : "aeiou",
     "url" : "aeiou",
@@ -501,7 +529,15 @@ font-style: italic;
     "obj_name_prefix" : "aeiou",
     "openstack_configuration" : {
       "import_keystone_tenants" : true,
+      "wildcard_access" : true,
       "allowed_address_pairs" : true,
+      "hypervisor_properties" : [ {
+        "image_properties" : [ {
+          "name" : "aeiou",
+          "value" : "aeiou"
+        } ],
+        "hypervisor" : "aeiou"
+      } ],
       "nuage_password" : "aeiou",
       "privilege" : "aeiou",
       "mgmt_network_uuid" : "aeiou",
@@ -521,6 +557,7 @@ font-style: italic;
       "nuage_port" : 123,
       "admin_tenant_uuid" : "aeiou",
       "free_floatingips" : true,
+      "use_nuagevip" : true,
       "name_owner" : true,
       "contrail_endpoint" : "aeiou",
       "use_keystone_auth" : true,
@@ -533,6 +570,7 @@ font-style: italic;
       "prov_name" : [ "aeiou" ],
       "map_admin_to_cloudadmin" : true,
       "neutron_rbac" : true,
+      "nuage_virtualip" : true,
       "admin_tenant" : "aeiou",
       "nuage_organization" : "aeiou",
       "role_mapping" : [ {
@@ -545,6 +583,19 @@ font-style: italic;
       "username" : "aeiou"
     },
     "tenant_ref" : "aeiou",
+    "azure_configuration" : {
+      "subscription_id" : "aeiou",
+      "use_enhanced_ha" : true,
+      "resource_group" : "aeiou",
+      "use_azure_dns" : true,
+      "use_managed_disks" : true,
+      "location" : "aeiou",
+      "cloud_credentials_ref" : "aeiou",
+      "network_info" : [ {
+        "se_network_id" : "aeiou",
+        "virtual_network_id" : "aeiou"
+      } ]
+    },
     "name" : "aeiou",
     "prefer_static_routes" : true,
     "vcenter_configuration" : {
@@ -565,7 +616,8 @@ font-style: italic;
           "attr_val" : "aeiou",
           "attr_key" : "aeiou"
         } ],
-        "node_availability_zone" : "aeiou"
+        "node_availability_zone" : "aeiou",
+        "se_group_ref" : "aeiou"
       } ],
       "se_inband_mgmt" : true,
       "se_sys_disk_path" : "aeiou",
@@ -730,18 +782,27 @@ font-style: italic;
   "ipam_provider_ref" : "aeiou",
   "aws_configuration" : {
     "access_key_id" : "aeiou",
+    "use_sns_sqs" : true,
     "iam_assume_role" : "aeiou",
+    "wildcard_access" : true,
     "vpc_id" : "aeiou",
-    "route53_integration" : true,
-    "use_iam_roles" : true,
+    "ebs_encryption" : {
+      "mode" : "aeiou",
+      "master_key" : "aeiou"
+    },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
-    "region" : "aeiou",
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
       "mgmt_network_uuid" : "aeiou"
     } ],
+    "ttl" : 123,
+    "asg_poll_interval" : 123,
+    "route53_integration" : true,
+    "s3_encryption" : "",
+    "use_iam_roles" : true,
+    "region" : "aeiou",
     "free_elasticips" : true
   },
   "east_west_ipam_provider_ref" : "aeiou",
@@ -900,6 +961,7 @@ font-style: italic;
     "disable_auto_backend_service_sync" : true,
     "se_volume" : "aeiou",
     "node_availability_zone_label" : "aeiou",
+    "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
     "se_spawn_rate" : 123,
     "ca_tls_key_and_certificate_ref" : "aeiou",
@@ -912,6 +974,7 @@ font-style: italic;
     "use_controller_image" : true,
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -921,7 +984,9 @@ font-style: italic;
     },
     "disable_auto_frontend_service_sync" : true,
     "app_sync_frequency" : 123,
+    "ns_include_attributes" : [ "" ],
     "feproxy_vips_enable_proxy_arp" : true,
+    "ns_exclude_attributes" : [ "" ],
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
@@ -929,6 +994,7 @@ font-style: italic;
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
     "se_exclude_attributes" : [ "" ],
+    "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
     "default_service_as_east_west_service" : true,
@@ -951,6 +1017,10 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "mgmt_network_uuid" : "aeiou"
   },
+  "custom_tags" : [ {
+    "tag_key" : "aeiou",
+    "tag_val" : "aeiou"
+  } ],
   "enable_vip_static_routes" : true,
   "east_west_dns_provider_ref" : "aeiou",
   "url" : "aeiou",
@@ -959,7 +1029,15 @@ font-style: italic;
   "obj_name_prefix" : "aeiou",
   "openstack_configuration" : {
     "import_keystone_tenants" : true,
+    "wildcard_access" : true,
     "allowed_address_pairs" : true,
+    "hypervisor_properties" : [ {
+      "image_properties" : [ {
+        "name" : "aeiou",
+        "value" : "aeiou"
+      } ],
+      "hypervisor" : "aeiou"
+    } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
     "mgmt_network_uuid" : "aeiou",
@@ -979,6 +1057,7 @@ font-style: italic;
     "nuage_port" : 123,
     "admin_tenant_uuid" : "aeiou",
     "free_floatingips" : true,
+    "use_nuagevip" : true,
     "name_owner" : true,
     "contrail_endpoint" : "aeiou",
     "use_keystone_auth" : true,
@@ -991,6 +1070,7 @@ font-style: italic;
     "prov_name" : [ "aeiou" ],
     "map_admin_to_cloudadmin" : true,
     "neutron_rbac" : true,
+    "nuage_virtualip" : true,
     "admin_tenant" : "aeiou",
     "nuage_organization" : "aeiou",
     "role_mapping" : [ {
@@ -1003,6 +1083,19 @@ font-style: italic;
     "username" : "aeiou"
   },
   "tenant_ref" : "aeiou",
+  "azure_configuration" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "use_azure_dns" : true,
+    "use_managed_disks" : true,
+    "location" : "aeiou",
+    "cloud_credentials_ref" : "aeiou",
+    "network_info" : [ {
+      "se_network_id" : "aeiou",
+      "virtual_network_id" : "aeiou"
+    } ]
+  },
   "name" : "aeiou",
   "prefer_static_routes" : true,
   "vcenter_configuration" : {
@@ -1023,7 +1116,8 @@ font-style: italic;
         "attr_val" : "aeiou",
         "attr_key" : "aeiou"
       } ],
-      "node_availability_zone" : "aeiou"
+      "node_availability_zone" : "aeiou",
+      "se_group_ref" : "aeiou"
     } ],
     "se_inband_mgmt" : true,
     "se_sys_disk_path" : "aeiou",
@@ -1378,7 +1472,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -1413,18 +1513,27 @@ font-style: italic;
   "ipam_provider_ref" : "aeiou",
   "aws_configuration" : {
     "access_key_id" : "aeiou",
+    "use_sns_sqs" : true,
     "iam_assume_role" : "aeiou",
+    "wildcard_access" : true,
     "vpc_id" : "aeiou",
-    "route53_integration" : true,
-    "use_iam_roles" : true,
+    "ebs_encryption" : {
+      "mode" : "aeiou",
+      "master_key" : "aeiou"
+    },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
-    "region" : "aeiou",
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
       "mgmt_network_uuid" : "aeiou"
     } ],
+    "ttl" : 123,
+    "asg_poll_interval" : 123,
+    "route53_integration" : true,
+    "s3_encryption" : "",
+    "use_iam_roles" : true,
+    "region" : "aeiou",
     "free_elasticips" : true
   },
   "east_west_ipam_provider_ref" : "aeiou",
@@ -1583,6 +1692,7 @@ font-style: italic;
     "disable_auto_backend_service_sync" : true,
     "se_volume" : "aeiou",
     "node_availability_zone_label" : "aeiou",
+    "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
     "se_spawn_rate" : 123,
     "ca_tls_key_and_certificate_ref" : "aeiou",
@@ -1595,6 +1705,7 @@ font-style: italic;
     "use_controller_image" : true,
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -1604,7 +1715,9 @@ font-style: italic;
     },
     "disable_auto_frontend_service_sync" : true,
     "app_sync_frequency" : 123,
+    "ns_include_attributes" : [ "" ],
     "feproxy_vips_enable_proxy_arp" : true,
+    "ns_exclude_attributes" : [ "" ],
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
@@ -1612,6 +1725,7 @@ font-style: italic;
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
     "se_exclude_attributes" : [ "" ],
+    "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
     "default_service_as_east_west_service" : true,
@@ -1634,6 +1748,10 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "mgmt_network_uuid" : "aeiou"
   },
+  "custom_tags" : [ {
+    "tag_key" : "aeiou",
+    "tag_val" : "aeiou"
+  } ],
   "enable_vip_static_routes" : true,
   "east_west_dns_provider_ref" : "aeiou",
   "url" : "aeiou",
@@ -1642,7 +1760,15 @@ font-style: italic;
   "obj_name_prefix" : "aeiou",
   "openstack_configuration" : {
     "import_keystone_tenants" : true,
+    "wildcard_access" : true,
     "allowed_address_pairs" : true,
+    "hypervisor_properties" : [ {
+      "image_properties" : [ {
+        "name" : "aeiou",
+        "value" : "aeiou"
+      } ],
+      "hypervisor" : "aeiou"
+    } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
     "mgmt_network_uuid" : "aeiou",
@@ -1662,6 +1788,7 @@ font-style: italic;
     "nuage_port" : 123,
     "admin_tenant_uuid" : "aeiou",
     "free_floatingips" : true,
+    "use_nuagevip" : true,
     "name_owner" : true,
     "contrail_endpoint" : "aeiou",
     "use_keystone_auth" : true,
@@ -1674,6 +1801,7 @@ font-style: italic;
     "prov_name" : [ "aeiou" ],
     "map_admin_to_cloudadmin" : true,
     "neutron_rbac" : true,
+    "nuage_virtualip" : true,
     "admin_tenant" : "aeiou",
     "nuage_organization" : "aeiou",
     "role_mapping" : [ {
@@ -1686,6 +1814,19 @@ font-style: italic;
     "username" : "aeiou"
   },
   "tenant_ref" : "aeiou",
+  "azure_configuration" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "use_azure_dns" : true,
+    "use_managed_disks" : true,
+    "location" : "aeiou",
+    "cloud_credentials_ref" : "aeiou",
+    "network_info" : [ {
+      "se_network_id" : "aeiou",
+      "virtual_network_id" : "aeiou"
+    } ]
+  },
   "name" : "aeiou",
   "prefer_static_routes" : true,
   "vcenter_configuration" : {
@@ -1706,7 +1847,8 @@ font-style: italic;
         "attr_val" : "aeiou",
         "attr_key" : "aeiou"
       } ],
-      "node_availability_zone" : "aeiou"
+      "node_availability_zone" : "aeiou",
+      "se_group_ref" : "aeiou"
     } ],
     "se_inband_mgmt" : true,
     "se_sys_disk_path" : "aeiou",
@@ -1986,18 +2128,27 @@ font-style: italic;
   "ipam_provider_ref" : "aeiou",
   "aws_configuration" : {
     "access_key_id" : "aeiou",
+    "use_sns_sqs" : true,
     "iam_assume_role" : "aeiou",
+    "wildcard_access" : true,
     "vpc_id" : "aeiou",
-    "route53_integration" : true,
-    "use_iam_roles" : true,
+    "ebs_encryption" : {
+      "mode" : "aeiou",
+      "master_key" : "aeiou"
+    },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
-    "region" : "aeiou",
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
       "mgmt_network_uuid" : "aeiou"
     } ],
+    "ttl" : 123,
+    "asg_poll_interval" : 123,
+    "route53_integration" : true,
+    "s3_encryption" : "",
+    "use_iam_roles" : true,
+    "region" : "aeiou",
     "free_elasticips" : true
   },
   "east_west_ipam_provider_ref" : "aeiou",
@@ -2156,6 +2307,7 @@ font-style: italic;
     "disable_auto_backend_service_sync" : true,
     "se_volume" : "aeiou",
     "node_availability_zone_label" : "aeiou",
+    "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
     "se_spawn_rate" : 123,
     "ca_tls_key_and_certificate_ref" : "aeiou",
@@ -2168,6 +2320,7 @@ font-style: italic;
     "use_controller_image" : true,
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -2177,7 +2330,9 @@ font-style: italic;
     },
     "disable_auto_frontend_service_sync" : true,
     "app_sync_frequency" : 123,
+    "ns_include_attributes" : [ "" ],
     "feproxy_vips_enable_proxy_arp" : true,
+    "ns_exclude_attributes" : [ "" ],
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
@@ -2185,6 +2340,7 @@ font-style: italic;
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
     "se_exclude_attributes" : [ "" ],
+    "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
     "default_service_as_east_west_service" : true,
@@ -2207,6 +2363,10 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "mgmt_network_uuid" : "aeiou"
   },
+  "custom_tags" : [ {
+    "tag_key" : "aeiou",
+    "tag_val" : "aeiou"
+  } ],
   "enable_vip_static_routes" : true,
   "east_west_dns_provider_ref" : "aeiou",
   "url" : "aeiou",
@@ -2215,7 +2375,15 @@ font-style: italic;
   "obj_name_prefix" : "aeiou",
   "openstack_configuration" : {
     "import_keystone_tenants" : true,
+    "wildcard_access" : true,
     "allowed_address_pairs" : true,
+    "hypervisor_properties" : [ {
+      "image_properties" : [ {
+        "name" : "aeiou",
+        "value" : "aeiou"
+      } ],
+      "hypervisor" : "aeiou"
+    } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
     "mgmt_network_uuid" : "aeiou",
@@ -2235,6 +2403,7 @@ font-style: italic;
     "nuage_port" : 123,
     "admin_tenant_uuid" : "aeiou",
     "free_floatingips" : true,
+    "use_nuagevip" : true,
     "name_owner" : true,
     "contrail_endpoint" : "aeiou",
     "use_keystone_auth" : true,
@@ -2247,6 +2416,7 @@ font-style: italic;
     "prov_name" : [ "aeiou" ],
     "map_admin_to_cloudadmin" : true,
     "neutron_rbac" : true,
+    "nuage_virtualip" : true,
     "admin_tenant" : "aeiou",
     "nuage_organization" : "aeiou",
     "role_mapping" : [ {
@@ -2259,6 +2429,19 @@ font-style: italic;
     "username" : "aeiou"
   },
   "tenant_ref" : "aeiou",
+  "azure_configuration" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "use_azure_dns" : true,
+    "use_managed_disks" : true,
+    "location" : "aeiou",
+    "cloud_credentials_ref" : "aeiou",
+    "network_info" : [ {
+      "se_network_id" : "aeiou",
+      "virtual_network_id" : "aeiou"
+    } ]
+  },
   "name" : "aeiou",
   "prefer_static_routes" : true,
   "vcenter_configuration" : {
@@ -2279,7 +2462,8 @@ font-style: italic;
         "attr_val" : "aeiou",
         "attr_key" : "aeiou"
       } ],
-      "node_availability_zone" : "aeiou"
+      "node_availability_zone" : "aeiou",
+      "se_group_ref" : "aeiou"
     } ],
     "se_inband_mgmt" : true,
     "se_sys_disk_path" : "aeiou",
@@ -2403,18 +2587,27 @@ font-style: italic;
   "ipam_provider_ref" : "aeiou",
   "aws_configuration" : {
     "access_key_id" : "aeiou",
+    "use_sns_sqs" : true,
     "iam_assume_role" : "aeiou",
+    "wildcard_access" : true,
     "vpc_id" : "aeiou",
-    "route53_integration" : true,
-    "use_iam_roles" : true,
+    "ebs_encryption" : {
+      "mode" : "aeiou",
+      "master_key" : "aeiou"
+    },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
-    "region" : "aeiou",
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
       "mgmt_network_uuid" : "aeiou"
     } ],
+    "ttl" : 123,
+    "asg_poll_interval" : 123,
+    "route53_integration" : true,
+    "s3_encryption" : "",
+    "use_iam_roles" : true,
+    "region" : "aeiou",
     "free_elasticips" : true
   },
   "east_west_ipam_provider_ref" : "aeiou",
@@ -2573,6 +2766,7 @@ font-style: italic;
     "disable_auto_backend_service_sync" : true,
     "se_volume" : "aeiou",
     "node_availability_zone_label" : "aeiou",
+    "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
     "se_spawn_rate" : 123,
     "ca_tls_key_and_certificate_ref" : "aeiou",
@@ -2585,6 +2779,7 @@ font-style: italic;
     "use_controller_image" : true,
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -2594,7 +2789,9 @@ font-style: italic;
     },
     "disable_auto_frontend_service_sync" : true,
     "app_sync_frequency" : 123,
+    "ns_include_attributes" : [ "" ],
     "feproxy_vips_enable_proxy_arp" : true,
+    "ns_exclude_attributes" : [ "" ],
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
@@ -2602,6 +2799,7 @@ font-style: italic;
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
     "se_exclude_attributes" : [ "" ],
+    "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
     "default_service_as_east_west_service" : true,
@@ -2624,6 +2822,10 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "mgmt_network_uuid" : "aeiou"
   },
+  "custom_tags" : [ {
+    "tag_key" : "aeiou",
+    "tag_val" : "aeiou"
+  } ],
   "enable_vip_static_routes" : true,
   "east_west_dns_provider_ref" : "aeiou",
   "url" : "aeiou",
@@ -2632,7 +2834,15 @@ font-style: italic;
   "obj_name_prefix" : "aeiou",
   "openstack_configuration" : {
     "import_keystone_tenants" : true,
+    "wildcard_access" : true,
     "allowed_address_pairs" : true,
+    "hypervisor_properties" : [ {
+      "image_properties" : [ {
+        "name" : "aeiou",
+        "value" : "aeiou"
+      } ],
+      "hypervisor" : "aeiou"
+    } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
     "mgmt_network_uuid" : "aeiou",
@@ -2652,6 +2862,7 @@ font-style: italic;
     "nuage_port" : 123,
     "admin_tenant_uuid" : "aeiou",
     "free_floatingips" : true,
+    "use_nuagevip" : true,
     "name_owner" : true,
     "contrail_endpoint" : "aeiou",
     "use_keystone_auth" : true,
@@ -2664,6 +2875,7 @@ font-style: italic;
     "prov_name" : [ "aeiou" ],
     "map_admin_to_cloudadmin" : true,
     "neutron_rbac" : true,
+    "nuage_virtualip" : true,
     "admin_tenant" : "aeiou",
     "nuage_organization" : "aeiou",
     "role_mapping" : [ {
@@ -2676,6 +2888,19 @@ font-style: italic;
     "username" : "aeiou"
   },
   "tenant_ref" : "aeiou",
+  "azure_configuration" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "use_azure_dns" : true,
+    "use_managed_disks" : true,
+    "location" : "aeiou",
+    "cloud_credentials_ref" : "aeiou",
+    "network_info" : [ {
+      "se_network_id" : "aeiou",
+      "virtual_network_id" : "aeiou"
+    } ]
+  },
   "name" : "aeiou",
   "prefer_static_routes" : true,
   "vcenter_configuration" : {
@@ -2696,7 +2921,8 @@ font-style: italic;
         "attr_val" : "aeiou",
         "attr_key" : "aeiou"
       } ],
-      "node_availability_zone" : "aeiou"
+      "node_availability_zone" : "aeiou",
+      "se_group_ref" : "aeiou"
     } ],
     "se_inband_mgmt" : true,
     "se_sys_disk_path" : "aeiou",
@@ -2815,9 +3041,13 @@ font-style: italic;
     <li><a href="#APICConfiguration"><code>APICConfiguration</code></a></li>
     <li><a href="#AwsConfiguration"><code>AwsConfiguration</code></a></li>
     <li><a href="#AwsZoneConfig"><code>AwsZoneConfig</code></a></li>
+    <li><a href="#aws_encryption"><code>aws_encryption</code></a></li>
+    <li><a href="#AzureConfiguration"><code>AzureConfiguration</code></a></li>
+    <li><a href="#AzureNetworkInfo"><code>AzureNetworkInfo</code></a></li>
     <li><a href="#Cloud"><code>Cloud</code></a></li>
     <li><a href="#CloudApiResponse"><code>CloudApiResponse</code></a></li>
     <li><a href="#CloudStackConfiguration"><code>CloudStackConfiguration</code></a></li>
+    <li><a href="#CustomTag"><code>CustomTag</code></a></li>
     <li><a href="#DockerConfiguration"><code>DockerConfiguration</code></a></li>
     <li><a href="#DockerRegistry"><code>DockerRegistry</code></a></li>
     <li><a href="#FeProxyRoutePublishConfig"><code>FeProxyRoutePublishConfig</code></a></li>
@@ -2835,10 +3065,12 @@ font-style: italic;
     <li><a href="#NuageSDNController"><code>NuageSDNController</code></a></li>
     <li><a href="#OShiftK8SConfiguration"><code>OShiftK8SConfiguration</code></a></li>
     <li><a href="#OpenStackConfiguration"><code>OpenStackConfiguration</code></a></li>
+    <li><a href="#OpenStackHypervisorProperties"><code>OpenStackHypervisorProperties</code></a></li>
     <li><a href="#OpenStackRoleMapping"><code>OpenStackRoleMapping</code></a></li>
     <li><a href="#OshiftDockerRegistryMetaData"><code>OshiftDockerRegistryMetaData</code></a></li>
     <li><a href="#OshiftSharedVirtualService"><code>OshiftSharedVirtualService</code></a></li>
     <li><a href="#PortRange"><code>PortRange</code></a></li>
+    <li><a href="#Property"><code>Property</code></a></li>
     <li><a href="#ProxyConfiguration"><code>ProxyConfiguration</code></a></li>
     <li><a href="#RancherConfiguration"><code>RancherConfiguration</code></a></li>
     <li><a href="#SSHSeDeployment"><code>SSHSeDeployment</code></a></li>
@@ -2869,14 +3101,20 @@ font-style: italic;
     <h3 class="field-label"><a name="AwsConfiguration">AwsConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">access_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS access key ID. </div>
+<div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. format: int32</div>
+<div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
 <div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
 <div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS region. </div>
 <div class="param">route53_integration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, create/update DNS entries in Amazon Route 53 zones. </div>
+<div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
 <div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
+<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. format: int32</div>
 <div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
+<div class="param">use_sns_sqs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3. </div>
 <div class="param">vpc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC name. </div>
 <div class="param">vpc_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC ID. </div>
+<div class="param">wildcard_access (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3. </div>
 <div class="param">zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsZoneConfig">array[AwsZoneConfig]</a></span> Placeholder for description of property zones of obj type AwsConfiguration field type str  type object </div>
     </div>  <!-- field-items -->
   </div>
@@ -2889,12 +3127,41 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="aws_encryption">aws_encryption</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">master_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AzureConfiguration">AzureConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1. </div>
+<div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure location where this cloud will be located. Field introduced in 17.2.1. </div>
+<div class="param">network_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureNetworkInfo">array[AzureNetworkInfo]</a></span> Azure virtual network and subnet information. Field introduced in 17.2.1. </div>
+<div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
+<div class="param">subscription_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subscription Id for the Azure subscription. Field introduced in 17.2.1. </div>
+<div class="param">use_azure_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Azure is the DNS provider. Field introduced in 17.2.1. </div>
+<div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. . Field introduced in 17.2.1. </div>
+<div class="param">use_managed_disks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure managed disks for SE storage. Field introduced in 17.2.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AzureNetworkInfo">AzureNetworkInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">se_network_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1. </div>
+<div class="param">virtual_network_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual network where Virtual IPs will belong. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="Cloud">Cloud</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">apic_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#APICConfiguration">APICConfiguration</a></span> Placeholder for description of property apic_configuration of obj type Cloud field type str  type object </div>
 <div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean </div>
 <div class="param">aws_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsConfiguration">AwsConfiguration</a></span> Placeholder for description of property aws_configuration of obj type Cloud field type str  type object </div>
+<div class="param">azure_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureConfiguration">AzureConfiguration</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">cloudstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudStackConfiguration">CloudStackConfiguration</a></span> Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object </div>
+<div class="param">custom_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomTag">array[CustomTag]</a></span> Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5. </div>
 <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select the IP address management scheme. </div>
 <div class="param">dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">docker_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerConfiguration">DockerConfiguration</a></span> Placeholder for description of property docker_configuration of obj type Cloud field type str  type object </div>
@@ -2919,7 +3186,7 @@ font-style: italic;
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vca_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCloudAirConfiguration">vCloudAirConfiguration</a></span> Placeholder for description of property vca_configuration of obj type Cloud field type str  type object </div>
 <div class="param">vcenter_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCenterConfiguration">vCenterConfiguration</a></span> Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object </div>
-<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S. </div>
+<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2939,6 +3206,13 @@ font-style: italic;
 <div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
 <div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
 <div class="param">secret_access_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CloudStack Secret Key. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CustomTag">CustomTag</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">tag_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tag_key of CustomTag. </div>
+<div class="param">tag_val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tag_val of CustomTag. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3033,6 +3307,7 @@ font-style: italic;
       <div class="param">host_attr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostAttributes">array[HostAttributes]</a></span> Placeholder for description of property host_attr of obj type LinuxServerHost field type str  type object </div>
 <div class="param">host_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property host_ip of obj type LinuxServerHost field type str  type object </div>
 <div class="param">node_availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Node&#39;s availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover. </div>
+<div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The SE Group association for the SE. If None, then &#39;Default-Group&#39; SEGroup is associated with the SE. It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3148,12 +3423,13 @@ font-style: italic;
 <div class="param">avi_bridge_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Avi Linux bridge subnet on OpenShift/K8s nodes. </div>
 <div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate. </div>
-<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. </div>
+<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service. </div>
 <div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
 <div class="param">default_service_as_east_west_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration. </div>
-<div class="param">default_shared_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#OshiftSharedVirtualService">OshiftSharedVirtualService</a></span> Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1. </div>
+<div class="param">default_shared_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#OshiftSharedVirtualService">OshiftSharedVirtualService</a></span> Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1. </div>
 <div class="param">disable_auto_backend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for back end services. </div>
 <div class="param">disable_auto_frontend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for front end services. </div>
+<div class="param">disable_auto_gs_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto sync for GSLB services. Field introduced in 17.1.3. </div>
 <div class="param">disable_auto_se_creation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable SE creation. </div>
 <div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
 <div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs . </div>
@@ -3164,16 +3440,20 @@ font-style: italic;
 <div class="param">l4_health_monitoring (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools. </div>
 <div class="param">master_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed. </div>
 <div class="param">node_availability_zone_label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> OpenShift/K8S Node label to be used as OpenShift/K8S Node&#39;s availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover. </div>
+<div class="param">ns_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3. </div>
+<div class="param">ns_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3. </div>
 <div class="param">nuage_controller (optional)</div><div class="param-desc"><span class="param-type"><a href="#NuageSDNController">NuageSDNController</a></span> Nuage Overlay SDN Controller information. </div>
-<div class="param">routes_share_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1. </div>
+<div class="param">routes_share_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1. </div>
 <div class="param">sdn_overlay (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode. </div>
 <div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD. </div>
 <div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
 <div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
 <div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. format: int32</div>
 <div class="param">se_volume (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host volume to be used as a disk for Avi SE, This is a disruptive change. </div>
-<div class="param">secure_egress_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1. </div>
+<div class="param">secure_egress_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from &#39;disable_auto_backend_service_sync&#39; (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1. </div>
 <div class="param">service_account_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Authorization token for service account instead of client certificate. One of client certificate or token is required. </div>
+<div class="param">service_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service. </div>
+<div class="param">shared_virtualservice_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3. </div>
 <div class="param">ssh_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH SE deployment. Field deprecated in 17.1.1. </div>
 <div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
 <div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
@@ -3195,6 +3475,7 @@ font-style: italic;
 <div class="param">external_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, allow selection of networks marked as &#39;external&#39; for management,  vip or data networks. </div>
 <div class="param">free_floatingips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused floating IPs. </div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
+<div class="param">hypervisor_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackHypervisorProperties">array[OpenStackHypervisorProperties]</a></span> Custom properties per hypervisor type. Field introduced in 17.2.1. </div>
 <div class="param">img_format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT. </div>
 <div class="param">import_keystone_tenants (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Import keystone tenants list into Avi. </div>
 <div class="param">insecure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow self-signed certificates when communicating with https service endpoints. </div>
@@ -3209,6 +3490,7 @@ font-style: italic;
 <div class="param">nuage_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_password of OpenStackConfiguration. </div>
 <div class="param">nuage_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of nuage_port. format: int32</div>
 <div class="param">nuage_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_username of OpenStackConfiguration. </div>
+<div class="param">nuage_virtualip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3. </div>
 <div class="param">nuage_vsd_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nuage VSD host name or IP address. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating to Keystone. </div>
 <div class="param">port_security (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped. </div>
@@ -3223,7 +3505,16 @@ font-style: italic;
 <div class="param">use_admin_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False. </div>
 <div class="param">use_internal_endpoints (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use internalURL for OpenStack endpoints instead of the default publicURL endpoints. </div>
 <div class="param">use_keystone_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use keystone for user authentication. </div>
+<div class="param">use_nuagevip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1. </div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain. </div>
+<div class="param">wildcard_access (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OpenStackHypervisorProperties">OpenStackHypervisorProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">hypervisor </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. Field introduced in 17.2.1. </div>
+<div class="param">image_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#Property">array[Property]</a></span> Custom properties to be associated with the SE image in Glance for this hypervisor type. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3252,6 +3543,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range end (inclusive). Allowed values are 1-65535. format: int32</div>
 <div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range start (inclusive). Allowed values are 1-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Property">Property</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Property name. Field introduced in 17.2.1. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Property value. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

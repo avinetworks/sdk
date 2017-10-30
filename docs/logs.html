@@ -91,7 +91,7 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> step </td>
-<td> OPTIONAL; Specify a step value in seconds to group results; This outputs a JSON object, by default, with counts of logs that fall in each step, along with the timestamp of the end of the step; TBD: Summarization functions for other columns DEFAULT=0 </td>
+<td> OPTIONAL; Specify step values for each groupby fieldresults; This outputs a JSON object, by default, with counts of logs that fall in each step, along with the timestamp of the end of the step; TBD: Summarization functions for other columns DEFAULT=0 </td>
 </tr>
 <tr>
 <td> expstep </td>
@@ -775,6 +775,12 @@ and it supports several query options described in detail below.
 <td> gt,ge,ne,lt,le,eq </td>
 <td>  </td>
 </tr>
+<tr>
+<td> waf_log </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td> Presence of waf_log indicates that atleast 1 WAF rule was hit for the transaction </td>
+</tr>
 </table>
 </div>
 <div class='container-fluid' id='L4Log'>
@@ -1311,6 +1317,12 @@ and it supports several query options described in detail below.
 <td> is_security_event </td>
 <td> Boolean </td>
 <td> eq,ne </td>
+<td>  </td>
+</tr>
+<tr>
+<td> tenant_name </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
 <td>  </td>
 </tr>
 <tr>

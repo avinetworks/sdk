@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure dnspolicy <key> - show dnspolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -254,6 +264,12 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "protocol" : "aeiou"
         },
+        "geo_location" : {
+          "match_criteria" : "aeiou",
+          "geolocation_tag" : "aeiou",
+          "geolocation_name" : "aeiou",
+          "use_edns_client_subnet_ip" : true
+        },
         "query_name" : {
           "match_criteria" : "aeiou",
           "string_group_refs" : [ "aeiou" ],
@@ -275,6 +291,10 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
+        "client_ip_address" : {
+          "use_edns_client_subnet_ip" : true,
+          "client_ip" : ""
+        },
         "query_type" : {
           "match_criteria" : "aeiou",
           "query_type" : [ "aeiou" ]
@@ -285,6 +305,9 @@ font-style: italic;
         "allow" : {
           "allow" : true,
           "reset_conn" : true
+        },
+        "gslb_site_selection" : {
+          "site_name" : "aeiou"
         },
         "response" : {
           "authoritative" : true,
@@ -362,6 +385,12 @@ font-style: italic;
         "match_criteria" : "aeiou",
         "protocol" : "aeiou"
       },
+      "geo_location" : {
+        "match_criteria" : "aeiou",
+        "geolocation_tag" : "aeiou",
+        "geolocation_name" : "aeiou",
+        "use_edns_client_subnet_ip" : true
+      },
       "query_name" : {
         "match_criteria" : "aeiou",
         "string_group_refs" : [ "aeiou" ],
@@ -383,6 +412,10 @@ font-style: italic;
           "type" : "aeiou"
         } ]
       },
+      "client_ip_address" : {
+        "use_edns_client_subnet_ip" : true,
+        "client_ip" : ""
+      },
       "query_type" : {
         "match_criteria" : "aeiou",
         "query_type" : [ "aeiou" ]
@@ -393,6 +426,9 @@ font-style: italic;
       "allow" : {
         "allow" : true,
         "reset_conn" : true
+      },
+      "gslb_site_selection" : {
+        "site_name" : "aeiou"
       },
       "response" : {
         "authoritative" : true,
@@ -507,7 +543,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -533,6 +575,12 @@ font-style: italic;
         "match_criteria" : "aeiou",
         "protocol" : "aeiou"
       },
+      "geo_location" : {
+        "match_criteria" : "aeiou",
+        "geolocation_tag" : "aeiou",
+        "geolocation_name" : "aeiou",
+        "use_edns_client_subnet_ip" : true
+      },
       "query_name" : {
         "match_criteria" : "aeiou",
         "string_group_refs" : [ "aeiou" ],
@@ -554,6 +602,10 @@ font-style: italic;
           "type" : "aeiou"
         } ]
       },
+      "client_ip_address" : {
+        "use_edns_client_subnet_ip" : true,
+        "client_ip" : ""
+      },
       "query_type" : {
         "match_criteria" : "aeiou",
         "query_type" : [ "aeiou" ]
@@ -564,6 +616,9 @@ font-style: italic;
       "allow" : {
         "allow" : true,
         "reset_conn" : true
+      },
+      "gslb_site_selection" : {
+        "site_name" : "aeiou"
       },
       "response" : {
         "authoritative" : true,
@@ -652,6 +707,12 @@ font-style: italic;
         "match_criteria" : "aeiou",
         "protocol" : "aeiou"
       },
+      "geo_location" : {
+        "match_criteria" : "aeiou",
+        "geolocation_tag" : "aeiou",
+        "geolocation_name" : "aeiou",
+        "use_edns_client_subnet_ip" : true
+      },
       "query_name" : {
         "match_criteria" : "aeiou",
         "string_group_refs" : [ "aeiou" ],
@@ -673,6 +734,10 @@ font-style: italic;
           "type" : "aeiou"
         } ]
       },
+      "client_ip_address" : {
+        "use_edns_client_subnet_ip" : true,
+        "client_ip" : ""
+      },
       "query_type" : {
         "match_criteria" : "aeiou",
         "query_type" : [ "aeiou" ]
@@ -683,6 +748,9 @@ font-style: italic;
       "allow" : {
         "allow" : true,
         "reset_conn" : true
+      },
+      "gslb_site_selection" : {
+        "site_name" : "aeiou"
       },
       "response" : {
         "authoritative" : true,
@@ -771,6 +839,12 @@ font-style: italic;
         "match_criteria" : "aeiou",
         "protocol" : "aeiou"
       },
+      "geo_location" : {
+        "match_criteria" : "aeiou",
+        "geolocation_tag" : "aeiou",
+        "geolocation_name" : "aeiou",
+        "use_edns_client_subnet_ip" : true
+      },
       "query_name" : {
         "match_criteria" : "aeiou",
         "string_group_refs" : [ "aeiou" ],
@@ -792,6 +866,10 @@ font-style: italic;
           "type" : "aeiou"
         } ]
       },
+      "client_ip_address" : {
+        "use_edns_client_subnet_ip" : true,
+        "client_ip" : ""
+      },
       "query_type" : {
         "match_criteria" : "aeiou",
         "query_type" : [ "aeiou" ]
@@ -802,6 +880,9 @@ font-style: italic;
       "allow" : {
         "allow" : true,
         "reset_conn" : true
+      },
+      "gslb_site_selection" : {
+        "site_name" : "aeiou"
       },
       "response" : {
         "authoritative" : true,
@@ -839,6 +920,8 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#DnsClientIpMatch"><code>DnsClientIpMatch</code></a></li>
+    <li><a href="#DnsGeoLocationMatch"><code>DnsGeoLocationMatch</code></a></li>
     <li><a href="#DnsPolicy"><code>DnsPolicy</code></a></li>
     <li><a href="#DnsPolicyApiResponse"><code>DnsPolicyApiResponse</code></a></li>
     <li><a href="#DnsQueryNameMatch"><code>DnsQueryNameMatch</code></a></li>
@@ -846,6 +929,7 @@ font-style: italic;
     <li><a href="#DnsRule"><code>DnsRule</code></a></li>
     <li><a href="#DnsRuleAction"><code>DnsRuleAction</code></a></li>
     <li><a href="#DnsRuleActionAllowDrop"><code>DnsRuleActionAllowDrop</code></a></li>
+    <li><a href="#DnsRuleActionGslbSiteSelection"><code>DnsRuleActionGslbSiteSelection</code></a></li>
     <li><a href="#DnsRuleActionResponse"><code>DnsRuleActionResponse</code></a></li>
     <li><a href="#DnsRuleMatchTarget"><code>DnsRuleMatchTarget</code></a></li>
     <li><a href="#DnsTransportProtocolMatch"><code>DnsTransportProtocolMatch</code></a></li>
@@ -855,6 +939,22 @@ font-style: italic;
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="DnsClientIpMatch">DnsClientIpMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> IP addresses to match against client IP. Field introduced in 17.1.6,17.2.2. </div>
+<div class="param">use_edns_client_subnet_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the IP address from the EDNS client subnet option, if available, as the source IP address of the client. It should be noted that the edns subnet IP may not be a /32 IP address. Field introduced in 17.1.6,17.2.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsGeoLocationMatch">DnsGeoLocationMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">geolocation_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Geographical location of the client IP to be used in the match. This location is of the format Country/State/City e.g. US/CA/Santa Clara. Field introduced in 17.1.5. </div>
+<div class="param">geolocation_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Geolocation tag for the client IP. This could be any string value for the client IP, e.g. client IPs from US East Coast geolocation would be tagged as &#39;East Coast&#39;. Field introduced in 17.1.5. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the client IP&#39;s geographical location. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.5. </div>
+<div class="param">use_edns_client_subnet_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the IP address from the EDNS client subnet option, if available, to derive geo location of the DNS query. Field introduced in 17.1.5. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="DnsPolicy">DnsPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -904,6 +1004,7 @@ font-style: italic;
     <h3 class="field-label"><a name="DnsRuleAction">DnsRuleAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allow (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionAllowDrop">DnsRuleActionAllowDrop</a></span> Allow or drop the DNS query. Field introduced in 17.1.1. </div>
+<div class="param">gslb_site_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionGslbSiteSelection">DnsRuleActionGslbSiteSelection</a></span> Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5. </div>
 <div class="param">response (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionResponse">DnsRuleActionResponse</a></span> Generate a response for the DNS query. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
@@ -912,6 +1013,12 @@ font-style: italic;
     <div class="field-items">
       <div class="param">allow (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow the DNS query. Field introduced in 17.1.1. </div>
 <div class="param">reset_conn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reset the TCP connection of the DNS query, if allow is set to false to drop the query. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsRuleActionGslbSiteSelection">DnsRuleActionGslbSiteSelection</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">site_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> GSLB site name. Field introduced in 17.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -925,7 +1032,9 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsRuleMatchTarget">DnsRuleMatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> IP addresses to match against client IP. Field introduced in 17.1.1. </div>
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> IP addresses to match against client IP. From 17.1.6 release onwards, IP addresses needs to be configured in the client_ip_address field of this message. Field deprecated in 17.1.6,17.2.2. Field introduced in 17.1.1. </div>
+<div class="param">client_ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsClientIpMatch">DnsClientIpMatch</a></span> IP addresses to match against client IP or the EDNS client subnet IP. Field introduced in 17.1.6,17.2.2. </div>
+<div class="param">geo_location (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsGeoLocationMatch">DnsGeoLocationMatch</a></span> Geographical location attribute to match against that of the client IP. Field introduced in 17.1.5. </div>
 <div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsTransportProtocolMatch">DnsTransportProtocolMatch</a></span> DNS transport protocol match. Field introduced in 17.1.1. </div>
 <div class="param">query_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsQueryNameMatch">DnsQueryNameMatch</a></span> Domain names to match against query name. Field introduced in 17.1.1. </div>
 <div class="param">query_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsQueryTypeMatch">DnsQueryTypeMatch</a></span> DNS query types to match against request query type. Field introduced in 17.1.1. </div>

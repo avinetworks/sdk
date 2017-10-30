@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - show vinfra host <key> - vinfra makehostaccessible  <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -227,7 +227,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
@@ -468,7 +482,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -840,7 +860,7 @@ font-style: italic;
 <div class="param">se_fail_cnt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_fail_cnt. format: int32</div>
 <div class="param">se_success_cnt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_success_cnt. format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vm_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VIMgrVMRuntime. </div>
