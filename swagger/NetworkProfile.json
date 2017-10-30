@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -624,7 +624,7 @@
                 "idle_connection_timeout": {
                     "default": 600, 
                     "type": "integer", 
-                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 60.  Set to 0 to allow infinite idle time. Allowed values are 60-3600. Special values are 0 - 'infinite'.", 
+                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "max_segment_size": {
@@ -726,7 +726,7 @@
                 "session_idle_timeout": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 60-3600. Special values are 0 - 'infinite'.", 
+                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }
             }

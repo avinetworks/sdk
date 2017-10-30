@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugVirtualService Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- debug virtualservice <key>\n- show debug virtualservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -561,7 +561,6 @@
                     "description": "Name of the object."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -915,6 +915,9 @@ definitions:
                 type: integer
                 default: 180
                 format: int32
+            safenet_hsm_version:
+                description: "Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3."
+                type: string
             se_create_timeout:
                 description: "Number of se_create_timeout."
                 type: integer

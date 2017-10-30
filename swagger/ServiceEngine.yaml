@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi ServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -2460,7 +2460,6 @@ definitions:
                 type: string
             mac_address:
                 description: " Field introduced in 17.1.5."
-                readOnly: True
                 type: string
     SEFaultInjectExhaustParam:
         type: object
@@ -2509,32 +2508,25 @@ definitions:
         properties:
             availability_zone:
                 description: "availability_zone of ServiceEngine."
-                readOnly: True
                 type: string
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             container_mode:
                 description: "Placeholder for description of property container_mode of obj type ServiceEngine field type str  type boolean"
-                readOnly: True
                 type: boolean
             container_type:
                 description: " Enum options - CONTAINER_TYPE_BRIDGE, CONTAINER_TYPE_HOST, CONTAINER_TYPE_HOST_DPDK."
-                readOnly: True
                 type: string
                 default: "CONTAINER_TYPE_HOST"
             controller_created:
                 description: "Placeholder for description of property controller_created of obj type ServiceEngine field type str  type boolean"
-                readOnly: True
                 type: boolean
             controller_ip:
                 description: "controller_ip of ServiceEngine."
-                readOnly: True
                 type: string
             data_vnics:
                 description: "Placeholder for description of property data_vnics of obj type ServiceEngine field type str  type object"
-                readOnly: True
                 type: array
                 items:
                     $ref: '#/definitions/vNIC'
@@ -2544,19 +2536,15 @@ definitions:
                 default: "SE_STATE_ENABLED"
             flavor:
                 description: "flavor of ServiceEngine."
-                readOnly: True
                 type: string
             host_ref:
                 description: " It is a reference to an object of type VIMgrHostRuntime."
-                readOnly: True
                 type: string
             hypervisor:
                 description: " Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
-                readOnly: True
                 type: string
             mgmt_vnic:
                 description: "Placeholder for description of property mgmt_vnic of obj type ServiceEngine field type str  type object"
-                readOnly: True
                 $ref: '#/definitions/vNIC'
             name:
                 description: "Name of the object."
@@ -2564,7 +2552,6 @@ definitions:
                 default: "VM name unknown"
             resources:
                 description: "Placeholder for description of property resources of obj type ServiceEngine field type str  type object"
-                readOnly: True
                 $ref: '#/definitions/SeResources'
             se_group_ref:
                 description: " It is a reference to an object of type ServiceEngineGroup."
@@ -2606,7 +2593,6 @@ definitions:
                 type: string
             is_mgmt:
                 description: "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
-                readOnly: True
                 type: boolean
             vlan_id:
                 description: "Number of vlan_id."
@@ -2627,20 +2613,16 @@ definitions:
         properties:
             adapter:
                 description: "adapter of vNIC."
-                readOnly: True
                 type: string
             can_se_dp_takeover:
                 description: "Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
                 default: True
             connected:
                 description: "Placeholder for description of property connected of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             del_pending:
                 description: "Placeholder for description of property del_pending of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             dhcp_enabled:
                 description: "Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean"
@@ -2652,67 +2634,52 @@ definitions:
                 default: True
             if_name:
                 description: "if_name of vNIC."
-                readOnly: True
                 type: string
             is_asm:
                 description: "Placeholder for description of property is_asm of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             is_avi_internal_network:
                 description: "Placeholder for description of property is_avi_internal_network of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             is_hsm:
                 description: "Placeholder for description of property is_hsm of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             is_mgmt:
                 description: "Placeholder for description of property is_mgmt of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             is_portchannel:
                 description: "Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean"
-                readOnly: True
                 type: boolean
             linux_name:
                 description: "linux_name of vNIC."
-                readOnly: True
                 type: string
             mac_address:
                 description: "mac_address of vNIC."
-                readOnly: True
                 type: string
             members:
                 description: "Placeholder for description of property members of obj type vNIC field type str  type object"
-                readOnly: True
                 type: array
                 items:
                     $ref: '#/definitions/MemberInterface'
             mtu:
                 description: "Number of mtu."
-                readOnly: True
                 type: integer
                 default: 1500
                 format: int32
             network_name:
                 description: "network_name of vNIC."
-                readOnly: True
                 type: string
             network_ref:
                 description: " It is a reference to an object of type Network."
-                readOnly: True
                 type: string
             pci_id:
                 description: "pci_id of vNIC."
-                readOnly: True
                 type: string
             port_uuid:
                 description: "Unique object identifier of port."
-                readOnly: True
                 type: string
             vlan_id:
                 description: "Number of vlan_id."
-                readOnly: True
                 type: integer
                 format: int32
             vlan_interfaces:
@@ -2727,7 +2694,6 @@ definitions:
                     $ref: '#/definitions/vNICNetwork'
             vrf_id:
                 description: "Number of vrf_id."
-                readOnly: True
                 type: integer
                 format: int32
             vrf_ref:

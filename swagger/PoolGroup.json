@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroup Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure poolgroup <key>\n- show poolgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -518,8 +518,11 @@
                     "type": "string", 
                     "description": "Description of Pool Group."
                 }, 
+                "implicit_priority_labels": {
+                    "type": "boolean", 
+                    "description": "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3."
+                }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 

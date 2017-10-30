@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VsVip Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure vsvip <key>\n- show vsvip <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -505,7 +505,6 @@
                     "description": "Name for the VsVip object. Field introduced in 17.1.1."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
                 }, 
@@ -629,7 +628,6 @@
                     "description": "Fully qualified domain name."
                 }, 
                 "metadata": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "Any metadata associated with this record. Field introduced in 17.2.2."
                 }

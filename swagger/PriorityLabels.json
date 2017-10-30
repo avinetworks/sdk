@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PriorityLabels Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure prioritylabels <key>\n- show prioritylabels <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -517,7 +517,6 @@
                     "description": "Equivalent priority labels in descending order."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 

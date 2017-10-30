@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AuthProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -478,6 +478,34 @@
         }
     }, 
     "definitions": {
+        "SamlServiceProviderNode": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "single_signon_url": {
+                    "type": "string", 
+                    "description": "Single Signon URL to be programmed on the IDP. Field introduced in 17.2.3."
+                }, 
+                "signing_cert": {
+                    "type": "string", 
+                    "description": "Service Provider signing certificate for metadata. Field introduced in 17.2.3."
+                }, 
+                "entity_id": {
+                    "type": "string", 
+                    "description": "Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 17.2.3."
+                }, 
+                "signing_key": {
+                    "type": "string", 
+                    "description": "Service Provider signing key for metadata. Field introduced in 17.2.3."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Refers to the Cluster name identifier (Virtual IP or FQDN). Field introduced in 17.2.3."
+                }
+            }
+        }, 
         "LdapDirectorySettings": {
             "type": "object", 
             "properties": {
@@ -539,22 +567,37 @@
                 }
             }
         }, 
-        "AuthProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
+        "TacacsPlusAuthSettings": {
             "type": "object", 
             "properties": {
-                "count": {
+                "authorization_attrs": {
+                    "items": {
+                        "$ref": "#/definitions/AuthTacacsPlusAttributeValuePair"
+                    }, 
+                    "type": "array", 
+                    "description": "TACACS+ authorization attribute value pairs."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "TACACS+ server shared secret."
+                }, 
+                "port": {
+                    "default": 49, 
                     "type": "integer", 
+                    "description": "TACACS+ server listening port.", 
                     "format": "int32"
                 }, 
-                "results": {
+                "service": {
+                    "default": "AUTH_TACACS_PLUS_SERVICE_LOGIN", 
+                    "type": "string", 
+                    "description": "TACACS+ service. Enum options - AUTH_TACACS_PLUS_SERVICE_NONE, AUTH_TACACS_PLUS_SERVICE_LOGIN, AUTH_TACACS_PLUS_SERVICE_ENABLE, AUTH_TACACS_PLUS_SERVICE_PPP, AUTH_TACACS_PLUS_SERVICE_ARAP, AUTH_TACACS_PLUS_SERVICE_PT, AUTH_TACACS_PLUS_SERVICE_RCMD, AUTH_TACACS_PLUS_SERVICE_X25, AUTH_TACACS_PLUS_SERVICE_NASI, AUTH_TACACS_PLUS_SERVICE_FWPROXY."
+                }, 
+                "server": {
                     "items": {
-                        "$ref": "#/definitions/AuthProfile"
+                        "type": "string"
                     }, 
-                    "type": "array"
+                    "type": "array", 
+                    "description": "TACACS+ server IP address."
                 }
             }
         }, 
@@ -632,37 +675,47 @@
                 }
             }
         }, 
-        "TacacsPlusAuthSettings": {
+        "SamlIdentityProviderSettings": {
             "type": "object", 
             "properties": {
-                "authorization_attrs": {
-                    "items": {
-                        "$ref": "#/definitions/AuthTacacsPlusAttributeValuePair"
-                    }, 
-                    "type": "array", 
-                    "description": "TACACS+ authorization attribute value pairs."
-                }, 
-                "password": {
+                "metadata": {
                     "type": "string", 
-                    "description": "TACACS+ server shared secret."
+                    "description": "SAML IDP metadata. Field introduced in 17.2.3."
+                }
+            }
+        }, 
+        "SamlSettings": {
+            "required": [
+                "sp"
+            ], 
+            "type": "object", 
+            "properties": {
+                "sp": {
+                    "description": "Configure service provider settings for the Controller. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SamlServiceProviderSettings"
                 }, 
-                "port": {
-                    "default": 49, 
+                "idp": {
+                    "description": "Configure remote Identity provider settings. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SamlIdentityProviderSettings"
+                }
+            }
+        }, 
+        "AuthProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
                     "type": "integer", 
-                    "description": "TACACS+ server listening port.", 
                     "format": "int32"
                 }, 
-                "service": {
-                    "default": "AUTH_TACACS_PLUS_SERVICE_LOGIN", 
-                    "type": "string", 
-                    "description": "TACACS+ service. Enum options - AUTH_TACACS_PLUS_SERVICE_NONE, AUTH_TACACS_PLUS_SERVICE_LOGIN, AUTH_TACACS_PLUS_SERVICE_ENABLE, AUTH_TACACS_PLUS_SERVICE_PPP, AUTH_TACACS_PLUS_SERVICE_ARAP, AUTH_TACACS_PLUS_SERVICE_PT, AUTH_TACACS_PLUS_SERVICE_RCMD, AUTH_TACACS_PLUS_SERVICE_X25, AUTH_TACACS_PLUS_SERVICE_NASI, AUTH_TACACS_PLUS_SERVICE_FWPROXY."
-                }, 
-                "server": {
+                "results": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/AuthProfile"
                     }, 
-                    "type": "array", 
-                    "description": "TACACS+ server IP address."
+                    "type": "array"
                 }
             }
         }, 
@@ -683,6 +736,47 @@
                 }
             }
         }, 
+        "SamlServiceProviderSettings": {
+            "type": "object", 
+            "properties": {
+                "org_name": {
+                    "type": "string", 
+                    "description": "Service Provider Organization Name. Field introduced in 17.2.3."
+                }, 
+                "org_display_name": {
+                    "type": "string", 
+                    "description": "Service Provider Organization Display Name. Field introduced in 17.2.3."
+                }, 
+                "org_url": {
+                    "type": "string", 
+                    "description": "Service Provider Organization URL. Field introduced in 17.2.3."
+                }, 
+                "tech_contact_name": {
+                    "type": "string", 
+                    "description": "Service Provider technical contact name. Field introduced in 17.2.3."
+                }, 
+                "fqdn": {
+                    "type": "string", 
+                    "description": "FQDN if entity type is DNS_FQDN . Field introduced in 17.2.3."
+                }, 
+                "saml_entity_type": {
+                    "default": "AUTH_SAML_CLUSTER_VIP", 
+                    "type": "string", 
+                    "description": "Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN. Field introduced in 17.2.3."
+                }, 
+                "sp_nodes": {
+                    "items": {
+                        "$ref": "#/definitions/SamlServiceProviderNode"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Provider node information. Field introduced in 17.2.3."
+                }, 
+                "tech_contact_email": {
+                    "type": "string", 
+                    "description": "Service Provider technical contact email. Field introduced in 17.2.3."
+                }
+            }
+        }, 
         "AuthProfile": {
             "required": [
                 "name", 
@@ -697,6 +791,10 @@
                 "description": {
                     "type": "string", 
                     "description": "User defined description for the object."
+                }, 
+                "saml": {
+                    "description": "SAML settings. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SamlSettings"
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -721,7 +819,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS."
+                    "description": "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
                 }, 
                 "uuid": {
                     "type": "string", 

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -1734,47 +1734,6 @@ paths:
                         type: string
                 401:
                     description: log in failed
-    /virtualservice/{uuid}/wafstats/:
-        get:
-            consumes:
-                -   application/json
-            produces:
-                -   application/json
-            parameters:
-                -   in: header
-                    name: X-Avi-Tenant
-                    type: string
-                    required: false
-                    description: Avi Tenant Header
-                -   name: X-Avi-Tenant-UUID
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Tenant Header UUID
-                -   name: X-CSRFToken
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: X-Avi-Version
-                    in: header
-                    type: string
-                    required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
-                -   in: path
-                    name: uuid
-                    description: UUID of the object to fetch
-                    required: true
-                    type: string
-            security:
-                - basicAuth: []
-            responses:
-                200:
-                    description: OK
-                    schema:
-                        type: string
-                401:
-                    description: log in failed
     /virtualservice/{uuid}/dosstat/:
         get:
             consumes:
@@ -2110,7 +2069,7 @@ definitions:
             client_insights:
                 description: "Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE."
                 type: string
-                default: "ACTIVE"
+                default: "NO_INSIGHTS"
             client_insights_sampling:
                 description: "Placeholder for description of property client_insights_sampling of obj type AnalyticsPolicy field type str  type object"
                 $ref: '#/definitions/ClientInsightsSampling'
@@ -2311,7 +2270,6 @@ definitions:
                 type: string
             metadata:
                 description: "Any metadata associated with this record. Field introduced in 17.2.2."
-                readOnly: True
                 type: string
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
@@ -2926,7 +2884,6 @@ definitions:
                 type: string
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             cloud_type:
                 description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
@@ -3000,7 +2957,7 @@ definitions:
                 type: string
                 default: "LOAD_AWARE"
             flow_label_type:
-                description: "Criteria for flow labelling. Enum options - NO_LABEL, SERVICE_LABEL."
+                description: "Criteria for flow labelling. Enum options - NO_LABEL, APPLICATION_LABEL, SERVICE_LABEL."
                 type: string
                 default: "NO_LABEL"
             fqdn:
@@ -3100,7 +3057,6 @@ definitions:
                     $ref: '#/definitions/IpAddr'
             sp_pool_refs:
                 description: "Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2."
-                readOnly: True
                 type: array
                 items:
                     type: string
@@ -3144,6 +3100,9 @@ definitions:
                 type: string
             use_bridge_ip_as_vip:
                 description: "Use Bridge IP as VIP on each Host in Mesos deployments."
+                type: boolean
+            use_vip_as_snat:
+                description: "Use the Virtual IP as the SNAT IP for health monitoring and sending traffic to the backend servers instead of the Service Engine interface IP. The caveat of enabling this option is that the VirtualService cannot be configued in an Active-Active HA mode. DNS based Multi VIP solution has to be used for HA & Non-disruptive Upgrade purposes. Field introduced in 17.1.9,17.2.3."
                 type: boolean
             uuid:
                 description: "UUID of the VirtualService."

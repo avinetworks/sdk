@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi VsVip Object API
     contact:
         name: Avi Networks Inc.
@@ -376,7 +376,6 @@ definitions:
                 type: string
             metadata:
                 description: "Any metadata associated with this record. Field introduced in 17.2.2."
-                readOnly: True
                 type: string
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
@@ -512,7 +511,6 @@ definitions:
         properties:
             cloud_ref:
                 description: " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
-                readOnly: True
                 type: string
             dns_info:
                 description: "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1."

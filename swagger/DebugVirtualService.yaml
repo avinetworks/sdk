@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi DebugVirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -371,7 +371,6 @@ definitions:
                 $ref: '#/definitions/DebugVirtualServiceCapture'
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             debug_hm:
                 description: "This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE."

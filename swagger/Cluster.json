@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cluster Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure cluster\n- show cluster\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -578,9 +578,13 @@
                     "description": "IP address of controller VM.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
+                "public_ip_or_name": {
+                    "description": "Public IP address or hostname of the controller VM. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
                 "vm_hostname": {
                     "type": "string", 
-                    "description": "hostname assigned to this controller VM."
+                    "description": "Hostname assigned to this controller VM."
                 }, 
                 "vm_mor": {
                     "type": "string", 

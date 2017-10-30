@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi SSLProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -362,7 +362,6 @@ definitions:
                 type: string
             dhparam:
                 description: "DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits."
-                readOnly: True
                 type: string
             enable_ssl_session_reuse:
                 description: "Enable SSL session re-use."

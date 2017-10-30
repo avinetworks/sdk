@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi AutoScaleLaunchConfig Object API
     contact:
         name: Avi Networks Inc.
@@ -332,20 +332,11 @@ paths:
 
 
 definitions:
-    AutoScaleAWSSettings:
-        type: object
-        properties:
-            autoscaling_group_name:
-                description: "Name of the AWS autoscaling group. The AWS autoscaling group should not be set up with scaling policies as it would result in unpredictable behavior when used together with Avi autoscaling policies. Field introduced in 17.1.1."
-                type: string
     AutoScaleLaunchConfig:
         type: object
         required:
             -   name
         properties:
-            aws:
-                description: "Placeholder for description of property aws of obj type AutoScaleLaunchConfig field type str  type object"
-                $ref: '#/definitions/AutoScaleAWSSettings'
             description:
                 description: "User defined description for the object."
                 type: string
@@ -368,6 +359,10 @@ definitions:
                 description: "url"
                 readOnly: True
                 type: string
+            use_external_asg:
+                description: "If set to True, ServerAutoscalePolicy will use the autoscaling group (external_autoscaling_groups) from Pool to perform scale up and scale down. Pool should have single autoscaling group configured. Field introduced in 17.2.3."
+                type: boolean
+                default: True
             uuid:
                 description: "Unique object identifier of the object."
                 type: string

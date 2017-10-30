@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -526,10 +526,10 @@ definitions:
                 type: boolean
                 default: True
             edns:
-                description: "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
+                description: "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
                 type: boolean
             edns_client_subnet_prefix_len:
-                description: "Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3."
+                description: "Specifies the ip address prefix length to use in the edns client subnet (ecs) option. When the incoming request does not have any ecs option and the prefix length is specified, we insert an ecs option in the request to upstream servers. Allowed values are 1-32. Field introduced in 17.1.3."
                 type: integer
                 format: int32
             error_response:

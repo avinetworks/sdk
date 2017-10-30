@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -385,7 +385,7 @@ definitions:
                 description: " Field introduced in 17.2.1."
                 type: string
             mode:
-                description: "WAF Policy mode. This can be detection only or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
+                description: "WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
                 type: string
                 default: "WAF_MODE_DETECTION_ONLY"
             name:
@@ -442,12 +442,17 @@ definitions:
                 description: "Enable or disable WAF Rule Group. Field introduced in 17.2.1."
                 type: boolean
                 default: True
+            exclude_list:
+                description: "Exclude list for the WAF rule. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/WafExcludeListEntry'
             index:
                 description: " Field introduced in 17.2.1."
                 type: integer
                 format: int32
             name:
-                description: " Field introduced in 17.2.1."
+                description: "User-friendly optional name for a rule. Field introduced in 17.2.1."
                 type: string
             rule:
                 description: "Rule as per Modsec language. Field introduced in 17.2.1."

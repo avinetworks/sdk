@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi VIMgrDCRuntime Object API
     contact:
         name: Avi Networks Inc.

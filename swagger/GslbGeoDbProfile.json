@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi GslbGeoDbProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure gslbgeodbprofile <key>\n- show gslbgeodbprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -621,7 +621,6 @@
                 }, 
                 "is_federated": {
                     "default": true, 
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3."
                 }, 

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -767,6 +767,16 @@ definitions:
                 description: "AVI Device Package Version."
                 type: string
                 default: "1.0"
+    aws_encryption:
+        type: object
+        properties:
+            master_key:
+                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
+                type: string
+            mode:
+                description: "AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                type: string
+                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsConfiguration:
         type: object
         required:
@@ -780,6 +790,9 @@ definitions:
                 type: integer
                 default: 600
                 format: int32
+            ebs_encryption:
+                description: "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3."
+                $ref: '#/definitions/aws_encryption'
             free_elasticips:
                 description: "Free unused elastic IP addresses."
                 type: boolean
@@ -794,6 +807,9 @@ definitions:
             route53_integration:
                 description: "If enabled, create/update DNS entries in Amazon Route 53 zones."
                 type: boolean
+            s3_encryption:
+                description: "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3."
+                $ref: '#/definitions/aws_encryption'
             secret_access_key:
                 description: "AWS secret access key."
                 type: string
@@ -1654,6 +1670,9 @@ definitions:
             nuage_username:
                 description: "nuage_username of OpenStackConfiguration."
                 type: string
+            nuage_virtualip:
+                description: "Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3."
+                type: boolean
             nuage_vsd_host:
                 description: "Nuage VSD host name or IP address."
                 type: string
@@ -1785,7 +1804,7 @@ definitions:
                 type: boolean
                 default: True
             default_shared_virtualservice:
-                description: "Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1."
+                description: "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 $ref: '#/definitions/OshiftSharedVirtualService'
             disable_auto_backend_service_sync:
                 description: "Disable auto service sync for back end services."
@@ -1833,11 +1852,21 @@ definitions:
             node_availability_zone_label:
                 description: "OpenShift/K8S Node label to be used as OpenShift/K8S Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
                 type: string
+            ns_exclude_attributes:
+                description: "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/MesosAttribute'
+            ns_include_attributes:
+                description: "Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/MesosAttribute'
             nuage_controller:
                 description: "Nuage Overlay SDN Controller information."
                 $ref: '#/definitions/NuageSDNController'
             routes_share_virtualservice:
-                description: "Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1."
+                description: "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 type: boolean
             sdn_overlay:
                 description: "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
@@ -1867,13 +1896,16 @@ definitions:
                 type: string
                 default: "/opt/avi"
             secure_egress_mode:
-                description: "Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1."
+                description: "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 type: boolean
             service_account_token:
                 description: "Authorization token for service account instead of client certificate. One of client certificate or token is required."
                 type: string
             service_port_match_http_service:
                 description: "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                type: boolean
+            shared_virtualservice_namespace:
+                description: "Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3."
                 type: boolean
             ssh_se_deployment:
                 description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
