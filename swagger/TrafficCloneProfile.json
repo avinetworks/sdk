@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi TrafficCloneProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure trafficcloneprofile <key>\n- show trafficcloneprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -581,7 +581,6 @@
                     "description": "Name for the Traffic Clone Profile. Field introduced in 17.1.1."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
                 }, 

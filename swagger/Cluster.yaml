@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi Cluster Object API
     contact:
         name: Avi Networks Inc.
@@ -387,8 +387,11 @@ definitions:
                 description: "Name of the object."
                 type: string
                 default: "node"
+            public_ip_or_name:
+                description: "Public IP address or hostname of the controller VM. Field introduced in 17.2.3."
+                $ref: '#/definitions/IpAddr'
             vm_hostname:
-                description: "hostname assigned to this controller VM."
+                description: "Hostname assigned to this controller VM."
                 type: string
             vm_mor:
                 description: "Managed object reference of this controller VM."

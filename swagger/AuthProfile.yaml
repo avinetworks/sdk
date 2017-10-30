@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi AuthProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -350,6 +350,9 @@ definitions:
             name:
                 description: "Name of the Auth Profile."
                 type: string
+            saml:
+                description: "SAML settings. Field introduced in 17.2.3."
+                $ref: '#/definitions/SamlSettings'
             tacacs_plus:
                 description: "TACACS+ settings."
                 $ref: '#/definitions/TacacsPlusAuthSettings'
@@ -357,7 +360,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS."
+                description: "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
                 type: string
             url:
                 description: "url"
@@ -511,6 +514,73 @@ definitions:
             user_id_attribute:
                 description: "LDAP user id attribute is the login attribute that uniquely identifies a single user record."
                 type: string
+    SamlIdentityProviderSettings:
+        type: object
+        properties:
+            metadata:
+                description: "SAML IDP metadata. Field introduced in 17.2.3."
+                type: string
+    SamlServiceProviderNode:
+        type: object
+        required:
+            -   name
+        properties:
+            entity_id:
+                description: "Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 17.2.3."
+                type: string
+            name:
+                description: "Refers to the Cluster name identifier (Virtual IP or FQDN). Field introduced in 17.2.3."
+                type: string
+            signing_cert:
+                description: "Service Provider signing certificate for metadata. Field introduced in 17.2.3."
+                type: string
+            signing_key:
+                description: "Service Provider signing key for metadata. Field introduced in 17.2.3."
+                type: string
+            single_signon_url:
+                description: "Single Signon URL to be programmed on the IDP. Field introduced in 17.2.3."
+                type: string
+    SamlServiceProviderSettings:
+        type: object
+        properties:
+            fqdn:
+                description: "FQDN if entity type is DNS_FQDN . Field introduced in 17.2.3."
+                type: string
+            org_display_name:
+                description: "Service Provider Organization Display Name. Field introduced in 17.2.3."
+                type: string
+            org_name:
+                description: "Service Provider Organization Name. Field introduced in 17.2.3."
+                type: string
+            org_url:
+                description: "Service Provider Organization URL. Field introduced in 17.2.3."
+                type: string
+            saml_entity_type:
+                description: "Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN. Field introduced in 17.2.3."
+                type: string
+                default: "AUTH_SAML_CLUSTER_VIP"
+            sp_nodes:
+                description: "Service Provider node information. Field introduced in 17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/SamlServiceProviderNode'
+            tech_contact_email:
+                description: "Service Provider technical contact email. Field introduced in 17.2.3."
+                type: string
+            tech_contact_name:
+                description: "Service Provider technical contact name. Field introduced in 17.2.3."
+                type: string
+    SamlSettings:
+        type: object
+        required:
+            -   sp
+        properties:
+            idp:
+                description: "Configure remote Identity provider settings. Field introduced in 17.2.3."
+                $ref: '#/definitions/SamlIdentityProviderSettings'
+            sp:
+                description: "Configure service provider settings for the Controller. Field introduced in 17.2.3."
+                $ref: '#/definitions/SamlServiceProviderSettings'
     TacacsPlusAuthSettings:
         type: object
         properties:

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi PoolGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -420,7 +420,6 @@ definitions:
                 type: string
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             created_by:
                 description: "Name of the user who created the object."
@@ -434,6 +433,9 @@ definitions:
             fail_action:
                 description: "Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure."
                 $ref: '#/definitions/FailAction'
+            implicit_priority_labels:
+                description: "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3."
+                type: boolean
             members:
                 description: "List of pool group members object of type PoolGroupMember."
                 type: array

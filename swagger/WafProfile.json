@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -534,6 +534,10 @@
                     "type": "string", 
                     "description": "WAF default action for Request Header Phase. Field introduced in 17.2.1."
                 }, 
+                "buffer_response_body_for_inspection": {
+                    "type": "boolean", 
+                    "description": "Enable to buffer response body for inspection. Field introduced in 17.2.3."
+                }, 
                 "restricted_extensions": {
                     "items": {
                         "type": "string"
@@ -562,7 +566,7 @@
                 "server_response_max_body_size": {
                     "default": 128, 
                     "type": "integer", 
-                    "description": "Maximum size for the backend response body. Allowed values are 1-32768. Field introduced in 17.2.1.", 
+                    "description": "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1.", 
                     "format": "int32"
                 }, 
                 "argument_separator": {

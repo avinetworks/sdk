@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi TrafficCloneProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -392,7 +392,6 @@ definitions:
                     $ref: '#/definitions/CloneServer'
             cloud_ref:
                 description: " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
-                readOnly: True
                 type: string
             name:
                 description: "Name for the Traffic Clone Profile. Field introduced in 17.1.1."

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -504,7 +504,7 @@ definitions:
             dp_max_wait_rsp_time_sec:
                 description: "Number of dp_max_wait_rsp_time_sec."
                 type: integer
-                default: 12
+                default: 60
                 format: int32
             dp_reg_pending_max_wait_time:
                 description: "Max time to wait for dp registration before assert."
@@ -898,6 +898,9 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
+            enable_hsm_log:
+                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                type: boolean
             feproxy_vips_enable_proxy_arp:
                 description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
@@ -1039,7 +1042,6 @@ definitions:
                 format: int32
             max_throughput:
                 description: "Deprecated. Field deprecated in 17.1.1."
-                readOnly: True
                 type: integer
                 default: 10000
                 format: int32
@@ -1143,9 +1145,8 @@ definitions:
                 default: 90
                 format: int32
             se_dp_vnic_queue_stall_event_sleep:
-                description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before asserting totrigger a failover. Field introduced in 17.1.1."
+                description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1."
                 type: integer
-                default: 10
                 format: int32
             se_dp_vnic_queue_stall_threshold:
                 description: "Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1."

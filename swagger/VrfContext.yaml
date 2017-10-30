@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -485,6 +485,9 @@ definitions:
                 type: integer
                 default: 15
                 format: int32
+            subnet:
+                description: "Subnet providing reachability for Multi-hop Gateway. Field introduced in 17.2.3."
+                $ref: '#/definitions/IpAddrPrefix'
     InternalGatewayMonitor:
         type: object
         properties:
@@ -604,7 +607,6 @@ definitions:
                     $ref: '#/definitions/StaticRoute'
             system_default:
                 description: "Placeholder for description of property system_default of obj type VrfContext field type str  type boolean"
-                readOnly: True
                 type: boolean
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi SnmpTrapProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -442,13 +442,40 @@ definitions:
     SnmpTrapServer:
         type: object
         required:
-            -   community
             -   ip_addr
         properties:
             community:
                 description: "The community string to communicate with the trap server."
                 type: string
-                default: "public"
             ip_addr:
                 description: "IP Address of the SNMP trap destination."
                 $ref: '#/definitions/IpAddr'
+            user:
+                description: "SNMP version 3 configuration. Field introduced in 17.2.3."
+                $ref: '#/definitions/SnmpV3UserParams'
+            version:
+                description: "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_VER2"
+    SnmpV3UserParams:
+        type: object
+        properties:
+            auth_passphrase:
+                description: "SNMP V3 authentication passphrase. Field introduced in 17.2.3."
+                type: string
+                default: "avinetworks"
+            auth_type:
+                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_V3_AUTH_MD5"
+            priv_passphrase:
+                description: "SNMP V3 privacy passphrase. Field introduced in 17.2.3."
+                type: string
+                default: "avinetworks"
+            priv_type:
+                description: "SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_V3_PRIV_DES"
+            username:
+                description: "SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3."
+                type: string

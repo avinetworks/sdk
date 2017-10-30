@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1161,6 +1161,10 @@
                     "description": "Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.", 
                     "format": "int32"
                 }, 
+                "enable_hsm_log": {
+                    "type": "boolean", 
+                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                }, 
                 "baremetal_dispatcher_handles_flows": {
                     "type": "boolean", 
                     "description": "Control if dispatcher core also handles TCP flows in baremetal SE."
@@ -1288,9 +1292,8 @@
                     "description": "Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled."
                 }, 
                 "se_dp_vnic_queue_stall_event_sleep": {
-                    "default": 10, 
                     "type": "integer", 
-                    "description": "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before asserting totrigger a failover. Field introduced in 17.1.1.", 
+                    "description": "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "se_memory_poison": {
@@ -1312,7 +1315,6 @@
                 }, 
                 "max_throughput": {
                     "default": 10000, 
-                    "readOnly": true, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 17.1.1.", 
                     "format": "int32"
@@ -1615,7 +1617,7 @@
                     "format": "int32"
                 }, 
                 "dp_max_wait_rsp_time_sec": {
-                    "default": 12, 
+                    "default": 60, 
                     "type": "integer", 
                     "description": "Number of dp_max_wait_rsp_time_sec.", 
                     "format": "int32"

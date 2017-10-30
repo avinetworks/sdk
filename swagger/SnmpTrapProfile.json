@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SnmpTrapProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure snmptrapprofile <key>\n- show snmptrapprofile <key>\n- test alerttestsnmptrap <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -550,22 +550,6 @@
         }
     }, 
     "definitions": {
-        "AlertTestSyslogSnmpParams": {
-            "required": [
-                "text"
-            ], 
-            "type": "object", 
-            "properties": {
-                "text": {
-                    "type": "string", 
-                    "description": "The contents of the Syslog message/SNMP Trap contents."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }, 
         "SnmpTrapProfile": {
             "required": [
                 "name"
@@ -598,23 +582,6 @@
                 }
             }
         }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
         "SnmpTrapProfileApiResponse": {
             "required": [
                 "count", 
@@ -634,21 +601,90 @@
                 }
             }
         }, 
+        "AlertTestSyslogSnmpParams": {
+            "required": [
+                "text"
+            ], 
+            "type": "object", 
+            "properties": {
+                "text": {
+                    "type": "string", 
+                    "description": "The contents of the Syslog message/SNMP Trap contents."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
         "SnmpTrapServer": {
             "required": [
-                "community", 
                 "ip_addr"
             ], 
             "type": "object", 
             "properties": {
+                "version": {
+                    "default": "SNMP_VER2", 
+                    "type": "string", 
+                    "description": "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3."
+                }, 
                 "ip_addr": {
                     "description": "IP Address of the SNMP trap destination.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
+                "user": {
+                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SnmpV3UserParams"
+                }, 
                 "community": {
-                    "default": "public", 
                     "type": "string", 
                     "description": "The community string to communicate with the trap server."
+                }
+            }
+        }, 
+        "SnmpV3UserParams": {
+            "type": "object", 
+            "properties": {
+                "auth_type": {
+                    "default": "SNMP_V3_AUTH_MD5", 
+                    "type": "string", 
+                    "description": "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
+                }, 
+                "username": {
+                    "type": "string", 
+                    "description": "SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3."
+                }, 
+                "priv_passphrase": {
+                    "default": "avinetworks", 
+                    "type": "string", 
+                    "description": "SNMP V3 privacy passphrase. Field introduced in 17.2.3."
+                }, 
+                "auth_passphrase": {
+                    "default": "avinetworks", 
+                    "type": "string", 
+                    "description": "SNMP V3 authentication passphrase. Field introduced in 17.2.3."
+                }, 
+                "priv_type": {
+                    "default": "SNMP_V3_PRIV_DES", 
+                    "type": "string", 
+                    "description": "SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
                 }
             }
         }

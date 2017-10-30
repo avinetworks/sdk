@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -436,7 +436,7 @@ definitions:
                 description: "When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 60-3600. Special values are 0 - 'infinite'."
+                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'."
                 type: integer
                 default: 300
                 format: int32
@@ -455,7 +455,7 @@ definitions:
                 type: string
                 default: "CC_ALGO_NEW_RENO"
             idle_connection_timeout:
-                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 60.  Set to 0 to allow infinite idle time. Allowed values are 60-3600. Special values are 0 - 'infinite'."
+                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'."
                 type: integer
                 default: 600
                 format: int32

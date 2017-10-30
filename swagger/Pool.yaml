@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1398,11 +1398,11 @@ definitions:
         type: object
         properties:
             latitude:
-                description: "Latitude of the location. Field introduced in 17.1.1."
+                description: "Latitude of the location. This is represented as degrees.minutes. The range is from -90.0 (south) to +90.0 (north). Allowed values are -90.0-+90.0. Field introduced in 17.1.1."
                 type: number
                 format: float
             longitude:
-                description: "Longitude of the location. Field introduced in 17.1.1."
+                description: "Longitude of the location. This is represented as degrees.minutes. The range is from -180.0 (west) to +180.0 (east). Allowed values are -180.0-+180.0. Field introduced in 17.1.1."
                 type: number
                 format: float
             name:
@@ -1640,7 +1640,6 @@ definitions:
                 type: string
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             connection_ramp_duration:
                 description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
@@ -1690,7 +1689,6 @@ definitions:
                 format: int32
             gslb_sp_enabled:
                 description: "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
-                readOnly: True
                 type: boolean
             health_monitor_refs:
                 description: "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
@@ -1720,7 +1718,7 @@ definitions:
                 default: 2
                 format: int32
             lb_algorithm_hash:
-                description: "Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER."
+                description: "Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING."
                 type: string
                 default: "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
             max_concurrent_connections_per_server:
@@ -1811,7 +1809,6 @@ definitions:
                 type: string
             vrf_ref:
                 description: "Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext."
-                readOnly: True
                 type: string
     PoolApiResponse:
         type: object
@@ -1881,7 +1878,6 @@ definitions:
         properties:
             autoscaling_group_name:
                 description: "Name of autoscaling group this server belongs to. Field introduced in 17.1.2."
-                readOnly: True
                 type: string
             availability_zone:
                 description: "Availability-zone of the server VM."
@@ -1922,7 +1918,6 @@ definitions:
                 $ref: '#/definitions/IpAddr'
             location:
                 description: "(internal-use) Geographic location of the server.Currently only for internal usage. Field introduced in 17.1.1."
-                readOnly: True
                 $ref: '#/definitions/GeoLocation'
             mac_address:
                 description: "MAC address of server."

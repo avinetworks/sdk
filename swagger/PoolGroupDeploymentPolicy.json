@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroupDeploymentPolicy Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -539,7 +539,6 @@
                     "format": "int32"
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 

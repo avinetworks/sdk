@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -359,6 +359,9 @@ definitions:
                 description: "Argument seperator. Field introduced in 17.2.1."
                 type: string
                 default: "&"
+            buffer_response_body_for_inspection:
+                description: "Enable to buffer response body for inspection. Field introduced in 17.2.3."
+                type: boolean
             client_file_upload_max_body_size:
                 description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1."
                 type: integer
@@ -400,7 +403,7 @@ definitions:
                 items:
                     type: string
             server_response_max_body_size:
-                description: "Maximum size for the backend response body. Allowed values are 1-32768. Field introduced in 17.2.1."
+                description: "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1."
                 type: integer
                 default: 128
                 format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi PriorityLabels Object API
     contact:
         name: Avi Networks Inc.
@@ -355,7 +355,6 @@ definitions:
         properties:
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
-                readOnly: True
                 type: string
             description:
                 description: "A description of the priority labels."

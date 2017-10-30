@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi ControllerLicense Object API
     contact:
         name: Avi Networks Inc.

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationPersistenceProfile Object API", 
-        "version": "17.2.2", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure applicationpersistenceprofile <key>\n- show applicationpersistenceprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -677,7 +677,6 @@
                     "description": " It is a reference to an object of type Tenant."
                 }, 
                 "is_federated": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
                 }, 

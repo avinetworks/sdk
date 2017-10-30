@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.2'
+    version: '17.2.3'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -396,10 +396,10 @@ definitions:
             -   index
         properties:
             assign_role:
-                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
                 type: string
             assign_tenant:
-                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE."
+                description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
                 type: string
             attribute_match:
                 description: "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object"
@@ -434,7 +434,7 @@ definitions:
         type: object
         properties:
             criteria:
-                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX."
                 type: string
             name:
                 description: "Name of the object."
@@ -448,7 +448,7 @@ definitions:
         type: object
         properties:
             criteria:
-                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN."
+                description: "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX."
                 type: string
             groups:
                 description: "groups of AuthMatchGroupMembership."
@@ -702,12 +702,50 @@ definitions:
             community:
                 description: "Community string for SNMP v2c."
                 type: string
+            snmp_v3_config:
+                description: "SNMP version 3 configuration. Field introduced in 17.2.3."
+                $ref: '#/definitions/SnmpV3Configuration'
             sys_contact:
                 description: "Sets the sysContact in system MIB."
                 type: string
                 default: "support@avinetworks.com"
             sys_location:
                 description: "Sets the sysLocation in system MIB."
+                type: string
+            version:
+                description: "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_VER2"
+    SnmpV3Configuration:
+        type: object
+        properties:
+            engine_id:
+                description: "Engine Id of the Avi Controller SNMP. Field introduced in 17.2.3."
+                type: string
+            user:
+                description: "SNMP ver 3 user definition. Field introduced in 17.2.3."
+                $ref: '#/definitions/SnmpV3UserParams'
+    SnmpV3UserParams:
+        type: object
+        properties:
+            auth_passphrase:
+                description: "SNMP V3 authentication passphrase. Field introduced in 17.2.3."
+                type: string
+                default: "avinetworks"
+            auth_type:
+                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_V3_AUTH_MD5"
+            priv_passphrase:
+                description: "SNMP V3 privacy passphrase. Field introduced in 17.2.3."
+                type: string
+                default: "avinetworks"
+            priv_type:
+                description: "SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3."
+                type: string
+                default: "SNMP_V3_PRIV_DES"
+            username:
+                description: "SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3."
                 type: string
     SystemConfiguration:
         type: object
@@ -725,7 +763,6 @@ definitions:
                     type: string
             docker_mode:
                 description: "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
-                readOnly: True
                 type: boolean
             email_configuration:
                 description: "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object"
