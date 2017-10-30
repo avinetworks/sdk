@@ -263,6 +263,11 @@ Here are some examples
 <td> 60 </td>
 </tr>
 <tr>
+<td> aggregate_obj_id </td>
+<td> Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. </td>
+<td> False </td>
+</tr>
+<tr>
 <td> include_statistics </td>
 <td> Include metrics statistics with the request </td>
 <td> True </td>
@@ -859,6 +864,20 @@ Virtualservice frontend Network (Layer 4) Metrics
 <tr>
 <td> l4_client.avg_dos_req </td>
 <td> Number of request considered as DoS </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l4_client.avg_dos_req_cookie_rl_drop </td>
+<td> DoS attack: Requests dropped due to Cookie rate limit </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l4_client.avg_dos_req_hdr_rl_drop </td>
+<td> DoS attack: Requests dropped due to Header rate limit </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> False </td>
@@ -2133,6 +2152,181 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.avg_waf_attacks </td>
+<td> Average number of transactions per socond identified by WAF as attacks. </td>
+<td> PER_SECOND </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_evaluated </td>
+<td> Average number of transactions per second evaluated by WAF. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_evaluated_request_body_phase </td>
+<td> Average number of requests per second evaluated by WAF in Request Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_evaluated_request_header_phase </td>
+<td> Average number of requests per second evaluated by WAF in Request Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_evaluated_response_body_phase </td>
+<td> Average number of responses per second evaluated by WAF in Response Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_evaluated_response_header_phase </td>
+<td> Average number of responsess per second evaluated by WAF in Response Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_flagged </td>
+<td> Average number of transactions per second flagged by WAF. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_flagged_request_body_phase </td>
+<td> Average number of requests per second flagged (but not rejected) by WAF in Request Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_flagged_request_header_phase </td>
+<td> Average number of requests per second flagged (but not rejected) by WAF in Request Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_flagged_response_body_phase </td>
+<td> Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_flagged_response_header_phase </td>
+<td> Average number of responses per second flagged (but not rejected) by WAF in Response Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_latency_request_body_phase </td>
+<td> Average waf latency seen due to WAF Request Body processing. </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_latency_request_header_phase </td>
+<td> Average waf latency seen due to WAF Request Header processing. </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_latency_response_body_phase </td>
+<td> Average waf latency seen due to WAF Response Body processing. </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_latency_response_header_phase </td>
+<td> Average waf latency seen due to WAF Response Header processing. </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_matched </td>
+<td> Average number of transactions per second matched by WAF rule/rules. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_matched_request_body_phase </td>
+<td> Average number of requests per second matched by WAF in Request Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_matched_request_header_phase </td>
+<td> Average number of requests per second matched by WAF in Request Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_matched_response_body_phase </td>
+<td> Average number of responses per second matched by WAF in Response Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_matched_response_header_phase </td>
+<td> Average number of responses per second matched by WAF in Response Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_rejected </td>
+<td> Average number of transactions per second rejected by WAF. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_rejected_request_body_phase </td>
+<td> Average number of requests per second rejected by WAF in Request Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_rejected_request_header_phase </td>
+<td> Average number of requests per second rejected by WAF in Request Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_rejected_response_body_phase </td>
+<td> Average number of responses per second rejected by WAF in Response Body Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_rejected_response_header_phase </td>
+<td> Average number of responses per second rejected by WAF in Response Header Phase. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l7_client.avg_waiting_time </td>
 <td> Average Waiting Time reported by client </td>
 <td> MILLISECONDS </td>
@@ -2179,6 +2373,41 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Percent of SSL connections failured due to protocol , network or timeout reasons </td>
 <td> PERCENT </td>
 <td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_attacks </td>
+<td> Malicious transactions (Attacks) identified by WAF as the pecentage  of total requests received. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_evaluated </td>
+<td> WAF evaluated transactions as the pecentage of total requests received. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_flagged </td>
+<td> WAF flagged transactions as the percentage of total WAF evaluated transactions. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_matched </td>
+<td> WAF matched requests as the percentage of total WAF evaluated requests. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_rejected </td>
+<td> WAF rejected transactions as the percentage of total WAF evaluated transactions. </td>
+<td> PERCENT </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2459,6 +2688,167 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP responses sent </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_attacks </td>
+<td> Total number of transactions identified by WAF as attacks. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_evaluated_request_body_phase </td>
+<td> Total number of requests evaluated by WAF in Request Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_evaluated_request_header_phase </td>
+<td> Total number of requests evaluated by WAF in Request Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_evaluated_response_body_phase </td>
+<td> Total number of responses evaluated by WAF in Response Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_evaluated_response_header_phase </td>
+<td> Total number of responses evaluated by WAF in Response Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_flagged </td>
+<td> Total number of transactions (requests or responses) flagged as attack by WAF. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_flagged_request_body_phase </td>
+<td> Total number of requests flagged (but not rejected) by WAF in Request Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_flagged_request_header_phase </td>
+<td> Total number of requests flagged (but not rejected) by WAF in Request Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_flagged_response_body_phase </td>
+<td> Total number of responses flagged (but not rejected) by WAF in Response Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_flagged_response_header_phase </td>
+<td> Total number of responses flagged (but not rejected) by WAF in Response Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_latency_request_body_phase </td>
+<td> Total latency seen by all evaluated requests in Request Body Phase </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_latency_request_header_phase </td>
+<td> Total latency seen by all transactions evaluated by WAF in Request Header Phase </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_latency_response_body_phase </td>
+<td> Total latency seen by all evaluated responses in Response Body Phase </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_latency_response_header_phase </td>
+<td> Total latency seen by all evaluated responsess in WAF Response Header Phase </td>
+<td> MICROSECONDS </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_matched_request_body_phase </td>
+<td> Total number of requests matched by WAF in Request Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_matched_request_header_phase </td>
+<td> Total number of requests matched by WAF in Request Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_matched_response_body_phase </td>
+<td> Total number of responses matched by WAF in Response Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_matched_response_header_phase </td>
+<td> Total number of responses matched by WAF in Response Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_rejected </td>
+<td> Total number of transactions (requests or responses) rejected by WAF. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_rejected_request_body_phase </td>
+<td> Total number of requests rejected by WAF in Request Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_rejected_request_header_phase </td>
+<td> Total number of requests rejected by WAF in Request Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_rejected_response_body_phase </td>
+<td> Total number of responses rejected by WAF in Response Body Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_rejected_response_header_phase </td>
+<td> Total number of responses rejected by WAF in Response Header Phase. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
 <td> True </td>
 </tr>
 <tr>
@@ -7404,27 +7794,310 @@ User defined custom metrics using data-script
 <tr>
 <td> user_metrics.avg_counter </td>
 <td> Time averaged value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_counter&limit=1&step=300&obj_id=foo. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.max_counter </td>
 <td> Maximum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_counter&limit=1&step=300&obj_id=foo. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.min_counter </td>
-<td> Minimum 'per second' reported value of counter value over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
-<td> METRIC_COUNT </td>
+<td> Minimum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
+<td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.sum_counter </td>
-<td> Sum of counter valued reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_counter&limit=1&step=300&obj_id=foo. </td>
+<td> Sum of raw counter value reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_counter&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> user_metrics.sum_gauge </td>
+<td> Sum of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_gauge&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Group Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF group specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_group.avg_evaluated </td>
+<td> Time averaged value of connections per second evaluated by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.avg_flagged </td>
+<td> Time averaged value of connections per second flagged by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.avg_matched </td>
+<td> Time averaged value of connections per second matched WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.avg_rejected </td>
+<td> Time averaged value of connections per second rejected by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.max_evaluated </td>
+<td> Maximum value of connections per second evaluated by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.max_flagged </td>
+<td> Maximum value of connections per second flagged by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.max_matched </td>
+<td> Maximum value of connections per second matched  WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.max_rejected </td>
+<td> Maximum value of connections per second rejected by WAF Rule-Group. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.sum_evaluated </td>
+<td> Total number of connections evaluated by WAF Rule-Group. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.sum_flagged </td>
+<td> Total number of connections flagged by WAF Rule-Group. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.sum_matched </td>
+<td> Total number of connections matched by WAF Rule-Group. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_group.sum_rejected </td>
+<td> Total number of connections rejected by WAF Rule-Group. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Tag Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF tag specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_tag.avg_flagged </td>
+<td> Time averaged value of connections per second flagged as attack by any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.avg_matched </td>
+<td> Time averaged value of connections per second matched any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.avg_rejected </td>
+<td> Time averaged value of connections per second rejected by any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.max_flagged </td>
+<td> Maximum value of connections per second flagged as attach by any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.max_matched </td>
+<td> Maximum value of connections per second matched any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.max_rejected </td>
+<td> Maximum value of connections per second rejected by any rule with WAF Tag. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.sum_flagged </td>
+<td> Total number of connections flagged as attack by any rule with WAF Tag. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.sum_matched </td>
+<td> Total number of connections matched any rule with WAF Tag. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_tag.sum_rejected </td>
+<td> Total number of connections rejected by any rule with WAF Tag. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Rule Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF rule specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_rule.avg_evaluated </td>
+<td> Time averaged value of connections per second evaluated by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.avg_flagged </td>
+<td> Time averaged value of connections per second flagged as attack by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.avg_matched </td>
+<td> Time averaged value of connections per second matched WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.avg_rejected </td>
+<td> Time averaged value of connections per second rejected by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.max_evaluated </td>
+<td> Maximum value of connections per second evaluated by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.max_flagged </td>
+<td> Maximum value of connections per second flagged as attack by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.max_matched </td>
+<td> Max value of connections per second matched WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.max_rejected </td>
+<td> Maximum value of connections per second rejected by WAF Rule. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.sum_evaluated </td>
+<td> Total number of connections evaluated by WAF Rule. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.sum_flagged </td>
+<td> Total number of connections flagged as attack by WAF Rule. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.sum_matched </td>
+<td> Total number of connections matched by WAF Rule. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_rule.sum_rejected </td>
+<td> Total number of connections rejected by WAF Rule. </td>
 <td> METRIC_COUNT </td>
 <td> Y </td>
 <td> True </td>

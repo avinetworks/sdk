@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - show vinfra serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
@@ -278,14 +292,19 @@ font-style: italic;
         "fip_subnet_uuids" : [ "aeiou" ],
         "ip_subnet" : "aeiou",
         "fip_available" : true,
-        "prefix" : {
-          "ip_addr" : {
-            "addr" : "aeiou",
-            "type" : "aeiou"
-          },
-          "mask" : 123
-        },
+        "prefix" : "",
         "name" : "aeiou",
+        "floatingip_subnets" : [ {
+          "prefix" : {
+            "ip_addr" : {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            },
+            "mask" : 123
+          },
+          "name" : "aeiou",
+          "uuid" : "aeiou"
+        } ],
         "ref_count" : 123,
         "uuid" : "aeiou",
         "se_ref_count" : 123,
@@ -303,6 +322,16 @@ font-style: italic;
     "init_vnics" : 123,
     "discovery_status" : 123,
     "tenant_ref" : "aeiou",
+    "azure_info" : {
+      "availability_set" : "aeiou",
+      "vm_uuid" : "aeiou",
+      "vnic_id" : "aeiou",
+      "resource_group" : "aeiou",
+      "name" : "aeiou",
+      "subnet_id" : "aeiou",
+      "fault_domain" : "aeiou",
+      "update_domain" : "aeiou"
+    },
     "name" : "aeiou",
     "vcenter_template_vm" : true,
     "managed_object_id" : "aeiou"
@@ -395,14 +424,19 @@ font-style: italic;
       "fip_subnet_uuids" : [ "aeiou" ],
       "ip_subnet" : "aeiou",
       "fip_available" : true,
-      "prefix" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
+      "prefix" : "",
       "name" : "aeiou",
+      "floatingip_subnets" : [ {
+        "prefix" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "name" : "aeiou",
+        "uuid" : "aeiou"
+      } ],
       "ref_count" : 123,
       "uuid" : "aeiou",
       "se_ref_count" : 123,
@@ -420,6 +454,16 @@ font-style: italic;
   "init_vnics" : 123,
   "discovery_status" : 123,
   "tenant_ref" : "aeiou",
+  "azure_info" : {
+    "availability_set" : "aeiou",
+    "vm_uuid" : "aeiou",
+    "vnic_id" : "aeiou",
+    "resource_group" : "aeiou",
+    "name" : "aeiou",
+    "subnet_id" : "aeiou",
+    "fault_domain" : "aeiou",
+    "update_domain" : "aeiou"
+  },
   "name" : "aeiou",
   "vcenter_template_vm" : true,
   "managed_object_id" : "aeiou"
@@ -525,7 +569,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -575,14 +625,19 @@ font-style: italic;
       "fip_subnet_uuids" : [ "aeiou" ],
       "ip_subnet" : "aeiou",
       "fip_available" : true,
-      "prefix" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
+      "prefix" : "",
       "name" : "aeiou",
+      "floatingip_subnets" : [ {
+        "prefix" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "name" : "aeiou",
+        "uuid" : "aeiou"
+      } ],
       "ref_count" : 123,
       "uuid" : "aeiou",
       "se_ref_count" : 123,
@@ -600,6 +655,16 @@ font-style: italic;
   "init_vnics" : 123,
   "discovery_status" : 123,
   "tenant_ref" : "aeiou",
+  "azure_info" : {
+    "availability_set" : "aeiou",
+    "vm_uuid" : "aeiou",
+    "vnic_id" : "aeiou",
+    "resource_group" : "aeiou",
+    "name" : "aeiou",
+    "subnet_id" : "aeiou",
+    "fault_domain" : "aeiou",
+    "update_domain" : "aeiou"
+  },
   "name" : "aeiou",
   "vcenter_template_vm" : true,
   "managed_object_id" : "aeiou"
@@ -703,14 +768,19 @@ font-style: italic;
       "fip_subnet_uuids" : [ "aeiou" ],
       "ip_subnet" : "aeiou",
       "fip_available" : true,
-      "prefix" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
+      "prefix" : "",
       "name" : "aeiou",
+      "floatingip_subnets" : [ {
+        "prefix" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "name" : "aeiou",
+        "uuid" : "aeiou"
+      } ],
       "ref_count" : 123,
       "uuid" : "aeiou",
       "se_ref_count" : 123,
@@ -728,6 +798,16 @@ font-style: italic;
   "init_vnics" : 123,
   "discovery_status" : 123,
   "tenant_ref" : "aeiou",
+  "azure_info" : {
+    "availability_set" : "aeiou",
+    "vm_uuid" : "aeiou",
+    "vnic_id" : "aeiou",
+    "resource_group" : "aeiou",
+    "name" : "aeiou",
+    "subnet_id" : "aeiou",
+    "fault_domain" : "aeiou",
+    "update_domain" : "aeiou"
+  },
   "name" : "aeiou",
   "vcenter_template_vm" : true,
   "managed_object_id" : "aeiou"
@@ -831,14 +911,19 @@ font-style: italic;
       "fip_subnet_uuids" : [ "aeiou" ],
       "ip_subnet" : "aeiou",
       "fip_available" : true,
-      "prefix" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
+      "prefix" : "",
       "name" : "aeiou",
+      "floatingip_subnets" : [ {
+        "prefix" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "name" : "aeiou",
+        "uuid" : "aeiou"
+      } ],
       "ref_count" : 123,
       "uuid" : "aeiou",
       "se_ref_count" : 123,
@@ -856,6 +941,16 @@ font-style: italic;
   "init_vnics" : 123,
   "discovery_status" : 123,
   "tenant_ref" : "aeiou",
+  "azure_info" : {
+    "availability_set" : "aeiou",
+    "vm_uuid" : "aeiou",
+    "vnic_id" : "aeiou",
+    "resource_group" : "aeiou",
+    "name" : "aeiou",
+    "subnet_id" : "aeiou",
+    "fault_domain" : "aeiou",
+    "update_domain" : "aeiou"
+  },
   "name" : "aeiou",
   "vcenter_template_vm" : true,
   "managed_object_id" : "aeiou"
@@ -884,6 +979,8 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#AzureInfo"><code>AzureInfo</code></a></li>
+    <li><a href="#FloatingIpSubnet"><code>FloatingIpSubnet</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#VIMgrGuestNicRuntime"><code>VIMgrGuestNicRuntime</code></a></li>
@@ -892,6 +989,27 @@ font-style: italic;
     <li><a href="#VIMgrSEVMRuntimeApiResponse"><code>VIMgrSEVMRuntimeApiResponse</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="AzureInfo">AzureInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">availability_set (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the availability set of which the VM is a part of. Field introduced in 17.2.1. </div>
+<div class="param">fault_domain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fault domain within the availability set the VM is a part of. Field introduced in 17.2.1. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Azure VM. Field introduced in 17.2.1. </div>
+<div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Resource group name for the VM. Field introduced in 17.2.1. </div>
+<div class="param">subnet_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet ID of the primary nic of the VM. Field introduced in 17.2.1. </div>
+<div class="param">update_domain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Update domain within the availability set the VM is a part of. Field introduced in 17.2.1. </div>
+<div class="param">vm_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure VM uuid for the SE VM. Field introduced in 17.2.1. </div>
+<div class="param">vnic_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VNIC id of the primary nic of the VM. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="FloatingIpSubnet">FloatingIpSubnet</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> FloatingIp subnet name if available, else uuid. Field introduced in 17.2.1. </div>
+<div class="param">prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> FloatingIp subnet prefix. Field introduced in 17.2.1. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> FloatingIp subnet uuid. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -919,14 +1037,15 @@ font-style: italic;
 <div class="param">network_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> network_name of VIMgrGuestNicRuntime. </div>
 <div class="param">network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of network. </div>
 <div class="param">os_port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of os_port. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="VIMgrIPSubnetRuntime">VIMgrIPSubnetRuntime</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">fip_available (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates floating/elastic IP association possibility. </div>
+      <div class="param">fip_available (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, capable of floating/elastic IP association. </div>
 <div class="param">fip_subnet_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list. </div>
+<div class="param">floatingip_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#FloatingIpSubnet">array[FloatingIpSubnet]</a></span> If fip_available is True, the list of associated FloatingIP subnets, possibly empty if unsupported or implictly defined by the Cloud. Field introduced in 17.2.1. </div>
 <div class="param">ip_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ip_subnet of VIMgrIPSubnetRuntime. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">prefix </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property prefix of obj type VIMgrIPSubnetRuntime field type str  type object </div>
@@ -940,6 +1059,7 @@ font-style: italic;
     <h3 class="field-label"><a name="VIMgrSEVMRuntime">VIMgrSEVMRuntime</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> availability_zone of VIMgrSEVMRuntime. </div>
+<div class="param">azure_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureInfo">AzureInfo</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">cloud_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> cloud_name of VIMgrSEVMRuntime. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">connection_state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> connection_state of VIMgrSEVMRuntime. </div>
@@ -964,7 +1084,7 @@ font-style: italic;
 <div class="param">segroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
 <div class="param">server_group_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of server_group. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vcenter_datacenter_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of vcenter_datacenter. </div>

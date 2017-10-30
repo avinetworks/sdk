@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloudconnectoruser <key> - show cloudconnectoruser <key> - test cloudconnectoruser <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -227,7 +227,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -246,9 +256,19 @@ font-style: italic;
   "results" : [ {
     "public_key" : "aeiou",
     "password" : "aeiou",
+    "azure_userpass" : {
+      "password" : "aeiou",
+      "tenant_name" : "aeiou",
+      "username" : "aeiou"
+    },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "private_key" : "aeiou",
+    "azure_serviceprincipal" : {
+      "tenant_id" : "aeiou",
+      "authentication_token" : "aeiou",
+      "application_id" : "aeiou"
+    },
     "uuid" : "aeiou",
     "url" : "aeiou"
   } ]
@@ -307,9 +327,19 @@ font-style: italic;
     <pre class="example"><code>{
   "public_key" : "aeiou",
   "password" : "aeiou",
+  "azure_userpass" : {
+    "password" : "aeiou",
+    "tenant_name" : "aeiou",
+    "username" : "aeiou"
+  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "private_key" : "aeiou",
+  "azure_serviceprincipal" : {
+    "tenant_id" : "aeiou",
+    "authentication_token" : "aeiou",
+    "application_id" : "aeiou"
+  },
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -414,7 +444,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -431,9 +467,19 @@ font-style: italic;
     <pre class="example"><code>{
   "public_key" : "aeiou",
   "password" : "aeiou",
+  "azure_userpass" : {
+    "password" : "aeiou",
+    "tenant_name" : "aeiou",
+    "username" : "aeiou"
+  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "private_key" : "aeiou",
+  "azure_serviceprincipal" : {
+    "tenant_id" : "aeiou",
+    "authentication_token" : "aeiou",
+    "application_id" : "aeiou"
+  },
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -503,9 +549,19 @@ font-style: italic;
     <pre class="example"><code>{
   "public_key" : "aeiou",
   "password" : "aeiou",
+  "azure_userpass" : {
+    "password" : "aeiou",
+    "tenant_name" : "aeiou",
+    "username" : "aeiou"
+  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "private_key" : "aeiou",
+  "azure_serviceprincipal" : {
+    "tenant_id" : "aeiou",
+    "authentication_token" : "aeiou",
+    "application_id" : "aeiou"
+  },
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -575,9 +631,19 @@ font-style: italic;
     <pre class="example"><code>{
   "public_key" : "aeiou",
   "password" : "aeiou",
+  "azure_userpass" : {
+    "password" : "aeiou",
+    "tenant_name" : "aeiou",
+    "username" : "aeiou"
+  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "private_key" : "aeiou",
+  "azure_serviceprincipal" : {
+    "tenant_id" : "aeiou",
+    "authentication_token" : "aeiou",
+    "application_id" : "aeiou"
+  },
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -663,15 +729,35 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#AzureServicePrincipalCredentials"><code>AzureServicePrincipalCredentials</code></a></li>
+    <li><a href="#AzureUserPassCredentials"><code>AzureUserPassCredentials</code></a></li>
     <li><a href="#CloudConnectorUser"><code>CloudConnectorUser</code></a></li>
     <li><a href="#CloudConnectorUserApiResponse"><code>CloudConnectorUserApiResponse</code></a></li>
     <li><a href="#CloudConnectorUserTestParams"><code>CloudConnectorUserTestParams</code></a></li>
   </ol>
 
   <div class="model">
+    <h3 class="field-label"><a name="AzureServicePrincipalCredentials">AzureServicePrincipalCredentials</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">application_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+<div class="param">authentication_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+<div class="param">tenant_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AzureUserPassCredentials">AzureUserPassCredentials</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1. </div>
+<div class="param">tenant_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1. </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="CloudConnectorUser">CloudConnectorUser</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+      <div class="param">azure_serviceprincipal (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureServicePrincipalCredentials">AzureServicePrincipalCredentials</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">azure_userpass (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureUserPassCredentials">AzureUserPassCredentials</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> password of CloudConnectorUser. </div>
 <div class="param">private_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> private_key of CloudConnectorUser. </div>
 <div class="param">public_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> public_key of CloudConnectorUser. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure snmptrapprofile <key> - show snmptrapprofile <key> - test alerttestsnmptrap <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -227,7 +227,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -249,7 +259,15 @@ font-style: italic;
       "ip_addr" : {
         "addr" : "aeiou",
         "type" : "aeiou"
-      }
+      },
+      "user" : {
+        "auth_type" : "aeiou",
+        "auth_passphrase" : "aeiou",
+        "priv_passphrase" : "aeiou",
+        "priv_type" : "aeiou",
+        "username" : "aeiou"
+      },
+      "version" : "aeiou"
     } ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
@@ -314,7 +332,15 @@ font-style: italic;
     "ip_addr" : {
       "addr" : "aeiou",
       "type" : "aeiou"
-    }
+    },
+    "user" : {
+      "auth_type" : "aeiou",
+      "auth_passphrase" : "aeiou",
+      "priv_passphrase" : "aeiou",
+      "priv_type" : "aeiou",
+      "username" : "aeiou"
+    },
+    "version" : "aeiou"
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -480,7 +506,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -500,7 +532,15 @@ font-style: italic;
     "ip_addr" : {
       "addr" : "aeiou",
       "type" : "aeiou"
-    }
+    },
+    "user" : {
+      "auth_type" : "aeiou",
+      "auth_passphrase" : "aeiou",
+      "priv_passphrase" : "aeiou",
+      "priv_type" : "aeiou",
+      "username" : "aeiou"
+    },
+    "version" : "aeiou"
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -576,7 +616,15 @@ font-style: italic;
     "ip_addr" : {
       "addr" : "aeiou",
       "type" : "aeiou"
-    }
+    },
+    "user" : {
+      "auth_type" : "aeiou",
+      "auth_passphrase" : "aeiou",
+      "priv_passphrase" : "aeiou",
+      "priv_type" : "aeiou",
+      "username" : "aeiou"
+    },
+    "version" : "aeiou"
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -652,7 +700,15 @@ font-style: italic;
     "ip_addr" : {
       "addr" : "aeiou",
       "type" : "aeiou"
-    }
+    },
+    "user" : {
+      "auth_type" : "aeiou",
+      "auth_passphrase" : "aeiou",
+      "priv_passphrase" : "aeiou",
+      "priv_type" : "aeiou",
+      "username" : "aeiou"
+    },
+    "version" : "aeiou"
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -688,12 +744,14 @@ font-style: italic;
     <li><a href="#SnmpTrapProfile"><code>SnmpTrapProfile</code></a></li>
     <li><a href="#SnmpTrapProfileApiResponse"><code>SnmpTrapProfileApiResponse</code></a></li>
     <li><a href="#SnmpTrapServer"><code>SnmpTrapServer</code></a></li>
+    <li><a href="#SnmpV3UserParams"><code>SnmpV3UserParams</code></a></li>
   </ol>
 
   <div class="model">
     <h3 class="field-label"><a name="AlertTestSyslogSnmpParams">AlertTestSyslogSnmpParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">text </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The contents of the Syslog message/SNMP Trap contents. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -723,8 +781,20 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SnmpTrapServer">SnmpTrapServer</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">community </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The community string to communicate with the trap server. </div>
+      <div class="param">community (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The community string to communicate with the trap server. </div>
 <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the SNMP trap destination. </div>
+<div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#SnmpV3UserParams">SnmpV3UserParams</a></span> SNMP version 3 configuration. Field introduced in 17.2.3. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SnmpV3UserParams">SnmpV3UserParams</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">auth_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 authentication passphrase. Field introduced in 17.2.3. </div>
+<div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3. </div>
+<div class="param">priv_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy passphrase. Field introduced in 17.2.3. </div>
+<div class="param">priv_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3. </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

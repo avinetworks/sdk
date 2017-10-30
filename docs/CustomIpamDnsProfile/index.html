@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi GslbApplicationPersistenceProfile Object API</title>
+    <title>Avi CustomIpamDnsProfile Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,11 +179,11 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi GslbApplicationPersistenceProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure gslbapplicationpersistenceprofile <key> - show gslbapplicationpersistenceprofile <key> ``` </div>
+  <h1>Avi CustomIpamDnsProfile Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure customipamdnsprofile <key> - show customipamdnsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -198,20 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#gslbapplicationpersistenceprofileGet"><code><span class="http-method">get</span> /gslbapplicationpersistenceprofile</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofilePost"><code><span class="http-method">post</span> /gslbapplicationpersistenceprofile</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofileUuidDelete"><code><span class="http-method">delete</span> /gslbapplicationpersistenceprofile/{uuid}</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofileUuidGet"><code><span class="http-method">get</span> /gslbapplicationpersistenceprofile/{uuid}</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofileUuidPatch"><code><span class="http-method">patch</span> /gslbapplicationpersistenceprofile/{uuid}</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofileUuidPut"><code><span class="http-method">put</span> /gslbapplicationpersistenceprofile/{uuid}</code></a></li>
-  <li><a href="#gslbapplicationpersistenceprofileUuidRuntimeGet"><code><span class="http-method">get</span> /gslbapplicationpersistenceprofile/{uuid}/runtime/</code></a></li>
+  <li><a href="#customipamdnsprofileGet"><code><span class="http-method">get</span> /customipamdnsprofile</code></a></li>
+  <li><a href="#customipamdnsprofilePost"><code><span class="http-method">post</span> /customipamdnsprofile</code></a></li>
+  <li><a href="#customipamdnsprofileUuidDelete"><code><span class="http-method">delete</span> /customipamdnsprofile/{uuid}</code></a></li>
+  <li><a href="#customipamdnsprofileUuidGet"><code><span class="http-method">get</span> /customipamdnsprofile/{uuid}</code></a></li>
+  <li><a href="#customipamdnsprofileUuidPatch"><code><span class="http-method">patch</span> /customipamdnsprofile/{uuid}</code></a></li>
+  <li><a href="#customipamdnsprofileUuidPut"><code><span class="http-method">put</span> /customipamdnsprofile/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="gslbapplicationpersistenceprofileGet"/>
+  <div class="method"><a name="customipamdnsprofileGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslbapplicationpersistenceprofile</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /customipamdnsprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofileGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -227,13 +226,23 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#GslbApplicationPersistenceProfileApiResponse">GslbApplicationPersistenceProfileApiResponse</a>
+      <a href="#CustomIpamDnsProfileApiResponse">CustomIpamDnsProfileApiResponse</a>
       
     </div>
 
@@ -244,11 +253,17 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "script_params" : [ {
+      "is_sensitive" : true,
+      "is_dynamic" : true,
+      "name" : "aeiou",
+      "value" : "aeiou"
+    } ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "description" : "aeiou",
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "script_uri" : "aeiou"
   } ]
 }</code></pre>
 
@@ -262,17 +277,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#GslbApplicationPersistenceProfileApiResponse">GslbApplicationPersistenceProfileApiResponse</a>
+        <a href="#CustomIpamDnsProfileApiResponse">CustomIpamDnsProfileApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofilePost"/>
+  <div class="method"><a name="customipamdnsprofilePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /gslbapplicationpersistenceprofile</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofilePost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /customipamdnsprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofilePost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -286,7 +301,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; GslbApplicationPersistenceProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; CustomIpamDnsProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -294,7 +309,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+      <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
       
     </div>
 
@@ -303,11 +318,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "script_params" : [ {
+    "is_sensitive" : true,
+    "is_dynamic" : true,
+    "name" : "aeiou",
+    "value" : "aeiou"
+  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "script_uri" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -320,17 +341,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+        <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofileUuidDelete"/>
+  <div class="method"><a name="customipamdnsprofileUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /gslbapplicationpersistenceprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /customipamdnsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofileUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -384,11 +405,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofileUuidGet"/>
+  <div class="method"><a name="customipamdnsprofileUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslbapplicationpersistenceprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /customipamdnsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofileUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -410,13 +431,19 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+      <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
       
     </div>
 
@@ -425,11 +452,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "script_params" : [ {
+    "is_sensitive" : true,
+    "is_dynamic" : true,
+    "name" : "aeiou",
+    "value" : "aeiou"
+  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "script_uri" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -442,17 +475,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+        <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofileUuidPatch"/>
+  <div class="method"><a name="customipamdnsprofileUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /gslbapplicationpersistenceprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /customipamdnsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofileUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -472,7 +505,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; GslbApplicationPersistenceProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; CustomIpamDnsProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -486,7 +519,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+      <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
       
     </div>
 
@@ -495,11 +528,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "script_params" : [ {
+    "is_sensitive" : true,
+    "is_dynamic" : true,
+    "name" : "aeiou",
+    "value" : "aeiou"
+  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "script_uri" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -512,17 +551,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+        <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofileUuidPut"/>
+  <div class="method"><a name="customipamdnsprofileUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /gslbapplicationpersistenceprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /customipamdnsprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">customipamdnsprofileUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -542,7 +581,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; GslbApplicationPersistenceProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; CustomIpamDnsProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -556,7 +595,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
+      <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
       
     </div>
 
@@ -565,11 +604,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "script_params" : [ {
+    "is_sensitive" : true,
+    "is_dynamic" : true,
+    "name" : "aeiou",
+    "value" : "aeiou"
+  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "script_uri" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -582,59 +627,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a>
-    <h4 class="field-label">401</h4>
-    log in failed
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="gslbapplicationpersistenceprofileUuidRuntimeGet"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslbapplicationpersistenceprofile/{uuid}/runtime/</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">gslbapplicationpersistenceprofileUuidRuntimeGet</span>)</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      String
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>"aeiou"</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    OK
-        <a href="#String">String</a>
+        <a href="#CustomIpamDnsProfile">CustomIpamDnsProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -647,25 +640,36 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#GslbApplicationPersistenceProfile"><code>GslbApplicationPersistenceProfile</code></a></li>
-    <li><a href="#GslbApplicationPersistenceProfileApiResponse"><code>GslbApplicationPersistenceProfileApiResponse</code></a></li>
+    <li><a href="#CustomIpamDnsProfile"><code>CustomIpamDnsProfile</code></a></li>
+    <li><a href="#CustomIpamDnsProfileApiResponse"><code>CustomIpamDnsProfileApiResponse</code></a></li>
+    <li><a href="#CustomParams"><code>CustomParams</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="GslbApplicationPersistenceProfile">GslbApplicationPersistenceProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="CustomIpamDnsProfile">CustomIpamDnsProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user-friendly name for the persistence profile. Field introduced in 17.1.1. </div>
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Custom IPAM DNS Profile. Field introduced in 17.1.1. </div>
+<div class="param">script_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomParams">array[CustomParams]</a></span> Parameters that are always passed to the IPAM/DNS script. Field introduced in 17.1.1. </div>
+<div class="param">script_uri </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Script URI of form controller //ipamdnsscripts/&lt;file-name&gt;. Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the persistence profile. Field introduced in 17.1.1. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="GslbApplicationPersistenceProfileApiResponse">GslbApplicationPersistenceProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="CustomIpamDnsProfileApiResponse">CustomIpamDnsProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#GslbApplicationPersistenceProfile">array[GslbApplicationPersistenceProfile]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#CustomIpamDnsProfile">array[CustomIpamDnsProfile]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CustomParams">CustomParams</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">is_dynamic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean </div>
+<div class="param">is_sensitive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> value of CustomParams. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

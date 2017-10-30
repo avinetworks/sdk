@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi IpAddrGroup Object API</title>
+    <title>Avi WafProfile Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi IpAddrGroup Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure ipaddrgroup <key> - show ipaddrgroup <key> ``` </div>
+  <h1>Avi WafProfile Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.3</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#ipaddrgroupGet"><code><span class="http-method">get</span> /ipaddrgroup</code></a></li>
-  <li><a href="#ipaddrgroupPost"><code><span class="http-method">post</span> /ipaddrgroup</code></a></li>
-  <li><a href="#ipaddrgroupUuidDelete"><code><span class="http-method">delete</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidGet"><code><span class="http-method">get</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidPatch"><code><span class="http-method">patch</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidPut"><code><span class="http-method">put</span> /ipaddrgroup/{uuid}</code></a></li>
+  <li><a href="#wafprofileGet"><code><span class="http-method">get</span> /wafprofile</code></a></li>
+  <li><a href="#wafprofilePost"><code><span class="http-method">post</span> /wafprofile</code></a></li>
+  <li><a href="#wafprofileUuidDelete"><code><span class="http-method">delete</span> /wafprofile/{uuid}</code></a></li>
+  <li><a href="#wafprofileUuidGet"><code><span class="http-method">get</span> /wafprofile/{uuid}</code></a></li>
+  <li><a href="#wafprofileUuidPatch"><code><span class="http-method">patch</span> /wafprofile/{uuid}</code></a></li>
+  <li><a href="#wafprofileUuidPut"><code><span class="http-method">put</span> /wafprofile/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="ipaddrgroupGet"/>
+  <div class="method"><a name="wafprofileGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /ipaddrgroup</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofileGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroupApiResponse">IpAddrGroupApiResponse</a>
+      <a href="#WafProfileApiResponse">WafProfileApiResponse</a>
       
     </div>
 
@@ -253,33 +253,32 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "marathon_service_port" : 123,
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "marathon_app_name" : "aeiou",
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ],
-    "description" : "aeiou",
-    "ip_ports" : [ {
-      "hostname" : "aeiou",
-      "port" : 123,
-      "ip" : "",
-      "name" : "aeiou"
-    } ],
-    "uuid" : "aeiou",
-    "url" : "aeiou",
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "country_codes" : [ "aeiou" ],
-    "apic_epg_name" : "aeiou"
+    "description" : "aeiou",
+    "files" : [ {
+      "data" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "config" : {
+      "argument_separator" : "aeiou",
+      "client_nonfile_upload_max_body_size" : 123,
+      "client_file_upload_max_body_size" : 123,
+      "allowed_http_versions" : [ "aeiou" ],
+      "response_body_default_action" : "aeiou",
+      "restricted_headers" : [ "aeiou" ],
+      "response_hdr_default_action" : "aeiou",
+      "server_response_max_body_size" : 123,
+      "restricted_extensions" : [ "aeiou" ],
+      "request_body_default_action" : "aeiou",
+      "allowed_methods" : [ "aeiou" ],
+      "buffer_response_body_for_inspection" : true,
+      "allowed_request_content_types" : [ "aeiou" ],
+      "cookie_format_version" : 123,
+      "request_hdr_default_action" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou"
   } ]
 }</code></pre>
 
@@ -293,17 +292,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroupApiResponse">IpAddrGroupApiResponse</a>
+        <a href="#WafProfileApiResponse">WafProfileApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupPost"/>
+  <div class="method"><a name="wafprofilePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /ipaddrgroup</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /wafprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofilePost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -317,7 +316,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -325,7 +324,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafProfile">WafProfile</a>
       
     </div>
 
@@ -334,33 +333,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
-  } ],
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "description" : "aeiou",
+  "files" : [ {
+    "data" : "aeiou",
+    "name" : "aeiou"
+  } ],
+  "config" : {
+    "argument_separator" : "aeiou",
+    "client_nonfile_upload_max_body_size" : 123,
+    "client_file_upload_max_body_size" : 123,
+    "allowed_http_versions" : [ "aeiou" ],
+    "response_body_default_action" : "aeiou",
+    "restricted_headers" : [ "aeiou" ],
+    "response_hdr_default_action" : "aeiou",
+    "server_response_max_body_size" : 123,
+    "restricted_extensions" : [ "aeiou" ],
+    "request_body_default_action" : "aeiou",
+    "allowed_methods" : [ "aeiou" ],
+    "buffer_response_body_for_inspection" : true,
+    "allowed_request_content_types" : [ "aeiou" ],
+    "cookie_format_version" : 123,
+    "request_hdr_default_action" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -373,17 +371,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafProfile">WafProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidDelete"/>
+  <div class="method"><a name="wafprofileUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /wafprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofileUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -437,11 +435,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidGet"/>
+  <div class="method"><a name="wafprofileUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofileUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -475,7 +473,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafProfile">WafProfile</a>
       
     </div>
 
@@ -484,33 +482,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
-  } ],
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "description" : "aeiou",
+  "files" : [ {
+    "data" : "aeiou",
+    "name" : "aeiou"
+  } ],
+  "config" : {
+    "argument_separator" : "aeiou",
+    "client_nonfile_upload_max_body_size" : 123,
+    "client_file_upload_max_body_size" : 123,
+    "allowed_http_versions" : [ "aeiou" ],
+    "response_body_default_action" : "aeiou",
+    "restricted_headers" : [ "aeiou" ],
+    "response_hdr_default_action" : "aeiou",
+    "server_response_max_body_size" : 123,
+    "restricted_extensions" : [ "aeiou" ],
+    "request_body_default_action" : "aeiou",
+    "allowed_methods" : [ "aeiou" ],
+    "buffer_response_body_for_inspection" : true,
+    "allowed_request_content_types" : [ "aeiou" ],
+    "cookie_format_version" : 123,
+    "request_hdr_default_action" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -523,17 +520,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafProfile">WafProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidPatch"/>
+  <div class="method"><a name="wafprofileUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /wafprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofileUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -553,7 +550,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -567,7 +564,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafProfile">WafProfile</a>
       
     </div>
 
@@ -576,33 +573,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
-  } ],
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "description" : "aeiou",
+  "files" : [ {
+    "data" : "aeiou",
+    "name" : "aeiou"
+  } ],
+  "config" : {
+    "argument_separator" : "aeiou",
+    "client_nonfile_upload_max_body_size" : 123,
+    "client_file_upload_max_body_size" : 123,
+    "allowed_http_versions" : [ "aeiou" ],
+    "response_body_default_action" : "aeiou",
+    "restricted_headers" : [ "aeiou" ],
+    "response_hdr_default_action" : "aeiou",
+    "server_response_max_body_size" : 123,
+    "restricted_extensions" : [ "aeiou" ],
+    "request_body_default_action" : "aeiou",
+    "allowed_methods" : [ "aeiou" ],
+    "buffer_response_body_for_inspection" : true,
+    "allowed_request_content_types" : [ "aeiou" ],
+    "cookie_format_version" : 123,
+    "request_hdr_default_action" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -615,17 +611,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafProfile">WafProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidPut"/>
+  <div class="method"><a name="wafprofileUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /wafprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafprofileUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -645,7 +641,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -659,7 +655,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafProfile">WafProfile</a>
       
     </div>
 
@@ -668,33 +664,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
-  } ],
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "description" : "aeiou",
+  "files" : [ {
+    "data" : "aeiou",
+    "name" : "aeiou"
+  } ],
+  "config" : {
+    "argument_separator" : "aeiou",
+    "client_nonfile_upload_max_body_size" : 123,
+    "client_file_upload_max_body_size" : 123,
+    "allowed_http_versions" : [ "aeiou" ],
+    "response_body_default_action" : "aeiou",
+    "restricted_headers" : [ "aeiou" ],
+    "response_hdr_default_action" : "aeiou",
+    "server_response_max_body_size" : 123,
+    "restricted_extensions" : [ "aeiou" ],
+    "request_body_default_action" : "aeiou",
+    "allowed_methods" : [ "aeiou" ],
+    "buffer_response_body_for_inspection" : true,
+    "allowed_request_content_types" : [ "aeiou" ],
+    "cookie_format_version" : 123,
+    "request_hdr_default_action" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -707,7 +702,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafProfile">WafProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -720,67 +715,56 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
-    <li><a href="#IpAddrGroup"><code>IpAddrGroup</code></a></li>
-    <li><a href="#IpAddrGroupApiResponse"><code>IpAddrGroupApiResponse</code></a></li>
-    <li><a href="#IpAddrPort"><code>IpAddrPort</code></a></li>
-    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
-    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#WafConfig"><code>WafConfig</code></a></li>
+    <li><a href="#WafDataFile"><code>WafDataFile</code></a></li>
+    <li><a href="#WafProfile"><code>WafProfile</code></a></li>
+    <li><a href="#WafProfileApiResponse"><code>WafProfileApiResponse</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="WafConfig">WafConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+      <div class="param">allowed_http_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1. </div>
+<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. Field introduced in 17.2.1. </div>
+<div class="param">allowed_request_content_types (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed Content Types. Field introduced in 17.2.1. </div>
+<div class="param">argument_separator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Argument seperator. Field introduced in 17.2.1. </div>
+<div class="param">buffer_response_body_for_inspection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to buffer response body for inspection. Field introduced in 17.2.3. </div>
+<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
+<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
+<div class="param">cookie_format_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1. format: int32</div>
+<div class="param">request_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Body Phase. Field introduced in 17.2.1. </div>
+<div class="param">request_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Header Phase. Field introduced in 17.2.1. </div>
+<div class="param">response_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Body Phase. Field introduced in 17.2.1. </div>
+<div class="param">response_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Header Phase. Field introduced in 17.2.1. </div>
+<div class="param">restricted_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted File Extensions. Field introduced in 17.2.1. </div>
+<div class="param">restricted_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted HTTP Headers. Field introduced in 17.2.1. </div>
+<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="IpAddrGroup">IpAddrGroup</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="WafDataFile">WafDataFile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Configure IP address(es). </div>
-<div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Populate IP addresses from members of this Cisco APIC EPG. </div>
-<div class="param">country_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Populate the IP address ranges from the geo database for this country. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">ip_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPort">array[IpAddrPort]</a></span> Configure (IP address, port) tuple(s). </div>
-<div class="param">marathon_app_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Populate IP addresses from tasks of this Marathon app. </div>
-<div class="param">marathon_service_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Task port associated with marathon service port. If Marathon app has multiple service ports, this is required. Else, the first task port is used. format: int32</div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the IP address group. </div>
-<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Configure IP address prefix(es). </div>
-<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Configure IP address range(s). </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+      <div class="param">data </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Stringified WAF File Data. Field introduced in 17.2.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Data File Name. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafProfile">WafProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">config </div><div class="param-desc"><span class="param-type"><a href="#WafConfig">WafConfig</a></span> Config params for WAF. Field introduced in 17.2.1. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">files (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafDataFile">array[WafDataFile]</a></span> List of Data Files Used for WAF Rules. Field introduced in 17.2.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the IP address group. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="IpAddrGroupApiResponse">IpAddrGroupApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="WafProfileApiResponse">WafProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#IpAddrGroup">array[IpAddrGroup]</a></span>  </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="IpAddrPort">IpAddrPort</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hostname of server. One of IP address or hostname should be set. </div>
-<div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of host. One of IP address or hostname should be set. </div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port number of server. Allowed values are 1-65535. format: int32</div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
-<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
-<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafProfile">array[WafProfile]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

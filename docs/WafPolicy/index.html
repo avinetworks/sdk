@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi IpAddrGroup Object API</title>
+    <title>Avi WafPolicy Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi IpAddrGroup Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure ipaddrgroup <key> - show ipaddrgroup <key> ``` </div>
+  <h1>Avi WafPolicy Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.3</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#ipaddrgroupGet"><code><span class="http-method">get</span> /ipaddrgroup</code></a></li>
-  <li><a href="#ipaddrgroupPost"><code><span class="http-method">post</span> /ipaddrgroup</code></a></li>
-  <li><a href="#ipaddrgroupUuidDelete"><code><span class="http-method">delete</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidGet"><code><span class="http-method">get</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidPatch"><code><span class="http-method">patch</span> /ipaddrgroup/{uuid}</code></a></li>
-  <li><a href="#ipaddrgroupUuidPut"><code><span class="http-method">put</span> /ipaddrgroup/{uuid}</code></a></li>
+  <li><a href="#wafpolicyGet"><code><span class="http-method">get</span> /wafpolicy</code></a></li>
+  <li><a href="#wafpolicyPost"><code><span class="http-method">post</span> /wafpolicy</code></a></li>
+  <li><a href="#wafpolicyUuidDelete"><code><span class="http-method">delete</span> /wafpolicy/{uuid}</code></a></li>
+  <li><a href="#wafpolicyUuidGet"><code><span class="http-method">get</span> /wafpolicy/{uuid}</code></a></li>
+  <li><a href="#wafpolicyUuidPatch"><code><span class="http-method">patch</span> /wafpolicy/{uuid}</code></a></li>
+  <li><a href="#wafpolicyUuidPut"><code><span class="http-method">put</span> /wafpolicy/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="ipaddrgroupGet"/>
+  <div class="method"><a name="wafpolicyGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /ipaddrgroup</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafpolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroupApiResponse">IpAddrGroupApiResponse</a>
+      <a href="#WafPolicyApiResponse">WafPolicyApiResponse</a>
       
     </div>
 
@@ -253,33 +253,40 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "marathon_service_port" : 123,
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "marathon_app_name" : "aeiou",
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ],
+    "mode" : "aeiou",
+    "pre_crs_groups" : [ "" ],
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
     "description" : "aeiou",
-    "ip_ports" : [ {
-      "hostname" : "aeiou",
-      "port" : 123,
-      "ip" : "",
-      "name" : "aeiou"
+    "post_crs_groups" : [ "" ],
+    "crs_groups" : [ {
+      "enable" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rules" : [ {
+        "rule_id" : "aeiou",
+        "enable" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "rule" : "aeiou",
+        "exclude_list" : [ "" ]
+      } ],
+      "exclude_list" : [ {
+        "client_subnet" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "match_element" : "aeiou",
+        "uri_path" : "aeiou"
+      } ]
     } ],
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
-    "tenant_ref" : "aeiou",
-    "name" : "aeiou",
-    "country_codes" : [ "aeiou" ],
-    "apic_epg_name" : "aeiou"
+    "paranoia_level" : "aeiou",
+    "waf_profile_ref" : "aeiou"
   } ]
 }</code></pre>
 
@@ -293,17 +300,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroupApiResponse">IpAddrGroupApiResponse</a>
+        <a href="#WafPolicyApiResponse">WafPolicyApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupPost"/>
+  <div class="method"><a name="wafpolicyPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /ipaddrgroup</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /wafpolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyPost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -317,7 +324,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicy object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -325,7 +332,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafPolicy">WafPolicy</a>
       
     </div>
 
@@ -334,33 +341,40 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
+  "mode" : "aeiou",
+  "pre_crs_groups" : [ "" ],
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
+  "post_crs_groups" : [ "" ],
+  "crs_groups" : [ {
+    "enable" : true,
+    "name" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "rule_id" : "aeiou",
+      "enable" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ "" ]
+    } ],
+    "exclude_list" : [ {
+      "client_subnet" : {
+        "ip_addr" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "mask" : 123
+      },
+      "match_element" : "aeiou",
+      "uri_path" : "aeiou"
+    } ]
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "paranoia_level" : "aeiou",
+  "waf_profile_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -373,17 +387,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafPolicy">WafPolicy</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidDelete"/>
+  <div class="method"><a name="wafpolicyUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /wafpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -437,11 +451,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidGet"/>
+  <div class="method"><a name="wafpolicyUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -475,7 +489,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafPolicy">WafPolicy</a>
       
     </div>
 
@@ -484,33 +498,40 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
+  "mode" : "aeiou",
+  "pre_crs_groups" : [ "" ],
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
+  "post_crs_groups" : [ "" ],
+  "crs_groups" : [ {
+    "enable" : true,
+    "name" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "rule_id" : "aeiou",
+      "enable" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ "" ]
+    } ],
+    "exclude_list" : [ {
+      "client_subnet" : {
+        "ip_addr" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "mask" : 123
+      },
+      "match_element" : "aeiou",
+      "uri_path" : "aeiou"
+    } ]
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "paranoia_level" : "aeiou",
+  "waf_profile_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -523,17 +544,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafPolicy">WafPolicy</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidPatch"/>
+  <div class="method"><a name="wafpolicyUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /wafpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -553,7 +574,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicy object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -567,7 +588,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafPolicy">WafPolicy</a>
       
     </div>
 
@@ -576,33 +597,40 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
+  "mode" : "aeiou",
+  "pre_crs_groups" : [ "" ],
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
+  "post_crs_groups" : [ "" ],
+  "crs_groups" : [ {
+    "enable" : true,
+    "name" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "rule_id" : "aeiou",
+      "enable" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ "" ]
+    } ],
+    "exclude_list" : [ {
+      "client_subnet" : {
+        "ip_addr" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "mask" : 123
+      },
+      "match_element" : "aeiou",
+      "uri_path" : "aeiou"
+    } ]
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "paranoia_level" : "aeiou",
+  "waf_profile_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -615,17 +643,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafPolicy">WafPolicy</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="ipaddrgroupUuidPut"/>
+  <div class="method"><a name="wafpolicyUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /ipaddrgroup/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">ipaddrgroupUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /wafpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicyUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -645,7 +673,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; IpAddrGroup object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicy object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -659,7 +687,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#IpAddrGroup">IpAddrGroup</a>
+      <a href="#WafPolicy">WafPolicy</a>
       
     </div>
 
@@ -668,33 +696,40 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "marathon_service_port" : 123,
-  "ranges" : [ {
-    "end" : "",
-    "begin" : ""
-  } ],
-  "marathon_app_name" : "aeiou",
-  "addrs" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
+  "mode" : "aeiou",
+  "pre_crs_groups" : [ "" ],
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "description" : "aeiou",
-  "ip_ports" : [ {
-    "hostname" : "aeiou",
-    "port" : 123,
-    "ip" : "",
-    "name" : "aeiou"
+  "post_crs_groups" : [ "" ],
+  "crs_groups" : [ {
+    "enable" : true,
+    "name" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "rule_id" : "aeiou",
+      "enable" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ "" ]
+    } ],
+    "exclude_list" : [ {
+      "client_subnet" : {
+        "ip_addr" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "mask" : 123
+      },
+      "match_element" : "aeiou",
+      "uri_path" : "aeiou"
+    } ]
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "prefixes" : [ {
-    "ip_addr" : "",
-    "mask" : 123
-  } ],
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "country_codes" : [ "aeiou" ],
-  "apic_epg_name" : "aeiou"
+  "paranoia_level" : "aeiou",
+  "waf_profile_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -707,7 +742,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#IpAddrGroup">IpAddrGroup</a>
+        <a href="#WafPolicy">WafPolicy</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -721,11 +756,12 @@ font-style: italic;
   <h2>Table of Contents</h2>
   <ol>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
-    <li><a href="#IpAddrGroup"><code>IpAddrGroup</code></a></li>
-    <li><a href="#IpAddrGroupApiResponse"><code>IpAddrGroupApiResponse</code></a></li>
-    <li><a href="#IpAddrPort"><code>IpAddrPort</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
-    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#WafExcludeListEntry"><code>WafExcludeListEntry</code></a></li>
+    <li><a href="#WafPolicy"><code>WafPolicy</code></a></li>
+    <li><a href="#WafPolicyApiResponse"><code>WafPolicyApiResponse</code></a></li>
+    <li><a href="#WafRule"><code>WafRule</code></a></li>
+    <li><a href="#WafRuleGroup"><code>WafRuleGroup</code></a></li>
   </ol>
 
   <div class="model">
@@ -736,40 +772,6 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="IpAddrGroup">IpAddrGroup</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Configure IP address(es). </div>
-<div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Populate IP addresses from members of this Cisco APIC EPG. </div>
-<div class="param">country_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Populate the IP address ranges from the geo database for this country. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">ip_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPort">array[IpAddrPort]</a></span> Configure (IP address, port) tuple(s). </div>
-<div class="param">marathon_app_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Populate IP addresses from tasks of this Marathon app. </div>
-<div class="param">marathon_service_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Task port associated with marathon service port. If Marathon app has multiple service ports, this is required. Else, the first task port is used. format: int32</div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the IP address group. </div>
-<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Configure IP address prefix(es). </div>
-<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Configure IP address range(s). </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the IP address group. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="IpAddrGroupApiResponse">IpAddrGroupApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#IpAddrGroup">array[IpAddrGroup]</a></span>  </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="IpAddrPort">IpAddrPort</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hostname of server. One of IP address or hostname should be set. </div>
-<div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of host. One of IP address or hostname should be set. </div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port number of server. Allowed values are 1-65535. format: int32</div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
     <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
@@ -777,10 +779,55 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="WafExcludeListEntry">WafExcludeListEntry</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
-<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+      <div class="param">client_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1. </div>
+<div class="param">match_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> match_element can be &#39;ARGS xxx&#39; or &#39;REQUEST_HEADERS xxx&#39; or &#39;REQUEST_COOKIES xxx&#39; or &#39;RESPONSE_HEADERS xxx&#39;. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1. </div>
+<div class="param">uri_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI Path to exclude for WAF rules. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicy">WafPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">paranoia_level (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1. </div>
+<div class="param">post_crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be enforced after the CRS groups. Field introduced in 17.2.1. </div>
+<div class="param">pre_crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be  enforced before the CRS groups. Field introduced in 17.2.1. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.1. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">waf_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicyApiResponse">WafPolicyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafPolicy">array[WafPolicy]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafRule">WafRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable WAF Rule Group. Field introduced in 17.2.1. </div>
+<div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.3. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 17.2.1. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User-friendly optional name for a rule. Field introduced in 17.2.1. </div>
+<div class="param">rule </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Rule as per Modsec language. Field introduced in 17.2.1. </div>
+<div class="param">rule_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafRuleGroup">WafRuleGroup</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable WAF Rule Group. Field introduced in 17.2.1. </div>
+<div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule group. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.1. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 17.2.1. format: int32</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRule">array[WafRule]</a></span> Rules as per Modsec language. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   </body>
