@@ -306,6 +306,11 @@ class PoolConfigConvV11(PoolConfigConv):
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
             limits, tenant_ref, cloud_ref)
+        # if length of servers > 400 take only 400 servers
+        status_flag = False
+        if len(servers) > 400:
+            servers = servers[0:400]
+            status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -358,7 +363,9 @@ class PoolConfigConvV11(PoolConfigConv):
                 pg_dict, pool_obj, name, tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
-
+        # Flag to make status partial for pool.
+        if status_flag:
+            skipped_attr.append('Skipped: length of servers more than 400')
         super(PoolConfigConvV11, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
             converted_objs, user_ignore, skipped_servers)
@@ -508,6 +515,11 @@ class PoolConfigConvV10(PoolConfigConv):
         lb_algorithm = self.get_avi_lb_algorithm(lb_method)
         desc = f5_pool.get('description', None)
         ramp_time = f5_pool.get('slow ramp time', None)
+        # if length of servers > 400 take only 400 servers.
+        status_flag = False
+        if len(servers) > 400:
+            servers = servers[0:400]
+            status_flag = True
         pool_obj = super(PoolConfigConvV10, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
             limits, tenant_ref, cloud_ref)
@@ -563,7 +575,9 @@ class PoolConfigConvV10(PoolConfigConv):
                                                  tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
-
+        # Flag to make status partial for pool.
+        if status_flag:
+            skipped_attr.append('Skipped: length of servers more than 400')
         super(PoolConfigConvV10, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
             converted_objs, user_ignore, skipped_servers)
