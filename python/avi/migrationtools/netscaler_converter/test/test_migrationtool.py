@@ -51,9 +51,10 @@ setup = dict(
     config_file_name_passphrase='ns_passphrase.conf',
     ns_passphrase_file='passphrase.yaml',
     ns_key_file='cd_rt_key.pem',
-    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
+    ignore_config=os.path.abspath(os.path.join(
+        os.path.dirname(__file__), 'ignore-config.yaml')),
     ns_ansible_object=os.path.abspath
-     (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
+    (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
     patch='patch.yaml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
@@ -61,6 +62,9 @@ setup = dict(
     redirect=False,
     ansible=True,
     vs_level_status=True,
+    ansible_skip_types=None,
+    test_vip=None,
+    ansible_filter_types=None,
     output_file_path=output_file
 )
 
@@ -83,7 +87,8 @@ def netscaler_conv(
         ns_passphrase_file=None, version=None, no_profile_merge=True,
         patch=None, vs_filter=None, ignore_config=None, ansible=None,
         prefix=None, not_in_use=False, baseline_profile=None, redirect=True,
-        vs_level_status=False):
+        vs_level_status=False, ansible_skip_types=None, test_vip=None,
+        ansible_filter_types=None):
 
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
@@ -96,18 +101,20 @@ def netscaler_conv(
         version=version, no_object_merge=no_profile_merge, patch=patch,
         vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
         not_in_use=not_in_use, baseline_profile=baseline_profile,
-        redirect=redirect, ansible=ansible, vs_level_status=vs_level_status)
+        redirect=redirect, ansible=ansible, vs_level_status=vs_level_status,
+        ansible_skip_types=ansible_skip_types, test_vip=None,
+        ansible_filter_types=ansible_filter_types)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
 
 
 class TestNetscalerConverter:
-    
+
     @pytest.fixture
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
-        conv.csv_writer_dict_list = list ()
+        conv.csv_writer_dict_list = list()
 
     @pytest.mark.skip_travis
     def test_download(self, cleanup):
@@ -123,7 +130,7 @@ class TestNetscalerConverter:
     def test_excel_report_16_4(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v16'),
-                output_file_path='output')
+                       output_file_path='output')
         percentage_success('./output/ns-ConversionStatus.xlsx')
 
     @pytest.mark.travis
@@ -154,7 +161,7 @@ class TestNetscalerConverter:
         Input File on Local Filesystem, Controller v17.1.1
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
-                        controller_version=setup.get('controller_version_v17'))
+                       controller_version=setup.get('controller_version_v17'))
 
     @pytest.mark.travis
     def test_without_options_16_4_4(self, cleanup):
@@ -349,11 +356,11 @@ class TestNetscalerConverter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                         file_attribute['controller_user_17_1_1'],
-                                         file_attribute['controller_password_17_1_1'])
+                                        file_attribute['controller_user_17_1_1'],
+                                        file_attribute['controller_password_17_1_1'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                          file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -366,8 +373,8 @@ class TestNetscalerConverter:
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        option=setup.get('option'),
-                       ansible=setup.get ('ansible'),
-                       output_file_path=setup.get ('output_file_path'),
+                       ansible=setup.get('ansible'),
+                       output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'),
                        controller_ip=setup.get('controller_ip_17_1_1'),
                        user=setup.get('controller_user_17_1_1'),
@@ -380,11 +387,11 @@ class TestNetscalerConverter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                         file_attribute['controller_user_16_4_4'],
-                                         file_attribute['controller_password_16_4_4'])
+                                        file_attribute['controller_user_16_4_4'],
+                                        file_attribute['controller_password_16_4_4'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -411,7 +418,7 @@ class TestNetscalerConverter:
         Create Ansible Script based on Flag
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       output_file_path=setup.get ('output_file_path'),
+                       output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'),
                        ansible=setup.get('ansible'))
 
@@ -422,11 +429,11 @@ class TestNetscalerConverter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                         file_attribute['controller_user_16_4_4'],
-                                         file_attribute['controller_password_16_4_4'])
+                                        file_attribute['controller_user_16_4_4'],
+                                        file_attribute['controller_password_16_4_4'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                          file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -438,13 +445,15 @@ class TestNetscalerConverter:
         AutoUpload Flow
         """
         print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
-        print(subprocess.check_output('/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+        print(subprocess.check_output(
+            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
         try:
             output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
-                                         '"controller=%s username=%s password=%s"' %
-                                        (setup.get('ns_ansible_object'), setup.get('controller_ip_16_4_4'),
-                                          setup.get('controller_user_16_4_4'),
-                                          setup.get('controller_password_16_4_4')), shell=True)
+                                             '"controller=%s username=%s password=%s"' %
+                                             (setup.get('ns_ansible_object'), setup.get('controller_ip_16_4_4'),
+                                              setup.get(
+                                                  'controller_user_16_4_4'),
+                                              setup.get('controller_password_16_4_4')), shell=True)
         except subprocess.CalledProcessError as e:
             output = e.output
 
@@ -472,21 +481,21 @@ class TestNetscalerConverter:
         Auto Upload configuration file on controller.
         """
         create_tenant(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                          file_attribute['controller_password_17_1_1'], file_attribute['tenant'])
+                      file_attribute['controller_password_17_1_1'], file_attribute['tenant'])
 
-        create_cloud (file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                      file_attribute['controller_password_17_1_1'], file_attribute['cloud_name'])
+        create_cloud(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                     file_attribute['controller_password_17_1_1'], file_attribute['cloud_name'])
 
-        netscaler_conv (config_file_name=setup.get ('config_file_name'),
-                        option=setup.get ('option'),
-                        tenant=file_attribute['tenant'],
-                        cloud_name=file_attribute['cloud_name'],
-                        ansible=setup.get ('ansible'),
-                        output_file_path=setup.get ('output_file_path'),
-                        controller_version=setup.get ('controller_version_v17'),
-                        controller_ip=setup.get ('controller_ip_17_1_1'),
-                        user=setup.get ('controller_user_17_1_1'),
-                        password=setup.get ('controller_password_17_1_1'))
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       option=setup.get('option'),
+                       tenant=file_attribute['tenant'],
+                       cloud_name=file_attribute['cloud_name'],
+                       ansible=setup.get('ansible'),
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'),
+                       controller_ip=setup.get('controller_ip_17_1_1'),
+                       user=setup.get('controller_user_17_1_1'),
+                       password=setup.get('controller_password_17_1_1'))
 
 
 def teardown():

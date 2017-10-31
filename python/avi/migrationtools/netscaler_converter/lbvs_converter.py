@@ -65,7 +65,7 @@ class LbvsConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state, sysdict):
+    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict):
 
         """
         This function defines that it convert netscalar lb vs config to vs
@@ -154,6 +154,8 @@ class LbvsConverter(object):
                 redirect_url = lb_vs.get('redirectURL', None)
                 backup_server = lb_vs.get('backupVServer', None)
                 updated_vs_name = re.sub('[:]', '-', vs_name)
+                # Added ns vs dict
+                vs_name_dict['lbvs'][updated_vs_name] = vs_name
                 # Added prefix for objects
                 if self.prefix:
                     updated_vs_name = self.prefix + '-' + updated_vs_name

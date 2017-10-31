@@ -67,7 +67,7 @@ class CsvsConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state, sysdict):
+    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict):
         """
         This function defines that it convert netscalar cs vs config to vs
         config of AVI
@@ -146,7 +146,6 @@ class CsvsConverter(object):
                     enabled = (cs_vs.get('state', 'ENABLED') == 'ENABLED')
                 else:
                     enabled = False
-
                 if cs_vs['attrs'][1] == 'SSL':
                     enable_ssl = True
                 updated_vs_name = re.sub('[:]', '-', vs_name)
