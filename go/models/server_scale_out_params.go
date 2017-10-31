@@ -9,4 +9,7 @@ type ServerScaleOutParams struct {
 
 	// Reason for the manual scaleout.
 	Reason string `json:"reason,omitempty"`
+
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
 }

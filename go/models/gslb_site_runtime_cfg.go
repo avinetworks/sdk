@@ -22,6 +22,9 @@ type GslbSiteRuntimeCfg struct {
 	// Gslb info published for a site.
 	GlbInfo *ConfigInfo `json:"glb_info,omitempty"`
 
+	// Gslb PKI info published for a site. Field introduced in 17.1.3.
+	GpkiInfo *ConfigInfo `json:"gpki_info,omitempty"`
+
 	// GS info published for a site.
 	GsInfo *ConfigInfo `json:"gs_info,omitempty"`
 

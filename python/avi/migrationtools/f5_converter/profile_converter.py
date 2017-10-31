@@ -313,7 +313,19 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_file = profile.get("key", None)
                 cert_file = None if cert_file == 'none' else cert_file
                 key_file = None if key_file == 'none' else key_file
-
+            # Added for getting correct file names from cache path in sys file
+            sys_file = f5_config.get('file', {})
+            for file_key in sys_file:
+                file_type, file_name = file_key.split(' ')
+                if file_type in ('ssl-key', 'ssl-cert'):
+                    if file_type == 'ssl-key' and file_name == key_file and \
+                            sys_file[file_key].get('cache-path'):
+                        key_file = sys_file[file_key]['cache-path'].rsplit(
+                                                                    '/', 1)[-1]
+                    elif file_type == 'ssl-cert' and file_name == cert_file \
+                            and sys_file[file_key].get('cache-path'):
+                        cert_file = sys_file[file_key]['cache-path'].rsplit(
+                                                                    '/', 1)[-1]
             parent_cls.update_key_cert_obj(
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
                 converted_objs, default_profile_name, key_and_cert_mapping_list,
@@ -457,16 +469,28 @@ class ProfileConfigConvV11(ProfileConfigConv):
             if header_erase or header_insert:
                 rules = []
                 rule_index = 1
-                if header_erase:
+                # Added condition of header insert and header erase present then
+                # create common rule with more action.
+                if header_erase and header_insert:
+                    header_erase = header_erase.split(':')[0]
+                    header, val = header_insert.split(':')
+                    header_erase_rule = conv_utils.create_hdr_erase_rule(
+                        'rule-header-erase', header_erase, rule_index)
+                    header_insert_rule = conv_utils.create_hdr_insert_rule(
+                        'rule-header-insert', header, val, rule_index)
+                    header_erase_rule['hdr_action'].append(header_insert_rule[
+                        'hdr_action'][0])
+                    rules.append(header_erase_rule)
+                elif header_erase:
                     if ':' in header_erase:
                         header_erase = header_erase.split(':', 1)[0]
                     rules.append(conv_utils.create_hdr_erase_rule(
                         'rule-header-erase', header_erase, rule_index))
-                    rule_index += 1
-                if header_insert:
+                elif header_insert:
                     header, val = header_insert.split(':', 1)
                     rules.append(conv_utils.create_hdr_insert_rule(
                         'rule-header-insert', header, val, rule_index))
+                rule_index += 1
                 policy_name = name + '-HTTP-Policy-Set'
                 policy = {
                     "name": policy_name,
@@ -857,7 +881,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             skipped = [attr for attr in profile.keys()
                        if attr not in supported_attr]
             per_pkt = profile.get("datagram-load-balancing", 'disabled')
-            timeout = profile.get("idle-timeout", 0)
+            timeout = str(profile.get("idle-timeout", 0))
             if not timeout.isdigit():
                 timeout = 0
             ntwk_profile = {
@@ -1452,17 +1476,28 @@ class ProfileConfigConvV10(ProfileConfigConv):
         if header_erase or header_insert:
             rules = []
             rule_index = 1
-            if header_erase:
+            # Added condition of header insert and header erase present then
+            # create common rule with more action.
+            if header_erase and header_insert:
+                header_erase = header_erase.split(':')[0]
+                header, val = header_insert.split(':')
+                header_erase_rule = conv_utils.create_hdr_erase_rule(
+                    'rule-header-erase', header_erase, rule_index)
+                header_insert_rule = conv_utils.create_hdr_insert_rule(
+                    'rule-header-insert', header, val, rule_index)
+                header_erase_rule['hdr_action'].append(header_insert_rule[
+                                                           'hdr_action'][0])
+                rules.append(header_erase_rule)
+            elif header_erase:
                 if ':' in header_erase:
                     header_erase = header_erase.split(':')[0]
                 rules.append(conv_utils.create_hdr_erase_rule(
                     'rule-header-erase', header_erase, rule_index))
-                rule_index += 1
-            if header_insert:
+            elif header_insert:
                 header, val = header_insert.split(':')
                 rules.append(conv_utils.create_hdr_insert_rule(
                     'rule-header-insert', header, val, rule_index))
-                rule_index += 1
+            rule_index += 1
             policy_name = name + '-HTTP-Policy-Set'
             policy = {
                 "name": policy_name,

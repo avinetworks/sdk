@@ -14,6 +14,9 @@ type GslbPool struct {
 	// Mask to be applied on client IP for consistent hash algorithm. Allowed values are 1-31.
 	ConsistentHashMask int32 `json:"consistent_hash_mask,omitempty"`
 
+	// User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.
+	Description string `json:"description,omitempty"`
+
 	// Select list of VIPs belonging to this GSLB service.
 	Members []*GslbPoolMember `json:"members,omitempty"`
 

@@ -14,4 +14,7 @@ type AlertTestEmailParams struct {
 	// The email context.
 	// Required: true
 	Text string `json:"text"`
+
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
 }

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -164,6 +164,36 @@
                         "description": "object name", 
                         "in": "query", 
                         "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }, 
                     {
                         "required": false, 
@@ -528,6 +558,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -1227,6 +1275,10 @@
                     "type": "array", 
                     "description": "Placeholder for description of property host_attr of obj type LinuxServerHost field type str  type object"
                 }, 
+                "se_group_ref": {
+                    "type": "string", 
+                    "description": "The SE Group association for the SE. If None, then 'Default-Group' SEGroup is associated with the SE. It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.1."
+                }, 
                 "host_ip": {
                     "description": "Placeholder for description of property host_ip of obj type LinuxServerHost field type str  type object", 
                     "$ref": "#/definitions/IpAddr"
@@ -1275,6 +1327,66 @@
                 "password": {
                     "type": "string", 
                     "description": "The password Avi Vantage will use when authenticating with vCenter."
+                }
+            }
+        }, 
+        "AzureConfiguration": {
+            "type": "object", 
+            "properties": {
+                "use_managed_disks": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use Azure managed disks for SE storage. Field introduced in 17.2.2."
+                }, 
+                "resource_group": {
+                    "type": "string", 
+                    "description": "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
+                }, 
+                "use_enhanced_ha": {
+                    "type": "boolean", 
+                    "description": "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. . Field introduced in 17.2.1."
+                }, 
+                "cloud_credentials_ref": {
+                    "type": "string", 
+                    "description": "Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1."
+                }, 
+                "use_azure_dns": {
+                    "type": "boolean", 
+                    "description": "Azure is the DNS provider. Field introduced in 17.2.1."
+                }, 
+                "location": {
+                    "type": "string", 
+                    "description": "Azure location where this cloud will be located. Field introduced in 17.2.1."
+                }, 
+                "network_info": {
+                    "items": {
+                        "$ref": "#/definitions/AzureNetworkInfo"
+                    }, 
+                    "type": "array", 
+                    "description": "Azure virtual network and subnet information. Field introduced in 17.2.1."
+                }, 
+                "subscription_id": {
+                    "type": "string", 
+                    "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "OshiftDockerRegistryMetaData": {
+            "type": "object", 
+            "properties": {
+                "registry_service": {
+                    "default": "docker-registry", 
+                    "type": "string", 
+                    "description": "Name of the Integrated registry Service in Openshift."
+                }, 
+                "registry_vip": {
+                    "description": "Static VIP for 'docker-registry' service in Openshift if Avi is proxying for this service.This VIP should be outside the cluster IP subnet in Kubernetes and within the subnet configured (but outside the available pool of IPs) in the East West IPAM profile configuration for this Cloud. For example, if kubernetes cluster VIP range is 172.30.0.0/16 and subnet configured in East West IPAM profile is 172.50.0.0/16, then 172.50.0.2 can be used for this vip and IP pool can start from 172.50.0.3 onwards. Use this static VIP in '--insecure-registry <this-vip> 5000' docker config if using an insecure registry or add this to the list of IPs/hostnames when generating certificates if using a secure TLS registry.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "registry_namespace": {
+                    "default": "default", 
+                    "type": "string", 
+                    "description": "Namespace for the ServiceEngine image to be hosted in Openshift Integrated registry."
                 }
             }
         }, 
@@ -1657,6 +1769,22 @@
                 }
             }
         }, 
+        "CustomTag": {
+            "required": [
+                "tag_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tag_val": {
+                    "type": "string", 
+                    "description": "tag_val of CustomTag."
+                }, 
+                "tag_key": {
+                    "type": "string", 
+                    "description": "tag_key of CustomTag."
+                }
+            }
+        }, 
         "MesosAttribute": {
             "required": [
                 "attribute"
@@ -1793,19 +1921,19 @@
                 "container_port_match_http_service": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
                 }, 
                 "fleet_endpoint": {
                     "type": "string", 
                     "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
                 }, 
                 "default_shared_virtualservice": {
-                    "description": "Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1.", 
+                    "description": "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/OshiftSharedVirtualService"
                 }, 
                 "routes_share_virtualservice": {
                     "type": "boolean", 
-                    "description": "Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1."
+                    "description": "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 }, 
                 "ssh_user_ref": {
                     "type": "string", 
@@ -1826,6 +1954,10 @@
                     }, 
                     "type": "array", 
                     "description": "Exclude hosts with attributes for SE creation."
+                }, 
+                "service_port_match_http_service": {
+                    "type": "boolean", 
+                    "description": "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
                 }, 
                 "l4_health_monitoring": {
                     "type": "boolean", 
@@ -1853,10 +1985,12 @@
                     "type": "string", 
                     "description": "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
                 }, 
-                "se_volume": {
-                    "default": "/opt/avi", 
-                    "type": "string", 
-                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                "ns_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3."
                 }, 
                 "use_scheduling_disabled_nodes": {
                     "type": "boolean", 
@@ -1909,7 +2043,19 @@
                 }, 
                 "secure_egress_mode": {
                     "type": "boolean", 
-                    "description": "Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1."
+                    "description": "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
+                }, 
+                "se_volume": {
+                    "default": "/opt/avi", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "ns_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
                 }, 
                 "avi_bridge_subnet": {
                     "description": "Avi Linux bridge subnet on OpenShift/K8s nodes.", 
@@ -1918,6 +2064,10 @@
                 "ssh_se_deployment": {
                     "description": "Parameters for SSH SE deployment. Field deprecated in 17.1.1.", 
                     "$ref": "#/definitions/SSHSeDeployment"
+                }, 
+                "shared_virtualservice_namespace": {
+                    "type": "boolean", 
+                    "description": "Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3."
                 }, 
                 "se_spawn_rate": {
                     "default": 25, 
@@ -1955,7 +2105,11 @@
                 "wildcard_access": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                }, 
+                "nuage_virtualip": {
+                    "type": "boolean", 
+                    "description": "Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3."
                 }, 
                 "contrail_endpoint": {
                     "type": "string", 
@@ -1969,6 +2123,13 @@
                 "use_internal_endpoints": {
                     "type": "boolean", 
                     "description": "Use internalURL for OpenStack endpoints instead of the default publicURL endpoints."
+                }, 
+                "hypervisor_properties": {
+                    "items": {
+                        "$ref": "#/definitions/OpenStackHypervisorProperties"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom properties per hypervisor type. Field introduced in 17.2.1."
                 }, 
                 "auth_url": {
                     "type": "string", 
@@ -2004,10 +2165,9 @@
                     "type": "boolean", 
                     "description": "Free unused floating IPs."
                 }, 
-                "insecure": {
-                    "default": true, 
+                "use_nuagevip": {
                     "type": "boolean", 
-                    "description": "Allow self-signed certificates when communicating with https service endpoints."
+                    "description": "If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1."
                 }, 
                 "config_drive": {
                     "default": true, 
@@ -2073,6 +2233,11 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "If true, an anti-affinity policy will be applied to all SEs of a SE-Group, else no such policy will be applied."
+                }, 
+                "insecure": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allow self-signed certificates when communicating with https service endpoints."
                 }, 
                 "password": {
                     "type": "string", 
@@ -2271,22 +2436,38 @@
                 }
             }
         }, 
-        "OshiftDockerRegistryMetaData": {
+        "Property": {
+            "required": [
+                "name"
+            ], 
             "type": "object", 
             "properties": {
-                "registry_service": {
-                    "default": "docker-registry", 
+                "name": {
                     "type": "string", 
-                    "description": "Name of the Integrated registry Service in Openshift."
+                    "description": "Property name. Field introduced in 17.2.1."
                 }, 
-                "registry_vip": {
-                    "description": "Static VIP for 'docker-registry' service in Openshift if Avi is proxying for this service.This VIP should be outside the cluster IP subnet in Kubernetes and within the subnet configured (but outside the available pool of IPs) in the East West IPAM profile configuration for this Cloud. For example, if kubernetes cluster VIP range is 172.30.0.0/16 and subnet configured in East West IPAM profile is 172.50.0.0/16, then 172.50.0.2 can be used for this vip and IP pool can start from 172.50.0.3 onwards. Use this static VIP in '--insecure-registry <this-vip> 5000' docker config if using an insecure registry or add this to the list of IPs/hostnames when generating certificates if using a secure TLS registry.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "registry_namespace": {
-                    "default": "default", 
+                "value": {
                     "type": "string", 
-                    "description": "Namespace for the ServiceEngine image to be hosted in Openshift Integrated registry."
+                    "description": "Property value. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "OpenStackHypervisorProperties": {
+            "required": [
+                "hypervisor"
+            ], 
+            "type": "object", 
+            "properties": {
+                "hypervisor": {
+                    "type": "string", 
+                    "description": "Hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. Field introduced in 17.2.1."
+                }, 
+                "image_properties": {
+                    "items": {
+                        "$ref": "#/definitions/Property"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom properties to be associated with the SE image in Glance for this hypervisor type. Field introduced in 17.2.1."
                 }
             }
         }, 
@@ -2349,32 +2530,19 @@
             ], 
             "type": "object", 
             "properties": {
-                "use_iam_roles": {
-                    "type": "boolean", 
-                    "description": "Use IAM roles instead of access and secret key."
-                }, 
                 "wildcard_access": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                }, 
+                "ebs_encryption": {
+                    "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/aws_encryption"
                 }, 
                 "free_elasticips": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Free unused elastic IP addresses."
-                }, 
-                "region": {
-                    "default": "us-west-1", 
-                    "type": "string", 
-                    "description": "AWS region."
-                }, 
-                "route53_integration": {
-                    "type": "boolean", 
-                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
-                }, 
-                "secret_access_key": {
-                    "type": "string", 
-                    "description": "AWS secret access key."
                 }, 
                 "zones": {
                     "items": {
@@ -2389,10 +2557,6 @@
                     "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
-                "use_sns_sqs": {
-                    "type": "boolean", 
-                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
-                }, 
                 "vpc": {
                     "type": "string", 
                     "description": "VPC name."
@@ -2403,6 +2567,35 @@
                     "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
+                "use_iam_roles": {
+                    "type": "boolean", 
+                    "description": "Use IAM roles instead of access and secret key."
+                }, 
+                "s3_encryption": {
+                    "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/aws_encryption"
+                }, 
+                "region": {
+                    "default": "us-west-1", 
+                    "type": "string", 
+                    "description": "AWS region."
+                }, 
+                "route53_integration": {
+                    "type": "boolean", 
+                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
+                }, 
+                "secret_access_key": {
+                    "type": "string", 
+                    "description": "AWS secret access key."
+                }, 
+                "use_sns_sqs": {
+                    "type": "boolean", 
+                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
+                }, 
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "AWS access key ID."
+                }, 
                 "iam_assume_role": {
                     "type": "string", 
                     "description": "IAM assume role for cross-account access."
@@ -2410,10 +2603,6 @@
                 "vpc_id": {
                     "type": "string", 
                     "description": "VPC ID."
-                }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
                 }
             }
         }, 
@@ -2479,6 +2668,10 @@
                     "description": "Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/ProxyConfiguration"
                 }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
                 "docker_configuration": {
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/DockerConfiguration"
@@ -2518,7 +2711,7 @@
                 "vtype": {
                     "default": "CLOUD_NONE", 
                     "type": "string", 
-                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 }, 
                 "ipam_provider_ref": {
                     "type": "string", 
@@ -2537,9 +2730,16 @@
                     "type": "string", 
                     "description": "url"
                 }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
+                "custom_tags": {
+                    "items": {
+                        "$ref": "#/definitions/CustomTag"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5."
+                }, 
+                "vcenter_configuration": {
+                    "description": "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/vCenterConfiguration"
                 }, 
                 "mtu": {
                     "default": 1500, 
@@ -2575,9 +2775,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
                 }, 
-                "vcenter_configuration": {
-                    "description": "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/vCenterConfiguration"
+                "azure_configuration": {
+                    "description": " Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/AzureConfiguration"
                 }, 
                 "dns_provider_ref": {
                     "type": "string", 
@@ -2586,6 +2786,33 @@
                 "east_west_dns_provider_ref": {
                     "type": "string", 
                     "description": "DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile."
+                }
+            }
+        }, 
+        "aws_encryption": {
+            "type": "object", 
+            "properties": {
+                "master_key": {
+                    "type": "string", 
+                    "description": "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
+                }, 
+                "mode": {
+                    "default": "AWS_ENCRYPTION_MODE_NONE", 
+                    "type": "string", 
+                    "description": "AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                }
+            }
+        }, 
+        "AzureNetworkInfo": {
+            "type": "object", 
+            "properties": {
+                "se_network_id": {
+                    "type": "string", 
+                    "description": "Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1."
+                }, 
+                "virtual_network_id": {
+                    "type": "string", 
+                    "description": "Virtual network where Virtual IPs will belong. Field introduced in 17.2.1."
                 }
             }
         }, 

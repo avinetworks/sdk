@@ -308,104 +308,110 @@ class ProfileConverter(object):
         """
 
         for key in set_ssl_service:
-            self.progressbar_count += 1
-            ssl_service = set_ssl_service[key]
-            full_set_ssl_service_command = ns_util.get_netscalar_full_command(
-                set_ssl_service_command, ssl_service)
-            ssl_profile_name = ssl_service['attrs'][0]
-            ssl_profile_name = re.sub('[:]', '-', ssl_profile_name)
-            # Added prefix for objects
-            if self.prefix:
-                updated_ssl_profile_name = self.prefix + '-' + ssl_profile_name
-            else:
-                updated_ssl_profile_name = ssl_profile_name
-            ssl_profile = {
-                'name': updated_ssl_profile_name,
-                'tenant_ref': self.tenant_ref,
-                'accepted_versions': []
-            }
-            # set ssl service
-            sess_reuse = ssl_service.get('sessReuse', None)
-            if sess_reuse == 'DISABLED':
-                ssl_profile['enable_ssl_session_reuse'] = False
-            if ssl_service.get('sessTimeout', None):
-                ssl_profile['ssl_session_timeout'] = \
-                    int(ssl_service.get('sessTimeout'))
-            accepted_versions = []
-            if ssl_service.get('tls1', 'ENABLED') == 'ENABLED':
-                accepted_versions.append({'type': 'SSL_VERSION_TLS1'})
-            if ssl_service.get('tls11', 'ENABLED') == 'ENABLED':
-                accepted_versions.append({'type': 'SSL_VERSION_TLS1_1'})
-            if ssl_service.get('tls12', 'ENABLED') == 'ENABLED':
-                accepted_versions.append({'type': 'SSL_VERSION_TLS1_2'})
-            if accepted_versions:
-                ssl_profile['accepted_versions'] = accepted_versions
-            else:
-                ssl_profile['accepted_versions'].append(
-                    {'type': 'SSL_VERSION_TLS1_1'})
-            send_close_notify = ssl_service.get('sendCloseNotify', None)
-            if send_close_notify == 'NO':
-                ssl_profile['send_close_notify'] = False
-            # bind ssl service
-            binding_mapping = bind_ssl_service.get(ssl_profile_name, [])
-            if isinstance(binding_mapping, dict):
-                binding_mapping = [binding_mapping]
-
-            obj = self.get_key_cert(
-                binding_mapping, ssl_key_and_cert, input_dir, None, ns_config,
-                bind_ssl_service_command)
-            if obj.get('accepted_ciphers', None):
-                # Todo supported only valid ciphers
-                ssl_profile['accepted_ciphers'] = obj.get('accepted_ciphers')
-                # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
-            if obj.get('cert', None):
-                avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
-            if obj.get('pki', None):
-                if self.object_merge_check:
-                    # Check pki profile is duplicate of other pki profile then
-                    # skipped this pki profile and increment of count of
-                    # pki_merge_count
-                    dup_of = ns_util.update_skip_duplicates(obj['pki'],
-                                avi_config['PKIProfile'], 'pki_profile',
-                                merge_object_mapping, obj['pki']['name'], None,
-                                            self.prefix, sysdict['PKIProfile'])
-                    if dup_of:
-                        self.pki_merge_count += 1
-                    else:
-                        avi_config["PKIProfile"].append(obj['pki'])
-                else:
-                    avi_config["PKIProfile"].append(obj['pki'])
-            if self.object_merge_check:
-                # Check ssl profile is duplicate of other ssl profile then
-                # skipped this application profile and increment of count
-                # of ssl_merge_count
+            try:
+                self.progressbar_count += 1
+                ssl_service = set_ssl_service[key]
+                full_set_ssl_service_command = \
+                    ns_util.get_netscalar_full_command(set_ssl_service_command,
+                                                       ssl_service)
+                ssl_profile_name = ssl_service['attrs'][0]
+                ssl_profile_name = re.sub('[:]', '-', ssl_profile_name)
                 # Added prefix for objects
                 if self.prefix:
-                    ssl_profile_name = self.prefix + '-' + ssl_profile_name
-                dup_of = ns_util.update_skip_duplicates(
-                    ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
-                    merge_object_mapping, ssl_profile_name, None,
-                    self.prefix, sysdict['SSLProfile'])
-                if dup_of:
-                    self.ssl_merge_count += 1
+                    updated_ssl_profile_name = '%s-%s' % (self.prefix,
+                                               ssl_profile_name)
+                else:
+                    updated_ssl_profile_name = ssl_profile_name
+                ssl_profile = {
+                    'name': updated_ssl_profile_name,
+                    'tenant_ref': self.tenant_ref,
+                    'accepted_versions': []
+                }
+                # set ssl service
+                sess_reuse = ssl_service.get('sessReuse', None)
+                if sess_reuse == 'DISABLED':
+                    ssl_profile['enable_ssl_session_reuse'] = False
+                if ssl_service.get('sessTimeout', None):
+                    ssl_profile['ssl_session_timeout'] = \
+                        int(ssl_service.get('sessTimeout'))
+                accepted_versions = []
+                if ssl_service.get('tls1', 'ENABLED') == 'ENABLED':
+                    accepted_versions.append({'type': 'SSL_VERSION_TLS1'})
+                if ssl_service.get('tls11', 'ENABLED') == 'ENABLED':
+                    accepted_versions.append({'type': 'SSL_VERSION_TLS1_1'})
+                if ssl_service.get('tls12', 'ENABLED') == 'ENABLED':
+                    accepted_versions.append({'type': 'SSL_VERSION_TLS1_2'})
+                if accepted_versions:
+                    ssl_profile['accepted_versions'] = accepted_versions
+                else:
+                    ssl_profile['accepted_versions'].append(
+                        {'type': 'SSL_VERSION_TLS1_1'})
+                send_close_notify = ssl_service.get('sendCloseNotify', None)
+                if send_close_notify == 'NO':
+                    ssl_profile['send_close_notify'] = False
+                # bind ssl service
+                binding_mapping = bind_ssl_service.get(ssl_profile_name, [])
+                if isinstance(binding_mapping, dict):
+                    binding_mapping = [binding_mapping]
+
+                obj = self.get_key_cert(binding_mapping, ssl_key_and_cert,
+                                        input_dir, None, ns_config,
+                                        bind_ssl_service_command)
+                if obj.get('accepted_ciphers', None):
+                    # Todo supported only valid ciphers
+                    ssl_profile['accepted_ciphers'] = obj.get(
+                                                        'accepted_ciphers')
+                    # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
+                if obj.get('cert', None):
+                    avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
+                if obj.get('pki', None):
+                    if self.object_merge_check:
+                        # Check pki profile is duplicate of other pki profile
+                        # then skipped this pki profile and increment of count
+                        # of pki_merge_count
+                        dup_of = ns_util.update_skip_duplicates(obj['pki'],
+                                 avi_config['PKIProfile'], 'pki_profile',
+                                 merge_object_mapping, obj['pki']['name'], None,
+                                 self.prefix, sysdict['PKIProfile'])
+                        if dup_of:
+                            self.pki_merge_count += 1
+                        else:
+                            avi_config["PKIProfile"].append(obj['pki'])
+                    else:
+                        avi_config["PKIProfile"].append(obj['pki'])
+                if self.object_merge_check:
+                    # Check ssl profile is duplicate of other ssl profile then
+                    # skipped this application profile and increment of count
+                    # of ssl_merge_count
+                    # Added prefix for objects
+                    if self.prefix:
+                        ssl_profile_name = self.prefix + '-' + ssl_profile_name
+                    dup_of = ns_util.update_skip_duplicates(
+                        ssl_profile, avi_config['SSLProfile'], 'ssl_profile',
+                        merge_object_mapping, ssl_profile_name, None,
+                        self.prefix, sysdict['SSLProfile'])
+                    if dup_of:
+                        self.ssl_merge_count += 1
+                    else:
+                        avi_config['SSLProfile'].append(ssl_profile)
                 else:
                     avi_config['SSLProfile'].append(ssl_profile)
-            else:
-                avi_config['SSLProfile'].append(ssl_profile)
-            LOG.info('Conversion successful: %s' % full_set_ssl_service_command)
-            conv_status = ns_util.get_conv_status(
-                ssl_service, self.profile_set_ssl_service_skip,
-                self.profile_set_ssl_service_indirect, [],
-                user_ignore_val=self.profile_set_ssl_service_user_ignore)
-            # Add summery in CSV/report for ssl service
-            ns_util.add_conv_status(
-                ssl_service['line_no'], set_ssl_service_command, key,
-                full_set_ssl_service_command, conv_status, ssl_profile)
+                LOG.info('Conversion successful: %s' %
+                         full_set_ssl_service_command)
+                conv_status = ns_util.get_conv_status(
+                    ssl_service, self.profile_set_ssl_service_skip,
+                    self.profile_set_ssl_service_indirect, [],
+                    user_ignore_val=self.profile_set_ssl_service_user_ignore)
+                # Add summery in CSV/report for ssl service
+                ns_util.add_conv_status(
+                    ssl_service['line_no'], set_ssl_service_command, key,
+                    full_set_ssl_service_command, conv_status, ssl_profile)
+                LOG.debug("SSL profile conversion completed")
+            except:
+                LOG.error("Error in conversion of SSL Profile", exc_info=True)
             msg = "SSL Service conversion started..."
             ns_util.print_progress_bar(self.progressbar_count, self.total_size,
                                      msg, prefix='Progress', suffix='')
-
-        LOG.debug("SSL profiles conversion completed")
 
     def convert_http_profile(self, profile):
         """
@@ -425,14 +431,15 @@ class ProfileConverter(object):
             app_profile['tenant_ref'] = self.tenant_ref
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
             http_profile = dict()
-            conn_mux = profile.get('conMultiplex', 'DISABLED')
+            conn_mux = profile.get('conMultiplex', 'ENABLED')
             conn_mux = False if conn_mux == 'DISABLED' else True
             http_profile['connection_multiplexing_enabled'] = conn_mux
             xff_header = profile.get('clientIpHdrExpr', None)
             xff_enabled = True if xff_header else False
             http_profile['xff_enabled'] = xff_enabled
             # TODO: clientIpHdrExpr conversion to xff_alternate_name
-            websockets = profile.get('websockets_enabled', 'DISABLED')
+            websockets = profile.get('websockets_enabled', profile.get(
+                            'webSocket', 'DISABLED'))
             websockets = False if websockets == 'DISABLED' else True
             http_profile['websockets_enabled'] = websockets
             app_profile["http_profile"] = http_profile

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.3'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -33,6 +33,26 @@ paths:
                     in: query
                     description: object name
                     required: false
+                    type: string
+                -   name: refers_to
+                    in: query
+                    description: Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid
+                    type: string
+                -   name: referred_by
+                    in: query
+                    description: Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
                 -   name: X-Avi-Tenant
                     in: header
@@ -140,6 +160,18 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
             security:
                 - basicAuth: []
@@ -472,7 +504,7 @@ definitions:
             dp_max_wait_rsp_time_sec:
                 description: "Number of dp_max_wait_rsp_time_sec."
                 type: integer
-                default: 12
+                default: 60
                 format: int32
             dp_reg_pending_max_wait_time:
                 description: "Max time to wait for dp registration before assert."
@@ -826,6 +858,9 @@ definitions:
             disable_flow_probes:
                 description: "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1."
                 type: boolean
+            disable_gro:
+                description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1."
+                type: boolean
             dos_profile:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
@@ -863,6 +898,9 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
+            enable_hsm_log:
+                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                type: boolean
             feproxy_vips_enable_proxy_arp:
                 description: "Enable proxy ARP from Host interface for Front End  proxies."
                 type: boolean
@@ -976,7 +1014,7 @@ definitions:
             log_agent_max_storage_ignore_percent:
                 description: "Maximum storage on the disk not allocated for logs on the Service Engine."
                 type: number
-                default: 10.0
+                default: 20.0
                 format: float
             log_agent_min_storage_per_vs:
                 description: "Minimum storage allocated to any given VirtualService on the Service Engine."
@@ -1004,7 +1042,6 @@ definitions:
                 format: int32
             max_throughput:
                 description: "Deprecated. Field deprecated in 17.1.1."
-                readOnly: True
                 type: integer
                 default: 10000
                 format: int32
@@ -1108,9 +1145,8 @@ definitions:
                 default: 90
                 format: int32
             se_dp_vnic_queue_stall_event_sleep:
-                description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before asserting totrigger a failover. Field introduced in 17.1.1."
+                description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1."
                 type: integer
-                default: 10
                 format: int32
             se_dp_vnic_queue_stall_threshold:
                 description: "Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1."
@@ -1255,4 +1291,9 @@ definitions:
                 description: "Number of upstream_send_timeout."
                 type: integer
                 default: 3600000
+                format: int32
+            user_defined_metric_age:
+                description: "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5."
+                type: integer
+                default: 60
                 format: int32

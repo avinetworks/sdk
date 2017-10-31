@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -251,21 +261,37 @@ font-style: italic;
       "secret_access_key" : "aeiou",
       "vpc" : "aeiou",
       "region" : "aeiou",
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "usable_network_uuids" : [ "aeiou" ]
+      } ],
+      "ttl" : 123,
       "usable_domains" : [ "aeiou" ],
       "usable_network_uuids" : [ "aeiou" ]
     },
+    "gcp_profile" : {
+      "match_se_group_subnet" : true,
+      "usable_network_refs" : [ "aeiou" ]
+    },
+    "type" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
     "custom_profile" : {
-      "custom_ipam_dns_params" : [ {
+      "usable_subnets" : [ {
+        "ip_addr" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "mask" : 123
+      } ],
+      "dynamic_params" : [ {
         "is_sensitive" : true,
         "is_dynamic" : true,
         "name" : "aeiou",
         "value" : "aeiou"
       } ],
-      "custom_ipam_dns_profile_ref" : "aeiou"
-    },
-    "gcp_profile" : {
-      "match_se_group_subnet" : true,
-      "usable_network_refs" : [ "aeiou" ]
+      "custom_ipam_dns_profile_ref" : "aeiou",
+      "usable_domains" : [ "aeiou" ]
     },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
@@ -289,22 +315,31 @@ font-style: italic;
     "infoblox_profile" : {
       "network_view" : "aeiou",
       "password" : "aeiou",
-      "usable_subnets" : [ {
-        "ip_addr" : "",
-        "mask" : 123
-      } ],
+      "usable_subnets" : [ "" ],
       "dns_view" : "aeiou",
-      "ip_address" : {
-        "addr" : "aeiou",
-        "type" : "aeiou"
-      },
+      "ip_address" : "",
       "usable_domains" : [ "aeiou" ],
       "username" : "aeiou",
       "wapi_version" : "aeiou"
     },
-    "type" : "aeiou",
-    "uuid" : "aeiou",
-    "url" : "aeiou",
+    "azure_profile" : {
+      "subscription_id" : "aeiou",
+      "use_enhanced_ha" : true,
+      "resource_group" : "aeiou",
+      "azure_userpass" : {
+        "password" : "aeiou",
+        "tenant_name" : "aeiou",
+        "username" : "aeiou"
+      },
+      "virtual_network_ids" : [ "aeiou" ],
+      "azure_serviceprincipal" : {
+        "tenant_id" : "aeiou",
+        "authentication_token" : "aeiou",
+        "application_id" : "aeiou"
+      },
+      "usable_domains" : [ "aeiou" ],
+      "usable_network_uuids" : [ "aeiou" ]
+    },
     "openstack_profile" : {
       "password" : "aeiou",
       "keystone_host" : "aeiou",
@@ -375,21 +410,37 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
     "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "usable_network_uuids" : [ "aeiou" ]
+    } ],
+    "ttl" : 123,
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
+  "gcp_profile" : {
+    "match_se_group_subnet" : true,
+    "usable_network_refs" : [ "aeiou" ]
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "custom_profile" : {
-    "custom_ipam_dns_params" : [ {
+    "usable_subnets" : [ {
+      "ip_addr" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "mask" : 123
+    } ],
+    "dynamic_params" : [ {
       "is_sensitive" : true,
       "is_dynamic" : true,
       "name" : "aeiou",
       "value" : "aeiou"
     } ],
-    "custom_ipam_dns_profile_ref" : "aeiou"
-  },
-  "gcp_profile" : {
-    "match_se_group_subnet" : true,
-    "usable_network_refs" : [ "aeiou" ]
+    "custom_ipam_dns_profile_ref" : "aeiou",
+    "usable_domains" : [ "aeiou" ]
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -413,22 +464,31 @@ font-style: italic;
   "infoblox_profile" : {
     "network_view" : "aeiou",
     "password" : "aeiou",
-    "usable_subnets" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
+    "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
-    "ip_address" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
+    "ip_address" : "",
     "usable_domains" : [ "aeiou" ],
     "username" : "aeiou",
     "wapi_version" : "aeiou"
   },
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "azure_profile" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "azure_userpass" : {
+      "password" : "aeiou",
+      "tenant_name" : "aeiou",
+      "username" : "aeiou"
+    },
+    "virtual_network_ids" : [ "aeiou" ],
+    "azure_serviceprincipal" : {
+      "tenant_id" : "aeiou",
+      "authentication_token" : "aeiou",
+      "application_id" : "aeiou"
+    },
+    "usable_domains" : [ "aeiou" ],
+    "usable_network_uuids" : [ "aeiou" ]
+  },
   "openstack_profile" : {
     "password" : "aeiou",
     "keystone_host" : "aeiou",
@@ -539,7 +599,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -562,21 +628,37 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
     "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "usable_network_uuids" : [ "aeiou" ]
+    } ],
+    "ttl" : 123,
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
+  "gcp_profile" : {
+    "match_se_group_subnet" : true,
+    "usable_network_refs" : [ "aeiou" ]
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "custom_profile" : {
-    "custom_ipam_dns_params" : [ {
+    "usable_subnets" : [ {
+      "ip_addr" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "mask" : 123
+    } ],
+    "dynamic_params" : [ {
       "is_sensitive" : true,
       "is_dynamic" : true,
       "name" : "aeiou",
       "value" : "aeiou"
     } ],
-    "custom_ipam_dns_profile_ref" : "aeiou"
-  },
-  "gcp_profile" : {
-    "match_se_group_subnet" : true,
-    "usable_network_refs" : [ "aeiou" ]
+    "custom_ipam_dns_profile_ref" : "aeiou",
+    "usable_domains" : [ "aeiou" ]
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -600,22 +682,31 @@ font-style: italic;
   "infoblox_profile" : {
     "network_view" : "aeiou",
     "password" : "aeiou",
-    "usable_subnets" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
+    "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
-    "ip_address" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
+    "ip_address" : "",
     "usable_domains" : [ "aeiou" ],
     "username" : "aeiou",
     "wapi_version" : "aeiou"
   },
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "azure_profile" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "azure_userpass" : {
+      "password" : "aeiou",
+      "tenant_name" : "aeiou",
+      "username" : "aeiou"
+    },
+    "virtual_network_ids" : [ "aeiou" ],
+    "azure_serviceprincipal" : {
+      "tenant_id" : "aeiou",
+      "authentication_token" : "aeiou",
+      "application_id" : "aeiou"
+    },
+    "usable_domains" : [ "aeiou" ],
+    "usable_network_uuids" : [ "aeiou" ]
+  },
   "openstack_profile" : {
     "password" : "aeiou",
     "keystone_host" : "aeiou",
@@ -697,21 +788,37 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
     "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "usable_network_uuids" : [ "aeiou" ]
+    } ],
+    "ttl" : 123,
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
+  "gcp_profile" : {
+    "match_se_group_subnet" : true,
+    "usable_network_refs" : [ "aeiou" ]
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "custom_profile" : {
-    "custom_ipam_dns_params" : [ {
+    "usable_subnets" : [ {
+      "ip_addr" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "mask" : 123
+    } ],
+    "dynamic_params" : [ {
       "is_sensitive" : true,
       "is_dynamic" : true,
       "name" : "aeiou",
       "value" : "aeiou"
     } ],
-    "custom_ipam_dns_profile_ref" : "aeiou"
-  },
-  "gcp_profile" : {
-    "match_se_group_subnet" : true,
-    "usable_network_refs" : [ "aeiou" ]
+    "custom_ipam_dns_profile_ref" : "aeiou",
+    "usable_domains" : [ "aeiou" ]
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -735,22 +842,31 @@ font-style: italic;
   "infoblox_profile" : {
     "network_view" : "aeiou",
     "password" : "aeiou",
-    "usable_subnets" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
+    "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
-    "ip_address" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
+    "ip_address" : "",
     "usable_domains" : [ "aeiou" ],
     "username" : "aeiou",
     "wapi_version" : "aeiou"
   },
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "azure_profile" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "azure_userpass" : {
+      "password" : "aeiou",
+      "tenant_name" : "aeiou",
+      "username" : "aeiou"
+    },
+    "virtual_network_ids" : [ "aeiou" ],
+    "azure_serviceprincipal" : {
+      "tenant_id" : "aeiou",
+      "authentication_token" : "aeiou",
+      "application_id" : "aeiou"
+    },
+    "usable_domains" : [ "aeiou" ],
+    "usable_network_uuids" : [ "aeiou" ]
+  },
   "openstack_profile" : {
     "password" : "aeiou",
     "keystone_host" : "aeiou",
@@ -832,21 +948,37 @@ font-style: italic;
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
     "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "usable_network_uuids" : [ "aeiou" ]
+    } ],
+    "ttl" : 123,
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
+  "gcp_profile" : {
+    "match_se_group_subnet" : true,
+    "usable_network_refs" : [ "aeiou" ]
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "custom_profile" : {
-    "custom_ipam_dns_params" : [ {
+    "usable_subnets" : [ {
+      "ip_addr" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "mask" : 123
+    } ],
+    "dynamic_params" : [ {
       "is_sensitive" : true,
       "is_dynamic" : true,
       "name" : "aeiou",
       "value" : "aeiou"
     } ],
-    "custom_ipam_dns_profile_ref" : "aeiou"
-  },
-  "gcp_profile" : {
-    "match_se_group_subnet" : true,
-    "usable_network_refs" : [ "aeiou" ]
+    "custom_ipam_dns_profile_ref" : "aeiou",
+    "usable_domains" : [ "aeiou" ]
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -870,22 +1002,31 @@ font-style: italic;
   "infoblox_profile" : {
     "network_view" : "aeiou",
     "password" : "aeiou",
-    "usable_subnets" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
+    "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
-    "ip_address" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
+    "ip_address" : "",
     "usable_domains" : [ "aeiou" ],
     "username" : "aeiou",
     "wapi_version" : "aeiou"
   },
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "azure_profile" : {
+    "subscription_id" : "aeiou",
+    "use_enhanced_ha" : true,
+    "resource_group" : "aeiou",
+    "azure_userpass" : {
+      "password" : "aeiou",
+      "tenant_name" : "aeiou",
+      "username" : "aeiou"
+    },
+    "virtual_network_ids" : [ "aeiou" ],
+    "azure_serviceprincipal" : {
+      "tenant_id" : "aeiou",
+      "authentication_token" : "aeiou",
+      "application_id" : "aeiou"
+    },
+    "usable_domains" : [ "aeiou" ],
+    "usable_network_uuids" : [ "aeiou" ]
+  },
   "openstack_profile" : {
     "password" : "aeiou",
     "keystone_host" : "aeiou",
@@ -919,11 +1060,15 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#AwsZoneNetwork"><code>AwsZoneNetwork</code></a></li>
+    <li><a href="#AzureServicePrincipalCredentials"><code>AzureServicePrincipalCredentials</code></a></li>
+    <li><a href="#AzureUserPassCredentials"><code>AzureUserPassCredentials</code></a></li>
     <li><a href="#CustomParams"><code>CustomParams</code></a></li>
     <li><a href="#DnsServiceDomain"><code>DnsServiceDomain</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpamDnsAwsProfile"><code>IpamDnsAwsProfile</code></a></li>
+    <li><a href="#IpamDnsAzureProfile"><code>IpamDnsAzureProfile</code></a></li>
     <li><a href="#IpamDnsCustomProfile"><code>IpamDnsCustomProfile</code></a></li>
     <li><a href="#IpamDnsGCPProfile"><code>IpamDnsGCPProfile</code></a></li>
     <li><a href="#IpamDnsInfobloxProfile"><code>IpamDnsInfobloxProfile</code></a></li>
@@ -934,6 +1079,29 @@ font-style: italic;
     <li><a href="#ProxyConfiguration"><code>ProxyConfiguration</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="AwsZoneNetwork">AwsZoneNetwork</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">availability_zone </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone. Field introduced in 17.1.3. </div>
+<div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AzureServicePrincipalCredentials">AzureServicePrincipalCredentials</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">application_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+<div class="param">authentication_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+<div class="param">tenant_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AzureUserPassCredentials">AzureUserPassCredentials</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1. </div>
+<div class="param">tenant_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1. </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="CustomParams">CustomParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -973,18 +1141,35 @@ font-style: italic;
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. Field introduced in 17.1.1. </div>
 <div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS region. </div>
 <div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
+<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. format: int32</div>
 <div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1. </div>
 <div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1. </div>
-<div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property use_iam_roles of obj type IpamDnsAwsProfile field type str  type boolean </div>
+<div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
 <div class="param">vpc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC name. </div>
 <div class="param">vpc_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC ID. </div>
+<div class="param">zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsZoneNetwork">array[AwsZoneNetwork]</a></span> Network configuration for Virtual IP per AZ. Field introduced in 17.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpamDnsAzureProfile">IpamDnsAzureProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">azure_serviceprincipal (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureServicePrincipalCredentials">AzureServicePrincipalCredentials</a></span> Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1. </div>
+<div class="param">azure_userpass (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureUserPassCredentials">AzureUserPassCredentials</a></span> User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1. </div>
+<div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
+<div class="param">subscription_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subscription Id for the Azure subscription. Field introduced in 17.2.1. </div>
+<div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Azure DNS. Field introduced in 17.2.1. </div>
+<div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1. </div>
+<div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1. </div>
+<div class="param">virtual_network_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="IpamDnsCustomProfile">IpamDnsCustomProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">custom_ipam_dns_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomParams">array[CustomParams]</a></span> Custom parameters that will passed for the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1. </div>
-<div class="param">custom_ipam_dns_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1. </div>
+      <div class="param">custom_ipam_dns_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1. </div>
+<div class="param">dynamic_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomParams">array[CustomParams]</a></span> Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1. </div>
+<div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains. Field introduced in 17.2.2. </div>
+<div class="param">usable_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Usable subnets. Field introduced in 17.2.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1031,6 +1216,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpamDnsProviderProfile">IpamDnsProviderProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">aws_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsAwsProfile">IpamDnsAwsProfile</a></span> Provider details if type is AWS. </div>
+<div class="param">azure_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsAzureProfile">IpamDnsAzureProfile</a></span> Provider details if type is Microsoft Azure. Field introduced in 17.2.1. </div>
 <div class="param">custom_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsCustomProfile">IpamDnsCustomProfile</a></span> Provider details if type is Custom. Field introduced in 17.1.1. </div>
 <div class="param">gcp_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsGCPProfile">IpamDnsGCPProfile</a></span> Provider details if type is Google Cloud. </div>
 <div class="param">infoblox_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsInfobloxProfile">IpamDnsInfobloxProfile</a></span> Provider details if type is Infoblox. </div>
@@ -1039,7 +1225,7 @@ font-style: italic;
 <div class="param">openstack_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsOpenstackProfile">IpamDnsOpenstackProfile</a></span> Provider details if type is OpenStack. </div>
 <div class="param">proxy_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProxyConfiguration">ProxyConfiguration</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the IPAM/DNS Provider profile. </div>
     </div>  <!-- field-items -->

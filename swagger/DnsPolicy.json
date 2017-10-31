@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -101,6 +101,36 @@
                         "description": "object name", 
                         "in": "query", 
                         "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }, 
                     {
                         "required": false, 
@@ -276,6 +306,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -447,48 +495,22 @@
                 }
             }
         }, 
-        "DnsQueryNameMatch": {
+        "DnsQueryTypeMatch": {
             "required": [
                 "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "query_domain_names": {
+                "query_type": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Domain name to match against that specified in the question section of the DNS query. Field introduced in 17.1.1."
-                }, 
-                "string_group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of the string group(s) for matching against DNS query domain name in the question section. It is a reference to an object of type StringGroup. Field introduced in 17.1.1."
+                    "description": "DNS query types in the request query . Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 17.1.1."
                 }, 
                 "match_criteria": {
                     "type": "string", 
-                    "description": "Criterion to use for string matching the DNS query domain name in the question section. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "DnsPolicyApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/DnsPolicy"
-                    }, 
-                    "type": "array"
+                    "description": "Criterion to use for matching the DNS query typein the question section. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -567,22 +589,28 @@
                 }
             }
         }, 
-        "DnsQueryTypeMatch": {
+        "DnsGeoLocationMatch": {
             "required": [
                 "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "query_type": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "DNS query types in the request query . Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 17.1.1."
+                "geolocation_name": {
+                    "type": "string", 
+                    "description": "Geographical location of the client IP to be used in the match. This location is of the format Country/State/City e.g. US/CA/Santa Clara. Field introduced in 17.1.5."
+                }, 
+                "use_edns_client_subnet_ip": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use the IP address from the EDNS client subnet option, if available, to derive geo location of the DNS query. Field introduced in 17.1.5."
+                }, 
+                "geolocation_tag": {
+                    "type": "string", 
+                    "description": "Geolocation tag for the client IP. This could be any string value for the client IP, e.g. client IPs from US East Coast geolocation would be tagged as 'East Coast'. Field introduced in 17.1.5."
                 }, 
                 "match_criteria": {
                     "type": "string", 
-                    "description": "Criterion to use for matching the DNS query typein the question section. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.1."
+                    "description": "Criterion to use for matching the client IP's geographical location. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.5."
                 }
             }
         }, 
@@ -618,6 +646,54 @@
                 "name": {
                     "type": "string", 
                     "description": "Name of the rule. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "DnsRuleActionAllowDrop": {
+            "type": "object", 
+            "properties": {
+                "reset_conn": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Reset the TCP connection of the DNS query, if allow is set to false to drop the query. Field introduced in 17.1.1."
+                }, 
+                "allow": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allow the DNS query. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "DnsClientIpMatch": {
+            "required": [
+                "client_ip"
+            ], 
+            "type": "object", 
+            "properties": {
+                "use_edns_client_subnet_ip": {
+                    "type": "boolean", 
+                    "description": "Use the IP address from the EDNS client subnet option, if available, as the source IP address of the client. It should be noted that the edns subnet IP may not be a /32 IP address. Field introduced in 17.1.6,17.2.2."
+                }, 
+                "client_ip": {
+                    "description": "IP addresses to match against client IP. Field introduced in 17.1.6,17.2.2.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }
+            }
+        }, 
+        "DnsTransportProtocolMatch": {
+            "required": [
+                "match_criteria", 
+                "protocol"
+            ], 
+            "type": "object", 
+            "properties": {
+                "protocol": {
+                    "type": "string", 
+                    "description": "Protocol to match against transport protocol used by DNS query. Enum options - DNS_OVER_UDP, DNS_OVER_TCP. Field introduced in 17.1.1."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for matching the DNS transport protocol. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -661,18 +737,57 @@
                 }
             }
         }, 
-        "DnsRuleActionAllowDrop": {
+        "DnsQueryNameMatch": {
+            "required": [
+                "match_criteria"
+            ], 
             "type": "object", 
             "properties": {
-                "reset_conn": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Reset the TCP connection of the DNS query, if allow is set to false to drop the query. Field introduced in 17.1.1."
+                "query_domain_names": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Domain name to match against that specified in the question section of the DNS query. Field introduced in 17.1.1."
                 }, 
-                "allow": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Allow the DNS query. Field introduced in 17.1.1."
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s) for matching against DNS query domain name in the question section. It is a reference to an object of type StringGroup. Field introduced in 17.1.1."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for string matching the DNS query domain name in the question section. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "DnsPolicyApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/DnsPolicy"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "DnsRuleActionGslbSiteSelection": {
+            "type": "object", 
+            "properties": {
+                "site_name": {
+                    "type": "string", 
+                    "description": "GSLB site name. Field introduced in 17.1.5."
                 }
             }
         }, 
@@ -695,37 +810,28 @@
                 }
             }
         }, 
-        "DnsTransportProtocolMatch": {
-            "required": [
-                "match_criteria", 
-                "protocol"
-            ], 
-            "type": "object", 
-            "properties": {
-                "protocol": {
-                    "type": "string", 
-                    "description": "Protocol to match against transport protocol used by DNS query. Enum options - DNS_OVER_UDP, DNS_OVER_TCP. Field introduced in 17.1.1."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching the DNS transport protocol. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.1."
-                }
-            }
-        }, 
         "DnsRuleMatchTarget": {
             "type": "object", 
             "properties": {
+                "query_name": {
+                    "description": "Domain names to match against query name. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/DnsQueryNameMatch"
+                }, 
+                "client_ip": {
+                    "description": "IP addresses to match against client IP. From 17.1.6 release onwards, IP addresses needs to be configured in the client_ip_address field of this message. Field deprecated in 17.1.6,17.2.2. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "geo_location": {
+                    "description": "Geographical location attribute to match against that of the client IP. Field introduced in 17.1.5.", 
+                    "$ref": "#/definitions/DnsGeoLocationMatch"
+                }, 
                 "protocol": {
                     "description": "DNS transport protocol match. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/DnsTransportProtocolMatch"
                 }, 
-                "client_ip": {
-                    "description": "IP addresses to match against client IP. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "query_name": {
-                    "description": "Domain names to match against query name. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/DnsQueryNameMatch"
+                "client_ip_address": {
+                    "description": "IP addresses to match against client IP or the EDNS client subnet IP. Field introduced in 17.1.6,17.2.2.", 
+                    "$ref": "#/definitions/DnsClientIpMatch"
                 }, 
                 "query_type": {
                     "description": "DNS query types to match against request query type. Field introduced in 17.1.1.", 
@@ -736,13 +842,17 @@
         "DnsRuleAction": {
             "type": "object", 
             "properties": {
-                "response": {
-                    "description": "Generate a response for the DNS query. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/DnsRuleActionResponse"
-                }, 
                 "allow": {
                     "description": "Allow or drop the DNS query. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/DnsRuleActionAllowDrop"
+                }, 
+                "gslb_site_selection": {
+                    "description": "Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5.", 
+                    "$ref": "#/definitions/DnsRuleActionGslbSiteSelection"
+                }, 
+                "response": {
+                    "description": "Generate a response for the DNS query. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/DnsRuleActionResponse"
                 }
             }
         }

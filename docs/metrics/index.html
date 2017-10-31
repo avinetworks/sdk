@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc"></div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -229,6 +229,24 @@ font-style: italic;
     </div>  <!-- field-items -->
 
 
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include name in the REST references </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include references instead of object UUIDs </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples per metric requestedEg. limit&#x3D;100 implies return only 100 samples. </div><div class="param">pad_missing_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pad time series data with null in case there is not metric data present. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start&#x3D;1970-01-01T00 00 00. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step&#x3D;5&amp;metric_id&#x3D;l4_client.avg_bandwidth. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Eg. stop&#x3D;2014-01-01T12 42 42. </div>
+    </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
@@ -281,7 +299,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">asn (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">asn (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Autonomous System number. Eg. asn&#x3D;3794. </div><div class="param">attack (optional)</div>
 
@@ -387,11 +407,13 @@ font-style: italic;
         "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
         "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
         "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str" : "aeiou",
         "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
         "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
         "is_null" : true,
         "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
         "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str_desc" : "aeiou",
         "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
         "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
         "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -516,11 +538,13 @@ font-style: italic;
       "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
       "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
       "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str" : "aeiou",
       "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
       "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
       "is_null" : true,
       "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
       "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str_desc" : "aeiou",
       "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
       "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
       "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -622,7 +646,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">asn (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">asn (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Autonomous System number. Eg. asn&#x3D;3794. </div><div class="param">attack (optional)</div>
 
@@ -728,11 +754,13 @@ font-style: italic;
         "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
         "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
         "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str" : "aeiou",
         "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
         "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
         "is_null" : true,
         "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
         "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str_desc" : "aeiou",
         "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
         "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
         "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -857,11 +885,13 @@ font-style: italic;
       "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
       "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
       "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str" : "aeiou",
       "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
       "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
       "is_null" : true,
       "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
       "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str_desc" : "aeiou",
       "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
       "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
       "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -963,7 +993,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">asn (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">asn (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Autonomous System number. Eg. asn&#x3D;3794. </div><div class="param">attack (optional)</div>
 
@@ -1069,11 +1101,13 @@ font-style: italic;
         "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
         "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
         "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str" : "aeiou",
         "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
         "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
         "is_null" : true,
         "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
         "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str_desc" : "aeiou",
         "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
         "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
         "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -1198,11 +1232,13 @@ font-style: italic;
       "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
       "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
       "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str" : "aeiou",
       "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
       "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
       "is_null" : true,
       "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
       "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str_desc" : "aeiou",
       "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
       "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
       "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
@@ -1353,6 +1389,8 @@ font-style: italic;
 <div class="param">service_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Placeholder for description of property service_time of obj type MetricsData field type str  type number format: double</div>
 <div class="param">timestamp (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> timestamp of MetricsData. </div>
 <div class="param">value </div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Placeholder for description of property value of obj type MetricsData field type str  type number format: double</div>
+<div class="param">value_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.2. </div>
+<div class="param">value_str_desc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.2. </div>
 <div class="param">waiting_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Placeholder for description of property waiting_time of obj type MetricsData field type str  type number format: double</div>
     </div>  <!-- field-items -->
   </div>
@@ -1374,7 +1412,7 @@ font-style: italic;
 <div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> server ip port. </div>
 <div class="param">statistics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricStatistics">MetricStatistics</a></span> statistics of the metric. </div>
 <div class="param">tenant_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant UUID. </div>
-<div class="param">units (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD. </div>
+<div class="param">units (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, STRING, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD, MICROSECONDS, HEALTH. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1387,10 +1425,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsDerivationData">MetricsDerivationData</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">derivation_fn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_ALIAS, SUM_FIRST_N_DIVIDE_BY_LAST, SUM_BW_GAUGE, AVG_GET_POST_OTHER_LATENCY, APPDEX_ON_3_BUCKETS, APPDEX_ON_4_BUCKETS, SUM_GAUGE, SUM_N_METRICS, APPDEX_ON_5_BUCKETS, APPDEX_ON_6_BUCKETS, APPDEX_ON_CONNECTIONS, APPDEX_ON_2_BUCKETS, AVG_CLIENT_LATENCY, AVG_APPLICATION_LATENCY, MIN_N_METRICS, SUM_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, L4_CONNECTION_ERROR_PERCENTAGE, AVG_L4_CLIENT_LATENCY, CHECK_FOR_TRANSITIONS, SUBSTRACT_ALL_FROM_FIRST, AVG_N_OVER_TIME_PERIOD, AVG_NAVIGATION_TIMING, AVG_RUM_VISITS, PCT_SSL_ERROR_CONNECTIONS, AVG_RESPONSE_TIME, SUM_RATES_FIRST_N_DIVIDE_BY_LAST, SUM_RATES_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, PCT_CACHE_METRICS, SUM_FIRST_N_DIVIDE_BY_SECLAST_EXCL_ERROR_RATE, SUM_FIRST_N_SUBSTRACT_LAST, AVG_POOL_METRICS, AVG_POOL_BW, AVG_BY_SUBSTRACT_ALL_FROM_FIRST_OVER_TIME, AVG_RSA_PFS, EVAL_FN, SSL_PROTOCOL_INDICATOR, SUM_FIRST_N_DIVIDE_BY_SECLAST_RATE_EXCL_ERROR_RATE, SUBSTRACT_ALL_FROM_FIRST_WITH_FLOOR_ZERO, AVAILABLE_CAPACITY, CONNECTION_SATURATION, AVG_RSA_NON_PFS, SSL_HANDSHAKES_NONPFS, DYN_MEM_USAGE. </div>
+      <div class="param">derivation_fn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_ALIAS, SUM_FIRST_N_DIVIDE_BY_LAST, SUM_BW_GAUGE, AVG_GET_POST_OTHER_LATENCY, APPDEX_ON_3_BUCKETS, APPDEX_ON_4_BUCKETS, SUM_GAUGE, SUM_N_METRICS, APPDEX_ON_5_BUCKETS, APPDEX_ON_6_BUCKETS, APPDEX_ON_CONNECTIONS, APPDEX_ON_2_BUCKETS, AVG_CLIENT_LATENCY, AVG_APPLICATION_LATENCY, MIN_N_METRICS, SUM_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, L4_CONNECTION_ERROR_PERCENTAGE, AVG_L4_CLIENT_LATENCY, CHECK_FOR_TRANSITIONS, SUBSTRACT_ALL_FROM_FIRST, AVG_N_OVER_TIME_PERIOD, AVG_NAVIGATION_TIMING, AVG_RUM_VISITS, PCT_SSL_ERROR_CONNECTIONS, AVG_RESPONSE_TIME, SUM_RATES_FIRST_N_DIVIDE_BY_LAST, SUM_RATES_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, PCT_CACHE_METRICS, SUM_FIRST_N_DIVIDE_BY_SECLAST_EXCL_ERROR_RATE, SUM_FIRST_N_SUBSTRACT_LAST, AVG_POOL_METRICS, AVG_POOL_BW, AVG_BY_SUBSTRACT_ALL_FROM_FIRST_OVER_TIME, AVG_RSA_PFS, EVAL_FN, SSL_PROTOCOL_INDICATOR, SUM_FIRST_N_DIVIDE_BY_SECLAST_RATE_EXCL_ERROR_RATE, SUBSTRACT_ALL_FROM_FIRST_WITH_FLOOR_ZERO, AVAILABLE_CAPACITY, CONNECTION_SATURATION, AVG_RSA_NON_PFS, SSL_HANDSHAKES_NONPFS, DYN_MEM_USAGE, FIRST_DIVIDE_BY_DIFFERENCE_OF_SECOND_AND_THIRD. </div>
 <div class="param">exclude_derived_metric (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property exclude_derived_metric of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">include_derivation_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property include_derivation_metrics of obj type MetricsDerivationData field type str  type boolean </div>
-<div class="param">join_tables (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS. </div>
+<div class="param">join_tables (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE. </div>
 <div class="param">metric_ids </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_ids of MetricsDerivationData. </div>
 <div class="param">result_has_additional_fields (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property result_has_additional_fields of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">skip_backend_derivation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property skip_backend_derivation of obj type MetricsDerivationData field type str  type boolean </div>
@@ -1421,6 +1459,7 @@ font-style: italic;
     <h3 class="field-label"><a name="MetricsQuery">MetricsQuery</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">aggregate_entity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Required if the metrics need to be aggregated across multiple entities like virtualservice. </div>
+<div class="param">aggregate_obj_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div>
 <div class="param">asn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Autonomous System number. Eg. asn&#x3D;3794. </div>
 <div class="param">attack (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Dos Attack ID filter. </div>
 <div class="param">browser (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Browser filter. Eg. browser&#x3D;Chrome. </div>

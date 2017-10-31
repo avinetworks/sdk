@@ -70,6 +70,12 @@ type VserverL4MetricsObj struct {
 	// Number of request considered as DoS.
 	AvgDosReq float64 `json:"avg_dos_req,omitempty"`
 
+	// DoS attack  Requests dropped due to Cookie rate limit.
+	AvgDosReqCookieRlDrop float64 `json:"avg_dos_req_cookie_rl_drop,omitempty"`
+
+	// DoS attack  Requests dropped due to Header rate limit.
+	AvgDosReqHdrRlDrop float64 `json:"avg_dos_req_hdr_rl_drop,omitempty"`
+
 	// DoS attack  Requests dropped due to IP rate limit.
 	AvgDosReqIPRlDrop float64 `json:"avg_dos_req_ip_rl_drop,omitempty"`
 

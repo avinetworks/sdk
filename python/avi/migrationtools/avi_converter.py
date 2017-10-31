@@ -1,3 +1,4 @@
+from pkg_resources import parse_version
 from avi.migrationtools.config_patch import ConfigPatch
 from avi.migrationtools.vs_filter import filter_for_vs
 from avi.migrationtools import avi_rest_lib
@@ -106,7 +107,9 @@ class AviConverter(object):
                     "16_3_2",
                     "16_3_4",
                     "16_4_1",
-                    "16_4_2"
+                    "16_4_2",
+                    "17_1_1",
+                    "current_version"
                 ]
             },
             "version": {
@@ -118,6 +121,16 @@ class AviConverter(object):
             "upgrade_mode": False,
             "use_tenant": tenant
         }
+        try:
+            for index, version in enumerate(avi_config_dict['supported_migrations']['versions']):
+                # print parse_version(version), parse_version(controller_version)
+                if parse_version(version.replace('_','.')) > parse_version(controller_version):
+                    loc = index
+                    break
+            if loc:
+                part_1 = avi_config_dict['supported_migrations']['versions'][:loc]
+                part_2 = avi_config_dict['supported_migrations']['versions'][-1:]
+                avi_config_dict['supported_migrations']['versions'] = part_1 + part_2
+        except:
+            pass
         return avi_config_dict
-
-

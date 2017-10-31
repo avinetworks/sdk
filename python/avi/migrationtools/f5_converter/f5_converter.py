@@ -69,6 +69,7 @@ class F5Converter(AviConverter):
         # Added args for baseline profile json file to be changed
         self.profile_path = args.baseline_profile
         self.f5_passphrase_file = args.f5_passphrase_file
+        self.vs_level_status = args.vs_level_status
         # Created f5 util object.
         self.conversion_util = F5Util()
 
@@ -129,7 +130,7 @@ class F5Converter(AviConverter):
         elif self.bigip_config_file:
             source_file = open(self.bigip_config_file, "r")
         if not source_file:
-            print 'Not found ns configuration file'
+            print 'Not found F5 configuration file'
             return
         source_str = source_file.read()
         total_size = source_file.tell()
@@ -182,16 +183,11 @@ class F5Converter(AviConverter):
             self.f5_config_version, self.object_merge_check,
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
-            self.tenant, self.cloud_name, self.f5_passphrase_file)
+            self.tenant, self.cloud_name, self.f5_passphrase_file,
+            self.vs_level_status)
 
         avi_config_dict["META"] = self.meta(self.tenant, 
                                             self.controller_version)
-
-        if parse_version(self.controller_version) >= parse_version('17.1'):
-            avi_config_dict['META']['supported_migrations']['versions'].append(
-                '17_1_1')
-        avi_config_dict['META']['supported_migrations']['versions'].append(
-            'current_version')
 
         avi_config = self.process_for_utils(avi_config_dict)
         # Check if flag true then skip not in use object
@@ -225,7 +221,7 @@ class F5Converter(AviConverter):
                     monitor:
                 monitor_base = monitor.read()
                 total_size_mnt = monitor.tell()
-            if bool(self.skip_default_file):
+            if self.skip_default_file:
                 LOG.warning('Skipped default profile base file : %s\nSkipped '
                             'default monitor base file : %s'
                             % (profile.name, monitor.name))
@@ -255,7 +251,7 @@ class F5Converter(AviConverter):
                 dir_path = self.conversion_util.get_project_path()
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                     self.f5_config_version, "r") as defaults_file:
-                if bool(self.skip_default_file):
+                if self.skip_default_file:
                     LOG.warning(
                         'Skipped default file : %s' % defaults_file.name)
                     return f5_defaults_dict
@@ -292,6 +288,16 @@ if __name__ == "__main__":
     Example to auto upload to controller after conversion:
             f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
             username -p password -t tenant
+            
+    Example to patch the config after conversion:
+        f5_converter.py -f bigip.conf --patch test/patch.yaml
+
+    Example to use ansible option:
+        f5_converter.py -f bigip.conf --ansible
+
+    Example to use vs level status option:
+        f5_converter.py -f bigip.conf --vs_level_status
+    Usecase: To get the vs level status for the avi objects in excel sheet
     '''
 
 
@@ -302,7 +308,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('--skip_default_file',
-                        help='Flag for skip default file', default=False)
+                        help='Flag for skip default file', action='store_true')
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config file', default='11')
     parser.add_argument('-o', '--output_file_path',
@@ -371,14 +377,16 @@ if __name__ == "__main__":
                         default=[])
     # Create Ansible Script based on Flag
     parser.add_argument('--ansible',
-                        help='Flag for create ansible file', action='store_true')
+                        help='Flag for create ansible file',
+                        action='store_true')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
 
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
-                        help='Flag for converting snatpool into individual addresses',
-                        action = "store_true")
+                        help='Flag for converting snatpool into '
+                             'individual addresses',
+                        action="store_true")
     # Added not in use flag
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
@@ -388,6 +396,10 @@ if __name__ == "__main__":
                                     'file containing baseline profiles')
     parser.add_argument('--f5_passphrase_file',
                         help='F5 key passphrase yaml file path')
+
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                             'settings in status excel sheet')
 
 
     args = parser.parse_args()

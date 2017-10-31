@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VirtualService Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\n##Examples##\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1564,6 +1564,69 @@
                 ]
             }
         }, 
+        "/virtualservice/{uuid}/userdefineddatascriptcounters/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
         "/virtualservice/{uuid}/retryplacement": {
             "post": {
                 "security": [
@@ -2260,6 +2323,36 @@
                         "name": "name"
                     }, 
                     {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
                         "required": false, 
                         "type": "string", 
                         "description": "Avi Tenant Header", 
@@ -2286,6 +2379,18 @@
                         "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
                         "in": "header", 
                         "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
+                        "name": "cloud_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
+                        "name": "cloud_ref.name"
                     }
                 ], 
                 "consumes": [
@@ -2559,6 +2664,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -3123,6 +3246,20 @@
         "DnsInfo": {
             "type": "object", 
             "properties": {
+                "cname": {
+                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/DnsCnameRdata"
+                }, 
+                "algorithm": {
+                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
+                    "type": "string", 
+                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
+                }, 
+                "ttl": {
+                    "type": "integer", 
+                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
+                    "format": "int32"
+                }, 
                 "num_records_in_response": {
                     "default": 1, 
                     "type": "integer", 
@@ -3138,15 +3275,9 @@
                     "type": "string", 
                     "description": "Fully qualified domain name."
                 }, 
-                "algorithm": {
-                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
+                "metadata": {
                     "type": "string", 
-                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
-                }, 
-                "ttl": {
-                    "type": "integer", 
-                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
-                    "format": "int32"
+                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
                 }
             }
         }, 
@@ -3288,6 +3419,14 @@
             ], 
             "type": "object", 
             "properties": {
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "all_east_west": {
+                    "type": "boolean", 
+                    "description": "Retry placement operations for all East-West services. Field introduced in 17.1.6,17.2.2."
+                }, 
                 "vip_id": {
                     "type": "string", 
                     "description": "Indicates the vip_id that needs placement retrial. Field introduced in 17.1.2."
@@ -3404,6 +3543,14 @@
                     "description": "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
+                "subnet6_uuid": {
+                    "type": "string", 
+                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                }, 
+                "subnet6": {
+                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
                 "network_ref": {
                     "type": "string", 
                     "description": "Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network."
@@ -3447,6 +3594,10 @@
                     }, 
                     "type": "array", 
                     "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
                 }
             }
         }, 
@@ -3674,6 +3825,10 @@
                     "type": "string", 
                     "description": "Microservice representing the virtual service. It is a reference to an object of type MicroService."
                 }, 
+                "use_vip_as_snat": {
+                    "type": "boolean", 
+                    "description": "Use the Virtual IP as the SNAT IP for health monitoring and sending traffic to the backend servers instead of the Service Engine interface IP. The caveat of enabling this option is that the VirtualService cannot be configued in an Active-Active HA mode. DNS based Multi VIP solution has to be used for HA & Non-disruptive Upgrade purposes. Field introduced in 17.1.9,17.2.3."
+                }, 
                 "ip_address": {
                     "description": "IP Address of the Virtual Service. Field deprecated in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
@@ -3704,7 +3859,7 @@
                 "flow_label_type": {
                     "default": "NO_LABEL", 
                     "type": "string", 
-                    "description": "Criteria for flow labelling. Enum options - NO_LABEL, SERVICE_LABEL."
+                    "description": "Criteria for flow labelling. Enum options - NO_LABEL, APPLICATION_LABEL, SERVICE_LABEL."
                 }, 
                 "type": {
                     "default": "VS_TYPE_NORMAL", 
@@ -3750,6 +3905,13 @@
                     "description": "Determines analytics settings for the application.", 
                     "$ref": "#/definitions/AnalyticsPolicy"
                 }, 
+                "sp_pool_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2."
+                }, 
                 "network_security_policy_ref": {
                     "type": "string", 
                     "description": "Network security policies for the Virtual Service. It is a reference to an object of type NetworkSecurityPolicy."
@@ -3787,9 +3949,9 @@
                     "type": "array", 
                     "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Note that only one of fqdn and dns_info setting is allowed."
                 }, 
-                "service_metadata": {
+                "vrf_context_ref": {
                     "type": "string", 
-                    "description": "Metadata pertaining to the Service provided by this virtual service. In Openshift/Kubernetes environments, egress pod info is stored. Any user input to this field will be overwritten by Avi Vantage."
+                    "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext."
                 }, 
                 "description": {
                     "type": "string", 
@@ -3799,14 +3961,14 @@
                     "description": "Subnet providing reachability for client facing Virtual Service IP. Field deprecated in 17.1.1.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
-                "vrf_context_ref": {
+                "service_metadata": {
                     "type": "string", 
-                    "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext."
+                    "description": "Metadata pertaining to the Service provided by this virtual service. In Openshift/Kubernetes environments, egress pod info is stored. Any user input to this field will be overwritten by Avi Vantage."
                 }, 
                 "cloud_type": {
                     "default": "CLOUD_NONE", 
                     "type": "string", 
-                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 }, 
                 "vh_domain_name": {
                     "items": {
@@ -3816,7 +3978,6 @@
                     "description": "The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 
@@ -3827,6 +3988,10 @@
                 "se_group_ref": {
                     "type": "string", 
                     "description": "The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. It is a reference to an object of type ServiceEngineGroup."
+                }, 
+                "waf_policy_ref": {
+                    "type": "string", 
+                    "description": "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."
                 }, 
                 "network_ref": {
                     "type": "string", 
@@ -4034,9 +4199,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property to_new_se of obj type VsMigrateParams field type str  type boolean"
                 }, 
-                "vip_id": {
+                "uuid": {
                     "type": "string", 
-                    "description": " Field introduced in 17.1.1."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "from_se_ref": {
                     "type": "string", 
@@ -4049,6 +4214,10 @@
                 "to_se_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "vip_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -4142,7 +4311,7 @@
                     "format": "int32"
                 }, 
                 "client_insights": {
-                    "default": "ACTIVE", 
+                    "default": "NO_INSIGHTS", 
                     "type": "string", 
                     "description": "Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE."
                 }, 
@@ -4233,21 +4402,25 @@
             ], 
             "type": "object", 
             "properties": {
+                "scalein_primary": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property scalein_primary of obj type VsScaleinParams field type str  type boolean"
+                }, 
                 "admin_down": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property admin_down of obj type VsScaleinParams field type str  type boolean"
                 }, 
-                "vip_id": {
+                "uuid": {
                     "type": "string", 
-                    "description": " Field introduced in 17.1.1."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "from_se_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type ServiceEngine."
                 }, 
-                "scalein_primary": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property scalein_primary of obj type VsScaleinParams field type str  type boolean"
+                "vip_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -4326,13 +4499,17 @@
             ], 
             "type": "object", 
             "properties": {
-                "se_uuid": {
+                "uuid": {
                     "type": "string", 
-                    "description": "Unique object identifier of se."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "vip_id": {
                     "type": "string", 
                     "description": " Field introduced in 17.1.1."
+                }, 
+                "se_uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of se."
                 }
             }
         }, 
@@ -4357,8 +4534,12 @@
                     "type": "string", 
                     "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1."
                 }, 
+                "avi_allocated_vip": {
+                    "type": "boolean", 
+                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
+                }, 
                 "floating_ip": {
-                    "description": "Floating IP to associate with this Vip. Field introduced in 17.1.1.", 
+                    "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
                 "auto_allocate_floating_ip": {
@@ -4369,21 +4550,33 @@
                     "type": "string", 
                     "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
                 }, 
-                "avi_allocated_vip": {
-                    "type": "boolean", 
-                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
+                "ip6_address": {
+                    "description": "IPv6 Address of the Vip. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "subnet6": {
+                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "ip_address": {
-                    "description": "IP Address of the Vip. Field introduced in 17.1.1.", 
+                    "description": "IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
                 "subnet_uuid": {
                     "type": "string", 
                     "description": "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1."
                 }, 
+                "floating_subnet6_uuid": {
+                    "type": "string", 
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1."
+                }, 
                 "subnet": {
                     "description": "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "subnet6_uuid": {
+                    "type": "string", 
+                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1."
                 }, 
                 "vip_id": {
                     "type": "string", 
@@ -4392,6 +4585,10 @@
                 "network_ref": {
                     "type": "string", 
                     "description": "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
+                }, 
+                "floating_ip6": {
+                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
                 "avi_allocated_fip": {
                     "type": "boolean", 
@@ -4449,6 +4646,10 @@
                 "vip_id": {
                     "type": "string", 
                     "description": " Field introduced in 17.1.1."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
                 }, 
                 "to_host_ref": {
                     "type": "string", 

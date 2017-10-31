@@ -14,6 +14,9 @@ type VsApicExtension struct {
 	// Required: true
 	TxnUUID string `json:"txn_uuid"`
 
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
+
 	// Placeholder for description of property vnic of obj type VsApicExtension field type str  type object
 	Vnic []*VsSeVnic `json:"vnic,omitempty"`
 }

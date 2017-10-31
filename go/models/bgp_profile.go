@@ -7,7 +7,7 @@ package models
 // swagger:model BgpProfile
 type BgpProfile struct {
 
-	// Set the community attribute - 'internet', 'local-AS', 'no-advertise', 'no-export', <AS> <Val> One or more of these can be configured with 1 <= AS,Val <= 65535. Field introduced in 17.1.2.
+	// Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.2.
 	Community []string `json:"community,omitempty"`
 
 	// Hold time for Peers. Allowed values are 3-7200.
@@ -16,6 +16,9 @@ type BgpProfile struct {
 	// BGP peer type.
 	// Required: true
 	Ibgp bool `json:"ibgp"`
+
+	// Communities per IP address range. Field introduced in 17.1.3.
+	IPCommunities []*IPCommunity `json:"ip_communities,omitempty"`
 
 	// Keepalive interval for Peers. Allowed values are 0-3600.
 	KeepaliveInterval int32 `json:"keepalive_interval,omitempty"`

@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Pool Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> ```  ##Examples## - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
+    <div class="app-desc">##CLI## ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  ##Examples## - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -201,6 +201,7 @@ font-style: italic;
   <li><a href="#poolGet"><code><span class="http-method">get</span> /pool</code></a></li>
   <li><a href="#poolPost"><code><span class="http-method">post</span> /pool</code></a></li>
   <li><a href="#poolUuidAlgoGet"><code><span class="http-method">get</span> /pool/{uuid}/algo/</code></a></li>
+  <li><a href="#poolUuidClearPost"><code><span class="http-method">post</span> /pool/{uuid}/clear</code></a></li>
   <li><a href="#poolUuidConnpoolGet"><code><span class="http-method">get</span> /pool/{uuid}/connpool/</code></a></li>
   <li><a href="#poolUuidConnpoolstatsClearPost"><code><span class="http-method">post</span> /pool/{uuid}/connpoolstats/clear</code></a></li>
   <li><a href="#poolUuidDelete"><code><span class="http-method">delete</span> /pool/{uuid}</code></a></li>
@@ -224,6 +225,7 @@ font-style: italic;
   <li><a href="#poolUuidRuntimeStatsClearPost"><code><span class="http-method">post</span> /pool/{uuid}/runtime/stats/clear</code></a></li>
   <li><a href="#poolUuidScaleinPost"><code><span class="http-method">post</span> /pool/{uuid}/scalein</code></a></li>
   <li><a href="#poolUuidScaleoutPost"><code><span class="http-method">post</span> /pool/{uuid}/scaleout</code></a></li>
+  <li><a href="#poolUuidVsGet"><code><span class="http-method">get</span> /pool/{uuid}/vs/</code></a></li>
   </ol>
 
   <div class="method"><a name="poolGet"/>
@@ -246,7 +248,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
@@ -281,6 +297,7 @@ font-style: italic;
       "ratio" : 123
     },
     "application_persistence_profile_ref" : "aeiou",
+    "lb_algorithm_core_nonaffinity" : 123,
     "autoscale_launch_config_ref" : "aeiou",
     "prst_hdr_name" : "aeiou",
     "placement_networks" : [ {
@@ -301,6 +318,7 @@ font-style: italic;
     "name" : "aeiou",
     "cloud_config_cksum" : "aeiou",
     "server_auto_scale" : true,
+    "gslb_sp_enabled" : true,
     "server_name" : "aeiou",
     "request_queue_depth" : 123,
     "description" : "aeiou",
@@ -497,6 +515,7 @@ font-style: italic;
     "ratio" : 123
   },
   "application_persistence_profile_ref" : "aeiou",
+  "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
@@ -517,6 +536,7 @@ font-style: italic;
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
+  "gslb_sp_enabled" : true,
   "server_name" : "aeiou",
   "request_queue_depth" : 123,
   "description" : "aeiou",
@@ -679,6 +699,64 @@ font-style: italic;
       <li><code>application/json</code></li>
     </ul>
 
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolUuidClearPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /pool/{uuid}/clear</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolUuidClearPost</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
+    </div>  <!-- field-items -->
 
 
 
@@ -905,7 +983,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -938,6 +1022,7 @@ font-style: italic;
     "ratio" : 123
   },
   "application_persistence_profile_ref" : "aeiou",
+  "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
@@ -958,6 +1043,7 @@ font-style: italic;
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
+  "gslb_sp_enabled" : true,
   "server_name" : "aeiou",
   "request_queue_depth" : 123,
   "description" : "aeiou",
@@ -1373,6 +1459,7 @@ font-style: italic;
     "ratio" : 123
   },
   "application_persistence_profile_ref" : "aeiou",
+  "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
@@ -1393,6 +1480,7 @@ font-style: italic;
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
+  "gslb_sp_enabled" : true,
   "server_name" : "aeiou",
   "request_queue_depth" : 123,
   "description" : "aeiou",
@@ -1652,6 +1740,7 @@ font-style: italic;
     "ratio" : 123
   },
   "application_persistence_profile_ref" : "aeiou",
+  "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
@@ -1672,6 +1761,7 @@ font-style: italic;
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
+  "gslb_sp_enabled" : true,
   "server_name" : "aeiou",
   "request_queue_depth" : 123,
   "description" : "aeiou",
@@ -2462,6 +2552,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="poolUuidVsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /pool/{uuid}/vs/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolUuidVsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
 
   <div class="up"><a href="#__Models">Up</a></div>
   <h2><a name="__Models">Models</a></h2>
@@ -2558,8 +2700,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="GeoLocation">GeoLocation</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">latitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Latitude of the location. Field introduced in 17.1.1. format: float</div>
-<div class="param">longitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Longitude of the location. Field introduced in 17.1.1. format: float</div>
+      <div class="param">latitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Latitude of the location. This is represented as degrees.minutes. The range is from -90.0 (south) to +90.0 (north). Allowed values are -90.0-+90.0. Field introduced in 17.1.1. format: float</div>
+<div class="param">longitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Longitude of the location. This is represented as degrees.minutes. The range is from -180.0 (west) to +180.0 (east). Allowed values are -180.0-+180.0. Field introduced in 17.1.1. format: float</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location name in the format Country/State/City. Field introduced in 17.1.1. </div>
 <div class="param">tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location tag string - example  USEast. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
@@ -2680,16 +2822,18 @@ font-style: italic;
 <div class="param">east_west (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inherited config from VirtualService. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors. </div>
 <div class="param">external_autoscale_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2. </div>
-<div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect, Local HTTP Response, or Backup Pool - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure. </div>
+<div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure. </div>
 <div class="param">fewest_tasks_feedback_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. format: int32</div>
-<div class="param">graceful_disable_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-60. Special values are 0 - &#39;Immediate&#39;, -1 - &#39;Infinite&#39;. format: int32</div>
+<div class="param">graceful_disable_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - &#39;Immediate&#39;, -1 - &#39;Infinite&#39;. format: int32</div>
+<div class="param">gslb_sp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1. </div>
 <div class="param">health_monitor_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor. </div>
 <div class="param">host_check_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match. </div>
 <div class="param">inline_health_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin. </div>
 <div class="param">ipaddrgroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup. </div>
-<div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER. </div>
+<div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY. </div>
 <div class="param">lb_algorithm_consistent_hash_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name to be used for the hash key. </div>
-<div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER. </div>
+<div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
+<div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING. </div>
 <div class="param">max_concurrent_connections_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied. format: int32</div>
 <div class="param">max_conn_rate_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit connections to each server. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool. </div>
@@ -2764,7 +2908,7 @@ font-style: italic;
 <div class="param">mac_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> MAC address of server. </div>
 <div class="param">nw_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) This field is used internally by Avi, not editable by the user. It is a reference to an object of type VIMgrNWRuntime. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Optionally specify the servers port number.  This will override the pool&#39;s default server port attribute. Allowed values are 1-65535. Special values are 0- &#39;use backend port in pool&#39;. format: int32</div>
-<div class="param">prst_hdr_val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header value for custom header persistence. </div>
+<div class="param">prst_hdr_val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header value for custom header persistence. . </div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ratio of selecting eligible servers in the pool. Allowed values are 1-20. format: int32</div>
 <div class="param">resolve_server_by_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto resolve server&#39;s IP using DNS name. </div>
 <div class="param">rewrite_host_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name. </div>
@@ -2787,12 +2931,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reason for the manual scalein. </div>
 <div class="param">servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#ServerId">array[ServerId]</a></span> List of server IDs that should be scaled in. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="ServerScaleOutParams">ServerScaleOutParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reason for the manual scaleout. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
