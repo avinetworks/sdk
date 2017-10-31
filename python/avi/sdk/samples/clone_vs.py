@@ -15,7 +15,8 @@ from requests.packages import urllib3
 urllib3.disable_warnings()
 
 DEFAULT_API_VERSION = '16.4.2'
-AVICLONE_VERSION = [0, 0, 7]
+
+AVICLONE_VERSION = [0, 0, 8]
 
 # Try to obtain the terminal width to allow spprint() to wrap output neatly.
 # If unable to determine, assume terminal width is 70 characters
@@ -70,6 +71,82 @@ class AviClone:
         
         return obj
 
+    def clone_generic(self, object_type, old_generic_name, new_generic_name,
+                   tenant = None, other_tenant = None,
+                   force_unique_name = False):
+        
+        '''Clones a generic object (one that has no child references)
+
+        Optionally creating the cloned object in a different tenant.
+
+        Returns json representation of the cloned object
+        
+        :param object_type: Name of object type (e.g. 'applicationprofile')
+        :param old_generic_name: Name of existing app profile
+        :param new_generic_name: New name for cloned app profile
+        :param tenant: Tenant for existing pool (if not specfied,
+              use user's default tenant)
+        :param other_tenant: Tenant for cloned pool (if not specified,
+              clone to same tenant as source)
+        :param force_unique_name: Resolve destination name conflicts by
+              appending an index number
+        :return: json representation of the cloned pool object
+        :rtype: dict
+        '''
+
+        if tenant is None:
+            t_obj = None
+        else:
+            t_obj = self.api.get_object_by_name('tenant', tenant)
+            if t_obj is None:
+                raise Exception('A tenant with name %s could not be found' % (tenant))
+
+        if other_tenant is None:
+            ot_obj = None
+        else:
+            ot_obj = self.api.get_object_by_name('tenant', other_tenant)
+            if ot_obj is None:
+                raise Exception('A tenant with name %s could not be found' % (other_tenant))
+
+        # Get existing object (either by name or by ref if old_generic_name is in ref form)
+
+        if old_generic_name.startswith(object_type + '/'):
+            g_obj = self.api.get(old_generic_name, tenant_uuid = t_obj['uuid'] if t_obj else None).json()
+            old_generic_name = g_obj['name']
+        else:
+            g_obj = self.api.get_object_by_name(object_type, old_generic_name, tenant_uuid = t_obj['uuid'] if t_obj else None)
+        if not g_obj:
+            raise Exception('Object of type %s named %s could not be found' % (object_type, old_generic_name))
+
+        g_obj_check = self.api.get_object_by_name(object_type, new_generic_name, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+
+        if g_obj_check is not None:
+            if force_unique_name:
+                i = 1
+                new_generic_name_prefix = new_generic_name
+                while g_obj_check is not None:
+                    new_generic_name = new_generic_name_prefix + '-' + str(i)
+                    i += 1
+                    g_obj_check = self.api.get_object_by_name(object_type, new_generic_name, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+            else:
+                raise Exception('An object of type %s with name %s already exists' % (object_type, new_generic_name))
+
+        # Remove unique attributes and rename object
+
+        g_obj.pop('uuid', None)
+        g_obj.pop('url', None)
+        g_obj['name'] = new_generic_name
+
+        # Try to create cloned object (possibly in a different tenant to the source app profile)
+
+        r = self.api.post(object_type, g_obj, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+        if r.status_code < 300:
+            new_generic = r.json()
+            self.actions += ['Cloned object of type %s named %s%s to %s%s' % (object_type, old_generic_name, (' in tenant "'+t_obj['name']+'"') if t_obj else '', new_generic_name, (' in tenant "'+ot_obj['name']+'"') if ot_obj else '')]
+            return new_generic
+        else:
+            raise Exception('Unable to clone object of type %s named %s as %s (%d:%s)' % (object_type, old_generic_name, new_generic_name, r.status_code, r.text))
+
     def clone_pool(self, old_pool_name, new_pool_name, tenant = None,
                    other_tenant = None, other_cloud = None,
                    force_unique_name = False):
@@ -80,7 +157,7 @@ class AviClone:
         Optionally creating the cloned pool in a different tenant and/or a
         different cloud.
 
-        Returns json representation of the cloned pool object
+        Returns a tuple: json representation of the cloned pool object, list of additional objects created if any
 
         :param old_pool_name: Name of existing pool
         :param new_pool_name: New name for cloned pool
@@ -92,8 +169,9 @@ class AviClone:
                             same cloud as source)
         :param force_unique_name: Resolve destination name conflicts by
                                     appending an index number
-        :return: json representation of the cloned pool object
-        :rtype: dict
+        :return: tuple - json representation of the cloned pool object, list of
+                            additional objects created, if any
+        :rtype:tuple
         """
 
         # Lookup source and destination tenant and destination cloud if
@@ -160,15 +238,42 @@ class AviClone:
         p_obj.pop('url', None)
         p_obj['name'] = new_pool_name
 
-        # (Try to!) move the new pool to a different cloud
+        created_objs = []
 
-        if oc_obj:
-            p_obj['cloud_ref'] = oc_obj['url']
+        try:
+            # If moving to a different tenant, clone any tenant-specific referenced objects
 
-            # If moving to a different cloud, pool will be moved to the default
-            # global VRF in the target cloud
+            if ot_obj:
+                new_objs = self.clone_refs_to_tenant(p_obj,
+                                            ('application_persistence_profile_ref', 'health_monitor_refs'),
+                                            t_obj, ot_obj)
 
-            p_obj.pop('vrf_ref', None)
+                created_objs.extend(list(new_objs))
+  
+            if oc_obj:
+                p_obj['cloud_ref'] = oc_obj['url']
+
+                # If moving to a different cloud, pool will be moved to the default
+                # global VRF in the target cloud
+
+                p_obj.pop('vrf_ref', None)
+
+            # Try to create cloned pool (possibly in a different tenant to the source pool)
+
+            r = self.api.post('pool', p_obj, tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+            if r.status_code < 300:
+                new_pool = r.json()
+                self.actions += ['Cloned pool %s%s to %s%s%s' % (old_pool_name, (' in tenant "'+t_obj['name']+'"') if t_obj else '', new_pool_name, (' in tenant "'+ot_obj['name']+'"') if ot_obj else '', ' in cloud "'+oc_obj['name']+'"' if oc_obj else '')]
+                return new_pool, created_objs
+            else:
+                raise Exception('Unable to clone pool %s as %s (%d:%s)' % (old_pool_name, new_pool_name, r.status_code, r.text))
+        except Exception as e:
+            # If an exception occurred, delete any intermediate objects we have created
+
+            for obj in created_objs:
+                self.api.delete(obj['url'].split('/api/')[1], tenant_uuid = ot_obj['uuid'] if ot_obj else t_obj['uuid'] if t_obj else None)
+
+            raise Exception('%s\r\n=> Unable to clone pool %s as %s' % (e, old_pool_name, new_pool_name))
 
         # Try to create cloned pool (possibly in a different tenant to the
         # source pool)
@@ -289,12 +394,13 @@ class AviClone:
                     if 'pool_ref' in member:
                         p_path = member['pool_ref'].split('/api/')[1]
 
-                        p_obj = self.clone_pool(p_path, new_pool_group_name +
-                                    '-pool-' + str(count), tenant, other_tenant,
-                                                other_cloud, True)
+                        p_obj, p_created_objs = self.clone_pool(p_path,
+                                    new_pool_group_name + '-pool-' + str(count),
+                                    tenant, other_tenant, other_cloud, True)
                         count += 1
 
                         created_objs.append(p_obj)
+                        created_objs.extend(list(p_created_objs))
 
                         # Update the pool with the cloned pool
 
@@ -446,14 +552,16 @@ class AviClone:
                     for rule in ps_obj['http_request_policy']['rules']:
                         if 'switching_action' in rule:
                             if 'pool_ref' in rule['switching_action']:
+
                                 p_path = rule['switching_action'][
                                                 'pool_ref'].split('/api/')[1]
-                                p_obj = self.clone_pool(p_path,
+                                p_obj, p_created_objs = self.clone_pool(p_path,
                                             new_http_pol_set_name + '-pool',
                                         tenant, other_tenant, other_cloud, True)
                                 rule['switching_action']['pool_ref'] = \
                                                                     p_obj['url']
                                 created_objs.append(p_obj)
+                                created_objs.extend(p_created_objs)
                             if 'pool_group_ref' in rule['switching_action']:
                                 p_path = rule['switching_action'][
                                             'pool_group_ref'].split('/api/')[1]
@@ -590,10 +698,12 @@ class AviClone:
             if 'pool_ref' in v_obj:
                 p_path = v_obj['pool_ref'].split('/api/')[1]
 
-                p_obj = self.clone_pool(p_path, new_vs_name + '-pool', tenant,
-                                        other_tenant, other_cloud, True)
+                p_obj, p_created_objs = self.clone_pool(p_path, new_vs_name +
+                                        '-pool', tenant, other_tenant,
+                                        other_cloud, True)
 
                 created_objs.append(p_obj)
+                created_objs.extend(list(p_created_objs))
 
                 # Update the pool with the cloned pool
 
@@ -745,6 +855,18 @@ class AviClone:
                 else:
                     v_obj.pop('dns_info', None)
 
+            # If moving to a different tenant, clone any tenant-specific
+            # referenced objects
+
+            if ot_obj:
+                new_objs = self.clone_refs_to_tenant(v_obj,
+                                          ('application_profile_ref',
+                                           'network_profile_ref',
+                                           'analytics_profile_ref'),
+                                          t_obj, ot_obj)
+
+                created_objs.extend(list(new_objs))
+
             # Try to create the new VS (possibly in a different tenant to the
             # source)
 
@@ -777,6 +899,59 @@ class AviClone:
             raise Exception('%s\r\n=> Unable to clone virtual service %s as %s'
                             % (exc, old_vs_name, new_vs_name))
 
+    def clone_refs_to_tenant(self, parent_obj, refs, t_obj, ot_obj):
+
+        # Process the list of child objects, refs, of the parent_obj. If the child object
+        # is not a global object, then either update the reference to point to an object
+        # of the same name in the target tenant or clone the object to the target
+        # tenant.
+
+        created_objs = []
+
+        for referenced in refs:
+            if referenced in parent_obj:
+                # Check if the referenced object exists in the target
+                # tenant context (i.e. is global)
+
+                child_objs = parent_obj[referenced]
+
+                is_list = isinstance(child_objs, list)
+                if not is_list: child_objs = [child_objs]
+
+                for i in range(len(child_objs)):
+
+                    child_obj = child_objs[i]
+
+                    r_obj_path = child_obj.split('/api/')[1]
+                    r_obj_type = r_obj_path.split('/')[0]
+
+                    r_obj = self.api.get(r_obj_path, tenant_uuid = ot_obj['uuid'])
+                        
+                    if r_obj.status_code == 404:
+                        # If not global, check for an object of the same
+                        # name in the target tenant context
+                        old_r_obj = self.api.get(r_obj_path,
+                                                 tenant_uuid = t_obj['uuid']).json()
+                        new_r_obj = self.api.get_object_by_name(r_obj_type,
+                                                 old_r_obj['name'],
+                                                 tenant_uuid = ot_obj['uuid'])
+
+                        if new_r_obj is None:
+                            # Otherwise clone the object to the target tenant context
+                            new_r_obj = self.clone_generic(r_obj_type, r_obj_path,
+                                                 old_r_obj['name'], t_obj['name'],
+                                                 ot_obj['name'], True)
+                            created_objs.append(new_r_obj)
+
+                        if is_list:
+                            parent_obj[referenced][i] = new_r_obj['url']
+                        else:
+                            parent_obj[referenced] = new_r_obj['url']
+
+        return created_objs
+
+# MAIN PROGRAM
+        
 if __name__ == '__main__':
     print('%s version %s' % (sys.argv[0], '.'.join(str(v) for v in
                                                    AVICLONE_VERSION)))
@@ -846,6 +1021,20 @@ if __name__ == '__main__':
     pool_group_parser.add_argument('-2c', '--tocloud',
                             help = 'Clone the pool group to a different cloud',
                                    metavar = 'other_cloud')
+    generic_parser = type_parser.add_parser('generic',
+                      help = 'Clone a generic object')
+    generic_parser.add_argument('object_type',
+                      help = 'Type of object to clone (e.g. applicationprofile)')
+    generic_parser.add_argument('generic_name',
+                      help = 'Name of an existing object')
+    generic_parser.add_argument('new_generic_names',
+                      help = 'Name(s) to be assigned to the cloned object(s)')
+    generic_parser.add_argument('-t', '--tenant',
+                      help = 'Scope to a particular tenant',
+                             metavar = 'tenant')
+    generic_parser.add_argument('-2t', '--totenant',
+                      help = 'Clone the object to a different tenant',
+                             metavar = 'other_tenant')
     
     args = parser.parse_args()
 
@@ -960,8 +1149,9 @@ if __name__ == '__main__':
                             else '',new_pool_name, ' ['+args.totenant+']' if
                             args.totenant else '', ' in cloud '+args.tocloud if
                             args.tocloud else ''), end = '', flush = True)
-                    new_pool = cl.clone_pool(args.pool_name, new_pool_name,
-                                args.tenant, args.totenant, args.tocloud, False)
+                    new_pool, created_objs = cl.clone_pool(args.pool_name,
+                                new_pool_name, args.tenant, args.totenant,
+                                args.tocloud, False)
                     print('OK!')
                     print()
 
@@ -997,6 +1187,20 @@ if __name__ == '__main__':
                         print('%10s: %s' % ('Cloud', args.tocloud))
                     print()
 
+            elif args.obj_type == 'generic':
+                # Loop through the clone names and clone the source object for each destination
+
+                for new_generic_name in args.new_generic_names.split(','):
+                    spprint('Trying to clone object of type %s with name %s%s to %s%s...' % (args.object_type, args.generic_name, ' ['+args.tenant+']' if args.tenant else '',new_generic_name, ' ['+args.totenant+']' if args.totenant else ''))
+                    new_generic = cl.clone_generic(args.object_type, args.generic_name, new_generic_name, args.tenant, args.totenant, False)
+                    print('OK!')
+                    print()
+
+                    print('New object of type %s created as follows:' % (args.object_type))
+                    print('%10s: %s' % ('Name', new_generic['name']))
+                    if args.totenant: print('%10s: %s' % ('Tenant', args.totenant))
+                    print()
+
             # Display the actions taken by the cloning class
 
             print('-' * 32)
@@ -1012,10 +1216,13 @@ if __name__ == '__main__':
 
 '''
 Notes:
-The script allows the cloning of virtual services, pools and pool groups. 
-The script clones any additional objects that are required, so for example 
-when cloning a virtual service, the pools and/or pool groups used by that VS,
-including any specified in context-switching rules, will also be cloned.
+
+The script allows the cloning of virtual services, pools, pool groups and
+generic objects (that have no child references).
+
+The script clones any additional objects that are required, so for example
+when cloning a virtual service, the pools and/or pool groups used by that
+VS, including any specified in context-switching rules, will also be cloned.
 
 The script also allows the cloning of objects into a different tenant and/or 
 cloud than the source. This may not always be successful because the source 
@@ -1028,8 +1235,6 @@ Vantage s/w release, it may be necessary to specify the API version using the
 -x parameter.
 
 Some known limitations:
-* Cloning a VS which references tenant-specific application profiles etc. to a
- different tenant is likely to fail
 * Cloning a VS with automatic address allocation to a different cloud is likely
  to fail (unless static VIPs/FIPs are specified)
 * Cloning a VS to a cloud of a different type to the source cloud is more likely

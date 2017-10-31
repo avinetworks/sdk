@@ -1,0 +1,988 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi VrfContext Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi VrfContext Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#vrfcontextGet"><code><span class="http-method">get</span> /vrfcontext</code></a></li>
+  <li><a href="#vrfcontextPost"><code><span class="http-method">post</span> /vrfcontext</code></a></li>
+  <li><a href="#vrfcontextUuidDelete"><code><span class="http-method">delete</span> /vrfcontext/{uuid}</code></a></li>
+  <li><a href="#vrfcontextUuidGet"><code><span class="http-method">get</span> /vrfcontext/{uuid}</code></a></li>
+  <li><a href="#vrfcontextUuidPatch"><code><span class="http-method">patch</span> /vrfcontext/{uuid}</code></a></li>
+  <li><a href="#vrfcontextUuidPut"><code><span class="http-method">put</span> /vrfcontext/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="vrfcontextGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /vrfcontext</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#VrfContextApiResponse">VrfContextApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "static_routes" : [ {
+      "route_id" : "aeiou",
+      "disable_gateway_monitor" : true,
+      "next_hop" : "",
+      "prefix" : "",
+      "if_name" : "aeiou"
+    } ],
+    "bgp_profile" : {
+      "ibgp" : true,
+      "keepalive_interval" : 123,
+      "send_community" : true,
+      "peers" : [ {
+        "bfd" : true,
+        "subnet" : {
+          "ip_addr" : "",
+          "mask" : 123
+        },
+        "advertise_vip" : true,
+        "keepalive_interval" : 123,
+        "peer_ip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "remote_as" : 123,
+        "hold_time" : 123,
+        "md5_secret" : "aeiou",
+        "network_ref" : "aeiou",
+        "advertise_snat_ip" : true,
+        "advertisement_interval" : 123,
+        "connect_timer" : 123
+      } ],
+      "hold_time" : 123,
+      "community" : [ "aeiou" ],
+      "local_as" : 123
+    },
+    "gateway_mon" : [ {
+      "gateway_monitor_fail_threshold" : 123,
+      "gateway_monitor_success_threshold" : 123,
+      "gateway_ip" : "",
+      "gateway_monitor_interval" : 123
+    } ],
+    "cloud_ref" : "aeiou",
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "debugvrfcontext" : {
+      "flags" : [ {
+        "flag" : "aeiou"
+      } ]
+    },
+    "internal_gateway_monitor" : {
+      "disable_gateway_monitor" : true,
+      "gateway_monitor_failure_threshold" : 123,
+      "gateway_monitor_success_threshold" : 123,
+      "gateway_monitor_interval" : 123
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "system_default" : true
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#VrfContextApiResponse">VrfContextApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="vrfcontextPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /vrfcontext</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; VrfContext object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#VrfContext">VrfContext</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "static_routes" : [ {
+    "route_id" : "aeiou",
+    "disable_gateway_monitor" : true,
+    "next_hop" : "",
+    "prefix" : "",
+    "if_name" : "aeiou"
+  } ],
+  "bgp_profile" : {
+    "ibgp" : true,
+    "keepalive_interval" : 123,
+    "send_community" : true,
+    "peers" : [ {
+      "bfd" : true,
+      "subnet" : {
+        "ip_addr" : "",
+        "mask" : 123
+      },
+      "advertise_vip" : true,
+      "keepalive_interval" : 123,
+      "peer_ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "remote_as" : 123,
+      "hold_time" : 123,
+      "md5_secret" : "aeiou",
+      "network_ref" : "aeiou",
+      "advertise_snat_ip" : true,
+      "advertisement_interval" : 123,
+      "connect_timer" : 123
+    } ],
+    "hold_time" : 123,
+    "community" : [ "aeiou" ],
+    "local_as" : 123
+  },
+  "gateway_mon" : [ {
+    "gateway_monitor_fail_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_ip" : "",
+    "gateway_monitor_interval" : 123
+  } ],
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "debugvrfcontext" : {
+    "flags" : [ {
+      "flag" : "aeiou"
+    } ]
+  },
+  "internal_gateway_monitor" : {
+    "disable_gateway_monitor" : true,
+    "gateway_monitor_failure_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_monitor_interval" : 123
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "system_default" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#VrfContext">VrfContext</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="vrfcontextUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /vrfcontext/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="vrfcontextUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /vrfcontext/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#VrfContext">VrfContext</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "static_routes" : [ {
+    "route_id" : "aeiou",
+    "disable_gateway_monitor" : true,
+    "next_hop" : "",
+    "prefix" : "",
+    "if_name" : "aeiou"
+  } ],
+  "bgp_profile" : {
+    "ibgp" : true,
+    "keepalive_interval" : 123,
+    "send_community" : true,
+    "peers" : [ {
+      "bfd" : true,
+      "subnet" : {
+        "ip_addr" : "",
+        "mask" : 123
+      },
+      "advertise_vip" : true,
+      "keepalive_interval" : 123,
+      "peer_ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "remote_as" : 123,
+      "hold_time" : 123,
+      "md5_secret" : "aeiou",
+      "network_ref" : "aeiou",
+      "advertise_snat_ip" : true,
+      "advertisement_interval" : 123,
+      "connect_timer" : 123
+    } ],
+    "hold_time" : 123,
+    "community" : [ "aeiou" ],
+    "local_as" : 123
+  },
+  "gateway_mon" : [ {
+    "gateway_monitor_fail_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_ip" : "",
+    "gateway_monitor_interval" : 123
+  } ],
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "debugvrfcontext" : {
+    "flags" : [ {
+      "flag" : "aeiou"
+    } ]
+  },
+  "internal_gateway_monitor" : {
+    "disable_gateway_monitor" : true,
+    "gateway_monitor_failure_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_monitor_interval" : 123
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "system_default" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#VrfContext">VrfContext</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="vrfcontextUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /vrfcontext/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; VrfContext object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#VrfContext">VrfContext</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "static_routes" : [ {
+    "route_id" : "aeiou",
+    "disable_gateway_monitor" : true,
+    "next_hop" : "",
+    "prefix" : "",
+    "if_name" : "aeiou"
+  } ],
+  "bgp_profile" : {
+    "ibgp" : true,
+    "keepalive_interval" : 123,
+    "send_community" : true,
+    "peers" : [ {
+      "bfd" : true,
+      "subnet" : {
+        "ip_addr" : "",
+        "mask" : 123
+      },
+      "advertise_vip" : true,
+      "keepalive_interval" : 123,
+      "peer_ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "remote_as" : 123,
+      "hold_time" : 123,
+      "md5_secret" : "aeiou",
+      "network_ref" : "aeiou",
+      "advertise_snat_ip" : true,
+      "advertisement_interval" : 123,
+      "connect_timer" : 123
+    } ],
+    "hold_time" : 123,
+    "community" : [ "aeiou" ],
+    "local_as" : 123
+  },
+  "gateway_mon" : [ {
+    "gateway_monitor_fail_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_ip" : "",
+    "gateway_monitor_interval" : 123
+  } ],
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "debugvrfcontext" : {
+    "flags" : [ {
+      "flag" : "aeiou"
+    } ]
+  },
+  "internal_gateway_monitor" : {
+    "disable_gateway_monitor" : true,
+    "gateway_monitor_failure_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_monitor_interval" : 123
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "system_default" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#VrfContext">VrfContext</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="vrfcontextUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /vrfcontext/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">vrfcontextUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; VrfContext object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#VrfContext">VrfContext</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "static_routes" : [ {
+    "route_id" : "aeiou",
+    "disable_gateway_monitor" : true,
+    "next_hop" : "",
+    "prefix" : "",
+    "if_name" : "aeiou"
+  } ],
+  "bgp_profile" : {
+    "ibgp" : true,
+    "keepalive_interval" : 123,
+    "send_community" : true,
+    "peers" : [ {
+      "bfd" : true,
+      "subnet" : {
+        "ip_addr" : "",
+        "mask" : 123
+      },
+      "advertise_vip" : true,
+      "keepalive_interval" : 123,
+      "peer_ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "remote_as" : 123,
+      "hold_time" : 123,
+      "md5_secret" : "aeiou",
+      "network_ref" : "aeiou",
+      "advertise_snat_ip" : true,
+      "advertisement_interval" : 123,
+      "connect_timer" : 123
+    } ],
+    "hold_time" : 123,
+    "community" : [ "aeiou" ],
+    "local_as" : 123
+  },
+  "gateway_mon" : [ {
+    "gateway_monitor_fail_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_ip" : "",
+    "gateway_monitor_interval" : 123
+  } ],
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "debugvrfcontext" : {
+    "flags" : [ {
+      "flag" : "aeiou"
+    } ]
+  },
+  "internal_gateway_monitor" : {
+    "disable_gateway_monitor" : true,
+    "gateway_monitor_failure_threshold" : 123,
+    "gateway_monitor_success_threshold" : 123,
+    "gateway_monitor_interval" : 123
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "system_default" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#VrfContext">VrfContext</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#BgpPeer"><code>BgpPeer</code></a></li>
+    <li><a href="#BgpProfile"><code>BgpProfile</code></a></li>
+    <li><a href="#DebugVrf"><code>DebugVrf</code></a></li>
+    <li><a href="#DebugVrfContext"><code>DebugVrfContext</code></a></li>
+    <li><a href="#GatewayMonitor"><code>GatewayMonitor</code></a></li>
+    <li><a href="#InternalGatewayMonitor"><code>InternalGatewayMonitor</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#StaticRoute"><code>StaticRoute</code></a></li>
+    <li><a href="#VrfContext"><code>VrfContext</code></a></li>
+    <li><a href="#VrfContextApiResponse"><code>VrfContextApiResponse</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="BgpPeer">BgpPeer</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">advertise_snat_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise SNAT IP to this Peer. </div>
+<div class="param">advertise_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise VIP to this Peer. </div>
+<div class="param">advertisement_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Advertisement interval for this Peer. Allowed values are 1-60. format: int32</div>
+<div class="param">bfd (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Bi-Directional Forward Detection. Only async mode supported. </div>
+<div class="param">connect_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connect timer for this Peer. Allowed values are 1-120. format: int32</div>
+<div class="param">hold_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Hold time for this Peer. Allowed values are 3-7200. format: int32</div>
+<div class="param">keepalive_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Keepalive interval for this Peer. Allowed values are 0-3600. format: int32</div>
+<div class="param">md5_secret (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Peer Autonomous System Md5 Digest Secret Key. </div>
+<div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network providing reachability for Peer. It is a reference to an object of type Network. </div>
+<div class="param">peer_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the BGP Peer. </div>
+<div class="param">remote_as (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Peer Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
+<div class="param">subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for Peer. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="BgpProfile">BgpProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">community (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set the community attribute - &#39;internet&#39;, &#39;local-AS&#39;, &#39;no-advertise&#39;, &#39;no-export&#39;, &lt;AS&gt; &lt;Val&gt; One or more of these can be configured with 1 &lt;&#x3D; AS,Val &lt;&#x3D; 65535. Field introduced in 17.1.2. </div>
+<div class="param">hold_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Hold time for Peers. Allowed values are 3-7200. format: int32</div>
+<div class="param">ibgp </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> BGP peer type. </div>
+<div class="param">keepalive_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Keepalive interval for Peers. Allowed values are 0-3600. format: int32</div>
+<div class="param">local_as </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Local Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
+<div class="param">peers (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpPeer">array[BgpPeer]</a></span> BGP Peers. </div>
+<div class="param">send_community (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send community attribute to all peers. Field introduced in 17.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DebugVrf">DebugVrf</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VRF_BGP, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DebugVrfContext">DebugVrfContext</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrf">array[DebugVrf]</a></span>  Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GatewayMonitor">GatewayMonitor</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">gateway_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of next hop gateway to be monitored. </div>
+<div class="param">gateway_monitor_fail_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. format: int32</div>
+<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. format: int32</div>
+<div class="param">gateway_monitor_success_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="InternalGatewayMonitor">InternalGatewayMonitor</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
+<div class="param">gateway_monitor_failure_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. Field introduced in 17.1.1. format: int32</div>
+<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. format: int32</div>
+<div class="param">gateway_monitor_success_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. Field introduced in 17.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="StaticRoute">StaticRoute</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
+<div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of StaticRoute. </div>
+<div class="param">next_hop </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property next_hop of obj type StaticRoute field type str  type object </div>
+<div class="param">prefix </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property prefix of obj type StaticRoute field type str  type object </div>
+<div class="param">route_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> route_id of StaticRoute. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VrfContext">VrfContext</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">bgp_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpProfile">BgpProfile</a></span> Bgp Local and Peer Info. </div>
+<div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">debugvrfcontext (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrfContext">DebugVrfContext</a></span> Configure debug flags for VRF. Field introduced in 17.1.1. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">gateway_mon (optional)</div><div class="param-desc"><span class="param-type"><a href="#GatewayMonitor">array[GatewayMonitor]</a></span> Configure ping based heartbeat check for gateway in service engines of vrf. </div>
+<div class="param">internal_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#InternalGatewayMonitor">InternalGatewayMonitor</a></span> Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#StaticRoute">array[StaticRoute]</a></span> Placeholder for description of property static_routes of obj type VrfContext field type str  type object </div>
+<div class="param">system_default (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property system_default of obj type VrfContext field type str  type boolean </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VrfContextApiResponse">VrfContextApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#VrfContext">array[VrfContext]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
