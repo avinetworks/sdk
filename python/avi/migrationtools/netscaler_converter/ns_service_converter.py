@@ -1,7 +1,7 @@
 import logging
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
+import socket
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
             STATUS_INCOMPLETE_CONFIGURATION, OBJECT_TYPE_POOL,
@@ -744,16 +744,20 @@ class ServiceConverter(object):
                 ip_addr = ns_dns[ip_addr][0]['attrs'][1]
             elif isinstance(ns_dns[ip_addr], dict):
                 ip_addr = ns_dns[ip_addr]['attrs'][1]
-
-        matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
+        # Added regex to match ip address
+        matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
         if not matches:
-            # Skipped this server if it does not have an Ip
-            ns_util.add_status_row(
-                server['line_no'], ns_add_server_command, server['attrs'][0],
-                ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
-            LOG.warning('Not found IP of server : %s' %
-                        ns_add_server_complete_command)
-            return [], use_service_port
+            try:
+                # If dns then resolve it get the ip address from it.
+                ip_addr = socket.gethostbyname(ip_addr)
+            except:
+                # Skipped this server if it does not have an Ip
+                ns_util.add_status_row(
+                    server['line_no'], ns_add_server_command, server['attrs'][0],
+                    ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
+                LOG.warning('Not found IP of server : %s' %
+                            ns_add_server_complete_command)
+                return [], use_service_port
         server_obj = {
             'ip': {
                 'addr': ip_addr,
@@ -867,7 +871,8 @@ class ServiceConverter(object):
             if port in ("*", "0"):
                 port = "1"
                 use_service_port = True
-            matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
+            # Added regex to match ip address
+            matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -882,20 +887,25 @@ class ServiceConverter(object):
                 # Get the server name
                 server_obj['hostname'] = server_name
             if not matches:
-                # Skipped this server if it does not have an Ip
-                ns_util.add_status_row(
-                    server['line_no'], ns_add_server_command, server['attrs'][0],
-                    ns_add_server_complete_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                LOG.warning('Not found IP of server : %s %s' %
-                            (ns_add_server_command, attrs[1]))
-                ns_util.add_status_row(
-                    server_binding['line_no'], ns_bind_service_group_command,
-                    attrs[0], ns_bind_service_group_complete_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                LOG.error('Skipped server : %s' %
-                          ns_bind_service_group_complete_command)
-                server_obj = None
+                try:
+                    # If dns then resolve it get the ip address from it.
+                    ip_addr = socket.gethostbyname(ip_addr)
+                    server_obj['ip']['addr'] = ip_addr
+                except:
+                    # Skipped this server if it does not have an Ip
+                    ns_util.add_status_row(
+                        server['line_no'], ns_add_server_command, server['attrs'][0],
+                        ns_add_server_complete_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    LOG.warning('Not found IP of server : %s %s' %
+                                (ns_add_server_command, attrs[1]))
+                    ns_util.add_status_row(
+                        server_binding['line_no'], ns_bind_service_group_command,
+                        attrs[0], ns_bind_service_group_complete_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    LOG.error('Skipped server : %s' %
+                              ns_bind_service_group_complete_command)
+                    server_obj = None
             if server_obj:
                 servers.append(server_obj)
                 # Add summery of add server in CSV/report
