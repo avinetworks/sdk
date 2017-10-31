@@ -126,6 +126,12 @@ def generate_grammar_v10():
 
 
 def parse_config(source_str, total_size, version=11):
+    """
+    :param source_str: input file text as string.
+    :param total_size: total size of input string
+    :param version: version for f5 instance
+    :return: result_dict, not_supported_list
+    """
     grammar = get_grammar_by_version(version)
     result = []
     skipped_list = []
