@@ -8,7 +8,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_PKI_PROFILE, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HEALTH_MONITOR,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
-            STATUS_EXTERNAL_MONITOR)
+            STATUS_EXTERNAL_MONITOR, STATUS_PARTIAL)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
@@ -515,6 +515,11 @@ class ServiceConverter(object):
                 # Added prefix for objects
                 if self.prefix:
                     pool_name = self.prefix + '-' + pool_name
+                status_flag = False
+                # Skipped the servers if length > 400
+                if len(servers) > 400:
+                    servers = servers[0:400]
+                    status_flag = True
                 pool_obj = {
                     'name': pool_name,
                     'servers': servers,
@@ -626,6 +631,12 @@ class ServiceConverter(object):
                 conv_status = ns_util.get_conv_status(
                     service_group, self.nsservice_bind_lb_skipped, [], [],
                     user_ignore_val=self.nsservice_bind_lb_user_ignore)
+                # If len of servers > 400 then considering only 400 servers
+                # And status of the pool is partial
+                if status_flag:
+                    conv_status['status'] = STATUS_PARTIAL
+                    conv_status['skipped'].append("Skipped:length of servers " \
+                                             "greater than 400")
                 ns_util.add_conv_status(
                     service_group['line_no'], service_group_command,
                     service_group_name, service_group_netscalar_full_command,
