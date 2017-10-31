@@ -12,6 +12,14 @@ class PersistenceConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_persistence_attributes, prefix,
                      object_merge_check):
+        """
+
+        :param version: version of f5 instance
+        :param f5_persistence_attributes: yaml attribute file for object
+        :param prefix: prefix for objects
+        :param object_merge_check: Flag for object merge
+        :return:
+        """
         if version == '10':
             return PersistenceConfigConvV10(f5_persistence_attributes, prefix,
                                             object_merge_check)
@@ -43,6 +51,16 @@ class PersistenceConfigConv(object):
 
     def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
                 merge_object_mapping, sys_dict):
+        """
+
+        :param f5_config: parsed f5 config
+        :param avi_config: dict of avi config
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: tenant of which output to converted
+        :param merge_object_mapping: flag for object merge
+        :param sys_dict: baseline profile
+        :return:
+        """
         avi_config['hash_algorithm'] = []
         converted_objs = []
         f5_persistence_dict = f5_config.get('persistence')
@@ -134,6 +152,11 @@ class PersistenceConfigConv(object):
         f5_config.pop('persistence')
 
     def convert_timeout(self, timeout):
+        """
+
+        :param timeout: timeout
+        :return: timeout
+        """
         if ':' in str(timeout):
             expiration = timeout.split(':')
             expiration.reverse()
@@ -157,6 +180,12 @@ class PersistenceConfigConv(object):
 
 class PersistenceConfigConvV11(PersistenceConfigConv):
     def __init__(self, f5_persistence_attributes, prefix, object_merge_check):
+        """
+
+        :param f5_persistence_attributes: yaml file for f5 attributes
+        :param prefix: prefix for object
+        :param object_merge_check: flag to merge object
+        """
         self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = f5_persistence_attributes['Persistence_supported_attr']
         self.supported_attr_convert = f5_persistence_attributes['Persistence_' \
@@ -168,6 +197,14 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         self.app_per_count = 0
 
     def convert_cookie(self, name, profile, skipped, tenant):
+        """
+
+        :param name: name of cookie
+        :param profile: f5 profile attributes
+        :param skipped: skipped list for profile
+        :param tenant: Tenant for which output to be converted
+        :return:persist_profile
+        """
         method = profile.get('method', 'insert')
         if not method == 'insert':
             msg = "Skipped cookie method not supported for profile '%s' " % name
@@ -175,8 +212,6 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
             conv_utils.add_status_row('persistence', 'cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
-        #supported_attr = ["cookie-name", "defaults-from", "expiration",
-                          #"method"]
         ignore_lst = ['always-send']
         parent_obj = super(PersistenceConfigConvV11, self)
         self.supported_attr += ignore_lst
@@ -200,6 +235,15 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect_mappings, tenant):
+        """
+
+        :param name: name of ssl profile
+        :param profile: f5 profile attribute
+        :param skipped: skipped list for profile
+        :param indirect_mappings: list of indirect mapping
+        :param tenant: Tenant for which output to be converted
+        :return:
+        """
         supported_attr = ['defaults-from']
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
@@ -214,6 +258,14 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         return persist_profile
 
     def convert_source_addr(self, name, profile, skipped, tenant):
+        """
+
+        :param name:  name of profile
+        :param profile: f5 profile attributes
+        :param skipped: skipped list for avi
+        :param tenant: Tenant for which output to be converted
+        :return: persist_profile
+        """
         supported_attr = self.supported_attr_convert
         ignore_lst = ['map-proxies']
         supported_attr += ignore_lst
@@ -236,12 +288,27 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
 
     def update_conversion_status(self, conv_status, persist_mode, name,
                                  persist_profile):
+        """
+
+        :param conv_status:  state of conversion
+        :param persist_mode: type of profile
+        :param name: name of persistance profile
+        :param persist_profile: dict of persist profile
+        :return:
+        """
         conv_utils.add_conv_status('persistence', persist_mode, name,
                                    conv_status, persist_profile)
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 
     def update_conv_status_for_error(self, name, persist_mode, key):
+        """
+
+        :param name:  name of profile
+        :param persist_mode: type of profile.
+        :param key: key for profile
+        :return:
+        """
         if name:
             conv_utils.add_status_row("persistence", persist_mode, name,
                                       final.STATUS_ERROR)
@@ -256,6 +323,12 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
 
 class PersistenceConfigConvV10(PersistenceConfigConv):
     def __init__(self, f5_persistence_attributes, prefix, object_merge_check):
+        """
+
+        :param f5_persistence_attributes:  f5 persistence attributes
+        :param prefix: prefix for objects
+        :param object_merge_check: flag to merge object
+        """
         self.indirect = f5_persistence_attributes['Persistence_indirect']
         self.supported_attr = \
             f5_persistence_attributes['Persistence_supported_attr']
@@ -267,15 +340,20 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         self.app_per_count = 0
 
     def convert_cookie(self, name, profile, skipped, tenant):
+        """
+
+        :param name: name of cookie
+        :param profile: f5 profile attributes
+        :param skipped: skipped list for profile
+        :param tenant: Tenant for which output to be converted
+        :return:persist_profile
+        """
         method = profile.get('cookie mode', 'insert')
         if not method == 'insert':
             LOG.warn("Skipped cookie method not supported for profile '%s' "
                      % name)
             conv_utils.add_conv_status('persistence', 'cookie', name, 'skipped')
             return None
-        #supported_attr = ["cookie name", "mode", "defaults from", "cookie mode",
-                          #"cookie hash offset", "cookie hash length",
-                          #"cookie expiration"]
         skipped += [attr for attr in profile.keys()
                    if attr not in self.supported_attr]
         cookie_name = profile.get("cookie name", name+':-cookie')
@@ -308,6 +386,15 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_ssl(self, name, profile, skipped, indirect, tenant):
+        """
+
+        :param name: name of ssl profile
+        :param profile: f5 profile attribute
+        :param skipped: skipped list for profile
+        :param indirect_mappings: list of indirect mapping
+        :param tenant: Tenant for which output to be converted
+        :return:
+        """
         supported_attr = ["mode", 'defaults-from']
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
@@ -322,6 +409,14 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         return persist_profile
 
     def convert_source_addr(self, name, profile, skipped, tenant):
+        """
+
+        :param name:  name of profile
+        :param profile: f5 profile attributes
+        :param skipped: skipped list for avi
+        :param tenant: Tenant for which output to be converted
+        :return: persist_profile
+        """
         supported_attr = self.supported_attr_conver
 
         skipped += [attr for attr in profile.keys()
@@ -343,12 +438,27 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
 
     def update_conversion_status(self, conv_status, persist_mode, name,
                                  persist_profile):
+        """
+
+        :param conv_status:  state of conversion
+        :param persist_mode: type of profile
+        :param name: name of persistance profile
+        :param persist_profile: dict of persist profile
+        :return:
+        """
         conv_utils.add_conv_status('profile', 'persist', name,
                                    conv_status, persist_profile)
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 
     def update_conv_status_for_error(self, name, persist_mode, key):
+        """
+
+        :param name:  name of profile
+        :param persist_mode: type of profile.
+        :param key: key for profile
+        :return:
+        """
         if name:
             conv_utils.add_status_row("profile", 'persist', name,
                                       final.STATUS_ERROR)
@@ -357,5 +467,12 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                                       final.STATUS_ERROR)
 
     def update_conv_status_for_skip(self, persist_mode, name, msg):
+        """
+
+        :param persist_mode: type of profile.
+        :param name: name of profile.
+        :param msg: status message
+        :return:
+        """
         conv_utils.add_status_row("profile", 'persist', name,
                                   final.STATUS_SKIPPED, msg)
