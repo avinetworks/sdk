@@ -1,13 +1,15 @@
+"""
+This file contains Conversion code of f5 configuration.
+"""
+
 import os
 import sys
 import copy
 import argparse
 import unittest
-from avi.migrationtools.test.functional_test.f5_functional_test import *
 from avi.migrationtools.f5_converter import (f5_config_converter,
                                             f5_parser, scp_util)
 from avi.migrationtools.f5_converter.conversion_util import F5Util
-from avi.migrationtools.test.functional_test import f5_functional_test
 
 class F5Conversion():
     def __init__(self):

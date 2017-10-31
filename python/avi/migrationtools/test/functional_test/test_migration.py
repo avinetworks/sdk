@@ -1,8 +1,11 @@
+"""
+File contains actual test cases of F5 configuration.
+"""
+
 import unittest
 import pytest
 import logging
 import re
-from avi.migrationtools.test.functional_test.f5_functional_test import *
 from avi.migrationtools.test.functional_test.F5_Conversion import F5Conversion
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 import avi.migrationtools.test.functional_test.conversion_constant_util as conv_const
@@ -72,6 +75,7 @@ def compareVip(each_vs, f5_vs):
     else: False
 
 
+# Compares avi profile names with f5 configuration.
 def getProfileFromF5(profileName):
     profile_config = f5_config_dict.get("profile", {})
     for key in profile_config.keys():
@@ -133,10 +137,12 @@ def compareSslProfile(each_vs):
     """
     ssl_profile_ref = each_vs['ssl_profile_ref']
     ssl_profile_name = conversion_util.get_name(ssl_profile_ref)
-    ssl_profile_type = [i['accepted_versions'] for i in avi_config_dict['SSLProfile']
-                        if i['name'] == ssl_profile_name]
-    profile_types = [profile['type'] for profile in ssl_profile_type[0]]
-    return True if profile_types == conv_const.SSLPROFILE_VERSIONS else False
+    profileStatus = getProfileFromF5(ssl_profile_name)
+    if profileStatus:
+        ssl_profile_type = [i['accepted_versions'] for i in avi_config_dict['SSLProfile']
+                            if i['name'] == ssl_profile_name]
+        profile_types = [profile['type'] for profile in ssl_profile_type[0]]
+        return True if profile_types == conv_const.SSLPROFILE_VERSIONS else False
 
 
 # Checks health monitor in avi configurations HealthMonitor.
@@ -286,6 +292,14 @@ def compareHttpPolicies(httpPolicies):
                     return True, policyname, policy
             return False, policyname, policy
 
+def comparePoolName(poolName,f5_vs):
+    if f5_vs['pool']:
+        f5_pool = f5_vs['pool']
+        type, name = conversion_util.get_tenant_ref(f5_pool)
+        return True if name == poolName else False
+    else: False
+
+
 class Test(unittest.TestCase):
     def test_compareVirtualService(self):
         for each_vs in avi_config_dict['VirtualService']:
@@ -338,6 +352,11 @@ class Test(unittest.TestCase):
                     for pool in avi_config_dict['Pool']:
                         if pool['name'] in poolMembers:
                             try:
+                                poolStatus = comparePoolName(poolGroupName, f5_vs)
+                                self.assertTrue(poolStatus)
+                            except AssertionError:
+                                LOG.error("Pool name : %s not found for %s " % (poolGroupName, vs_name))
+                            try:
                                 if 'application_persistence_profile_ref' in pool \
                                         and pool['application_persistence_profile_ref']:
                                     applicationProfile = getProfileName(pool, conv_const.APP_PERS_PROF)
@@ -365,7 +384,12 @@ class Test(unittest.TestCase):
                     poolRef = each_vs['pool_ref']
                     poolName = conversion_util.get_name(poolRef)
                     for pool in avi_config_dict['Pool']:
-                        if pool['name'] in poolName:
+                        if pool['name'] == poolName:
+                            try:
+                                poolStatus = comparePoolName(poolName, f5_vs)
+                                self.assertTrue(poolStatus)
+                            except AssertionError:
+                                LOG.error("Pool namee : %s not found for %s " % (poolName, vs_name))
                             try:
                                 if 'application_persistence_profile_ref' in pool \
                                         and pool['application_persistence_profile_ref']:
@@ -415,7 +439,6 @@ class Test(unittest.TestCase):
                                     self.assertTrue(ruleStatus)
                     except AssertionError:
                         LOG.error("Http policy rule %s not found for service %s " % (policyName, vs_name))
-
             else:
                 pass
 
