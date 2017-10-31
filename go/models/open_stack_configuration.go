@@ -41,6 +41,9 @@ type OpenStackConfiguration struct {
 	// Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	Hypervisor string `json:"hypervisor,omitempty"`
 
+	// Custom properties per hypervisor type. Field introduced in 17.2.1.
+	HypervisorProperties []*OpenStackHypervisorProperties `json:"hypervisor_properties,omitempty"`
+
 	// If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT.
 	ImgFormat string `json:"img_format,omitempty"`
 
@@ -127,7 +130,13 @@ type OpenStackConfiguration struct {
 	// Use keystone for user authentication.
 	UseKeystoneAuth bool `json:"use_keystone_auth,omitempty"`
 
+	// If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1.
+	UseNuagevip bool `json:"use_nuagevip,omitempty"`
+
 	// The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain.
 	// Required: true
 	Username string `json:"username"`
+
+	// If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3.
+	WildcardAccess bool `json:"wildcard_access,omitempty"`
 }

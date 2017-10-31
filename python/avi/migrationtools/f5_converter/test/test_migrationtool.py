@@ -44,24 +44,27 @@ setup = dict(
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
     input_folder_location='',
-    config_file_name_v10=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
-    config_file_name_v11=os.path.abspath(os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
+    config_file_name_v10=os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
+    config_file_name_v11=os.path.abspath(
+        os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
     partition_config='new',  # this is new
     f5_key_file='cd_rt_key.pem',
-    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__), 'ignore-config.yaml')),
-    patch=os.path.abspath(os.path.join(os.path.dirname(__file__), 'patch.yml')),
+    ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'ignore-config.yaml')),
+    patch=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                       'patch.yaml')),
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     skip_file=False,
     ansible=True,
     baseline_profile=None,
-    f5_passphrase_file=os.path.abspath(os.path.join(os.path.dirname(__file__), 'passphrase.yaml')),
-    f5_ansible_object=os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                     'output', 'avi_config_create_object.yml'))
+    f5_passphrase_file=os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                    'passphrase.yaml')),
+    f5_ansible_object=os.path.abspath(os.path.join(
+        os.path.dirname(__file__),'output', 'avi_config_create_object.yml')),
+    vs_level_status=True
 )
-
-logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
-mylogger = logging.getLogger()
 
 
 class Namespace:
@@ -78,7 +81,8 @@ def f5_conv(
         ignore_config=None, partition_config=None, version=None,
         no_profile_merge=None, patch=None, vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
-        convertsnat=None, not_in_use=None, baseline_profile=None, f5_passphrase_file=None):
+        convertsnat=None, not_in_use=None, baseline_profile=None,
+        f5_passphrase_file=None, vs_level_status=False):
     args = Namespace(
         bigip_config_file=bigip_config_file, skip_default_file=skip_default_file,
         f5_config_version=f5_config_version, input_folder_location=input_folder_location,
@@ -91,7 +95,8 @@ def f5_conv(
         vs_filter=vs_filter, ansible_skip_types=ansible_skip_types,
         ansible_filter_types=ansible_filter_types, ansible=ansible,
         prefix=prefix, convertsnat=convertsnat, not_in_use=not_in_use,
-        baseline_profile=baseline_profile, f5_passphrase_file=f5_passphrase_file)
+        baseline_profile=baseline_profile,
+        f5_passphrase_file=f5_passphrase_file, vs_level_status=vs_level_status)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -99,8 +104,14 @@ def f5_conv(
 
 
 class TestF5Converter:
+
+    @pytest.fixture
+    def cleanup(self):
+        import avi.migrationtools.f5_converter.conversion_util as conv
+        conv.csv_writer_dict_list = list()
+
     @pytest.mark.skip_travis
-    def test_download_v11(self):
+    def test_download_v11(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
         """
@@ -111,7 +122,7 @@ class TestF5Converter:
                  f5_config_version=setup.get('file_version_v11'))
 
     @pytest.mark.skip_travis
-    def test_download_v10(self):
+    def test_download_v10(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
         """
@@ -121,42 +132,51 @@ class TestF5Converter:
                  f5_ssh_password=setup.get('f5_ssh_password'),
                  f5_config_version=setup.get('file_version_v10'))
 
-    @pytest.mark.travis
-    def test_excel_report_v10(self):
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                 f5_config_version=setup.get('file_version_v10'),
-                 controller_version=setup.get('controller_version_v17'),
-                 output_file_path='output')
-        percentage_success('./output/bigip_v10-ConversionStatus.xlsx')
-
-    @pytest.mark.travis
+    @pytest.mark.skip_travis
     def test_output_sanitization_v10(self):
+        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v10-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v10-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/converter.log'))
+
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                  f5_config_version=setup.get('file_version_v10'),
                  controller_version=setup.get('controller_version_v17'),
                  output_file_path='output')
-        output_sanitization('./output/bigip_v10-ConversionStatus.xlsx',
-                             './output/bigip_v10-Output.json')
+        assert output_sanitization(self.excel_path,
+                                   self.json_path,
+                                   self.log_path)
+
+    @pytest.mark.skip_travis
+    def test_output_sanitization_v11(self, cleanup):
+        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v11-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/bigip_v11-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output/converter.log'))
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                 f5_config_version=setup.get('file_version_v11'),
+                 controller_version=setup.get('controller_version_v17'),
+                 output_file_path='output')
+        assert output_sanitization(self.excel_path,
+                                   self.json_path,
+                                   self.log_path)
 
     @pytest.mark.travis
-    def test_excel_report_v11(self):
+    def test_excel_report_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                  f5_config_version=setup.get('file_version_v11'),
                  controller_version=setup.get('controller_version_v17'),
                  output_file_path='output')
         percentage_success('./output/bigip_v11-ConversionStatus.xlsx')
 
-    @pytest.mark.travis
-    def test_output_sanitization_v11(self):
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                 f5_config_version=setup.get('file_version_v11'),
-                 controller_version=setup.get('controller_version_v17'),
-                 output_file_path='output')
-        output_sanitization('./output/bigip_v11-ConversionStatus.xlsx',
-                             './output/bigip_v11-Output.json')
 
     @pytest.mark.travis
-    def test_without_options_v10(self):
+    def test_without_options_v10(self, cleanup):
         """
         Check the Configuration file for V10
         """
@@ -166,7 +186,7 @@ class TestF5Converter:
                  )
 
     @pytest.mark.travis
-    def test_without_options_v11(self):
+    def test_without_options_v11(self, cleanup):
         """
         Check the configuration file for v11
         """
@@ -175,7 +195,7 @@ class TestF5Converter:
                  f5_config_version=setup.get('file_version_v11'))
 
     @pytest.mark.travis
-    def test_no_profile_merge_v10(self):
+    def test_no_profile_merge_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -186,7 +206,7 @@ class TestF5Converter:
                  no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
-    def test_no_profile_merge_v11(self):
+    def test_no_profile_merge_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -197,7 +217,7 @@ class TestF5Converter:
                  no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
-    def test_prefix_v10(self):
+    def test_prefix_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Prefix Added
@@ -208,7 +228,7 @@ class TestF5Converter:
                  prefix=setup.get('prefix'))
 
     @pytest.mark.travis
-    def test_prefix_v11(self):
+    def test_prefix_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Prefix Added
@@ -219,7 +239,7 @@ class TestF5Converter:
                  prefix=setup.get('prefix'))
 
     @pytest.mark.travis
-    def test_cloud_name_v10(self):
+    def test_cloud_name_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Prefix Added
@@ -230,7 +250,7 @@ class TestF5Converter:
                  cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
-    def test_cloud_name_v11(self):
+    def test_cloud_name_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Prefix Added
@@ -241,7 +261,7 @@ class TestF5Converter:
                  cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
-    def test_tenant_v10(self):
+    def test_tenant_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Tenant Added
@@ -252,7 +272,7 @@ class TestF5Converter:
                  tenant=setup.get('tenant'))
 
     @pytest.mark.travis
-    def test_tenant_v11(self):
+    def test_tenant_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Tenant Added
@@ -263,7 +283,7 @@ class TestF5Converter:
                  tenant=setup.get('tenant'))
 
     @pytest.mark.travis
-    def test_input_folder_path_not_provided_v10(self):
+    def test_input_folder_path_not_provided_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Input Folder path not provided
@@ -274,7 +294,7 @@ class TestF5Converter:
                  input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
-    def test_input_folder_path_not_provided_v11(self):
+    def test_input_folder_path_not_provided_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Input Folder path not provided
@@ -285,7 +305,7 @@ class TestF5Converter:
                  input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
-    def test_ignore_config_v10(self):
+    def test_ignore_config_v10(self,cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         ignore_config option usage
@@ -296,7 +316,7 @@ class TestF5Converter:
                  ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
-    def test_ignore_config_v11(self):
+    def test_ignore_config_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         ignore_config option usage
@@ -307,7 +327,7 @@ class TestF5Converter:
                  ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
-    def test_patch_v10(self):
+    def test_patch_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Patch option usage
@@ -318,7 +338,7 @@ class TestF5Converter:
                  patch=setup.get('patch'))
 
     @pytest.mark.travis
-    def test_patch_v11(self):
+    def test_patch_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         Patch option usage
@@ -329,7 +349,7 @@ class TestF5Converter:
                  patch=setup.get('patch'))
 
     @pytest.mark.travis
-    def test_not_in_use_v10(self):
+    def test_not_in_use_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -340,7 +360,7 @@ class TestF5Converter:
                  not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
-    def test_not_in_use_v11(self):
+    def test_not_in_use_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -351,7 +371,7 @@ class TestF5Converter:
                  not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
-    def test_passphrase_v10(self):
+    def test_passphrase_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -362,7 +382,7 @@ class TestF5Converter:
                  f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.travis
-    def test_passphrase_v11(self):
+    def test_passphrase_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         No_profile_merge Flag Reset
@@ -373,7 +393,7 @@ class TestF5Converter:
                  f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v10_17_1_1(self):
+    def test_reboot_clean_v10_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -389,7 +409,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_auto_upload_v10_17_1_1(self):
+    def test_auto_upload_v10_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         AutoUpload Flow
@@ -403,7 +423,7 @@ class TestF5Converter:
                  password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v10_16_4_4(self):
+    def test_reboot_clean_v10_16_4_4(self, cleanup):
         """""
         Verify Controller v16.4.4 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -420,7 +440,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_auto_upload_v10_16_4_4(self):
+    def test_auto_upload_v10_16_4_4(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
         AutoUpload Flow
@@ -434,7 +454,7 @@ class TestF5Converter:
                  password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v11_17_1_1(self):
+    def test_reboot_clean_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -450,7 +470,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_auto_upload_v11_17_1_1(self):
+    def test_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
         AutoUpload Flow
@@ -464,7 +484,7 @@ class TestF5Converter:
                  password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v11_16_4_4(self):
+    def test_reboot_clean_v11_16_4_4(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -480,7 +500,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_auto_upload_v11_16_4_4(self):
+    def test_auto_upload_v11_16_4_4(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4,
         AutoUpload Flow
@@ -494,7 +514,7 @@ class TestF5Converter:
                  password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.travis
-    def test_create_ansible_object_creation_v11(self):
+    def test_create_ansible_object_creation_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         Create Ansible Script based on Flag
@@ -505,7 +525,7 @@ class TestF5Converter:
                  ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_ansible_v11_17_1_1(self):
+    def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -521,7 +541,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v11_17_1_1(self):
+    def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         AutoUpload Flow
@@ -538,7 +558,7 @@ class TestF5Converter:
             output = e.output
 
     @pytest.mark.travis
-    def test_create_ansible_object_v10(self):
+    def test_create_ansible_object_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         Create Ansible Script based on Flag
@@ -549,7 +569,7 @@ class TestF5Converter:
                  ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_ansible_v10_16_4_4(self):
+    def test_reboot_clean_ansible_v10_16_4_4(self, cleanup):
         """""
         Verify Controller v16.4.4 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -565,7 +585,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v10_16_4_4(self):
+    def test_ansible_object_auto_upload_v10_16_4_4(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4
         AutoUpload Flow
@@ -580,6 +600,25 @@ class TestF5Converter:
                                               setup.get('controller_password_16_4_4')), shell=True)
         except subprocess.CalledProcessError as e:
             output = e.output
+
+    @pytest.mark.travis
+    def test_vs_level_status_true_v10(self, cleanup):
+        """
+        Input File on Local Filesystem, VS level option true usage
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                 f5_config_version=setup.get('file_version_v10'),
+                 controller_version=setup.get('controller_version_v17'),
+                 vs_level_status=setup.get('vs_level_status'))
+
+    @pytest.mark.travis
+    def test_vs_level_status_false_v10(self, cleanup):
+        """
+        Input File on Local Filesystem, VS level option false usage
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                 controller_version=setup.get ('controller_version_v17'),
+                 f5_config_version=setup.get('file_version_v10'))
 
 
 def teardown():

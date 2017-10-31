@@ -46,7 +46,9 @@ class NsUtil(MigrationUtil):
                         avi_object=None):
         """
         Adds as status row in conversion status csv
-        :param cmd: netscaler command
+        :param line_no: line number of command
+        :param object_type:
+        :param full_command: netscaler command
         :param conv_status: dict of conversion status
         :param avi_object: Converted objectconverted avi object
         """
@@ -66,12 +68,14 @@ class NsUtil(MigrationUtil):
         csv_writer_dict_list.append(row)
 
     def add_complete_conv_status(self, ns_config, output_dir, avi_config,
-                                 report_name):
+                                 report_name, vs_level_status):
         """
         Adds as status row in conversion status csv
-        :param cmd: netscaler command
-        :param conv_status: dict of conversion status
-        :param avi_object: Converted objectconverted avi object
+        :param ns_config: NS config dict
+        :param output_dir: output directory
+        :param avi_config: AVI config dict
+        :param report_name: name of report
+        :param vs_level_status: add vs level details in XL sheet
         """
 
         global csv_writer_dict_list
@@ -126,17 +130,25 @@ class NsUtil(MigrationUtil):
         # add skipped list of each object at vs level
         print "Writing Excel Sheet For Converted Configuration..."
         total_count = total_count + len(row_list)
-        self.vs_per_skipped_setting_for_references(avi_config)
+        if vs_level_status:
+            self.vs_per_skipped_setting_for_references(avi_config)
+        else:
+            # Call to calculate vs complexity
+            self.vs_complexity_level()
         # Write status report and pivot table in xlsx report
-        self.write_status_report_and_pivot_table_in_xlsx(row_list, output_dir,
-                                                         report_name)
+        self.write_status_report_and_pivot_table_in_xlsx(
+            row_list, output_dir, report_name, vs_level_status)
 
     def add_status_row(self, line_no, cmd, object_type, full_command, status,
                        avi_object=None):
         """
         Adds as status row in conversion status csv
+        :param line_no:
         :param cmd: netscaler command
+        :param object_type:
+        :param full_command:
         :param status: conversion status
+        :param avi_object:
         """
         global csv_writer_dict_list
         row = {
@@ -167,12 +179,12 @@ class NsUtil(MigrationUtil):
 
     def get_avi_lb_algorithm(self, ns_algorithm):
         """
-        Converts f5 LB algorithm to equivalent avi LB algorithm
-        :param ns_algorithm: f5 algorithm name
+        Converts NS LB algorithm to equivalent avi LB algorithm
+        :param ns_algorithm: NS algorithm name
         :return: Avi LB algorithm enum value
         """
 
-        avi_algorithm = None
+        avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
         if ns_algorithm == 'LEASTCONNECTIONS':
             avi_algorithm = 'LB_ALGORITHM_LEAST_CONNECTIONS'
         elif ns_algorithm == 'ROUNDROBIN':
@@ -193,20 +205,26 @@ class NsUtil(MigrationUtil):
         """
 
         avi_resp_codes = []
-        codes = respCode.split(' ')
+        codes = []
+        for res_code in respCode.split(' '):
+            if '-' in res_code:
+                codes.extend(res_code.split('-'))
+            else:
+                codes.append(res_code)
         for code in codes:
-            # Converted to int.
-            code = int(code)
-            if code < 200:
-                avi_resp_codes.append("HTTP_1XX")
-            elif code < 300:
-                avi_resp_codes.append("HTTP_2XX")
-            elif code < 400:
-                avi_resp_codes.append("HTTP_3XX")
-            elif code < 500:
-                avi_resp_codes.append("HTTP_4XX")
-            elif code < 600:
-                avi_resp_codes.append("HTTP_5XX")
+            if code and code.strip().isdigit():
+                # Converted to int.
+                code = int(code.strip())
+                if code < 200:
+                    avi_resp_codes.append("HTTP_1XX")
+                elif code < 300:
+                    avi_resp_codes.append("HTTP_2XX")
+                elif code < 400:
+                    avi_resp_codes.append("HTTP_3XX")
+                elif code < 500:
+                    avi_resp_codes.append("HTTP_4XX")
+                elif code < 600:
+                    avi_resp_codes.append("HTTP_5XX")
         # Get the unique dict from list.
         return list(set(avi_resp_codes))
 
@@ -254,8 +272,6 @@ class NsUtil(MigrationUtil):
             'user_ignore': user_ignore
         }
         return conv_status
-
-
 
     def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
         """
@@ -408,6 +424,7 @@ class NsUtil(MigrationUtil):
         """
         This function checks if same vip is used for other vs
         :param avi_config: avi config dict
+        :param controller_version:
         :return: None
         """
 
@@ -439,31 +456,84 @@ class NsUtil(MigrationUtil):
                 }
                 vs['services'].append(service)
 
-    def add_clttimeout_for_http_profile(self, profile_name, avi_config,
-                                        cltimeout):
+    def add_prop_for_http_profile(self, profile_name, avi_config, sysdict,
+                                  prop_dict):
         """
-        :param object_type:Type of object need to check for name
-        :param name: name of object
+        This method adds the additional attribute to application profile
+        :param profile_name: name of application profile
         :param avi_config: avi config dict
-        :return: Bool Value
+        :param sysdict: system/baseline config dict
+        :param prop_dict: property dict
+        :return:
         """
 
-        profile = [p for p in avi_config['ApplicationProfile']
-                   if p['name'] == profile_name]
+        profile = [p for p in (avi_config['ApplicationProfile'] + sysdict[
+            'ApplicationProfile']) if p['name'] == profile_name]
         if profile:
-            profile[0]['client_header_timeout'] = int(cltimeout)
-            profile[0]['client_body_timeout'] = int(cltimeout)
-
+            if prop_dict.get('clttimeout'):
+                profile[0]['client_header_timeout'] = int(prop_dict[
+                                                              'clttimeout'])
+                profile[0]['client_body_timeout'] = int(prop_dict['clttimeout'])
+            if prop_dict.get('xff_enabled'):
+                if profile[0].get('http_profile'):
+                    profile[0]['http_profile'].update(
+                        {
+                            'xff_enabled': True,
+                            'xff_alternate_name': 'X-Forwarded-For'
+                        }
+                    )
+                else:
+                    profile[0].update({'http_profile':
+                        {
+                            'xff_enabled': True,
+                            'xff_alternate_name': 'X-Forwarded-For'
+                        }
+                    })
+            if prop_dict.get('ssl_everywhere_enabled'):
+                if profile[0].get('http_profile'):
+                    profile[0]['http_profile'].update(
+                        {
+                            'ssl_everywhere_enabled': True,
+                            'x_forwarded_proto_enabled': True,
+                            'hsts_enabled': True,
+                            'http_to_https': True,
+                            'httponly_enabled': True,
+                            'hsts_max_age': 365,
+                            'server_side_redirect_to_https': True,
+                            'secure_cookie_enabled': True
+                        }
+                    )
+                else:
+                    profile[0].update({'http_profile':
+                        {
+                            'ssl_everywhere_enabled': True,
+                            'x_forwarded_proto_enabled': True,
+                            'hsts_enabled': True,
+                            'http_to_https': True,
+                            'httponly_enabled': True,
+                            'hsts_max_age': 365,
+                            'server_side_redirect_to_https': True,
+                            'secure_cookie_enabled': True
+                        }
+                    })
 
     def object_exist(self, object_type, name, avi_config):
+        '''
+        This method returns true if object exists in avi config dict else false
+        :param object_type:
+        :param name:
+        :param avi_config:
+        :return:
+        '''
         data = avi_config[object_type]
         obj_list = [obj for obj in data if obj['name'] == name]
         if obj_list:
             return True
         return False
 
-    def is_shared_same_vip(self, vs, cs_vs_list, avi_config, tenant_name, cloud_name,
-                           tenant_ref, cloud_ref, controller_version, prefix):
+    def is_shared_same_vip(self, vs, cs_vs_list, avi_config, tenant_name,
+                           cloud_name, tenant_ref, cloud_ref,
+                           controller_version, prefix):
         """
         This function check for vs sharing same vip
         :param vs: Name of vs
@@ -474,7 +544,7 @@ class NsUtil(MigrationUtil):
         :param tenant_ref: Reference of tenant
         :param cloud_ref: Reference of cloud
         :param controller_version: controller version
-        :param: prefix: prefix for objects
+        :param prefix: prefix for objects
         :return: None
         """
 
@@ -506,13 +576,15 @@ class NsUtil(MigrationUtil):
             vs['vsvip_ref'] = updated_vsvip_ref
 
     def clone_http_policy_set(self, policy, prefix, avi_config, tenant_name,
-                              cloud_name,
-                              userprefix=None):
+                              cloud_name, used_poolgrp_ref, userprefix=None):
         """
         This function clone pool reused in context switching rule
         :param policy: name of policy
         :param prefix: clone for
         :param avi_config: avi config dict
+        :param tenant_name:
+        :param cloud_name:
+        :param used_poolgrp_ref:
         :param userprefix: prefix for objects
         :return:None
         """
@@ -526,9 +598,12 @@ class NsUtil(MigrationUtil):
                     rule['switching_action']['pool_group_ref'].split('&')[
                         1].split(
                         '=')[1]
-                pool_group_ref = self.clone_pool_group(
-                    pool_group_ref, policy_name, avi_config, tenant_name,
-                    cloud_name, userprefix=userprefix)
+                if pool_group_ref in used_poolgrp_ref:
+                    LOG.debug('Cloned the pool group for policy %s',
+                              policy_name)
+                    pool_group_ref = self.clone_pool_group(
+                        pool_group_ref, policy_name, avi_config, tenant_name,
+                        cloud_name, userprefix=userprefix)
                 if pool_group_ref:
                     updated_pool_group_ref = self.get_object_ref(
                         pool_group_ref, OBJECT_TYPE_POOL_GROUP, tenant_name,
@@ -537,7 +612,6 @@ class NsUtil(MigrationUtil):
                         updated_pool_group_ref
         clone_policy['name'] += '-%s-clone' % prefix
         return clone_policy
-
 
     def set_rules_index_for_http_policy_set(self, avi_config):
         """
@@ -571,7 +645,6 @@ class NsUtil(MigrationUtil):
             netscalar_command += ' -%s %s' % (key, obj[key])
         return netscalar_command
 
-
     def clone_pool_group(self, pg_name, cloned_for, avi_config, tenant_name,
                          cloud_name, userprefix=None):
         """
@@ -579,6 +652,8 @@ class NsUtil(MigrationUtil):
         :param pg_name: pool group name
         :param cloned_for: clone for
         :param avi_config: avi config dict
+        :param tenant_name:
+        :param cloud_name:
         :param userprefix: prefix for objects
         :return: None
         """
@@ -604,13 +679,13 @@ class NsUtil(MigrationUtil):
             return pool_group['name']
         return None
 
-
     def remove_http_mon_from_pool(self, avi_config, pool, sysdict):
         """
         This function is used for removing http type from health monitor for https
         vs.
         :param avi_config: avi config dict
         :param pool: name of pool
+        :param sysdict: baseline/system config dict
         :return: None
         """
         if pool:
@@ -625,9 +700,8 @@ class NsUtil(MigrationUtil):
                         'of health monitor type is HTTPS and VS has no ssl '
                         'profile.' % (hm_ref, pool['name']))
 
-
-    def update_application_profile(self, profile_name, pki_profile_ref, tenant_ref,
-                                   name, avi_config, sysdict):
+    def update_application_profile(self, profile_name, pki_profile_ref,
+                                   tenant_ref, name, avi_config, sysdict):
         """
         This functions defines to update application profile with pki profile if
         application profile exist if not create new http profile with pki profile
@@ -636,6 +710,7 @@ class NsUtil(MigrationUtil):
         :param tenant_ref: tenant ref
         :param name: name of virtual service
         :param avi_config: Dict of AVi config
+        :param sysdict: baseline/system config
         :return: Http profile
         """
 
@@ -672,7 +747,6 @@ class NsUtil(MigrationUtil):
         except:
             LOG.error("Error in convertion of httpProfile", exc_info=True)
 
-
     def convert_persistance_prof(self, vs, name, tenant_ref):
         """
         This function defines that it convert the persistent profile and
@@ -689,13 +763,15 @@ class NsUtil(MigrationUtil):
             timeout = vs.get('timeout', 2)
             profile = {
                 "http_cookie_persistence_profile": {
-                    "always_send_cookie": False,
-                    "timeout": timeout
+                    "always_send_cookie": False
                 },
                 "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
                 "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
                 "name": name,
             }
+            #  Added time if greater than zero
+            if int(timeout) > 0:
+                profile['http_cookie_persistence_profile']["timeout"] = timeout
         elif persistenceType == 'SOURCEIP':
             # Set timeout equal to 2 if not provided.
             timeout = vs.get('timeout', 120)
@@ -734,7 +810,7 @@ class NsUtil(MigrationUtil):
             row[0]['Status'] = STATUS_INDIRECT
 
     def create_http_policy_set_for_redirect_url(self, vs_obj, redirect_uri,
-                                                avi_config, tenant_name, tenant_ref):
+                            avi_config, tenant_name, tenant_ref, enable_ssl):
         """
         This function defines that create http policy for redirect url
         :param vs_obj: object of VS
@@ -742,26 +818,11 @@ class NsUtil(MigrationUtil):
         :param avi_config: dict of AVi
         :param tenant_name: name of tenant
         :param tenant_ref: tenant ref
+        :param enable_ssl: flag for enabling ssl
         :return: None
         """
         redirect_uri = str(redirect_uri).replace('"', '')
-        parsed = self.parse_url(redirect_uri)
-        protocol = str(parsed.scheme).upper()
-        if not protocol:
-            protocol = 'HTTP'
-
-        action = {
-            'protocol': protocol,
-            'host': {
-                'type': 'URI_PARAM_TYPE_TOKENIZED',
-                'tokens': [{
-                    'type': 'URI_TOKEN_TYPE_HOST',
-                    'str_value': redirect_uri,
-                    'start_index': '0',
-                    'end_index': '65535'
-                }]
-            }
-        }
+        action = self.build_redirect_action_dict(redirect_uri, enable_ssl)
         policy_obj = {
             'name': vs_obj['name'] + '-redirect-policy',
             'tenant_ref': tenant_ref,
@@ -792,7 +853,12 @@ class NsUtil(MigrationUtil):
             'index': 11,
             'http_policy_set_ref': updated_http_policy_ref
         }
-        vs_obj['http_policies'] = []
+        if not vs_obj.get('http_policies'):
+            vs_obj['http_policies'] = []
+        else:
+            ind = max([policies['index'] for policies in vs_obj[
+                'http_policies']])
+            http_policies['index'] = ind + 1
         vs_obj['http_policies'].append(http_policies)
         avi_config['HTTPPolicySet'].append(policy_obj)
 
@@ -801,6 +867,7 @@ class NsUtil(MigrationUtil):
         """
         This function defines that clean up vs which has vip 0.0.0.0
         :param avi_config: dict of AVI
+        :param controller_version:
         :return: None
         """
         vs_list = copy.deepcopy(avi_config['VirtualService'])
@@ -814,8 +881,12 @@ class NsUtil(MigrationUtil):
                 [vs for vs in vs_list
                  if vs['ip_address']['addr'] != '0.0.0.0']
 
-
     def parse_url(self, url):
+        """
+        This method returns the parsed url
+        :param url: url that need to be parsed
+        :return:
+        """
         parsed = urlparse.urlparse(url)
         return parsed
 
@@ -868,8 +939,8 @@ class NsUtil(MigrationUtil):
                     skipped_list.append(skipped_setting_csv)
         return skipped_list
 
-    def get_ssl_key_and_cert_refs_skipped(self, csv_writer_dict_list, object_name,
-                                          vs_ref):
+    def get_ssl_key_and_cert_refs_skipped(self, csv_writer_dict_list,
+                                          object_name, vs_ref):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list: CSV row of object from xlsx report
@@ -883,14 +954,17 @@ class NsUtil(MigrationUtil):
         csv_object = self.get_csv_object_list(
             csv_writer_dict_list, ['bind ssl vserver', 'bind ssl service',
                                    'bind ssl serviceGroup'])
-        skipped_list = self.get_csv_skipped_list(csv_object, ssl_key_cert, vs_ref)
+        skipped_list = self.get_csv_skipped_list(csv_object, ssl_key_cert,
+                                                 vs_ref)
         return ssl_key_cert, skipped_list
 
-    def get_ssl_profile_skipped(self, csv_writer_dict_list, ssl_profile_ref, vs_ref):
+    def get_ssl_profile_skipped(self, csv_writer_dict_list, ssl_profile_ref,
+                                vs_ref):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list: CSV row of object from xlsx report
-        :param name_of_object: object name like pool name, virtual service obj name.
+        :param ssl_profile_ref: reference of ssl profile object
+        :param vs_ref: virtual service obj reference.
         :return: List of skipped settings
         """
 
@@ -908,7 +982,8 @@ class NsUtil(MigrationUtil):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list: CSV row of object from xlsx report
-        :param name_of_object: object name like pool name, virtual service obj name.
+        :param name_of_object: object name like pool name, etc
+        :param vs_ref: virtual service obj reference.
         :return: List of skipped settings
         """
 
@@ -925,7 +1000,8 @@ class NsUtil(MigrationUtil):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list:List of add ns tcpProfile netscaler command rows
-        :param name_of_object: object name like pool name, virtual service obj name.
+        :param name_of_object: object name like pool name, etc
+        :param vs_ref: virtual service obj reference.
         :return: List of skipped settings
         """
 
@@ -941,7 +1017,8 @@ class NsUtil(MigrationUtil):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list: List of set lb group netscaler command rows
-        :param name_of_object: object name like pool name, virtual service obj name.
+        :param name_of_object: object name like pool name, etc
+        :param vs_ref: virtual service obj reference.
         :return: List of skipped settings
         """
         # Changed ssl profile name to ssl profile ref.
@@ -952,9 +1029,9 @@ class NsUtil(MigrationUtil):
             csv_object, app_persistence_profile_name, vs_ref)
         return app_persistence_profile_name, skipped_list
 
-    def get_pool_skipped_list(self, avi_config, pool_group_name, skipped_setting,
-                              csv_object, obj_name, csv_writer_dict_list,
-                              vs_ref):
+    def get_pool_skipped_list(self, avi_config, pool_group_name,
+                              skipped_setting, csv_object, obj_name,
+                              csv_writer_dict_list, vs_ref):
         """
         This method is used for getting pool skipped list.
         :param avi_config: AVI dict
@@ -962,7 +1039,9 @@ class NsUtil(MigrationUtil):
         :param skipped_setting: List of skipped settings
         :param csv_object: CSV row
         :param obj_name: Name of Object
-        :param csv_writer_dict_list: List of bind lb vserver netscaler command rows
+        :param csv_writer_dict_list: List of bind lb vserver netscaler command
+                                     rows
+        :param vs_ref: vs object reference
         :return: List of skipped settings
         """
 
@@ -1009,7 +1088,7 @@ class NsUtil(MigrationUtil):
                                             'health monitor'][
                                             'name'] = monitor_ref
                                         skipped_setting[obj_name]['pool'][
-                                            'health monitor']['skipped_list'] = \
+                                            'health monitor']['skipped_list'] =\
                                             skipped_list
                             if 'ssl_key_and_certificate_refs' in avi_object_json:
                                 name, skipped = \
@@ -1046,8 +1125,8 @@ class NsUtil(MigrationUtil):
                                         'ssl profile']['name'] = name
                                     skipped_setting[obj_name]['pool'][
                                         'ssl profile']['skipped_list'] = skipped
-                            # Get the skipped settings of application persistence
-                            # profile ref.
+                            # Get the skipped settings of application
+                            # persistence profile ref.
                             if 'application_persistence_profile_ref' in \
                                     avi_object_json:
                                 name, skipped = \
@@ -1067,8 +1146,8 @@ class NsUtil(MigrationUtil):
                                     skipped_setting[obj_name]['pool'][
                                         'Application Persistence profile'][
                                         'skipped_list'] = skipped
-                            # Get the skipped settings of application persistence
-                            # profile ref.
+                            # Get the skipped settings of application
+                            # persistence profile ref.
                             if 'application_persistence_profile_ref' \
                                     in avi_object_json:
                                 name, skipped = \
@@ -1088,6 +1167,22 @@ class NsUtil(MigrationUtil):
                                     skipped_setting[obj_name]['pool'][
                                         'Application Persistence profile'][
                                         'skipped_list'] = skipped
+
+    def vs_complexity_level(self):
+        """
+        This method calculate complexity of vs.
+        :return:
+        """
+        vs_csv_objects = [row for row in csv_writer_dict_list
+                          if
+                          row['Status'] in [STATUS_PARTIAL, STATUS_SUCCESSFUL]
+                          and row['Netscaler Command'] in [
+                              'add cs vserver', 'add lb vserver']]
+        for vs_csv_object in vs_csv_objects:
+            virtual_service = self.format_string_to_json(
+                vs_csv_object['AVI Object'])
+            # Update the complexity level of VS as Basic or Advanced
+            self.update_vs_complexity_level(vs_csv_object, virtual_service)
 
     def vs_per_skipped_setting_for_references(self, avi_config):
         """
@@ -1232,15 +1327,29 @@ class NsUtil(MigrationUtil):
             csv_object['VS Reference'] = STATUS_NOT_IN_USE
 
     def write_status_report_and_pivot_table_in_xlsx(self, row_list, output_dir,
-                                                    report_name):
+                                                report_name, vs_level_status):
+        """
+        This method writes the status and make pivot table in excel sheet
+        :param row_list:
+        :param output_dir:
+        :param report_name:
+        :param vs_level_status:
+        :return:
+        """
         global total_count
         global progressbar_count
         # List of fieldnames for headers
-        fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
-                      'Full Command', 'Status', 'Skipped settings',
-                      'Indirect mapping', 'Not Applicable', 'User Ignored',
-                      'Overall skipped settings', 'Complexity Level',
-                      'VS Reference', 'AVI Object']
+        if vs_level_status:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'Overall skipped settings', 'Complexity Level',
+                          'VS Reference', 'AVI Object']
+        else:
+            fieldnames = ['Line Number', 'Netscaler Command', 'Object Name',
+                          'Full Command', 'Status', 'Skipped settings',
+                          'Indirect mapping', 'Not Applicable', 'User Ignored',
+                          'Complexity Level' , 'AVI Object']
         xlsx_report = output_dir + os.path.sep + ("%s-ConversionStatus.xlsx" %
                                                   report_name)
         # xlsx workbook
@@ -1279,10 +1388,11 @@ class NsUtil(MigrationUtil):
         pivot_df.to_excel(master_writer, 'Pivot Sheet')
         master_writer.save()
 
-    def update_skip_duplicates(self, obj, obj_list, obj_type, merge_object_mapping,
-                               name, ent_type, prefix, syslist):
+    def update_skip_duplicates(self, obj, obj_list, obj_type,
+                               merge_object_mapping, name, ent_type, prefix,
+                               syslist):
         """
-        Merge duplicate profiles
+        This method merge duplicate objects
         :param obj: Source object to find duplicates for
         :param obj_list: List of object to search duplicates in
         :param obj_type: Type of object to add in converted_objs status
@@ -1345,6 +1455,11 @@ class NsUtil(MigrationUtil):
             vsvip_config.append(vsvip_object)
 
     def get_redirect_fail_action(self, url):
+        """
+        This method returns the fail action dict
+        :param url: url
+        :return:
+        """
         parsed = urlparse.urlparse(url)
         redirect_fail_action = {
             'fail_action': {
@@ -1365,8 +1480,12 @@ class NsUtil(MigrationUtil):
 
         return redirect_fail_action
 
-
     def cleanup_dupof(self, avi_config):
+        """
+        This method is used to clean up dup_of key from different AVI objects
+        :param avi_config:
+        :return:
+        """
         self.remove_dup_key(avi_config["ApplicationProfile"])
         self.remove_dup_key(avi_config["NetworkProfile"])
         self.remove_dup_key(avi_config["SSLProfile"])
@@ -1375,6 +1494,14 @@ class NsUtil(MigrationUtil):
         self.remove_dup_key(avi_config['HealthMonitor'])
 
     def update_profile_ref(self, ref, avi_obj, merge_obj_list):
+        """
+        This method is used to update the profile references which was
+        attached at the time of creation
+        :param ref:
+        :param avi_obj:
+        :param merge_obj_list:
+        :return:
+        """
         for obj in avi_obj:
             obj_ref = obj.get(ref)
             tenant_ref = obj.get('tenant_ref')
@@ -1470,6 +1597,11 @@ class NsUtil(MigrationUtil):
                                         'Object Name']]
 
     def merge_pool(self, avi_config):
+        """
+        This method merge the pools in AVI if HM is same
+        :param avi_config:
+        :return:
+        """
         mergelist=[]
         for poolgrp in avi_config['PoolGroup']:
             pool_member = poolgrp['members']
@@ -1520,4 +1652,87 @@ class NsUtil(MigrationUtil):
                               in mergelist]
         avi_config['Pool'] = [pools for pools in avi_config['Pool'] if pools[
                                 'name'] not in mergelist]
+
+    def add_policy(self, policy, updated_vs_name, avi_config, tmp_policy_ref,
+                   vs_obj, tenant_name, cloud_name, prefix, used_poolgrp_ref):
+        """
+        This method is used to add policy objects to AVI and also add
+        reference in VS
+        :param policy: policy object
+        :param updated_vs_name: vs name
+        :param avi_config: avi config dict
+        :param tmp_policy_ref: list of policy ref which are already used
+        :param vs_obj: vs object
+        :param tenant_name: name of tenant
+        :param cloud_name: name of cloud
+        :param prefix: prefix
+        :param used_poolgrp_ref: list of used pool group ref
+        :return:
+        """
+        if policy['name'] in tmp_policy_ref:
+            # clone the http policy set if it is referenced to other VS
+            policy = self.clone_http_policy_set(policy, updated_vs_name,
+                         avi_config, tenant_name, cloud_name, used_poolgrp_ref,
+                         userprefix=prefix)
+        updated_http_policy_ref = self.get_object_ref(policy['name'],
+                                   OBJECT_TYPE_HTTP_POLICY_SET, tenant_name)
+
+        tmp_policy_ref.append(policy['name'])
+        http_policies = {
+            'index': 11,
+            'http_policy_set_ref': updated_http_policy_ref
+        }
+        if not vs_obj.get('http_policies'):
+            vs_obj['http_policies'] = []
+        else:
+            ind = max([policies['index'] for policies in vs_obj[
+                       'http_policies']])
+            http_policies['index'] = ind + 1
+        vs_obj['http_policies'].append(http_policies)
+        avi_config['HTTPPolicySet'].append(policy)
+
+    def build_redirect_action_dict(self, redirect_url, enable_ssl):
+        """
+        This method returns a redirect action dict
+        :param redirect_url: redirect url
+        :param enable_ssl: flag for ssl enable
+        :return:
+        """
+        redirect_url = self.parse_url(redirect_url)
+        protocol = str(redirect_url.scheme).upper()
+        hostname = str(redirect_url.hostname)
+        pathstring = str(redirect_url.path)
+        querystring = str(redirect_url.query)
+        full_path = '%s?%s' % (pathstring, querystring) if pathstring and \
+                                querystring else pathstring
+        protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
+            protocol
+        action = {
+            'protocol': protocol
+        }
+        if hostname:
+            action.update({'host':
+                {
+                    'type': 'URI_PARAM_TYPE_TOKENIZED',
+                    'tokens': [{
+                        'type': 'URI_TOKEN_TYPE_STRING',
+                        'str_value': hostname,
+                        'start_index': '0',
+                        'end_index': '65535'
+                    }]
+                }
+            })
+        if full_path:
+            action.update({'path':
+                {
+                    'type': 'URI_PARAM_TYPE_TOKENIZED',
+                    'tokens': [{
+                        'type': 'URI_TOKEN_TYPE_STRING',
+                        'str_value': full_path,
+                        'start_index': '0',
+                        'end_index': '65535'
+                    }]
+                }
+            })
+        return action
 

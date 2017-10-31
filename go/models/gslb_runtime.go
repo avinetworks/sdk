@@ -7,6 +7,9 @@ package models
 // swagger:model GslbRuntime
 type GslbRuntime struct {
 
+	//  Field introduced in 17.1.3.
+	Checksum string `json:"checksum,omitempty"`
+
 	// Placeholder for description of property dns_enabled of obj type GslbRuntime field type str  type boolean
 	DNSEnabled bool `json:"dns_enabled,omitempty"`
 

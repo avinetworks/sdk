@@ -5,18 +5,19 @@ import requests
 import json
 import copy
 import os
+from avi.sdk.avi_api import ApiSession
 
 alert_name = ""
 virtualservice = ""
 server_ip = ""
 pool = ""
 server = ""
-controller = "localhost"
-user = "admin"
+controller_ip = "localhost"
+username = "admin"
 password = "avi123"
 tenant = "admin"
 
-session = {}
+session = None
 
 def ParseAviParams(argv):
     global alert_name, virtualservice, server_ip, pool, server
@@ -54,117 +55,12 @@ class LoginCredentialsFailed(Exception):
 class TokenCredentialsFailed (Exception):
     pass
 
-
-def _LoginFailed(rsp):
-    if rsp.status_code == 502:
-        raise LoginUnknownError(rsp.text)
-    elif rsp.status_code == 401:
-        raise LoginCredentialsFailed(rsp.text)
-    raise LoginUnknownError('Unknown error')
-
-
-def Login(ws_addr='https://localhost', tenant='admin', user='admin',
-          password='admin', token=None, timeout=30):
-    '''
-    At this time, we use username/password based authentication for most
-    of the cases. Only when you log into the shell and we spawn the avi
-    CLI, will we use the CHAP authentication at this time using a public
-    key/private key pair.
-    In both cases, we will use the login semantics to establish a session
-    encoded in a cookie and will access resources using this
-    '''
-    # Get a CSRF token by touching the initial-data page
-    rsp = requests.get(os.path.join(ws_addr, 'api/initial-data'), verify=False,
-                       timeout=timeout)
-    cookies = dict(rsp.cookies)
-    headers = {
-        'Content-Type' : 'application/json',
-        'X-Avi-Tenant' : tenant,
-        'Referer'      : ws_addr
-    }
-
-    if rsp.status_code != 200:
-        _LoginFailed(rsp)
-        return
-
-    if 'csrftoken' in cookies:
-        headers['X-CSRFToken'] = cookies['csrftoken']
-
-    if not token:
-        # Use a traditional login using username and password
-        login_req = {'username' : user, 'password' : password}
-        rsp = requests.post(os.path.join(ws_addr, 'login'), verify=False,
-                            timeout=timeout, cookies=cookies,
-                            headers=headers, data=json.dumps(login_req))
-    else:
-        login_req = {'username' : user, 'token' : token}
-        rsp = requests.post(os.path.join(ws_addr, 'login'), verify=False,
-                            timeout=timeout, cookies=cookies,
-                            headers=headers, data=json.dumps(login_req))
-
-    if rsp.status_code != 200:
-        _LoginFailed(rsp)
-        return
-
-    # Cache the session id from the cookies
-    cookies = dict(rsp.cookies)
-    cookies['csrftoken'] = headers['X-CSRFToken']
-    return (cookies, headers)
-
-def _Api(ws_addr, method, uri, params={}, data={}, headers={}, timeout=10):
-    '''
-    Internal routine to perform the API given the controller IP address,
-    HTTP method, query parameters and REST API URI
-    Returns the response. 
-    '''
-    global session
-    if not uri.startswith('http'):
-        uri = ws_addr + uri
-
-    _headers = copy.copy(session['headers'])
-    if headers:
-        _headers.update(headers)
-    print('%s %s data=%s' % (method, uri, data))
-    try:
-        if method == 'GET':
-            rsp = requests.get(uri, params=params,
-                               headers=_headers,
-                               cookies=session['cookies'],
-                               timeout=timeout, verify=False)
-        elif method == 'PUT':
-            rsp = requests.put(uri, params=params,
-                               data=json.dumps(data),
-                               headers=_headers,
-                               cookies=session['cookies'],
-                               timeout=timeout, verify=False)
-        elif method == 'POST':
-            rsp = requests.post(uri, params=params,
-                               data=json.dumps(data),
-                               headers=_headers,
-                               cookies=session['cookies'],
-                               timeout=timeout, verify=False)
-        elif method == 'DELETE':
-            rsp = requests.delete(uri, params=params,
-                               headers=_headers,
-                               cookies=session['cookies'],
-                               timeout=timeout, verify=False)
-        else:
-            raise Exception('Unknown http request %s' % method)
-    except requests.exceptions.Timeout:
-        print('Timeout in handling the request %s %s' % (method, uri))
-        raise
-    except requests.exceptions.ConnectionError as err:
-        print('Error in contacting the controller %s' % err)
-        raise
-
-    return rsp
-
-def _FindVsPoolByName(ws_addr, name=''):
+def _FindVsPoolByName(name=''):
     '''
     Find the Virtualservice by name.  
     '''
     params = {'name' : name }
-    rsp = _Api(ws_addr, 'GET', '/api/virtualservice', params=params)
+    rsp = session.get('virtualservice', params=params)
     if rsp.status_code != 200:
         raise Exception('Unable to find the virtualservice by name for %s' % name)
     rsp_dict = json.loads(rsp.text)
@@ -176,17 +72,17 @@ def _FindVsPoolByName(ws_addr, name=''):
     return (vs_uuid, pool_uuid)
 
 
-def AddServersToVirtualservice(ws_addr, vs_name, new_server_list):
+def AddServersToVirtualservice(vs_name, new_server_list):
     '''
     Add backend servers to the pool. Backend servers are of the form
     ip_addr:port.
     This routine also allows you to add servers to a virtualservice
     '''
-    uuid, pool_uuid = _FindVsPoolByName(ws_addr, name=vs_name)
+    uuid, pool_uuid = _FindVsPoolByName(name=vs_name)
     if not uuid or not pool_uuid:
         return
-    pool_uri = '/api/pool/%s' % pool_uuid
-    rsp = _Api(ws_addr, 'GET', pool_uri)
+    pool_uri = 'pool/%s' % pool_uuid
+    rsp = session.get(pool_uri)
     if rsp.status_code != 200:
         raise Exception('Pool is not configured')
     rsp_dict = json.loads(rsp.text)
@@ -219,7 +115,7 @@ def AddServersToVirtualservice(ws_addr, vs_name, new_server_list):
         server_data['port'] = port
         rsp_dict['servers'].append(server_data)
 
-    _Api(ws_addr, method='PUT', uri=pool_uri, data=rsp_dict)
+    session.put(pool_uri, data=rsp_dict)
 
 if __name__ == "__main__":
     '''
@@ -234,10 +130,7 @@ if __name__ == "__main__":
     needs to be added here. As an example we are
     adding a dummy server to the pool
 
-    ws_addr = ('https://'+controller
-        if 'http' not in controller else controller)
-    session['cookies'], session['headers'] = (
-        Login(ws_addr, tenant, user, password))
+    session = ApiSession(controller_ip, username, password)
     new_server_list = ['10.20.12.222:80']
-    AddServersToVirtualservice(ws_addr, virtualservice, new_server_list)
+    AddServersToVirtualservice(virtualservice, new_server_list)
     '''

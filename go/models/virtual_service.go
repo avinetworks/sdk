@@ -44,7 +44,7 @@ type VirtualService struct {
 	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	CloudType string `json:"cloud_type,omitempty"`
 
 	// Rate limit the incoming connections to this virtual service.
@@ -189,6 +189,10 @@ type VirtualService struct {
 	// NAT'ted floating source IP Address(es) for upstream connection to servers.
 	SnatIP []*IPAddr `json:"snat_ip,omitempty"`
 
+	// Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2.
+	// Read Only: true
+	SpPoolRefs []string `json:"sp_pool_refs,omitempty"`
+
 	// Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate.
 	SslKeyAndCertificateRefs []string `json:"ssl_key_and_certificate_refs,omitempty"`
 
@@ -243,6 +247,9 @@ type VirtualService struct {
 
 	// Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1.
 	VsvipRef string `json:"vsvip_ref,omitempty"`
+
+	// WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1.
+	WafPolicyRef string `json:"waf_policy_ref,omitempty"`
 
 	// The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines.
 	Weight int32 `json:"weight,omitempty"`

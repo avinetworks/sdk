@@ -204,7 +204,24 @@ class MonitorConfigConv(object):
             try:
                 LOG.debug("Converting monitor: %s" % name)
                 if monitor_type not in self.supported_types:
-                    msg = "Monitor type not supported by Avi : "+name
+                    avi_monitor = self.convert_monitor(
+                        f5_monitor, key, monitor_config, input_dir,
+                        m_user_ignore,
+                        tenant, avi_config, cloud_name, controller_version,
+                        merge_object_mapping, sys_dict)
+                    if not avi_monitor:
+                        continue
+                    avi_monitor['name'] = '%s-%s' % (avi_monitor['name'],
+                                                     'dummy')
+                    avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
+                    ext_monitor = {
+                        "command_code": "",
+                    }
+                    avi_monitor["external_monitor"] = ext_monitor
+                    avi_config['HealthMonitor'].append(avi_monitor)
+                    msg = "Monitor type {} not supported, created dummy " \
+                          "external monitor {}".format(monitor_type,
+                                                       avi_monitor['name'])
                     LOG.warn(msg)
                     conv_utils.add_status_row(
                         'monitor', monitor_type, name,
@@ -246,14 +263,18 @@ class MonitorConfigConv(object):
                    if val not in self.supported_attributes]
         indirect = copy.deepcopy(self.indirect_mappings)
         timeout = int(f5_monitor.get("timeout", conv_const.DEFAULT_TIMEOUT))
-        interval = int(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
+        # Supporting value 'auto' and changing it to default value for interval
+        interval = str(f5_monitor.get("interval", conv_const.DEFAULT_INTERVAL))
+        interval = int(interval) if interval.isdigit() else \
+                    conv_const.DEFAULT_INTERVAL
         time_until_up = int(f5_monitor.get(self.tup,
                                            conv_const.DEFAULT_TIME_UNTIL_UP))
-        # Fixed Successful interval and failed checks
-        failed_checks = int(timeout/interval)
+        # Fixed Successful interval and failed checks, also averting
+        # DivisionByZero error
+        failed_checks = int(timeout/interval) if interval else 0
         successful_checks = conv_const.DEFAULT_FAILED_CHECKS
         if time_until_up > 0:
-            successful_checks = int(time_until_up/interval)
+            successful_checks = int(time_until_up/interval) if interval else 0
             successful_checks = 1 \
                 if successful_checks == 0 else successful_checks
 
@@ -267,7 +288,7 @@ class MonitorConfigConv(object):
             tenant = tenant_ref
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
-        monitor_dict["receive_timeout"] = interval-1
+        monitor_dict["receive_timeout"] = interval-1 if interval else 0
         monitor_dict["failed_checks"] = failed_checks
         monitor_dict["send_interval"] = interval
         monitor_dict["successful_checks"] = successful_checks
@@ -382,7 +403,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         f5_monitor = monitor_config[key]
         monitor_type, monitor_name = key.split(" ")
         parent_name = f5_monitor.get("defaults-from", None)
-        parent_name = None if parent_name == 'none' else parent_name
+        parent_name = None if parent_name == 'none' else \
+                        conv_utils.get_tenant_ref(parent_name)[1] if \
+                        parent_name is not None else parent_name
         if parent_name and monitor_name != parent_name:
             key = monitor_type+" "+parent_name
             parent_monitor = monitor_config.get(key, None)
@@ -400,6 +423,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
+        send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
@@ -418,7 +442,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             skipped.append(self.dest_key)
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["http_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -428,6 +454,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         skipped = [key for key in skipped if key not in self.https_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
+        send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
@@ -460,7 +487,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp,http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["https_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -487,7 +516,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["dns_monitor"] = dns_monitor
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["dns_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["dns_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["dns_monitor"]["http_response"] = http_rsp
         return skipped
 
@@ -517,11 +548,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
-            tcp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            tcp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp-half-open':
             if tcp_monitor:
@@ -557,11 +590,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
-            udp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             udp_monitor["http_response"] = http_rsp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            udp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
@@ -618,10 +653,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
         http_response = ''
         if "reverse" in f5_monitor and f5_monitor["reverse"] != 'disabled':
             maintenance_response = f5_monitor.get("recv", '')
-            http_response = f5_monitor.get('recv disable', '')
+            http_response = f5_monitor.get('recv disable', f5_monitor.get(
+                                'recv-disable', ''))
         else:
             http_response = f5_monitor.get("recv", '')
-            maintenance_response = f5_monitor.get('recv disable', '')
+            maintenance_response = f5_monitor.get('recv disable',
+                                            f5_monitor.get('recv-disable', ''))
         if maintenance_response:
             maintenance_response = \
                 maintenance_response.replace('\"', '').strip()
@@ -629,7 +666,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             http_response = \
                 http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
-            maintenance_response = ''
+            maintenance_response = None
         if http_response == 'none':
             http_response = ''
         return maintenance_response, http_response
@@ -672,7 +709,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def get_defaults(self, monitor_config, key):
         f5_monitor = monitor_config[key]
         parent_name = f5_monitor.get("defaults from", None)
-        parent_name = None if parent_name == 'none' else parent_name
+        parent_name = None if parent_name == 'none' else \
+                        conv_utils.get_tenant_ref(parent_name)[1] if \
+                        parent_name is not None else parent_name
         if parent_name and key != parent_name:
             parent_monitor = monitor_config.get(parent_name, None)
             if parent_monitor:
@@ -690,6 +729,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
+        send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
@@ -709,7 +749,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["http_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["http_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["http_monitor"]["http_response"] = http_resp
         return skipped
 
@@ -722,6 +764,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
+        send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
@@ -755,7 +798,9 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
-        monitor_dict["https_monitor"]["maintenance_response"] = maintenance_resp
+        if maintenance_resp:
+            monitor_dict["https_monitor"]["maintenance_response"] = \
+                                                                maintenance_resp
         monitor_dict["https_monitor"]["http_response"] = http_resp
         return skipped
 
@@ -787,11 +832,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_rsp = self.get_maintenance_response(f5_monitor)
         if tcp_monitor:
-            tcp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             tcp_monitor["http_response"] = http_rsp
         else:
-            tcp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_rsp}
+            tcp_monitor = {"http_response": http_rsp}
+            if maintenance_resp:
+                tcp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["tcp_monitor"] = tcp_monitor
         if type == 'tcp_half_open':
             if tcp_monitor:
@@ -828,11 +875,13 @@ class MonitorConfigConvV10(MonitorConfigConv):
         # Added mapping for http_response.
         maintenance_resp, http_resp = self.get_maintenance_response(f5_monitor)
         if udp_monitor:
-            udp_monitor["maintenance_response"] = maintenance_resp
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             udp_monitor["http_response"] = http_resp
         else:
-            udp_monitor = {"maintenance_response": maintenance_resp,
-                           "http_response": http_resp}
+            udp_monitor = {"http_response": http_resp}
+            if maintenance_resp:
+                udp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["udp_monitor"] = udp_monitor
         return skipped
 
@@ -903,7 +952,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             http_response = \
                 http_response.replace('\"', '').strip()
         if maintenance_response == 'none':
-            maintenance_response = ''
+            maintenance_response = None
         if http_response == 'none':
             http_response = ''
         return maintenance_response, http_response

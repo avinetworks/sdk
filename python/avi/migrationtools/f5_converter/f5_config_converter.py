@@ -13,7 +13,7 @@ from avi.migrationtools.f5_converter.profile_converter import \
 from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
 from avi.migrationtools.f5_converter import conversion_util
 from avi.migrationtools.f5_converter.conversion_util import F5Util
-
+from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -35,7 +35,8 @@ conv_utils = F5Util()
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
-            cloud_name='Default-Cloud', keypassphrase=None):
+            cloud_name='Default-Cloud', keypassphrase=None,
+            vs_level_status=False):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -94,21 +95,27 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         persist_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
                              merge_object_mapping, sys_dict)
 
+        policy_conv = PolicyConfigConv.get_instance(version, prefix)
+        policy_conv.convert(f5_config, avi_config_dict, tenant)
+
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
                                             con_snatpool)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict)
         # Updating application profile from L4 to http if service has ssl enable
-        conv_utils.update_app_profile(avi_config_dict, sys_dict, tenant)
+        conv_utils.update_app_profile(avi_config_dict, sys_dict)
+        # Updated network profile to TCP PROXY if application profile is HTTP
+        conv_utils.update_network_profile(avi_config_dict, sys_dict)
         conv_utils.net_to_static_route(f5_config, avi_config_dict)
         # Updating the ssl profile ref for monitors with merged name
         conv_utils.update_monitor_ssl_ref(avi_config_dict, merge_object_mapping,
                                           sys_dict)
-        conv_utils.cleanup_config(avi_config_dict)
         conv_utils.add_tenants(avi_config_dict)
+        conv_utils.cleanup_config(avi_config_dict)
         # Validating the aviconfig after generation
         conv_utils.validation(avi_config_dict)
+        LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
 
     except:
         LOG.error("Conversion error", exc_info=True)
@@ -141,16 +148,23 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
     # Add f5 converter status report in xslx report
     conv_utils.add_complete_conv_status(
-        output_dir, avi_config_dict, report_name)
+        output_dir, avi_config_dict, report_name, vs_level_status)
     for key in avi_config_dict:
         if key != 'META':
             if key == 'VirtualService':
-                LOG.info('Total Objects of %s : %s (%s full conversions)'
-                         % (key, len(avi_config_dict[key]),
-                            conversion_util.fully_migrated))
-                print 'Total Objects of %s : %s (%s full conversions)' \
-                      % (key, len(avi_config_dict[key]),
-                         conversion_util.fully_migrated)
+                if vs_level_status:
+                    LOG.info('Total Objects of %s : %s (%s full conversions)'
+                             % (key, len(avi_config_dict[key]),
+                                conversion_util.fully_migrated))
+                    print 'Total Objects of %s : %s (%s full conversions)' \
+                          % (key, len(avi_config_dict[key]),
+                             conversion_util.fully_migrated)
+                else:
+                    LOG.info('Total Objects of %s : %s'
+                             % (key, len(avi_config_dict[key])))
+                    print 'Total Objects of %s : %s' \
+                          % (key, len(avi_config_dict[key]))
+
                 continue
             # Added code to print merged count.
             elif object_merge_check and key == 'SSLProfile':

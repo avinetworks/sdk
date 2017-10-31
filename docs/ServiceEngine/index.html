@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi ServiceEngine Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> ``` </div>
+    <div class="app-desc">##CLI## ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -203,6 +203,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidArpstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/arpstat/</code></a></li>
   <li><a href="#serviceengineUuidArptableGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/arptable/</code></a></li>
   <li><a href="#serviceengineUuidBgpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/bgp/</code></a></li>
+  <li><a href="#serviceengineUuidClearPost"><code><span class="http-method">post</span> /serviceengine/{uuid}/clear</code></a></li>
   <li><a href="#serviceengineUuidConnectedGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/connected/</code></a></li>
   <li><a href="#serviceengineUuidCpuGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/cpu/</code></a></li>
   <li><a href="#serviceengineUuidDelete"><code><span class="http-method">delete</span> /serviceengine/{uuid}</code></a></li>
@@ -223,6 +224,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidInterfaceLacpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/interface/lacp/</code></a></li>
   <li><a href="#serviceengineUuidInterfacesummaryGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/interfacesummary/</code></a></li>
   <li><a href="#serviceengineUuidIpstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/ipstat/</code></a></li>
+  <li><a href="#serviceengineUuidLldpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/lldp/</code></a></li>
   <li><a href="#serviceengineUuidMallocstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/mallocstats/</code></a></li>
   <li><a href="#serviceengineUuidMbufstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/mbufstats/</code></a></li>
   <li><a href="#serviceengineUuidMemdistGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/memdist/</code></a></li>
@@ -273,7 +275,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
@@ -329,6 +345,7 @@ font-style: italic;
       "is_avi_internal_network" : true,
       "mac_address" : "aeiou",
       "members" : [ {
+        "mac_address" : "aeiou",
         "if_name" : "aeiou",
         "active" : true
       } ],
@@ -454,6 +471,7 @@ font-style: italic;
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
     "members" : [ {
+      "mac_address" : "aeiou",
       "if_name" : "aeiou",
       "active" : true
     } ],
@@ -628,6 +646,64 @@ font-style: italic;
       <li><code>application/json</code></li>
     </ul>
 
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidClearPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /serviceengine/{uuid}/clear</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidClearPost</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
+    </div>  <!-- field-items -->
 
 
 
@@ -1346,7 +1422,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -1400,6 +1482,7 @@ font-style: italic;
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
     "members" : [ {
+      "mac_address" : "aeiou",
       "if_name" : "aeiou",
       "active" : true
     } ],
@@ -1767,6 +1850,58 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/ipstat/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidIpstatGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidLldpGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/lldp/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidLldpGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -2264,6 +2399,7 @@ font-style: italic;
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
     "members" : [ {
+      "mac_address" : "aeiou",
       "if_name" : "aeiou",
       "active" : true
     } ],
@@ -2452,6 +2588,7 @@ font-style: italic;
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
     "members" : [ {
+      "mac_address" : "aeiou",
       "if_name" : "aeiou",
       "active" : true
     } ],
@@ -3502,6 +3639,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">active (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property active of obj type MemberInterface field type str  type boolean </div>
 <div class="param">if_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of MemberInterface. </div>
+<div class="param">mac_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3532,7 +3670,7 @@ font-style: italic;
 <div class="param">controller_created (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property controller_created of obj type ServiceEngine field type str  type boolean </div>
 <div class="param">controller_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> controller_ip of ServiceEngine. </div>
 <div class="param">data_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#vNIC">array[vNIC]</a></span> Placeholder for description of property data_vnics of obj type ServiceEngine field type str  type object </div>
-<div class="param">enable_state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED. </div>
+<div class="param">enable_state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE. </div>
 <div class="param">flavor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> flavor of ServiceEngine. </div>
 <div class="param">host_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type VIMgrHostRuntime. </div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>

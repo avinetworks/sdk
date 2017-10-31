@@ -16,6 +16,9 @@ type VsScaleinParams struct {
 	// Placeholder for description of property scalein_primary of obj type VsScaleinParams field type str  type boolean
 	ScaleinPrimary bool `json:"scalein_primary,omitempty"`
 
+	// Unique object identifier of the object.
+	UUID string `json:"uuid,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	// Required: true
 	VipID string `json:"vip_id"`

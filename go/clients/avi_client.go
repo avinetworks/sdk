@@ -6,6 +6,96 @@ import (
 
 // AviClient -- an API Client for Avi Controller
 type AviClient struct {
+<<<<<<< HEAD
+	AviSession                     *session.AviSession
+	APICLifsRuntime                *APICLifsRuntimeClient
+	ActionGroupConfig              *ActionGroupConfigClient
+	Alert                          *AlertClient
+	AlertConfig                    *AlertConfigClient
+	AlertEmailConfig               *AlertEmailConfigClient
+	AlertObjectList                *AlertObjectListClient
+	AlertScriptConfig              *AlertScriptConfigClient
+	AlertSyslogConfig              *AlertSyslogConfigClient
+	AnalyticsProfile               *AnalyticsProfileClient
+	Application                    *ApplicationClient
+	ApplicationPersistenceProfile  *ApplicationPersistenceProfileClient
+	ApplicationProfile             *ApplicationProfileClient
+	AuthProfile                    *AuthProfileClient
+	AutoScaleLaunchConfig          *AutoScaleLaunchConfigClient
+	Backup                         *BackupClient
+	BackupConfiguration            *BackupConfigurationClient
+	CertificateManagementProfile   *CertificateManagementProfileClient
+	Cloud                          *CloudClient
+	CloudConnectorUser             *CloudConnectorUserClient
+	CloudProperties                *CloudPropertiesClient
+	CloudRuntime                   *CloudRuntimeClient
+	Cluster                        *ClusterClient
+	ControllerLicense              *ControllerLicenseClient
+	ControllerProperties           *ControllerPropertiesClient
+	CustomIPAMDNSProfile           *CustomIPAMDNSProfileClient
+	DNSPolicy                      *DNSPolicyClient
+	DebugController                *DebugControllerClient
+	DebugServiceEngine             *DebugServiceEngineClient
+	DebugVirtualService            *DebugVirtualServiceClient
+	Gslb                           *GslbClient
+	GslbGeoDbProfile               *GslbGeoDbProfileClient
+	GslbService                    *GslbServiceClient
+	HTTPPolicySet                  *HTTPPolicySetClient
+	HardwareSecurityModuleGroup    *HardwareSecurityModuleGroupClient
+	HealthMonitor                  *HealthMonitorClient
+	IPAMDNSProviderProfile         *IPAMDNSProviderProfileClient
+	IPAddrGroup                    *IPAddrGroupClient
+	JobEntry                       *JobEntryClient
+	LogControllerMapping           *LogControllerMappingClient
+	MicroService                   *MicroServiceClient
+	MicroServiceGroup              *MicroServiceGroupClient
+	Network                        *NetworkClient
+	NetworkProfile                 *NetworkProfileClient
+	NetworkRuntime                 *NetworkRuntimeClient
+	NetworkSecurityPolicy          *NetworkSecurityPolicyClient
+	PKIprofile                     *PKIprofileClient
+	Pool                           *PoolClient
+	PoolGroup                      *PoolGroupClient
+	PoolGroupDeploymentPolicy      *PoolGroupDeploymentPolicyClient
+	PriorityLabels                 *PriorityLabelsClient
+	Role                           *RoleClient
+	SCPoolServerStateInfo          *SCPoolServerStateInfoClient
+	SCVsStateInfo                  *SCVsStateInfoClient
+	SSLKeyAndCertificate           *SSLKeyAndCertificateClient
+	SSLProfile                     *SSLProfileClient
+	Scheduler                      *SchedulerClient
+	SeProperties                   *SePropertiesClient
+	SecureChannelAvailableLocalIps *SecureChannelAvailableLocalIpsClient
+	SecureChannelMapping           *SecureChannelMappingClient
+	SecureChannelToken             *SecureChannelTokenClient
+	ServerAutoScalePolicy          *ServerAutoScalePolicyClient
+	ServiceEngine                  *ServiceEngineClient
+	ServiceEngineGroup             *ServiceEngineGroupClient
+	SnmpTrapProfile                *SnmpTrapProfileClient
+	StringGroup                    *StringGroupClient
+	SystemConfiguration            *SystemConfigurationClient
+	Tenant                         *TenantClient
+	TrafficCloneProfile            *TrafficCloneProfileClient
+	UserAccountProfile             *UserAccountProfileClient
+	UserActivity                   *UserActivityClient
+	VIDCInfo                       *VIDCInfoClient
+	VIMgrClusterRuntime            *VIMgrClusterRuntimeClient
+	VIMgrControllerRuntime         *VIMgrControllerRuntimeClient
+	VIMgrDCRuntime                 *VIMgrDCRuntimeClient
+	VIMgrHostRuntime               *VIMgrHostRuntimeClient
+	VIMgrNWRuntime                 *VIMgrNWRuntimeClient
+	VIMgrSEVMRuntime               *VIMgrSEVMRuntimeClient
+	VIMgrVMRuntime                 *VIMgrVMRuntimeClient
+	VIMgrVcenterRuntime            *VIMgrVcenterRuntimeClient
+	VIPGNameInfo                   *VIPGNameInfoClient
+	VSDataScriptSet                *VSDataScriptSetClient
+	VirtualService                 *VirtualServiceClient
+	VrfContext                     *VrfContextClient
+	VsVip                          *VsVipClient
+	WafPolicy                      *WafPolicyClient
+	WafProfile                     *WafProfileClient
+	Webhook                        *WebhookClient
+=======
 	AviSession                        *session.AviSession
 	APICLifsRuntime                   *APICLifsRuntimeClient
 	ActionGroupConfig                 *ActionGroupConfigClient
@@ -93,6 +183,7 @@ type AviClient struct {
 	VrfContext                        *VrfContextClient
 	VsVip                             *VsVipClient
 	Webhook                           *WebhookClient
+>>>>>>> 4750eaa314c3d9dad91a358827406d1b51720139
 }
 
 // NewAviClient initiates an AviSession and returns an AviClient wrapping that session
@@ -127,14 +218,22 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.Cluster = NewClusterClient(aviSession)
 	aviClient.ControllerLicense = NewControllerLicenseClient(aviSession)
 	aviClient.ControllerProperties = NewControllerPropertiesClient(aviSession)
+<<<<<<< HEAD
+	aviClient.CustomIPAMDNSProfile = NewCustomIPAMDNSProfileClient(aviSession)
+=======
+>>>>>>> 4750eaa314c3d9dad91a358827406d1b51720139
 	aviClient.DNSPolicy = NewDNSPolicyClient(aviSession)
 	aviClient.DebugController = NewDebugControllerClient(aviSession)
 	aviClient.DebugServiceEngine = NewDebugServiceEngineClient(aviSession)
 	aviClient.DebugVirtualService = NewDebugVirtualServiceClient(aviSession)
 	aviClient.Gslb = NewGslbClient(aviSession)
+<<<<<<< HEAD
+	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
+=======
 	aviClient.GslbApplicationPersistenceProfile = NewGslbApplicationPersistenceProfileClient(aviSession)
 	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
 	aviClient.GslbHealthMonitor = NewGslbHealthMonitorClient(aviSession)
+>>>>>>> 4750eaa314c3d9dad91a358827406d1b51720139
 	aviClient.GslbService = NewGslbServiceClient(aviSession)
 	aviClient.HTTPPolicySet = NewHTTPPolicySetClient(aviSession)
 	aviClient.HardwareSecurityModuleGroup = NewHardwareSecurityModuleGroupClient(aviSession)
@@ -188,6 +287,11 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.VirtualService = NewVirtualServiceClient(aviSession)
 	aviClient.VrfContext = NewVrfContextClient(aviSession)
 	aviClient.VsVip = NewVsVipClient(aviSession)
+<<<<<<< HEAD
+	aviClient.WafPolicy = NewWafPolicyClient(aviSession)
+	aviClient.WafProfile = NewWafProfileClient(aviSession)
+=======
+>>>>>>> 4750eaa314c3d9dad91a358827406d1b51720139
 	aviClient.Webhook = NewWebhookClient(aviSession)
 	return &aviClient, nil
 }

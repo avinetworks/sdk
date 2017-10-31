@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -101,6 +101,36 @@
                         "description": "object name", 
                         "in": "query", 
                         "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }, 
                     {
                         "required": false, 
@@ -276,6 +306,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -430,57 +478,6 @@
         }
     }, 
     "definitions": {
-        "IpamDnsInfobloxProfile": {
-            "required": [
-                "ip_address", 
-                "password", 
-                "username"
-            ], 
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for API access for Infoblox appliance."
-                }, 
-                "network_view": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "Network view."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Infoblox."
-                }, 
-                "wapi_version": {
-                    "default": "2.0", 
-                    "type": "string", 
-                    "description": "WAPI version."
-                }, 
-                "usable_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable subnets to pick from Infoblox."
-                }, 
-                "dns_view": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "DNS view."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for API access for Infoblox appliance."
-                }, 
-                "ip_address": {
-                    "description": "Address of Infoblox appliance.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
         "AwsZoneNetwork": {
             "required": [
                 "availability_zone"
@@ -519,85 +516,49 @@
                 }
             }
         }, 
-        "IpamDnsProviderProfile": {
-            "required": [
-                "name", 
-                "type"
-            ], 
+        "IpamDnsAzureProfile": {
             "type": "object", 
             "properties": {
-                "openstack_profile": {
-                    "description": "Provider details if type is OpenStack.", 
-                    "$ref": "#/definitions/IpamDnsOpenstackProfile"
-                }, 
-                "name": {
+                "resource_group": {
                     "type": "string", 
-                    "description": "Name for the IPAM/DNS Provider profile."
+                    "description": "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
                 }, 
-                "gcp_profile": {
-                    "description": "Provider details if type is Google Cloud.", 
-                    "$ref": "#/definitions/IpamDnsGCPProfile"
-                }, 
-                "proxy_configuration": {
-                    "description": " Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/ProxyConfiguration"
-                }, 
-                "infoblox_profile": {
-                    "description": "Provider details if type is Infoblox.", 
-                    "$ref": "#/definitions/IpamDnsInfobloxProfile"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "internal_profile": {
-                    "description": "Provider details if type is Avi.", 
-                    "$ref": "#/definitions/IpamDnsInternalProfile"
-                }, 
-                "custom_profile": {
-                    "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpamDnsCustomProfile"
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "aws_profile": {
-                    "description": "Provider details if type is AWS.", 
-                    "$ref": "#/definitions/IpamDnsAwsProfile"
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the IPAM/DNS Provider profile."
-                }
-            }
-        }, 
-        "CustomParams": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "is_dynamic": {
+                "use_enhanced_ha": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
+                    "description": "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
                 }, 
-                "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
+                "usable_domains": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable domains to pick from Azure DNS. Field introduced in 17.2.1."
                 }, 
-                "name": {
+                "usable_network_uuids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1."
+                }, 
+                "azure_serviceprincipal": {
+                    "description": "Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/AzureServicePrincipalCredentials"
+                }, 
+                "azure_userpass": {
+                    "description": "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/AzureUserPassCredentials"
+                }, 
+                "subscription_id": {
                     "type": "string", 
-                    "description": "Name of the object."
+                    "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
                 }, 
-                "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
+                "virtual_network_ids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."
                 }
             }
         }, 
@@ -616,23 +577,6 @@
                     "type": "integer", 
                     "description": "Number of mask.", 
                     "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
                 }
             }
         }, 
@@ -699,6 +643,23 @@
                 }
             }
         }, 
+        "AzureServicePrincipalCredentials": {
+            "type": "object", 
+            "properties": {
+                "tenant_id": {
+                    "type": "string", 
+                    "description": "Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1."
+                }, 
+                "application_id": {
+                    "type": "string", 
+                    "description": "Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1."
+                }, 
+                "authentication_token": {
+                    "type": "string", 
+                    "description": "Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1."
+                }
+            }
+        }, 
         "DnsServiceDomain": {
             "required": [
                 "domain_name"
@@ -724,6 +685,206 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."
+                }
+            }
+        }, 
+        "IpamDnsProviderProfile": {
+            "required": [
+                "name", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "azure_profile": {
+                    "description": "Provider details if type is Microsoft Azure. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpamDnsAzureProfile"
+                }, 
+                "openstack_profile": {
+                    "description": "Provider details if type is OpenStack.", 
+                    "$ref": "#/definitions/IpamDnsOpenstackProfile"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name for the IPAM/DNS Provider profile."
+                }, 
+                "gcp_profile": {
+                    "description": "Provider details if type is Google Cloud.", 
+                    "$ref": "#/definitions/IpamDnsGCPProfile"
+                }, 
+                "proxy_configuration": {
+                    "description": " Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/ProxyConfiguration"
+                }, 
+                "infoblox_profile": {
+                    "description": "Provider details if type is Infoblox.", 
+                    "$ref": "#/definitions/IpamDnsInfobloxProfile"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "internal_profile": {
+                    "description": "Provider details if type is Avi.", 
+                    "$ref": "#/definitions/IpamDnsInternalProfile"
+                }, 
+                "custom_profile": {
+                    "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/IpamDnsCustomProfile"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "aws_profile": {
+                    "description": "Provider details if type is AWS.", 
+                    "$ref": "#/definitions/IpamDnsAwsProfile"
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the IPAM/DNS Provider profile."
+                }
+            }
+        }, 
+        "IpamDnsOpenstackProfile": {
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "The username Avi Vantage will use when authenticating to Keystone."
+                }, 
+                "vip_network_name": {
+                    "type": "string", 
+                    "description": "Network to be used for VIP allocation."
+                }, 
+                "keystone_host": {
+                    "type": "string", 
+                    "description": "Keystone's hostname or IP address."
+                }, 
+                "region": {
+                    "type": "string", 
+                    "description": "Region name."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "The password Avi Vantage will use when authenticating to Keystone."
+                }, 
+                "tenant": {
+                    "type": "string", 
+                    "description": "OpenStack tenant name."
+                }
+            }
+        }, 
+        "IpamDnsInfobloxProfile": {
+            "required": [
+                "ip_address", 
+                "password", 
+                "username"
+            ], 
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for API access for Infoblox appliance."
+                }, 
+                "network_view": {
+                    "default": "default", 
+                    "type": "string", 
+                    "description": "Network view."
+                }, 
+                "usable_domains": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable domains to pick from Infoblox."
+                }, 
+                "wapi_version": {
+                    "default": "2.0", 
+                    "type": "string", 
+                    "description": "WAPI version."
+                }, 
+                "usable_subnets": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable subnets to pick from Infoblox."
+                }, 
+                "dns_view": {
+                    "default": "default", 
+                    "type": "string", 
+                    "description": "DNS view."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for API access for Infoblox appliance."
+                }, 
+                "ip_address": {
+                    "description": "Address of Infoblox appliance.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "CustomParams": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "is_dynamic": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
+                }, 
+                "is_sensitive": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "value of CustomParams."
+                }
+            }
+        }, 
+        "AzureUserPassCredentials": {
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1."
+                }, 
+                "tenant_name": {
+                    "type": "string", 
+                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
                 }
             }
         }, 
@@ -801,45 +962,30 @@
         "IpamDnsCustomProfile": {
             "type": "object", 
             "properties": {
-                "custom_ipam_dns_params": {
+                "usable_domains": {
                     "items": {
-                        "$ref": "#/definitions/CustomParams"
+                        "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Custom parameters that will passed for the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1."
+                    "description": "Usable domains. Field introduced in 17.2.2."
+                }, 
+                "usable_subnets": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable subnets. Field introduced in 17.2.2."
                 }, 
                 "custom_ipam_dns_profile_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "IpamDnsOpenstackProfile": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "The username Avi Vantage will use when authenticating to Keystone."
                 }, 
-                "vip_network_name": {
-                    "type": "string", 
-                    "description": "Network to be used for VIP allocation."
-                }, 
-                "keystone_host": {
-                    "type": "string", 
-                    "description": "Keystone's hostname or IP address."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "Region name."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "The password Avi Vantage will use when authenticating to Keystone."
-                }, 
-                "tenant": {
-                    "type": "string", 
-                    "description": "OpenStack tenant name."
+                "dynamic_params": {
+                    "items": {
+                        "$ref": "#/definitions/CustomParams"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1."
                 }
             }
         }

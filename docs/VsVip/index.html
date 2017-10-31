@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure vsvip <key> - show vsvip <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
@@ -247,8 +261,12 @@ font-style: italic;
     "cloud_ref" : "aeiou",
     "tenant_ref" : "aeiou",
     "dns_info" : [ {
+      "metadata" : "aeiou",
       "fqdn" : "aeiou",
       "num_records_in_response" : 123,
+      "cname" : {
+        "cname" : "aeiou"
+      },
       "type" : "aeiou",
       "ttl" : 123,
       "algorithm" : "aeiou"
@@ -256,6 +274,7 @@ font-style: italic;
     "name" : "aeiou",
     "vip" : [ {
       "availability_zone" : "aeiou",
+      "ip6_address" : "",
       "subnet" : "",
       "port_uuid" : "aeiou",
       "subnet_uuid" : "aeiou",
@@ -264,13 +283,19 @@ font-style: italic;
       "ip_address" : "",
       "auto_allocate_floating_ip" : true,
       "enabled" : true,
+      "floating_subnet6_uuid" : "aeiou",
       "auto_allocate_ip" : true,
+      "subnet6" : "",
       "floating_ip" : "",
       "floating_subnet_uuid" : "aeiou",
       "avi_allocated_fip" : true,
+      "subnet6_uuid" : "aeiou",
+      "floating_ip6" : "",
       "ipam_network_subnet" : {
         "subnet" : "",
         "subnet_uuid" : "aeiou",
+        "subnet6" : "",
+        "subnet6_uuid" : "aeiou",
         "network_ref" : "aeiou"
       },
       "network_ref" : "aeiou",
@@ -346,8 +371,12 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "dns_info" : [ {
+    "metadata" : "aeiou",
     "fqdn" : "aeiou",
     "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
     "type" : "aeiou",
     "ttl" : 123,
     "algorithm" : "aeiou"
@@ -355,6 +384,7 @@ font-style: italic;
   "name" : "aeiou",
   "vip" : [ {
     "availability_zone" : "aeiou",
+    "ip6_address" : "",
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
@@ -363,13 +393,19 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
+    "subnet6" : "",
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
     "avi_allocated_fip" : true,
+    "subnet6_uuid" : "aeiou",
+    "floating_ip6" : "",
     "ipam_network_subnet" : {
       "subnet" : "",
       "subnet_uuid" : "aeiou",
+      "subnet6" : "",
+      "subnet6_uuid" : "aeiou",
       "network_ref" : "aeiou"
     },
     "network_ref" : "aeiou",
@@ -489,7 +525,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -508,8 +550,12 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "dns_info" : [ {
+    "metadata" : "aeiou",
     "fqdn" : "aeiou",
     "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
     "type" : "aeiou",
     "ttl" : 123,
     "algorithm" : "aeiou"
@@ -517,6 +563,7 @@ font-style: italic;
   "name" : "aeiou",
   "vip" : [ {
     "availability_zone" : "aeiou",
+    "ip6_address" : "",
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
@@ -525,13 +572,19 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
+    "subnet6" : "",
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
     "avi_allocated_fip" : true,
+    "subnet6_uuid" : "aeiou",
+    "floating_ip6" : "",
     "ipam_network_subnet" : {
       "subnet" : "",
       "subnet_uuid" : "aeiou",
+      "subnet6" : "",
+      "subnet6_uuid" : "aeiou",
       "network_ref" : "aeiou"
     },
     "network_ref" : "aeiou",
@@ -618,8 +671,12 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "dns_info" : [ {
+    "metadata" : "aeiou",
     "fqdn" : "aeiou",
     "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
     "type" : "aeiou",
     "ttl" : 123,
     "algorithm" : "aeiou"
@@ -627,6 +684,7 @@ font-style: italic;
   "name" : "aeiou",
   "vip" : [ {
     "availability_zone" : "aeiou",
+    "ip6_address" : "",
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
@@ -635,13 +693,19 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
+    "subnet6" : "",
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
     "avi_allocated_fip" : true,
+    "subnet6_uuid" : "aeiou",
+    "floating_ip6" : "",
     "ipam_network_subnet" : {
       "subnet" : "",
       "subnet_uuid" : "aeiou",
+      "subnet6" : "",
+      "subnet6_uuid" : "aeiou",
       "network_ref" : "aeiou"
     },
     "network_ref" : "aeiou",
@@ -728,8 +792,12 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "dns_info" : [ {
+    "metadata" : "aeiou",
     "fqdn" : "aeiou",
     "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
     "type" : "aeiou",
     "ttl" : 123,
     "algorithm" : "aeiou"
@@ -737,6 +805,7 @@ font-style: italic;
   "name" : "aeiou",
   "vip" : [ {
     "availability_zone" : "aeiou",
+    "ip6_address" : "",
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
@@ -745,13 +814,19 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
+    "subnet6" : "",
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
     "avi_allocated_fip" : true,
+    "subnet6_uuid" : "aeiou",
+    "floating_ip6" : "",
     "ipam_network_subnet" : {
       "subnet" : "",
       "subnet_uuid" : "aeiou",
+      "subnet6" : "",
+      "subnet6_uuid" : "aeiou",
       "network_ref" : "aeiou"
     },
     "network_ref" : "aeiou",
@@ -795,6 +870,7 @@ font-style: italic;
   <h2>Table of Contents</h2>
   <ol>
     <li><a href="#DiscoveredNetwork"><code>DiscoveredNetwork</code></a></li>
+    <li><a href="#DnsCnameRdata"><code>DnsCnameRdata</code></a></li>
     <li><a href="#DnsInfo"><code>DnsInfo</code></a></li>
     <li><a href="#IPNetworkSubnet"><code>IPNetworkSubnet</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
@@ -812,10 +888,18 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DnsCnameRdata">DnsCnameRdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cname </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Canonical name. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DnsInfo">DnsInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1. </div>
+<div class="param">cname (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsCnameRdata">DnsCnameRdata</a></span> Canonical name in CNAME record. Field introduced in 17.2.1. </div>
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified domain name. </div>
+<div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Any metadata associated with this record. Field introduced in 17.2.2. </div>
 <div class="param">num_records_in_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- &#39;Return all records&#39;. Field introduced in 17.1.1. format: int32</div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided. format: int32</div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. </div>
@@ -826,6 +910,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
     </div>  <!-- field-items -->
   </div>
@@ -853,13 +939,18 @@ font-style: italic;
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. </div>
 <div class="param">discovered_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#DiscoveredNetwork">array[DiscoveredNetwork]</a></span> Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Vip. Field introduced in 17.1.1. </div>
-<div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IP to associate with this Vip. Field introduced in 17.1.1. </div>
+<div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. </div>
+<div class="param">floating_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1. </div>
+<div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1. </div>
 <div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. </div>
-<div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Vip. Field introduced in 17.1.1. </div>
+<div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the Vip. Field introduced in 17.2.1. </div>
+<div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID associated with the vip. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->

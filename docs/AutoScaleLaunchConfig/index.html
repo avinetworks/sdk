@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure autoscalelaunchconfig <key> - show autoscalelaunchconfig <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -253,10 +263,8 @@ font-style: italic;
       "heat_scale_down_url" : "aeiou",
       "heat_scale_up_url" : "aeiou"
     },
-    "aws" : {
-      "autoscaling_group_name" : "aeiou"
-    },
     "image_id" : "aeiou",
+    "use_external_asg" : true,
     "uuid" : "aeiou",
     "url" : "aeiou"
   } ]
@@ -323,10 +331,8 @@ font-style: italic;
     "heat_scale_down_url" : "aeiou",
     "heat_scale_up_url" : "aeiou"
   },
-  "aws" : {
-    "autoscaling_group_name" : "aeiou"
-  },
   "image_id" : "aeiou",
+  "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -431,7 +437,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -456,10 +468,8 @@ font-style: italic;
     "heat_scale_down_url" : "aeiou",
     "heat_scale_up_url" : "aeiou"
   },
-  "aws" : {
-    "autoscaling_group_name" : "aeiou"
-  },
   "image_id" : "aeiou",
+  "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -537,10 +547,8 @@ font-style: italic;
     "heat_scale_down_url" : "aeiou",
     "heat_scale_up_url" : "aeiou"
   },
-  "aws" : {
-    "autoscaling_group_name" : "aeiou"
-  },
   "image_id" : "aeiou",
+  "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -618,10 +626,8 @@ font-style: italic;
     "heat_scale_down_url" : "aeiou",
     "heat_scale_up_url" : "aeiou"
   },
-  "aws" : {
-    "autoscaling_group_name" : "aeiou"
-  },
   "image_id" : "aeiou",
+  "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -649,7 +655,6 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#AutoScaleAWSSettings"><code>AutoScaleAWSSettings</code></a></li>
     <li><a href="#AutoScaleLaunchConfig"><code>AutoScaleLaunchConfig</code></a></li>
     <li><a href="#AutoScaleLaunchConfigApiResponse"><code>AutoScaleLaunchConfigApiResponse</code></a></li>
     <li><a href="#AutoScaleMesosSettings"><code>AutoScaleMesosSettings</code></a></li>
@@ -657,22 +662,16 @@ font-style: italic;
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="AutoScaleAWSSettings">AutoScaleAWSSettings</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">autoscaling_group_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the AWS autoscaling group. The AWS autoscaling group should not be set up with scaling policies as it would result in unpredictable behavior when used together with Avi autoscaling policies. Field introduced in 17.1.1. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
     <h3 class="field-label"><a name="AutoScaleLaunchConfig">AutoScaleLaunchConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">aws (optional)</div><div class="param-desc"><span class="param-type"><a href="#AutoScaleAWSSettings">AutoScaleAWSSettings</a></span> Placeholder for description of property aws of obj type AutoScaleLaunchConfig field type str  type object </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">image_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID of the Amazon Machine Image (AMI)  or OpenStack VM ID. </div>
 <div class="param">mesos (optional)</div><div class="param-desc"><span class="param-type"><a href="#AutoScaleMesosSettings">AutoScaleMesosSettings</a></span> Placeholder for description of property mesos of obj type AutoScaleLaunchConfig field type str  type object </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">openstack (optional)</div><div class="param-desc"><span class="param-type"><a href="#AutoScaleOpenStackSettings">AutoScaleOpenStackSettings</a></span> Placeholder for description of property openstack of obj type AutoScaleLaunchConfig field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">use_external_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set to True, ServerAutoscalePolicy will use the autoscaling group (external_autoscaling_groups) from Pool to perform scale up and scale down. Pool should have single autoscaling group configured. Field introduced in 17.2.3. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
   </div>

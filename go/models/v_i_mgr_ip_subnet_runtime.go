@@ -7,11 +7,14 @@ package models
 // swagger:model VIMgrIPSubnetRuntime
 type VIMgrIPSubnetRuntime struct {
 
-	// Indicates floating/elastic IP association possibility.
+	// If true, capable of floating/elastic IP association.
 	FipAvailable bool `json:"fip_available,omitempty"`
 
 	// If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list.
 	FipSubnetUuids []string `json:"fip_subnet_uuids,omitempty"`
+
+	// If fip_available is True, the list of associated FloatingIP subnets, possibly empty if unsupported or implictly defined by the Cloud. Field introduced in 17.2.1.
+	FloatingipSubnets []*FloatingIPSubnet `json:"floatingip_subnets,omitempty"`
 
 	// ip_subnet of VIMgrIPSubnetRuntime.
 	IPSubnet string `json:"ip_subnet,omitempty"`

@@ -58,6 +58,7 @@ class NetscalerConverter(AviConverter):
         self.redirect = args.redirect
         # for ansible 
         self.create_ansible = args.ansible
+        self.vs_level_status = args.vs_level_status
 
 
     def init_logger_path(self):
@@ -128,7 +129,7 @@ class NetscalerConverter(AviConverter):
                      input_dir, skipped_cmds, self.vs_state,
                      self.object_merge_check, report_name, self.prefix,
                      self.profile_path, self.redirect, self.ns_passphrase_file,
-                     user_ignore)
+                     user_ignore, self.vs_level_status)
 
         avi_config = self.process_for_utils(
             avi_config)
@@ -185,6 +186,9 @@ if __name__ == "__main__":
             /home/<'sys_conf.json' or 'ns-Output.json'>
         Usecase: Need to merge objects if there is migration of two netscaler
                  instances/box to single controller.
+        
+        Example to patch the config after conversion:
+          netscaler_converter.py -f ns.conf --patch test/patch.yaml
         '''
 
     parser = argparse.ArgumentParser(
@@ -264,6 +268,10 @@ if __name__ == "__main__":
     # Ansible tags
     parser.add_argument('--ansible', help='Flag for create ansible file',
                         action="store_true")
+
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                             'settings in status excel sheet')
 
     args = parser.parse_args()
     # print avi netscaler converter version

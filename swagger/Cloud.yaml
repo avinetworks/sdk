@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.1.3'
+    version: '17.2.3'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -34,6 +34,26 @@ paths:
                     in: query
                     description: object name
                     required: false
+                    type: string
+                -   name: refers_to
+                    in: query
+                    description: Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid
+                    type: string
+                -   name: referred_by
+                    in: query
+                    description: Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
                 -   name: X-Avi-Tenant
                     in: header
@@ -141,6 +161,18 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: fields
+                    in: query
+                    description: List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.
+                    type: string
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    type: string
+                -   name: join_subresources
+                    in: query
+                    description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
                     type: string
             security:
                 - basicAuth: []
@@ -735,6 +767,16 @@ definitions:
                 description: "AVI Device Package Version."
                 type: string
                 default: "1.0"
+    aws_encryption:
+        type: object
+        properties:
+            master_key:
+                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
+                type: string
+            mode:
+                description: "AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                type: string
+                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsConfiguration:
         type: object
         required:
@@ -748,6 +790,9 @@ definitions:
                 type: integer
                 default: 600
                 format: int32
+            ebs_encryption:
+                description: "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3."
+                $ref: '#/definitions/aws_encryption'
             free_elasticips:
                 description: "Free unused elastic IP addresses."
                 type: boolean
@@ -762,6 +807,9 @@ definitions:
             route53_integration:
                 description: "If enabled, create/update DNS entries in Amazon Route 53 zones."
                 type: boolean
+            s3_encryption:
+                description: "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3."
+                $ref: '#/definitions/aws_encryption'
             secret_access_key:
                 description: "AWS secret access key."
                 type: string
@@ -783,7 +831,7 @@ definitions:
                 description: "VPC ID."
                 type: string
             wildcard_access:
-                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 type: boolean
                 default: True
             zones:
@@ -806,6 +854,45 @@ definitions:
             mgmt_network_uuid:
                 description: "UUID of the network in the Availability Zone that will be used as management network."
                 type: string
+    AzureConfiguration:
+        type: object
+        properties:
+            cloud_credentials_ref:
+                description: "Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1."
+                type: string
+            location:
+                description: "Azure location where this cloud will be located. Field introduced in 17.2.1."
+                type: string
+            network_info:
+                description: "Azure virtual network and subnet information. Field introduced in 17.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/AzureNetworkInfo'
+            resource_group:
+                description: "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
+                type: string
+            subscription_id:
+                description: "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
+                type: string
+            use_azure_dns:
+                description: "Azure is the DNS provider. Field introduced in 17.2.1."
+                type: boolean
+            use_enhanced_ha:
+                description: "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. . Field introduced in 17.2.1."
+                type: boolean
+            use_managed_disks:
+                description: "Use Azure managed disks for SE storage. Field introduced in 17.2.2."
+                type: boolean
+                default: True
+    AzureNetworkInfo:
+        type: object
+        properties:
+            se_network_id:
+                description: "Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1."
+                type: string
+            virtual_network_id:
+                description: "Virtual network where Virtual IPs will belong. Field introduced in 17.2.1."
+                type: string
     Cloud:
         type: object
         required:
@@ -821,9 +908,17 @@ definitions:
             aws_configuration:
                 description: "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/AwsConfiguration'
+            azure_configuration:
+                description: " Field introduced in 17.2.1."
+                $ref: '#/definitions/AzureConfiguration'
             cloudstack_configuration:
                 description: "Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/CloudStackConfiguration'
+            custom_tags:
+                description: "Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5."
+                type: array
+                items:
+                    $ref: '#/definitions/CustomTag'
             dhcp_enabled:
                 description: "Select the IP address management scheme."
                 type: boolean
@@ -900,7 +995,7 @@ definitions:
                 description: "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/vCenterConfiguration'
             vtype:
-                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S."
+                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 type: string
                 default: "CLOUD_NONE"
     CloudApiResponse:
@@ -945,6 +1040,17 @@ definitions:
                 type: string
             secret_access_key:
                 description: "CloudStack Secret Key."
+                type: string
+    CustomTag:
+        type: object
+        required:
+            -   tag_key
+        properties:
+            tag_key:
+                description: "tag_key of CustomTag."
+                type: string
+            tag_val:
+                description: "tag_val of CustomTag."
                 type: string
     DockerConfiguration:
         type: object
@@ -1175,6 +1281,9 @@ definitions:
                 $ref: '#/definitions/IpAddr'
             node_availability_zone:
                 description: "Node's availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
+                type: string
+            se_group_ref:
+                description: "The SE Group association for the SE. If None, then 'Default-Group' SEGroup is associated with the SE. It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.1."
                 type: string
     MarathonConfiguration:
         type: object
@@ -1507,6 +1616,11 @@ definitions:
                 description: "Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 type: string
                 default: "KVM"
+            hypervisor_properties:
+                description: "Custom properties per hypervisor type. Field introduced in 17.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/OpenStackHypervisorProperties'
             img_format:
                 description: "If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT."
                 type: string
@@ -1556,6 +1670,9 @@ definitions:
             nuage_username:
                 description: "nuage_username of OpenStackConfiguration."
                 type: string
+            nuage_virtualip:
+                description: "Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3."
+                type: boolean
             nuage_vsd_host:
                 description: "Nuage VSD host name or IP address."
                 type: string
@@ -1608,13 +1725,29 @@ definitions:
                 description: "Use keystone for user authentication."
                 type: boolean
                 default: True
+            use_nuagevip:
+                description: "If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1."
+                type: boolean
             username:
                 description: "The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain."
                 type: string
             wildcard_access:
-                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field introduced in 17.1.3."
+                description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 type: boolean
                 default: True
+    OpenStackHypervisorProperties:
+        type: object
+        required:
+            -   hypervisor
+        properties:
+            hypervisor:
+                description: "Hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. Field introduced in 17.2.1."
+                type: string
+            image_properties:
+                description: "Custom properties to be associated with the SE image in Glance for this hypervisor type. Field introduced in 17.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/Property'
     OpenStackRoleMapping:
         type: object
         required:
@@ -1659,7 +1792,7 @@ definitions:
                 description: "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService."
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
                 type: boolean
                 default: True
             coredump_directory:
@@ -1671,7 +1804,7 @@ definitions:
                 type: boolean
                 default: True
             default_shared_virtualservice:
-                description: "Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1."
+                description: "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 $ref: '#/definitions/OshiftSharedVirtualService'
             disable_auto_backend_service_sync:
                 description: "Disable auto service sync for back end services."
@@ -1719,11 +1852,21 @@ definitions:
             node_availability_zone_label:
                 description: "OpenShift/K8S Node label to be used as OpenShift/K8S Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover."
                 type: string
+            ns_exclude_attributes:
+                description: "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/MesosAttribute'
+            ns_include_attributes:
+                description: "Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/MesosAttribute'
             nuage_controller:
                 description: "Nuage Overlay SDN Controller information."
                 $ref: '#/definitions/NuageSDNController'
             routes_share_virtualservice:
-                description: "Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1."
+                description: "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 type: boolean
             sdn_overlay:
                 description: "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
@@ -1753,11 +1896,17 @@ definitions:
                 type: string
                 default: "/opt/avi"
             secure_egress_mode:
-                description: "Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1."
+                description: "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 type: boolean
             service_account_token:
                 description: "Authorization token for service account instead of client certificate. One of client certificate or token is required."
                 type: string
+            service_port_match_http_service:
+                description: "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                type: boolean
+            shared_virtualservice_namespace:
+                description: "Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3."
+                type: boolean
             ssh_se_deployment:
                 description: "Parameters for SSH SE deployment. Field deprecated in 17.1.1."
                 $ref: '#/definitions/SSHSeDeployment'
@@ -1795,6 +1944,17 @@ definitions:
                 description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
+    Property:
+        type: object
+        required:
+            -   name
+        properties:
+            name:
+                description: "Property name. Field introduced in 17.2.1."
+                type: string
+            value:
+                description: "Property value. Field introduced in 17.2.1."
+                type: string
     ProxyConfiguration:
         type: object
         required:

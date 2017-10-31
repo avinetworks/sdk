@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "17.1.3", 
+        "version": "17.2.3", 
         "description": "##CLI##\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -137,6 +137,69 @@
             }
         }, 
         "/serviceengine/{uuid}/graphdb/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/lldp/": {
             "get": {
                 "security": [
                     {
@@ -2616,6 +2679,24 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
                     }
                 ], 
                 "consumes": [
@@ -2861,6 +2942,36 @@
                         "name": "name"
                     }, 
                     {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
                         "required": false, 
                         "type": "string", 
                         "description": "Avi Tenant Header", 
@@ -2887,6 +2998,18 @@
                         "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
                         "in": "header", 
                         "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
+                        "name": "cloud_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
+                        "name": "cloud_ref.name"
                     }
                 ], 
                 "consumes": [
@@ -3584,27 +3707,22 @@
             "type": "object", 
             "properties": {
                 "port_uuid": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "Unique object identifier of port."
                 }, 
                 "is_avi_internal_network": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_avi_internal_network of obj type vNIC field type str  type boolean"
                 }, 
                 "linux_name": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "linux_name of vNIC."
                 }, 
                 "if_name": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "if_name of vNIC."
                 }, 
                 "del_pending": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property del_pending of obj type vNIC field type str  type boolean"
                 }, 
@@ -3616,7 +3734,6 @@
                     "description": "Placeholder for description of property vlan_interfaces of obj type vNIC field type str  type object"
                 }, 
                 "connected": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property connected of obj type vNIC field type str  type boolean"
                 }, 
@@ -3624,7 +3741,6 @@
                     "items": {
                         "$ref": "#/definitions/MemberInterface"
                     }, 
-                    "readOnly": true, 
                     "type": "array", 
                     "description": "Placeholder for description of property members of obj type vNIC field type str  type object"
                 }, 
@@ -3636,7 +3752,6 @@
                     "description": "Placeholder for description of property vnic_networks of obj type vNIC field type str  type object"
                 }, 
                 "vrf_id": {
-                    "readOnly": true, 
                     "type": "integer", 
                     "description": "Number of vrf_id.", 
                     "format": "int32"
@@ -3647,44 +3762,36 @@
                     "description": "Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean"
                 }, 
                 "network_name": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "network_name of vNIC."
                 }, 
                 "can_se_dp_takeover": {
                     "default": true, 
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean"
                 }, 
                 "vlan_id": {
-                    "readOnly": true, 
                     "type": "integer", 
                     "description": "Number of vlan_id.", 
                     "format": "int32"
                 }, 
                 "is_portchannel": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean"
                 }, 
                 "is_asm": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_asm of obj type vNIC field type str  type boolean"
                 }, 
                 "is_hsm": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_hsm of obj type vNIC field type str  type boolean"
                 }, 
                 "adapter": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "adapter of vNIC."
                 }, 
                 "network_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Network."
                 }, 
@@ -3694,24 +3801,20 @@
                     "description": "Placeholder for description of property enabled of obj type vNIC field type str  type boolean"
                 }, 
                 "pci_id": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "pci_id of vNIC."
                 }, 
                 "mtu": {
                     "default": 1500, 
-                    "readOnly": true, 
                     "type": "integer", 
                     "description": "Number of mtu.", 
                     "format": "int32"
                 }, 
                 "is_mgmt": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_mgmt of obj type vNIC field type str  type boolean"
                 }, 
                 "mac_address": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "mac_address of vNIC."
                 }, 
@@ -3769,6 +3872,10 @@
                 "if_name": {
                     "type": "string", 
                     "description": "if_name of MemberInterface."
+                }, 
+                "mac_address": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.5."
                 }
             }
         }, 
@@ -3794,12 +3901,10 @@
             "type": "object", 
             "properties": {
                 "controller_created": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property controller_created of obj type ServiceEngine field type str  type boolean"
                 }, 
                 "mgmt_vnic": {
-                    "readOnly": true, 
                     "description": "Placeholder for description of property mgmt_vnic of obj type ServiceEngine field type str  type object", 
                     "$ref": "#/definitions/vNIC"
                 }, 
@@ -3810,10 +3915,9 @@
                 "enable_state": {
                     "default": "SE_STATE_ENABLED", 
                     "type": "string", 
-                    "description": "inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED."
+                    "description": "inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE."
                 }, 
                 "flavor": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "flavor of ServiceEngine."
                 }, 
@@ -3827,12 +3931,10 @@
                     "description": "Name of the object."
                 }, 
                 "cloud_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 
                 "hypervisor": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 }, 
@@ -3841,7 +3943,6 @@
                     "description": " It is a reference to an object of type ServiceEngineGroup."
                 }, 
                 "container_mode": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property container_mode of obj type ServiceEngine field type str  type boolean"
                 }, 
@@ -3849,18 +3950,15 @@
                     "items": {
                         "$ref": "#/definitions/vNIC"
                     }, 
-                    "readOnly": true, 
                     "type": "array", 
                     "description": "Placeholder for description of property data_vnics of obj type ServiceEngine field type str  type object"
                 }, 
                 "container_type": {
                     "default": "CONTAINER_TYPE_HOST", 
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " Enum options - CONTAINER_TYPE_BRIDGE, CONTAINER_TYPE_HOST, CONTAINER_TYPE_HOST_DPDK."
                 }, 
                 "host_ref": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type VIMgrHostRuntime."
                 }, 
@@ -3870,17 +3968,14 @@
                     "description": "url"
                 }, 
                 "availability_zone": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "availability_zone of ServiceEngine."
                 }, 
                 "controller_ip": {
-                    "readOnly": true, 
                     "type": "string", 
                     "description": "controller_ip of ServiceEngine."
                 }, 
                 "resources": {
-                    "readOnly": true, 
                     "description": "Placeholder for description of property resources of obj type ServiceEngine field type str  type object", 
                     "$ref": "#/definitions/SeResources"
                 }
@@ -3893,7 +3988,6 @@
             "type": "object", 
             "properties": {
                 "is_mgmt": {
-                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
                 }, 

@@ -24,7 +24,7 @@
 <h3 class='text-primary'>API</h3>
 <div class="container">
 <p>
-Macro API allows the user to create an object hierarchy, which consists of a top level object and a set of objects it refers to in a recursive fashion. An example usage would be to create a VirtualService, Pool, and a set of custom profiles such as ApplicationProfile, NetworkProfile for every tenant. Instead of using multiple APIs to create the profiles, pool and the virtualservice, the user can just use one API to create the entire hierarchy of objects. This API is transactional in nature in that if there is an error in the creation of any of the objects, the entire transaction will be rolled back. User has the flexibility to refer to an existing object (eg. system profiles), or create a new object as a part of this object hierarchy. Additionally, the same API can be used to modify any of the objects.
+Macro API allows the user to create or delete an object hierarchy, which consists of a top level object and a set of objects it refers to in a recursive fashion. An example usage would be to create or delete a VirtualService, Pool, and a set of custom profiles such as ApplicationProfile, NetworkProfile for every tenant. Instead of using multiple APIs to create/delete the profiles, pool and the virtualservice, the user can just use one API to operate on the entire hierarchy of objects. This API is transactional in nature in that if there is an error for any of the objects, the entire transaction will be rolled back. During deletion, default profiles and profiles that are in use by other objects will not be deleted. Macro delete will not delete Tenant, Cloud, ServiceEngine, Network, NetworkRuntime, or VIMgr objects. During creation, user has the flexibility to refer to an existing object (eg. system profiles), or create a new object as a part of this object hierarchy. Additionally, the same API can be used to modify any of the objects using PUT.
 </p>
 
 <p>
@@ -42,11 +42,13 @@ POST /api/macro
                 "port": 80
             }
         ],
-        "ip_address": {
-            "type": "V4",
-            "addr": "2.2.2.2"
-        },
-        <font color='purple'>"application_profile_ref": "/api/applicationprofile?name=n_app_http",
+        "vip":[
+            "ip_address": {
+                "type": "V4",
+                "addr": "2.2.2.2"
+            }
+        ],
+        <font color='purple'>"application_profile_ref": "/api/applicationprofile?name=n_app_http",</font>
         <font color="green">"pool_ref_data": {
             "name": "n_pool",
             "servers": [
@@ -69,10 +71,22 @@ POST /api/macro
                         ]
                     }
                 }
-            ]
-            </font>
-        }
-        </font>
+            ]</font>
+        } </font>
+    }
+}
+</code></pre>
+
+<p>
+In the following example, the MACRO API is used to delete the VirtualService from the POST example above. The Pool and associated HealthMonitor object will also be deleted. The existing ApplicationProfile and NetworkProfile objects will not be deleted as they are in use by another VirtualService. The MACRO API will automatically calculate which objects to delete from the uuid of the top level object.
+</p>
+
+<pre><code>
+DELETE /api/macro
+{
+    <b>"model_name"</b>: "VirtualService",
+    <b>"data"</b>: {
+        "uuid": "n_vs_uuid"
     }
 }
 </code></pre>

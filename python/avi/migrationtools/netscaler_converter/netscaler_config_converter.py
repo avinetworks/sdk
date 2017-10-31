@@ -2,6 +2,7 @@ import logging
 import yaml
 import os
 import json
+import time
 
 from pkg_resources import parse_version
 from avi.migrationtools.netscaler_converter.ns_service_converter \
@@ -27,7 +28,7 @@ ns_util = NsUtil()
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
             prefix, profile_path, redirect, key_passphrase=None,
-            user_ignore={}):
+            user_ignore={}, vs_level_status=False):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -44,6 +45,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
     :param: prefix: prefix for objects
     :param key_passphrase: path of passphrase yaml file
     :param user_ignore: Dict of user ignore attributes
+    :param vs_level_status: Add columns of vs reference overall skipped settings
     :return: None
     """
 
@@ -60,18 +62,15 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         sys_dict = dict()
         avi_config['META'] = meta  # avi_obj.meta(tenant_name, version)
 
-        if parse_version(version) >= parse_version('17.1'):
-            avi_config['META']['supported_migrations']['versions'].append(
-                '17_1_1')
-        avi_config['META']['supported_migrations']['versions'].append(
-            'current_version')
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile',
                              'ApplicationPersistenceProfile', 'HealthMonitor']
+        # Constructed avi config dict and baseline object dict for objects
+        # which can be merged
         for key in merge_object_type:
             sys_dict[key] = []
             avi_config[key] = []
-
+        # Read the baseline json file and filled the baseline object dict
         if profile_path and os.path.exists(profile_path):
             with open(profile_path) as data:
                 prof_data = json.load(data)
@@ -109,7 +108,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             # are assigning reference at the time of profile creation
             ns_util.update_profile_ref('application_persistence_profile_ref',
                 avi_config['Pool'], merge_object_mapping['app_persist_profile'])
-            # Updating the reference for application persistence profile as we
+            # Updating the reference for application profile as we
             # are assigning reference at the time of profile creation
             ns_util.update_profile_ref('application_profile_ref',
               avi_config['VirtualService'], merge_object_mapping['app_profile'])
@@ -117,12 +116,15 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         ns_util.update_status_for_skipped(skipped_cmds)
         if redirect:
             # Removing VS and changing the status in CSV which got redirected
+            # Scenario for redirect - HTTP VS having no pool but redirect to
+            # HTTPS VS
             ns_util.vs_redirect_http_to_https(avi_config, sys_dict)
-        # Merging the pool in pool group
+        # Merging the pools in a pool group if pools are having same health
+        # monitor
         ns_util.merge_pool(avi_config)
         # Add/update CSV/report
         ns_util.add_complete_conv_status(ns_config_dict, output_dir, avi_config,
-                                         report_name)
+                                         report_name, vs_level_status)
         LOG.debug('Conversion completed successfully')
         ns_util.cleanup_config(tmp_avi_config)
         ns_util.cleanup_dupof(avi_config)
@@ -133,12 +135,20 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         for key in avi_config:
             if key != 'META':
                 if key == 'VirtualService':
-                    LOG.info('Total Objects of %s : %s (%s full conversions)'
-                             % (key,len(avi_config[key]),
-                                nsu.fully_migrated))
-                    print 'Total Objects of %s : %s (%s full conversions)'\
-                          % (key, len(avi_config[key]),
-                             nsu.fully_migrated)
+                    if vs_level_status:
+                        LOG.info('Total Objects of %s : %s (%s full conversions)'
+                                 % (key,len(avi_config[key]),
+                                    nsu.fully_migrated))
+                        print 'Total Objects of %s : %s (%s full conversions)'\
+                              % (key, len(avi_config[key]),
+                                 nsu.fully_migrated)
+                    else:
+                        LOG.info(
+                            'Total Objects of %s : %s'
+                            % (key, len(avi_config[key])))
+                        print 'Total Objects of %s : %s' \
+                              % (key, len(avi_config[key]))
+
                     continue
                 # Added code to print merged count.
                 elif object_merge_check and key == 'SSLProfile':

@@ -53,7 +53,7 @@ class PolicyConverter(object):
 
 
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
-                redirect_pools, netscalar_command, case_sensitive):
+                redirect_pools, netscalar_command, case_sensitive, enable_ssl):
         """
         This function defines that convert netscalar policy to http policy set
         in AVI
@@ -92,137 +92,138 @@ class PolicyConverter(object):
         rule_index = 0
         vs_policy_name = ''
         for bind_conf in bind_conf_list:
-            policy_name = ''
-            bind_lb_netscalar_complete_command = \
-                ns_util.get_netscalar_full_command(netscalar_command, bind_conf)
-            targetVserver = None
-            if 'lbvserver' in bind_conf:
-                continue
-            if 'policylabel' in bind_conf:
-                policyLabelName = bind_conf['policylabel']
-                if policyLabelName in policy_lables.keys():
-                    policyLabels = policy_lables[policyLabelName]
-                    if isinstance(policyLabels, dict):
-                        policyLabels = [policyLabels]
-                    targetVserver = self.get_targetvserver_policylabel(
-                        policyLabels, policy_lables)
-                    policy_label_netscalar_command = "bind cs policylabel"
-                    policy_label_netscalar_full_command = \
-                        ns_util.get_netscalar_full_command(
-                            policy_label_netscalar_command, policyLabels[0])
-                    if targetVserver:
-                        # Add status successful in CSV/report for bind if it has
-                        # targetVserver
-                        ns_util.update_status_target_lb_vs_to_indirect(
-                            targetVserver)
-                        ns_util.add_status_row(
-                            policyLabels[0]['line_no'],
-                            policy_label_netscalar_command, policyLabelName,
-                            policy_label_netscalar_full_command,
-                            STATUS_SUCCESSFUL, policyLabels[0])
-                        LOG.info('Conversion successful : %s %s' %
-                                 (policy_label_netscalar_command,
-                                  policyLabelName))
-                    else:
-                        # Skipped this bind if it does not have targetVserver
-                        skipped_status = 'Skipped: Do not have target vserver' \
-                                         ' %s %s' % (
-                            policy_label_netscalar_command, policyLabelName)
-                        ns_util.add_status_row(
-                            policyLabels[0]['line_no'],
-                            policy_label_netscalar_command, policyLabelName,
-                            policy_label_netscalar_full_command, STATUS_SKIPPED,
-                            skipped_status)
-                        LOG.warning(skipped_status)
-            if 'policyName' in bind_conf:
-                policy_name = bind_conf['policyName']
-            elif netscalar_command == 'bind lb vserver':
-                continue
-            else:
-                skipped_status = 'Skipped:Policy Name attribute not present %s'\
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                # Skipped this bind if it does not attach any policy
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
-            targetLBVserver = bind_conf.get('targetLBVserver', )
-            if targetLBVserver:
-                ns_util.update_status_target_lb_vs_to_indirect(
-                    targetLBVserver)
-            if not targetLBVserver and targetVserver:
-                targetLBVserver = targetVserver
-            priority_index = int(bind_conf.get('priority', rule_index))
-            policy, policy_type = self.get_policy_from_policy_name(
-                policy_name, policy_config, rewrite_policy_config,
-                responder_policy_config)
+            try:
+                policy_name = ''
+                bind_lb_netscalar_complete_command = \
+                    ns_util.get_netscalar_full_command(netscalar_command,
+                                                       bind_conf)
+                targetVserver = None
+                if 'lbvserver' in bind_conf:
+                    continue
+                if 'policylabel' in bind_conf:
+                    policyLabelName = bind_conf['policylabel']
+                    if policyLabelName in policy_lables.keys():
+                        policyLabels = policy_lables[policyLabelName]
+                        if isinstance(policyLabels, dict):
+                            policyLabels = [policyLabels]
+                        targetVserver = self.get_targetvserver_policylabel(
+                            policyLabels, policy_lables)
+                        policy_label_netscalar_command = "bind cs policylabel"
+                        policy_label_netscalar_full_command = \
+                            ns_util.get_netscalar_full_command(
+                                policy_label_netscalar_command, policyLabels[0])
+                        if targetVserver:
+                            # Add status successful in CSV/report for bind if it
+                            # has targetVserver
+                            ns_util.update_status_target_lb_vs_to_indirect(
+                                targetVserver)
+                            ns_util.add_status_row(
+                                policyLabels[0]['line_no'],
+                                policy_label_netscalar_command, policyLabelName,
+                                policy_label_netscalar_full_command,
+                                STATUS_SUCCESSFUL, policyLabels[0])
+                            LOG.info('Conversion successful : %s %s' %
+                                     (policy_label_netscalar_command,
+                                      policyLabelName))
+                        else:
+                            # Skipped this bind if it does not have
+                            # targetVserver
+                            skipped_status = 'Skipped: Do not have target ' \
+                                             'vserver %s %s' % (
+                                policy_label_netscalar_command, policyLabelName)
+                            ns_util.add_status_row(policyLabels[0]['line_no'],
+                                policy_label_netscalar_command, policyLabelName,
+                                policy_label_netscalar_full_command,
+                                STATUS_SKIPPED, skipped_status)
+                            LOG.warning(skipped_status)
+                if 'policyName' in bind_conf:
+                    policy_name = bind_conf['policyName']
+                elif netscalar_command == 'bind lb vserver':
+                    continue
+                else:
+                    skipped_status = 'Skipped:Policy Name attribute not ' \
+                               'present %s' % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    # Skipped this bind if it does not attach any policy
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+                targetLBVserver = bind_conf.get('targetLBVserver', )
+                if targetLBVserver:
+                    ns_util.update_status_target_lb_vs_to_indirect(
+                        targetLBVserver)
+                if not targetLBVserver and targetVserver:
+                    targetLBVserver = targetVserver
+                priority_index = int(bind_conf.get('priority', rule_index))
+                policy, policy_type = self.get_policy_from_policy_name(
+                    policy_name, policy_config, rewrite_policy_config,
+                    responder_policy_config)
 
-            if not policy:
-                skipped_status = 'Skipped: Policy is not created %s' \
-                                 % bind_lb_netscalar_complete_command
-                if not policy_type:
-                    skipped_status = 'Skipped: Policy not supported %s' \
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                # Skipped this bind if it does not have policy
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
-            rule, rule_index = self.rule_converter(
-                policy, policy_type, priority_index, redirect_pools,
-                bind_patset, patset_config, rewrite_action_config,
-                responder_action_config, policy_expression_config, avi_config,
-                tmp_pool_ref, targetLBVserver, case_sensitive)
-            conv_status = ns_util.get_conv_status(
-                bind_conf, self.bind_skipped, self.na_attrs, [],
-                ignore_for_val=self.ignore_vals,
-                user_ignore_val=self.user_ignore)
-            # TODO add support for || and + rules as datascript
-            if rule == STATUS_DATASCRIPT:
-                # Add status datascript in CSV/report if policy has status
-                # datascript
-                datascript_status = 'Datascript: %s' % \
-                                    bind_lb_netscalar_complete_command
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_DATASCRIPT)
-                LOG.warning(datascript_status)
-                continue
+                if not policy:
+                    skipped_status = 'Skipped: Policy is not created %s' \
+                                     % bind_lb_netscalar_complete_command
+                    if not policy_type:
+                        skipped_status = 'Skipped: Policy not supported %s' \
+                                     % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    # Skipped this bind if it does not have policy
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+                rule, rule_index = self.rule_converter(policy, policy_type,
+                    priority_index, redirect_pools, bind_patset, patset_config,
+                    rewrite_action_config, responder_action_config,
+                    policy_expression_config, avi_config, tmp_pool_ref,
+                    enable_ssl, targetLBVserver, case_sensitive)
+                conv_status = ns_util.get_conv_status(
+                    bind_conf, self.bind_skipped, self.na_attrs, [],
+                    ignore_for_val=self.ignore_vals,
+                    user_ignore_val=self.user_ignore)
+                # TODO add support for || and + rules as datascript
+                if rule == STATUS_DATASCRIPT:
+                    # Add status datascript in CSV/report if policy has status
+                    # datascript
+                    datascript_status = 'Datascript: %s' % \
+                                        bind_lb_netscalar_complete_command
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, STATUS_DATASCRIPT)
+                    LOG.warning(datascript_status)
+                    continue
 
-            if rule and policy_type in ['cs', 'rewrite', 'responder']:
-                # Add status successful in CSV/report if policy is converted
-                # successfully in to AVI
-                ns_util.add_conv_status(bind_conf['line_no'], netscalar_command,
-                                       bind_conf['attrs'][0],
-                                       bind_lb_netscalar_complete_command,
-                                        conv_status, rule)
-                http_request_policy['rules'].append(rule)
-                vs_policy_name += policy_name
-            elif rule and policy_type in ['policy_expression']:
-                # Add status successful in CSV/report if policy is converted
-                # successfully in to AVI
-                ns_util.add_conv_status(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    conv_status, rule)
-                http_security_policy['rules'].append(rule)
-                vs_policy_name += policy_name
-            else:
-                # Add status Skipped in CSV/report if policy is converted in to
-                #  AVI
-                skipped_status = 'Skipped:  Policy not supported %s' \
-                                 % bind_lb_netscalar_complete_command
-                LOG.warning(skipped_status)
-                ns_util.add_status_row(
-                    bind_conf['line_no'], netscalar_command,
-                    bind_conf['attrs'][0], bind_lb_netscalar_complete_command,
-                    STATUS_SKIPPED, skipped_status)
-                continue
+                if rule and policy_type in ['cs', 'rewrite', 'responder']:
+                    # Add status successful in CSV/report if policy is converted
+                    # successfully in to AVI
+                    ns_util.add_conv_status(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, conv_status, rule)
+                    http_request_policy['rules'].append(rule)
+                    vs_policy_name += policy_name
+                elif rule and policy_type in ['policy_expression']:
+                    # Add status successful in CSV/report if policy is converted
+                    # successfully in to AVI
+                    ns_util.add_conv_status(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command, conv_status, rule)
+                    http_security_policy['rules'].append(rule)
+                    vs_policy_name += policy_name
+                else:
+                    # Add status Skipped in CSV/report if policy is converted in
+                    # to AVI
+                    skipped_status = 'Skipped:  Policy not supported %s' \
+                                     % bind_lb_netscalar_complete_command
+                    LOG.warning(skipped_status)
+                    ns_util.add_status_row(bind_conf['line_no'],
+                        netscalar_command, bind_conf['attrs'][0],
+                        bind_lb_netscalar_complete_command,
+                        STATUS_SKIPPED, skipped_status)
+                    continue
+            except:
+                LOG.error('Error in policy conversion', exc_info=True)
         if len(http_request_policy['rules']) > 0:
             policy_obj['http_request_policy'] = http_request_policy
             is_policy_obj = True
@@ -233,6 +234,7 @@ class PolicyConverter(object):
             # Added prefix for objects
             if self.prefix:
                 vs_policy_name = self.prefix + '-' + vs_policy_name
+            vs_policy_name = vs_policy_name.replace('"', '').replace(' ', '_')
             policy_obj['name'] = vs_policy_name
             return policy_obj
 
@@ -270,7 +272,7 @@ class PolicyConverter(object):
                        redirect_pools, bind_patset, patset_config,
                        rewrite_action_config, responder_action_config,
                        policy_expression_config, avi_config, tmp_pool_ref,
-                       targetLBVserver=None, case_sensitive=True):
+                       enable_ssl, targetLBVserver=None, case_sensitive=True):
         """
         This function defines to convert netscalar rule to http policy rule
         :param policy: Object of policy
@@ -280,8 +282,13 @@ class PolicyConverter(object):
         :param bind_patset: dict of bind patset netscalar command
         :param patset_config: dict of patset config
         :param rewrite_action_config: dict of rewrite action
+        :param responder_action_config:
+        :param policy_expression_config:
         :param avi_config: dict of AVI
+        :param tmp_pool_ref:
+        :param enable_ssl:
         :param targetLBVserver: name tarhet lb vserver
+        :param case_sensitive:
         :return:  http policy rule
         """
         netscalar_command = None
@@ -312,6 +319,7 @@ class PolicyConverter(object):
             ns_rule = policy['attrs'][1]
 
         name = '%s-rule-%s' % (rule_name, priority_index)
+        name = name.replace('"', '').replace(' ', '_')
         if self.prefix:
             name = '%s-%s' %(self.prefix, name)
         # TODO add support for || rules as datascript
@@ -356,9 +364,9 @@ class PolicyConverter(object):
             targetLBVserver = '%s-%s' %(self.prefix, targetLBVserver)
 
         if policy_type == 'cs':
-            cs_action, redirect_uri = self.get_cs_policy_action(
-                name, targetLBVserver, redirect_pools,
-                avi_config, tmp_pool_ref)
+            cs_action, redirect_uri = self.get_cs_policy_action(name,
+                      targetLBVserver, redirect_pools, avi_config, tmp_pool_ref,
+                                                                enable_ssl)
             targetLBVserver_name = [lb_name for lb_name in avi_config['Lbvs']
                                     if targetLBVserver in lb_name]
             if cs_action:
@@ -383,14 +391,14 @@ class PolicyConverter(object):
                     ).replace('"', '')
                     cs_action, redirect_uri = self.get_cs_policy_action(
                         name, targetLBVserver, redirect_pools, avi_config,
-                        tmp_pool_ref)
+                        tmp_pool_ref, enable_ssl)
                     policy_rules['redirect_action'] = cs_action
                 elif 'backupvserver' in targetLBVserver_name[targetLBVserver]:
                     tmp_pool_ref.append(str(targetLBVserver_name
                                             [targetLBVserver]['backupvserver']))
                     cs_action, redirect_uri = self.get_cs_policy_action(
                         name, targetLBVserver, redirect_pools,
-                        avi_config, tmp_pool_ref)
+                        avi_config, tmp_pool_ref, enable_ssl)
                     policy_rules['switching_action'] = cs_action
                 LOG.info('Conversion successful : %s %s' % (netscalar_command,
                                                             rule_name))
@@ -424,8 +432,8 @@ class PolicyConverter(object):
                     policy['line_no'], netscalar_command, rule_name,
                     ns_policy_complete_cmd, STATUS_SKIPPED, skipped_status)
         elif policy_type == 'responder':
-            policy_rules = self.get_responder_action(
-                policy['attrs'][2], policy_rules, responder_action_config)
+            policy_rules = self.get_responder_action(policy['attrs'][2],
+                              policy_rules, responder_action_config, enable_ssl)
             if policy_rules:
                 LOG.info('Conversion successful : %s %s' % (
                     netscalar_command, rule_name))
@@ -501,19 +509,8 @@ class PolicyConverter(object):
             match = {"path": path_query}
             match["path"]["match_str"].append('/')
             match["path"]["match_criteria"] = "CONTAINS"
-        elif 'REQ.HTTP.URL ==' in query.upper():
-            match = {"query": path_query}
-            match["query"]["match_criteria"] = "EQUALS"
-            matches = query.split('||')
-            matches = list(set(matches))
-            for element in matches:
-                element = element.split('==')
-                if len(element) > 1:
-                    match["query"]["match_str"].append(element)
-            if not match["query"]["match_str"]:
-                LOG.warning('No Matches found for %s' % query)
-                return None
-        elif 'URL ==' in query.upper():
+
+        elif 'URL ==' in query.upper() or 'REQ.HTTP.URL ==' in query.upper():
             a, b = query.split("==")
             b = b.strip()
             match_str = b.strip("\\'")
@@ -769,6 +766,16 @@ class PolicyConverter(object):
                 return None
             match["hdrs"][0]["hdr"] = matches[0][0]
             match["hdrs"][0]["value"].append(matches[0][1])
+        elif 'CLIENT.TCP.DSTPORT.EQ' in query.upper():
+            matches = re.findall('(\d+)', query)
+            if not matches:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            service_port = {
+                'ports': matches,
+                'match_criteria': 'IS_IN'
+            }
+            match = {"vs_port": service_port}
         elif 'HTTP.REQ.IS_VALID' in query.upper():
             match = {'any': 'any'}
 
@@ -834,31 +841,21 @@ class PolicyConverter(object):
         LOG.warning("%s Patset policy is not supported" % match)
 
     def get_cs_policy_action(self, name, targetLBVserver, redirect_pools,
-                             avi_config, tmp_pool_ref):
+                             avi_config, tmp_pool_ref, enable_ssl):
         """
         This function defines that return the http request policy action
+        :param name
         :param targetLBVserver: name of terget lb vserver
         :param redirect_pools: list of redirect pools
         :param avi_config: dict of AVI
+        :param tmp_pool_ref:
+        :param enable_ssl:
         :return: http policy action
         """
         if targetLBVserver in redirect_pools:
             redirect_url = str(redirect_pools[targetLBVserver]).replace('"','')
-            redirect_url = ns_util.parse_url(redirect_url)
-            protocol = str(redirect_url.scheme).upper()
-            action = {
-                'protocol': protocol,
-                'host': {
-                    'type': 'URI_PARAM_TYPE_TOKENIZED',
-                    'tokens': [{
-                        'type': 'URI_TOKEN_TYPE_HOST',
-                        'str_value': redirect_pools[targetLBVserver],
-                        'start_index': '0',
-                        'end_index': '65535'
-                    }]
-                }
-            }
-
+            action = ns_util.build_redirect_action_dict(redirect_url,
+                                                        enable_ssl)
             return action, True
 
         else:
@@ -917,7 +914,8 @@ class PolicyConverter(object):
             policy_rule = copy.deepcopy(policy_rules)
             policy_rule['hdr_action'] = hdr_action
             if len(policy_action['attrs']) > 3:
-                matches = [policy_action['attrs'][3]]
+                matches = [policy_action['attrs'][3].replace('\\"',
+                                                            '').replace('"','')]
                 if matches:
                     value = {'val': matches[0]}
                     policy_rule['hdr_action'][0]['hdr']['value'].update(value)
@@ -1007,12 +1005,13 @@ class PolicyConverter(object):
 
 
     def get_responder_action(self, policy_name, policy_rules,
-                             responder_action_config):
+                             responder_action_config, enable_ssl):
         """
         This functions defines that return responder policy action
         :param policy_name: name of policy
         :param policy_rules: rules of policy
-        :param rewrite_action_config: dict of rewrite action
+        :param responder_action_config: dict of responder action
+        :param enable_ssl:
         :return: responder policy action
         """
 
@@ -1130,22 +1129,43 @@ class PolicyConverter(object):
                 re.findall('\\\\(.+?)\\\\',
                            policy_action['attrs'][2].strip('"').strip())
             redirect_url = str(path_matches[0]).replace('"', '')
-            protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+            redirect_url = ns_util.parse_url(redirect_url)
+            protocol = str(redirect_url.scheme).upper()
+            protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
+                        protocol
+            hostname = str(redirect_url.hostname)
+            pathstring = str(redirect_url.path)
+            querystring = str(redirect_url.query)
+            full_path = '%s?%s' % (pathstring, querystring) if pathstring and \
+                                                    querystring else pathstring
             redirect_action = {
                 'protocol': protocol,
                 'status_code': 'HTTP_REDIRECT_STATUS_CODE_302',
                 'keep_query': False,
-                'path': {
-                    'type': 'URI_PARAM_TYPE_TOKENIZED',
-                    'tokens': [{
-                        'type': 'URI_TOKEN_TYPE_STRING',
-                        'str_value': redirect_url
-                    }]
-                },
                 'query': {
                     'keep_query': False
                 }
             }
+            if hostname:
+                redirect_action.update({'host':
+                    {
+                        'type': 'URI_PARAM_TYPE_TOKENIZED',
+                        'tokens': [{
+                            'type': 'URI_TOKEN_TYPE_STRING',
+                            'str_value': hostname
+                        }]
+                    }
+                })
+            if full_path:
+                redirect_action.update({'path':
+                    {
+                        'type': 'URI_PARAM_TYPE_TOKENIZED',
+                        'tokens': [{
+                            'type': 'URI_TOKEN_TYPE_STRING',
+                            'str_value': full_path
+                        }]
+                    }
+                })
             policy_rule['redirect_action'] = redirect_action
             LOG.info('Conversion successful: %s %s' %
                      (ns_responder_action_command, policy_name))
@@ -1161,23 +1181,43 @@ class PolicyConverter(object):
                 return
             if attrs[1] == '301':
                 redirect_url = str(attrs[4]).replace('"', '')
-                protocol = str(ns_util.parse_url(redirect_url).scheme).upper()
+                redirect_url = ns_util.parse_url(redirect_url)
+                protocol = str(redirect_url.scheme).upper()
+                protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol \
+                            else protocol
+                hostname = str(redirect_url.hostname)
+                pathstring = str(redirect_url.path)
+                querystring = str(redirect_url.query)
+                full_path = '%s?%s' % (pathstring, querystring) if pathstring \
+                                    and querystring else pathstring
                 redirect_action = {
                     'protocol': protocol,
                     'status_code': 'HTTP_REDIRECT_STATUS_CODE_301',
                     'keep_query': False,
-
-                    'path': {
-                        'type': 'URI_PARAM_TYPE_TOKENIZED',
-                        'tokens': [{
-                            'type': 'URI_TOKEN_TYPE_STRING',
-                            'str_value': redirect_url
-                        }]
-                    },
                     'query': {
                         'keep_query': False
                     }
                 }
+                if hostname:
+                    redirect_action.update({'host':
+                        {
+                            'type': 'URI_PARAM_TYPE_TOKENIZED',
+                            'tokens': [{
+                                'type': 'URI_TOKEN_TYPE_STRING',
+                                'str_value': hostname
+                            }]
+                        }
+                    })
+                if full_path:
+                    redirect_action.update({'path':
+                        {
+                            'type': 'URI_PARAM_TYPE_TOKENIZED',
+                            'tokens': [{
+                                'type': 'URI_TOKEN_TYPE_STRING',
+                                'str_value': full_path
+                            }]
+                        }
+                    })
                 policy_rule['redirect_action'] = redirect_action
             elif attrs[1] in ['403', '429', '200', '404']:
                 switching_action ={

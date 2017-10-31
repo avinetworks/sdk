@@ -35,7 +35,7 @@ type ServiceEngine struct {
 	// Read Only: true
 	DataVnics []*VNIC `json:"data_vnics,omitempty"`
 
-	// inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED.
+	// inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE.
 	EnableState string `json:"enable_state,omitempty"`
 
 	// flavor of ServiceEngine.

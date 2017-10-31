@@ -18,6 +18,7 @@ setup(
              'avi/migrationtools/netscaler_converter/netscaler_converter.py',
              'avi/migrationtools/vs_filter.py',
              'avi/migrationtools/gss_convertor/gss_convertor.py',
+             'avi/migrationtools/ace_converter/ace_converter.py',
              'avi/migrationtools/config_patch.py',
              'avi/migrationtools/ansible/avi_config_to_ansible.py'],
     classifiers=[
@@ -31,11 +32,11 @@ setup(
     install_requires=['pyyaml', 'requests', 'pyparsing', 'paramiko', 'avisdk',
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
                       'nose-testconfig', 'ConfigParser', 'xlsxwriter', 'jinja2',
-                      'pandas', 'openpyxl', 'appdirs',  'pexpect'],
+                      'pandas', 'openpyxl', 'appdirs',  'pexpect', 'unittest2'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.jinja', '*.key', '*.pem', '*.xml',
                           '*.yaml', '*.yml'],
                   'avi.migrationtools.gss_convertor.parser_files': [
-                         "gslb_template.jinja"]
-                  }
+        "gslb_template.jinja"]
+    }
 )

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure hardwaresecuritymodulegroup <key> - show hardwaresecuritymodulegroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">Version: 17.2.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -226,7 +226,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -247,7 +257,9 @@ font-style: italic;
       "sluna" : {
         "server" : [ {
           "server_cert" : "aeiou",
+          "partition_serial_number" : "aeiou",
           "remote_ip" : "aeiou",
+          "index" : 123,
           "partition_passwd" : "aeiou"
         } ],
         "is_ha" : true,
@@ -342,7 +354,9 @@ font-style: italic;
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
+        "partition_serial_number" : "aeiou",
         "remote_ip" : "aeiou",
+        "index" : 123,
         "partition_passwd" : "aeiou"
       } ],
       "is_ha" : true,
@@ -481,7 +495,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
@@ -500,7 +520,9 @@ font-style: italic;
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
+        "partition_serial_number" : "aeiou",
         "remote_ip" : "aeiou",
+        "index" : 123,
         "partition_passwd" : "aeiou"
       } ],
       "is_ha" : true,
@@ -606,7 +628,9 @@ font-style: italic;
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
+        "partition_serial_number" : "aeiou",
         "remote_ip" : "aeiou",
+        "index" : 123,
         "partition_passwd" : "aeiou"
       } ],
       "is_ha" : true,
@@ -712,7 +736,9 @@ font-style: italic;
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
+        "partition_serial_number" : "aeiou",
         "remote_ip" : "aeiou",
+        "index" : 123,
         "partition_passwd" : "aeiou"
       } ],
       "is_ha" : true,
@@ -810,7 +836,9 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HSMSafenetLunaServer">HSMSafenetLunaServer</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">partition_passwd (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password of the partition assigned to this client. </div>
+      <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 16.5.2,17.2.3. format: int32</div>
+<div class="param">partition_passwd (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password of the partition assigned to this client. </div>
+<div class="param">partition_serial_number (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Serial number of the partition assigned to this client. Field introduced in 16.5.2,17.2.3. </div>
 <div class="param">remote_ip </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address of the Safenet/Gemalto HSM device. </div>
 <div class="param">server_cert </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CA certificate of the server. </div>
     </div>  <!-- field-items -->
