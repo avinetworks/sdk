@@ -15,8 +15,15 @@ from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
+from avi.migrationtools.test.common.test_tenant_cloud \
+    import create_tenant, create_cloud
 
 config_file = pytest.config.getoption("--config")
+input_file = pytest.config.getoption("--file")
+output_file = pytest.config.getoption("--out")
+
+if input_file is None:
+    input_file = 'ns.conf'
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -40,7 +47,7 @@ setup = dict(
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
     input_folder_location='',
-    config_file_name='ns.conf',
+    config_file_name=input_file,
     config_file_name_passphrase='ns_passphrase.conf',
     ns_passphrase_file='passphrase.yaml',
     ns_key_file='cd_rt_key.pem',
@@ -53,11 +60,12 @@ setup = dict(
     baseline_profile=None,
     redirect=False,
     ansible=True,
-    vs_level_status=True
+    vs_level_status=True,
+    output_file_path=output_file
 )
 
 
-logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
+#logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
 mylogger = logging.getLogger()
 
 
@@ -100,7 +108,7 @@ class TestNetscalerConverter:
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
         conv.csv_writer_dict_list = list ()
-    
+
     @pytest.mark.skip_travis
     def test_download(self, cleanup):
         """
@@ -358,6 +366,8 @@ class TestNetscalerConverter:
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        option=setup.get('option'),
+                       ansible=setup.get ('ansible'),
+                       output_file_path=setup.get ('output_file_path'),
                        controller_version=setup.get('controller_version_v17'),
                        controller_ip=setup.get('controller_ip_17_1_1'),
                        user=setup.get('controller_user_17_1_1'),
@@ -386,8 +396,10 @@ class TestNetscalerConverter:
         AutoUpload Flow
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v16'),
                        option=setup.get('option'),
+                       ansible=setup.get('ansible'),
                        controller_ip=setup.get('controller_ip_16_4_4'),
                        user=setup.get('controller_user_16_4_4'),
                        password=setup.get('controller_password_16_4_4'))
@@ -399,6 +411,7 @@ class TestNetscalerConverter:
         Create Ansible Script based on Flag
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       output_file_path=setup.get ('output_file_path'),
                        controller_version=setup.get('controller_version_v17'),
                        ansible=setup.get('ansible'))
 
@@ -451,6 +464,29 @@ class TestNetscalerConverter:
         """
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'))
+
+    @pytest.mark.skip_travis
+    def test_create_tenant_cloud_and_upload_controller_17_1_1(self, cleanup):
+        """
+        Create Tenant and Cloud name on the Controller v17.1.1,
+        Auto Upload configuration file on controller.
+        """
+        create_tenant(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                          file_attribute['controller_password_17_1_1'], file_attribute['tenant'])
+
+        create_cloud (file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                      file_attribute['controller_password_17_1_1'], file_attribute['cloud_name'])
+
+        netscaler_conv (config_file_name=setup.get ('config_file_name'),
+                        option=setup.get ('option'),
+                        tenant=file_attribute['tenant'],
+                        cloud_name=file_attribute['cloud_name'],
+                        ansible=setup.get ('ansible'),
+                        output_file_path=setup.get ('output_file_path'),
+                        controller_version=setup.get ('controller_version_v17'),
+                        controller_ip=setup.get ('controller_ip_17_1_1'),
+                        user=setup.get ('controller_user_17_1_1'),
+                        password=setup.get ('controller_password_17_1_1'))
 
 
 def teardown():

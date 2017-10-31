@@ -6,6 +6,7 @@ f5 converter tool along with its options / parameters
 import logging
 import os
 import subprocess
+import sys
 
 import pytest
 import yaml
@@ -15,8 +16,31 @@ from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
+from avi.migrationtools.test.common.test_tenant_cloud \
+    import create_tenant, create_cloud
 
 config_file = pytest.config.getoption("--config")
+input_file = pytest.config.getoption("--file")
+input_file_version = pytest.config.getoption("--fileVersion")
+output_file = pytest.config.getoption("--out")
+
+input_file_v10 = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                'bigip_v10.conf'))
+input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                'bigip_v11.conf'))
+v10 = '10'
+v11 = '11'
+
+if input_file_version == '10' and input_file:
+    v10 = '10'
+    input_file_v10 = input_file
+elif input_file_version == '11' and input_file:
+    v11 = '11'
+    input_file_v11 = input_file
+elif any([input_file_version, input_file]):
+    print("Both arguments 'input_file_version' and 'input_file' are mandatory")
+    sys.exit(0)
+
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -24,8 +48,8 @@ with open(config_file) as f:
 setup = dict(
     controller_version_v16=file_attribute['controller_version_v16'],
     controller_version_v17=file_attribute['controller_version_v17'],
-    file_version_v10='10',
-    file_version_v11='11',
+    file_version_v10= v10,
+    file_version_v11= v11,
     version=True,
     option=file_attribute['option'],
     controller_ip_17_1_1=file_attribute['controller_ip_17_1_1'],
@@ -44,10 +68,8 @@ setup = dict(
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
     input_folder_location='',
-    config_file_name_v10=os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'bigip_v10.conf')),
-    config_file_name_v11=os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'bigip_v11.conf')),
+    config_file_name_v10=input_file_v10,
+    config_file_name_v11=input_file_v11,
     partition_config='new',  # this is new
     f5_key_file='cd_rt_key.pem',
     ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -63,8 +85,11 @@ setup = dict(
                                                     'passphrase.yaml')),
     f5_ansible_object=os.path.abspath(os.path.join(
         os.path.dirname(__file__),'output', 'avi_config_create_object.yml')),
-    vs_level_status=True
+    vs_level_status=True,
+    output_file_path=output_file
 )
+
+mylogger = logging.getLogger()
 
 
 class Namespace:
@@ -418,6 +443,7 @@ class TestF5Converter:
                  f5_config_version=setup.get('file_version_v10'),
                  controller_version=setup.get('controller_version_v17'),
                  option=setup.get('option'),
+                 ansible=setup.get ('ansible'),
                  controller_ip=setup.get('controller_ip_17_1_1'),
                  user=setup.get('controller_user_17_1_1'),
                  password=setup.get('controller_password_17_1_1'))
@@ -447,8 +473,10 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                  f5_config_version=setup.get('file_version_v10'),
+                 output_file_path=setup.get ('output_file_path'),
                  controller_version=setup.get('controller_version_v16'),
                  option=setup.get('option'),
+                 ansible=setup.get ('ansible'),
                  controller_ip=setup.get('controller_ip_16_4_4'),
                  user=setup.get('controller_user_16_4_4'),
                  password=setup.get('controller_password_16_4_4'))
@@ -476,9 +504,11 @@ class TestF5Converter:
         AutoUpload Flow
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                 output_file_path=setup.get ('output_file_path'),
                  f5_config_version=setup.get('file_version_v11'),
                  controller_version=setup.get('controller_version_v17'),
                  option=setup.get('option'),
+                 ansible=setup.get ('ansible'),
                  controller_ip=setup.get('controller_ip_17_1_1'),
                  user=setup.get('controller_user_17_1_1'),
                  password=setup.get('controller_password_17_1_1'))
@@ -506,9 +536,11 @@ class TestF5Converter:
         AutoUpload Flow
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                 output_file_path=setup.get ('output_file_path'),
                  f5_config_version=setup.get('file_version_v11'),
                  controller_version=setup.get('controller_version_v16'),
                  option=setup.get('option'),
+                 ansible=setup.get ('ansible'),
                  controller_ip=setup.get('controller_ip_16_4_4'),
                  user=setup.get('controller_user_16_4_4'),
                  password=setup.get('controller_password_16_4_4'))
@@ -520,6 +552,7 @@ class TestF5Converter:
         Create Ansible Script based on Flag
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                 output_file_path=setup.get ('output_file_path'),
                  controller_version=setup.get('controller_version_v17'),
                  f5_config_version=setup.get('file_version_v11'),
                  ansible=setup.get('ansible'))
@@ -564,6 +597,7 @@ class TestF5Converter:
         Create Ansible Script based on Flag
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                 output_file_path=setup.get ('output_file_path'),
                  controller_version=setup.get('controller_version_v17'),
                  f5_config_version=setup.get('file_version_v10'),
                  ansible=setup.get('ansible'))
@@ -620,6 +654,54 @@ class TestF5Converter:
                  controller_version=setup.get ('controller_version_v17'),
                  f5_config_version=setup.get('file_version_v10'))
 
+    @pytest.mark.skip_travis
+    def test_create_tenant_cloud_and_upload_controller_v11_16_4_4(self, cleanup):
+        """
+        Create Tenant and Cloud name on the Controller v16.4.4,
+        Auto Upload configuration file on controller.
+        """
+        create_tenant (file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                       file_attribute['controller_password_16_4_4'], file_attribute['tenant'])
+
+        create_cloud (file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                      file_attribute['controller_password_16_4_4'], file_attribute['cloud_name'])
+
+        f5_conv (bigip_config_file=setup.get ('config_file_name_v11'),
+                 f5_config_version=setup.get ('file_version_v11'),
+                 output_file_path=setup.get ('output_file_path'),
+                 controller_version=setup.get ('controller_version_v16'),
+                 option=setup.get ('option'),
+                 tenant=file_attribute['tenant'],
+                 cloud_name=file_attribute['cloud_name'],
+                 ansible=setup.get ('ansible'),
+                 controller_ip=setup.get ('controller_ip_16_4_4'),
+                 user=setup.get ('controller_user_16_4_4'),
+                 password=setup.get ('controller_password_16_4_4'))
+
+
+    @pytest.mark.skip_travis
+    def test_create_tenant_cloud_and_upload_controller_v10_16_4_4(self, cleanup):
+        """
+        Create Tenant and Cloud name on the Controller v16.4.4,
+        Auto Upload configuration file on controller.
+        """
+        create_tenant (file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                       file_attribute['controller_password_16_4_4'], file_attribute['tenant'])
+
+        create_cloud (file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
+                      file_attribute['controller_password_16_4_4'], file_attribute['cloud_name'])
+
+        f5_conv (bigip_config_file=setup.get ('config_file_name_v10'),
+                 f5_config_version=setup.get ('file_version_v10'),
+                 output_file_path=setup.get ('output_file_path'),
+                 controller_version=setup.get ('controller_version_v16'),
+                 option=setup.get ('option'),
+                 tenant=file_attribute['tenant'],
+                 cloud_name=file_attribute['cloud_name'],
+                 ansible=setup.get ('ansible'),
+                 controller_ip=setup.get ('controller_ip_16_4_4'),
+                 user=setup.get ('controller_user_16_4_4'),
+                 password=setup.get ('controller_password_16_4_4'))
 
 def teardown():
     pass
