@@ -6,8 +6,12 @@ import yaml
 import json
 import logging
 import os
+import avi.migrationtools
+
 
 LOG = logging.getLogger(__name__)
+sdk_version = getattr(avi.migrationtools, '__version__', None)
+
 
 class AviConverter(object):
     output_file_path = None
@@ -40,7 +44,6 @@ class AviConverter(object):
         if self.vs_filter:
             avi_config = filter_for_vs(avi_config, self.vs_filter)
         return avi_config
-
 
     def upload_config_to_controller(self, avi_config):
         """

@@ -6,14 +6,11 @@ import sys
 import json
 import yaml
 import avi.migrationtools
-import avi.migrationtools.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
+import avi.migrationtools.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtools.netscaler_converter.scp_util as scp_util
-
 from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.vs_filter import filter_for_vs
-from avi.migrationtools.config_patch import ConfigPatch
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.ansible.ansible_config_converter import\
                                 AviAnsibleConverter
@@ -61,28 +58,7 @@ class NetscalerConverter(AviConverter):
         self.vs_level_status = args.vs_level_status
 
 
-    def init_logger_path(self):
-        LOG.setLevel(logging.DEBUG)
-        formatter = \
-            '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
-        if self.ns_config_file:
-            report_name = '%s-converter.log' % os.path.splitext(
-                os.path.basename(self.ns_config_file))[0]
-        else:
-            report_name = 'converter.log'
 
-        logging.basicConfig(
-            filename=os.path.join(self.output_file_path, report_name),
-            level=logging.DEBUG, format=formatter)
-
-    def print_pip_and_controller_version(self):
-        # Added input parameters to log file
-        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
-        # Add logger and print avi netscaler converter version
-        LOG.info('AVI sdk version: %s Controller Version: %s'
-                 % (sdk_version, self.controller_version))
-        print 'AVI sdk version: %s Controller Version: %s' \
-              % (sdk_version, self.controller_version)
 
     def convert(self):
         if not os.path.exists(self.output_file_path):
@@ -274,10 +250,9 @@ if __name__ == "__main__":
                              'settings in status excel sheet')
 
     args = parser.parse_args()
+    netscaler_converter = NetscalerConverter(args)
     # print avi netscaler converter version
     if args.version:
-        print "SDK Version: %s\nController Version: %s" % \
-              (sdk_version, args.controller_version)
+        netscaler_converter.print_pip_and_controller_version()
         exit(0)
-    netscaler_converter = NetscalerConverter(args)
     netscaler_converter.convert()
