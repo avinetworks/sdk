@@ -1,3 +1,6 @@
+"""
+This file contains default profile types and constants.
+"""
 PROFILES = {'fasthttp': 'APPLICATION_PROFILE_TYPE_HTTP',
             'fastL4': 'APPLICATION_PROFILE_TYPE_L4',
             'dns': 'APPLICATION_PROFILE_TYPE_DNS',
