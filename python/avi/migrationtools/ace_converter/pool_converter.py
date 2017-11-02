@@ -100,7 +100,6 @@ class PoolConverter(object):
                              avi_obj=temp_pool, skip=skipped_list)
 
                 pool_list.append(temp_pool)
-
         return pool_list
 
     def server_converter(self, name):
@@ -163,5 +162,4 @@ class PoolConverter(object):
                 if app['name'] == name:
                     app_persitance = name
                     break
-        print app_persitance
         return app_persitance
