@@ -83,17 +83,15 @@ class ConfigConverter(object):
         data = dict()
         data['META'] = self.aviobj.meta(
             tenant=self.tenant, controller_version=self.version)
-        data['ApplicationPersistenceProfile'] = self.persistance.app_persistance_conversion()
         data['HealthMonitor'] = self.monitor.healthmonitor_conversion()
+        data['ApplicationPersistenceProfile'] = self.persistance.app_persistance_conversion()
         data['Pool'] = self.pool.pool_conversion(data)
         data['SSLProfile'] = self.ssl.ssl_profile()
         data['SSLKeyAndCertificate'] = self.ssl.ssl_key_and_cert()
         data['VsVip'] = self.vs.vsvip_conversion()
         vs_list, cloned_pool_list = self.vs.virtual_service_conversion(data)
-        data['Pool'].extend(cloned_pool_list)
         data['VirtualService'] = vs_list
-
-        print data['ApplicationPersistenceProfile']
+        data['Pool'].extend(cloned_pool_list)
 
         if self.tenant != 'admin':
             data['Tenant'] = [

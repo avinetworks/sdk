@@ -98,8 +98,6 @@ class VSConverter(object):
                             pool_ref = self.common_utils.get_object_ref(
                                 pool, 'pool', tenant=self.tenant)
 
-
-
                 if not pool:
                     continue
                 temp_vs = {
@@ -226,7 +224,8 @@ class VSConverter(object):
                         for obj in cls['class_desc']:
                             if obj.get('loadbalance', '') == 'policy':
                                 policy_name = obj['type']
-                            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if ssl1.get('name') == obj.get('type') and "ssl-proxy" in obj.keys()]
+                            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if ssl1.get(
+                                'name') == obj.get('type') and "ssl-proxy" in obj.keys()]
                             if ssl_ref:
                                 ssl = self.common_utils.get_object_ref(ssl_ref[0],
                                                                        'sslprofile',
@@ -234,12 +233,13 @@ class VSConverter(object):
                                 ssl_cert = self.common_utils.get_object_ref(ssl_ref[0],
                                                                             'sslkeyandcertificate',
                                                                             tenant=self.tenant)
-
+                        # print "policy name is ", policy_name
                         if policy_name:
                             vs, cloned_pool = self.virtual_service_conversion_policy(policy_name,
                                                                                      data,
                                                                                      ssl_profile=ssl,
                                                                                      ssl_cert=ssl_cert)
+                            # print "vs and clone_pool", vs , cloned_pool
                             if vs:
                                 vs['enabled'] = False
                                 for class_dec in cls['class_desc']:
@@ -270,7 +270,7 @@ class VSConverter(object):
         min_port = 1
         max_port = 65535
         for index, vs in enumerate(vs_list):
-             if vs['services'][0]['port'] == 'any':
+            if vs['services'][0]['port'] == 'any':
                 name = vs['name']
                 addr = vs['vip'][0]['ip_address']['addr']
                 port_list = list()

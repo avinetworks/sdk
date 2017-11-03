@@ -2,7 +2,6 @@
 import logging
 from avi.migrationtools.ace_converter.ace_constants import POOL_SKIP
 from avi.migrationtools.ace_converter.ace_utils import update_excel
-
 # logging init
 LOG = logging.getLogger(__name__)
 
@@ -68,13 +67,17 @@ class PoolConverter(object):
                     skipped_list.extend(skipped_list_temp)
                 if "rserver" in pools.keys():
                     server = self.server_converter(pools['rserver'])
-                if "probe" in pools.keys():
-                    probe = pools['probe']
-            if probe:
+
+            #    print "health monitor= ",data['HealthMonitor']
+            #    print pools
+            #     print pools.get('probe')
                 for hm in data['HealthMonitor']:
-                    if hm.get('name') == probe:
-                        monitor_ref = self.common_utils.get_object_ref(
-                            probe, 'healthmonitor', tenant=self.tenant)
+                    if pools.get('probe') == hm['name']:
+                        probe = pools['probe']
+
+            if probe:
+                monitor_ref = self.common_utils.get_object_ref(
+                    probe, 'healthmonitor', tenant=self.tenant)
             if server:
                 pool_dict = {
                     "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
@@ -156,6 +159,7 @@ class PoolConverter(object):
     def find_app_persistance(self, pool_name, data):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
+        # print self.parsed.get('sticky','')
         for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
             for app in data['ApplicationPersistenceProfile']:
