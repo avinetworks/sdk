@@ -346,9 +346,11 @@ class LbvsConverter(object):
                         tenant='admin')
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                         'System-TCP-Proxy', 'networkprofile', tenant='admin')
+                # AV-29441 Changed default SSL app profile
+                # from System-Secure-HTTP to System-HTTP.
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'SSL':
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
-                        'System-Secure-HTTP', 'applicationprofile',
+                        'System-HTTP', 'applicationprofile',
                         tenant='admin')
                 # Adding L4 as a default profile when SSL_BRIDGE and SSL_TCP
                 elif not http_prof and (lb_vs['attrs'][1]).upper() \
