@@ -71,9 +71,11 @@ class PoolConverter(object):
             #    print "health monitor= ",data['HealthMonitor']
             #    print pools
             #     print pools.get('probe')
-                for hm in data['HealthMonitor']:
-                    if pools.get('probe') == hm['name']:
-                        probe = pools['probe']
+                print "pool, data", pools, data
+                if data.get('HealthMonitor'):
+                    for hm in data['HealthMonitor']:
+                        if pools.get('probe') == hm['name']:
+                            probe = pools['probe']
 
             if probe:
                 monitor_ref = self.common_utils.get_object_ref(

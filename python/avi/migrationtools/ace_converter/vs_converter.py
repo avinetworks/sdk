@@ -183,7 +183,7 @@ class VSConverter(object):
                 if http_policy_ref:
                     temp_vs['http_policy_set_ref'] = http_policy_ref
                 return temp_vs, pool_obj, http_policy_set
-        return False, False
+        return False, False, False
 
     def vsvip_conversion(self):
         """vs vip take from virutal-server in class map"""
