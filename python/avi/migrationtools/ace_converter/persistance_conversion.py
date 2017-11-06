@@ -43,11 +43,14 @@ class PersistanceConverter(object):
                 "persistence_type": persistance_type,
                 "tenant_ref": self.tenant_ref,
                 "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-                "ip_persistence_profile": {
+                "ip_persistence_profile": {}
+            }
+
+            if type == "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS":
+                persistance["ip_persistence_profile"] = {
                     "ip_persistent_timeout": timeout
                 }
-            }
-            # Updating Excel Sheet
+                # Updating Excel Sheet
             update_excel('sticky', name, avi_obj=persistance)
 
             persistance_list.append(persistance)

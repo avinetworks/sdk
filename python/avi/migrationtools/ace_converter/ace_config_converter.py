@@ -89,7 +89,9 @@ class ConfigConverter(object):
         data['SSLProfile'] = self.ssl.ssl_profile()
         data['SSLKeyAndCertificate'] = self.ssl.ssl_key_and_cert()
         data['VsVip'] = self.vs.vsvip_conversion()
-        vs_list, cloned_pool_list = self.vs.virtual_service_conversion(data)
+        vs_list, cloned_pool_list, http_list = self.vs.virtual_service_conversion(
+            data)
+        data['httppolicyset'] = http_list
         data['VirtualService'] = vs_list
         data['Pool'].extend(cloned_pool_list)
 

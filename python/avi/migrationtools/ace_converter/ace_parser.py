@@ -129,6 +129,7 @@ class Parser():
         #   queue-delay timeout 1
         #   set header-maxparse-length 65535
         #   set content-maxparse-length 65535
+        #   cipher RSA_EXPORT1024_WITH_RC4_56_SHA
 
         param_key = Keyword('parameter-map')
         type_key = Word('type')
@@ -151,12 +152,12 @@ class Parser():
         grammer_5_4 = Group(Keyword('set') + Keyword('timeout') + Keyword('inactivity') +
                             Word(nums))
         grammer_5_5 = Group(set + length + num)
-        grammer_param_sess_q = Group(sess_queue + timeout + num)
+        grammer_5_6 = Group(sess_queue + timeout + num)
+        grammer_5_7 = Group(Keyword('cipher') + name)
 
-        grammer_5 = Group(grammer_5_1 + ZeroOrMore(grammer_5_2 |
-                                                   grammer_5_3 |
-                                                   grammer_5_4 |
-                                                   grammer_param_sess_q))
+        grammer_5 = Group(grammer_5_1 + ZeroOrMore(grammer_5_2 | grammer_5_3 |
+                                                   grammer_5_4 | grammer_5_6 |
+                                                   grammer_5_7))
 
         # Grammer 6:
         # sticky ip-netmask 255.255.255.255 address source test-adfdas-$5D
@@ -242,14 +243,15 @@ class Parser():
         #         serverfarm TEST_FARM_2
         #         sticky-serverfarm TEST_FARM_2
         #         connection advanced-options TEST_CONN123
-        #        loadbalance vip inservice
-        #        loadbalance vip icmp-reply
-        #        loadbalance policy LB_TEST_123
-        #        inspect ftp
-        #        ssl-proxy server ssl_name
-        #        nat dynamic 5 vlan 2100
-        #        appl-parameter http advanced-options ADV-HTTP
-        #        connection advanced-options NETSETTINGS
+        #         loadbalance vip inservice
+        #         loadbalance vip icmp-reply
+        #         loadbalance policy LB_TEST_123
+        #         inspect ftp
+        #         ssl-proxy server ssl_name
+        #         nat dynamic 5 vlan 2100
+        #         appl-parameter http advanced-options ADV-HTTP
+        #         connection advanced-options NETSETTINGS
+        #         action test_rewrite
 
         policy_key = Keyword('policy-map')
         lb_key = Keyword('loadbalance')
@@ -278,6 +280,7 @@ class Parser():
         grammer_8_2_9 = Group(Keyword('connection') +
                               Keyword('advanced-options') +
                               name)
+        grammer_8_2_10 = Group(Keyword('action') + name)
 
         grammer_8_2 = Group(grammer_8_2_1 + ZeroOrMore(grammer_8_2_2 |
                                                        grammer_8_2_3 |
@@ -286,7 +289,8 @@ class Parser():
                                                        grammer_8_2_6 |
                                                        grammer_8_2_7 |
                                                        grammer_8_2_8 |
-                                                       grammer_8_2_9))
+                                                       grammer_8_2_9 |
+                                                       grammer_8_2_10))
 
         grammer_8 = Group(grammer_8_1 + ZeroOrMore(grammer_8_2))
 
@@ -341,6 +345,7 @@ class Parser():
         # serverfarm host TEST_TEST_79
         #     probe probe_TEST_123
         #     inband-health check count
+        #     predictor leastconns slowstart 30
         #     rserver RS_TEST123
         #         inservice
         serverfarm = Keyword('serverfarm')
@@ -352,9 +357,12 @@ class Parser():
         grammer_12_4_1 = Keyword('rserver') + name
         grammer_12_4_2 = Keyword('inservice')
         grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2))
+        grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
+                             Keyword('slowstart') + num)
 
         grammer_12 = Group(grammer_12_1 + ZeroOrMore(grammer_12_2 | grammer_12_2 |
-                                                     grammer_12_3 | grammer_12_4))
+                                                     grammer_12_3 | grammer_12_4 |
+                                                     grammer_12_5))
 
         # grammer ssl
         # ssl-proxy service SSL_CLIENT
@@ -376,7 +384,7 @@ class Parser():
         grammer_crypto_1 = Group(
             Keyword('crypto') + Keyword('chaingroup') + name)
         grammer_crypto_2 = Group(Keyword('cert') + name)
-        grammer_crypto = Group(grammer_crypto_1 + grammer_crypto_2)
+        grammer_crypto = Group(grammer_crypto_1 + ZeroOrMore(grammer_crypto_2))
 
         # aaa authentication login default group TAC_PLUS local
         # aaa accounting default group TAC_PLUS
@@ -387,26 +395,41 @@ class Parser():
         grammer_aaa_4 = Keyword('group')
         grammer_aaa_5 = Keyword('local')
 
-        # action-list type modify http test-ssl-rewrite
-        #   ssl url rewrite location ".*"
-        grammer_action_list_1 = Keyword('action-list')
-        grammer_action_list_2 = Keyword('type')
-        grammer_action_list_3 = Keyword('modify')
-        grammer_action_list_4 = Keyword('http')
-        grammer_action_list_5 = Keyword('ssl')
-        grammer_action_list_6 = Keyword('url')
-        grammer_action_list_7 = Keyword('rewrite')
-        grammer_action_list_8 = Keyword('location')
-        grammer_action_list_9 = Keyword(printables)
-
         grammer_aaa = Group(grammer_aaa_1 + grammer_aaa_2 + grammer_aaa_3 +
                             grammer_aaa_4 + (name | grammer_aaa_5))
+
+        # action-list type modify http test-ssl-rewrite
+        #   ssl url rewrite location ".*"
+        #   header rewrite request Host header-value "(.*)" replace "%1\/"
+        grammer_al_1 = Keyword('action-list')
+        grammer_al_2 = Keyword('type')
+        grammer_al_3 = Keyword('modify')
+        grammer_al_4 = Keyword('http')
+        grammer_al_5 = Keyword('ssl')
+        grammer_al_6 = Keyword('url')
+        grammer_al_7 = Keyword('rewrite')
+        grammer_al_8 = Keyword('location')
+        grammer_al_9 = Keyword('header')
+        grammer_al_10 = Keyword('request')
+        grammer_al_11 = Keyword('Host')
+        grammer_al_12 = Keyword('header-value')
+        grammer_al_13 = Keyword('replace')
+        grammer_al_1_1 = Group(
+            grammer_al_5 + grammer_al_6 + grammer_al_7 + grammer_al_8 + name)
+        grammer_al_1_2 = Group(
+            grammer_al_9 + grammer_al_7 + grammer_al_10 + grammer_al_11 +
+            grammer_al_12 + name + grammer_al_13 + name
+        )
+        grammer_al = Group(Group(grammer_al_1 + grammer_al_2 +
+                                 grammer_al_3 + grammer_al_4 + name) +
+                           ZeroOrMore(grammer_al_1_1 | grammer_al_1_2))
 
         # Overall Grammer
         grammer = Group(grammer_1 | grammer_2 | grammer_3 | grammer_4 |
                         grammer_5 | grammer_6 | grammer_7 | grammer_8 |
                         grammer_9 | grammer_10 | grammer_11 | grammer_12 |
-                        grammer_ssl_comp | grammer_aaa | grammer_crypto)
+                        grammer_ssl_comp | grammer_aaa | grammer_crypto |
+                        grammer_al)
 
         print "Grammer created .."
         LOG.info("Grammer created ..")
@@ -673,11 +696,45 @@ class Parser():
                     'desc': []
                 }
                 for match in matched[1:]:
-                    temp_dict = {
-                        match[0]: match[1]
-                    }
+                    if len(match) == 2:
+                        temp_dict = {
+                            match[0]: match[1]
+                        }
+                    if len(match) == 3:
+                        temp_dict = {
+                            match[0]: match[1],
+                            'name': match[2]
+                        }
                     extra_dict['desc'].append(temp_dict)
-                # print extra_dict
+        # action-list type modify http test-ssl-rewrite
+        #   ssl url rewrite location ".*"
+        #   header rewrite request Host header-value "(.*)" replace "%1\/"
+            if key == 'action-list':
+                matched = matched[0][0]
+                name_to_log = matched[0][4]
+                # print matched
+                extra_dict = {
+                    matched[0][0]: name_to_log,
+                    matched[0][1]: matched[0][2],
+                    matched[0][3]: matched[0][4],
+                    'desc': []
+                }
+                for match in matched[1:]:
+                    if len(match) == 5:
+                        temp_dict = {
+                            match[0]: match[1],
+                            match[2]: match[3],
+                            "to": match[4]
+                        }
+                    if len(match) == 8:
+                        temp_dict = {
+                            match[0]: match[1],
+                            match[2]: match[3],
+                            match[4]: match[5],
+                            match[6]: match[7],
+                        }
+                    extra_dict['desc'].append(temp_dict)
+                LOG.info('parsing: action-list for value : {}'.format(name_to_log))
 
             if key == 'probe':
                 matched = matched[0][0]
@@ -724,5 +781,4 @@ class Parser():
         set_excel_dict(final_excel)
         printProgressBar(file_size, file_size, msg,
                          prefix='Progress', suffix='')
-        # sys.exit(1)
         return final_dict
