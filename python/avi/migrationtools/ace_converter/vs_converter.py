@@ -88,6 +88,7 @@ class VSConverter(object):
                 action = None
                 vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
                     name)
+                # print name, vs_ref, port, ip, l4_type
                 if not vs_ref or port is None or not ip:
                     continue
                 # Excel Sheet Update for class
@@ -102,10 +103,14 @@ class VSConverter(object):
                         if 'sticky-serverfarm' in vsobj.keys() or\
                                 'serverffarm' in vsobj.keys():
                             if 'sticky-serverfarm' in vsobj.keys():
-                                LOG.warning(
-                                    'Skipping Sticky in Serverfarm %s' % name)
-                            pool = vsobj.get(
-                                'sticky-serverfarm') or vsobj.get('serverfarm')
+                                stick_farm = vsobj['sticky-serverfarm']
+                                for farm in self.parsed['sticky']:
+                                    for farm_desc in farm['desc']:
+                                        if farm_desc.get('serverfarm'):
+                                            pool = farm_desc['serverfarm']
+                                            break
+                            if 'serverfarm' in vsobj.keys():
+                                pool = vsobj['serverfarm']
                             # if pool is already used do clone the pool and
                             # having persistance profile
                             if self.check_persistance(pool, data):

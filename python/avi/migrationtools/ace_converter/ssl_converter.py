@@ -119,11 +119,6 @@ class SSLConverter(object):
             for desc in ssl['desc']:
                 ssl_ciphers = desc.get('ssl')
             temp_ssl_profile = dict()
-            # for param in self.parsed.get('parameter-map'):
-            #     if param.get('conn_name') == ssl['name']:
-            #         for desc in param['desc']:
-            #             if desc.get('cipher'):
-            #                 ciphers_enums.append(desc['cipher'])
             temp_ssl_profile = {
                 "accepted_ciphers": "DEFAULT:+SHA:+3DES:+kEDH",
                 "name": ssl['name'],
