@@ -22,7 +22,7 @@ install:
 
 # command to execute unit tests
 script:
+- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
+- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
 - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
 - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
-- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
-- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
