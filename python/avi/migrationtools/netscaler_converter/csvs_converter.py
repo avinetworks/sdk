@@ -294,8 +294,15 @@ class CsvsConverter(object):
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                         'System-TCP-Proxy', 'networkprofile', tenant='admin')
                 elif not http_prof and (cs_vs['attrs'][1]).upper() == 'SSL':
+                    # Added Custom Profile with http to https redirect enable
+                    ns_migration_profile = ns_util.create_http_to_https_custom_profile()
+                    app_name = [app_p for app_p in avi_config[
+                        'ApplicationProfile'] if app_p[
+                        'name']==ns_migration_profile['name']]
+                    if not app_name:
+                        avi_config['ApplicationProfile'].append(ns_migration_profile)
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
-                        'System-Secure-HTTP', 'applicationprofile',
+                        ns_migration_profile['name'], 'applicationprofile',
                         tenant='admin')
                 # Adding L4 as a default profile when SSL_BRIDGE
                 elif not http_prof and (cs_vs['attrs'][1]).upper() == \

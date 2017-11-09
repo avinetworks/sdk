@@ -1553,13 +1553,13 @@ class NsUtil(MigrationUtil):
                                iplist if ip in ([nip['ip_address']['addr']
                                for nip in nvs.get('vip', []) if nip.get(
                                'ip_address',{}).get('addr')] or [nvs[
-                               'ip_address']['addr']] if nvs.get(
-                               'ip_address',{}).get('addr') else [])]:
+                               'ip_address']['addr'] if nvs.get(
+                               'ip_address',{}).get('addr') else []])]:
                                 appname = self.get_name(nvs[
                                             'application_profile_ref']) if \
                                             nvs.get('application_profile_ref') \
                                             else None
-                                if appname == 'System-Secure-HTTP':
+                                if appname == 'ns-migrate-http':
                                     LOG.debug("%s has redirect to %s, hence "
                                               "removing %s" % (vs['name'],
                                                        nvs['name'], vs['name']))
@@ -1581,6 +1581,14 @@ class NsUtil(MigrationUtil):
                                               "and removing %s" %(vs['name'],
                                                     nvs['name'], vs['name']))
                                     vsrem[vs['name']] = nvs['name']
+                                # Condition to merge http ports to https vs
+                                if [True for ssl in nvs['services'] if ssl[
+                                    'enable_ssl']] and \
+                                        [True for ssl_vs in vs['services']
+                                         if not ssl_vs['enable_ssl']]:
+                                    nvs['services'].append(vs['services'][0])
+                                    vsrem[vs['name']] = nvs['name']
+
         LOG.debug("Check completed for redirect from HTTP VS to HTTPS VS with "
                   "no pool")
         if vsrem:
@@ -1736,3 +1744,69 @@ class NsUtil(MigrationUtil):
             })
         return action
 
+    def create_http_to_https_custom_profile(self):
+        '''
+
+        :return: custom application profile dict
+        '''
+        return {
+            'name': "ns-migrate-http",
+            'type': "APPLICATION_PROFILE_TYPE_HTTP",
+            'tenant_ref': "/api/tenant/?name=admin",
+            'preserve_client_ip': False,
+            'http_profile': {
+                'max_rps_uri': 0,
+                'keepalive_header': False,
+                'max_rps_cip_uri': 0,
+                'x_forwarded_proto_enabled': False,
+                'connection_multiplexing_enabled': True,
+                'websockets_enabled': True,
+                'enable_request_body_buffering': False,
+                'hsts_enabled': False,
+                'xff_enabled': True,
+                'disable_keepalive_posts_msie6': True,
+                'keepalive_timeout': 30000,
+                'ssl_client_certificate_mode': "SSL_CLIENT_CERTIFICATE_NONE",
+                'http_to_https': True,
+                'spdy_enabled': False,
+                'max_bad_rps_cip_uri': 0,
+                'client_body_timeout': 30000,
+                'httponly_enabled': False,
+                'hsts_max_age': 365,
+                'max_bad_rps_cip': 0,
+                'server_side_redirect_to_https': False,
+                'client_max_header_size': 12,
+                'client_max_request_size': 48,
+                'max_rps_unknown_uri': 0,
+                'ssl_everywhere_enabled': False,
+                'spdy_fwd_proxy_mode': False,
+                'post_accept_timeout': 30000,
+                'client_header_timeout': 10000,
+                'secure_cookie_enabled': False,
+                'xff_alternate_name': "X-Forwarded-For",
+                'max_rps_cip': 0,
+                'client_max_body_size': 0,
+                'max_rps_unknown_cip': 0,
+                'allow_dots_in_header_name': False,
+                'max_bad_rps_uri': 0,
+                'use_app_keepalive_timeout': False
+            },
+            'dos_rl_profile': {
+                'rl_profile': {
+                    'client_ip_connections_rate_limit': {
+                        'count': 0,
+                        'explicit_tracking': False,
+                        'period': 1,
+                        'action': {
+                            'status_code': "HTTP_LOCAL_RESPONSE_STATUS_CODE_429",
+                            'type': "RL_ACTION_NONE"
+                        },
+                        'burst_sz': 0,
+                        'fine_grain': False
+                    }
+                },
+                'dos_profile': {
+                    'thresh_period': 5
+                }
+            }
+        }
