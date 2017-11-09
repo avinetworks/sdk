@@ -71,7 +71,6 @@ class PoolConverter(object):
             #    print "health monitor= ",data['HealthMonitor']
             #    print pools
             #     print pools.get('probe')
-                print "pool, data", pools, data
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
                         if pools.get('probe') == hm['name']:
@@ -121,7 +120,7 @@ class PoolConverter(object):
                     server_name = elem['host']
 
         if position is None:
-            print "rserver {} not found ..".format(name)
+            LOG.warning("rserver %s not found ..".format(name))
             return False
 
         details = self.parsed['rserver'][position]

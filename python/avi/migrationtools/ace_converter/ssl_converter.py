@@ -105,6 +105,7 @@ class SSLConverter(object):
                 }
             if key_and_cert:
                 key_list.append(key_and_cert)
+                update_excel('ssl-proxy', name, avi_obj=key_list)
         return key_list
 
     def ssl_profile(self):

@@ -25,6 +25,7 @@ class VSConverter(object):
     def create_http_policy(self, action, name):
         type = None
         httppolicyset = {}
+        real_name = name
         name = "%s-httppolicyset" % name
         for action_list in self.parsed['action-list']:
             if action == action_list['action-list']:
@@ -52,12 +53,22 @@ class VSConverter(object):
                 },
                 "name": name
             }
+        update_excel('action-list', real_name, avi_obj=httppolicyset)
         return httppolicyset
 
-    def check_persistance(self, pool_name, data):
-        for pool in data['Pool']:
+    def check_persistance(self, pool_name, data, l4_type=None):
+        for index, pool in enumerate(data['Pool']):
             if pool['name'] == pool_name:
                 if pool.get('application_persistence_profile_ref', ''):
+                    if l4_type:
+                        ref_name = pool['application_persistence_profile_ref'].split(
+                            '=')[-1]
+                        for app_name in data['ApplicationPersistenceProfile']:
+                            if app_name.get('name') == ref_name:
+                                if app_name.get('persistence_type') != 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
+                                    data['Pool'][index]['application_persistence_profile_ref'] = ''
+                                    LOG.warning("Removing persistance in Pool because of l4 type"
+                                                "cannot support cookie based persistance")
                     return True
         return False
 
@@ -113,7 +124,7 @@ class VSConverter(object):
                                 pool = vsobj['serverfarm']
                             # if pool is already used do clone the pool and
                             # having persistance profile
-                            if self.check_persistance(pool, data):
+                            if self.check_persistance(pool, data, l4_type):
                                 if pool in USED_POOLS:
                                     if self.clone_pool(name, pool, data):
                                         pool_obj = self.clone_pool(

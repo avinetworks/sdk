@@ -24,8 +24,8 @@ class PersistanceConverter(object):
         for sticky in self.parsed.get('sticky', ''):
             if 'ip-netmask' in sticky:
                 persistance_type = "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS"
-            # if 'http-cookie' in sticky:
-            #     persistance_type = 'PERSISTENCE_TYPE_HTTP_COOKIE'
+            if 'http-cookie' in sticky:
+                persistance_type = 'PERSISTENCE_TYPE_HTTP_COOKIE'
 
             name = sticky.get('name', [])
             if not name:
