@@ -32,6 +32,22 @@ class TestModulesAce(unittest2.TestCase):
         cloud_ref = "/api/cloud/?tenant=admin&name=Default-Cloud"
         tenant = "admin"
         vrf_ref = None
+        self.empty_data = []
+        self.data = {
+            "ApplicationPersistenceProfile": [
+                {
+                    "name": "test_sticky"
+                }
+            ],
+            "HealthMonitor": [
+                {
+                    "name": "test_probe"
+                }
+            ],
+            "SSLProfile": [
+
+            ]
+        }
         self.vrf_ref_data = "/api/vrfcontext/?tenant=admin&name=testvrf1&cloud=Default-Cloud"
         self.pool_obj_app = PoolConverter(
             parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
@@ -63,25 +79,26 @@ class TestModulesAce(unittest2.TestCase):
     def test_pool_persistance_true(self):
         """Checking correct input and correct pool name expects proper sticky"""
         self.assertEqual(self.pool_obj_app.find_app_persistance(
-            pool_name), sticky_name)
+            pool_name, self.data), sticky_name)
 
     def test_pool_persistance_failure(self):
-        self.assertFalse(self.pool_obj_app.find_app_persistance("invalid"))
+        self.assertNotEquals("invalid",
+                             self.pool_obj_app.find_app_persistance("invalid", self.data))
 
     def test_pool_persistance_empty(self):
         self.assertFalse(
-            self.pool_obj_app_empty.find_app_persistance(pool_name))
+            self.pool_obj_app_empty.find_app_persistance(pool_name, self.empty_data))
 
     def test_pool_conversion_true(self):
-        self.assertEqual(self.pool_obj_app.pool_conversion()
+        self.assertEqual(self.pool_obj_app.pool_conversion(self.data)
                          [0]['name'], pool_name)
 
     def test_pool_conversion_invalid(self):
-        self.assertNotEquals(self.pool_obj_app.pool_conversion()[
+        self.assertNotEquals(self.pool_obj_app.pool_conversion(self.data)[
                              0]['name'], 'invalid')
 
     def test_pool_conversion_with_probe(self):
-        self.assertEquals(len(self.pool_obj_app.pool_conversion()[
+        self.assertEquals(len(self.pool_obj_app.pool_conversion(self.data)[
                           0]['health_monitor_refs']), 1)
 
     def test_server_converter_true(self):
@@ -95,7 +112,7 @@ class TestModulesAce(unittest2.TestCase):
             self.pool_obj_app_empty.server_converter(server_name), server_name)
 
     def test_pool_with_vrf_ref(self):
-        self.assert_(self.pool_obj_app_vrf.pool_conversion()
+        self.assert_(self.pool_obj_app_vrf.pool_conversion(self.data)
                      [0]['vrf_ref'], self.vrf_ref_data)
 
     """ Monitor Converters """
@@ -144,15 +161,8 @@ class TestModulesAce(unittest2.TestCase):
         self.assertFalse(self.vs_empty.vsvip_conversion())
 
     def test_vsConverter_true(self):
-        self.assertTrue(self.vs.virtual_service_conversion(data))
+        self.assertTrue(self.vs.virtual_service_conversion(self.data))
 
     def test_vsConverter_False(self):
         self.assertEquals(
-            self.vs_empty.virtual_service_conversion('{}'), ([], []))
-
-    def test_vsConverter_with_vrf(self):
-        self.assertEquals(
-            self.vs_vrf.virtual_service_conversion(
-                data)[0][0]['vrf_context_ref'],
-            self.vrf_ref_data
-        )
+            self.vs_empty.virtual_service_conversion('{}'), ([], [], []))
