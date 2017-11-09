@@ -347,8 +347,16 @@ class LbvsConverter(object):
                     vs_obj['network_profile_ref'] = ns_util.get_object_ref(
                         'System-TCP-Proxy', 'networkprofile', tenant='admin')
                 elif not http_prof and (lb_vs['attrs'][1]).upper() == 'SSL':
+                    # Added Custom Profile with http to https redirect enable
+                    ns_migration_profile = ns_util.create_http_to_https_custom_profile()
+                    app_name = [app_p for app_p in avi_config[
+                        'ApplicationProfile'] if app_p[
+                                    'name'] == ns_migration_profile['name']]
+                    if not app_name:
+                        avi_config['ApplicationProfile'].append(
+                            ns_migration_profile)
                     vs_obj['application_profile_ref'] = ns_util.get_object_ref(
-                        'System-Secure-HTTP', 'applicationprofile',
+                        ns_migration_profile['name'], 'applicationprofile',
                         tenant='admin')
                 # Adding L4 as a default profile when SSL_BRIDGE and SSL_TCP
                 elif not http_prof and (lb_vs['attrs'][1]).upper() \
@@ -531,6 +539,7 @@ class LbvsConverter(object):
                     # Marked redirect url as status indirect
                     ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                            full_cmd, STATUS_INDIRECT, vs_obj)
+                    continue
                 else:
                     # Verify that this lb vs has share the same VIP of another
                     # vs If yes then skipped this lb vs
