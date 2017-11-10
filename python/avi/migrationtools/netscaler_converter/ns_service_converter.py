@@ -181,13 +181,11 @@ class ServiceConverter(object):
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report
-                        conv_status = ns_util.get_conv_status(
-                            element, self.nsservice_bind_lb_skipped, [], [],
-                            ignore_for_val=self.nsservice_bind_lb_ignore_val,
-                            user_ignore_val=self.nsservice_bind_lb_user_ignore)
-                        ns_util.add_conv_status(
+                        # Changed the status to INDIRECT for binding of pool to
+                        # VS
+                        ns_util.add_status_row(
                             element['line_no'], ns_bind_lb_vserver_command,
-                            element['attrs'][0], full_cmd, conv_status, pool[0])
+                            element['attrs'][0], full_cmd, STATUS_INDIRECT)
                     else:
                         # Skipped add server if pool not found in AVI
                         skipped_status = 'Skipped :Pool is not created %s' \
