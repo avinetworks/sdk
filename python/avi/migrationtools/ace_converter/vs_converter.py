@@ -59,7 +59,7 @@ class VSConverter(object):
     def check_persistance(self, pool_name, data, l4_type=None):
         for index, pool in enumerate(data['Pool']):
             if pool['name'] == pool_name:
-                if pool.get('application_persistence_profile_ref', ''):
+                if pool.get('application_persistence_profile_ref', '') or l4_type:
                     if l4_type:
                         ref_name = pool['application_persistence_profile_ref'].split(
                             '=')[-1]
@@ -69,6 +69,7 @@ class VSConverter(object):
                                     data['Pool'][index]['application_persistence_profile_ref'] = ''
                                     LOG.warning("Removing persistance in Pool because of l4 type"
                                                 "cannot support cookie based persistance")
+                                    return True
                     return True
         return False
 
