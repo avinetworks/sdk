@@ -132,6 +132,7 @@ class NsUtil(MigrationUtil):
         total_count = total_count + len(row_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
+            self.correct_vs_ref(avi_config)
         else:
             # Call to calculate vs complexity
             self.vs_complexity_level()
@@ -1810,3 +1811,76 @@ class NsUtil(MigrationUtil):
                 }
             }
         }
+
+    def correct_vs_ref(self, avi_config):
+        """
+        This method corrects the reference of VS to different objects
+        :param avi_config: avi configuration dict
+        :return:
+        """
+        global csv_writer_dict_list
+        avi_graph = self.make_graph(avi_config)
+        csv_dict_sub = [row for row in csv_writer_dict_list if row[
+            'Netscaler Command'] not in ('add lb vserver',
+                                         'add cs vserver') and row[
+                            'Status'] in (STATUS_PARTIAL,
+                                          STATUS_SUCCESSFUL)]
+        for dict_row in csv_dict_sub:
+            obj = dict_row['AVI Object']
+            if isinstance(obj, str) and obj.startswith('{'):
+                vs = []
+                if '__/__' in obj:
+                    for dataobj in obj.split('__/__'):
+                        obj = eval(dataobj)
+                        self.add_vs_ref(obj, avi_graph, vs)
+                else:
+                    obj = eval(obj)
+                    self.add_vs_ref(obj, avi_graph, vs)
+                if vs:
+                    dict_row['VS Reference'] = str(list(set(vs)))
+                else:
+                    dict_row['VS Reference'] = STATUS_NOT_IN_USE
+
+    def add_vs_ref(self, obj, avi_graph, vs):
+        """
+        Helper method for adding vs ref
+        :param obj: object
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :return:
+        """
+        obj_name = obj.get('name', obj.get('hostname'))
+        if obj_name:
+            if avi_graph.has_node(obj_name):
+                LOG.debug("Checked predecessor for %s", obj_name)
+                predecessor = list(avi_graph.predecessors(obj_name))
+                if predecessor:
+                    self.get_predecessor(predecessor, avi_graph, vs)
+            else:
+                LOG.debug("Object %s may be merged or orphaned", obj_name)
+
+    def get_predecessor(self, predecessor, avi_graph, vs):
+        """
+        This method gets the predecessor of the object
+        :param predecessor: predecessor list
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :return:
+        """
+        if len(predecessor) > 1:
+            for node in predecessor:
+                nodelist = [node]
+                self.get_predecessor(nodelist, avi_graph, vs)
+        elif len(predecessor):
+            node_obj = [nod for nod in list(avi_graph.nodes().data()) if
+                        nod[0] == predecessor[0]]
+            if node_obj and (node_obj[0][1]['type'] == 'VS' or 'VS' in node_obj[
+              0][1]['type']):
+                LOG.debug("Predecessor %s found", predecessor[0])
+                vs.extend(predecessor)
+            else:
+                LOG.debug("Checked predecessor for %s", predecessor[0])
+                nodelist = list(avi_graph.predecessors(predecessor[0]))
+                self.get_predecessor(nodelist, avi_graph, vs)
+        else:
+            LOG.debug("No more predecessor")

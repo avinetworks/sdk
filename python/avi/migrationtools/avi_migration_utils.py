@@ -27,6 +27,9 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST, COMPLEXITY_ADVANCED,
             COMPLEXITY_BASIC, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
             OBJECT_TYPE_APPLICATION_PROFILE)
+from avi.migrationtools.vs_filter import path_key_map, get_name_and_entity
+import networkx as nx
+
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
 tenants = []
@@ -431,5 +434,117 @@ class MigrationUtil(object):
             return False
         else:
             return True
+
+    def make_graph(self, avi_config):
+        """
+        Filters vs and its references from full configuration
+        :param avi_config: full configuration
+        :return: graph
+        """
+        avi_graph = nx.DiGraph()
+        avi_graph.add_node('AVI', type='Tree')
+        for vs in avi_config['VirtualService']:
+            name = vs['name']
+            avi_graph.add_node(name, type='VS')
+            avi_graph.add_edge('AVI', name)
+            self.find_and_add_ne(vs, avi_config, avi_graph, name, depth=0)
+        return avi_graph
+
+    def find_and_add_ne(self, obj_dict, avi_config, avi_graph, vsname, depth):
+        """
+        Method to iterate in one object find references and add those to output
+        :param obj_dict: Object to be iterated over
+        :param avi_config: Full config
+        :param avi_graph: avi graph
+        :param vsname: name of object
+        :param depth: Recursion depth to determine level in the vs reference
+                      tree
+        """
+        for key in obj_dict:
+            if (key.endswith('ref') and key not in ['cloud_ref', 'tenant_ref'])\
+                    or key == 'ssl_profile_name':
+                if not obj_dict[key]:
+                    continue
+                entity, name = get_name_and_entity(obj_dict[key])
+                self.search_ne(entity, name, avi_graph, avi_config, depth,
+                               vsname)
+            elif key.endswith('refs'):
+                for ref in obj_dict[key]:
+                    entity, name = get_name_and_entity(ref)
+                    self.search_ne(entity, name, avi_graph, avi_config, depth,
+                                   vsname)
+            elif isinstance(obj_dict[key], dict):
+                self.find_and_add_ne(obj_dict[key], avi_config, avi_graph,
+                                     vsname, depth)
+            elif obj_dict[key] and isinstance(obj_dict[key], list) \
+                    and isinstance(obj_dict[key][0], dict):
+                for member in obj_dict[key]:
+                    self.find_and_add_ne(member, avi_config, avi_graph, vsname,
+                                         depth)
+            elif key == 'hostname':
+                sername = obj_dict[key]
+                if avi_graph.has_node(sername):
+                    node_type = [n[1]['type'] for n in list(
+                                 avi_graph.nodes().data()) if n[0] == sername]
+                    node_type = '{}-{}'.format(node_type[0], 'Server')
+                    avi_graph.add_node(sername, type=node_type)
+                    avi_graph.add_edge(vsname, sername)
+                else:
+                    avi_graph.add_node(sername, type='Server')
+                    avi_graph.add_edge(vsname, sername)
+            elif key == 'name' and depth == 1 and '-rule-' in obj_dict[key]:
+                rule_name = obj_dict[key]
+                if avi_graph.has_node(rule_name):
+                    node_type = [n[1]['type'] for n in list(
+                                 avi_graph.nodes().data()) if n[0] == rule_name]
+                    node_type = '{}-{}'.format(node_type[0], 'Rule')
+                    avi_graph.add_node(rule_name, type=node_type)
+                    avi_graph.add_edge(vsname, rule_name)
+                else:
+                    avi_graph.add_node(rule_name, type='Rule')
+                    avi_graph.add_edge(vsname, rule_name)
+        return
+
+    def search_ne(self, entity, name, avi_graph, avi_config, depth, vsname):
+        """
+        Method to search referenced object
+        :param entity: object type
+        :param name: object name
+        :param avi_graph: avi graph
+        :param avi_config: full config
+        :param depth: Recursion depth to determine level in the vs reference
+                      tree
+        :param vsname: name of VS
+        """
+
+        avi_conf_key = path_key_map[entity]
+        found_obj_list = avi_config.get(avi_conf_key)
+        found_obj = [obj for obj in found_obj_list if obj['name'] == name] if \
+            found_obj_list else []
+        if found_obj:
+            found_obj = found_obj[0]
+            if avi_graph.has_node(name):
+                nod_type = [node[1]['type'] for node in list(
+                            avi_graph.nodes().data()) if node[0] == name]
+                nod_type = '{}-{}'.format(nod_type[0], path_key_map[entity])
+                avi_graph.add_node(name, type=nod_type)
+                avi_graph.add_edge(vsname, name)
+            else:
+                avi_graph.add_node(name, type=path_key_map[entity])
+                avi_graph.add_edge(vsname, name)
+        elif entity in ['applicationprofile', 'networkprofile', 'healthmonitor',
+                        'sslkeyandcertificate', 'sslprofile',
+                        'applicationpersistenceprofile']:
+            if str.startswith(str(name), 'System-'):
+                return
+        else:
+            print 'ERROR: Reference not found for %s with name %s' % (
+                entity, name)
+            exit()
+        depth += 1
+        new_name = found_obj.get('name')
+        if new_name:
+            self.find_and_add_ne(found_obj, avi_config, avi_graph, new_name,
+                                 depth)
 
 
