@@ -15,8 +15,7 @@ def get_vip_cluster_map(sites):
     for site in sites:
         session = ApiSession.get_session(
             site['ip_addresses'][0]['addr'], site['username'], site['password'])
-        resp = session.get('virtualservice', api_version='17.2.2')
-        # resp = session.get('virtualservice', api_version='17.2.1')
+        resp = session.get('virtualservice', api_version='17.1.1')
         vs_list = json.loads(resp.text)['results']
         for vs in vs_list:
             vip_map.update(create_map_for_vs(vs, vip_map, site))
@@ -39,16 +38,14 @@ def create_map_for_vs(vs, vip_map, site):
 def convert(meta, gslb_config_dict, controller_ip, user_name,
             password, tenant_name, vs_state, output_dir, version,
             report_name, vs_level_status):
-
-    session = ApiSession.get_session(controller_ip, user_name, password)
-    resp = session.get('configuration/export?full_system=true')
-    avi_config = json.loads(resp.text)
-    # json_data = open('/home/ramesh/Documents/converter/temp.json').read()
-    # avi_config = json.loads(json_data)
-    sites = avi_config['Gslb'][0]['sites']
-
-    vip_cluster_map = get_vip_cluster_map(sites)
-    print vip_cluster_map
+    vip_cluster_map = None
+    # If controller ip present then only get configuration from controller.
+    if controller_ip:
+        session = ApiSession.get_session(controller_ip, user_name, password)
+        resp = session.get('configuration/export?full_system=true')
+        avi_config = json.loads(resp.text)
+        sites = avi_config['Gslb'][0]['sites']
+        vip_cluster_map = get_vip_cluster_map(sites)
     avi_gslb_config = None
     try:
         avi_gslb_config = dict()

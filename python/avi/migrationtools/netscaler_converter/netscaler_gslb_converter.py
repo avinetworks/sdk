@@ -94,22 +94,19 @@ if __name__ == "__main__":
                         help='Upload option cli-upload genarates Avi config ' +
                              'file auto upload will upload config to ' +
                              'controller', default='cli-upload')
-    parser.add_argument('-u', '--user', required=True,
-                        help='controller username of gslb leader',
+    parser.add_argument('-u', '--user',help='controller username of gslb leader',
                         default='admin')
-    parser.add_argument('-p', '--password', required=True,
-                        help='controller password of gslb leader',
+    parser.add_argument('-p', '--password',help='controller password of gslb leader',
                         default='avi123')
     parser.add_argument('-t', '--tenant',
                         help='tenant name for auto upload',
                         default='admin')
-    parser.add_argument('-c', '--controller_ip', required=True,
-                        help='controller ip gslb leader')
+    parser.add_argument('-c', '--controller_ip',help='controller ip gslb leader')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of VS created', default='disable')
     parser.add_argument('--controller_version',
                         help='Target Avi controller version',
-                        default='16.4')
+                        default='17.1.7')
     parser.add_argument('--ns_host_ip',
                         help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
