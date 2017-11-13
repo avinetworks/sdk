@@ -7,10 +7,6 @@ from itertools import cycle
 from avi.migrationtools.ace_converter.ace_utils import printProgressBar,\
     set_excel_dict
 LOG = logging.getLogger(__name__)
-# file_loc = os.path.split(os.path.abspath(__file__))[0]
-# sep = os.path.sep
-# # logging.basicConfig(level=logging.WARNING)
-# LOG = logging.getLogger(file_loc + sep + 'out' + sep + 'conversion.log')
 
 
 class Parser():
@@ -477,7 +473,7 @@ class Parser():
             name_to_log = None
             type_to_log = ['logging', 'access-list', 'rserver', 'serverfarm',
                            'parameter-map', 'class-map', 'policy-map', 'sticky',
-                           'probe']
+                           'probe', 'action-list']
 
             if key == 'logging':
                 matched = matched[0][0]
@@ -761,16 +757,11 @@ class Parser():
                         }
                     extra_dict.update(temp_dict)
                 LOG.info('parsing: probe for value : {}'.format(name_to_log))
-                # LOG.debug('probe value {}'.format(extra_dict))
 
             # updating excel sheet
             if key in type_to_log and name_to_log:
                 excel_dict['name'] = name_to_log
                 excel_dict['type'] = key
-                # print key , name_to_log
-
-                # print excel_dict
-                # sys.exit()
                 final_excel.append(excel_dict)
 
             if key not in final_dict.keys():

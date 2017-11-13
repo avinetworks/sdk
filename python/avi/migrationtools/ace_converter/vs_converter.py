@@ -58,18 +58,17 @@ class VSConverter(object):
 
     def check_persistance(self, pool_name, data, l4_type=None):
         for index, pool in enumerate(data['Pool']):
-            if pool['name'] == pool_name:
-                if pool.get('application_persistence_profile_ref', ''):
-                    if l4_type:
-                        ref_name = pool['application_persistence_profile_ref'].split(
-                            '=')[-1]
-                        for app_name in data['ApplicationPersistenceProfile']:
-                            if app_name.get('name') == ref_name:
-                                if app_name.get('persistence_type') != 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
-                                    data['Pool'][index]['application_persistence_profile_ref'] = ''
-                                    LOG.warning("Removing persistance in Pool because of l4 type"
-                                                "cannot support cookie based persistance")
-                    return True
+            if pool['name'] == pool_name and (pool.get('application_persistence_profile_ref', '') or l4_type):
+                if l4_type:
+                    ref_name = pool.get('application_persistence_profile_ref').split(
+                        '=')[-1]
+                    for app_name in data['ApplicationPersistenceProfile']:
+                        if app_name.get('name') == ref_name:
+                            if app_name.get('persistence_type') != 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
+                                data['Pool'][index]['application_persistence_profile_ref'] = ''
+                                LOG.warning("Removing persistance in Pool because of l4 type"
+                                            "cannot other than client based ip address persistance")
+                return True
         return False
 
     def clone_pool(self, vs_name, pool_name, data):
@@ -77,7 +76,8 @@ class VSConverter(object):
             if pool['name'] == pool_name:
                 cloned_pool = deepcopy(pool)
                 cloned_pool['name'] = "%s_cloned_%s" % (pool_name, vs_name)
-                # if cloned_pool['name'] not in USED_POOLS:
+                if cloned_pool.get('application_persistence_profile_ref'):
+                    del cloned_pool['application_persistence_profile_ref']
                 return cloned_pool
         return False
 
