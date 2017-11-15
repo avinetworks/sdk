@@ -131,7 +131,7 @@ class VSConfigConv(object):
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
-        app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
+        app_prof, f_host, realm, app_pol_name = conv_utils.get_vs_app_profiles(
             profiles, avi_config, tenant, self.prefix, oc_prof, enable_ssl,
             merge_object_mapping, sys_dict)
 
@@ -322,6 +322,8 @@ class VSConfigConv(object):
             vs_obj['vsvip_ref'] = vsvip_ref
         else:
             vs_obj['ip_address'] = vip['ip_address']
+        # Policy tracking starts from here
+        vs_policies = [app_pol_name] if app_pol_name else []
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
@@ -366,33 +368,20 @@ class VSConfigConv(object):
                                                                 'tenant'),
                         "is_internal_policy": False
                     }
-                    http_policies = {
-                        'index': 11,
-                        'http_policy_set_ref':
-                            conv_utils.get_object_ref(policy_name,
-                                                      'httppolicyset',
-                                                      tenant=tenant)
-                    }
-                    if not vs_obj.get('http_policies'):
-                        vs_obj['http_policies'] = []
-                    else:
-                        ind = max([pol_index['index'] for pol_index in vs_obj[
-                                  'http_policies']])
-                        http_policies['index'] = ind + 1
-                    vs_obj['http_policies'].append(http_policies)
+                    vs_policies.append(policy_name)
                     avi_config['HTTPPolicySet'].append(policy)
-        vs_policies = []
         if 'policies' in f5_vs:
             if isinstance(f5_vs['policies'], basestring):
-                vs_policies = ['%s-%s' % (self.prefix,
+                vs_policies.extend(['%s-%s' % (self.prefix,
                                conv_utils.get_tenant_ref(f5_vs['policies'])[1])
                                if self.prefix else conv_utils.get_tenant_ref(
-                               f5_vs['policies'])[1]]
+                               f5_vs['policies'])[1]])
             else:
-                vs_policies = ['%s-%s' % (self.prefix,
+                vs_policies.extend(['%s-%s' % (self.prefix,
                                conv_utils.get_tenant_ref(name)[1]) if
                                self.prefix else conv_utils.get_tenant_ref(
-                               name)[1] for name in f5_vs['policies'].keys()]
+                               name)[1] for name in f5_vs['policies'].keys()])
+        if vs_policies:
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
                                cloud_name, vs_obj)
         p_ref = None
@@ -441,15 +430,6 @@ class VSConfigConv(object):
 
         if realm:
             vs_obj['client_auth'] = realm
-
-        if policy_set:
-            if not vs_obj.get('http_policies'):
-                vs_obj['http_policies'] = []
-            else:
-                ind = max([pol_index['index'] for pol_index in vs_obj[
-                          'http_policies']])
-                policy_set[0]['index'] = ind + 1
-            vs_obj['http_policies'].append(policy_set[0])
 
         source = f5_vs.get('source', '0.0.0.0/0')
         if '%' in source:
@@ -598,7 +578,8 @@ class VSConfigConv(object):
                     'index': 11,
                     'http_policy_set_ref':
                         conv_utils.get_object_ref(pol_name, 'httppolicyset',
-                                                  tenant=tenant)
+                                                  tenant=conv_utils.get_name(
+                                                  policy_obj[0]['tenant_ref']))
                 }
                 if not vs_obj.get('http_policies'):
                     vs_obj['http_policies'] = []
