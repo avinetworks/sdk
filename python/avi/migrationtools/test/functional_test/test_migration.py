@@ -17,7 +17,7 @@ type = pytest.config.getoption("--type")
 controller_version = pytest.config.getoption("--controller_version")
 vs_state = pytest.config.getoption("--vs_state")
 f5_config_version = pytest.config.getoption("--file_version")
-
+cloudName = pytest.config.getoption("--cloud_name")
 logging.basicConfig(filename=output_file + '/config_check.log', level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ def setUpModule():
     f5Cnv = F5Conversion()
     f5_config_dict, avi_config_dict = f5Cnv.convert(
         type, input_file, f5_config_version, output_file,
-        vs_state, controller_version)
+        vs_state, controller_version,cloudName)
 
 
 # Compare virtual service name with virtual service in f5 configuration.
