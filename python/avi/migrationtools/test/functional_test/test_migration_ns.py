@@ -33,7 +33,13 @@ def setUpModule():
          vs_state, controller_version,cloudName)
 
 
+# Compare virtual service name
 def compareVirtualService(name):
+    """
+
+    :param name: virtual service name.
+    :return: True 0r False
+    """
     vs_config = ns_config_dict.get('add lb vserver', {})
     cs_config = ns_config_dict.get('add cs vserver', {})
     vs_config.update(cs_config)
@@ -46,7 +52,14 @@ def compareVirtualService(name):
     return False, None
 
 
+# Compare virtual service ip address.
 def compareVsVip(vipRef, ns_vs_config):
+    """
+
+    :param vipRef: reference of virtual service.
+    :param ns_vs_config: netscaler configuration of virtual service.
+    :return:
+    """
     vsvipName = conversion_util.get_name(vipRef)
     for vipKey in avi_config_dict['VsVip']:
         if vipKey['name'] == vsvipName:
@@ -56,15 +69,33 @@ def compareVsVip(vipRef, ns_vs_config):
                 return True
     return False
 
+# Compare application profile.
+def checkAppProfile(app_profile, vs_config):
+    """
 
-def checkAppProfile(app_profile):
+    :param app_profile: Reference of application profile.
+    :return: True or False
+    """
+    httpProfiles = ns_config_dict.get('add ns httpProfile', {})
     name = conversion_util.get_name(app_profile)
+    if name.startswith('System') or name.startswith('Merged'):
+        return True
     for key in avi_config_dict['ApplicationProfile']:
-        if key['name'] == name or name.startswith('System'):
-            return True
-    else:False
+        if key['name'] == name or vs_config['httpProfileName'] == name:
+            for profile in httpProfiles.keys():
+                if profile == name:
+                    return True
+    return False
 
+
+# Compare pool name.
 def checkPoolName(pool,vs_name):
+    """
+
+    :param pool: pool object of virtual service.
+    :param vs_name: virtual service name.
+    :return: True or False
+    """
     vs_name = getLbvsName(vs_name)
     name = pool['name']
     ns_config = ns_config_dict.get('bind lb vserver', {})
@@ -86,7 +117,13 @@ def checkPoolName(pool,vs_name):
                 return True
     return False
 
+# Function to get LBVS name.
 def getLbvsName(vs_name):
+    """
+
+    :param vs_name: Virtual service name.
+    :return: lbvs service name or virtual service name.
+    """
     csvsConfig = ns_config_dict.get('bind cs vserver', {})
     for csvsKey in csvsConfig.keys():
         if csvsKey == vs_name:
@@ -101,29 +138,35 @@ def getLbvsName(vs_name):
     return vs_name
 
 
-def comparePool(pool, vs_name):
-    name = pool['name']
-    ns_config = ns_config_dict.get('bind lb vserver', {})
-    poolName = name.split('-pool')[0]
-    for key in ns_config.keys():
-        nsVsKey = key
-        if ':' in nsVsKey:
-            nsVsKey = re.sub('[:]', '-', nsVsKey)
-        if nsVsKey == vs_name:
-            if isinstance(ns_config[key], list):
-                for i in ns_config[key]:
-                    nsProfile = i['attrs'][1]
-                    nsProfile = re.sub('[:]', '-', nsProfile)
-                    if nsProfile == poolName:
-                        return True
-            nsProfile = ns_config[key]['attrs'][1]
-            nsProfile = re.sub('[:]', '-', nsProfile)
-            if nsProfile == poolName:
-                return True
-    return False
+# def comparePool(pool, vs_name):
+#     name = pool['name']
+#     ns_config = ns_config_dict.get('bind lb vserver', {})
+#     poolName = name.split('-pool')[0]
+#     for key in ns_config.keys():
+#         nsVsKey = key
+#         if ':' in nsVsKey:
+#             nsVsKey = re.sub('[:]', '-', nsVsKey)
+#         if nsVsKey == vs_name:
+#             if isinstance(ns_config[key], list):
+#                 for i in ns_config[key]:
+#                     nsProfile = i['attrs'][1]
+#                     nsProfile = re.sub('[:]', '-', nsProfile)
+#                     if nsProfile == poolName:
+#                         return True
+#             nsProfile = ns_config[key]['attrs'][1]
+#             nsProfile = re.sub('[:]', '-', nsProfile)
+#             if nsProfile == poolName:
+#                 return True
+#     return False
 
 
+# Compare health monitor.
 def checkHealthMonitor(pool):
+    """
+
+    :param pool: pool object.
+    :return: True or False with health monitor name.
+    """
     healthMonitorRef = pool['health_monitor_refs']
     if healthMonitorRef:
         for monitorKey in healthMonitorRef:
@@ -138,7 +181,13 @@ def checkHealthMonitor(pool):
     return False, None
 
 
+# Compare network profile.
 def checkNetworkProfile(each_vs):
+    """
+
+    :param each_vs: virtual service object.
+    :return: True of False
+    """
     profile_name = each_vs['network_profile_ref']
     vsName = each_vs['name']
     actual_profile_name = conversion_util.get_name(profile_name)
@@ -154,7 +203,14 @@ def checkNetworkProfile(each_vs):
     else: return False
 
 
+# Compare persistece profile.
 def checkPersistence(pool, vs_name):
+    """
+
+    :param pool: Pool object.
+    :param vs_name: virtual service name.
+    :return:
+    """
     profile_ref = pool['application_persistence_profile_ref']
     profile_name = conversion_util.get_name(profile_ref)
     vs_config = ns_config_dict.get('add lb vserver', {})
@@ -222,8 +278,14 @@ def checkSslInNs(certName, vs_name):
                     return True
     return False
 
-
+# Compare ssl profile.
 def checkSslProfile(vs_obj, vsConfig):
+    """
+
+    :param vs_obj: virtual service object.
+    :param vsConfig: netscaler configuration of virtual service.
+    :return: True or False.
+    """
     profile_ref = vs_obj['ssl_profile_ref']
     profile_name = conversion_util.get_name(profile_ref)
     vs_attrs = vsConfig['attrs']
@@ -235,7 +297,13 @@ def checkSslProfile(vs_obj, vsConfig):
     return False
 
 
+# Function to to get lbvs name.
 def getLbvsConfig(vs_name):
+    """
+
+    :param vs_name: Virtual service name.
+    :return: attached policy list.
+    """
     csvsConfig = ns_config_dict.get('bind cs vserver', {})
     policyList = []
     for csvsKey in csvsConfig.keys():
@@ -252,8 +320,14 @@ def getLbvsConfig(vs_name):
     return policyList
 
 
-
+# compare http policies.
 def checkHttpPolicy(name, vs_name):
+    """
+
+    :param name: policy name.
+    :param vs_name: virtual service name.
+    :return:
+    """
     responder_policy = ns_config_dict.get('add responder policy', {})
     rewrite_policy = ns_config_dict.get('add rewrite policy', {})
     rewrite_action = ns_config_dict.get('add rewrite action', {})
@@ -365,8 +439,14 @@ def checkHttpPolicy(name, vs_name):
                                             checkMatch(each_rule, actions)
 
 
-
+# Compare action and path of policy rule.
 def checkAction(each_rule, hostname, full_path):
+    """
+
+    :param each_rule: rules of attached policy
+    :param hostname: policy
+    :param full_path: path
+    """
     hostObj = each_rule['redirect_action']['host']['tokens']
     str_val = hostObj[0]['str_value']
     pathObj = each_rule['redirect_action']['path']['tokens']
@@ -382,7 +462,14 @@ def checkAction(each_rule, hostname, full_path):
         except AssertionError:
             LOG.error("Path not matched in %s" % (each_rule['name']))
 
+
+# compare match of policy.
 def checkMatch(each_rule, actions):
+    """
+
+    :param each_rule: policy rule.
+    :param actions: list of actions.
+    """
     try:
         if 'path' in each_rule['match']:
             match_str = each_rule['match']['path']["match_str"]
@@ -391,7 +478,14 @@ def checkMatch(each_rule, actions):
     except AssertionError:
         LOG.error("Match Not found for %s " % (each_rule['name']))
 
+
+# Function creates a matchrule.
 def matchStr(rule):
+    """
+
+    :param rule: ns configuration policy rule
+    :return: match
+    """
     bind_patset = ns_config_dict.get('bind policy patset', {})
     patset_config = ns_config_dict.get('add policy patset', {})
 
@@ -532,7 +626,7 @@ class Test(unittest.TestCase):
             try:
                 if 'application_profile_ref' in each_vs and avi_config_dict['ApplicationProfile']:
                     app_profile = each_vs['application_profile_ref']
-                    profileStatus = checkAppProfile(app_profile)
+                    profileStatus = checkAppProfile(app_profile, ns_vs_config)
                     self.assertTrue(profileStatus)
             except AssertionError:
                 LOG.error("Application profile not found for %s" %(vs_name))
