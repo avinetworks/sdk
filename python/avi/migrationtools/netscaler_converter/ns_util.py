@@ -682,7 +682,7 @@ class NsUtil(MigrationUtil):
 
     def remove_http_mon_from_pool(self, avi_config, pool, sysdict):
         """
-        This function is used for removing http type from health monitor for https
+        This function is used for removing http type health monitor from https
         vs.
         :param avi_config: avi config dict
         :param pool: name of pool
@@ -695,6 +695,27 @@ class NsUtil(MigrationUtil):
                 hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
                     'HealthMonitor']) if h['name'] == hm_ref]
                 if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
+                    pool['health_monitor_refs'].remove(hm_ref)
+                    LOG.warning(
+                        'Skipping %s this reference from %s pool because '
+                        'of health monitor type is HTTP and VS has ssl '
+                        'profile.' % (hm_ref, pool['name']))
+
+    def remove_https_mon_from_pool(self, avi_config, pool, sysdict):
+        """
+        This function is used for removing https type health monitor from http
+        vs.
+        :param avi_config: avi config dict
+        :param pool: name of pool
+        :param sysdict: baseline/system config dict
+        :return: None
+        """
+        if pool:
+            hm_refs = copy.deepcopy(pool['health_monitor_refs'])
+            for hm_ref in hm_refs:
+                hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
+                    'HealthMonitor']) if h['name'] == hm_ref]
+                if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
                     pool['health_monitor_refs'].remove(hm_ref)
                     LOG.warning(
                         'Skipping %s this reference from %s pool because '
