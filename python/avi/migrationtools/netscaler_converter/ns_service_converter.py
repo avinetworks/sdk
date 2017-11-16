@@ -448,11 +448,15 @@ class ServiceConverter(object):
                             self.tenant_name)
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
+                # ELSE remove health monitor of https type
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+                else:
+                    ns_util.remove_https_mon_from_pool(avi_config, pool_obj,
+                                                       sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
@@ -605,11 +609,15 @@ class ServiceConverter(object):
                         self.tenant_name)
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
+                # ELSE remove health monitor of https type
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+                else:
+                    ns_util.remove_https_mon_from_pool(avi_config, pool_obj,
+                                                       sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
