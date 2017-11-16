@@ -29,3 +29,8 @@ PERSISTENCE_PROFILE_TYPES = {'ssl': 'PERSISTENCE_TYPE_TLS',
 APP_PERS_PROF = "application_persistence_profile_ref"
 APP_PROF = "application_profile_ref"
 NETWORK_PROF = "network_profile_ref"
+
+
+NS_PERSISTENSE_TYPE = {'COOKIEINSERT': 'PERSISTENCE_TYPE_HTTP_COOKIE',
+                       'SOURCEIP': 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS',
+                       'SSLSESSION': 'PERSISTENCE_TYPE_TLS'}
