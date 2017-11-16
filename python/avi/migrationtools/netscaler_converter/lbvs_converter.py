@@ -662,7 +662,7 @@ class LbvsConverter(object):
                 # Added this line here in order to track if a pool group is
                 # used in VS directly or through policy
                 if vs_obj.get('pool_group_ref'):
-                    used_pool_group_ref.append(vs_obj['pool_group_ref'])
+                    used_pool_group_ref.append(pool_group_ref)
                 avi_config['VirtualService'].append(vs_obj)
                 # Add summery of this lb vs in CSV/report
                 conv_status = ns_util.get_conv_status(
