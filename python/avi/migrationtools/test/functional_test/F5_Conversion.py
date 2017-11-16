@@ -3,19 +3,19 @@ This file contains Conversion code of f5 configuration.
 """
 
 import os
-import sys
 import copy
-import argparse
-import unittest
-from avi.migrationtools.f5_converter import (f5_config_converter,
-                                            f5_parser, scp_util)
+from avi.migrationtools.f5_converter import (f5_config_converter,f5_parser)
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.netscaler_converter import netscaler_parser as ns_parser
+import avi.migrationtools.netscaler_converter.netscaler_config_converter \
+    as ns_conf_converter
+from avi.migrationtools.avi_converter import AviConverter
 
-class F5Conversion():
+class F5Conversion(AviConverter):
     def __init__(self):
         self.conversion_util = F5Util()
 
-    def convert(self,convert_type,filelocation,f5_config_version,outputlocation,vs_state,controller_version):
+    def convert(self,convert_type,filelocation,f5_config_version,outputlocation,vs_state,controller_version,cloudName):
         if convert_type == 'f5':
             source_file = open(filelocation, "r")
             source_str = source_file.read()
@@ -31,6 +31,22 @@ class F5Conversion():
                 controller_version, 'test', None, False, {}, None, tenant='admin', cloud_name='Default-Cloud')
             #print  "converted output########", avi_config_dict
             return actual_f5_config_dict,avi_config_dict
+        if convert_type == 'ns':
+            source_file = filelocation
+            output_file = outputlocation
+            ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
+            meta = self.meta(self.tenant, controller_version)
+            report_name = os.path.splitext(os.path.basename(source_file))[0]
+            actual_ns_config_dict = copy.deepcopy(ns_config)
+            avi_config = ns_conf_converter.convert(meta, ns_config, 'admin',
+                                                   cloudName, controller_version, output_file,
+                                                   source_file, skipped_cmds, vs_state,
+                                                   True, report_name, None,
+                                                   None, None, key_passphrase = False,
+                                                   user_ignore ={}, vs_level_status = False)
+
+            return actual_ns_config_dict,avi_config
+
 
     def get_default_config(self,f5_config_version):
         """
