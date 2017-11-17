@@ -255,29 +255,10 @@ def compareSslprofile(sslname):
             if name == sslName:
                 return True
     return False
-# Compare policy rules.
-def comparePolicyRules(rule, f5_vs):
-    """
-
-    :param rule: Policy rule.
-    :param f5_vs: It contains virtual service data.
-    :return: Returns True or False and policy rule.
-    """
-    policyRule = rule.split('-')[0]
-    if 'rules' in f5_vs:
-        if isinstance(f5_vs['rules'], basestring):
-            vs_ds_rules = [conversion_util.get_tenant_ref(f5_vs['rules'])[1]]
-        else:
-            vs_ds_rules = [conversion_util.get_tenant_ref(name)[1] for name in
-                           f5_vs['rules'].keys()]
-        for rule in (vs_ds_rules):
-            if rule == policyRule:
-                return True, policyRule
-        return False, policyRule
 
 
 # Compare http policies.
-def compareHttpPolicies(httpPolicies):
+def compareHttpPolicies(httpPolicies, f5_vs_config):
     """
 
     :param httpPolicies:
@@ -292,6 +273,55 @@ def compareHttpPolicies(httpPolicies):
                     return True, policyname, policy
             return False, policyname, policy
 
+def checkPolicy(policies, vs_config, vsName):
+    if 'policies' in vs_config:
+        policy = vs_config['policies'].keys()
+        f5Policies = f5_config_dict.get('policy', {})
+        policyName = conversion_util.get_tenant_ref(policy[0])[1]
+
+        for p in f5Policies.keys():
+            pName = conversion_util.get_tenant_ref(p)[1]
+            if pName == policyName:
+                f5PolicyRules= f5Policies[p]['rules']
+
+        for pol in policies:
+            f5_policy = conversion_util.get_name(pol['http_policy_set_ref'])
+            for avi_policy in avi_config_dict['HTTPPolicySet']:
+                if avi_policy['name'] == f5_policy:
+                    if '_sys_https_redirect' in f5_policy:
+                        continue
+                        #f5_policy= f5_policy.split('redirect-')[1]
+                    if policyName == f5_policy:
+                        avi_rules = avi_policy['http_request_policy']['rules']
+                        for each_rule in avi_rules:
+                            pol= each_rule['name'].split('policy-')[1]
+                            for i in f5PolicyRules.keys():
+                                poli = pol.rsplit('-',1)[0]
+                                if poli == i:
+                                    if 'match' in each_rule:
+                                        try:
+                                            aviMatch_str =each_rule['match']['path']['match_str'][0]
+                                            f5Match_str= f5PolicyRules[i]['conditions']['0']['values'].keys()
+                                            assert aviMatch_str == f5Match_str[0]
+                                        except AssertionError:
+                                            LOG.error("Match not found for %s" % (f5_policy))
+                                    f5Key = f5PolicyRules[i]['actions']['0'].keys()
+                                    if 'redirect' in f5Key:
+                                        try:
+                                            aviAction = each_rule['redirect_action']['path']['tokens'][0]['str_value']
+                                            f5Action = f5PolicyRules[i]['actions']['0']['location']
+                                            assert aviAction == f5Action
+                                        except AssertionError:
+                                            LOG.error("Redirect action not found for %s" % (f5_policy))
+                                    if 'forward' in f5Key:
+                                        try:
+                                            aviSwitchAction = each_rule['switching_action']['pool_ref']
+                                            f5SwitchAction = f5PolicyRules[i]['actions']['0']['pool']
+                                            pool_name = conversion_util.get_name(aviSwitchAction)
+                                            f5Pool = conversion_util.get_tenant_ref(f5SwitchAction)[1]
+                                            assert pool_name == f5Pool
+                                        except AssertionError:
+                                            LOG.error("Forward action not found for %s" % (f5_policy))
 def comparePoolName(poolName,f5_vs):
     if f5_vs['pool']:
         f5_pool = f5_vs['pool']
@@ -423,22 +453,9 @@ class Test(unittest.TestCase):
                         "SSL key & cert not found for %s" % (vs_name))
 
                 if 'http_policies' in each_vs:
-                    try:
                         httpPolicies = each_vs['http_policies']
-                        policyStatus, policyName, policy = compareHttpPolicies(httpPolicies)
-                        self.assertTrue(policyStatus)
-                    except:
-                        LOG.error("Http policy %s not found in %s" % (policyName, vs_name))
-                    try :
-                        if policy['http_request_policy']['rules']:
-                            rules = policy['http_request_policy']['rules']
-                            for index in rules:
-                                rule = index['name']
-                                if rule.startswith('_sys_https_redirect'):
-                                    ruleStatus, policyName =comparePolicyRules(rule, f5_vs)
-                                    self.assertTrue(ruleStatus)
-                    except AssertionError:
-                        LOG.error("Http policy rule %s not found for service %s " % (policyName, vs_name))
+                        checkPolicy(httpPolicies, f5_vs, vs_name)
+
             else:
                 pass
 

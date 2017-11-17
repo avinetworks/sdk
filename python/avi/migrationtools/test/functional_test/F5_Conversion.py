@@ -26,10 +26,10 @@ class F5Conversion(AviConverter):
             self.dict_merge(f5_defaults_dict, f5_config_dict)
             f5_config_dict = f5_defaults_dict
             actual_f5_config_dict = copy.deepcopy(f5_config_dict)
+            print actual_f5_config_dict
             avi_config_dict = f5_config_converter.convert(
                 f5_config_dict, outputlocation, vs_state, filelocation,f5_config_version, True,
                 controller_version, 'test', None, False, {}, None, tenant='admin', cloud_name='Default-Cloud')
-            #print  "converted output########", avi_config_dict
             return actual_f5_config_dict,avi_config_dict
         if convert_type == 'ns':
             source_file = filelocation
