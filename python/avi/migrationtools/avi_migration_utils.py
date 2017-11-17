@@ -270,12 +270,12 @@ class MigrationUtil(object):
                 new_value = new_value.encode()
             if type(new_value) == eval(typ) or (new_value.isdigit() and eval(
                     typ) == int):
+                special_value = p_key.get('special_values')
                 if typ == 'int':
                     new_value = int(new_value)
-                    if p_key.get('special_values') and new_value == 0:
-                        LOG.debug("Special value present, hence ignored for "
-                                  "value 0 for %s", msgvar)
-                        pass
+                    if special_value and str(new_value) in special_value:
+                        valid = True
+                        LOG.debug("Special value %s is fine", str(new_value))
                     else:
                         lval = p_key.get('range')
                         if lval:
@@ -290,13 +290,17 @@ class MigrationUtil(object):
                                 valid = True
                                 LOG.debug("Value '%s' is fine", str(new_value))
                 if typ == 'str':
-                    options = p_key.get('option_values')
-                    if options and new_value not in options:
-                        valid = False
-                        new_value = p_key.get('default_value')
-                    else:
+                    if special_value and new_value in special_value:
                         valid = True
-                        LOG.debug("Value '%s' is fine", str(new_value))
+                        LOG.debug("Special value %s is fine", str(new_value))
+                    else:
+                        options = p_key.get('option_values')
+                        if options and new_value not in options:
+                            valid = False
+                            new_value = p_key.get('default_value')
+                        else:
+                            valid = True
+                            LOG.debug("Value '%s' is fine", str(new_value))
                 if typ == 'bool':
                     if new_value not in (False, True, 'False', 'True'):
                         valid = False
