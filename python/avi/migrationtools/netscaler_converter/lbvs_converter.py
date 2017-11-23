@@ -534,12 +534,10 @@ class LbvsConverter(object):
                             ip_addr + '-vsvip', 'vsvip', self.tenant_name,
                             self.cloud_name)
                         vs_obj['vsvip_ref'] = updated_vsvip_ref
-                    avi_config['VirtualService'].append(vs_obj)
                     tmp_avi_config['VirtualService'].append(vs_obj)
                     # Marked redirect url as status indirect
                     ns_util.add_status_row(lb_vs['line_no'], cmd, key,
                                            full_cmd, STATUS_INDIRECT, vs_obj)
-                    continue
                 else:
                     # Verify that this lb vs has share the same VIP of another
                     # vs If yes then skipped this lb vs
