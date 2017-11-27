@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '17.2.4'
-    title: Avi ServerAutoScalePolicy Object API
+    title: Avi ErrorPageBody Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,8 +11,8 @@ info:
     description: |
         ##CLI##
         ```
-        - configure serverautoscalepolicy <key>
-        - show serverautoscalepolicy <key>
+        - configure errorpagebody <key>
+        - show errorpagebody <key>
         ```
 
 
@@ -22,7 +22,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /serverautoscalepolicy:
+    /errorpagebody:
         get:
             consumes:
                 -   application/json
@@ -80,7 +80,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicyApiResponse"
+                        $ref: "#/definitions/ErrorPageBodyApiResponse"
                 401:
                     description: log in failed
         post:
@@ -111,20 +111,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: ServerAutoScalePolicy object creation
+                    description: ErrorPageBody object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 401:
                     description: log in failed
-    /serverautoscalepolicy/{uuid}:
+    /errorpagebody/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -179,7 +179,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 401:
                     description: log in failed
         put:
@@ -215,10 +215,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: ServerAutoScalePolicy object creation
+                    description: ErrorPageBody object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -230,7 +230,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 401:
                     description: log in failed
         patch:
@@ -266,10 +266,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: ServerAutoScalePolicy object creation
+                    description: ErrorPageBody object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -281,7 +281,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/ServerAutoScalePolicy"
+                        $ref: "#/definitions/ErrorPageBody"
                 401:
                     description: log in failed
         delete:
@@ -332,82 +332,26 @@ paths:
 
 
 definitions:
-    ServerAutoScalePolicy:
+    ErrorPageBody:
         type: object
-        required:
-            -   name
         properties:
-            description:
-                description: "User defined description for the object."
+            error_page_body:
+                description: "Error page body sent to client when match. Field introduced in 17.2.4."
                 type: string
-            intelligent_autoscale:
-                description: "Use Avi intelligent autoscale algorithm where autoscale is performed by comparing load on the pool against estimated capacity of all the servers."
-                type: boolean
-            intelligent_scalein_margin:
-                description: "Maximum extra capacity as percentage of load used by the intelligent scheme. Scalein is triggered when available capacity is more than this margin. Allowed values are 1-99."
-                type: integer
-                default: 40
-                format: int32
-            intelligent_scaleout_margin:
-                description: "Minimum extra capacity as percentage of load used by the intelligent scheme. Scaleout is triggered when available capacity is less than this margin. Allowed values are 1-99."
-                type: integer
-                default: 20
-                format: int32
-            max_scalein_adjustment_step:
-                description: "Maximum number of servers to scalein simultaneously. The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size."
-                type: integer
-                default: 1
-                format: int32
-            max_scaleout_adjustment_step:
-                description: "Maximum number of servers to scaleout simultaneously. The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size."
-                type: integer
-                default: 1
-                format: int32
-            max_size:
-                description: "Maximum number of servers after scaleout. Allowed values are 0-400."
-                type: integer
-                format: int32
-            min_size:
-                description: "No scale-in happens once number of operationally up servers reach min_servers. Allowed values are 0-400."
-                type: integer
-                format: int32
             name:
-                description: "Name of the object."
+                description: " Field introduced in 17.2.4."
                 type: string
-            scalein_alertconfig_refs:
-                description: "Trigger scalein when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig."
-                type: array
-                items:
-                    type: string
-            scalein_cooldown:
-                description: "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete."
-                type: integer
-                default: 300
-                format: int32
-            scaleout_alertconfig_refs:
-                description: "Trigger scaleout when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig."
-                type: array
-                items:
-                    type: string
-            scaleout_cooldown:
-                description: "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete."
-                type: integer
-                default: 300
-                format: int32
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
-            use_predicted_load:
-                description: "Use predicted load rather than current load."
-                type: boolean
             uuid:
-                description: "Unique object identifier of the object."
+                description: " Field introduced in 17.2.4."
                 type: string
-    ServerAutoScalePolicyApiResponse:
+    ErrorPageBodyApiResponse:
         type: object
         required:
             - count
@@ -419,4 +363,4 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/ServerAutoScalePolicy"
+                    $ref: "#/definitions/ErrorPageBody"

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VSDataScriptSet Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure vsdatascriptset <key>\n- show vsdatascriptset <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -531,6 +531,10 @@
                     "type": "array", 
                     "description": "UUID of pool groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type PoolGroup."
                 }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
@@ -542,6 +546,10 @@
                     "type": "array", 
                     "description": "UUID of IP Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type IpAddrGroup."
                 }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name. Field introduced in 17.1.11,17.2.4."
+                }, 
                 "string_group_refs": {
                     "items": {
                         "type": "string"
@@ -552,10 +560,6 @@
                 "name": {
                     "type": "string", 
                     "description": "Name for the virtual service datascript collection."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
                 }
             }
         }, 

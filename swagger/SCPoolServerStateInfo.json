@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SCPoolServerStateInfo Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- show poolserverstateinfo\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -561,10 +561,6 @@
                     "type": "string", 
                     "description": "url"
                 }, 
-                "pool_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Pool. Field introduced in 17.1.1."
-                }, 
                 "server_states": {
                     "items": {
                         "$ref": "#/definitions/SCServerStateInfo"
@@ -575,6 +571,10 @@
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
+                }, 
+                "pool_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.1."
                 }, 
                 "is_server": {
                     "type": "boolean", 

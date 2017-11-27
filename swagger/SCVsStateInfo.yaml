@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi SCVsStateInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -371,8 +371,8 @@ definitions:
             vip_id:
                 description: " Field introduced in 17.1.1."
                 type: string
-            vs_ref:
-                description: " It is a reference to an object of type VirtualService. Field introduced in 17.1.1."
+            vs_id:
+                description: " Field introduced in 17.1.1."
                 type: string
     SCVsStateInfoApiResponse:
         type: object

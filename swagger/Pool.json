@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\n##Examples##\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2677,6 +2677,10 @@
                     "type": "array", 
                     "description": "The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group."
                 }, 
+                "apic_epg_name": {
+                    "type": "string", 
+                    "description": "Synchronize Cisco APIC EPG members with pool servers."
+                }, 
                 "fewest_tasks_feedback_delay": {
                     "default": 10, 
                     "type": "integer", 
@@ -2704,9 +2708,9 @@
                     "description": "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.", 
                     "$ref": "#/definitions/FailAction"
                 }, 
-                "apic_epg_name": {
-                    "type": "string", 
-                    "description": "Synchronize Cisco APIC EPG members with pool servers."
+                "lookup_server_by_name": {
+                    "type": "boolean", 
+                    "description": "Allow server lookup by name. Field introduced in 17.1.11,17.2.4."
                 }, 
                 "networks": {
                     "items": {
@@ -2907,6 +2911,7 @@
                     "description": "Creator name."
                 }, 
                 "gslb_sp_enabled": {
+                    "readOnly": true, 
                     "type": "boolean", 
                     "description": "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
                 }

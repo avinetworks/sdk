@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi CustomIpamDnsProfile Object API", 
+        "title": "Avi ErrorPageProfile Object API", 
         "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure customipamdnsprofile <key>\n- show customipamdnsprofile <key>\n```\n", 
+        "description": "##CLI##\n```\n- configure errorpageprofile <key>\n- show errorpageprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,7 @@
         }
     }, 
     "paths": {
-        "/customipamdnsprofile/{uuid}": {
+        "/errorpageprofile/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     "401": {
@@ -70,10 +70,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageProfile object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     {
@@ -101,7 +101,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     "401": {
@@ -187,7 +187,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     "401": {
@@ -233,10 +233,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageProfile object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     {
@@ -320,7 +320,7 @@
                 ]
             }
         }, 
-        "/customipamdnsprofile": {
+        "/errorpageprofile": {
             "post": {
                 "security": [
                     {
@@ -334,7 +334,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }, 
                     "401": {
@@ -373,10 +373,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageProfile object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageProfile"
                         }
                     }
                 ], 
@@ -397,7 +397,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfileApiResponse"
+                            "$ref": "#/definitions/ErrorPageProfileApiResponse"
                         }
                     }, 
                     "401": {
@@ -478,44 +478,51 @@
         }
     }, 
     "definitions": {
-        "CustomIpamDnsProfile": {
-            "required": [
-                "name", 
-                "script_uri"
-            ], 
+        "ErrorPageProfile": {
             "type": "object", 
             "properties": {
-                "script_uri": {
+                "app_name": {
+                    "default": "VS Name", 
                     "type": "string", 
-                    "description": "Script URI of form controller //ipamdnsscripts/<file-name>. Field introduced in 17.1.1."
+                    "description": "Name of the Virtual Service which generated the error page. Field introduced in 17.2.4."
+                }, 
+                "error_pages": {
+                    "items": {
+                        "$ref": "#/definitions/ErrorPage"
+                    }, 
+                    "type": "array", 
+                    "description": "Defined Error Pages for HTTP status codes. Field introduced in 17.2.4."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "Name of the Custom IPAM DNS Profile. Field introduced in 17.1.1."
+                    "description": " Field introduced in 17.2.4."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "script_params": {
-                    "items": {
-                        "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Parameters that are always passed to the IPAM/DNS script. Field introduced in 17.1.1."
-                }, 
-                "tenant_ref": {
+                "company_name": {
+                    "default": "Avi Networks", 
                     "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
+                    "description": "Name of the company to show in error page. Field introduced in 17.2.4."
+                }, 
+                "host_name": {
+                    "default": "Host Header", 
+                    "type": "string", 
+                    "description": "Fully qualified domain name for which the error page is generated. Field introduced in 17.2.4."
                 }, 
                 "uuid": {
                     "type": "string", 
-                    "description": " Field introduced in 17.1.1."
+                    "description": " Field introduced in 17.2.4."
                 }
             }
         }, 
-        "CustomIpamDnsProfileApiResponse": {
+        "ErrorPageProfileApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -528,33 +535,82 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/CustomIpamDnsProfile"
+                        "$ref": "#/definitions/ErrorPageProfile"
                     }, 
                     "type": "array"
                 }
             }
         }, 
-        "CustomParams": {
+        "ErrorPage": {
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the error page. Field introduced in 17.2.4.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the error page. Field introduced in 17.2.4."
+                }, 
+                "error_page_body_ref": {
+                    "type": "string", 
+                    "description": "Custom error page body used to sent to the client. It is a reference to an object of type ErrorPageBody. Field introduced in 17.2.4."
+                }, 
+                "match": {
+                    "description": "Add match criteria for http status codes to the error page. Field introduced in 17.2.4.", 
+                    "$ref": "#/definitions/HTTPStatusMatch"
+                }, 
+                "error_redirect": {
+                    "type": "string", 
+                    "description": "Redirect sent to client when match. Field introduced in 17.2.4."
+                }
+            }
+        }, 
+        "HTTPStatusMatch": {
             "required": [
-                "name"
+                "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "is_dynamic": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/HTTPStatusRange"
+                    }, 
+                    "type": "array", 
+                    "description": "HTTP response status code range(s)."
                 }, 
-                "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
+                "status_codes": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "HTTP response status code(s).", 
+                    "format": "int32"
                 }, 
-                "name": {
+                "match_criteria": {
                     "type": "string", 
-                    "description": "Name of the object."
+                    "description": "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "HTTPStatusRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "type": "integer", 
+                    "description": "Starting HTTP response status code.", 
+                    "format": "int32"
                 }, 
-                "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
+                "end": {
+                    "type": "integer", 
+                    "description": "Ending HTTP response status code.", 
+                    "format": "int32"
                 }
             }
         }

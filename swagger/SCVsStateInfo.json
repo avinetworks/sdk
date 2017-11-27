@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SCVsStateInfo Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- show vsstateinfo\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -523,11 +523,11 @@
                     "description": " Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/OperationalStatus"
                 }, 
-                "vip_id": {
+                "uuid": {
                     "type": "string", 
                     "description": " Field introduced in 17.1.1."
                 }, 
-                "uuid": {
+                "vs_id": {
                     "type": "string", 
                     "description": " Field introduced in 17.1.1."
                 }, 
@@ -540,9 +540,9 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
                 }, 
-                "vs_ref": {
+                "vip_id": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type VirtualService. Field introduced in 17.1.1."
+                    "description": " Field introduced in 17.1.1."
                 }
             }
         }, 

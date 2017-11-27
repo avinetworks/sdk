@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -543,14 +543,14 @@
             ], 
             "type": "object", 
             "properties": {
-                "post_crs_groups": {
+                "crs_groups": {
                     "items": {
                         "$ref": "#/definitions/WafRuleGroup"
                     }, 
                     "type": "array", 
-                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be enforced after the CRS groups. Field introduced in 17.2.1."
+                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
                 }, 
-                "description": {
+                "name": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
                 }, 
@@ -566,12 +566,16 @@
                     "type": "array", 
                     "description": "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be  enforced before the CRS groups. Field introduced in 17.2.1."
                 }, 
-                "crs_groups": {
+                "description": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.1."
+                }, 
+                "post_crs_groups": {
                     "items": {
                         "$ref": "#/definitions/WafRuleGroup"
                     }, 
                     "type": "array", 
-                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
+                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be enforced after the CRS groups. Field introduced in 17.2.1."
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -581,9 +585,9 @@
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
                 }, 
-                "name": {
+                "created_by": {
                     "type": "string", 
-                    "description": " Field introduced in 17.2.1."
+                    "description": "Creator name. Field introduced in 17.2.4."
                 }, 
                 "mode": {
                     "default": "WAF_MODE_DETECTION_ONLY", 
@@ -688,7 +692,7 @@
                 }, 
                 "match_element": {
                     "type": "string", 
-                    "description": "match_element can be 'ARGS xxx' or 'REQUEST_HEADERS xxx' or 'REQUEST_COOKIES xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                    "description": "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 }
             }
         }
