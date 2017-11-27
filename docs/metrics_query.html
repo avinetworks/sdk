@@ -1559,7 +1559,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.sum_application_response_time </td>
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> False </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2701,14 +2701,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_evaluated_request_body_phase </td>
 <td> Total number of requests evaluated by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_evaluated_request_header_phase </td>
 <td> Total number of requests evaluated by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2736,14 +2736,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_flagged_request_body_phase </td>
 <td> Total number of requests flagged (but not rejected) by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_flagged_request_header_phase </td>
 <td> Total number of requests flagged (but not rejected) by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2764,14 +2764,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_latency_request_body_phase </td>
 <td> Total latency seen by all evaluated requests in Request Body Phase </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_latency_request_header_phase </td>
 <td> Total latency seen by all transactions evaluated by WAF in Request Header Phase </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2792,14 +2792,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_matched_request_body_phase </td>
 <td> Total number of requests matched by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_matched_request_header_phase </td>
 <td> Total number of requests matched by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2827,14 +2827,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_rejected_request_body_phase </td>
 <td> Total number of requests rejected by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_rejected_request_header_phase </td>
 <td> Total number of requests rejected by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -8099,6 +8099,112 @@ WAF rule specific metrics
 <td> waf_rule.sum_rejected </td>
 <td> Total number of connections rejected by WAF Rule. </td>
 <td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Process_Stats Metrics </h2>
+<div class='container-fluid'>
+<p>
+stats for processes running on controller
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> process_stats.avg_ctx_switches_invol </td>
+<td> Average number of involuntary context switches per second. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_ctx_switches_vol </td>
+<td> Average number of voluntary  context switches per second. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_fds </td>
+<td> number of file descriptors currently opened by this process. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_io_read_bytes </td>
+<td> Average per second number of io bytes read by process. </td>
+<td> BYTES_PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_io_read_count </td>
+<td> Average number of io reads by process per second. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_io_write_bytes </td>
+<td> Average per second io bytes writes by process. </td>
+<td> BYTES_PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_io_write_count </td>
+<td> Average per second number of io writes by process. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_num_threads </td>
+<td> Average number of threads currently used by this process. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_pss </td>
+<td> Average memory (in bytes) shared with other processes. </td>
+<td> BYTES </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_rss </td>
+<td> Average Resident Set Size (aka non-swapped physical memory which process is using). </td>
+<td> BYTES </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_swap </td>
+<td> Average Amount of memory that has been swapped out to disk. </td>
+<td> BYTES </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.avg_vms </td>
+<td> Average Virtual Memory Size (aka total virtual memory which process is using). </td>
+<td> BYTES </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> process_stats.max_cpu_pct </td>
+<td> Maximum cpu usage by this process. </td>
+<td> PERCENT </td>
 <td> Y </td>
 <td> True </td>
 </tr>
