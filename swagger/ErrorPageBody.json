@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi CustomIpamDnsProfile Object API", 
+        "title": "Avi ErrorPageBody Object API", 
         "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure customipamdnsprofile <key>\n- show customipamdnsprofile <key>\n```\n", 
+        "description": "##CLI##\n```\n- configure errorpagebody <key>\n- show errorpagebody <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,7 @@
         }
     }, 
     "paths": {
-        "/customipamdnsprofile/{uuid}": {
+        "/errorpagebody/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     "401": {
@@ -70,10 +70,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageBody object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     {
@@ -101,7 +101,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     "401": {
@@ -187,7 +187,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     "401": {
@@ -233,10 +233,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageBody object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     {
@@ -320,7 +320,7 @@
                 ]
             }
         }, 
-        "/customipamdnsprofile": {
+        "/errorpagebody": {
             "post": {
                 "security": [
                     {
@@ -334,7 +334,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }, 
                     "401": {
@@ -373,10 +373,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "CustomIpamDnsProfile object creation", 
+                        "description": "ErrorPageBody object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfile"
+                            "$ref": "#/definitions/ErrorPageBody"
                         }
                     }
                 ], 
@@ -397,7 +397,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/CustomIpamDnsProfileApiResponse"
+                            "$ref": "#/definitions/ErrorPageBodyApiResponse"
                         }
                     }, 
                     "401": {
@@ -478,44 +478,33 @@
         }
     }, 
     "definitions": {
-        "CustomIpamDnsProfile": {
-            "required": [
-                "name", 
-                "script_uri"
-            ], 
+        "ErrorPageBody": {
             "type": "object", 
             "properties": {
-                "script_uri": {
+                "error_page_body": {
                     "type": "string", 
-                    "description": "Script URI of form controller //ipamdnsscripts/<file-name>. Field introduced in 17.1.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the Custom IPAM DNS Profile. Field introduced in 17.1.1."
+                    "description": "Error page body sent to client when match. Field introduced in 17.2.4."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "script_params": {
-                    "items": {
-                        "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Parameters that are always passed to the IPAM/DNS script. Field introduced in 17.1.1."
-                }, 
                 "tenant_ref": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.4."
                 }, 
                 "uuid": {
                     "type": "string", 
-                    "description": " Field introduced in 17.1.1."
+                    "description": " Field introduced in 17.2.4."
                 }
             }
         }, 
-        "CustomIpamDnsProfileApiResponse": {
+        "ErrorPageBodyApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -528,33 +517,9 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/CustomIpamDnsProfile"
+                        "$ref": "#/definitions/ErrorPageBody"
                     }, 
                     "type": "array"
-                }
-            }
-        }, 
-        "CustomParams": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "is_dynamic": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
-                }, 
-                "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
                 }
             }
         }

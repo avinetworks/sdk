@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -774,7 +774,7 @@ definitions:
                 description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
                 type: string
             mode:
-                description: "AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                description: "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
                 type: string
                 default: "AWS_ENCRYPTION_MODE_NONE"
     AwsConfiguration:
@@ -978,6 +978,10 @@ definitions:
             rancher_configuration:
                 description: "Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/RancherConfiguration'
+            state_based_dns_registration:
+                description: "DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12."
+                type: boolean
+                default: True
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
@@ -1165,7 +1169,7 @@ definitions:
                 description: "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set."
                 type: boolean
             registry:
-                description: "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/<namespace>/<repo>."
+                description: "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo."
                 type: string
                 default: "avinetworks/se"
             se_repository_push:

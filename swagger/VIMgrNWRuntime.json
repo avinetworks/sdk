@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VIMgrNWRuntime Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- show vinfra network <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
