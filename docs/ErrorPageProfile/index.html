@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi Webhook Object API</title>
+    <title>Avi ErrorPageProfile Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi Webhook Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure webhook <key> - show webhook <key> ``` </div>
+  <h1>Avi ErrorPageProfile Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure errorpageprofile <key> - show errorpageprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.4</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#webhookGet"><code><span class="http-method">get</span> /webhook</code></a></li>
-  <li><a href="#webhookPost"><code><span class="http-method">post</span> /webhook</code></a></li>
-  <li><a href="#webhookUuidDelete"><code><span class="http-method">delete</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidGet"><code><span class="http-method">get</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidPatch"><code><span class="http-method">patch</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidPut"><code><span class="http-method">put</span> /webhook/{uuid}</code></a></li>
+  <li><a href="#errorpageprofileGet"><code><span class="http-method">get</span> /errorpageprofile</code></a></li>
+  <li><a href="#errorpageprofilePost"><code><span class="http-method">post</span> /errorpageprofile</code></a></li>
+  <li><a href="#errorpageprofileUuidDelete"><code><span class="http-method">delete</span> /errorpageprofile/{uuid}</code></a></li>
+  <li><a href="#errorpageprofileUuidGet"><code><span class="http-method">get</span> /errorpageprofile/{uuid}</code></a></li>
+  <li><a href="#errorpageprofileUuidPatch"><code><span class="http-method">patch</span> /errorpageprofile/{uuid}</code></a></li>
+  <li><a href="#errorpageprofileUuidPut"><code><span class="http-method">put</span> /errorpageprofile/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="webhookGet"/>
+  <div class="method"><a name="errorpageprofileGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /webhook</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /errorpageprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofileGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WebhookApiResponse">WebhookApiResponse</a>
+      <a href="#ErrorPageProfileApiResponse">ErrorPageProfileApiResponse</a>
       
     </div>
 
@@ -253,12 +253,26 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "callback_url" : "aeiou",
+    "app_name" : "aeiou",
+    "company_name" : "aeiou",
     "tenant_ref" : "aeiou",
+    "error_pages" : [ {
+      "error_page_body_ref" : "aeiou",
+      "enable" : true,
+      "error_redirect" : "aeiou",
+      "match" : {
+        "match_criteria" : "aeiou",
+        "ranges" : [ {
+          "end" : 123,
+          "begin" : 123
+        } ],
+        "status_codes" : [ "" ]
+      },
+      "index" : 123
+    } ],
     "name" : "aeiou",
-    "description" : "aeiou",
     "uuid" : "aeiou",
-    "verification_token" : "aeiou",
+    "host_name" : "aeiou",
     "url" : "aeiou"
   } ]
 }</code></pre>
@@ -273,17 +287,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WebhookApiResponse">WebhookApiResponse</a>
+        <a href="#ErrorPageProfileApiResponse">ErrorPageProfileApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookPost"/>
+  <div class="method"><a name="errorpageprofilePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /webhook</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /errorpageprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofilePost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -297,7 +311,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -305,7 +319,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageProfile">ErrorPageProfile</a>
       
     </div>
 
@@ -314,12 +328,26 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
+  "app_name" : "aeiou",
+  "company_name" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_pages" : [ {
+    "error_page_body_ref" : "aeiou",
+    "enable" : true,
+    "error_redirect" : "aeiou",
+    "match" : {
+      "match_criteria" : "aeiou",
+      "ranges" : [ {
+        "end" : 123,
+        "begin" : 123
+      } ],
+      "status_codes" : [ "" ]
+    },
+    "index" : 123
+  } ],
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
+  "host_name" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -333,17 +361,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageProfile">ErrorPageProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidDelete"/>
+  <div class="method"><a name="errorpageprofileUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /errorpageprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofileUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -397,11 +425,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidGet"/>
+  <div class="method"><a name="errorpageprofileUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /errorpageprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofileUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -435,7 +463,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageProfile">ErrorPageProfile</a>
       
     </div>
 
@@ -444,12 +472,26 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
+  "app_name" : "aeiou",
+  "company_name" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_pages" : [ {
+    "error_page_body_ref" : "aeiou",
+    "enable" : true,
+    "error_redirect" : "aeiou",
+    "match" : {
+      "match_criteria" : "aeiou",
+      "ranges" : [ {
+        "end" : 123,
+        "begin" : 123
+      } ],
+      "status_codes" : [ "" ]
+    },
+    "index" : 123
+  } ],
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
+  "host_name" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -463,17 +505,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageProfile">ErrorPageProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidPatch"/>
+  <div class="method"><a name="errorpageprofileUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /errorpageprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofileUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -493,7 +535,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -507,7 +549,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageProfile">ErrorPageProfile</a>
       
     </div>
 
@@ -516,12 +558,26 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
+  "app_name" : "aeiou",
+  "company_name" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_pages" : [ {
+    "error_page_body_ref" : "aeiou",
+    "enable" : true,
+    "error_redirect" : "aeiou",
+    "match" : {
+      "match_criteria" : "aeiou",
+      "ranges" : [ {
+        "end" : 123,
+        "begin" : 123
+      } ],
+      "status_codes" : [ "" ]
+    },
+    "index" : 123
+  } ],
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
+  "host_name" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -535,17 +591,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageProfile">ErrorPageProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidPut"/>
+  <div class="method"><a name="errorpageprofileUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /errorpageprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpageprofileUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -565,7 +621,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -579,7 +635,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageProfile">ErrorPageProfile</a>
       
     </div>
 
@@ -588,12 +644,26 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
+  "app_name" : "aeiou",
+  "company_name" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_pages" : [ {
+    "error_page_body_ref" : "aeiou",
+    "enable" : true,
+    "error_redirect" : "aeiou",
+    "match" : {
+      "match_criteria" : "aeiou",
+      "ranges" : [ {
+        "end" : 123,
+        "begin" : 123
+      } ],
+      "status_codes" : [ "" ]
+    },
+    "index" : 123
+  } ],
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
+  "host_name" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -607,7 +677,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageProfile">ErrorPageProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -620,27 +690,56 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#Webhook"><code>Webhook</code></a></li>
-    <li><a href="#WebhookApiResponse"><code>WebhookApiResponse</code></a></li>
+    <li><a href="#ErrorPage"><code>ErrorPage</code></a></li>
+    <li><a href="#ErrorPageProfile"><code>ErrorPageProfile</code></a></li>
+    <li><a href="#ErrorPageProfileApiResponse"><code>ErrorPageProfileApiResponse</code></a></li>
+    <li><a href="#HTTPStatusMatch"><code>HTTPStatusMatch</code></a></li>
+    <li><a href="#HTTPStatusRange"><code>HTTPStatusRange</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="Webhook">Webhook</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ErrorPage">ErrorPage</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">callback_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Callback URL for the Webhook. Field introduced in 17.1.1. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the webhook profile. Field introduced in 17.1.1. </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
-<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the webhook profile. Field introduced in 17.1.1. </div>
-<div class="param">verification_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Verification token sent back with the callback asquery parameters. Field introduced in 17.1.1. </div>
+      <div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the error page. Field introduced in 17.2.4. </div>
+<div class="param">error_page_body_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Custom error page body used to sent to the client. It is a reference to an object of type ErrorPageBody. Field introduced in 17.2.4. </div>
+<div class="param">error_redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Redirect sent to client when match. Field introduced in 17.2.4. </div>
+<div class="param">index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the error page. Field introduced in 17.2.4. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusMatch">HTTPStatusMatch</a></span> Add match criteria for http status codes to the error page. Field introduced in 17.2.4. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="WebhookApiResponse">WebhookApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ErrorPageProfile">ErrorPageProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">app_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Virtual Service which generated the error page. Field introduced in 17.2.4. </div>
+<div class="param">company_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the company to show in error page. Field introduced in 17.2.4. </div>
+<div class="param">error_pages (optional)</div><div class="param-desc"><span class="param-type"><a href="#ErrorPage">array[ErrorPage]</a></span> Defined Error Pages for HTTP status codes. Field introduced in 17.2.4. </div>
+<div class="param">host_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified domain name for which the error page is generated. Field introduced in 17.2.4. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.4. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.4. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.4. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ErrorPageProfileApiResponse">ErrorPageProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Webhook">array[Webhook]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ErrorPageProfile">array[ErrorPageProfile]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPStatusMatch">HTTPStatusMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusRange">array[HTTPStatusRange]</a></span> HTTP response status code range(s). </div>
+<div class="param">status_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> HTTP response status code(s). </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPStatusRange">HTTPStatusRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Starting HTTP response status code. format: int32</div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ending HTTP response status code. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi Webhook Object API</title>
+    <title>Avi ErrorPageBody Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi Webhook Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure webhook <key> - show webhook <key> ``` </div>
+  <h1>Avi ErrorPageBody Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure errorpagebody <key> - show errorpagebody <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.4</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#webhookGet"><code><span class="http-method">get</span> /webhook</code></a></li>
-  <li><a href="#webhookPost"><code><span class="http-method">post</span> /webhook</code></a></li>
-  <li><a href="#webhookUuidDelete"><code><span class="http-method">delete</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidGet"><code><span class="http-method">get</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidPatch"><code><span class="http-method">patch</span> /webhook/{uuid}</code></a></li>
-  <li><a href="#webhookUuidPut"><code><span class="http-method">put</span> /webhook/{uuid}</code></a></li>
+  <li><a href="#errorpagebodyGet"><code><span class="http-method">get</span> /errorpagebody</code></a></li>
+  <li><a href="#errorpagebodyPost"><code><span class="http-method">post</span> /errorpagebody</code></a></li>
+  <li><a href="#errorpagebodyUuidDelete"><code><span class="http-method">delete</span> /errorpagebody/{uuid}</code></a></li>
+  <li><a href="#errorpagebodyUuidGet"><code><span class="http-method">get</span> /errorpagebody/{uuid}</code></a></li>
+  <li><a href="#errorpagebodyUuidPatch"><code><span class="http-method">patch</span> /errorpagebody/{uuid}</code></a></li>
+  <li><a href="#errorpagebodyUuidPut"><code><span class="http-method">put</span> /errorpagebody/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="webhookGet"/>
+  <div class="method"><a name="errorpagebodyGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /webhook</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /errorpagebody</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WebhookApiResponse">WebhookApiResponse</a>
+      <a href="#ErrorPageBodyApiResponse">ErrorPageBodyApiResponse</a>
       
     </div>
 
@@ -253,12 +253,10 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "callback_url" : "aeiou",
     "tenant_ref" : "aeiou",
+    "error_page_body" : "aeiou",
     "name" : "aeiou",
-    "description" : "aeiou",
     "uuid" : "aeiou",
-    "verification_token" : "aeiou",
     "url" : "aeiou"
   } ]
 }</code></pre>
@@ -273,17 +271,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WebhookApiResponse">WebhookApiResponse</a>
+        <a href="#ErrorPageBodyApiResponse">ErrorPageBodyApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookPost"/>
+  <div class="method"><a name="errorpagebodyPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /webhook</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /errorpagebody</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyPost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -297,7 +295,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageBody object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -305,7 +303,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageBody">ErrorPageBody</a>
       
     </div>
 
@@ -314,12 +312,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_page_body" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -333,17 +329,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageBody">ErrorPageBody</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidDelete"/>
+  <div class="method"><a name="errorpagebodyUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /errorpagebody/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -397,11 +393,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidGet"/>
+  <div class="method"><a name="errorpagebodyUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /errorpagebody/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -435,7 +431,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageBody">ErrorPageBody</a>
       
     </div>
 
@@ -444,12 +440,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_page_body" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -463,17 +457,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageBody">ErrorPageBody</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidPatch"/>
+  <div class="method"><a name="errorpagebodyUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /errorpagebody/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -493,7 +487,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageBody object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -507,7 +501,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageBody">ErrorPageBody</a>
       
     </div>
 
@@ -516,12 +510,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_page_body" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -535,17 +527,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageBody">ErrorPageBody</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="webhookUuidPut"/>
+  <div class="method"><a name="errorpagebodyUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /webhook/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">webhookUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /errorpagebody/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">errorpagebodyUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -565,7 +557,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Webhook object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ErrorPageBody object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -579,7 +571,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#Webhook">Webhook</a>
+      <a href="#ErrorPageBody">ErrorPageBody</a>
       
     </div>
 
@@ -588,12 +580,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "callback_url" : "aeiou",
   "tenant_ref" : "aeiou",
+  "error_page_body" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "uuid" : "aeiou",
-  "verification_token" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
 
@@ -607,7 +597,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Webhook">Webhook</a>
+        <a href="#ErrorPageBody">ErrorPageBody</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -620,27 +610,25 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#Webhook"><code>Webhook</code></a></li>
-    <li><a href="#WebhookApiResponse"><code>WebhookApiResponse</code></a></li>
+    <li><a href="#ErrorPageBody"><code>ErrorPageBody</code></a></li>
+    <li><a href="#ErrorPageBodyApiResponse"><code>ErrorPageBodyApiResponse</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="Webhook">Webhook</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ErrorPageBody">ErrorPageBody</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">callback_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Callback URL for the Webhook. Field introduced in 17.1.1. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the webhook profile. Field introduced in 17.1.1. </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
+      <div class="param">error_page_body (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Error page body sent to client when match. Field introduced in 17.2.4. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.4. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.4. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the webhook profile. Field introduced in 17.1.1. </div>
-<div class="param">verification_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Verification token sent back with the callback asquery parameters. Field introduced in 17.1.1. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.4. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="WebhookApiResponse">WebhookApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ErrorPageBodyApiResponse">ErrorPageBodyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Webhook">array[Webhook]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ErrorPageBody">array[ErrorPageBody]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>
