@@ -147,18 +147,19 @@ class TestF5Converter:
         import avi.migrationtools.f5_converter.conversion_util as conv
         import shutil
         conv.csv_writer_dict_list = list()
-        for each_file in os.listdir(output_file):
-            file_path = os.path.join(output_file, each_file)
-            try:
-                if os.path.isfile(file_path):
-                    if file_path.endswith('.log'):
-                        open('converter.log', 'w').close()
-                    else:
-                        os.unlink(file_path)
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
-            except Exception as e:
-                print(e)
+        if os.path.exists(output_file):
+            for each_file in os.listdir(output_file):
+                file_path = os.path.join(output_file, each_file)
+                try:
+                    if os.path.isfile(file_path):
+                        if file_path.endswith('.log'):
+                            open('converter.log', 'w').close()
+                        else:
+                            os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(e)
 
     @pytest.mark.skip_travis
     def test_download_v11(self, cleanup):
