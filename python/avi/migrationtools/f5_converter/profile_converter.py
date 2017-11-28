@@ -14,6 +14,15 @@ class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
                      object_merge_check, prefix, keypassphrase):
+        """
+
+        :param version:  version of f5 instance
+        :param f5_profile_attributes: yaml attribute file for object
+        :param object_merge_check: Flag for object merge
+        :param prefix: prefix for objects
+        :param keypassphrase: path of keypassphrase
+        :return: object of respective f5 version object.
+        """
         f5_profile_attributes = f5_profile_attributes
         if version == '10':
             return ProfileConfigConvV10(
@@ -40,6 +49,18 @@ class ProfileConfigConv(object):
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore,
                 tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+        """
+
+        :param f5_config:  parsed f5 config dict.
+        :param avi_config: avi config dict for converted avi conversion.
+        :param input_dir: Location of cert and external monitor script files
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: tenant ref for avi objects
+        :param cloud_ref: cloud ref for avi objects
+        :param merge_object_mapping: merged object dict for merging objects
+        :param sys_dict: baseline objects
+        :return:
+        """
         profile_config = f5_config.get("profile", {})
         avi_config["StringGroup"] = []
         avi_config['HTTPPolicySet'] = []
@@ -132,6 +153,22 @@ class ProfileConfigConv(object):
                             input_dir, tenant, avi_config, converted_objs,
                             default_profile_name, key_and_cert_mapping_list,
                             merge_object_mapping, sys_dict):
+        """
+        This method create the certs if certificate not present at location
+        it create dummy certificate.
+        :param name: name of certificate.
+        :param key_file_name: name of keyfile of cert
+        :param cert_file_name: name of cert file
+        :param input_dir: location of cert and key
+        :param tenant: tenant name
+        :param avi_config: converted avi config dict
+        :param converted_objs: list of converted object profile
+        :param default_profile_name: name of default profile name.
+        :param key_and_cert_mapping_list: list of key and cert
+        :param merge_object_mapping: merged object dict for merging objects
+        :param sys_dict: baseline objects
+        :return:
+        """
 
         cert_name = [cert['name'] for cert in key_and_cert_mapping_list if
                      cert['key_file_name'] == key_file_name and
@@ -146,8 +183,10 @@ class ProfileConfigConv(object):
         key = None
         cert = None
         if key_file_name and cert_file_name:
+            # Removed / from key_file_name to get name of file.
             if '/' in key_file_name:
                 key_file_name = key_file_name.split('/')[-1]
+            # Removed / from cert_file_name to get name of file.
             if '/' in cert_file_name:
                 cert_file_name = cert_file_name.split('/')[-1]
             key = conv_utils.upload_file(folder_path + key_file_name)
@@ -160,6 +199,8 @@ class ProfileConfigConv(object):
                 input_dir + os.path.sep + key_file_name)
 
         if cert and key:
+            # Flag to check expiry date of certificate. if expired then
+            # create dummy certificate.
             if not conv_utils.check_certificate_expiry(input_dir,
                                                     cert_file_name):
                 cert, key = None, None
@@ -215,6 +256,13 @@ class ProfileConfigConv(object):
 class ProfileConfigConvV11(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
                  keypassphrase):
+        """
+
+        :param f5_profile_attributes: f5 profile attributes from yaml file.
+        :param object_merge_check: flag for merging objects
+        :param prefix: prefix for objects
+        :param keypassphrase: keypassphrase yaml file location
+        """
         self.supported_types = \
             f5_profile_attributes['Profile_supported_types']
         self.ignore_for_defaults = \
@@ -268,6 +316,21 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         avi_config, input_dir, user_ignore, tenant_ref,
                         key_and_cert_mapping_list, merge_object_mapping,
                         sys_dict):
+        """
+
+        :param profile: parsed dict of profile
+        :param key: key which contain combination of profile type and name
+        :param f5_config: parsed f5 config dict
+        :param profile_config:
+        :param avi_config: dict for avi config conversion.
+        :param input_dir:  Location of input key and cert
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: Tenant for which config need to be converted
+        :param key_and_cert_mapping_list: list of key and cert mapping list
+        :param merge_object_mapping: flag to merge the objects
+        :param sys_dict: baseline objects
+        :return:
+        """
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -914,6 +977,13 @@ class ProfileConfigConvV11(ProfileConfigConv):
 class ProfileConfigConvV10(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
                  keypassphrase):
+        """
+
+        :param f5_profile_attributes: f5 profile attributes from yaml file.
+        :param object_merge_check: flag for merging objects
+        :param prefix: prefix for objects
+        :param keypassphrase: keypassphrase yaml file location
+        """
         self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
         self.supported_ssl = f5_profile_attributes['Profile_supported_ssl']
@@ -953,6 +1023,21 @@ class ProfileConfigConvV10(ProfileConfigConv):
                         avi_config, input_dir, user_ignore, tenant_ref,
                         key_and_cert_mapping_list, merge_object_mapping,
                         sys_dict):
+        """
+
+        :param profile: parsed dict of profile
+        :param key: key which contain combination of profile type and name
+        :param f5_config: parsed f5 config dict
+        :param profile_config: dict of profile config
+        :param avi_config: dict for avi config conversion.
+        :param input_dir:  Location of input key and cert
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: Tenant for which config need to be converted
+        :param key_and_cert_mapping_list: list of key and cert mapping list
+        :param merge_object_mapping: flag to merge the objects
+        :param sys_dict: baseline objects
+        :return:
+        """
         skipped = profile.keys()
         indirect = []
         converted_objs = []
@@ -998,11 +1083,6 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
                 converted_objs, default_profile_name, key_and_cert_mapping_list,
                 merge_object_mapping, sys_dict)
-
-            # ciphers = ciphers.replace('\"', '')
-            # ciphers = 'AES:3DES:RC4' if ciphers in ['DEFAULT',
-            #                                         'NATIVE'] else ciphers
-            # ciphers = ciphers.replace(":@SPEED", "")
             ssl_profile = dict()
             ssl_profile['name'] = name
             ssl_profile['tenant_ref'] = conv_utils.get_object_ref(
@@ -1369,6 +1449,14 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
     def convert_http_profile(self, profile, name, avi_config, converted_objs,
                              tenant):
+        """
+        :param profile: parsed profile config dict.
+        :param name: name of http profile.
+        :param avi_config: dict to store converted avi config
+        :param converted_objs: list of converted object
+        :param tenant: Tenant for which config need to be converted
+        :return: app_profile, skipped
+        """
         supported_attr = self.supported_http
         skipped = [key for key in profile.keys() if key not in supported_attr]
         app_profile = dict()

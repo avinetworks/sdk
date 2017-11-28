@@ -15,6 +15,14 @@ class MonitorConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_monitor_atributes, prefix,
                      object_merge_check):
+        """
+
+        :param version: version of f5 instance
+        :param f5_monitor_atributes: f5 monitor attributes from yaml file.
+        :param prefix:  prefix for objects
+        :param object_merge_check: Flag for object merge
+        :return:
+        """
         if version == '10':
             return MonitorConfigConvV10(f5_monitor_atributes, prefix,
                                         object_merge_check)
@@ -59,14 +67,13 @@ class MonitorConfigConv(object):
                            tenant, cloud_name, merge_object_mapping, sys_dict):
         """
 
-        :param monitor_dict:
-        :param f5_monitor:
-        :param skipped:
-        :param avi_config:
-        :param tenant:
-        :param input_dir:
-        :param cloud_name:
-        :param controller_version:
+        :param monitor_dict: parsed monitor dict of f5 config
+        :param f5_monitor: parsed dict of f5 config
+        :param avi_config: dict for conversion to avi config
+        :param tenant: tenant for which config need to be converted
+        :param input_dir: location of input certs and key
+        :param cloud_name: cloud name for which config need to be converted
+        :param controller_version: controller version of avi
         :return:
         """
         # Condition to create ssl profile.
@@ -106,15 +113,14 @@ class MonitorConfigConv(object):
                              sys_dict):
         """
 
-        :param monitor_dict:
-        :param f5_monitor:
-        :param skipped:
-        :param avi_config:
-        :param tenant:
-        :param input_dir:
-        :param cloud_name:
-        :param merge_object_mapping:
-        :param sys_dict:
+        :param monitor_dict: parsed monitor dict of f5 config
+        :param f5_monitor: parsed dict of f5 config
+        :param avi_config: dict for conversion to avi config
+        :param tenant: tenant for which config need to be converted
+        :param input_dir: location of input certs and key
+        :param cloud_name: cloud name for which config need to be converted
+        :param merge_object_mapping: flag for merging objects
+        :param sys_dict: baseline profile dict
         :return:
         """
         # Condition create  sslkeyandcert.
@@ -170,6 +176,19 @@ class MonitorConfigConv(object):
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict):
+        """
+
+        :param f5_config:  parsed f5 config dict
+        :param avi_config: dict for conversion to avi config
+        :param input_dir: location of cert and key
+        :param user_ignore: Ignore config defined by user
+        :param tenant: tenant of which config to be converted
+        :param cloud_name:  cloud name of which config to be converted
+        :param controller_version: controller version.
+        :param merge_object_mapping: flag for merge object
+        :param sys_dict: baseline profile.
+        :return:
+        """
         LOG.debug("Converting health monitors")
         print "Converting Monitors..."
         converted_objs = []
@@ -258,6 +277,20 @@ class MonitorConfigConv(object):
     def convert_monitor(self, f5_monitor, key, monitor_config, input_dir,
                         user_ignore, tenant_ref, avi_config, cloud_name,
                         controller_version, merge_object_mapping, sys_dict):
+        """
+
+        :param f5_monitor: parsed f5 config dict
+        :param monitor_config: parsed monitor config dict
+        :param input_dir: location of cert and key
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: tenant of which output to be converted
+        :param avi_config: converted avi config dict
+        :param cloud_name: cloud name of which output to be converted
+        :param controller_version: controller version
+        :param merge_object_mapping: flag for merge objects
+        :param sys_dict: baseline profile
+        :return: monitor_dict
+        """
         monitor_type, name = self.get_name_type(f5_monitor, key)
         skipped = [val for val in f5_monitor.keys()
                    if val not in self.supported_attributes]
@@ -369,6 +402,12 @@ class MonitorConfigConv(object):
 
 class MonitorConfigConvV11(MonitorConfigConv):
     def __init__(self, f5_monitor_attributes, prefix, object_merge_check):
+        """
+
+        :param f5_monitor_attributes: f5 monitor attributes from yaml file.
+        :param prefix: prefix for objects
+        :param object_merge_check: flag for merge objects
+        """
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time-until-up"
         self.supported_attributes = \
@@ -396,10 +435,22 @@ class MonitorConfigConvV11(MonitorConfigConv):
         self.mon_count = 0
 
     def get_default_monitor(self, monitor_type, monitor_config):
+        """
+
+        :param monitor_type:  type of monitor
+        :param monitor_config: parsed f5 monitor dict
+        :return:
+        """
         default_name = "%s %s" % (monitor_type, monitor_type)
         return monitor_config.get(default_name, {})
 
     def get_defaults(self, monitor_config, key):
+        """
+
+        :param monitor_config: parsed monitor config dict
+        :param key: object name
+        :return:
+        """
         f5_monitor = monitor_config[key]
         monitor_type, monitor_name = key.split(" ")
         parent_name = f5_monitor.get("defaults-from", None)
@@ -420,6 +471,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return key.split(" ")
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
+        """
+
+        :param monitor_dict: dict for converted avi config
+        :param f5_monitor: parsed f5 monitor dict
+        :param skipped: skipped list
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
@@ -451,6 +509,20 @@ class MonitorConfigConvV11(MonitorConfigConv):
     def convert_https(self, monitor_dict, f5_monitor, skipped, avi_config,
                       tenant_ref, input_dir, cloud_name, controller_version,
                       merge_object_mapping, sys_dict):
+        """
+
+        :param monitor_dict: converted dict of avi config
+        :param f5_monitor:  parsed f5 monitor dict
+        :param skipped: skipped list
+        :param avi_config: dict for avi config conversion
+        :param tenant_ref: tenant which used for converted output.
+        :param input_dir: location of cert and key
+        :param cloud_name: cloud which used for converted output
+        :param controller_version: controller version of avi
+        :param merge_object_mapping: flag for object merge
+        :param sys_dict: baseline profile dict
+        :return:
+        """
         skipped = [key for key in skipped if key not in self.https_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
@@ -494,6 +566,13 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_dns(self, monitor_dict, f5_monitor, skipped):
+        """
+
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor:  parsed f5 dict
+        :param skipped: skipped list for monitor
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.dns_attr]
         accept_rcode = f5_monitor.get("accept-rcode", None)
         dns_monitor = dict()
@@ -523,6 +602,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
+        """
+
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :param type:  type of monitor
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.tcp_attr]
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
@@ -566,6 +653,14 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
+        """
+
+           :param monitor_dict: converted monitor dict
+           :param f5_monitor: parsed f5 config monitor dict
+           :param skipped: skipped list for monitor
+           :param type:  type of monitor
+           :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.udp_attr]
         # F5 version 11 have destination as port added code.
         # if * is there then ignore it else add to port.
@@ -601,11 +696,24 @@ class MonitorConfigConvV11(MonitorConfigConv):
         return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
+        """
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :return: skipped
+        """
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
         return skipped
 
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
+        """
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :param input_dir: location of cert and key
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.ext_attr]
         monitor_dict["type"] = "HEALTH_MONITOR_EXTERNAL"
         cmd_code = f5_monitor.get("run", 'none')
@@ -675,6 +783,12 @@ class MonitorConfigConvV11(MonitorConfigConv):
 class MonitorConfigConvV10(MonitorConfigConv):
 
     def __init__(self, f5_monitor_attributes, prefix, object_merge_check):
+        """
+
+       :param f5_monitor_attributes: f5 monitor attributes from yaml file.
+       :param prefix: prefix for objects
+       :param object_merge_check: flag for merge objects
+        """
         self.supported_types = f5_monitor_attributes['Monitor_Supported_Types']
         self.tup = "time until up"
         self.supported_attributes =\
@@ -707,6 +821,12 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return monitor_config.get(monitor_type, {})
 
     def get_defaults(self, monitor_config, key):
+        """
+
+        :param monitor_config: parsed monitor config dict
+        :param key: object name
+        :return:
+        """
         f5_monitor = monitor_config[key]
         parent_name = f5_monitor.get("defaults from", None)
         parent_name = None if parent_name == 'none' else \
@@ -724,6 +844,20 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return f5_monitor
 
     def convert_http(self, monitor_dict, f5_monitor, skipped):
+        """
+
+        :param monitor_dict: converted dict of avi config
+        :param f5_monitor:  parsed f5 monitor dict
+        :param skipped: skipped list
+        :param avi_config: dict for avi config conversion
+        :param tenant_ref: tenant which used for converted output.
+        :param input_dir: location of cert and key
+        :param cloud_name: cloud which used for converted output
+        :param controller_version: controller version of avi
+        :param merge_object_mapping: flag for object merge
+        :param sys_dict: baseline profile dict
+        :return:
+        """
         ignore_list = ['adaptive']
         http_attr = self.http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
@@ -758,7 +892,20 @@ class MonitorConfigConvV10(MonitorConfigConv):
     def convert_https(self, monitor_dict, f5_monitor, skipped,
                       avi_config, tenant, input_dir, cloud_name,
                       controller_version, merge_object_mapping, sys_dict):
+        """
 
+        :param monitor_dict: converted dict of avi config
+        :param f5_monitor:  parsed f5 monitor dict
+        :param skipped: skipped list
+        :param avi_config: dict for avi config conversion
+        :param tenant_ref: tenant which used for converted output.
+        :param input_dir: location of cert and key
+        :param cloud_name: cloud which used for converted output
+        :param controller_version: controller version of avi
+        :param merge_object_mapping: flag for object merge
+        :param sys_dict: baseline profile dict
+        :return:
+        """
         ignore_list = ['compatibility']
         https_attr = ignore_list + self.https_attr
         skipped = [key for key in skipped if key not in https_attr]
@@ -805,6 +952,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_tcp(self, monitor_dict, f5_monitor, skipped, type):
+        """
+
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :param type:  type of monitor
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.tcp_attr]
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
@@ -849,6 +1004,14 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_udp(self, monitor_dict, f5_monitor, skipped):
+        """
+
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :param type:  type of monitor
+        :return: skipped
+        """
         skipped = [key for key in skipped if key not in self.udp_attr]
         # F5 version 10 have dest as port added code.
         # if * is there then ignore it else add to port.
@@ -886,11 +1049,26 @@ class MonitorConfigConvV10(MonitorConfigConv):
         return skipped
 
     def convert_icmp(self, monitor_dict, f5_monitor, skipped):
+        """
+
+        :param monitor_dict: converted monitor dict
+        :param f5_monitor: parsed f5 config monitor dict
+        :param skipped: skipped list for monitor
+        :param type:  type of monitor
+        :return: skipped
+        """
         monitor_dict["type"] = "HEALTH_MONITOR_PING"
         return skipped
 
     def convert_external(self, monitor_dict, f5_monitor, skipped,
                          input_dir, name):
+        """
+           :param monitor_dict: converted monitor dict
+           :param f5_monitor: parsed f5 config monitor dict
+           :param skipped: skipped list for monitor
+           :param input_dir: location of cert and key
+           :return: skipped
+        """
         script_vars = ""
         for key in f5_monitor.keys():
             if key not in ('args', 'run') and '\"' in f5_monitor[key]:

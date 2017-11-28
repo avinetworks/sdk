@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -941,6 +941,10 @@
                 "upstream_keepalive": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
+                }, 
+                "disable_tso": {
+                    "type": "boolean", 
+                    "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.4,18.1.1."
                 }, 
                 "upstream_connpool_core_max_cache": {
                     "default": -1, 

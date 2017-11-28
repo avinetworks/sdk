@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -293,11 +293,13 @@ font-style: italic;
         "network_ref" : "aeiou",
         "advertise_snat_ip" : true,
         "advertisement_interval" : 123,
+        "shutdown" : true,
         "ebgp_multihop" : 123
       } ],
       "hold_time" : 123,
       "community" : [ "aeiou" ],
-      "local_as" : 123
+      "local_as" : 123,
+      "shutdown" : true
     },
     "gateway_mon" : [ {
       "subnet" : "",
@@ -414,11 +416,13 @@ font-style: italic;
       "network_ref" : "aeiou",
       "advertise_snat_ip" : true,
       "advertisement_interval" : 123,
+      "shutdown" : true,
       "ebgp_multihop" : 123
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
-    "local_as" : 123
+    "local_as" : 123,
+    "shutdown" : true
   },
   "gateway_mon" : [ {
     "subnet" : "",
@@ -604,11 +608,13 @@ font-style: italic;
       "network_ref" : "aeiou",
       "advertise_snat_ip" : true,
       "advertisement_interval" : 123,
+      "shutdown" : true,
       "ebgp_multihop" : 123
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
-    "local_as" : 123
+    "local_as" : 123,
+    "shutdown" : true
   },
   "gateway_mon" : [ {
     "subnet" : "",
@@ -736,11 +742,13 @@ font-style: italic;
       "network_ref" : "aeiou",
       "advertise_snat_ip" : true,
       "advertisement_interval" : 123,
+      "shutdown" : true,
       "ebgp_multihop" : 123
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
-    "local_as" : 123
+    "local_as" : 123,
+    "shutdown" : true
   },
   "gateway_mon" : [ {
     "subnet" : "",
@@ -868,11 +876,13 @@ font-style: italic;
       "network_ref" : "aeiou",
       "advertise_snat_ip" : true,
       "advertisement_interval" : 123,
+      "shutdown" : true,
       "ebgp_multihop" : 123
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
-    "local_as" : 123
+    "local_as" : 123,
+    "shutdown" : true
   },
   "gateway_mon" : [ {
     "subnet" : "",
@@ -954,6 +964,7 @@ font-style: italic;
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network providing reachability for Peer. It is a reference to an object of type Network. </div>
 <div class="param">peer_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the BGP Peer. </div>
 <div class="param">remote_as (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Peer Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
+<div class="param">shutdown (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Shutdown the bgp peer. Field introduced in 17.2.4. </div>
 <div class="param">subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for Peer. </div>
     </div>  <!-- field-items -->
   </div>
@@ -968,6 +979,7 @@ font-style: italic;
 <div class="param">local_as </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Local Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
 <div class="param">peers (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpPeer">array[BgpPeer]</a></span> BGP Peers. </div>
 <div class="param">send_community (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send community attribute to all peers. Field introduced in 17.1.2. </div>
+<div class="param">shutdown (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Shutdown the bgp. Field introduced in 17.2.4. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PKIProfile Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

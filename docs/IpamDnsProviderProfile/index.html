@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -273,6 +273,7 @@ font-style: italic;
       "match_se_group_subnet" : true,
       "usable_network_refs" : [ "aeiou" ]
     },
+    "allocate_ip_in_vrf" : true,
     "type" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -422,6 +423,7 @@ font-style: italic;
     "match_se_group_subnet" : true,
     "usable_network_refs" : [ "aeiou" ]
   },
+  "allocate_ip_in_vrf" : true,
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -640,6 +642,7 @@ font-style: italic;
     "match_se_group_subnet" : true,
     "usable_network_refs" : [ "aeiou" ]
   },
+  "allocate_ip_in_vrf" : true,
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -800,6 +803,7 @@ font-style: italic;
     "match_se_group_subnet" : true,
     "usable_network_refs" : [ "aeiou" ]
   },
+  "allocate_ip_in_vrf" : true,
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -960,6 +964,7 @@ font-style: italic;
     "match_se_group_subnet" : true,
     "usable_network_refs" : [ "aeiou" ]
   },
+  "allocate_ip_in_vrf" : true,
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -1215,7 +1220,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="IpamDnsProviderProfile">IpamDnsProviderProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">aws_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsAwsProfile">IpamDnsAwsProfile</a></span> Provider details if type is AWS. </div>
+      <div class="param">allocate_ip_in_vrf (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If this flag is set, only allocate IP from networks in the Virtual Service VRF. Field introduced in 17.2.4. </div>
+<div class="param">aws_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsAwsProfile">IpamDnsAwsProfile</a></span> Provider details if type is AWS. </div>
 <div class="param">azure_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsAzureProfile">IpamDnsAzureProfile</a></span> Provider details if type is Microsoft Azure. Field introduced in 17.2.1. </div>
 <div class="param">custom_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsCustomProfile">IpamDnsCustomProfile</a></span> Provider details if type is Custom. Field introduced in 17.1.1. </div>
 <div class="param">gcp_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpamDnsGCPProfile">IpamDnsGCPProfile</a></span> Provider details if type is Google Cloud. </div>

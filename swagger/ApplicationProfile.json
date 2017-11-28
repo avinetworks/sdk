@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -659,6 +659,12 @@
                     }, 
                     "type": "array", 
                     "description": "Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics."
+                }, 
+                "negative_caching_ttl": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4.", 
+                    "format": "int32"
                 }, 
                 "aaaa_empty_response": {
                     "default": true, 
@@ -1360,6 +1366,10 @@
                     "type": "integer", 
                     "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited.", 
                     "format": "int64"
+                }, 
+                "enable_fire_and_forget": {
+                    "type": "boolean", 
+                    "description": "Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4."
                 }, 
                 "max_rps_unknown_cip": {
                     "type": "integer", 

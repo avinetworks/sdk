@@ -15,6 +15,14 @@ used_policy=[]
 class VSConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_virtualservice_attributes, prefix, con_snatpool):
+        """
+
+        :param version:  version of f5 instance
+        :param f5_virtualservice_attributes: yaml attribute file for object
+        :param prefix: prefix for objects
+        :param con_snatpool: flag for converting snat into  individual address
+        :return:
+        """
         if version == '10':
             return VSConfigConvV10(f5_virtualservice_attributes, prefix, con_snatpool)
         if version in ['11', '12']:
@@ -29,6 +37,19 @@ class VSConfigConv(object):
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict):
+        """
+
+        :param f5_config: Parsed f5 config dict
+        :param avi_config: dict for avi conversion
+        :param vs_state: State of created Avi VS object
+        :param user_ignore: Ignore config defined by user
+        :param tenant: Tenant for which config need to be converted
+        :param cloud_name: cloud for which config need to be converted
+        :param controller_version: AVI controller version
+        :param merge_object_mapping: flag for merge object
+        :param sys_dict: baseline profile dict
+        :return:
+        """
         f5_snat_pools = f5_config.get("snatpool", {})
         vs_config = f5_config.get("virtual", {})
         avi_config['VirtualService'] = []
@@ -75,6 +96,21 @@ class VSConfigConv(object):
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name, controller_version,
                    merge_object_mapping, sys_dict):
+        """
+
+        :param vs_name: name of virtual service.
+        :param f5_vs: parsed dict of f5 virtual service.
+        :param vs_state: State of created Avi VS object
+        :param avi_config: dict for avi conversion
+        :param snat_config: parsed source address translation dict
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: Tenant for which config need to be converted
+        :param cloud_name: cloud for which config need to be converted
+        :param controller_version: AVI controller version
+        :param merge_object_mapping: Flag to merge object
+        :param sys_dict: Baseline dict
+        :return:
+        """
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -95,7 +131,7 @@ class VSConfigConv(object):
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
-        app_prof, f_host, realm, policy_set = conv_utils.get_vs_app_profiles(
+        app_prof, f_host, realm, app_pol_name = conv_utils.get_vs_app_profiles(
             profiles, avi_config, tenant, self.prefix, oc_prof, enable_ssl,
             merge_object_mapping, sys_dict)
 
@@ -286,6 +322,8 @@ class VSConfigConv(object):
             vs_obj['vsvip_ref'] = vsvip_ref
         else:
             vs_obj['ip_address'] = vip['ip_address']
+        # Policy tracking starts from here
+        vs_policies = [app_pol_name] if app_pol_name else []
         vs_ds_rules = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
@@ -330,33 +368,20 @@ class VSConfigConv(object):
                                                                 'tenant'),
                         "is_internal_policy": False
                     }
-                    http_policies = {
-                        'index': 11,
-                        'http_policy_set_ref':
-                            conv_utils.get_object_ref(policy_name,
-                                                      'httppolicyset',
-                                                      tenant=tenant)
-                    }
-                    if not vs_obj.get('http_policies'):
-                        vs_obj['http_policies'] = []
-                    else:
-                        ind = max([pol_index['index'] for pol_index in vs_obj[
-                                  'http_policies']])
-                        http_policies['index'] = ind + 1
-                    vs_obj['http_policies'].append(http_policies)
+                    vs_policies.append(policy_name)
                     avi_config['HTTPPolicySet'].append(policy)
-        vs_policies = []
         if 'policies' in f5_vs:
             if isinstance(f5_vs['policies'], basestring):
-                vs_policies = ['%s-%s' % (self.prefix,
+                vs_policies.extend(['%s-%s' % (self.prefix,
                                conv_utils.get_tenant_ref(f5_vs['policies'])[1])
                                if self.prefix else conv_utils.get_tenant_ref(
-                               f5_vs['policies'])[1]]
+                               f5_vs['policies'])[1]])
             else:
-                vs_policies = ['%s-%s' % (self.prefix,
+                vs_policies.extend(['%s-%s' % (self.prefix,
                                conv_utils.get_tenant_ref(name)[1]) if
                                self.prefix else conv_utils.get_tenant_ref(
-                               name)[1] for name in f5_vs['policies'].keys()]
+                               name)[1] for name in f5_vs['policies'].keys()])
+        if vs_policies:
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
                                cloud_name, vs_obj)
         p_ref = None
@@ -405,15 +430,6 @@ class VSConfigConv(object):
 
         if realm:
             vs_obj['client_auth'] = realm
-
-        if policy_set:
-            if not vs_obj.get('http_policies'):
-                vs_obj['http_policies'] = []
-            else:
-                ind = max([pol_index['index'] for pol_index in vs_obj[
-                          'http_policies']])
-                policy_set[0]['index'] = ind + 1
-            vs_obj['http_policies'].append(policy_set[0])
 
         source = f5_vs.get('source', '0.0.0.0/0')
         if '%' in source:
@@ -536,12 +552,12 @@ class VSConfigConv(object):
         """
         This method gets all the policy attached to vs, also clone it if
         required
-        :param vs_policies:
-        :param avi_config:
-        :param vs_name:
-        :param tenant:
-        :param cloud_name:
-        :param vs_obj:
+        :param vs_policies: dict of policies
+        :param avi_config: dict for avi conversion
+        :param vs_name: name of vs
+        :param tenant: tenant for which output to converted
+        :param cloud_name: cloud for which output to converted
+        :param vs_obj: virtualservice object
         :return:
         """
         for pol_name in vs_policies:
@@ -562,7 +578,8 @@ class VSConfigConv(object):
                     'index': 11,
                     'http_policy_set_ref':
                         conv_utils.get_object_ref(pol_name, 'httppolicyset',
-                                                  tenant=tenant)
+                                                  tenant=conv_utils.get_name(
+                                                  policy_obj[0]['tenant_ref']))
                 }
                 if not vs_obj.get('http_policies'):
                     vs_obj['http_policies'] = []
@@ -575,6 +592,12 @@ class VSConfigConv(object):
 
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
+        """
+
+        :param f5_virtualservice_attributes: yaml attribute file for object
+        :param prefix: prefix for object
+        :param con_snatpool: flag for snat conversion
+        """
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -589,6 +612,11 @@ class VSConfigConvV11(VSConfigConv):
         self.con_snatpool = con_snatpool
 
     def get_persist_ref(self, f5_vs):
+        """
+
+        :param f5_vs:  parsed f5 vs dict
+        :return:
+        """
         persist_ref = f5_vs.get("persist", None)
         if persist_ref:
             persist_ref = persist_ref.keys()[0]
@@ -599,11 +627,11 @@ class VSConfigConvV11(VSConfigConv):
         """
         This method looks for translate-port property and sets the service
         port in pool and remove the monitor if monitor don't have port
-        :param avi_config:
-        :param f5_vs:
-        :param app_prof:
-        :param pool_ref:
-        :param sys_dict:
+        :param avi_config: dict for avi conversion
+        :param f5_vs: parsed f5 vs dict
+        :param app_prof: application profile
+        :param pool_ref: pool reference name
+        :param sys_dict: baseline dict
         :return:
         """
         port_translate = f5_vs.get('translate-port', None)
@@ -618,6 +646,12 @@ class VSConfigConvV11(VSConfigConv):
 
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
+        """
+
+        :param f5_virtualservice_attributes: yaml attribute file for object
+        :param prefix: prefix for object
+        :param con_snatpool: flag for snat conversion
+        """
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
             f5_virtualservice_attributes['VS_ignore_for_value']
@@ -640,11 +674,11 @@ class VSConfigConvV10(VSConfigConv):
         """
         This method looks for translate-port property and sets the service
         port in pool and remove the monitor if monitor don't have port
-        :param avi_config:
-        :param f5_vs:
-        :param app_prof:
-        :param pool_ref:
-        :param sys_dict:
+        :param avi_config: dict for avi conversion
+        :param f5_vs: parsed f5 vs dict
+        :param app_prof: application profile
+        :param pool_ref: pool reference name
+        :param sys_dict: baseline dict
         :return:
         """
         port_translate = f5_vs.get('translate service', None)

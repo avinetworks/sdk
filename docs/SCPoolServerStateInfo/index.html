@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - show poolserverstateinfo ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,7 +253,6 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "pool_ref" : "aeiou",
     "is_server" : true,
     "tenant_ref" : "aeiou",
     "server_states" : [ {
@@ -264,6 +263,7 @@ font-style: italic;
       "server_port" : 123,
       "oper_status" : ""
     } ],
+    "pool_id" : "aeiou",
     "oper_status" : {
       "reason_code" : 123456789,
       "reason" : [ "aeiou" ],
@@ -330,7 +330,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "pool_ref" : "aeiou",
   "is_server" : true,
   "tenant_ref" : "aeiou",
   "server_states" : [ {
@@ -341,6 +340,7 @@ font-style: italic;
     "server_port" : 123,
     "oper_status" : ""
   } ],
+  "pool_id" : "aeiou",
   "oper_status" : {
     "reason_code" : 123456789,
     "reason" : [ "aeiou" ],
@@ -476,7 +476,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "pool_ref" : "aeiou",
   "is_server" : true,
   "tenant_ref" : "aeiou",
   "server_states" : [ {
@@ -487,6 +486,7 @@ font-style: italic;
     "server_port" : 123,
     "oper_status" : ""
   } ],
+  "pool_id" : "aeiou",
   "oper_status" : {
     "reason_code" : 123456789,
     "reason" : [ "aeiou" ],
@@ -564,7 +564,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "pool_ref" : "aeiou",
   "is_server" : true,
   "tenant_ref" : "aeiou",
   "server_states" : [ {
@@ -575,6 +574,7 @@ font-style: italic;
     "server_port" : 123,
     "oper_status" : ""
   } ],
+  "pool_id" : "aeiou",
   "oper_status" : {
     "reason_code" : 123456789,
     "reason" : [ "aeiou" ],
@@ -652,7 +652,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "pool_ref" : "aeiou",
   "is_server" : true,
   "tenant_ref" : "aeiou",
   "server_states" : [ {
@@ -663,6 +662,7 @@ font-style: italic;
     "server_port" : 123,
     "oper_status" : ""
   } ],
+  "pool_id" : "aeiou",
   "oper_status" : {
     "reason_code" : 123456789,
     "reason" : [ "aeiou" ],
@@ -730,7 +730,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">is_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">oper_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#OperationalStatus">OperationalStatus</a></span>  Field introduced in 17.1.1. </div>
-<div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Pool. Field introduced in 17.1.1. </div>
+<div class="param">pool_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">server_states (optional)</div><div class="param-desc"><span class="param-type"><a href="#SCServerStateInfo">array[SCServerStateInfo]</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>

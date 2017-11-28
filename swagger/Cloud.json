@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2660,49 +2660,21 @@
                     "description": "Placeholder for description of property vca_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/vCloudAirConfiguration"
                 }, 
-                "mesos_configuration": {
-                    "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/MesosConfiguration"
-                }, 
                 "proxy_configuration": {
                     "description": "Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/ProxyConfiguration"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
                 }, 
                 "docker_configuration": {
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/DockerConfiguration"
                 }, 
-                "openstack_configuration": {
-                    "description": "Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/OpenStackConfiguration"
-                }, 
-                "enable_vip_static_routes": {
-                    "type": "boolean", 
-                    "description": "Use static routes for VIP side network resolution during VirtualService placement."
-                }, 
                 "oshiftk8s_configuration": {
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/OShiftK8SConfiguration"
                 }, 
-                "aws_configuration": {
-                    "description": "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/AwsConfiguration"
-                }, 
-                "cloudstack_configuration": {
-                    "description": "Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/CloudStackConfiguration"
-                }, 
                 "dhcp_enabled": {
                     "type": "boolean", 
                     "description": "Select the IP address management scheme."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
                 }, 
                 "rancher_configuration": {
                     "description": "Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object", 
@@ -2713,22 +2685,13 @@
                     "type": "string", 
                     "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 }, 
-                "ipam_provider_ref": {
-                    "type": "string", 
-                    "description": "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
-                }, 
                 "uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of the object."
                 }, 
-                "nsx_configuration": {
-                    "description": "Configuration parameters for NSX Manager. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/NsxConfiguration"
-                }, 
-                "url": {
-                    "readOnly": true, 
+                "obj_name_prefix": {
                     "type": "string", 
-                    "description": "url"
+                    "description": "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
                 }, 
                 "custom_tags": {
                     "items": {
@@ -2737,9 +2700,63 @@
                     "type": "array", 
                     "description": "Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5."
                 }, 
-                "vcenter_configuration": {
-                    "description": "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/vCenterConfiguration"
+                "nsx_configuration": {
+                    "description": "Configuration parameters for NSX Manager. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/NsxConfiguration"
+                }, 
+                "apic_mode": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
+                }, 
+                "dns_provider_ref": {
+                    "type": "string", 
+                    "description": "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
+                }, 
+                "mesos_configuration": {
+                    "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/MesosConfiguration"
+                }, 
+                "openstack_configuration": {
+                    "description": "Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/OpenStackConfiguration"
+                }, 
+                "enable_vip_static_routes": {
+                    "type": "boolean", 
+                    "description": "Use static routes for VIP side network resolution during VirtualService placement."
+                }, 
+                "aws_configuration": {
+                    "description": "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/AwsConfiguration"
+                }, 
+                "cloudstack_configuration": {
+                    "description": "Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/CloudStackConfiguration"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "azure_configuration": {
+                    "description": " Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/AzureConfiguration"
+                }, 
+                "ipam_provider_ref": {
+                    "type": "string", 
+                    "description": "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
+                }, 
+                "state_based_dns_registration": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
                 }, 
                 "mtu": {
                     "default": 1500, 
@@ -2759,10 +2776,6 @@
                     "description": "Placeholder for description of property apic_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/APICConfiguration"
                 }, 
-                "obj_name_prefix": {
-                    "type": "string", 
-                    "description": "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
-                }, 
                 "prefer_static_routes": {
                     "type": "boolean", 
                     "description": "Prefer static routes over interface routes during VirtualService placement."
@@ -2771,17 +2784,9 @@
                     "type": "string", 
                     "description": "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS."
                 }, 
-                "apic_mode": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
-                }, 
-                "azure_configuration": {
-                    "description": " Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/AzureConfiguration"
-                }, 
-                "dns_provider_ref": {
-                    "type": "string", 
-                    "description": "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
+                "vcenter_configuration": {
+                    "description": "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/vCenterConfiguration"
                 }, 
                 "east_west_dns_provider_ref": {
                     "type": "string", 
@@ -2799,7 +2804,7 @@
                 "mode": {
                     "default": "AWS_ENCRYPTION_MODE_NONE", 
                     "type": "string", 
-                    "description": "AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                    "description": "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
                 }
             }
         }, 
@@ -2983,7 +2988,7 @@
                 "registry": {
                     "default": "avinetworks/se", 
                     "type": "string", 
-                    "description": "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/<namespace>/<repo>."
+                    "description": "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo."
                 }, 
                 "password": {
                     "type": "string", 

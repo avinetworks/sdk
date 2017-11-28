@@ -40,6 +40,9 @@ SupportedCommands:
 - 'bind ssl service'
 - 'bind lb group'
 - 'set lb group'
+- 'add gslb service'
+- 'add gslb vserver'
+- 'bind gslb vserver'
 
 NotApplicableCommands:
 - 'set system'
@@ -167,6 +170,18 @@ NotSupported:
 - 'set rnat'
 - 'set rnatparam'
 - 'add filter policy'
+- 'add gslb site'
+
+vs_supported_types:
+- 'HTTP'
+- 'TCP'
+- 'UDP'
+- 'SSL'
+- 'SSL_BRIDGE'
+- 'SSL_TCP'
+- 'DNS'
+- 'DNS_TCP'
+
 
 lbvs_skip_attrs:
 - 'persistenceBackup'
@@ -640,3 +655,59 @@ profile_bind_ssl_service_ignore:
      'clientAuth': 'default'
      'ssl2': 'DISABLED'
      'ssl3': 'DISABLED'
+
+gslb_service_indirect:
+- 'publicIP'
+- 'publicPort'
+- 'maxClient'
+- 'healthMonitor'
+- 'siteName'
+- 'appflowLog'
+
+gslb_service_skip:
+- 'cip'
+- 'cookieTimeout'
+- 'cltTimeout'
+- 'svrTimeout'
+- 'maxBandwidth'
+- 'downStateFlush'
+- 'maxAAAUsers'
+- 'monThreshold'
+- 'naptrReplacement'
+- 'naptrDomainTTL'
+- 'naptrOrder'
+- 'naptrServices'
+- 'naptrPreference'
+
+gslb_service_na:
+- 'sitePrefix'
+- 'hashId'
+
+bind_gslb_skip:
+- 'cookieDomain'
+- 'cookieTimeout'
+- 'sitedomainTTL'
+- 'policyName'
+- 'gotoPriorityExpression'
+- 'type'
+
+gslb_vserver_indirect:
+- 'backupLBMethod'
+- 'considerEffectiveState'
+
+gslb_vserver_skip:
+- 'v6netmasklen'
+- 'persistenceId'
+- 'persistMask'
+- 'v6persistmasklen'
+- 'timeout'
+- 'disablePrimaryOnDown'
+- 'dynamicWeight'
+- 'soMethod'
+- 'soPersistence'
+- 'soPersistenceTimeOut'
+- 'soThreshold'
+- 'soBackupAction'
+
+gslb_vserver_na:
+- 'tolerance'

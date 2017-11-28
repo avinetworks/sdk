@@ -24,10 +24,9 @@ LOG = logging.getLogger(__name__)
 # Creating object for util library.
 ns_util = NsUtil()
 
-
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
-            prefix, profile_path, redirect, key_passphrase=None,
+            prefix, vs_name_dict, profile_path, redirect, key_passphrase=None,
             user_ignore={}, vs_level_status=False):
     """
     This functions defines that it convert service/servicegroup to pool
@@ -76,7 +75,6 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 prof_data = json.load(data)
                 for key in merge_object_type:
                     sys_dict[key] = prof_data.get(key, [])
-
         monitor_converter = MonitorConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, user_ignore,
             prefix, object_merge_check, version)
@@ -97,12 +95,13 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         lbvs_converter = LbvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
-        lbvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict)
-
+        lbvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict,
+                               vs_name_dict)
         csvs_converter = CsvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
-        csvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict)
+        csvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict,
+                               vs_name_dict)
         if object_merge_check:
             # Updating the reference for application persistence profile as we
             # are assigning reference at the time of profile creation

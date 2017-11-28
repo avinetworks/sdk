@@ -14,11 +14,11 @@ import requests
 import os
 from copy import deepcopy
 from avi.migrationtools.avi_orphan_object import \
-     filter_for_vs, get_vs_ref, get_name_and_entity
+    filter_for_vs, get_vs_ref, get_name_and_entity
 from avi.migrationtools.ansible.ansible_constant import \
-    (USERNAME, PASSWORD ,HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
+    (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
-     CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC,common_task_args, ansible_dict,
+     CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC, common_task_args, ansible_dict,
      SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
      SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, AVI_VIRTUALSERVICE,
      SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
@@ -27,12 +27,13 @@ from avi.migrationtools.ansible.ansible_constant import \
      AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
      ANSIBLE_STR)
 from avi.migrationtools.avi_migration_utils import MigrationUtil
-
+from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
 # Added util object
 mg_util = MigrationUtil()
+
 
 class AviAnsibleConverter(object):
     skip_fields = SKIP_FIELDS
@@ -42,31 +43,34 @@ class AviAnsibleConverter(object):
     REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
-                 filter_types=None):
+                 filter_types=None, ns_vs_name_dict=None, test_vip=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
         # Added prefix flag for object
         self.prefix = prefix
         self.not_in_use = not_in_use
+        # Added ns vs dict
+        self.ns_vs_name_dict = ns_vs_name_dict
+        # for test vip
+        self.test_vip = test_vip
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
-                               else skip_types.split(','))
+                           else skip_types.split(','))
         if filter_types:
             self.filter_types = \
                 (set(filter_types) if type(filter_types) == list
                  else set(filter_types.split(',')))
         else:
             self.filter_types = None
-            
+
         # Read file to get meta order.
         self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
-                                          'ansible_order_constant.yaml')
+                                                   'ansible_order_constant.yaml')
 
         with open(self.ansible_rest_file_path, 'r') as f:
             self.default_meta_order = yaml.load(f)
-        
 
     def transform_ref(self, x, obj):
         """
@@ -154,6 +158,24 @@ class AviAnsibleConverter(object):
             task_name = ("Create or Update %s: %s" % (obj_type, obj['name'])
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
+
+            # replacing test vips for both versions 17.1 and 16.4
+            if self.test_vip:
+                test_vip = self.test_vip.split('.')[:3]
+                if self.api_version == '16.4':
+                    if task.get('ip_address', []):
+                        task['ip_address']['addr']\
+                            = '.'.join(test_vip +
+                                       task['ip_address']['addr'].split('.')[3:])
+                else:
+                    if task.get('vip', []):
+                        for id, ip in enumerate(task['vip']):
+                            task['vip'][id]['ip_address']['addr']\
+                                = '.'.join(test_vip +
+                                           task['vip'][id]['ip_address']['addr'].split('.')[3:])
+                        if task.get('vsvip_ref', []):
+                            task.get('vsvip_ref', [])
+
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
             name = '%s-%s' % (obj['name'], obj_type)
@@ -162,7 +184,7 @@ class AviAnsibleConverter(object):
 
             tname = None
             if 'tenant_ref' in obj:
-                    entity, tname = get_name_and_entity(obj['tenant_ref'])
+                entity, tname = get_name_and_entity(obj['tenant_ref'])
 
             # creating the equivalent key
             vs_ref_type = '%s$$%s$$%s' % (obj['name'], obj_type.lower(), tname)
@@ -184,34 +206,6 @@ class AviAnsibleConverter(object):
                     TAGS: tags
                 })
         return ansible_dict
-
-    def remove_prefix(self, vs_name):
-        """
-        This function used to remove prefix from name
-        :param vs_name: name of virtualservice
-        :return: virtualservice name
-        """
-        prefix = self.prefix + '-'
-        if vs_name.startswith(prefix):
-            return vs_name[len(prefix):]
-        return vs_name
-
-    def get_status_vs(self, vs_name, f5server, username, password):
-        """
-        This function is used for getting status for F5 virtualservice.
-        :param vs_name: virtualservice name
-        :param f5server: f5 server
-        :param username: f5 username
-        :param password: f5 password
-        :return: if enabled tag present.
-        """
-        if self.prefix:
-            vs_name = self.remove_prefix(vs_name)
-        url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
-        status = requests.get(url, verify=False, auth=(username, password))
-        status = json.loads(status.content)
-        if status.pop(ENABLE, None):
-            return True
 
     def get_f5_attributes(self, vs_dict):
         """
@@ -235,46 +229,9 @@ class AviAnsibleConverter(object):
         f5_dict[PASSWORD] = F5_PASSWORD
         return f5_dict
 
-    def create_f5_ansible_disable(self, f5_dict, ansible_dict):
-        """
-        This function used to disabled f5 virtualservice.
-        :param f5_dict: contains f5 related attributes.
-        :param ansible_dict: used for playbook generation.
-        :return: None
-        """
-        f5_disable = deepcopy(f5_dict)
-        f5_disable[STATE] = DISABLE
-        # Remove prefix from vs name of big ip.
-        if self.prefix:
-            f5_disable[NAME] = self.remove_prefix(f5_dict[NAME])
-        name = "Disable F5 virtualservice: %s" % f5_disable[NAME]
-        ansible_dict[TASKS].append(
-            {
-                NAME: name,
-                BIGIP_VS_SERVER: f5_disable,
-                DELEGETE_TO: LOCAL_HOST,
-                TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
-            })
-
-    def create_avi_ansible_enable(self, vs_dict, ansible_dict):
-        """
-        This function is used to enable the avi virtual service.
-        :param vs_dict: avi virtualservice related parameters.
-        :param ansible_dict: used for playbook generation.
-        :return: None
-        """
-        avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = True
-        name = "Enable Avi virtualservice: %s" % avi_enable[NAME]
-        ansible_dict[TASKS].append(
-            {
-                NAME: name,
-                AVI_VIRTUALSERVICE: avi_enable,
-                TAGS: [ENABLE_AVI, avi_enable[NAME], VIRTUALSERVICE]
-            })
-
     def generate_avi_vs_traffic(self, vs_dict, ansible_dict,
-                                application_profile, tenant='admin'):
+                                application_profile, tenant='admin',
+                                test_vip=None):
         """
         This function is used for generating tags for avi traffic.
         :param vs_dict: avi virtualservice attributes.
@@ -285,11 +242,17 @@ class AviAnsibleConverter(object):
         :return: None
         """
         avi_traffic_dict = dict()
-        avi_traffic_dict[REQEST_TYPE] = \
-            self.get_request_type(application_profile.split('name=')[1])
+        if application_profile == 'http':
+            avi_traffic_dict[REQEST_TYPE] = 'http'
+        else:
+            avi_traffic_dict[REQEST_TYPE] = \
+                self.get_request_type(application_profile.split('name=')[1])
         if avi_traffic_dict[REQEST_TYPE] != 'dns':
             avi_traffic_dict[PORT] = vs_dict[SERVICES][0][PORT]
             ip = vs_dict[VIP][0][IP_ADDRESS][ADDR]
+            if test_vip:
+                test_vip = self.test_vip.split('.')[:3]
+                ip = '.'.join(test_vip + ip.split('.')[3:])
             avi_traffic_dict[IP_ADDRESS] = ip
             avi_traffic_dict[VS_NAME] = vs_dict[NAME]
             avi_traffic_dict[CONTROLLER] = CONTROLLER_INPUT
@@ -303,47 +266,6 @@ class AviAnsibleConverter(object):
                 AVI_TRAFFIC: avi_traffic_dict,
                 TAGS: [vs_dict[NAME], GEN_TRAFFIC],
                 REGISTER: VALUE
-            })
-
-    def create_avi_ansible_disable(self, vs_dict, ansible_dict):
-        """
-        This function is used to disable the avi virtual service.
-        :param vs_dict: avi virtualservice attributes.
-        :param ansible_dict: used for playbook generation.
-        :return: None
-        """
-        avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
-        avi_enable[WHEN] = RESULT
-        name = "Disable Avi virtualservice: %s" % avi_enable[NAME]
-        ansible_dict[TASKS].append(
-            {
-                NAME: name,
-                AVI_VIRTUALSERVICE: avi_enable,
-                TAGS: [DISABLE_AVI, avi_enable[NAME], VIRTUALSERVICE]
-            })
-
-    def create_f5_ansible_enable(self, f5_dict, ansible_dict):
-        """
-        This function is used to enable the f5 virtualservice.
-        :param f5_dict: f5 attributes
-        :param ansible_dict: used for playbook generation.
-        :return: None
-        """
-
-        f5_values = deepcopy(f5_dict)
-        f5_values[STATE] = ENABLE
-        f5_values[WHEN] = RESULT
-        # Remove prefix from vs name of big ip.
-        if self.prefix:
-            f5_values[NAME] = self.remove_prefix(f5_dict[NAME])
-        name = "Enable F5 virtualservice: %s" % f5_values[NAME]
-        ansible_dict[TASKS].append(
-            {
-                NAME: name,
-                BIGIP_VS_SERVER: f5_values,
-                DELEGETE_TO: LOCAL_HOST,
-                TAGS: [ENABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
             })
 
     def get_request_type(self, name):
@@ -364,7 +286,8 @@ class AviAnsibleConverter(object):
         elif L4_TYPE in str(request_type).lower():
             return 'tcp'
 
-    def generate_traffic(self, ansible_dict, f5server, f5username, f5password):
+    def generate_traffic(self, ansible_dict, f5server, f5username, f5password,
+                         instace_type):
         """
         Generate the ansible playbook for Traffic generation.
         :param ansible_dict: ansible dict for generating yaml.
@@ -377,9 +300,10 @@ class AviAnsibleConverter(object):
         total_size = len(self.avi_cfg['VirtualService'])
         progressbar_count = 0
         print "Conversion Started For Ansible Generate Traffic..."
+        trafic_obj = TrafficGen.get_instance(instace_type, self.prefix,
+                                             ns_vs_name_dict=self.ns_vs_name_dict)
         for vs in self.avi_cfg['VirtualService']:
-            progressbar_count += 1
-            if self.get_status_vs(vs[NAME], f5server, f5username, f5password):
+            if trafic_obj.get_status_vs(vs[NAME], f5server, f5username, f5password):
                 tenant = 'admin'
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
@@ -395,26 +319,38 @@ class AviAnsibleConverter(object):
                 if POOL_REF in vs:
                     sep_ele = vs[POOL_REF].split('&')
                     removed_ref = sep_ele[0].split('?')
-                    vs_dict[POOL_REF] = removed_ref[0]+'?'+sep_ele[1]
+                    vs_dict[POOL_REF] = removed_ref[0] + '?' + sep_ele[1]
                 f5_dict = self.get_f5_attributes(vs_dict)
-                self.create_f5_ansible_disable(f5_dict, ansible_dict)
-                self.create_avi_ansible_enable(vs_dict, ansible_dict)
+                # Call to distinguish between f5 and netscaler
+                trafic_obj.create_ansible_disable(f5_dict, ansible_dict)
+                trafic_obj.create_avi_ansible_enable(
+                    vs_dict, ansible_dict, test_vip=self.test_vip)
                 # Getting the request type
                 if APPLICATION_PROFILE_REF in vs:
                     self.generate_avi_vs_traffic(
-                                                 vs_dict, ansible_dict,
-                                                 vs[APPLICATION_PROFILE_REF],
-                                                 tenant=tenant
-                                                )
-                self.create_avi_ansible_disable(vs_dict, ansible_dict)
-                self.create_f5_ansible_enable(f5_dict, ansible_dict)
+                        vs_dict, ansible_dict,
+                        vs[APPLICATION_PROFILE_REF],
+                        test_vip=self.test_vip
+                    )
+                else:
+                    self.generate_avi_vs_traffic(
+                        vs_dict, ansible_dict,
+                        'http',
+                        tenant=tenant
+                    )
+                if self.test_vip:
+                    trafic_obj.update_avi_ansible_vip(
+                        vs_dict, ansible_dict)
+                trafic_obj.create_avi_ansible_disable(vs_dict, ansible_dict)
+                trafic_obj.create_ansible_enable(f5_dict, ansible_dict)
             # Added call to check progress.
+            progressbar_count += 1
             msg = "Ansible Generate Traffic..."
             mg_util.print_progress_bar(progressbar_count, total_size, msg,
-                               prefix='Progress', suffix='')
+                                       prefix='Progress', suffix='')
 
     def write_ansible_playbook(self, f5server=None, f5user=None,
-                               f5password=None):
+                               f5password=None, instance_type=None):
         """
         Create the ansible playbook based on output json
         :param f5server:  Ip of f5 server
@@ -445,7 +381,7 @@ class AviAnsibleConverter(object):
             # Added call to check progress.
             msg = "Ansible Create Object..."
             mg_util.print_progress_bar(progressbar_count, total_size, msg,
-                               prefix='Progress', suffix='')
+                                       prefix='Progress', suffix='')
             if self.filter_types and obj_type not in self.filter_types:
                 continue
             # have a temp dict for accessing lowercase keys
@@ -457,17 +393,17 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        if f5server and f5user and f5password:
+        if f5server and f5user and f5password and instance_type:
             self.generate_traffic(generate_traffic_dict, f5server, f5user,
-                                  f5password)
+                                  f5password, instance_type)
             # Generate traffic file separately
             with open(ansible_traffic_path, "w+") as outf:
                 outf.write(ANSIBLE_STR)
                 outf.write('---\n')
                 yaml.safe_dump(
-                               [generate_traffic_dict], outf,
-                               default_flow_style=False, indent=2
-                               )
+                    [generate_traffic_dict], outf,
+                    default_flow_style=False, indent=2
+                )
         with open(ansible_create_object_path, "w") as outf:
             outf.write(ANSIBLE_STR)
             outf.write('---\n')

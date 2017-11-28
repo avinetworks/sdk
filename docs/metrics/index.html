@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc"></div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -199,6 +199,8 @@ font-style: italic;
   <div class="method-summary"></div>
   <ol>
   <li><a href="#analyticsMetricsCollectionPost"><code><span class="http-method">post</span> /analytics/metrics/collection/</code></a></li>
+  <li><a href="#analyticsMetricsControllerGet"><code><span class="http-method">get</span> /analytics/metrics/controller/</code></a></li>
+  <li><a href="#analyticsMetricsControllerUuidGet"><code><span class="http-method">get</span> /analytics/metrics/controller/{uuid}</code></a></li>
   <li><a href="#analyticsMetricsPoolGet"><code><span class="http-method">get</span> /analytics/metrics/pool/</code></a></li>
   <li><a href="#analyticsMetricsPoolUuidGet"><code><span class="http-method">get</span> /analytics/metrics/pool/{uuid}</code></a></li>
   <li><a href="#analyticsMetricsServiceengineGet"><code><span class="http-method">get</span> /analytics/metrics/serviceengine/</code></a></li>
@@ -272,6 +274,353 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#MetricsCollectionApiRsp">MetricsCollectionApiRsp</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsMetricsControllerGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /analytics/metrics/controller/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsMetricsControllerGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Required if the metrics need to be aggregated across multiple entities like virtualservice. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">asn (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Autonomous System number. Eg. asn&#x3D;3794. </div><div class="param">attack (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Dos Attack ID filter. </div><div class="param">browser (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Browser filter. Eg. browser&#x3D;Chrome. </div><div class="param">client_insights (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE. </div><div class="param">country (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Two letter country filter. Eg. country&#x3D;US. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data. </div><div class="param">devtype (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Device type filter. Eg. devtype&#x3D;desktop. </div><div class="param">dimension_aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregations for dimensions. Eg. use dimenstion_aggregation&#x3D;avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL. </div><div class="param">dimension_filter_op (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS. </div><div class="param">dimension_limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Limit the number of dimensions in the result. specially useful in case of URLs. </div><div class="param">dimension_sampling (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Deprecated. perform sampling for dimensional metrics. zero means auto. </div><div class="param">dimensions (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Group by dimensions for the metrics. Eg. For results by single dimension use dimensions&#x3D;browser. For results by browser and operating system use dimensions&#x3D;browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the entity. Eg. entity_uuid&#x3D;virtualservice-0-1. </div><div class="param">id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve UUID to names. </div><div class="param">include_statistics (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include metrics statistics with the request. </div><div class="param">ipgroup (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; IPGROUP filter Eg. UUID of the IP group. </div><div class="param">lang (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Language filter. Eg. lang&#x3D;english. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples per metric requestedEg. limit&#x3D;100 implies return only 100 samples. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Describes the entity type for which metrics is requested. Eg. &amp;metric_entity&#x3D;VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Comma separated list of metrics requested.Eg. metric_id&#x3D;l4_client.avg_bandwidth,l7_client.avg_total_responses. </div><div class="param">microservice_levels (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; number of levels of microservices map. </div><div class="param">obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; serverip port of the pool server. </div><div class="param">order_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series. </div><div class="param">os (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Operating system filter. Eg. os&#x3D;mac. </div><div class="param">pad_missing_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pad missing data when not available. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; page id for the query. Allowed only for aggregation queries. </div><div class="param">page_size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; page size of the query. Allowed only for the aggregation queries. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; metrics for a member pool in a virtual service. </div><div class="param">prediction (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Request prediction values instead of actual observed metrics in future if supported. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">sampling_level (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool Server ID in format server IP port. Eg. 10.10.1.42 80. </div><div class="param">serviceengine_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the service engine.Eg. serviceengine_uuid&#x3D;se-422ce810-50a4-2ecd-d45d-870656e99b7b. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start&#x3D;1970-01-01T00 00 00. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step&#x3D;5&amp;metric_id&#x3D;l4_client.avg_bandwidth. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Eg. stop&#x3D;2014-01-01T12 42 42. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. . </div><div class="param">url (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; URL filter. Eg. url&#x3D;http //www.avinetworks.com. </div><div class="param">validate_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Validate every data before returning. This will result in increased latency and should only be used for troubleshooting. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#MetricsQueryResponseApiResponse">MetricsQueryResponseApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "metric_id" : "aeiou",
+    "entity_uuid" : "aeiou",
+    "stop" : "aeiou",
+    "series" : [ {
+      "data" : [ {
+        "page_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
+        "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
+        "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str" : "aeiou",
+        "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
+        "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "is_null" : true,
+        "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value_str_desc" : "aeiou",
+        "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "blocking_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "server_rtt" : 1.3579000000000001069366817318950779736042022705078125,
+        "redirection_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "application_response_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "browser_rendering_time" : 1.3579000000000001069366817318950779736042022705078125,
+        "value" : 1.3579000000000001069366817318950779736042022705078125,
+        "num_samples" : 123,
+        "timestamp" : "aeiou"
+      } ],
+      "header" : {
+        "server" : "aeiou",
+        "obj_id" : "aeiou",
+        "obj_id_type" : "aeiou",
+        "derivation_data" : {
+          "skip_backend_derivation" : true,
+          "include_derivation_metrics" : true,
+          "derivation_fn" : "aeiou",
+          "exclude_derived_metric" : true,
+          "metric_ids" : "aeiou",
+          "join_tables" : "aeiou",
+          "result_has_additional_fields" : true
+        },
+        "metrics_min_scale" : 1.3579000000000001069366817318950779736042022705078125,
+        "units" : "aeiou",
+        "priority" : true,
+        "entity_uuid" : "aeiou",
+        "tenant_uuid" : "aeiou",
+        "metrics_sum_agg_invalid" : true,
+        "name" : "aeiou",
+        "metric_description" : "aeiou",
+        "dimension_data" : [ {
+          "dimension_id" : "aeiou",
+          "dimension" : "aeiou"
+        } ],
+        "missing_intervals" : [ {
+          "start" : "aeiou",
+          "end" : "aeiou"
+        } ],
+        "pool_uuid" : "aeiou",
+        "statistics" : {
+          "min" : 1.3579000000000001069366817318950779736042022705078125,
+          "max" : 1.3579000000000001069366817318950779736042022705078125,
+          "max_ts" : "aeiou",
+          "trend" : 1.3579000000000001069366817318950779736042022705078125,
+          "mean" : 1.3579000000000001069366817318950779736042022705078125,
+          "min_ts" : "aeiou",
+          "sum" : 1.3579000000000001069366817318950779736042022705078125,
+          "last_sample" : 1.3579000000000001069366817318950779736042022705078125,
+          "num_samples" : 123
+        }
+      }
+    } ],
+    "limit" : 123,
+    "start" : "aeiou",
+    "step" : 123,
+    "id" : "aeiou",
+    "metric_entity" : "aeiou",
+    "url" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#MetricsQueryResponseApiResponse">MetricsQueryResponseApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="analyticsMetricsControllerUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /analytics/metrics/controller/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">analyticsMetricsControllerUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#MetricsQueryResponse">MetricsQueryResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "metric_id" : "aeiou",
+  "entity_uuid" : "aeiou",
+  "stop" : "aeiou",
+  "series" : [ {
+    "data" : [ {
+      "page_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "prediction_interval_high" : 1.3579000000000001069366817318950779736042022705078125,
+      "prediction_interval_low" : 1.3579000000000001069366817318950779736042022705078125,
+      "service_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str" : "aeiou",
+      "client_rtt" : 1.3579000000000001069366817318950779736042022705078125,
+      "waiting_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "is_null" : true,
+      "dns_lookup_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "dom_content_load_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value_str_desc" : "aeiou",
+      "connection_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "page_download_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "rum_client_data_transfer_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "blocking_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "server_rtt" : 1.3579000000000001069366817318950779736042022705078125,
+      "redirection_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "application_response_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "browser_rendering_time" : 1.3579000000000001069366817318950779736042022705078125,
+      "value" : 1.3579000000000001069366817318950779736042022705078125,
+      "num_samples" : 123,
+      "timestamp" : "aeiou"
+    } ],
+    "header" : {
+      "server" : "aeiou",
+      "obj_id" : "aeiou",
+      "obj_id_type" : "aeiou",
+      "derivation_data" : {
+        "skip_backend_derivation" : true,
+        "include_derivation_metrics" : true,
+        "derivation_fn" : "aeiou",
+        "exclude_derived_metric" : true,
+        "metric_ids" : "aeiou",
+        "join_tables" : "aeiou",
+        "result_has_additional_fields" : true
+      },
+      "metrics_min_scale" : 1.3579000000000001069366817318950779736042022705078125,
+      "units" : "aeiou",
+      "priority" : true,
+      "entity_uuid" : "aeiou",
+      "tenant_uuid" : "aeiou",
+      "metrics_sum_agg_invalid" : true,
+      "name" : "aeiou",
+      "metric_description" : "aeiou",
+      "dimension_data" : [ {
+        "dimension_id" : "aeiou",
+        "dimension" : "aeiou"
+      } ],
+      "missing_intervals" : [ {
+        "start" : "aeiou",
+        "end" : "aeiou"
+      } ],
+      "pool_uuid" : "aeiou",
+      "statistics" : {
+        "min" : 1.3579000000000001069366817318950779736042022705078125,
+        "max" : 1.3579000000000001069366817318950779736042022705078125,
+        "max_ts" : "aeiou",
+        "trend" : 1.3579000000000001069366817318950779736042022705078125,
+        "mean" : 1.3579000000000001069366817318950779736042022705078125,
+        "min_ts" : "aeiou",
+        "sum" : 1.3579000000000001069366817318950779736042022705078125,
+        "last_sample" : 1.3579000000000001069366817318950779736042022705078125,
+        "num_samples" : 123
+      }
+    }
+  } ],
+  "limit" : 123,
+  "start" : "aeiou",
+  "step" : 123,
+  "id" : "aeiou",
+  "metric_entity" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#MetricsQueryResponse">MetricsQueryResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -1428,7 +1777,7 @@ font-style: italic;
       <div class="param">derivation_fn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_ALIAS, SUM_FIRST_N_DIVIDE_BY_LAST, SUM_BW_GAUGE, AVG_GET_POST_OTHER_LATENCY, APPDEX_ON_3_BUCKETS, APPDEX_ON_4_BUCKETS, SUM_GAUGE, SUM_N_METRICS, APPDEX_ON_5_BUCKETS, APPDEX_ON_6_BUCKETS, APPDEX_ON_CONNECTIONS, APPDEX_ON_2_BUCKETS, AVG_CLIENT_LATENCY, AVG_APPLICATION_LATENCY, MIN_N_METRICS, SUM_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, L4_CONNECTION_ERROR_PERCENTAGE, AVG_L4_CLIENT_LATENCY, CHECK_FOR_TRANSITIONS, SUBSTRACT_ALL_FROM_FIRST, AVG_N_OVER_TIME_PERIOD, AVG_NAVIGATION_TIMING, AVG_RUM_VISITS, PCT_SSL_ERROR_CONNECTIONS, AVG_RESPONSE_TIME, SUM_RATES_FIRST_N_DIVIDE_BY_LAST, SUM_RATES_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, PCT_CACHE_METRICS, SUM_FIRST_N_DIVIDE_BY_SECLAST_EXCL_ERROR_RATE, SUM_FIRST_N_SUBSTRACT_LAST, AVG_POOL_METRICS, AVG_POOL_BW, AVG_BY_SUBSTRACT_ALL_FROM_FIRST_OVER_TIME, AVG_RSA_PFS, EVAL_FN, SSL_PROTOCOL_INDICATOR, SUM_FIRST_N_DIVIDE_BY_SECLAST_RATE_EXCL_ERROR_RATE, SUBSTRACT_ALL_FROM_FIRST_WITH_FLOOR_ZERO, AVAILABLE_CAPACITY, CONNECTION_SATURATION, AVG_RSA_NON_PFS, SSL_HANDSHAKES_NONPFS, DYN_MEM_USAGE, FIRST_DIVIDE_BY_DIFFERENCE_OF_SECOND_AND_THIRD. </div>
 <div class="param">exclude_derived_metric (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property exclude_derived_metric of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">include_derivation_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property include_derivation_metrics of obj type MetricsDerivationData field type str  type boolean </div>
-<div class="param">join_tables (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE. </div>
+<div class="param">join_tables (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE, METRICS_TABLE_PROCESS_STATS. </div>
 <div class="param">metric_ids </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_ids of MetricsDerivationData. </div>
 <div class="param">result_has_additional_fields (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property result_has_additional_fields of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">skip_backend_derivation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property skip_backend_derivation of obj type MetricsDerivationData field type str  type boolean </div>

@@ -1,0 +1,626 @@
+{
+    "info": {
+        "title": "Avi ErrorPageProfile Object API", 
+        "version": "17.2.4", 
+        "description": "##CLI##\n```\n- configure errorpageprofile <key>\n- show errorpageprofile <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/errorpageprofile/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ErrorPageProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ErrorPageProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/errorpageprofile": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ErrorPageProfile object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfile"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ErrorPageProfileApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "ErrorPageProfile": {
+            "type": "object", 
+            "properties": {
+                "app_name": {
+                    "default": "VS Name", 
+                    "type": "string", 
+                    "description": "Name of the Virtual Service which generated the error page. Field introduced in 17.2.4."
+                }, 
+                "error_pages": {
+                    "items": {
+                        "$ref": "#/definitions/ErrorPage"
+                    }, 
+                    "type": "array", 
+                    "description": "Defined Error Pages for HTTP status codes. Field introduced in 17.2.4."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.4."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "company_name": {
+                    "default": "Avi Networks", 
+                    "type": "string", 
+                    "description": "Name of the company to show in error page. Field introduced in 17.2.4."
+                }, 
+                "host_name": {
+                    "default": "Host Header", 
+                    "type": "string", 
+                    "description": "Fully qualified domain name for which the error page is generated. Field introduced in 17.2.4."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.4."
+                }
+            }
+        }, 
+        "ErrorPageProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ErrorPageProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "ErrorPage": {
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the error page. Field introduced in 17.2.4.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the error page. Field introduced in 17.2.4."
+                }, 
+                "error_page_body_ref": {
+                    "type": "string", 
+                    "description": "Custom error page body used to sent to the client. It is a reference to an object of type ErrorPageBody. Field introduced in 17.2.4."
+                }, 
+                "match": {
+                    "description": "Add match criteria for http status codes to the error page. Field introduced in 17.2.4.", 
+                    "$ref": "#/definitions/HTTPStatusMatch"
+                }, 
+                "error_redirect": {
+                    "type": "string", 
+                    "description": "Redirect sent to client when match. Field introduced in 17.2.4."
+                }
+            }
+        }, 
+        "HTTPStatusMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/HTTPStatusRange"
+                    }, 
+                    "type": "array", 
+                    "description": "HTTP response status code range(s)."
+                }, 
+                "status_codes": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "HTTP response status code(s).", 
+                    "format": "int32"
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "HTTPStatusRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "type": "integer", 
+                    "description": "Starting HTTP response status code.", 
+                    "format": "int32"
+                }, 
+                "end": {
+                    "type": "integer", 
+                    "description": "Ending HTTP response status code.", 
+                    "format": "int32"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}
