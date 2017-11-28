@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -860,6 +860,9 @@ definitions:
                 type: boolean
             disable_gro:
                 description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1."
+                type: boolean
+            disable_tso:
+                description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.4,18.1.1."
                 type: boolean
             dos_profile:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"

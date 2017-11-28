@@ -301,7 +301,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     obj_path = None
     if uuid:
         obj_path = '%s/%s' % (obj_type, uuid)
-    elif not name:
+    else:
         obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
     obj.pop('state', None)

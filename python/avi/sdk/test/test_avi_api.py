@@ -3,7 +3,7 @@ import logging
 import unittest
 import pytest
 from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
-                             avi_timedelta)
+                             avi_timedelta, sessionDict)
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
@@ -37,12 +37,12 @@ def setUpModule():
 
     global api
     api = ApiSession.get_session(
-            login_info["controller_ip"], login_info.get("username", "admin"),
-            login_info.get("password", "avi123"),
-            tenant=login_info.get("tenant", "admin"),
-            tenant_uuid=login_info.get("tenant_uuid", None),
-            api_version=login_info.get("api_version", gapi_version),
-            verify=False)
+        login_info["controller_ip"], login_info.get("username", "admin"),
+        login_info.get("password", "avi123"),
+        tenant=login_info.get("tenant", "admin"),
+        tenant_uuid=login_info.get("tenant_uuid", None),
+        api_version=login_info.get("api_version", gapi_version),
+        verify=False)
 
 
 def create_sessions(args):
@@ -50,13 +50,15 @@ def create_sessions(args):
     log.info('pid %d num_sessions %d', os.getpid(), num_sessions)
     user = login_info.get("username", "admin")
     cip = login_info.get("controller_ip")
-    key = cip + ":" + user
+    port = login_info.get("port")
+    k_port = port if port else 443
+    key = cip + ":" + user + ":" + str(k_port)
     for _ in range(num_sessions):
         api = ApiSession(
             login_info["controller_ip"], login_info.get("username", "admin"),
             login_info.get("password", "avi123"), api_version=login_info.get(
                 "api_version", "17.1"), data_log=login_info['data_log'])
-    return 1 if key in ApiSession.sessionDict else 0
+    return 1 if key in sessionDict else 0
 
 
 def shared_session_check(index):
@@ -64,7 +66,10 @@ def shared_session_check(index):
     return rsp.status_code
 
 
+
 class Test(unittest.TestCase):
+
+
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -77,44 +82,41 @@ class Test(unittest.TestCase):
         assert resp.status_code in (200, 201)
         pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
         resp = api.get('virtualservice', tenant='admin',
-                        api_version='17.1.1')
+                       api_version='17.1.1')
         assert resp.json()['count'] >= 1
         resp = api.delete_by_name('virtualservice', vs_obj['name'],
-                        api_version='17.1.1')
+                                  api_version='17.1.1')
         assert resp.status_code in (200, 204)
         resp = api.delete_by_name("pool", pool_name,
-                        api_version='17.1.1')
+                                  api_version='17.1.1')
         assert resp.status_code in (200, 204)
 
-    def test_reuse_server_session(self):
-        api2 = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=api.tenant, tenant_uuid=api.tenant_uuid, data_log=login_info['data_log'])
-        assert api.headers["X-CSRFToken"] == api2.headers["X-CSRFToken"]
-
     def test_reuse_api_session(self):
-        api2 = ApiSession.get_session(api.controller_ip, api.username,
-                                      api.password, tenant=api.tenant,
-                                      tenant_uuid=api.tenant_uuid,
-                                      api_version=api.api_version,
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
                                       verify=False)
-        assert api == api2
+        assert api1 == api2
 
     def test_ssl_vs(self):
-        papi = ApiSession(api.controller_ip, api.username,
-                          api.password,api_version=api.api_version,
-                          verify=False,data_log=True)
+        papi = ApiSession(api.avi_credentials.controller,
+                          api.avi_credentials.username,
+                          api.avi_credentials.password,
+                          api_version=api.avi_credentials.api_version,
+                          verify=False, data_log=True)
         ssl_vs_cfg = gSAMPLE_CONFIG["SSL-VS"]
         vs_obj = ssl_vs_cfg["vs_obj"]
         pool_name = gSAMPLE_CONFIG["SSL-VS"]["pool_obj"]["name"]
         resp = papi.post('pool', data=gSAMPLE_CONFIG["SSL-VS"]["pool_obj"])
         assert resp.status_code == 201
         pool_ref = papi.get_obj_ref(resp.json())
-        cert, key, _, _ = get_sample_ssl_params\
-            (folder_path=os.path.abspath(os.path.join(os.path.dirname(__file__),'..','samples')) + os.sep)
+        cert, key, _, _ = get_sample_ssl_params \
+            (folder_path=os.path.abspath(
+                os.path.join(os.path.dirname(__file__), '..',
+                             'samples')) + os.sep)
         api_utils = ApiUtils(papi)
         try:
             resp = api_utils.import_ssl_certificate("ssl-vs-kc", key, cert)
-            print resp.text
             ssl_kc = resp.json()
         except:
             ssl_kc = api.get_object_by_name('sslkeyandcertificate',
@@ -123,7 +125,6 @@ class Test(unittest.TestCase):
         vs_obj["pool_ref"] = pool_ref
         vs_obj["ssl_key_and_certificate_refs"] = ssl_key_and_cert_ref
         resp = papi.post('virtualservice', data=json.dumps(vs_obj))
-        print resp, resp.text
         assert resp.status_code < 300
         resp = papi.delete_by_name('virtualservice', vs_obj['name'])
         assert resp.status_code in (200, 204)
@@ -133,14 +134,17 @@ class Test(unittest.TestCase):
         assert resp.status_code in (200, 204)
 
     def test_cloned_session_headers(self):
-        api2 = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=api.tenant, tenant_uuid=api.tenant_uuid,
-                          api_version=api.api_version, verify=False,data_log=api.data_log)
+        api2 = ApiSession(controller_ip=api.avi_credentials.controller,
+                          username=api.avi_credentials.username, \
+                          password=api.avi_credentials.password,
+                          tenant=api.avi_credentials.tenant,
+                          tenant_uuid=api.avi_credentials.tenant_uuid,
+                          api_version=api.avi_credentials.api_version,
+                          verify=False, data_log=api.data_log)
         SHARED_USER_HDRS = ['X-CSRFToken', 'Session-Id', 'Referer']
         for hdr in SHARED_USER_HDRS:
             if hdr in api.headers:
                 assert api.headers[hdr] == api2.headers[hdr]
-
 
     def reset_connection(self):
         login_info = gSAMPLE_CONFIG["User2"]
@@ -154,7 +158,7 @@ class Test(unittest.TestCase):
         if login_info["password"] == new_password:
             new_password = "avi123"
         user_obj["password"] = new_password
-        api.put("user/"+user_obj["uuid"], data=json.dumps(user_obj))
+        api.put("user/%s" % user_obj["uuid"], data=json.dumps(user_obj))
         user_obj["password"] = old_password
         api.put_by_name("user", user_obj["name"], data=json.dumps(user_obj))
         resp = api2.get("pool")
@@ -204,8 +208,11 @@ class Test(unittest.TestCase):
         tobj = {'name': 'test-tenant'}
         resp = api.post('tenant', data=tobj)
         assert resp.status_code in (200, 201)
-        tapi = ApiSession(api.controller_ip, api.username, api.password,
-                          tenant=tobj['name'], verify=False, data_log=api.data_log)
+        tapi = ApiSession(controller_ip=api.avi_credentials.controller,
+                          username=api.avi_credentials.username,
+                          password=api.avi_credentials.password,
+                          tenant=tobj['name'], verify=False,
+                          data_log=api.data_log)
         t_obj = tapi.get_object_by_name('tenant', tobj['name'])
         # created pool.
         log.info('tenant %s', t_obj)
@@ -273,13 +280,11 @@ class Test(unittest.TestCase):
             assert result == 200
 
     def test_cleanup_sessions(self):
-        ApiSession.sessionDict = {}
         api._update_session_last_used()
-        assert api.key in ApiSession.sessionDict
-        assert 'api' in ApiSession.sessionDict[api.key]
-        assert 'last_used' in ApiSession.sessionDict[api.key]
+        assert api.key in sessionDict
+        assert 'api' in sessionDict[api.key]
+        assert 'last_used' in sessionDict[api.key]
 
-    
     def test_avi_timedelta(self):
         try:
             avi_timedelta(10)
@@ -289,8 +294,11 @@ class Test(unittest.TestCase):
         assert avi_timedelta(timedelta(seconds=10)) == 10
 
     def test_session_reset(self):
-        papi = ApiSession(api.controller_ip, api.username, api.password,
-                          verify=False, api_version=api.api_version, data_log=api.data_log)
+        papi = ApiSession(controller_ip=api.avi_credentials.controller,
+                          username=api.avi_credentials.username,
+                          password=api.avi_credentials.password, verify=False,
+                          api_version=api.avi_credentials.api_version,
+                          data_log=api.data_log)
         res = papi.get('pool', params={'fields': 'name'})
         assert res.status_code == 200
         papi.reset_session()
@@ -304,11 +312,164 @@ class Test(unittest.TestCase):
         assert res.status_code == 204
 
     def test_session_multi_reset(self):
-        papi = ApiSession(api.controller_ip, api.username, api.password,
-                          verify=False, api_version=api.api_version, data_log=api.data_log)
+        papi = ApiSession(controller_ip=api.avi_credentials.controller,
+                          username=api.avi_credentials.username,
+                          password=api.avi_credentials.password,
+                          verify=False,
+                          api_version=api.avi_credentials.api_version,
+                          data_log=api.data_log)
         papi.reset_session()
         papi.reset_session()
 
+    # Added test cases for getter and setter methods in avi_api
+    def test_get_controller_ip(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                       verify=False)
+        assert api1.controller_ip ==  api2.controller_ip
+
+    def test_set_controller_ip(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.controller_ip = '10.10.2.3'
+        assert api1.controller_ip == api2.controller_ip
+        api1.controller_ip = login_info['controller_ip']
+
+    def test_get_username(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+
+        assert api1.username == api2.username
+
+    def test_set_username(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.username = 'avi-networks'
+        assert api1.username == api2.username
+        api1.username = login_info.get("username", "admin")
+
+    def test_get_password(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+
+        assert api1.password == api2.password
+
+    def test_set_password(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.password = 'admin@#$'
+        assert api1.password == api2.password
+        api1.password = login_info.get("password", "avi123")
+
+    def test_get_key_token(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        assert api1.keystone_token == api2.keystone_token
+
+    def test_set_key_token(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        token  = api1.keystone_token
+        api1.keystone_token = "abc1werxSWASC"
+        assert api1.keystone_token == api2.keystone_token
+        api1.keystone_token = token
+
+    def test_get_tenant_uuid(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        assert api1.tenant_uuid == api2.tenant_uuid
+
+    def test_set_tenant_uuid(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.tenant_uuid = "Xyssdd123YYY-dummy"
+        assert api1.tenant_uuid == api2.tenant_uuid
+        api1.tenant_uuid = login_info.get("tenant_uuid", None)
+
+    def test_tenant(self):
+         api1 = ApiSession(avi_credentials=api.avi_credentials,
+                           verify=False)
+
+         api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                       verify=False)
+         assert api1.tenant == api2.tenant
+
+    def test_set_tenant(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.tenant == 'vmware'
+        assert api1.tenant == api2.tenant
+        api1.tenant = login_info.get("tenant", "admin")
+
+    def test_get_port(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+
+        assert api1.port == api2.port
+
+    def test_set_port(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.port = '9993'
+        assert api1.port == api2.port
+        api1.port = login_info.get("port")
+
+    def test_get_api_version(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+
+        assert api1.api_version == api2.api_version
+
+    def test_set_api_version(self):
+        api1 = ApiSession(avi_credentials=api.avi_credentials,
+                          verify=False)
+
+        api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
+                                      verify=False)
+        api1.api_version = "17.2.2"
+        assert api1.api_version == api2.api_version
+        api1.api_version = login_info.get("api_version", gapi_version)
 
 
 if __name__ == "__main__":

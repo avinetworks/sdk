@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -723,9 +723,9 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
-                "internal_profile": {
-                    "description": "Provider details if type is Avi.", 
-                    "$ref": "#/definitions/IpamDnsInternalProfile"
+                "allocate_ip_in_vrf": {
+                    "type": "boolean", 
+                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Field introduced in 17.2.4."
                 }, 
                 "custom_profile": {
                     "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
@@ -739,6 +739,10 @@
                 "aws_profile": {
                     "description": "Provider details if type is AWS.", 
                     "$ref": "#/definitions/IpamDnsAwsProfile"
+                }, 
+                "internal_profile": {
+                    "description": "Provider details if type is Avi.", 
+                    "$ref": "#/definitions/IpamDnsInternalProfile"
                 }, 
                 "type": {
                     "type": "string", 

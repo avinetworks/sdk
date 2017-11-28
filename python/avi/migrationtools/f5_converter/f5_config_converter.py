@@ -48,11 +48,15 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param version: Version of F5 config
     :param object_merge_check: Flag for object merge
     :param controller_version: Version of controller
-    :param user_ignore: Ignore config defined by user
-    :param tenant: Tenant for which config need to be converted
-    :param cloud_name: cloud for which config need to be converted
+    :param report_name: output file name
     :param prefix : prefix for objects
     :param con_snatpool : flag for snat conversion
+    :param user_ignore: Ignore config defined by user
+    :param profile_path: path of default profile path
+    :param tenant: Tenant for which config need to be converted
+    :param cloud_name: cloud for which config need to be converted
+    :param keypassphrase: path of keypassphrase file.
+    :param vs_level_status: flag to add cloumn of vs reference.
     :return: Converted avi objects
     """
 

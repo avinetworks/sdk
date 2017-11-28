@@ -8,6 +8,15 @@ LOG = logging.getLogger(__name__)
 
 
 def get_files_from_f5(local_path, host, username, pw=None, key=None):
+    """
+
+    :param local_path: relative path to file
+    :param host: hostname of instance
+    :param username: username for instance
+    :param pw: password for instance
+    :param key: keyfile.
+    :return:
+    """
     local_path = local_path + os.path.sep
     scp = SCPUtil(host, username, pw, key)
     scp.get_all_files('/config/ssl/ssl.crl/', local_path)

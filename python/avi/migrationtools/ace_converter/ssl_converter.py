@@ -2,14 +2,16 @@
 import os
 import logging
 from avi.migrationtools.ace_converter.ace_constants import\
-        DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT
+    DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT
 from avi.migrationtools.ace_converter.ace_utils import update_excel, get_loc
 
-#logging init
+# logging init
 LOG = logging.getLogger(__name__)
+
 
 class SSLConverter(object):
     """ SSL Converter Class """
+
     def __init__(self, parsed, tenant_ref, common_utils, in_path, tenant):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
@@ -68,11 +70,9 @@ class SSLConverter(object):
             }
         return ssl_kc_obj
 
-
-
     def ssl_key_and_cert(self):
         key_list = list()
-        for ssl in self.parsed.get('ssl-proxy', '') :
+        for ssl in self.parsed.get('ssl-proxy', ''):
             key = None
             cert = None
             name = ssl['name']
@@ -105,12 +105,20 @@ class SSLConverter(object):
                 }
             if key_and_cert:
                 key_list.append(key_and_cert)
+                update_excel('ssl-proxy', name, avi_obj=key_list)
         return key_list
 
     def ssl_profile(self):
         """ Create SSL Profiles """
         ssl_profile_list = list()
+        ssl_ciphers = None
+        ciphers_enums = list()
+        # print self.parsed['parameter-map']
+        # print "=========================="
+        # print self.parsed['ssl-proxy']
         for ssl in self.parsed.get('ssl-proxy', ''):
+            for desc in ssl['desc']:
+                ssl_ciphers = desc.get('ssl')
             temp_ssl_profile = dict()
             temp_ssl_profile = {
                 "accepted_ciphers": "DEFAULT:+SHA:+3DES:+kEDH",
@@ -118,16 +126,18 @@ class SSLConverter(object):
                 "accepted_versions": [
                     {
                         "type": "SSL_VERSION_TLS1"
-                    }, 
+                    },
                     {
                         "type": "SSL_VERSION_TLS1_1"
-                    }, 
+                    },
                     {
                         "type": "SSL_VERSION_TLS1_2"
                     }
-                ], 
-                "tenant_ref": self.tenant_ref, 
+                ],
+                "tenant_ref": self.tenant_ref,
                 "send_close_notify": False
             }
+            if ssl_ciphers:
+                temp_ssl_profile.update({'cipher_enums': ciphers_enums})
             ssl_profile_list.append(temp_ssl_profile)
         return ssl_profile_list

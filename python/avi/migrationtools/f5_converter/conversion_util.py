@@ -355,7 +355,7 @@ class F5Util(MigrationUtil):
         :return: returns list of profile refs assigned to VS in avi config
         """
         app_profile_refs = []
-        policy_set = []
+        policy_name = None
         f_host = None
         realm = None
         app_profile_list = avi_config.get("ApplicationProfile", [])
@@ -384,20 +384,9 @@ class F5Util(MigrationUtil):
                     tenant=self.get_name(app_profiles[0]['tenant_ref'])))
 
                 if app_profiles[0].get('HTTPPolicySet', None):
-                    policy_name = app_profiles[0].pop('HTTPPolicySet')
-                    policy_set_list = avi_config.get('HTTPPolicySet', [])
-                    policy_set_obj = [p for p in policy_set_list if
-                                      p['name'] == policy_name]
-                    policy_set.append(
-                        {
-                            "index": 12,
-                            "http_policy_set_ref": self.get_object_ref(
-                                policy_name, 'httppolicyset',
-                                tenant=self.get_name(
-                                    policy_set_obj[0]['tenant_ref']))
-                        })
+                    policy_name = app_profiles[0]['HTTPPolicySet']
                 if app_profiles[0].get('fallback_host', None):
-                    f_host = app_profiles[0].pop('fallback_host')
+                    f_host = app_profiles[0]['fallback_host']
                 # prerequisite user need to create default auth profile
                 if app_profiles[0].get('realm', None):
                     realm = {
@@ -406,7 +395,7 @@ class F5Util(MigrationUtil):
                             'System-Default-Auth-Profile', 'authprofile',
                             tenant=self.get_name(
                                 app_profiles[0]['tenant_ref'])),
-                        "realm": app_profiles[0].pop('realm')
+                        "realm": app_profiles[0]['realm']
                     }
 
         if not app_profile_refs:
@@ -415,7 +404,7 @@ class F5Util(MigrationUtil):
             if not_supported:
                 LOG.warning(
                     'Profiles not supported by Avi : %s' % not_supported)
-                return app_profile_refs, f_host, realm, policy_set
+                return app_profile_refs, f_host, realm, policy_name
             if oc_prof or enable_ssl:
                 value = 'http'
             else:
@@ -434,7 +423,7 @@ class F5Util(MigrationUtil):
             app_profile_refs.append(
                 self.get_object_ref(default_app_profile[0]['name'],
                                'applicationprofile', tenant=tenant))
-        return app_profile_refs, f_host, realm, policy_set
+        return app_profile_refs, f_host, realm, policy_name
 
 
     def get_vs_ntwk_profiles(self, profiles, avi_config, prefix,

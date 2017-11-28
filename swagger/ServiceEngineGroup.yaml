@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -674,8 +674,14 @@ definitions:
             auto_rebalance:
                 description: "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 type: boolean
+            auto_rebalance_capacity_per_se:
+                description: "Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4."
+                type: array
+                items:
+                    type: integer
+                format: int64
             auto_rebalance_criteria:
-                description: "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS. Field introduced in 17.2.3."
+                description: "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3."
                 type: array
                 items:
                     type: string
@@ -780,6 +786,9 @@ definitions:
             host_attribute_value:
                 description: "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
                 type: string
+            host_gateway_monitor:
+                description: "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4."
+                type: boolean
             hypervisor:
                 description: "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 type: string

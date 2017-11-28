@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi  Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -66,782 +66,315 @@
                 ]
             }
         }, 
-        "/analytics/metrics/collection/": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/MetricsCollectionApiRsp"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Include name in the REST references", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Include references instead of object UUIDs", 
-                        "in": "query", 
-                        "name": "include_refs"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
-                        "name": "limit"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Pad time series data with null in case there is not metric data present.", 
-                        "in": "query", 
-                        "name": "pad_missing_data"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
-                        "name": "start"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
-                        "name": "step"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
-                        "name": "stop"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "MetricsQueryResponse Collections API", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/MetricsCollectionApiReq"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/analytics/metrics/serviceengine/{uuid}": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/MetricsQueryResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/analytics/metrics/virtualservice/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/MetricsQueryResponseApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Required if the metrics need to be aggregated across multiple entities like virtualservice.", 
-                        "name": "aggregate_entity"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
-                        "name": "aggregate_obj_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Autonomous System number. Eg. asn=3794.", 
-                        "name": "asn"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Dos Attack ID filter.", 
-                        "name": "attack"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Browser filter. Eg. browser=Chrome.", 
-                        "name": "browser"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.", 
-                        "name": "client_insights"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Two letter country filter. Eg. country=US.", 
-                        "name": "country"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.", 
-                        "name": "detailed_header"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Device type filter. Eg. devtype=desktop.", 
-                        "name": "devtype"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.", 
-                        "name": "dimension_aggregation"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
-                        "name": "dimension_filter_op"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Limit the number of dimensions in the result. specially useful in case of URLs.", 
-                        "name": "dimension_limit"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Deprecated. perform sampling for dimensional metrics. zero means auto.", 
-                        "name": "dimension_sampling"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.", 
-                        "name": "dimensions"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the entity. Eg. entity_uuid=virtualservice-0-1.", 
-                        "name": "entity_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.", 
-                        "name": "id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Resolve UUID to names.", 
-                        "name": "include_refs"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Include metrics statistics with the request.", 
-                        "name": "include_statistics"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "IPGROUP filter Eg. UUID of the IP group.", 
-                        "name": "ipgroup"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Language filter. Eg. lang=english.", 
-                        "name": "lang"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
-                        "name": "limit"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
-                        "name": "metric_entity"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.", 
-                        "name": "metric_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "number of levels of microservices map.", 
-                        "name": "microservice_levels"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "serverip port of the pool server.", 
-                        "name": "obj_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.", 
-                        "name": "order_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Operating system filter. Eg. os=mac.", 
-                        "name": "os"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Pad missing data when not available.", 
-                        "name": "pad_missing_data"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "page id for the query. Allowed only for aggregation queries.", 
-                        "name": "page"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "page size of the query. Allowed only for the aggregation queries.", 
-                        "name": "page_size"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "metrics for a member pool in a virtual service.", 
-                        "name": "pool_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Request prediction values instead of actual observed metrics in future if supported.", 
-                        "name": "prediction"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
-                        "name": "result_format"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.", 
-                        "name": "sampling_level"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Pool Server ID in format server IP port. Eg. 10.10.1.42 80.", 
-                        "name": "server"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.", 
-                        "name": "serviceengine_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
-                        "name": "start"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
-                        "name": "step"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
-                        "name": "stop"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the Tenant. .", 
-                        "name": "tenant_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "URL filter. Eg. url=http //www.avinetworks.com.", 
-                        "name": "url"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.", 
-                        "name": "validate_data"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/analytics/metrics/pool/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/MetricsQueryResponseApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Required if the metrics need to be aggregated across multiple entities like virtualservice.", 
-                        "name": "aggregate_entity"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
-                        "name": "aggregate_obj_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Autonomous System number. Eg. asn=3794.", 
-                        "name": "asn"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Dos Attack ID filter.", 
-                        "name": "attack"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Browser filter. Eg. browser=Chrome.", 
-                        "name": "browser"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.", 
-                        "name": "client_insights"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Two letter country filter. Eg. country=US.", 
-                        "name": "country"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.", 
-                        "name": "detailed_header"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Device type filter. Eg. devtype=desktop.", 
-                        "name": "devtype"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.", 
-                        "name": "dimension_aggregation"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
-                        "name": "dimension_filter_op"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Limit the number of dimensions in the result. specially useful in case of URLs.", 
-                        "name": "dimension_limit"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Deprecated. perform sampling for dimensional metrics. zero means auto.", 
-                        "name": "dimension_sampling"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.", 
-                        "name": "dimensions"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the entity. Eg. entity_uuid=virtualservice-0-1.", 
-                        "name": "entity_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.", 
-                        "name": "id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Resolve UUID to names.", 
-                        "name": "include_refs"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Include metrics statistics with the request.", 
-                        "name": "include_statistics"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "IPGROUP filter Eg. UUID of the IP group.", 
-                        "name": "ipgroup"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Language filter. Eg. lang=english.", 
-                        "name": "lang"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
-                        "name": "limit"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
-                        "name": "metric_entity"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.", 
-                        "name": "metric_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "number of levels of microservices map.", 
-                        "name": "microservice_levels"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "serverip port of the pool server.", 
-                        "name": "obj_id"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.", 
-                        "name": "order_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Operating system filter. Eg. os=mac.", 
-                        "name": "os"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Pad missing data when not available.", 
-                        "name": "pad_missing_data"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "page id for the query. Allowed only for aggregation queries.", 
-                        "name": "page"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "page size of the query. Allowed only for the aggregation queries.", 
-                        "name": "page_size"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "metrics for a member pool in a virtual service.", 
-                        "name": "pool_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Request prediction values instead of actual observed metrics in future if supported.", 
-                        "name": "prediction"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
-                        "name": "result_format"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.", 
-                        "name": "sampling_level"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Pool Server ID in format server IP port. Eg. 10.10.1.42 80.", 
-                        "name": "server"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.", 
-                        "name": "serviceengine_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
-                        "name": "start"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "integer", 
-                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
-                        "name": "step"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
-                        "name": "stop"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "UUID of the Tenant. .", 
-                        "name": "tenant_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "URL filter. Eg. url=http //www.avinetworks.com.", 
-                        "name": "url"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "boolean", 
-                        "description": "Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.", 
-                        "name": "validate_data"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/analytics/metrics/serviceengine/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsQueryResponseApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Required if the metrics need to be aggregated across multiple entities like virtualservice.", 
+                        "name": "aggregate_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Autonomous System number. Eg. asn=3794.", 
+                        "name": "asn"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Dos Attack ID filter.", 
+                        "name": "attack"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Browser filter. Eg. browser=Chrome.", 
+                        "name": "browser"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.", 
+                        "name": "client_insights"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Two letter country filter. Eg. country=US.", 
+                        "name": "country"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Device type filter. Eg. devtype=desktop.", 
+                        "name": "devtype"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.", 
+                        "name": "dimension_aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Limit the number of dimensions in the result. specially useful in case of URLs.", 
+                        "name": "dimension_limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Deprecated. perform sampling for dimensional metrics. zero means auto.", 
+                        "name": "dimension_sampling"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.", 
+                        "name": "dimensions"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the entity. Eg. entity_uuid=virtualservice-0-1.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.", 
+                        "name": "id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve UUID to names.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Include metrics statistics with the request.", 
+                        "name": "include_statistics"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "IPGROUP filter Eg. UUID of the IP group.", 
+                        "name": "ipgroup"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Language filter. Eg. lang=english.", 
+                        "name": "lang"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "number of levels of microservices map.", 
+                        "name": "microservice_levels"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "serverip port of the pool server.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Operating system filter. Eg. os=mac.", 
+                        "name": "os"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Pad missing data when not available.", 
+                        "name": "pad_missing_data"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the query. Allowed only for aggregation queries.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page size of the query. Allowed only for the aggregation queries.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "metrics for a member pool in a virtual service.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Request prediction values instead of actual observed metrics in future if supported.", 
+                        "name": "prediction"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.", 
+                        "name": "sampling_level"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool Server ID in format server IP port. Eg. 10.10.1.42 80.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant. .", 
+                        "name": "tenant_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "URL filter. Eg. url=http //www.avinetworks.com.", 
+                        "name": "url"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.", 
+                        "name": "validate_data"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/controller/": {
             "get": {
                 "security": [
                     {
@@ -1198,6 +731,837 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/collection/": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsCollectionApiRsp"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Include name in the REST references", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Include references instead of object UUIDs", 
+                        "in": "query", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Pad time series data with null in case there is not metric data present.", 
+                        "in": "query", 
+                        "name": "pad_missing_data"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "MetricsQueryResponse Collections API", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsCollectionApiReq"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/serviceengine/{uuid}": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsQueryResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/controller/{uuid}": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsQueryResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/pool/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsQueryResponseApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Required if the metrics need to be aggregated across multiple entities like virtualservice.", 
+                        "name": "aggregate_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Autonomous System number. Eg. asn=3794.", 
+                        "name": "asn"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Dos Attack ID filter.", 
+                        "name": "attack"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Browser filter. Eg. browser=Chrome.", 
+                        "name": "browser"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.", 
+                        "name": "client_insights"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Two letter country filter. Eg. country=US.", 
+                        "name": "country"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Device type filter. Eg. devtype=desktop.", 
+                        "name": "devtype"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.", 
+                        "name": "dimension_aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Limit the number of dimensions in the result. specially useful in case of URLs.", 
+                        "name": "dimension_limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Deprecated. perform sampling for dimensional metrics. zero means auto.", 
+                        "name": "dimension_sampling"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.", 
+                        "name": "dimensions"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the entity. Eg. entity_uuid=virtualservice-0-1.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.", 
+                        "name": "id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve UUID to names.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Include metrics statistics with the request.", 
+                        "name": "include_statistics"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "IPGROUP filter Eg. UUID of the IP group.", 
+                        "name": "ipgroup"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Language filter. Eg. lang=english.", 
+                        "name": "lang"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "number of levels of microservices map.", 
+                        "name": "microservice_levels"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "serverip port of the pool server.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Operating system filter. Eg. os=mac.", 
+                        "name": "os"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Pad missing data when not available.", 
+                        "name": "pad_missing_data"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the query. Allowed only for aggregation queries.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page size of the query. Allowed only for the aggregation queries.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "metrics for a member pool in a virtual service.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Request prediction values instead of actual observed metrics in future if supported.", 
+                        "name": "prediction"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.", 
+                        "name": "sampling_level"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool Server ID in format server IP port. Eg. 10.10.1.42 80.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant. .", 
+                        "name": "tenant_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "URL filter. Eg. url=http //www.avinetworks.com.", 
+                        "name": "url"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.", 
+                        "name": "validate_data"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/analytics/metrics/virtualservice/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/MetricsQueryResponseApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller with reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Required if the metrics need to be aggregated across multiple entities like virtualservice.", 
+                        "name": "aggregate_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Autonomous System number. Eg. asn=3794.", 
+                        "name": "asn"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Dos Attack ID filter.", 
+                        "name": "attack"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Browser filter. Eg. browser=Chrome.", 
+                        "name": "browser"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.", 
+                        "name": "client_insights"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Two letter country filter. Eg. country=US.", 
+                        "name": "country"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Device type filter. Eg. devtype=desktop.", 
+                        "name": "devtype"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.", 
+                        "name": "dimension_aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Limit the number of dimensions in the result. specially useful in case of URLs.", 
+                        "name": "dimension_limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Deprecated. perform sampling for dimensional metrics. zero means auto.", 
+                        "name": "dimension_sampling"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.", 
+                        "name": "dimensions"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the entity. Eg. entity_uuid=virtualservice-0-1.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.", 
+                        "name": "id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve UUID to names.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Include metrics statistics with the request.", 
+                        "name": "include_statistics"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "IPGROUP filter Eg. UUID of the IP group.", 
+                        "name": "ipgroup"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Language filter. Eg. lang=english.", 
+                        "name": "lang"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "number of levels of microservices map.", 
+                        "name": "microservice_levels"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "serverip port of the pool server.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Operating system filter. Eg. os=mac.", 
+                        "name": "os"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Pad missing data when not available.", 
+                        "name": "pad_missing_data"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the query. Allowed only for aggregation queries.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page size of the query. Allowed only for the aggregation queries.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "metrics for a member pool in a virtual service.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Request prediction values instead of actual observed metrics in future if supported.", 
+                        "name": "prediction"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.", 
+                        "name": "sampling_level"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool Server ID in format server IP port. Eg. 10.10.1.42 80.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant. .", 
+                        "name": "tenant_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "URL filter. Eg. url=http //www.avinetworks.com.", 
+                        "name": "url"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.", 
+                        "name": "validate_data"
                     }
                 ], 
                 "consumes": [
@@ -1688,7 +2052,7 @@
                 }, 
                 "join_tables": {
                     "type": "string", 
-                    "description": " Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE."
+                    "description": " Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE, METRICS_TABLE_PROCESS_STATS."
                 }
             }
         }, 

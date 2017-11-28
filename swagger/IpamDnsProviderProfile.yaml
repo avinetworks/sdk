@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi IpamDnsProviderProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -629,6 +629,9 @@ definitions:
             -   name
             -   type
         properties:
+            allocate_ip_in_vrf:
+                description: "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Field introduced in 17.2.4."
+                type: boolean
             aws_profile:
                 description: "Provider details if type is AWS."
                 $ref: '#/definitions/IpamDnsAwsProfile'
