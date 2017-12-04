@@ -24,6 +24,10 @@ input_file = pytest.config.getoption("--file")
 input_file_version = pytest.config.getoption("--fileVersion")
 output_file = pytest.config.getoption("--out")
 
+if not output_file:
+    output_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output'))
+
 input_file_v10 = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'bigip_v10.conf'))
 input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -100,30 +104,36 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location='certs', output_file_path='output', option='cli-upload',
-        user=None, password=None, controller_ip=None, tenant='admin',
-        cloud_name='Default-Cloud', vs_state='disable', controller_version=None,
-        f5_host_ip=None, f5_ssh_user=None, f5_ssh_password=None, f5_key_file=None,
-        ignore_config=None, partition_config=None, version=None,
-        no_profile_merge=None, patch=None, vs_filter=None, ansible_skip_types=None,
+        input_folder_location='certs', output_file_path=output_file,
+        option='cli-upload', user=None, password=None, controller_ip=None,
+        tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
+        controller_version=None, f5_host_ip=None, f5_ssh_user=None,
+        f5_ssh_password=None, f5_key_file=None, ignore_config=None,
+        partition_config=None, version=None, no_profile_merge=None, patch=None,
+        vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
         convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None):
-    args = Namespace(
-        bigip_config_file=bigip_config_file, skip_default_file=skip_default_file,
-        f5_config_version=f5_config_version, input_folder_location=input_folder_location,
-        output_file_path=output_file_path, option=option, user=user, password=password,
-        controller_ip=controller_ip, tenant=tenant, cloud_name=cloud_name,
-        vs_state=vs_state, controller_version=controller_version,
-        f5_host_ip=f5_host_ip, f5_ssh_user=f5_ssh_user, f5_ssh_password=f5_ssh_password,
-        f5_key_file=f5_key_file, ignore_config=ignore_config, partition_config=partition_config,
-        version=version, no_object_merge=no_profile_merge, patch=patch,
-        vs_filter=vs_filter, ansible_skip_types=ansible_skip_types,
-        ansible_filter_types=ansible_filter_types, ansible=ansible,
-        prefix=prefix, convertsnat=convertsnat, not_in_use=not_in_use,
-        baseline_profile=baseline_profile,
-        f5_passphrase_file=f5_passphrase_file, vs_level_status=vs_level_status,
-        test_vip=test_vip)
+
+    args = Namespace(bigip_config_file=bigip_config_file,
+                     skip_default_file=skip_default_file,
+                     f5_config_version=f5_config_version,
+                     input_folder_location=input_folder_location,
+                     output_file_path=output_file_path, option=option,
+                     user=user, password=password, controller_ip=controller_ip,
+                     tenant=tenant, cloud_name=cloud_name, vs_state=vs_state,
+                     controller_version=controller_version,
+                     f5_host_ip=f5_host_ip, f5_ssh_user=f5_ssh_user,
+                     f5_ssh_password=f5_ssh_password, f5_key_file=f5_key_file,
+                     ignore_config=ignore_config,
+                     partition_config=partition_config, version=version,
+                     no_object_merge=no_profile_merge, patch=patch,
+                     vs_filter=vs_filter, ansible_skip_types=ansible_skip_types,
+                     ansible_filter_types=ansible_filter_types, ansible=ansible,
+                     prefix=prefix, convertsnat=convertsnat,
+                     not_in_use=not_in_use, baseline_profile=baseline_profile,
+                     f5_passphrase_file=f5_passphrase_file,
+                     vs_level_status=vs_level_status, test_vip=test_vip)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -135,7 +145,21 @@ class TestF5Converter:
     @pytest.fixture
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
+        import shutil
         conv.csv_writer_dict_list = list()
+        if os.path.exists(output_file):
+            for each_file in os.listdir(output_file):
+                file_path = os.path.join(output_file, each_file)
+                try:
+                    if os.path.isfile(file_path):
+                        if file_path.endswith('.log'):
+                            open('converter.log', 'w').close()
+                        else:
+                            os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(e)
 
     @pytest.mark.skip_travis
     def test_download_v11(self, cleanup):
@@ -160,35 +184,33 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
-    def test_output_sanitization_v10(self):
-        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                       'output/bigip_v10-ConversionStatus.xlsx'))
-        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                      'output/bigip_v10-Output.json'))
-        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                     'output/converter.log'))
-
+    def test_output_sanitization_v10(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path='output')
+                output_file_path=output_file)
+        self.excel_path = os.path.abspath(os.path.join(output_file,
+                                          'bigip_v10-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(output_file,
+                                                'bigip_v10-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(output_file,
+                                                     'converter.log'))
         assert output_sanitization(self.excel_path,
                                    self.json_path,
                                    self.log_path)
 
     @pytest.mark.skip_travis
     def test_output_sanitization_v11(self, cleanup):
-        self.excel_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                       'output/bigip_v11-ConversionStatus.xlsx'))
-        self.json_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                      'output/bigip_v11-Output.json'))
-        self.log_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                     'output/converter.log'))
-
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path='output')
+                output_file_path=output_file)
+        self.excel_path = os.path.abspath(os.path.join(output_file,
+                                            'bigip_v11-ConversionStatus.xlsx'))
+        self.json_path = os.path.abspath(os.path.join(output_file,
+                                                      'bigip_v11-Output.json'))
+        self.log_path = os.path.abspath(os.path.join(output_file,
+                                                     'converter.log'))
         assert output_sanitization(self.excel_path,
                                    self.json_path,
                                    self.log_path)
@@ -198,8 +220,9 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path='output')
-        percentage_success('./output/bigip_v11-ConversionStatus.xlsx')
+                output_file_path=output_file)
+        percentage_success(os.path.join(output_file,
+                                        'bigip_v11-ConversionStatus.xlsx'))
 
     @pytest.mark.travis
     def test_without_options_v10(self, cleanup):
@@ -208,8 +231,7 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                f5_config_version=setup.get('file_version_v10'),
-                )
+                f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.travis
     def test_without_options_v11(self, cleanup):
@@ -425,11 +447,15 @@ class TestF5Converter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute['controller_user_17_1_1'],
-                                        file_attribute['controller_password_17_1_1'])
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -444,7 +470,6 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 option=setup.get('option'),
-                ansible=setup.get('ansible'),
                 controller_ip=setup.get('controller_ip_17_1_1'),
                 user=setup.get('controller_user_17_1_1'),
                 password=setup.get('controller_password_17_1_1'))
@@ -457,11 +482,15 @@ class TestF5Converter:
         """
         print file_attribute['license_file_path']
         is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute['controller_user_16_4_4'],
-                                        file_attribute['controller_password_16_4_4'])
+                                        file_attribute[
+                                            'controller_user_16_4_4'],
+                                        file_attribute[
+                                            'controller_password_16_4_4'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_16_4_4'],
+                         file_attribute['controller_user_16_4_4'],
+                         file_attribute['controller_password_16_4_4'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -477,7 +506,6 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 controller_version=setup.get('controller_version_v16'),
                 option=setup.get('option'),
-                ansible=setup.get('ansible'),
                 controller_ip=setup.get('controller_ip_16_4_4'),
                 user=setup.get('controller_user_16_4_4'),
                 password=setup.get('controller_password_16_4_4'))
@@ -489,11 +517,15 @@ class TestF5Converter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute['controller_user_17_1_1'],
-                                        file_attribute['controller_password_17_1_1'])
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -509,7 +541,6 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 option=setup.get('option'),
-                ansible=setup.get('ansible'),
                 controller_ip=setup.get('controller_ip_17_1_1'),
                 user=setup.get('controller_user_17_1_1'),
                 password=setup.get('controller_password_17_1_1'))
@@ -517,15 +548,19 @@ class TestF5Converter:
     @pytest.mark.skip_travis
     def test_reboot_clean_v11_16_4_4(self, cleanup):
         """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
+        Verify Controller v17.1.1 is running and clean reboot avi api. After
+        controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute['controller_user_16_4_4'],
-                                        file_attribute['controller_password_16_4_4'])
+                                        file_attribute[
+                                            'controller_user_16_4_4'],
+                                        file_attribute[
+                                            'controller_password_16_4_4'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_16_4_4'],
+                         file_attribute['controller_user_16_4_4'],
+                         file_attribute['controller_password_16_4_4'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -541,7 +576,6 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v16'),
                 option=setup.get('option'),
-                ansible=setup.get('ansible'),
                 controller_ip=setup.get('controller_ip_16_4_4'),
                 user=setup.get('controller_user_16_4_4'),
                 password=setup.get('controller_password_16_4_4'))
@@ -565,11 +599,15 @@ class TestF5Converter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute['controller_user_17_1_1'],
-                                        file_attribute['controller_password_17_1_1'])
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -580,16 +618,18 @@ class TestF5Converter:
         Input File on Local Filesystem, Test for Controller v17.1.1
         AutoUpload Flow
         """
-        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('pip install avisdk --upgrade',
+                                      shell=True))
         print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
+            shell=True))
         try:
-            output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
-                                             '"controller=%s username=%s password=%s"' %
-                                             (setup.get('f5_ansible_object'), setup.get('controller_ip_17_1_1'),
-                                              setup.get(
-                                                  'controller_user_17_1_1'),
-                                              setup.get('controller_password_17_1_1')), shell=True)
+            output = subprocess.check_output('/usr/local/bin/ansible-playbook '
+                    '-s %s --extra-vars "controller=%s username=%s password=%s"'
+                    % (setup.get('f5_ansible_object'), setup.get(
+                    'controller_ip_17_1_1'), setup.get(
+                    'controller_user_17_1_1'), setup.get(
+                    'controller_password_17_1_1')), shell=True)
         except subprocess.CalledProcessError as e:
             output = e.output
 
@@ -612,11 +652,15 @@ class TestF5Converter:
         After controller setup completed, upload the AviInternal certificate file.
         """
         is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute['controller_user_16_4_4'],
-                                        file_attribute['controller_password_16_4_4'])
+                                        file_attribute[
+                                            'controller_user_16_4_4'],
+                                        file_attribute[
+                                            'controller_password_16_4_4'])
         if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+            clean_reboot(file_attribute['controller_ip_16_4_4'],
+                         file_attribute['controller_user_16_4_4'],
+                         file_attribute['controller_password_16_4_4'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -627,16 +671,18 @@ class TestF5Converter:
         Input File on Local Filesystem, Test for Controller v16.4.4
         AutoUpload Flow
         """
-        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('pip install avisdk --upgrade',
+                                      shell=True))
         print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
+            shell=True))
         try:
-            output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
-                                             '"controller=%s username=%s password=%s"' %
-                                             (setup.get('f5_ansible_object'), setup.get('controller_ip_16_4_4'),
-                                              setup.get(
-                                                  'controller_user_16_4_4'),
-                                              setup.get('controller_password_16_4_4')), shell=True)
+            output = subprocess.check_output('/usr/local/bin/ansible-playbook '
+                    '-s %s --extra-vars "controller=%s username=%s password=%s"'
+                    % (setup.get('f5_ansible_object'), setup.get(
+                    'controller_ip_16_4_4'), setup.get(
+                    'controller_user_16_4_4'), setup.get(
+                    'controller_password_16_4_4')), shell=True)
         except subprocess.CalledProcessError as e:
             output = e.output
 
@@ -660,16 +706,21 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
-    def test_create_tenant_cloud_and_upload_controller_v11_16_4_4(self, cleanup):
+    def test_create_tenant_cloud_and_upload_controller_v11_16_4_4(self,
+                                                                  cleanup):
         """
         Create Tenant and Cloud name on the Controller v16.4.4,
         Auto Upload configuration file on controller.
         """
-        create_tenant(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                      file_attribute['controller_password_16_4_4'], file_attribute['tenant'])
+        create_tenant(file_attribute['controller_ip_16_4_4'],
+                      file_attribute['controller_user_16_4_4'],
+                      file_attribute['controller_password_16_4_4'],
+                      file_attribute['tenant'])
 
-        create_cloud(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                     file_attribute['controller_password_16_4_4'], file_attribute['cloud_name'])
+        create_cloud(file_attribute['controller_ip_16_4_4'],
+                     file_attribute['controller_user_16_4_4'],
+                     file_attribute['controller_password_16_4_4'],
+                     file_attribute['cloud_name'])
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -684,16 +735,21 @@ class TestF5Converter:
                 password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.skip_travis
-    def test_create_tenant_cloud_and_upload_controller_v10_16_4_4(self, cleanup):
+    def test_create_tenant_cloud_and_upload_controller_v10_16_4_4(self,
+                                                                  cleanup):
         """
         Create Tenant and Cloud name on the Controller v16.4.4,
         Auto Upload configuration file on controller.
         """
-        create_tenant(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                      file_attribute['controller_password_16_4_4'], file_attribute['tenant'])
+        create_tenant(file_attribute['controller_ip_16_4_4'],
+                      file_attribute['controller_user_16_4_4'],
+                      file_attribute['controller_password_16_4_4'],
+                      file_attribute['tenant'])
 
-        create_cloud(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                     file_attribute['controller_password_16_4_4'], file_attribute['cloud_name'])
+        create_cloud(file_attribute['controller_ip_16_4_4'],
+                     file_attribute['controller_user_16_4_4'],
+                     file_attribute['controller_password_16_4_4'],
+                     file_attribute['cloud_name'])
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
