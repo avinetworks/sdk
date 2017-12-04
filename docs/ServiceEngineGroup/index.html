@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  ##Examples## - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -264,6 +264,7 @@ font-style: italic;
     "se_ipc_udp_port" : 123,
     "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
     "extra_shared_config_memory" : 123,
+    "host_gateway_monitor" : true,
     "se_dos_profile" : {
       "thresh_period" : 123,
       "thresh_info" : [ {
@@ -386,6 +387,7 @@ font-style: italic;
     "hypervisor" : "aeiou",
     "service_ip_subnets" : [ "" ],
     "memory_per_se" : 123,
+    "auto_rebalance_capacity_per_se" : [ "" ],
     "cpu_reserve" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
@@ -460,6 +462,7 @@ font-style: italic;
   "se_ipc_udp_port" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
     "thresh_info" : [ {
@@ -582,6 +585,7 @@ font-style: italic;
   "hypervisor" : "aeiou",
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
+  "auto_rebalance_capacity_per_se" : [ "" ],
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -783,6 +787,7 @@ font-style: italic;
   "se_ipc_udp_port" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
     "thresh_info" : [ {
@@ -905,6 +910,7 @@ font-style: italic;
   "hypervisor" : "aeiou",
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
+  "auto_rebalance_capacity_per_se" : [ "" ],
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -990,6 +996,7 @@ font-style: italic;
   "se_ipc_udp_port" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
     "thresh_info" : [ {
@@ -1112,6 +1119,7 @@ font-style: italic;
   "hypervisor" : "aeiou",
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
+  "auto_rebalance_capacity_per_se" : [ "" ],
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -1197,6 +1205,7 @@ font-style: italic;
   "se_ipc_udp_port" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
     "thresh_info" : [ {
@@ -1319,6 +1328,7 @@ font-style: italic;
   "hypervisor" : "aeiou",
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
+  "auto_rebalance_capacity_per_se" : [ "" ],
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -1570,7 +1580,8 @@ font-style: italic;
 <div class="param">async_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> SSL handshakes will be handled by dedicated SSL Threads. </div>
 <div class="param">async_ssl_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Async SSL threads per se_dp. Allowed values are 1-4. format: int32</div>
 <div class="param">auto_rebalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set. </div>
-<div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS. Field introduced in 17.2.3. </div>
+<div class="param">auto_rebalance_capacity_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4. </div>
+<div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3. </div>
 <div class="param">auto_rebalance_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of rebalance, if &#39;Auto rebalance&#39; is enabled. format: int32</div>
 <div class="param">auto_redistribute_active_standby_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API. </div>
 <div class="param">buffer_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Excess Service Engine capacity provisioned for HA failover. format: int32</div>
@@ -1597,6 +1608,7 @@ font-style: italic;
 <div class="param">hm_on_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable active health monitoring from the standby SE for all placed virtual services. </div>
 <div class="param">host_attribute_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices&#39; SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype&#x3D;prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key. </div>
 <div class="param">host_attribute_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key. </div>
+<div class="param">host_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4. </div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
 <div class="param">ignore_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. format: int32</div>
 <div class="param">ingress_access_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>

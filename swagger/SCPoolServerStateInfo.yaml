@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi SCPoolServerStateInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -373,8 +373,8 @@ definitions:
             oper_status:
                 description: " Field introduced in 17.1.1."
                 $ref: '#/definitions/OperationalStatus'
-            pool_ref:
-                description: " It is a reference to an object of type Pool. Field introduced in 17.1.1."
+            pool_id:
+                description: " Field introduced in 17.1.1."
                 type: string
             server_states:
                 description: " Field introduced in 17.1.1."

@@ -132,6 +132,7 @@ class NsUtil(MigrationUtil):
         total_count = total_count + len(row_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
+            self.correct_vs_ref(avi_config)
         else:
             # Call to calculate vs complexity
             self.vs_complexity_level()
@@ -681,7 +682,7 @@ class NsUtil(MigrationUtil):
 
     def remove_http_mon_from_pool(self, avi_config, pool, sysdict):
         """
-        This function is used for removing http type from health monitor for https
+        This function is used for removing http type health monitor from https
         vs.
         :param avi_config: avi config dict
         :param pool: name of pool
@@ -694,6 +695,27 @@ class NsUtil(MigrationUtil):
                 hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
                     'HealthMonitor']) if h['name'] == hm_ref]
                 if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
+                    pool['health_monitor_refs'].remove(hm_ref)
+                    LOG.warning(
+                        'Skipping %s this reference from %s pool because '
+                        'of health monitor type is HTTP and VS has ssl '
+                        'profile.' % (hm_ref, pool['name']))
+
+    def remove_https_mon_from_pool(self, avi_config, pool, sysdict):
+        """
+        This function is used for removing https type health monitor from http
+        vs.
+        :param avi_config: avi config dict
+        :param pool: name of pool
+        :param sysdict: baseline/system config dict
+        :return: None
+        """
+        if pool:
+            hm_refs = copy.deepcopy(pool['health_monitor_refs'])
+            for hm_ref in hm_refs:
+                hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
+                    'HealthMonitor']) if h['name'] == hm_ref]
+                if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
                     pool['health_monitor_refs'].remove(hm_ref)
                     LOG.warning(
                         'Skipping %s this reference from %s pool because '
@@ -1553,13 +1575,13 @@ class NsUtil(MigrationUtil):
                                iplist if ip in ([nip['ip_address']['addr']
                                for nip in nvs.get('vip', []) if nip.get(
                                'ip_address',{}).get('addr')] or [nvs[
-                               'ip_address']['addr']] if nvs.get(
-                               'ip_address',{}).get('addr') else [])]:
+                               'ip_address']['addr'] if nvs.get(
+                               'ip_address',{}).get('addr') else []])]:
                                 appname = self.get_name(nvs[
                                             'application_profile_ref']) if \
                                             nvs.get('application_profile_ref') \
                                             else None
-                                if appname == 'System-Secure-HTTP':
+                                if appname == 'ns-migrate-http':
                                     LOG.debug("%s has redirect to %s, hence "
                                               "removing %s" % (vs['name'],
                                                        nvs['name'], vs['name']))
@@ -1581,6 +1603,14 @@ class NsUtil(MigrationUtil):
                                               "and removing %s" %(vs['name'],
                                                     nvs['name'], vs['name']))
                                     vsrem[vs['name']] = nvs['name']
+                                # Condition to merge http ports to https vs
+                                if [True for ssl in nvs['services'] if ssl[
+                                    'enable_ssl']] and \
+                                        [True for ssl_vs in vs['services']
+                                         if not ssl_vs['enable_ssl']]:
+                                    nvs['services'].append(vs['services'][0])
+                                    vsrem[vs['name']] = nvs['name']
+
         LOG.debug("Check completed for redirect from HTTP VS to HTTPS VS with "
                   "no pool")
         if vsrem:
@@ -1736,3 +1766,142 @@ class NsUtil(MigrationUtil):
             })
         return action
 
+    def create_http_to_https_custom_profile(self):
+        '''
+
+        :return: custom application profile dict
+        '''
+        return {
+            'name': "ns-migrate-http",
+            'type': "APPLICATION_PROFILE_TYPE_HTTP",
+            'tenant_ref': "/api/tenant/?name=admin",
+            'preserve_client_ip': False,
+            'http_profile': {
+                'max_rps_uri': 0,
+                'keepalive_header': False,
+                'max_rps_cip_uri': 0,
+                'x_forwarded_proto_enabled': False,
+                'connection_multiplexing_enabled': True,
+                'websockets_enabled': True,
+                'enable_request_body_buffering': False,
+                'hsts_enabled': False,
+                'xff_enabled': True,
+                'disable_keepalive_posts_msie6': True,
+                'keepalive_timeout': 30000,
+                'ssl_client_certificate_mode': "SSL_CLIENT_CERTIFICATE_NONE",
+                'http_to_https': True,
+                'spdy_enabled': False,
+                'max_bad_rps_cip_uri': 0,
+                'client_body_timeout': 30000,
+                'httponly_enabled': False,
+                'hsts_max_age': 365,
+                'max_bad_rps_cip': 0,
+                'server_side_redirect_to_https': False,
+                'client_max_header_size': 12,
+                'client_max_request_size': 48,
+                'max_rps_unknown_uri': 0,
+                'ssl_everywhere_enabled': False,
+                'spdy_fwd_proxy_mode': False,
+                'post_accept_timeout': 30000,
+                'client_header_timeout': 10000,
+                'secure_cookie_enabled': False,
+                'xff_alternate_name': "X-Forwarded-For",
+                'max_rps_cip': 0,
+                'client_max_body_size': 0,
+                'max_rps_unknown_cip': 0,
+                'allow_dots_in_header_name': False,
+                'max_bad_rps_uri': 0,
+                'use_app_keepalive_timeout': False
+            },
+            'dos_rl_profile': {
+                'rl_profile': {
+                    'client_ip_connections_rate_limit': {
+                        'count': 0,
+                        'explicit_tracking': False,
+                        'period': 1,
+                        'action': {
+                            'status_code': "HTTP_LOCAL_RESPONSE_STATUS_CODE_429",
+                            'type': "RL_ACTION_NONE"
+                        },
+                        'burst_sz': 0,
+                        'fine_grain': False
+                    }
+                },
+                'dos_profile': {
+                    'thresh_period': 5
+                }
+            }
+        }
+
+    def correct_vs_ref(self, avi_config):
+        """
+        This method corrects the reference of VS to different objects
+        :param avi_config: avi configuration dict
+        :return:
+        """
+        global csv_writer_dict_list
+        avi_graph = self.make_graph(avi_config)
+        csv_dict_sub = [row for row in csv_writer_dict_list if row[
+            'Netscaler Command'] not in ('add lb vserver',
+                                         'add cs vserver') and row[
+                            'Status'] in (STATUS_PARTIAL,
+                                          STATUS_SUCCESSFUL)]
+        for dict_row in csv_dict_sub:
+            obj = dict_row['AVI Object']
+            if isinstance(obj, str) and obj.startswith('{'):
+                vs = []
+                if '__/__' in obj:
+                    for dataobj in obj.split('__/__'):
+                        obj = eval(dataobj)
+                        self.add_vs_ref(obj, avi_graph, vs)
+                else:
+                    obj = eval(obj)
+                    self.add_vs_ref(obj, avi_graph, vs)
+                if vs:
+                    dict_row['VS Reference'] = str(list(set(vs)))
+                else:
+                    dict_row['VS Reference'] = STATUS_NOT_IN_USE
+
+    def add_vs_ref(self, obj, avi_graph, vs):
+        """
+        Helper method for adding vs ref
+        :param obj: object
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :return:
+        """
+        obj_name = obj.get('name', obj.get('hostname'))
+        if obj_name:
+            if avi_graph.has_node(obj_name):
+                LOG.debug("Checked predecessor for %s", obj_name)
+                predecessor = list(avi_graph.predecessors(obj_name))
+                if predecessor:
+                    self.get_predecessor(predecessor, avi_graph, vs)
+            else:
+                LOG.debug("Object %s may be merged or orphaned", obj_name)
+
+    def get_predecessor(self, predecessor, avi_graph, vs):
+        """
+        This method gets the predecessor of the object
+        :param predecessor: predecessor list
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :return:
+        """
+        if len(predecessor) > 1:
+            for node in predecessor:
+                nodelist = [node]
+                self.get_predecessor(nodelist, avi_graph, vs)
+        elif len(predecessor):
+            node_obj = [nod for nod in list(avi_graph.nodes().data()) if
+                        nod[0] == predecessor[0]]
+            if node_obj and (node_obj[0][1]['type'] == 'VS' or 'VS' in node_obj[
+              0][1]['type']):
+                LOG.debug("Predecessor %s found", predecessor[0])
+                vs.extend(predecessor)
+            else:
+                LOG.debug("Checked predecessor for %s", predecessor[0])
+                nodelist = list(avi_graph.predecessors(predecessor[0]))
+                self.get_predecessor(nodelist, avi_graph, vs)
+        else:
+            LOG.debug("No more predecessor")

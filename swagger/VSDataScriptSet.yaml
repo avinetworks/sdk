@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi VSDataScriptSet Object API
     contact:
         name: Avi Networks Inc.
@@ -349,6 +349,9 @@ definitions:
         required:
             -   name
         properties:
+            created_by:
+                description: "Creator name. Field introduced in 17.1.11,17.2.4."
+                type: string
             datascript:
                 description: "DataScripts to execute."
                 type: array

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -539,6 +539,10 @@
                     "type": "boolean", 
                     "description": "Send community attribute to all peers. Field introduced in 17.1.2."
                 }, 
+                "shutdown": {
+                    "type": "boolean", 
+                    "description": "Shutdown the bgp. Field introduced in 17.2.4."
+                }, 
                 "hold_time": {
                     "default": 180, 
                     "type": "integer", 
@@ -673,6 +677,10 @@
                     "type": "integer", 
                     "description": "Advertisement interval for this Peer. Allowed values are 1-60.", 
                     "format": "int32"
+                }, 
+                "shutdown": {
+                    "type": "boolean", 
+                    "description": "Shutdown the bgp peer. Field introduced in 17.2.4."
                 }, 
                 "network_ref": {
                     "type": "string", 

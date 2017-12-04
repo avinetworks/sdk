@@ -1,14 +1,14 @@
 import logging
 import re
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-
+import socket
 from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
             STATUS_INCOMPLETE_CONFIGURATION, OBJECT_TYPE_POOL,
             OBJECT_TYPE_PKI_PROFILE, OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
             OBJECT_TYPE_SSL_PROFILE, OBJECT_TYPE_HEALTH_MONITOR,
             OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
-            STATUS_EXTERNAL_MONITOR)
+            STATUS_EXTERNAL_MONITOR, STATUS_PARTIAL)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
@@ -181,13 +181,11 @@ class ServiceConverter(object):
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report
-                        conv_status = ns_util.get_conv_status(
-                            element, self.nsservice_bind_lb_skipped, [], [],
-                            ignore_for_val=self.nsservice_bind_lb_ignore_val,
-                            user_ignore_val=self.nsservice_bind_lb_user_ignore)
-                        ns_util.add_conv_status(
+                        # Changed the status to INDIRECT for binding of pool to
+                        # VS
+                        ns_util.add_status_row(
                             element['line_no'], ns_bind_lb_vserver_command,
-                            element['attrs'][0], full_cmd, conv_status, pool[0])
+                            element['attrs'][0], full_cmd, STATUS_INDIRECT)
                     else:
                         # Skipped add server if pool not found in AVI
                         skipped_status = 'Skipped :Pool is not created %s' \
@@ -450,11 +448,15 @@ class ServiceConverter(object):
                             self.tenant_name)
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
+                # ELSE remove health monitor of https type
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+                else:
+                    ns_util.remove_https_mon_from_pool(avi_config, pool_obj,
+                                                       sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
@@ -515,6 +517,11 @@ class ServiceConverter(object):
                 # Added prefix for objects
                 if self.prefix:
                     pool_name = self.prefix + '-' + pool_name
+                status_flag = False
+                # Skipped the servers if length > 400
+                if len(servers) > 400:
+                    servers = servers[0:400]
+                    status_flag = True
                 pool_obj = {
                     'name': pool_name,
                     'servers': servers,
@@ -602,11 +609,15 @@ class ServiceConverter(object):
                         self.tenant_name)
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
+                # ELSE remove health monitor of https type
                 if pool_obj.get('pki_profile_ref', None) or \
                         pool_obj.get('ssl_key_and_certificate_ref', None) or \
                         pool_obj.get('ssl_profile_ref', None):
                     ns_util.remove_http_mon_from_pool(avi_config, pool_obj,
                                                       sysdict)
+                else:
+                    ns_util.remove_https_mon_from_pool(avi_config, pool_obj,
+                                                       sysdict)
                 if len(pool_obj['health_monitor_refs']) > 6:
                     pool_obj['health_monitor_refs'] = \
                         pool_obj['health_monitor_refs'][:6]
@@ -626,6 +637,12 @@ class ServiceConverter(object):
                 conv_status = ns_util.get_conv_status(
                     service_group, self.nsservice_bind_lb_skipped, [], [],
                     user_ignore_val=self.nsservice_bind_lb_user_ignore)
+                # If len of servers > 400 then considering only 400 servers
+                # And status of the pool is partial
+                if status_flag:
+                    conv_status['status'] = STATUS_PARTIAL
+                    conv_status['skipped'].append("Skipped:length of servers " \
+                                             "greater than 400")
                 ns_util.add_conv_status(
                     service_group['line_no'], service_group_command,
                     service_group_name, service_group_netscalar_full_command,
@@ -744,16 +761,20 @@ class ServiceConverter(object):
                 ip_addr = ns_dns[ip_addr][0]['attrs'][1]
             elif isinstance(ns_dns[ip_addr], dict):
                 ip_addr = ns_dns[ip_addr]['attrs'][1]
-
-        matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
+        # Added regex to match ip address
+        matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
         if not matches:
-            # Skipped this server if it does not have an Ip
-            ns_util.add_status_row(
-                server['line_no'], ns_add_server_command, server['attrs'][0],
-                ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
-            LOG.warning('Not found IP of server : %s' %
-                        ns_add_server_complete_command)
-            return [], use_service_port
+            try:
+                # If dns then resolve it get the ip address from it.
+                ip_addr = socket.gethostbyname(ip_addr)
+            except:
+                # Skipped this server if it does not have an Ip
+                ns_util.add_status_row(
+                    server['line_no'], ns_add_server_command, server['attrs'][0],
+                    ns_add_server_complete_command, STATUS_INCOMPLETE_CONFIGURATION)
+                LOG.warning('Not found IP of server : %s' %
+                            ns_add_server_complete_command)
+                return [], use_service_port
         server_obj = {
             'ip': {
                 'addr': ip_addr,
@@ -867,7 +888,8 @@ class ServiceConverter(object):
             if port in ("*", "0"):
                 port = "1"
                 use_service_port = True
-            matches = re.findall('[0-9]+.[[0-9]+.[0-9]+.[0-9]+', ip_addr)
+            # Added regex to match ip address
+            matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip_addr)
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
@@ -882,20 +904,25 @@ class ServiceConverter(object):
                 # Get the server name
                 server_obj['hostname'] = server_name
             if not matches:
-                # Skipped this server if it does not have an Ip
-                ns_util.add_status_row(
-                    server['line_no'], ns_add_server_command, server['attrs'][0],
-                    ns_add_server_complete_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                LOG.warning('Not found IP of server : %s %s' %
-                            (ns_add_server_command, attrs[1]))
-                ns_util.add_status_row(
-                    server_binding['line_no'], ns_bind_service_group_command,
-                    attrs[0], ns_bind_service_group_complete_command,
-                    STATUS_INCOMPLETE_CONFIGURATION)
-                LOG.error('Skipped server : %s' %
-                          ns_bind_service_group_complete_command)
-                server_obj = None
+                try:
+                    # If dns then resolve it get the ip address from it.
+                    ip_addr = socket.gethostbyname(ip_addr)
+                    server_obj['ip']['addr'] = ip_addr
+                except:
+                    # Skipped this server if it does not have an Ip
+                    ns_util.add_status_row(
+                        server['line_no'], ns_add_server_command, server['attrs'][0],
+                        ns_add_server_complete_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    LOG.warning('Not found IP of server : %s %s' %
+                                (ns_add_server_command, attrs[1]))
+                    ns_util.add_status_row(
+                        server_binding['line_no'], ns_bind_service_group_command,
+                        attrs[0], ns_bind_service_group_complete_command,
+                        STATUS_INCOMPLETE_CONFIGURATION)
+                    LOG.error('Skipped server : %s' %
+                              ns_bind_service_group_complete_command)
+                    server_obj = None
             if server_obj:
                 servers.append(server_obj)
                 # Add summery of add server in CSV/report
