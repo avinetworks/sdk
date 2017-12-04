@@ -595,8 +595,7 @@ class F5Util(MigrationUtil):
                 vrf_ref)
             # VS VIP object to be put in admin tenant to shared across tenants
             updated_vsvip_ref = self.get_object_ref(vs_vip_name, 'vsvip',
-                                                    'admin',
-                                                    cloud_name)
+                                                    tenant_name, cloud_name)
         return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
     def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
@@ -1687,13 +1686,13 @@ class F5Util(MigrationUtil):
         if prefix:
             name = '%s-%s' % (prefix, name)
         # Get the exsting vsvip object list if present
-        vsvip = [vip_obj for vip_obj in vsvip_config
-                 if vip_obj['name'] == name]
+        vsvip = [vip_obj for vip_obj in vsvip_config if vip_obj['name'] == name
+                 and vip_obj['tenant_ref'] == tenant_ref]
         # If VSVIP object not present then create new VSVIP object.
         if not vsvip:
             vsvip_object = {
                 "name": name,
-                "tenant_ref": self.get_object_ref('admin', 'tenant'),
+                "tenant_ref": tenant_ref,
                 "cloud_ref": cloud_ref,
                 "vip": [
                     {
