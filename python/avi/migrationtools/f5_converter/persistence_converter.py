@@ -297,7 +297,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         :return:
         """
         conv_utils.add_conv_status('persistence', persist_mode, name,
-                                   conv_status, persist_profile)
+                                   conv_status,
+                                   [{'app_per_profile': persist_profile}])
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 
@@ -446,8 +447,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :param persist_profile: dict of persist profile
         :return:
         """
-        conv_utils.add_conv_status('profile', 'persist', name,
-                                   conv_status, persist_profile)
+        conv_utils.add_conv_status('profile', 'persist', name, conv_status,
+                                   [{'app_per_profile': persist_profile}])
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 

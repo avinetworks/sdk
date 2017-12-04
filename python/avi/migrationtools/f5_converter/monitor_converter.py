@@ -396,7 +396,7 @@ class MonitorConfigConv(object):
             u_ignore, na_list)
 
         conv_utils.add_conv_status('monitor', monitor_type, name, conv_status,
-                                   monitor_dict)
+                                   [{'health_monitor': monitor_dict}])
         return monitor_dict
 
 

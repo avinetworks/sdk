@@ -162,6 +162,7 @@ class F5Util(MigrationUtil):
         ptotal_count = ptotal_count + len(csv_writer_dict_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
+            self.correct_vs_ref(avi_config)
         else:
             # Update the complexity level of VS as Basic or Advanced
             self.vs_complexity_level()
@@ -1814,7 +1815,7 @@ class F5Util(MigrationUtil):
                 LOG.debug("Conversion completed for route '%s'" % key)
                 self.add_conv_status('route', None, key,
                                      {'status': conv_const.STATUS_SUCCESSFUL},
-                                      static_route)
+                                      [{'route': static_route}])
             else:
                 LOG.debug("Conversion unsuccessful for route '%s'" % key)
                 self.add_conv_status('route', None, key,
@@ -2130,3 +2131,83 @@ class F5Util(MigrationUtil):
                                 self.get_object_ref('System-TCP-Proxy',
                                  conv_const.OBJECT_TYPE_NETWORK_PROFILE)
 
+    def correct_vs_ref(self, avi_config):
+        """
+        This method corrects the reference of VS to different objects
+        :param avi_config: avi configuration dict
+        :return:
+        """
+        global csv_writer_dict_list
+        avi_graph = self.make_graph(avi_config)
+        csv_dict_sub = [row for row in csv_writer_dict_list if row[
+                        'F5 type'] not in ('virtual') and row['Status'] in
+                        (conv_const.STATUS_PARTIAL,
+                         conv_const.STATUS_SUCCESSFUL)]
+        for dict_row in csv_dict_sub:
+            obj = dict_row['Avi Object']
+            vs = []
+            if obj.startswith('{'):
+                obj = eval(obj)
+                for key in obj:
+                    for objs in obj[key]:
+                        self.add_vs_ref(objs, avi_graph, vs)
+            elif obj.startswith('['):
+                obj = eval(obj)
+                for objs in obj:
+                    for key in objs:
+                        objval = objs[key]
+                        self.add_vs_ref(objval, avi_graph, vs)
+            if vs:
+                dict_row['VS Reference'] = str(list(set(vs)))
+            else:
+                dict_row['VS Reference'] = conv_const.STATUS_NOT_IN_USE
+
+    def add_vs_ref(self, obj, avi_graph, vs):
+        """
+        Helper method for adding vs ref
+        :param obj: object
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :return:
+        """
+        tmplist = []
+        obj_name = obj.get('name', obj.get('hostname'))
+        if obj_name:
+            if avi_graph.has_node(obj_name):
+                LOG.debug("Checked predecessor for %s", obj_name)
+                predecessor = list(avi_graph.predecessors(obj_name))
+                if predecessor:
+                    self.get_predecessor(predecessor, avi_graph, vs, tmplist)
+            else:
+                LOG.debug("Object %s may be merged or orphaned", obj_name)
+
+    def get_predecessor(self, predecessor, avi_graph, vs, tmplist):
+        """
+        This method gets the predecessor of the object
+        :param predecessor: predecessor list
+        :param avi_graph: avi graph
+        :param vs: VS list
+        :param tmplist: temporary list of objects for which predecessors
+                        are already evaluated
+        :return:
+        """
+        if len(predecessor) > 1:
+            for node in predecessor:
+                if node in tmplist:
+                    continue
+                nodelist = [node]
+                self.get_predecessor(nodelist, avi_graph, vs, tmplist)
+        elif len(predecessor):
+            node_obj = [nod for nod in list(avi_graph.nodes().data()) if
+                        nod[0] == predecessor[0]]
+            if node_obj and (node_obj[0][1]['type'] == 'VS' or 'VS' in node_obj[
+              0][1]['type']):
+                LOG.debug("Predecessor %s found", predecessor[0])
+                vs.extend(predecessor)
+            else:
+                tmplist.extend(predecessor)
+                LOG.debug("Checked predecessor for %s", predecessor[0])
+                nodelist = list(avi_graph.predecessors(predecessor[0]))
+                self.get_predecessor(nodelist, avi_graph, vs, tmplist)
+        else:
+            LOG.debug("No more predecessor")
