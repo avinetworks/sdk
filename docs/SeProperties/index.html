@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -331,6 +331,7 @@ font-style: italic;
       "se_auth_ldap_conns_per_server" : 123,
       "log_agent_export_msg_buffer_size" : 123,
       "upstream_connpool_conn_idle_tmo" : 123,
+      "disable_tso" : true,
       "log_agent_max_storage_excess_percent" : 123,
       "se_random_tcp_drops" : true,
       "log_agent_max_concurrent_rsync" : 123,
@@ -597,6 +598,7 @@ font-style: italic;
     "se_auth_ldap_conns_per_server" : 123,
     "log_agent_export_msg_buffer_size" : 123,
     "upstream_connpool_conn_idle_tmo" : 123,
+    "disable_tso" : true,
     "log_agent_max_storage_excess_percent" : 123,
     "se_random_tcp_drops" : true,
     "log_agent_max_concurrent_rsync" : 123,
@@ -932,6 +934,7 @@ font-style: italic;
     "se_auth_ldap_conns_per_server" : 123,
     "log_agent_export_msg_buffer_size" : 123,
     "upstream_connpool_conn_idle_tmo" : 123,
+    "disable_tso" : true,
     "log_agent_max_storage_excess_percent" : 123,
     "se_random_tcp_drops" : true,
     "log_agent_max_concurrent_rsync" : 123,
@@ -1209,6 +1212,7 @@ font-style: italic;
     "se_auth_ldap_conns_per_server" : 123,
     "log_agent_export_msg_buffer_size" : 123,
     "upstream_connpool_conn_idle_tmo" : 123,
+    "disable_tso" : true,
     "log_agent_max_storage_excess_percent" : 123,
     "se_random_tcp_drops" : true,
     "log_agent_max_concurrent_rsync" : 123,
@@ -1486,6 +1490,7 @@ font-style: italic;
     "se_auth_ldap_conns_per_server" : 123,
     "log_agent_export_msg_buffer_size" : 123,
     "upstream_connpool_conn_idle_tmo" : 123,
+    "disable_tso" : true,
     "log_agent_max_storage_excess_percent" : 123,
     "se_random_tcp_drops" : true,
     "log_agent_max_concurrent_rsync" : 123,
@@ -1834,6 +1839,7 @@ font-style: italic;
 <div class="param">connections_udfnf_log_rate_limiter_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rate limit on maximum adf udf or nf log to pushper second. format: int32</div>
 <div class="param">disable_flow_probes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Flow Probes for Scaled out VS&#39;es. Field introduced in 17.1.1. </div>
 <div class="param">disable_gro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1. </div>
+<div class="param">disable_tso (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.4,18.1.1. </div>
 <div class="param">dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object </div>
 <div class="param">downstream_send_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of downstream_send_timeout. format: int32</div>
 <div class="param">dp_aggressive_hb_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. format: int32</div>

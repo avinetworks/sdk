@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  ##Examples## - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -344,6 +344,7 @@ font-style: italic;
     "snat_ip" : [ "" ],
     "cloud_ref" : "aeiou",
     "microservice_ref" : "aeiou",
+    "error_page_profile_ref" : "aeiou",
     "avi_allocated_fip" : true,
     "server_network_profile_ref" : "aeiou",
     "use_vip_as_snat" : true,
@@ -388,6 +389,7 @@ font-style: italic;
         "enabled" : true
       },
       "udf_log_throttle" : 123,
+      "enabled" : true,
       "full_client_logs" : {
         "duration" : 123,
         "all_headers" : true,
@@ -467,6 +469,7 @@ font-style: italic;
     "created_by" : "aeiou",
     "service_pool_select" : [ {
       "service_protocol" : "aeiou",
+      "service_port_range_end" : 123,
       "service_pool_ref" : "aeiou",
       "service_pool_group_ref" : "aeiou",
       "service_port" : 123
@@ -531,6 +534,7 @@ font-style: italic;
     "discovered_subnet" : [ "" ],
     "network_profile_ref" : "aeiou",
     "auto_allocate_ip" : true,
+    "close_client_conn_on_config_update" : true,
     "max_cps_per_client" : 123,
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
@@ -551,7 +555,8 @@ font-style: italic;
       "override_network_profile_ref" : "aeiou",
       "port" : 123,
       "port_range_end" : 123,
-      "enable_ssl" : true
+      "enable_ssl" : true,
+      "override_application_profile_ref" : "aeiou"
     } ],
     "url" : "aeiou",
     "active_standby_se_tag" : "aeiou",
@@ -665,6 +670,7 @@ font-style: italic;
   "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
   "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
   "avi_allocated_fip" : true,
   "server_network_profile_ref" : "aeiou",
   "use_vip_as_snat" : true,
@@ -709,6 +715,7 @@ font-style: italic;
       "enabled" : true
     },
     "udf_log_throttle" : 123,
+    "enabled" : true,
     "full_client_logs" : {
       "duration" : 123,
       "all_headers" : true,
@@ -788,6 +795,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
+    "service_port_range_end" : 123,
     "service_pool_ref" : "aeiou",
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
@@ -852,6 +860,7 @@ font-style: italic;
   "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
+  "close_client_conn_on_config_update" : true,
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
@@ -872,7 +881,8 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
-    "enable_ssl" : true
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
   } ],
   "url" : "aeiou",
   "active_standby_se_tag" : "aeiou",
@@ -1795,6 +1805,7 @@ font-style: italic;
   "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
   "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
   "avi_allocated_fip" : true,
   "server_network_profile_ref" : "aeiou",
   "use_vip_as_snat" : true,
@@ -1839,6 +1850,7 @@ font-style: italic;
       "enabled" : true
     },
     "udf_log_throttle" : 123,
+    "enabled" : true,
     "full_client_logs" : {
       "duration" : 123,
       "all_headers" : true,
@@ -1918,6 +1930,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
+    "service_port_range_end" : 123,
     "service_pool_ref" : "aeiou",
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
@@ -1982,6 +1995,7 @@ font-style: italic;
   "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
+  "close_client_conn_on_config_update" : true,
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
@@ -2002,7 +2016,8 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
-    "enable_ssl" : true
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
   } ],
   "url" : "aeiou",
   "active_standby_se_tag" : "aeiou",
@@ -2757,6 +2772,7 @@ font-style: italic;
   "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
   "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
   "avi_allocated_fip" : true,
   "server_network_profile_ref" : "aeiou",
   "use_vip_as_snat" : true,
@@ -2801,6 +2817,7 @@ font-style: italic;
       "enabled" : true
     },
     "udf_log_throttle" : 123,
+    "enabled" : true,
     "full_client_logs" : {
       "duration" : 123,
       "all_headers" : true,
@@ -2880,6 +2897,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
+    "service_port_range_end" : 123,
     "service_pool_ref" : "aeiou",
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
@@ -2944,6 +2962,7 @@ font-style: italic;
   "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
+  "close_client_conn_on_config_update" : true,
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
@@ -2964,7 +2983,8 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
-    "enable_ssl" : true
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
   } ],
   "url" : "aeiou",
   "active_standby_se_tag" : "aeiou",
@@ -3141,6 +3161,7 @@ font-style: italic;
   "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
   "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
   "avi_allocated_fip" : true,
   "server_network_profile_ref" : "aeiou",
   "use_vip_as_snat" : true,
@@ -3185,6 +3206,7 @@ font-style: italic;
       "enabled" : true
     },
     "udf_log_throttle" : 123,
+    "enabled" : true,
     "full_client_logs" : {
       "duration" : 123,
       "all_headers" : true,
@@ -3264,6 +3286,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
+    "service_port_range_end" : 123,
     "service_pool_ref" : "aeiou",
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
@@ -3328,6 +3351,7 @@ font-style: italic;
   "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
+  "close_client_conn_on_config_update" : true,
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
@@ -3348,7 +3372,8 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
-    "enable_ssl" : true
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
   } ],
   "url" : "aeiou",
   "active_standby_se_tag" : "aeiou",
@@ -4163,6 +4188,7 @@ font-style: italic;
       <div class="param">client_insights (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE. </div>
 <div class="param">client_insights_sampling (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientInsightsSampling">ClientInsightsSampling</a></span> Placeholder for description of property client_insights_sampling of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">client_log_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientLogFilter">array[ClientLogFilter]</a></span> Placeholder for description of property client_log_filters of obj type AnalyticsPolicy field type str  type object </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4. </div>
 <div class="param">full_client_logs (optional)</div><div class="param-desc"><span class="param-type"><a href="#FullClientLogs">FullClientLogs</a></span> Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">metrics_realtime_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Settings to turn on realtime metrics and set duration for realtime updates. </div>
 <div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
@@ -4453,6 +4479,7 @@ font-style: italic;
     <h3 class="field-label"><a name="Service">Service</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">enable_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL termination and offload for traffic from clients. </div>
+<div class="param">override_application_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4. </div>
 <div class="param">override_network_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Override the network profile for this specific service port. It is a reference to an object of type NetworkProfile. </div>
 <div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Virtual Service&#39;s port number. Allowed values are 1-65535. format: int32</div>
 <div class="param">port_range_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The end of the Virtual Service&#39;s port number range. Allowed values are 1-65535. Special values are 0- &#39;single port&#39;. format: int32</div>
@@ -4464,6 +4491,7 @@ font-style: italic;
       <div class="param">service_pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type PoolGroup. </div>
 <div class="param">service_pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Pool. </div>
 <div class="param">service_port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool based destination port. Allowed values are 1-65535. format: int32</div>
+<div class="param">service_port_range_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The end of the Service port number range. Allowed values are 1-65535. Special values are 0- &#39;single port&#39;. Field introduced in 17.2.4. format: int32</div>
 <div class="param">service_protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4544,6 +4572,7 @@ font-style: italic;
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
+<div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">cloud_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
@@ -4562,6 +4591,7 @@ font-style: italic;
 <div class="param">enable_rhi (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Route Health Injection using the BGP Config in the vrf context. </div>
 <div class="param">enable_rhi_snat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Route Health Injection for Source NAT&#39;ted floating IP Address using the BGP Config in the vrf context. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Virtual Service. </div>
+<div class="param">error_page_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Error Page Profile to be used for this virtualservice.This profile is used to send the custom error page to the client generated by the proxy. It is a reference to an object of type ErrorPageProfile. Field introduced in 17.2.4. </div>
 <div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IP to associate with this Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. This field is applicable only if the VirtualService belongs to an OpenStack or AWS cloud. In OpenStack or AWS cloud it is required when auto_allocate_floating_ip is selected. Field deprecated in 17.1.1. </div>
 <div class="param">flow_dist (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria for flow distribution among SEs. Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT. </div>
@@ -4571,7 +4601,7 @@ font-style: italic;
 <div class="param">http_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPPolicies">array[HTTPPolicies]</a></span> HTTP Policies applied on the data traffic of the Virtual Service. </div>
 <div class="param">ign_pool_net_reach (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore Pool servers network reachability constraints for Virtual Service placement. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Virtual Service. Field deprecated in 17.1.1. </div>
-<div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. </div>
+<div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>

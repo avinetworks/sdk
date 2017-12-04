@@ -10,6 +10,14 @@ conv_utils = F5Util()
 class PoolConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_pool_attributes, prefix):
+        """
+
+        :param version:  f5 version
+        :param f5_pool_attributes: location of yaml file for supported
+        attributes
+        :param prefix: prefix for objects
+        :return:
+        """
         if version == '10':
             return PoolConfigConvV10(f5_pool_attributes, prefix)
         if version in ['11', '12']:
@@ -21,6 +29,17 @@ class PoolConfigConv(object):
 
     def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
                 cloud_name, merge_object_mapping, sys_dict):
+        """
+
+        :param f5_config: parsed f5 config dict
+        :param avi_config: dict for avi conversion
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: tenant for which config need to be converted
+        :param cloud_name: cloud for which config need to be converted
+        :param merge_object_mapping: flag for merge object
+        :param sys_dict: baseline profile dict
+        :return:
+        """
         pool_list = []
         pool_config = f5_config.get('pool', {})
         user_ignore = user_ignore.get('pool', {})
@@ -74,33 +93,23 @@ class PoolConfigConv(object):
             msg = "Pool and PoolGroup conversion started..."
             conv_utils.print_progress_bar(progressbar_count, total_size, msg,
                              prefix='Progress', suffix='')
-            # labels_dict = avi_config.pop('PriorityLabels', None)
-            # if labels_dict:
-            #     for tenant in labels_dict:
-            #         labels = labels_dict[tenant]
-            #         if not tenant_ref == 'admin':
-            #             tenant = tenant_ref
-            #         labels = list(set(labels))
-            #         labels = map(int, labels)
-            #         labels.sort(reverse=True)
-            #         labels = map(str, labels)
-            #         priority_labels = {
-            #             "name": "numeric_priority_labels",
-            #             "equivalent_labels": [
-            #                 {
-            #                     "labels": labels
-            #                 }
-            #             ],
-            #             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
-            #         }
-            #         avi_config['PriorityLabels'] = [priority_labels]
-
         avi_config['Pool'] = pool_list
         LOG.debug("Converted %s pools" % len(pool_list))
         f5_config.pop('pool', {})
 
     def get_monitor_refs(self, monitor_names, monitor_config_list, pool_name,
                          tenant_ref, merge_object_mapping, sys_mon):
+
+        """
+
+        :param monitor_names:  name of monitor
+        :param monitor_config_list: parsed dict of monitor_config_list
+        :param pool_name: name of pool
+        :param tenant_ref: tenant which need to be converted
+        :param merge_object_mapping: flag for object merge
+        :param sys_mon: baseline profile dict
+        :return:
+        """
         skipped_monitors = []
         monitors = monitor_names.split(" ")
         monitor_refs = []
@@ -133,6 +142,17 @@ class PoolConfigConv(object):
 
     def create_pool_object(self, name, desc, servers, pd_action, algo,
                            ramp_time, limits, tenant_ref, cloud_ref):
+        """
+
+        :param name: name of pool
+        :param desc:  description of pool
+        :param servers: servers list in pool
+        :param pd_action: action on avi pool
+        :param algo: algorithm used for pool
+        :param tenant_ref: tenant of which output to be converted
+        :param cloud_ref: cloud of which output to be converted
+        :return: pool_obj
+        """
         tenant, name = conv_utils.get_tenant_ref(name)
         # Added prefix for objects
         if self.prefix:
@@ -281,6 +301,11 @@ class PoolConfigConv(object):
 
 class PoolConfigConvV11(PoolConfigConv):
     def __init__(self, f5_pool_attributes, prefix):
+        """
+
+        :param f5_pool_attributes: f5 pool attributes from yaml file
+        :param prefix: prefix for objects
+        """
         self.supported_attr = f5_pool_attributes['Pool_supported_attr']
         self.supported_attributes = f5_pool_attributes[
             'Pool_supported_attr_convert_servers_config']
@@ -290,6 +315,18 @@ class PoolConfigConvV11(PoolConfigConv):
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+        """
+
+        :param pool_name: name of the pool
+        :param f5_config: parsed f5 config dict
+        :param avi_config: dict for avi conversion
+        :param user_ignore: Ignore config defined by user
+        :param tenant_ref: tenant of which output to  converted
+        :param cloud_ref: cloud of which output to converted
+        :param merge_object_mapping: flag for merge object
+        :param sys_dict: baseline dict
+        :return:
+        """
         converted_objs = {}
         nodes = f5_config.get("node", {})
         f5_pool = f5_config['pool'][pool_name]
@@ -306,6 +343,11 @@ class PoolConfigConvV11(PoolConfigConv):
         pool_obj = super(PoolConfigConvV11, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
             limits, tenant_ref, cloud_ref)
+        # if length of servers > 400 take only 400 servers
+        status_flag = False
+        if len(servers) > 400:
+            servers = servers[0:400]
+            status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
@@ -358,7 +400,9 @@ class PoolConfigConvV11(PoolConfigConv):
                 pg_dict, pool_obj, name, tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
-
+        # Flag to make status partial for pool.
+        if status_flag:
+            skipped_attr.append('Skipped: length of servers more than 400')
         super(PoolConfigConvV11, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
             converted_objs, user_ignore, skipped_servers)
@@ -488,6 +532,11 @@ class PoolConfigConvV11(PoolConfigConv):
 
 class PoolConfigConvV10(PoolConfigConv):
     def __init__(self, f5_pool_attributes, prefix):
+        """
+
+        :param f5_pool_attributes: f5 pool attributes from yaml file
+        :param prefix: prefix for objects
+        """
         self.supported_attr = f5_pool_attributes['Pool_supported_attr_1']
         self.supported_attributes = f5_pool_attributes['Pool_supported_attr_2']
         self.ignore_for_val = f5_pool_attributes['Pool_ignore_val']
@@ -496,6 +545,18 @@ class PoolConfigConvV10(PoolConfigConv):
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
                      tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+
+        """
+       :param pool_name: name of the pool
+       :param f5_config: parsed f5 config dict
+       :param avi_config: dict for avi conversion
+       :param user_ignore: Ignore config defined by user
+       :param tenant_ref: tenant of which output to  converted
+       :param cloud_ref: cloud of which output to converted
+       :param merge_object_mapping: flag for merge object
+       :param sys_dict: baseline dict
+       :return:
+        """
         nodes = f5_config.pop("node", {})
         f5_pool = f5_config['pool'][pool_name]
         monitor_config = avi_config['HealthMonitor']
@@ -508,6 +569,11 @@ class PoolConfigConvV10(PoolConfigConv):
         lb_algorithm = self.get_avi_lb_algorithm(lb_method)
         desc = f5_pool.get('description', None)
         ramp_time = f5_pool.get('slow ramp time', None)
+        # if length of servers > 400 take only 400 servers.
+        status_flag = False
+        if len(servers) > 400:
+            servers = servers[0:400]
+            status_flag = True
         pool_obj = super(PoolConfigConvV10, self).create_pool_object(
             pool_name, desc, servers, pd_action, lb_algorithm, ramp_time,
             limits, tenant_ref, cloud_ref)
@@ -563,7 +629,9 @@ class PoolConfigConvV10(PoolConfigConv):
                                                  tenant, avi_config, cloud_ref)
         else:
             converted_objs['pools'] = [pool_obj]
-
+        # Flag to make status partial for pool.
+        if status_flag:
+            skipped_attr.append('Skipped: length of servers more than 400')
         super(PoolConfigConvV10, self).add_status(
             pool_name, skipped_attr, member_skipped_config, skipped_monitors,
             converted_objs, user_ignore, skipped_servers)

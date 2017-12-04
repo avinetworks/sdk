@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1689,6 +1689,7 @@ definitions:
                 format: int32
             gslb_sp_enabled:
                 description: "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
+                readOnly: True
                 type: boolean
             health_monitor_refs:
                 description: "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
@@ -1721,6 +1722,9 @@ definitions:
                 description: "Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING."
                 type: string
                 default: "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
+            lookup_server_by_name:
+                description: "Allow server lookup by name. Field introduced in 17.1.11,17.2.4."
+                type: boolean
             max_concurrent_connections_per_server:
                 description: "The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied."
                 type: integer

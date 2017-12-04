@@ -2,7 +2,6 @@
 import logging
 from avi.migrationtools.ace_converter.ace_constants import POOL_SKIP
 from avi.migrationtools.ace_converter.ace_utils import update_excel
-
 # logging init
 LOG = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class PoolConverter(object):
         # print pool_ip_list
         return pool_ip_list
 
-    def pool_conversion(self):
+    def pool_conversion(self, data):
         """ Pool conversion over here
             Pool Contains:
             - servers
@@ -51,7 +50,7 @@ class PoolConverter(object):
             temp_pool = dict()
             name = pool.get('host', '')
             # print name
-            app_persistance = self.find_app_persistance(name)
+            app_persistance = self.find_app_persistance(name, data)
             app_ref = self.common_utils.get_object_ref(app_persistance,
                                                        'applicationpersistenceprofile',
                                                        tenant=self.tenant)
@@ -68,8 +67,15 @@ class PoolConverter(object):
                     skipped_list.extend(skipped_list_temp)
                 if "rserver" in pools.keys():
                     server = self.server_converter(pools['rserver'])
-                if "probe" in pools.keys():
-                    probe = pools['probe']
+
+            #    print "health monitor= ",data['HealthMonitor']
+            #    print pools
+            #     print pools.get('probe')
+                if data.get('HealthMonitor'):
+                    for hm in data['HealthMonitor']:
+                        if pools.get('probe') == hm['name']:
+                            probe = pools['probe']
+
             if probe:
                 monitor_ref = self.common_utils.get_object_ref(
                     probe, 'healthmonitor', tenant=self.tenant)
@@ -87,6 +93,7 @@ class PoolConverter(object):
                     },
                     "description": None
                 }
+
                 if monitor_ref:
                     pool_dict['health_monitor_refs'].append(monitor_ref)
                 if self.vrf_ref:
@@ -113,7 +120,7 @@ class PoolConverter(object):
                     server_name = elem['host']
 
         if position is None:
-            print "rserver {} not found ..".format(name)
+            LOG.warning("rserver %s not found ..".format(name))
             return False
 
         details = self.parsed['rserver'][position]
@@ -150,14 +157,14 @@ class PoolConverter(object):
 
         return server_list
 
-    def find_app_persistance(self, pool_name):
+    def find_app_persistance(self, pool_name, data):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
+        # print self.parsed.get('sticky','')
         for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
-            for pool in sticky['desc']:
-                if pool.get('serverfarm', []) == pool_name:
+            for app in data['ApplicationPersistenceProfile']:
+                if app['name'] == name:
                     app_persitance = name
                     break
-
         return app_persitance

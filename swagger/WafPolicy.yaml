@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.3'
+    version: '17.2.4'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -364,7 +364,7 @@ definitions:
                 description: "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1."
                 $ref: '#/definitions/IpAddrPrefix'
             match_element:
-                description: "match_element can be 'ARGS xxx' or 'REQUEST_HEADERS xxx' or 'REQUEST_COOKIES xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                description: "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 type: string
             uri_path:
                 description: "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
@@ -376,6 +376,9 @@ definitions:
             -   name
             -   waf_profile_ref
         properties:
+            created_by:
+                description: "Creator name. Field introduced in 17.2.4."
+                type: string
             crs_groups:
                 description: "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
                 type: array

@@ -16,6 +16,13 @@ used_pools = {}
 class PolicyConfigConv(object):
     @classmethod
     def get_instance(cls, version, prefix):
+        """
+
+        :param version: version of f5 instance
+        :param f5_monitor_atributes: f5 monitor attributes from yaml file.
+        :param prefix:  prefix for objects
+        :return:
+        """
         if version == '10':
             return PolicyConfigConvV10(prefix)
         if version in ['11', '12']:
@@ -24,9 +31,9 @@ class PolicyConfigConv(object):
     def convert(self, f5_config, avi_config, tenant_ref):
         """
         Main method for conversion of policy
-        :param f5_config:
-        :param avi_config:
-        :param tenant_ref:
+        :param f5_config: parsed f5 config dict
+        :param avi_config: dict for conversion to avi config
+        :param tenant_ref: tenant of which config to be converted
         :return:
         """
         # Get the policy config from converted parsing
@@ -72,10 +79,10 @@ class PolicyConfigConv(object):
                      policy_name):
         """
         This method create rules for each policy
-        :param config:
-        :param httppolicy:
-        :param avi_config:
-        :param policy_name:
+        :param config: f5 policy config dict
+        :param httppolicy: httppolicy dict
+        :param avi_config: dict for avi conversion
+        :param policy_name: name of policy
         :return: skip elements for rule or message
         """
         if 'rules' in config:
@@ -150,10 +157,10 @@ class PolicyConfigConv(object):
     def create_match_rule(self, match_dict, avi_config, rule_name, each_rule):
         """
         This method creates match dict for each rule
-        :param match_dict:
-        :param avi_config:
-        :param rule_name:
-        :param each_rule:
+        :param match_dict: dict for makning match rule
+        :param avi_config: dict for avi conversion
+        :param rule_name: name of rule
+        :param each_rule: rule for policy
         :return: policy type, match dict and skip elements
         """
         pol_type = None
@@ -818,10 +825,10 @@ class PolicyConfigConv(object):
                            policy_name):
         """
         This method create action dict for each rule
-        :param action_dict:
-        :param avi_config:
-        :param each_rule:
-        :param policy_name:
+        :param action_dict: f5 action dict
+        :param avi_config: dict for avi conversion
+        :param each_rule: rule for policy
+        :param policy_name: name of http policy
         :return: action list, skip list for action and log action dict
         """
         action_list = []

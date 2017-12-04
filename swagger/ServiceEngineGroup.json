@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.3", 
+        "version": "17.2.4", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1150,6 +1150,14 @@
                     "type": "boolean", 
                     "description": "Service Engines in active/standby mode for HA failover."
                 }, 
+                "auto_rebalance_capacity_per_se": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4.", 
+                    "format": "int64"
+                }, 
                 "num_flow_cores_sum_changes_to_ignore": {
                     "default": 8, 
                     "type": "integer", 
@@ -1237,6 +1245,10 @@
                     "description": "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
                     "format": "int32"
                 }, 
+                "host_gateway_monitor": {
+                    "type": "boolean", 
+                    "description": "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4."
+                }, 
                 "buffer_se": {
                     "default": 1, 
                     "type": "integer", 
@@ -1257,7 +1269,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS. Field introduced in 17.2.3."
+                    "description": "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3."
                 }, 
                 "distribute_load_active_standby": {
                     "type": "boolean", 

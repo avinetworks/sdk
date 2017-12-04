@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.3</div>
+    <div class="app-desc">Version: 17.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -280,6 +280,7 @@ font-style: italic;
       "deployment" : "aeiou"
     },
     "ipam_provider_ref" : "aeiou",
+    "state_based_dns_registration" : true,
     "aws_configuration" : {
       "access_key_id" : "aeiou",
       "use_sns_sqs" : true,
@@ -780,6 +781,7 @@ font-style: italic;
     "deployment" : "aeiou"
   },
   "ipam_provider_ref" : "aeiou",
+  "state_based_dns_registration" : true,
   "aws_configuration" : {
     "access_key_id" : "aeiou",
     "use_sns_sqs" : true,
@@ -1511,6 +1513,7 @@ font-style: italic;
     "deployment" : "aeiou"
   },
   "ipam_provider_ref" : "aeiou",
+  "state_based_dns_registration" : true,
   "aws_configuration" : {
     "access_key_id" : "aeiou",
     "use_sns_sqs" : true,
@@ -2126,6 +2129,7 @@ font-style: italic;
     "deployment" : "aeiou"
   },
   "ipam_provider_ref" : "aeiou",
+  "state_based_dns_registration" : true,
   "aws_configuration" : {
     "access_key_id" : "aeiou",
     "use_sns_sqs" : true,
@@ -2585,6 +2589,7 @@ font-style: italic;
     "deployment" : "aeiou"
   },
   "ipam_provider_ref" : "aeiou",
+  "state_based_dns_registration" : true,
   "aws_configuration" : {
     "access_key_id" : "aeiou",
     "use_sns_sqs" : true,
@@ -3130,7 +3135,7 @@ font-style: italic;
     <h3 class="field-label"><a name="aws_encryption">aws_encryption</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">master_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3. </div>
-<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS encyrption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3181,6 +3186,7 @@ font-style: italic;
 <div class="param">prefer_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Prefer static routes over interface routes during VirtualService placement. </div>
 <div class="param">proxy_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProxyConfiguration">ProxyConfiguration</a></span> Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object </div>
 <div class="param">rancher_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#RancherConfiguration">RancherConfiguration</a></span> Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object </div>
+<div class="param">state_based_dns_registration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
@@ -3252,7 +3258,7 @@ font-style: italic;
       <div class="param">oshift_registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#OshiftDockerRegistryMetaData">OshiftDockerRegistryMetaData</a></span> Openshift integrated registry config. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for docker registry. Authorized &#39;regular user&#39; password if registry is Openshift integrated registry. </div>
 <div class="param">private (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set. </div>
-<div class="param">registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi ServiceEngine repository name. For private registry, it&#39;s registry port/repository, for public registry, it&#39;s registry/repository, for openshift registry, it&#39;s registry port/&lt;namespace&gt;/&lt;repo&gt;. </div>
+<div class="param">registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi ServiceEngine repository name. For private registry, it&#39;s registry port/repository, for public registry, it&#39;s registry/repository, for openshift registry, it&#39;s registry port/namespace/repo. </div>
 <div class="param">se_repository_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi Controller will push ServiceEngine image to docker repository. </div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for docker registry. Authorized &#39;regular user&#39; if registry is Openshift integrated registry. </div>
     </div>  <!-- field-items -->
