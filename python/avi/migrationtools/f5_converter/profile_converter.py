@@ -247,9 +247,11 @@ class ProfileConfigConv(object):
                         merge_object_mapping, None, self.prefix, sys_dict[
                         'SSLKeyAndCertificate'])
                 else:
+                    converted_objs.append({'ssl_cert_key': ssl_kc_obj})
                     avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
                 self.certkey_count += 1
             else:
+                converted_objs.append({'ssl_cert_key': ssl_kc_obj})
                 avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
 
 
@@ -429,6 +431,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['SSLProfile'])
                 ssl_count['count'] += 1
             else:
+                converted_objs.append({'ssl_profile': ssl_profile})
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl-file', None)
             ca_file_name = profile.get('ca-file', None)
@@ -479,6 +482,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                                         sys_dict['PKIProfile'])
                         self.pki_count += 1
                     else:
+                        converted_objs.append({'pki_profile': pki_profile})
                         avi_config['PKIProfile'].append(pki_profile)
         elif profile_type == 'http':
             supported_attr = self.supported_http
@@ -585,6 +589,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'dns':
@@ -609,6 +614,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'web-acceleration':
             supported_attr = self.supported_wa
@@ -663,6 +669,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'http-compression':
@@ -720,6 +727,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'fastl4':
             supported_attr = self.supported_l4
@@ -777,6 +785,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
             # code to get merge count of network profile.
             if self.object_merge_check:
@@ -787,6 +796,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'fasthttp':
             supported_attr = self.supported_fh
@@ -817,6 +827,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
             receive_window = profile.get("receive-window-size",
                                          final.DEFAULT_RECV_WIN)
@@ -848,6 +859,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
 
         elif profile_type == 'one-connect':
@@ -936,6 +948,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'udp':
             supported_attr = self.supported_udp
@@ -968,6 +981,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
         conv_status = conv_utils.get_conv_status(
                 skipped, indirect, default_ignore, profile, u_ignore, na_list)
@@ -1116,6 +1130,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     sys_dict['SSLProfile'])
                 ssl_count['count'] += 1
             else:
+                converted_objs.append({'ssl_profile': ssl_profile})
                 avi_config['SSLProfile'].append(ssl_profile)
             crl_file_name = profile.get('crl file', None)
             ca_file_name = profile.get('ca file', None)
@@ -1165,6 +1180,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                                                          sys_dict['PKIProfile'])
                         self.pki_count += 1
                     else:
+                        converted_objs.append({'pki_profile': pki_profile})
                         avi_config['PKIProfile'].append(pki_profile)
         elif profile_type == 'http':
             app_profile, skipped = self.convert_http_profile(
@@ -1181,6 +1197,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'dns':
             supported_attr = self.supported_dns
@@ -1201,6 +1218,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count += 1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
         elif profile_type == 'fastL4':
             supported_attr = self.supported_l4
@@ -1254,6 +1272,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count +=1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
             # code to merge application profile count.
             if self.object_merge_check:
@@ -1264,6 +1283,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
 
         elif profile_type == 'fasthttp':
@@ -1294,6 +1314,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                      sys_dict['ApplicationProfile'])
                 self.app_count +=1
             else:
+                converted_objs.append({'app_profile': app_profile})
                 avi_config['ApplicationProfile'].append(app_profile)
             timeout = profile.get("idle-timeout", 0)
             ntwk_profile = {
@@ -1319,6 +1340,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                      profile_type, self.prefix, sys_dict['NetworkProfile'])
                 self.net_count += 1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
 
         elif profile_type == 'oneconnect':
@@ -1405,6 +1427,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
                 self.net_count += 1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'udp':
             u_ignore = user_ignore.get('udp', [])
@@ -1436,6 +1459,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                     self.prefix, sys_dict['NetworkProfile'])
                 self.net_count += 1
             else:
+                converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
         elif profile_type == 'persist':
             mode = profile.get("mode").replace(' ', '-')
