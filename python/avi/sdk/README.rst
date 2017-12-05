@@ -37,6 +37,15 @@ Here are list of important SDK directories
   - **Mesos**: Provides CRUD apis to create Marathon App with AVI labels
 
 --------------
+Installation
+--------------
+Pip packages hosted at pypi. They can be installed simply as:
+
+```sh
+$ pip install avisdk
+```
+
+--------------
 Usage Examples
 --------------
 
@@ -56,6 +65,15 @@ Usage Examples
    vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4'},
             'services': services_obj, 'pool_ref': pool_ref}
    resp = api.post('virtualservice', data=vs_obj)
+   print resp.json()
+
+- create virtualservice using pool sample_pool on 17.x controllers::
+   pool_obj = api.post('pool', data={'name': 'sample_pool'}, api_version='17.2.4')
+   pool_ref = api.get_obj_ref(pool_obj)
+   services_obj = [{'port': 80, 'enable_ssl': False}]
+   vs_obj = {'name': 'sample_vs', 'vip': [{'ip_address': {'addr': '11.11.11.42', 'type': 'V4'}}],
+            'services': services_obj, 'pool_ref': pool_ref}
+   resp = api.post('virtualservice', data=vs_obj, api_version='17.2.4')
    print resp.json()
 
 - print list of all virtualservices::
