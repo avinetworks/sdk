@@ -32,7 +32,7 @@ def avi_timedelta(td):
 
 
 def avi_sdk_syslog_logger(logger_name='avi.sdk'):
-    # The following sets up syslog module.params to log underlying avi SDK messages
+    # The following sets up syslog module to log underlying avi SDK messages
     # based on the environment variables:
     #   AVI_LOG_HANDLER: names the logging handler to use. Only syslog is
     #     supported.
