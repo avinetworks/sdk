@@ -5,7 +5,6 @@ Created on Aug 16, 2016
 '''
 import os
 import re
-import ast
 import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
@@ -288,7 +287,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     if module.params.get('api_context'):
-        api_context = ast.literal_eval(module.params['api_context'])
+        api_context = module.params['api_context']
         api = ApiSession.get_session(
             api_creds.controller, api_creds.username,
             password=api_creds.password,
