@@ -402,17 +402,17 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        if f5server and f5user and f5password and instance_type:
-            self.generate_traffic(generate_traffic_dict, f5server, f5user,
-                                  f5password, instance_type)
-            # Generate traffic file separately
-            with open(ansible_traffic_path, "w+") as outf:
-                outf.write(ANSIBLE_STR)
-                outf.write('---\n')
-                yaml.safe_dump(
-                    [generate_traffic_dict], outf,
-                    default_flow_style=False, indent=2
-                )
+        # if f5server and f5user and f5password and instance_type:
+        #     self.generate_traffic(generate_traffic_dict, f5server, f5user,
+        #                           f5password, instance_type)
+        #     # Generate traffic file separately
+        #     with open(ansible_traffic_path, "w+") as outf:
+        #         outf.write(ANSIBLE_STR)
+        #         outf.write('---\n')
+        #         yaml.safe_dump(
+        #             [generate_traffic_dict], outf,
+        #             default_flow_style=False, indent=2
+        #         )
         with open(ansible_create_object_path, "w") as outf:
             outf.write(ANSIBLE_STR)
             outf.write('---\n')
