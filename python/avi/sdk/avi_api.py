@@ -32,7 +32,7 @@ def avi_timedelta(td):
 
 
 def avi_sdk_syslog_logger(logger_name='avi.sdk'):
-    # The following sets up syslog module.params to log underlying avi SDK messages
+    # The following sets up syslog module to log underlying avi SDK messages
     # based on the environment variables:
     #   AVI_LOG_HANDLER: names the logging handler to use. Only syslog is
     #     supported.
@@ -41,7 +41,7 @@ def avi_sdk_syslog_logger(logger_name='avi.sdk'):
     #   Default is /dev/log
     from logging.handlers import SysLogHandler
     lf = '[%(asctime)s] %(levelname)s [' \
-                        '%(module.params)s.%(funcName)s:%(lineno)d] %(message)s'
+                        '%(module)s.%(funcName)s:%(lineno)d] %(message)s'
     log = logging.getLogger(logger_name)
     log_level = os.environ.get('AVI_LOG_LEVEL', 'DEBUG')
     if log_level:
@@ -142,32 +142,32 @@ class AviCredentials(object):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    def update_from_ansible_module(self, module):
+    def update_from_ansible_module(self, m):
         """
-        :param module.params: ansible module.params
+        :param m: ansible module
         :return:
         """
-        if module.params.get('avi_credentials'):
-            for k, v in list(module['avi_credentials'].items()):
+        if m.params.get('avi_credentials'):
+            for k, v in m.params['avi_credentials'].items():
                 if hasattr(self, k):
                     setattr(self, k, v)
-        if module.params['controller']:
-            self.controller = module.params['controller']
-        if module.params['username']:
-            self.username = module.params['username']
-        if module.params['password']:
-            self.password = module.params['password']
-        if (module.params['api_version'] and
-                (module.params['api_version'] != '16.4.4')):
-            self.api_version = module.params['api_version']
-        if module.params['tenant']:
-            self.tenant = module.params['tenant']
-        if module.params['tenant_uuid']:
-            self.tenant_uuid = module.params['tenant_uuid']
-        if module.params.get('session_id'):
-            self.session_id = module.params['session_id']
-        if module.params.get('csrftoken'):
-            self.csrftoken = module.params['csrftoken']
+        if m.params['controller']:
+            self.controller = m.params['controller']
+        if m.params['username']:
+            self.username = m.params['username']
+        if m.params['password']:
+            self.password = m.params['password']
+        if (m.params['api_version'] and
+                (m.params['api_version'] != '16.4.4')):
+            self.api_version = m.params['api_version']
+        if m.params['tenant']:
+            self.tenant = m.params['tenant']
+        if m.params['tenant_uuid']:
+            self.tenant_uuid = m.params['tenant_uuid']
+        if m.params.get('session_id'):
+            self.session_id = m.params['session_id']
+        if m.params.get('csrftoken'):
+            self.csrftoken = m.params['csrftoken']
 
     def __str__(self):
         return 'controller %s user %s api %s tenant %s' % (
