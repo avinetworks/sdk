@@ -3,10 +3,10 @@ controller_version_v16: 16.4.4
 controller_version_v17: 17.1.1
 version: True
 option: auto-upload
-controller_ip_17_1_1: 10.10.29.56
+controller_ip_17_1_1: controller ip address
 controller_user_17_1_1: admin
 controller_password_17_1_1: Avi123$%
-controller_ip_16_4_4: 10.10.24.16
+controller_ip_16_4_4: controller ip address
 controller_user_16_4_4: admin
 controller_password_16_4_4: Avi123$%
 f5_host_ip_v11: 10.90.117.120
