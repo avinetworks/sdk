@@ -279,7 +279,8 @@ class PoolConfigConv(object):
                 member = {
                     'pool_ref': conv_utils.get_object_ref(
                         priority_pool_ref, 'pool', tenant=tenant,
-                        cloud_name=cloud_ref)
+                        cloud_name=cloud_ref),
+                    'priority_label': priority
                 }
                 pg_members.append(member)
         # Added prefix for objects
