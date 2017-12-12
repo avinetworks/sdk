@@ -761,20 +761,22 @@ class F5Util(MigrationUtil):
                                                ("dup_of",[]))]
         persist_ref_key = "application_persistence_profile_ref"
         if persist_profile_obj:
-            if app_prof_type != 'APPLICATION_PROFILE_TYPE_L4':
-                obj_tenant = persist_profile_obj[0]['tenant_ref']
-                pool_obj[persist_ref_key] = self.get_object_ref(
-                                                persist_profile_obj[0]['name'],
-                                                'applicationpersistenceprofile',
-                                            tenant=self.get_name(obj_tenant))
-                persist_type = persist_profile_obj[0]['persistence_type']
-            else:
+            if app_prof_type == 'APPLICATION_PROFILE_TYPE_L4' and \
+              persist_profile_obj[0]['persistence_type'] != \
+                            'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
                 pool_obj[persist_ref_key] = self.get_object_ref(
                                                 'System-Persistence-Client-IP',
                                                 'applicationpersistenceprofile')
                 persist_type = 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'
                 LOG.debug("Defaulted to Client IP persistence profile for '%s' "
                           "Pool in VS of L4 app type " % pool_ref)
+            else:
+                obj_tenant = persist_profile_obj[0]['tenant_ref']
+                pool_obj[persist_ref_key] = self.get_object_ref(
+                                                persist_profile_obj[0]['name'],
+                                                'applicationpersistenceprofile',
+                                               tenant=self.get_name(obj_tenant))
+                persist_type = persist_profile_obj[0]['persistence_type']
         elif persist_profile == "hash" or persist_profile in hash_profiles:
             del pool_obj["lb_algorithm"]
             hash_algorithm = "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS"
