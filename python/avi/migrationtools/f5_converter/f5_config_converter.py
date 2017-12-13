@@ -111,7 +111,10 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         conv_utils.update_app_profile(avi_config_dict, sys_dict)
         # Updated network profile to TCP PROXY if application profile is HTTP
         conv_utils.update_network_profile(avi_config_dict, sys_dict)
-        conv_utils.net_to_static_route(f5_config, avi_config_dict)
+
+        # Disabled the net to static route conversion
+        # conv_utils.net_to_static_route(f5_config, avi_config_dict)
+
         # Updating the ssl profile ref for monitors with merged name
         conv_utils.update_monitor_ssl_ref(avi_config_dict, merge_object_mapping,
                                           sys_dict)
@@ -126,7 +129,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     datascript_objs = ['data-group']
     # Added support node as not applicable
     na_list_objs = f5_attributes['na_list_objs']
-    accept_list = ['snatpool']
+    # Marked route as skipped
+    accept_list = ['snatpool', 'route']
     for f5_type in f5_config.keys():
         f5_obj = f5_config[f5_type]
         for key in f5_obj.keys():
