@@ -88,14 +88,14 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref
-                # TODO: Should be enabled after controller app cookie issue is fixed
-                # if persist_mode == "cookie":
-                #     persist_profile = self.convert_cookie(name, profile,
-                #                                           skipped, tenant)
-                #     if not persist_profile:
-                #         continue
-                #     u_ignore = user_ignore.get('cookie', [])
-                if persist_mode == "ssl":
+                # Enabled the cookie support
+                if persist_mode == "cookie":
+                    persist_profile = self.convert_cookie(name, profile,
+                                                          skipped, tenant)
+                    if not persist_profile:
+                        continue
+                    u_ignore = user_ignore.get('cookie', [])
+                elif persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
                         name, profile, skipped, self.indirect, tenant)
                     u_ignore = user_ignore.get('ssl', [])
@@ -217,7 +217,15 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         self.supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
                     if attr not in self.supported_attr]
-        cookie_name = profile.get("cookie-name", name+':cookie-name')
+        cookie_name = profile.get("cookie-name")
+        if not cookie_name:
+            msg = "Missing Required field cookie name in: %s", name
+            LOG.error(msg)
+            conv_utils.add_status_row('persistence', 'persist-cookie', name,
+                                      final.STATUS_SKIPPED, msg)
+            return None
+        if cookie_name == 'none':
+            cookie_name = '{}:cookie-name'.format(name)
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
@@ -357,13 +365,15 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             return None
         skipped += [attr for attr in profile.keys()
                    if attr not in self.supported_attr]
-        cookie_name = profile.get("cookie name", name+':-cookie')
+        cookie_name = profile.get("cookie name")
         if not cookie_name:
             msg = "Missing Required field cookie name in: %s", name
             LOG.error(msg)
             conv_utils.add_status_row('profile', 'persist-cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
+        if cookie_name == 'none':
+            cookie_name = '{}:-cookie'.format(name)
         timeout = profile.get("cookie expiration", '1')
         if timeout == 'immediate':
             timeout = '0'
