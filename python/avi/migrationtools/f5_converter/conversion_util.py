@@ -1661,7 +1661,7 @@ class F5Util(MigrationUtil):
         csv_objects = [row for row in csv_writer_dict_list
                        if row['Status'] in [conv_const.STATUS_PARTIAL,
                                             conv_const.STATUS_SUCCESSFUL]
-                       and row['F5 type'] not in ('virtual', 'route')]
+                       and row['F5 type'] not in ('virtual')]
 
         # Update the vs reference not in used if objects are not attached to
         # VS directly or indirectly
