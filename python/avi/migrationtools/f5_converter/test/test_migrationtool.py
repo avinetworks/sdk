@@ -581,7 +581,7 @@ class TestF5Converter:
                 password=setup.get('controller_password_16_4_4'))
 
     @pytest.mark.travis
-    def test_create_ansible_object_creation_v11(self, cleanup):
+    def test_create_ansible_object_creation_v11(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         Create Ansible Script based on Flag
@@ -593,7 +593,7 @@ class TestF5Converter:
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
+    def test_reboot_clean_ansible_v11_17_1_1(self):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -613,7 +613,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
+    def test_ansible_object_auto_upload_v11_17_1_1(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         AutoUpload Flow
@@ -634,7 +634,7 @@ class TestF5Converter:
             output = e.output
 
     @pytest.mark.travis
-    def test_create_ansible_object_v10(self, cleanup):
+    def test_create_ansible_object_v10(self):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
         Create Ansible Script based on Flag
@@ -646,7 +646,7 @@ class TestF5Converter:
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_ansible_v10_16_4_4(self, cleanup):
+    def test_reboot_clean_ansible_v10_16_4_4(self):
         """""
         Verify Controller v16.4.4 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -666,7 +666,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v10_16_4_4(self, cleanup):
+    def test_ansible_object_auto_upload_v10_16_4_4(self):
         """
         Input File on Local Filesystem, Test for Controller v16.4.4
         AutoUpload Flow
