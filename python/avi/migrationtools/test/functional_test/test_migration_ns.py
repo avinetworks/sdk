@@ -7,7 +7,7 @@ from F5_Conversion import F5Conversion
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 import avi.migrationtools.test.functional_test.conversion_constant_util as conv_const
 from  avi.migrationtools.netscaler_converter.policy_converter import PolicyConverter
-from migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 conversion_util = F5Util()
 ns_util = NsUtil()
@@ -20,7 +20,7 @@ f5_config_version = pytest.config.getoption("--file_version")
 cloudName = pytest.config.getoption("--cloud_name")
 
 logging.basicConfig(filename=output_file + '/config_check.log', level=logging.INFO)
-LOG = logging.getLogger(__name__)
+LOG = logging.getLogger()
 
 
 def setUpModule():
@@ -69,6 +69,18 @@ def compareVsVip(vipRef, ns_vs_config):
                 return True
     return False
 
+# Compare vip and port
+def compareVipandService(each_vs, ns_config):
+    ip_addr = each_vs['vip'][0]['ip_address']['addr']
+    port = each_vs['services'][0]['port']
+    ns_ip = ns_config['attrs'][2]
+    ns_port = ns_config['attrs'][3]
+    if ip_addr == ns_ip and port == ns_port:
+        return True
+    else: False
+
+
+
 # Compare application profile.
 def checkAppProfile(app_profile, vs_config):
     """
@@ -81,7 +93,7 @@ def checkAppProfile(app_profile, vs_config):
     if name.startswith('System') or name.startswith('Merged'):
         return True
     for key in avi_config_dict['ApplicationProfile']:
-        if key['name'] == name or vs_config['httpProfileName'] == name:
+        if key['name'] == name or 'httpProfileName' in vs_config and vs_config['httpProfileName'] == name:
             for profile in httpProfiles.keys():
                 if profile == name:
                     return True
@@ -604,6 +616,24 @@ def matchStr(rule):
         return match
 
 
+def comparePoolServers(pool, ns_vs_config):
+    name = pool['name'].rstrip('-pool')
+
+    ns_services = ns_config_dict.get('add service')
+    ns_servers = ns_config_dict.get('add server')
+    print name
+    for each_server in pool['servers']:
+        ip = each_server['ip']['addr']
+        hostName = each_server['hostname']
+        port = each_server['port']
+        print ip ," ",hostName, " ",port
+    # for key in ns_services.keys():
+    #     if name == key:
+    #         service = ns_services[key]
+    #         print service['attrs'][1]
+    #         for serverKey in ns_servers.keys():
+    #             if serverKey == service['attrs'][1]:
+    #                 print ns_servers[serverKey]['attrs'][1]
 class Test(unittest.TestCase):
 
     def test_compareVirtualService(self):
@@ -622,6 +652,12 @@ class Test(unittest.TestCase):
                     self.assertTrue(vsVipStatus)
             except AssertionError:
                 LOG.error("Virtual ip not matched for service %s" %(vs_name))
+
+            try:
+                vipStatus = compareVipandService(each_vs, ns_vs_config)
+                self.assertTrue(vipStatus)
+            except AssertionError:
+                LOG.error("Vip Not matched with config in %s" % (vs_name))
 
             try:
                 if 'application_profile_ref' in each_vs and avi_config_dict['ApplicationProfile']:
@@ -671,6 +707,10 @@ class Test(unittest.TestCase):
                                 self.assertTrue(poolNameStatus)
                             except AssertionError:
                                 LOG.error("Pool group not found in %s" % (vs_name))
+                            try:
+                                comparePoolServers(pool, ns_vs_config)
+                            except AssertionError:
+                                LOG.error("Servers not match in %s " %(pool['name']))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
                                     monitorStatus, monitorName = checkHealthMonitor(pool)
