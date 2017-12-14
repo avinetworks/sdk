@@ -223,7 +223,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         if not cookie_name:
             msg = "Missing Required field cookie name in: %s", name
             LOG.error(msg)
-            conv_utils.add_status_row('persistence', 'persist-cookie', name,
+            conv_utils.add_status_row('persistence', 'cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
         if cookie_name == 'none':
@@ -371,7 +371,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         if not cookie_name:
             msg = "Missing Required field cookie name in: %s", name
             LOG.error(msg)
-            conv_utils.add_status_row('profile', 'persist-cookie', name,
+            conv_utils.add_status_row('persistence', 'cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
         if cookie_name == 'none':

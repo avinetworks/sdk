@@ -1466,66 +1466,6 @@ class F5Util(MigrationUtil):
                                  skipped_setting)
         if skipped_setting['pools']:
             return skipped_setting
-            # skipped_list = self.get_pool_skipped(csv_pool_rows, pool_name, vs_ref)
-            # pool_object = [pool for pool in avi_config["Pool"]
-            #                if pool['name'] == pool_name]
-            # if skipped_list:
-            #     pool_skipped_setting['pool_name'] = pool_name
-            #     pool_skipped_setting['pool_skipped_list'] = skipped_list
-            #
-            # if 'health_monitor_refs' in pool_object[0]:
-            #     health_monitor_skipped_setting = []
-            #     for health_monitor_ref in pool_object[0]['health_monitor_refs']:
-            #         health_monitor_ref = self.get_name(health_monitor_ref)
-            #         monitor_csv_object = self.get_csv_object_list(
-            #             csv_writer_dict_list, ['monitor'])
-            #         skipped_list = self.get_csv_skipped_list(
-            #             monitor_csv_object, health_monitor_ref, vs_ref,
-            #             field_key='health_monitor')
-            #         if skipped_list:
-            #             health_monitor_skipped_setting.append(
-            #                 {'health_monitor_name': health_monitor_ref,
-            #                  'monitor_skipped_list': skipped_list})
-            #     if health_monitor_skipped_setting:
-            #         pool_skipped_setting['pool_name'] = pool_name
-            #         pool_skipped_setting['health_monitor'] = \
-            #             health_monitor_skipped_setting
-            # if 'ssl_key_and_certificate_ref' in pool_object[0] and \
-            #         pool_object[0]['ssl_key_and_certificate_ref']:
-            #     ssl_key_cert = self.get_name(
-            #         pool_object[0]['ssl_key_and_certificate_ref'])
-            #     sslkc_skip = self.get_csv_skipped_list(profile_csv_list,
-            #                     ssl_key_cert, vs_ref, field_key='ssl_cert_key')
-            #     if sslkc_skip:
-            #         pool_skipped_setting['pool_name'] = pool_name
-            #         pool_skipped_setting['ssl_key_and_certificate'] = sslkc_skip
-            #
-            # if 'ssl_profile_ref' in pool_object[0] and \
-            #         pool_object[0]['ssl_profile_ref']:
-            #     name, skipped = self.get_ssl_profile_skipped(
-            #         profile_csv_list, pool_object[0]['ssl_profile_ref'], vs_ref)
-            #     if skipped:
-            #         pool_skipped_setting['pool_name'] = pool_name
-            #         pool_skipped_setting['ssl profile'] = {}
-            #         pool_skipped_setting['ssl profile']['name'] = name
-            #         pool_skipped_setting['ssl profile'][
-            #             'skipped_list'] = skipped
-            #
-            # if 'application_persistence_profile_ref' in pool_object[0] and \
-            #         pool_object[0]['application_persistence_profile_ref']:
-            #     name, skipped = self.get_app_persistence_profile_skipped(
-            #         profile_csv_list, pool_object[0], vs_ref)
-            #     if skipped:
-            #         pool_skipped_setting['pool_name'] = pool_name
-            #         pool_skipped_setting['Application Persistence profile'] = {}
-            #         pool_skipped_setting['Application Persistence profile'][
-            #             'name'] = name
-            #         pool_skipped_setting['Application Persistence profile'][
-            #             'skipped_list'] = skipped
-            #
-            # if pool_skipped_setting:
-            #     skipped_setting['pools'].append(pool_skipped_setting)
-            #     return skipped_setting
 
     def vs_complexity_level(self):
         """
