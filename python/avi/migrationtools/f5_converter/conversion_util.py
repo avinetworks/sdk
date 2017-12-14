@@ -1405,7 +1405,7 @@ class F5Util(MigrationUtil):
                                             pool_object, vs_ref):
         """
         This functions defines that get the skipped list of CSV row
-        :param profile_csv_list: List of profile csv rows
+        :param csv_writer_dict_list: List of csv rows
         :param pool_object: object of pool
         :param vs_ref: Name of VS
         :return: profile name and skipped attribute list
