@@ -109,7 +109,7 @@ if __name__ == '__main__':
     print('parsed args', args)
 
     api_ssn = ApiSession(args.controller, args.username, args.password,
-                         args.tenant, api_version=args.api_version)
+                         tenant=args.tenant, api_version=args.api_version)
     ret = fetch_data(api_ssn, args.cloud, args.tenant, args.metric_ids)
 
     for vs_data in ret:
