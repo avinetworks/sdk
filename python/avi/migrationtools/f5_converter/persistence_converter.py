@@ -223,7 +223,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         if not cookie_name:
             msg = "Missing Required field cookie name in: %s", name
             LOG.error(msg)
-            conv_utils.add_status_row('persistence', 'persist-cookie', name,
+            conv_utils.add_status_row('persistence', 'cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
         if cookie_name == 'none':
@@ -371,7 +371,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         if not cookie_name:
             msg = "Missing Required field cookie name in: %s", name
             LOG.error(msg)
-            conv_utils.add_status_row('profile', 'persist-cookie', name,
+            conv_utils.add_status_row('persistence', 'cookie', name,
                                       final.STATUS_SKIPPED, msg)
             return None
         if cookie_name == 'none':
@@ -459,7 +459,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :param persist_profile: dict of persist profile
         :return:
         """
-        conv_utils.add_conv_status('profile', 'persist', name, conv_status,
+        conv_utils.add_conv_status('persistence', 'persist', name, conv_status,
                                    [{'app_per_profile': persist_profile}])
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
@@ -473,10 +473,10 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :return:
         """
         if name:
-            conv_utils.add_status_row("profile", 'persist', name,
+            conv_utils.add_status_row("persistence", 'persist', name,
                                       final.STATUS_ERROR)
         else:
-            conv_utils.add_status_row("profile", 'persist', key,
+            conv_utils.add_status_row("persistence", 'persist', key,
                                       final.STATUS_ERROR)
 
     def update_conv_status_for_skip(self, persist_mode, name, msg):
@@ -487,5 +487,5 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :param msg: status message
         :return:
         """
-        conv_utils.add_status_row("profile", 'persist', name,
+        conv_utils.add_status_row("persistence", 'persist', name,
                                   final.STATUS_SKIPPED, msg)

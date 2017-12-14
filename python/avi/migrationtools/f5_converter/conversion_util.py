@@ -1401,8 +1401,8 @@ class F5Util(MigrationUtil):
                                 policy_set_name, vs_ref, field_key='policy_set')
         return policy_set_name, skipped_list
 
-    def get_app_persistence_profile_skipped(self, csv_writer_dict_list, pool_object,
-                                            vs_ref):
+    def get_app_persistence_profile_skipped(self, csv_writer_dict_list,
+                                            pool_object, vs_ref):
         """
         This functions defines that get the skipped list of CSV row
         :param csv_writer_dict_list: List of csv rows
@@ -1413,10 +1413,11 @@ class F5Util(MigrationUtil):
 
         app_persistence_profile_name = self.get_name(
             pool_object['application_persistence_profile_ref'])
-        csv_object = self.get_csv_object_list(
-            csv_writer_dict_list, ['persistence'])
+        csv_object = self.get_csv_object_list(csv_writer_dict_list,
+                                              ['persistence'])
         skipped_list = self.get_csv_skipped_list(
-            csv_object, app_persistence_profile_name, vs_ref)
+            csv_object, app_persistence_profile_name, vs_ref,
+            field_key='app_per_profile')
         return app_persistence_profile_name, skipped_list
 
     def get_pool_skipped(self, csv_objects, pool_name, vs_ref):
@@ -1459,63 +1460,12 @@ class F5Util(MigrationUtil):
             'pools': []
         }
         for pool_member in pool_members:
-            pool_skipped_setting = {}
             pool_name = self.get_name(pool_member['pool_ref'])
-            skipped_list = self.get_pool_skipped(csv_pool_rows, pool_name, vs_ref)
-            pool_object = [pool for pool in avi_config["Pool"]
-                           if pool['name'] == pool_name]
-            if skipped_list:
-                pool_skipped_setting['pool_name'] = pool_name
-                pool_skipped_setting['pool_skipped_list'] = skipped_list
-
-            if 'health_monitor_refs' in pool_object[0]:
-                health_monitor_skipped_setting = []
-                for health_monitor_ref in pool_object[0]['health_monitor_refs']:
-                    health_monitor_ref = self.get_name(health_monitor_ref)
-                    monitor_csv_object = self.get_csv_object_list(
-                        csv_writer_dict_list, ['monitor'])
-                    skipped_list = self.get_csv_skipped_list(
-                        monitor_csv_object, health_monitor_ref, vs_ref)
-                    if skipped_list:
-                        health_monitor_skipped_setting.append(
-                            {'health_monitor_name': health_monitor_ref,
-                             'monitor_skipped_list': skipped_list})
-                if health_monitor_skipped_setting:
-                    pool_skipped_setting['pool_name'] = pool_name
-                    pool_skipped_setting['health_monitor'] = \
-                        health_monitor_skipped_setting
-            if 'ssl_key_and_certificate_ref' in pool_object[0] and \
-                    pool_object[0]['ssl_key_and_certificate_ref']:
-                ssl_key_cert = self.get_name(
-                    pool_object[0]['ssl_key_and_certificate_ref'])
-                self.get_csv_skipped_list(profile_csv_list, ssl_key_cert, vs_ref,
-                                     field_key='key_cert')
-            if 'ssl_profile_ref' in pool_object[0] and \
-                    pool_object[0]['ssl_profile_ref']:
-                name, skipped = self.get_ssl_profile_skipped(
-                    profile_csv_list, pool_object[0]['ssl_profile_ref'], vs_ref)
-                if skipped:
-                    pool_skipped_setting['pool_name'] = pool_name
-                    pool_skipped_setting['ssl profile'] = {}
-                    pool_skipped_setting['ssl profile']['name'] = name
-                    pool_skipped_setting['ssl profile'][
-                        'skipped_list'] = skipped
-
-            if 'application_persistence_profile_ref' in pool_object[0] and \
-                    pool_object[0]['application_persistence_profile_ref']:
-                name, skipped = self.get_app_persistence_profile_skipped(
-                    csv_writer_dict_list, pool_object[0], vs_ref)
-                if skipped:
-                    pool_skipped_setting['pool_name'] = pool_name
-                    pool_skipped_setting['Application Persistence profile'] = {}
-                    pool_skipped_setting['Application Persistence profile'][
-                        'name'] = name
-                    pool_skipped_setting['Application Persistence profile'][
-                        'skipped_list'] = skipped
-
-            if pool_skipped_setting:
-                skipped_setting['pools'].append(pool_skipped_setting)
-                return skipped_setting
+            self.get_skipped_pool(avi_config, pool_name, csv_pool_rows,
+                                 csv_writer_dict_list, vs_ref, profile_csv_list,
+                                 skipped_setting)
+        if skipped_setting['pools']:
+            return skipped_setting
 
     def vs_complexity_level(self):
         """
@@ -1573,8 +1523,13 @@ class F5Util(MigrationUtil):
                 for ssl_key_and_certificate_ref in \
                         virtual_service['ssl_key_and_certificate_refs']:
                     ssl_key_cert = self.get_name(ssl_key_and_certificate_ref)
-                    self.get_csv_skipped_list(profile_csv_list, ssl_key_cert, vs_ref,
-                                         field_key='key_cert')
+                    ssl_kc_skip = self.get_csv_skipped_list(profile_csv_list,
+                                 ssl_key_cert, vs_ref, field_key='ssl_cert_key')
+                    if ssl_kc_skip:
+                        skipped_setting['ssl cert key'] = {}
+                        skipped_setting['ssl cert key']['name'] = ssl_key_cert
+                        skipped_setting['ssl cert key']['skipped_list'] = \
+                                                                    ssl_kc_skip
 
             # Get the skipped list for ssl profile name.
             # Changed ssl profile name to ssl profile ref.
@@ -1591,12 +1546,23 @@ class F5Util(MigrationUtil):
                 pool_group_name = self.get_name(virtual_service['pool_group_ref']
                                                 )
                 csv_pool_rows = self.get_csv_object_list(csv_writer_dict_list,
-                                                    ['pool'])
+                                                         ['pool'])
                 pool_group_skipped_settings = self.get_pool_skipped_list(
                     avi_config, pool_group_name, csv_pool_rows,
                     csv_writer_dict_list, vs_ref, profile_csv_list)
                 if pool_group_skipped_settings:
                     skipped_setting['Pool Group'] = pool_group_skipped_settings
+            # Get the skipped list for pool.
+            if 'pool_ref' in virtual_service:
+                pool_skipped_settings = {'pools': []}
+                pool_name = self.get_name(virtual_service['pool_ref'])
+                csv_pool_rows = self.get_csv_object_list(csv_writer_dict_list,
+                                                         ['pool'])
+                self.get_skipped_pool(avi_config, pool_name, csv_pool_rows,
+                                      csv_writer_dict_list, vs_ref,
+                                    profile_csv_list, pool_skipped_settings)
+                if pool_skipped_settings['pools']:
+                    skipped_setting['Pool'] = pool_skipped_settings
             # Get the skipepd list for http policy.
             if 'http_policies' in virtual_service:
                 policy_csv_list = self.get_csv_object_list(csv_writer_dict_list,
@@ -1962,7 +1928,8 @@ class F5Util(MigrationUtil):
         return clone_policy
 
     def get_skipped_pool(self, avi_config, pool_name, pool_csv_rows,
-                         csv_writer_dict_list, vs_ref, profile_csv_list):
+                         csv_writer_dict_list, vs_ref, profile_csv_list,
+                         skipped_setting):
         """
         This method get the skipped list for pool by going over the
         references attached to it
@@ -1974,9 +1941,6 @@ class F5Util(MigrationUtil):
         :param profile_csv_list:
         :return: skipped setting for pool
         """
-        skipped_setting = {
-            'pools': []
-        }
         pool_skipped_setting = {}
         skipped_list = self.get_pool_skipped(pool_csv_rows, pool_name, vs_ref)
         pool_object = [pool for pool in avi_config["Pool"]
@@ -1992,7 +1956,8 @@ class F5Util(MigrationUtil):
                     monitor_csv_object = self.get_csv_object_list(
                         csv_writer_dict_list, ['monitor'])
                     skipped_list = self.get_csv_skipped_list(
-                        monitor_csv_object, health_monitor_ref, vs_ref)
+                        monitor_csv_object, health_monitor_ref, vs_ref,
+                        field_key='health_monitor')
                     if skipped_list:
                         health_monitor_skipped_setting.append(
                             {'health_monitor_name': health_monitor_ref,
@@ -2005,8 +1970,12 @@ class F5Util(MigrationUtil):
                     pool_object[0]['ssl_key_and_certificate_ref']:
                 ssl_key_cert = self.get_name(
                     pool_object[0]['ssl_key_and_certificate_ref'])
-                self.get_csv_skipped_list(profile_csv_list, ssl_key_cert,
-                                          vs_ref, field_key='ssl_cert_key')
+                sslkc_skip = self.get_csv_skipped_list(profile_csv_list,
+                                ssl_key_cert, vs_ref, field_key='ssl_cert_key')
+                if sslkc_skip:
+                    pool_skipped_setting['pool_name'] = pool_name
+                    pool_skipped_setting['ssl_key_and_certificate'] = sslkc_skip
+
             if 'ssl_profile_ref' in pool_object[0] and \
                     pool_object[0]['ssl_profile_ref']:
                 name, skipped = self.get_ssl_profile_skipped(
@@ -2030,9 +1999,8 @@ class F5Util(MigrationUtil):
                     pool_skipped_setting['Application Persistence profile'][
                         'skipped_list'] = skipped
 
-        if pool_skipped_setting:
-            skipped_setting['pools'].append(pool_skipped_setting)
-            return skipped_setting
+            if pool_skipped_setting:
+                skipped_setting['pools'].append(pool_skipped_setting)
 
     def get_skip_pools_policy(self, policy_set_name, http_req, avi_config,
                               pool_csv_rows, vs_ref, profile_csv_list,
@@ -2062,10 +2030,11 @@ class F5Util(MigrationUtil):
                     pool_group_skipped_settings
         elif http_req['switching_action'].get('pool_ref'):
             pool_name = self.get_name(http_req['switching_action']['pool_ref'])
-            pool_skipped_settings = self.get_skipped_pool(avi_config, pool_name,
-                                        pool_csv_rows, csv_writer_dict_list,
-                                        vs_ref, profile_csv_list)
-            if pool_skipped_settings:
+            pool_skipped_settings = {'pools': []}
+            self.get_skipped_pool(avi_config, pool_name, pool_csv_rows,
+                                  csv_writer_dict_list, vs_ref,
+                                  profile_csv_list, pool_skipped_settings)
+            if pool_skipped_settings['pools']:
                 if 'Httppolicy' not in skipped_setting:
                     skipped_setting['Httppolicy'] = {}
                     skipped_setting['Httppolicy']['name'] = policy_set_name
