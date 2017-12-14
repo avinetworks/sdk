@@ -88,6 +88,8 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref
+                if self.prefix:
+                    name = '{}-{}'.format(self.prefix, name)
                 # Enabled the cookie support
                 if persist_mode == "cookie":
                     persist_profile = self.convert_cookie(name, profile,
