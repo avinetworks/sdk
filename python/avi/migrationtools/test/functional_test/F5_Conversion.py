@@ -38,13 +38,15 @@ class F5Conversion(AviConverter):
             meta = self.meta(self.tenant, controller_version)
             report_name = os.path.splitext(os.path.basename(source_file))[0]
             actual_ns_config_dict = copy.deepcopy(ns_config)
-            avi_config = ns_conf_converter.convert(meta, ns_config, 'admin',
-                                                   cloudName, controller_version, output_file,
-                                                   source_file, skipped_cmds, vs_state,
-                                                   True, report_name, None,
-                                                   None, None, key_passphrase = False,
-                                                   user_ignore ={}, vs_level_status = False)
-
+            vs_name_dict = dict()
+            vs_name_dict['csvs'] = dict()
+            vs_name_dict['lbvs'] = dict()
+            avi_config = ns_conf_converter.convert(meta, ns_config, 'admin', cloudName, controller_version, output_file,
+                                                    source_file, skipped_cmds, vs_state, False,report_name,None, vs_name_dict,
+                                                   None, None, key_passphrase=None,
+            user_ignore={}, vs_level_status=False)
+            avi_config = self.process_for_utils(
+                avi_config)
             return actual_ns_config_dict,avi_config
 
 
