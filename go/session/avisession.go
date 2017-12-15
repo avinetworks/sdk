@@ -297,6 +297,9 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 	if err != nil {
 		result = nil
+		errorResult := AviError{verb: verb, url: url}
+		errmsg := fmt.Sprintf("Response body read failed: %v", err)
+		errorResult.Message = &errmsg
 	}
 
 	return result, err
