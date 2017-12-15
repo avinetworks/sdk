@@ -6,6 +6,7 @@ import unittest
 import pytest
 import logging
 import re
+import os
 from avi.migrationtools.test.functional_test.F5_Conversion import F5Conversion
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 import avi.migrationtools.test.functional_test.conversion_constant_util as conv_const
@@ -28,37 +29,54 @@ def setUpModule():
     f5Cnv = F5Conversion()
     f5_config_dict, avi_config_dict = f5Cnv.convert(
         type, input_file, f5_config_version, output_file,
-        vs_state, controller_version,cloudName)
+        vs_state, controller_version, cloudName)
+
+    if os.path.exists(output_file):
+        # for each_file in os.listdir(output_file):
+        file_path = os.path.join(output_file, "config_check.log")
+        if os.path.isfile(file_path):
+            with open(file_path, 'w'):
+                pass
+        else:
+            os.unlink(file_path)
 
 
 # Compare virtual service name with virtual service in f5 configuration.
-def compareVsName(vs_name):
+def compareVsName(each_vs):
     """
 
     :param: It contains a virtual service name
     :return: return a virtual service name
     :return: returns f5 parsed vs object.
     """
+    vs_name = each_vs['name']
+    tenant = conversion_util.get_name(each_vs['tenant_ref'])
     vs_config = f5_config_dict.get("virtual", {})
     for each_parsed_vs in vs_config.keys():
-        tenant, vsName = conversion_util.get_tenant_ref(each_parsed_vs)
-        if vsName == vs_name:
+        tenant1, vsName = conversion_util.get_tenant_ref(each_parsed_vs)
+        if f5_config_version == "10" and vsName == vs_name or vs_name in vsName:
             return vsName, vs_config[each_parsed_vs]
+        elif f5_config_version == "11":
+            tenant_vs_check = "{}/{}".format(tenant, vs_name)
+            if each_parsed_vs == tenant_vs_check:
+                return vsName, vs_config[each_parsed_vs]
 
 
-# Compare the virtual ip address.
+def verify_tenant_vsname(each_vs):
+    tenant_name = conversion_util.get_name(each_vs['tenant_ref'])
+    vs_name = each_vs['name']
+    tenant_vs_check = "{}/{}".format(tenant_name, vs_name)
+    if tenant_vs_check:
+        return True
+    else:
+        False
+
+
 def compareVip(each_vs, f5_vs):
-    """
-
-    :param each_vs: Contains information of virtual service object.
-    :param f5_vs: Contains information of f5 parsed vs.
-    :return:
-    """
-    if 'vip' in each_vs:
-        ip_addr = each_vs['vip'][0]['ip_address']['addr']
+    if 'vsvip_ref' in each_vs:
+        vsRef = conversion_util.get_name(each_vs['vsvip_ref'])
     if 'services' in each_vs:
         vsPort = each_vs['services'][0]['port']
-
     destination = f5_vs.get("destination", None)
     d_tenant, vip_addr = conversion_util.get_tenant_ref(destination)
     parts = vip_addr.split(':')
@@ -70,9 +88,15 @@ def compareVip(each_vs, f5_vs):
     matches = re.findall('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', f5_ip_addrs)
     if not matches and ':' in vip_addr:
         port = vip_addr.split('.')[1]
-    if not matches or f5_ip_addrs == '0.0.0.0' or ip_addr == f5_ip_addrs and port == vsPort:
+    if not matches or f5_ip_addrs == '0.0.0.0'and port == vsPort:
         return True
-    else: False
+    avi_vsvip = avi_config_dict['VsVip']
+    for vsname in avi_vsvip:
+        if vsname['name'] == vsRef:
+            ip = vsname['vip'][0]['ip_address']['addr']
+            if ip in f5_vs['destination']:
+                return True
+    return False
 
 
 # Compares avi profile names with f5 configuration.
@@ -123,12 +147,15 @@ def compareNetworkProfile(profileName):
                         if i['name'] == profileName]
         if network_type and network_type[0] in conv_const.NETWORK_PROFILES:
             return True
-    else: False
+    else:
+        False
 
 
 """ Compare ssl profile type with
     default profile types
     """
+
+
 def compareSslProfile(each_vs):
     """
 
@@ -166,6 +193,8 @@ def checkHealthMonitor(pool):
 """ Compare health monitor type with
     F5 configurations health monitors
     """
+
+
 def compareHealthMonitor(healthMonitors, monitorName):
     """
 
@@ -200,7 +229,6 @@ def get_monitor_type(monitor):
     return healthMonitor[0], healthMonitor[1]
 
 
-
 # Check persistence profile
 def checkPersistenceType(applicationProfile):
     """
@@ -210,14 +238,15 @@ def checkPersistenceType(applicationProfile):
     :return: False and applicationProfile
     """
     profiles = [appProfile for appProfile in avi_config_dict['ApplicationPersistenceProfile']
-                        if appProfile['name'] == applicationProfile]
+                if appProfile['name'] == applicationProfile]
     if profiles:
         for key in conv_const.PERSISTENCE_PROFILE_TYPES:
             if conv_const.PERSISTENCE_PROFILE_TYPES[key] == profiles[0]['persistence_type']:
                 return True, applicationProfile
 
         return False, applicationProfile
-    else: return False, applicationProfile
+    else:
+        return False, applicationProfile
 
 
 # Return profile application persistence profile name
@@ -244,7 +273,8 @@ def compareSslCert(each_vs):
                 return sslkeystat
         return False
 
-#Compare sslprofile in f5 Dict.
+
+# Compare sslprofile in f5 Dict.
 def compareSslprofile(sslname):
     sslName = re.sub('\-dummy$', '', sslname)
     vs_config = f5_config_dict.get("profile", {})
@@ -273,6 +303,7 @@ def compareHttpPolicies(httpPolicies, f5_vs_config):
                     return True, policyname, policy
             return False, policyname, policy
 
+
 def checkPolicy(policies, vs_config, vsName):
     if 'policies' in vs_config:
         policy = vs_config['policies'].keys()
@@ -282,7 +313,7 @@ def checkPolicy(policies, vs_config, vsName):
         for p in f5Policies.keys():
             pName = conversion_util.get_tenant_ref(p)[1]
             if pName == policyName:
-                f5PolicyRules= f5Policies[p]['rules']
+                f5PolicyRules = f5Policies[p]['rules']
 
         for pol in policies:
             f5_policy = conversion_util.get_name(pol['http_policy_set_ref'])
@@ -290,44 +321,63 @@ def checkPolicy(policies, vs_config, vsName):
                 if avi_policy['name'] == f5_policy:
                     if '_sys_https_redirect' in f5_policy:
                         continue
-                        #f5_policy= f5_policy.split('redirect-')[1]
+                        # f5_policy= f5_policy.split('redirect-')[1]
                     if policyName == f5_policy:
                         avi_rules = avi_policy['http_request_policy']['rules']
                         for each_rule in avi_rules:
-                            pol= each_rule['name'].split('policy-')[1]
+                            pol = each_rule['name'].split('policy-')
                             for i in f5PolicyRules.keys():
-                                poli = pol.rsplit('-',1)[0]
-                                if poli == i:
-                                    if 'match' in each_rule:
-                                        try:
-                                            aviMatch_str =each_rule['match']['path']['match_str'][0]
-                                            f5Match_str= f5PolicyRules[i]['conditions']['0']['values'].keys()
-                                            assert aviMatch_str == f5Match_str[0]
-                                        except AssertionError:
-                                            LOG.error("Match not found for %s" % (f5_policy))
-                                    f5Key = f5PolicyRules[i]['actions']['0'].keys()
-                                    if 'redirect' in f5Key:
-                                        try:
-                                            aviAction = each_rule['redirect_action']['path']['tokens'][0]['str_value']
-                                            f5Action = f5PolicyRules[i]['actions']['0']['location']
-                                            assert aviAction == f5Action
-                                        except AssertionError:
-                                            LOG.error("Redirect action not found for %s" % (f5_policy))
-                                    if 'forward' in f5Key:
-                                        try:
-                                            aviSwitchAction = each_rule['switching_action']['pool_ref']
-                                            f5SwitchAction = f5PolicyRules[i]['actions']['0']['pool']
-                                            pool_name = conversion_util.get_name(aviSwitchAction)
-                                            f5Pool = conversion_util.get_tenant_ref(f5SwitchAction)[1]
-                                            assert pool_name == f5Pool
-                                        except AssertionError:
-                                            LOG.error("Forward action not found for %s" % (f5_policy))
-def comparePoolName(poolName,f5_vs):
-    if f5_vs['pool']:
-        f5_pool = f5_vs['pool']
-        type, name = conversion_util.get_tenant_ref(f5_pool)
-        return True if name == poolName else False
-    else: False
+                                for rule_val in pol:
+                                    poli = rule_val.rsplit('-', 1)[0]
+                                    if poli == i:
+                                        if 'match' in each_rule:
+                                            try:
+                                                aviMatch_str = each_rule['match']['path']['match_str'][0]
+                                                f5Match_str = f5PolicyRules[i]['conditions']['0']['values'].keys()
+                                                assert aviMatch_str == f5Match_str[0]
+                                            except AssertionError:
+                                                LOG.error("Match not found for %s" % (f5_policy))
+                                        f5Key = f5PolicyRules[i]['actions']['0'].keys()
+                                        if 'redirect' in f5Key:
+                                            try:
+                                                aviAction = each_rule['redirect_action']['path']['tokens'][0][
+                                                    'str_value']
+                                                f5Action = f5PolicyRules[i]['actions']['0']['location']
+                                                assert aviAction == f5Action
+                                            except AssertionError:
+                                                LOG.error("Redirect action not found for %s" % (f5_policy))
+                                        if 'forward' in f5Key:
+                                            try:
+                                                aviSwitchAction = each_rule['switching_action']['pool_ref']
+                                                f5SwitchAction = f5PolicyRules[i]['actions']['0']['pool']
+                                                pool_name = conversion_util.get_name(aviSwitchAction)
+                                                f5Pool = conversion_util.get_tenant_ref(f5SwitchAction)[1]
+                                                assert pool_name == f5Pool
+                                            except AssertionError:
+                                                LOG.error("Forward action not found for %s" % (f5_policy))
+
+
+
+def comparePoolName(poolName, f5_vs, each_vs):
+    if 'pool_group_ref' in each_vs:
+        poolName = each_vs['pool_group_ref']
+    if 'pool_ref' in each_vs:
+        poolName = each_vs['pool_ref']
+    name = conversion_util.get_name(poolName)
+    vsname = each_vs['name']
+    tenant = conversion_util.get_name(each_vs['tenant_ref'])
+    tenant_vs_check = "{}/{}".format(tenant, vsname)
+    vs_config = f5_config_dict.get("virtual", {})
+    for each_parsed_vs in vs_config.keys():
+        print "each_parsed_vs==>", each_parsed_vs
+        print "tenant_vs_check==>", tenant_vs_check
+        if vsname in name:
+            pool_name = name.rstrip(vsname)
+            if pool_name in f5_vs['pool']:
+                return True
+        elif (vsname not in name and name in f5_vs['pool']) or vsname == name:
+            return True
+        return False
 
 
 class Test(unittest.TestCase):
@@ -335,25 +385,25 @@ class Test(unittest.TestCase):
         for each_vs in avi_config_dict['VirtualService']:
             try:
                 vs_name = each_vs['name']
-                f5VsName, f5_vs = compareVsName(vs_name)
+                f5VsName, f5_vs = compareVsName(each_vs)
                 assert f5VsName == vs_name
             except AssertionError:
                 LOG.error(
                     'Virtual service not found in F5 configuration : %s ' % (vs_name))
             try:
-                vipStatus = compareVip(each_vs,f5_vs)
+                vipStatus = compareVip(each_vs, f5_vs)
                 self.assertTrue(vipStatus)
             except AssertionError:
-                LOG.error("Virtual ip address not found for %s " %(vs_name))
+                LOG.error("Virtual ip address not found for %s " % (vs_name))
             if f5VsName:
                 try:
                     if 'application_profile_ref' in each_vs:
-                        appProfile = getProfileName(each_vs,conv_const.APP_PROF)
+                        appProfile = getProfileName(each_vs, conv_const.APP_PROF)
                         if appProfile:
                             profileStatus = compareAppProf(appProfile)
                             self.assertTrue(profileStatus)
                 except AssertionError:
-                    LOG.error("Application profile not found for : %s" %(vs_name))
+                    LOG.error("Application profile not found for : %s" % (vs_name))
 
                 try:
                     if 'network_profile_ref' in each_vs:
@@ -362,7 +412,7 @@ class Test(unittest.TestCase):
                             networkProfile = compareNetworkProfile(profileName)
                             self.assertTrue(networkProfile)
                 except AssertionError:
-                    LOG.error("Network profile is not found for %s" %(vs_name))
+                    LOG.error("Network profile is not found for %s" % (vs_name))
 
                 try:
                     if 'ssl_profile_ref' in each_vs:
@@ -382,7 +432,7 @@ class Test(unittest.TestCase):
                     for pool in avi_config_dict['Pool']:
                         if pool['name'] in poolMembers:
                             try:
-                                poolStatus = comparePoolName(poolGroupName, f5_vs)
+                                poolStatus = comparePoolName(poolGroupName, f5_vs, each_vs)
                                 self.assertTrue(poolStatus)
                             except AssertionError:
                                 LOG.error("Pool name : %s not found for %s " % (poolGroupName, vs_name))
@@ -416,7 +466,7 @@ class Test(unittest.TestCase):
                     for pool in avi_config_dict['Pool']:
                         if pool['name'] == poolName:
                             try:
-                                poolStatus = comparePoolName(poolName, f5_vs)
+                                poolStatus = comparePoolName(poolName, f5_vs, each_vs)
                                 self.assertTrue(poolStatus)
                             except AssertionError:
                                 LOG.error("Pool namee : %s not found for %s " % (poolName, vs_name))
@@ -453,8 +503,8 @@ class Test(unittest.TestCase):
                         "SSL key & cert not found for %s" % (vs_name))
 
                 if 'http_policies' in each_vs:
-                        httpPolicies = each_vs['http_policies']
-                        checkPolicy(httpPolicies, f5_vs, vs_name)
+                    httpPolicies = each_vs['http_policies']
+                    checkPolicy(httpPolicies, f5_vs, vs_name)
 
             else:
                 pass
