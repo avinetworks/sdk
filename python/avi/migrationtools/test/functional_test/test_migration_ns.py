@@ -31,7 +31,8 @@ def setUpModule():
     ns_config_dict, avi_config_dict = netscalerCnv.convert(
          type, input_file, f5_config_version, output_file,
          vs_state, controller_version,cloudName)
-
+    if output_file+ '/config_check.log':
+        open(output_file+ '/config_check.log', 'w').close()
 
 # Compare virtual service name
 def compareVirtualService(name):
@@ -93,10 +94,13 @@ def checkAppProfile(app_profile, vs_config):
     if name.startswith('System') or name.startswith('Merged'):
         return True
     for key in avi_config_dict['ApplicationProfile']:
-        if key['name'] == name or 'httpProfileName' in vs_config and vs_config['httpProfileName'] == name:
-            for profile in httpProfiles.keys():
-                if profile == name:
-                    return True
+        if key['name'] == name:
+            if vs_config['attrs'][1] == 'SSL':
+                return True
+            if 'httpProfileName' in vs_config and vs_config['httpProfileName'] == name:
+                for profile in httpProfiles.keys():
+                    if profile == name:
+                        return True
     return False
 
 
@@ -202,7 +206,7 @@ def checkNetworkProfile(each_vs):
     """
     profile_name = each_vs['network_profile_ref']
     vsName = each_vs['name']
-    actual_profile_name = conversion_util.get_name(profile_name)
+    profile_name = conversion_util.get_name(profile_name)
     vs_config = ns_config_dict.get('add lb vserver', {})
     if actual_profile_name.startswith('System'):
         return True
@@ -615,25 +619,48 @@ def matchStr(rule):
                 match['path']['match_str'][0][:-1]
         return match
 
+def getLBVserverName(vs_name):
+    csvserver = ns_config_dict.get('bind cs vserver')
+    for ser in csvserver.keys():
+        if ser == vs_name:
+            if not isinstance(csvserver[ser], list):
+                csvserver[ser] = [csvserver[ser]]
+            for ind in csvserver[ser]:
+                    if 'lbvserver' in ind:
+                         return ind['lbvserver']
 
-def comparePoolServers(pool, ns_vs_config):
+def comparePoolServers(pool, vs_name, each_server):
     name = pool['name'].rstrip('-pool')
 
     ns_services = ns_config_dict.get('add service')
     ns_servers = ns_config_dict.get('add server')
-    print name
-    for each_server in pool['servers']:
-        ip = each_server['ip']['addr']
-        hostName = each_server['hostname']
-        port = each_server['port']
-        print ip ," ",hostName, " ",port
-    # for key in ns_services.keys():
-    #     if name == key:
-    #         service = ns_services[key]
-    #         print service['attrs'][1]
-    #         for serverKey in ns_servers.keys():
-    #             if serverKey == service['attrs'][1]:
-    #                 print ns_servers[serverKey]['attrs'][1]
+    vservers = ns_config_dict.get('bind lb vserver')
+    #print "### ", name
+    #for each_server in pool['servers']:
+    ip = each_server['ip']['addr']
+    hostName = each_server['hostname']
+    port = each_server['port']
+    lbvsName =getLBVserverName(vs_name)
+    if lbvsName :
+        vs_name = lbvsName
+    for vs in vservers.keys():
+        if vs == vs_name:
+            if not isinstance(vservers[vs], list):
+                vservers[vs] = [vservers[vs]]
+            for serverKey in vservers[vs]:
+                if 'type' not in serverKey:
+                    serverk = serverKey['attrs'][1]
+                    for key in ns_services.keys():
+                        if serverk == key:
+                            service = ns_services[key]['attrs']
+                            for serverKey in ns_servers.keys():
+                                if serverKey == service[1]:
+                                    ns_ip = ns_servers[serverKey]['attrs'][1]
+                                    ns_hostName = serverKey
+                                    ns_port = service[3]
+                                    if ip == ns_ip and hostName == ns_hostName and port == ns_port:
+                                        return True, None
+    return False, ip
 class Test(unittest.TestCase):
 
     def test_compareVirtualService(self):
@@ -707,10 +734,13 @@ class Test(unittest.TestCase):
                                 self.assertTrue(poolNameStatus)
                             except AssertionError:
                                 LOG.error("Pool group not found in %s" % (vs_name))
-                            try:
-                                comparePoolServers(pool, ns_vs_config)
-                            except AssertionError:
-                                LOG.error("Servers not match in %s " %(pool['name']))
+
+                            for each_server in pool['servers']:
+                                try:
+                                    serverStatus, ip = comparePoolServers(pool, vs_name, each_server)
+                                    self.assertTrue(serverStatus)
+                                except AssertionError:
+                                    LOG.error("Servers not for %s match in %s " %(ip, pool['name']))
                             try:
                                 if 'health_monitor_refs' in pool and pool['health_monitor_refs']:
                                     monitorStatus, monitorName = checkHealthMonitor(pool)
