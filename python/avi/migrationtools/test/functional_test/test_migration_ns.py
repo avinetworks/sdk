@@ -206,7 +206,7 @@ def checkNetworkProfile(each_vs):
     """
     profile_name = each_vs['network_profile_ref']
     vsName = each_vs['name']
-    profile_name = conversion_util.get_name(profile_name)
+    actual_profile_name = conversion_util.get_name(profile_name)
     vs_config = ns_config_dict.get('add lb vserver', {})
     if actual_profile_name.startswith('System'):
         return True
@@ -619,6 +619,7 @@ def matchStr(rule):
                 match['path']['match_str'][0][:-1]
         return match
 
+
 def getLBVserverName(vs_name):
     csvserver = ns_config_dict.get('bind cs vserver')
     for ser in csvserver.keys():
@@ -661,6 +662,7 @@ def comparePoolServers(pool, vs_name, each_server):
                                     if ip == ns_ip and hostName == ns_hostName and port == ns_port:
                                         return True, None
     return False, ip
+
 class Test(unittest.TestCase):
 
     def test_compareVirtualService(self):
