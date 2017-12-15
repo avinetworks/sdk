@@ -281,28 +281,15 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return result, nil
 	}
 
-	if resp.StatusCode == 404 {
-		glog.Errorf("Error: %v", resp)
-		mres, merr := ioutil.ReadAll(resp.Body)
-		if merr == nil {
-			mresult, _ := convertAviResponseToMapInterface(mres)
-			glog.Infof("Error resp: %v", mresult)
-			emsg := fmt.Sprintf("%v", mresult)
-			errorResult.Message = &emsg
-		}
-		return result, errorResult
-	}
-
 	result, err = ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		result = nil
-		errorResult := AviError{verb: verb, url: url}
 		errmsg := fmt.Sprintf("Response body read failed: %v", err)
 		errorResult.Message = &errmsg
+		return nil, errorResult
 	}
 
-	return result, err
+	return result, nil
 }
 
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
