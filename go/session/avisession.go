@@ -281,7 +281,24 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return result, nil
 	}
 
+	if resp.StatusCode == 404 {
+		glog.Errorf("Error: %v", resp)
+		mres, merr := ioutil.ReadAll(resp.Body)
+		if merr == nil {
+			mresult, _ := convertAviResponseToMapInterface(mres)
+			glog.Infof("Error resp: %v", mresult)
+			emsg := fmt.Sprintf("%v", mresult)
+			errorResult.Message = &emsg
+		}
+		return result, errorResult
+	}
+
 	result, err = ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		result = nil
+	}
+
 	return result, err
 }
 
