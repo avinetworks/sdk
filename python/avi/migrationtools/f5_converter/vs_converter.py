@@ -188,9 +188,17 @@ class VSConfigConv(object):
         services_obj, ip_addr, vsvip_ref, vrf_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
             cloud_name, self.prefix, vs_name)
+        # Added check for same vip in same vrf
+        if vsvip_ref == '':
+            msg = "Skipped: Virtualservice %s has repeated vip not in " \
+                  "different vrf" % vs_name
+            LOG.debug(msg)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED, msg)
+            return
         # Added Check for if port is no digit skip vs.
         if not services_obj and not ip_addr and not vsvip_ref:
-            msg = "Skipped is not a digit: Virtualservice : %s" % vs_name
+            msg = "Skipped Virtualservice : %s" % vs_name
             LOG.debug(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
                                       final.STATUS_SKIPPED, msg)
