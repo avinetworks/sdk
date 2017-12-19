@@ -475,22 +475,34 @@ class F5Util(MigrationUtil):
         :return: boolean if service is updated or not
         """
         service_updated = False
+        vs_new_service =[]
         for service in vs['services']:
             port_end = service.get('port_range_end', None)
+            if not port_end and int(service['port']) == int(port):
+                return 'duplicate_ip_port'
             if port_end and (service['port'] <= int(port) <= port_end):
                 if port not in [conv_const.PORT_START, conv_const.PORT_END]:
-                    new_end = service['port_range_end']
-                    service['port_range_end'] = int(port) - 1
-                    new_service = {'port': int(port) + 1,
-                                   'port_range_end': new_end,
-                                   'enable_ssl': enable_ssl}
-                    vs['services'].append(new_service)
+                    if service['port'] == int(port) == port_end:
+                        return 'duplicate_ip_port'
+                    elif service['port'] == int(port):
+                        service['port'] = int(port) + 1
+                    elif service['port_range_end'] == int(port):
+                        service['port_range_end'] = int(port) - 1
+                    else:
+                        new_port = int(port) + 1
+                        new_end = service['port_range_end']
+                        service['port_range_end'] = int(port) - 1
+                        new_service = {'port': new_port,
+                                       'port_range_end': new_end,
+                                       'enable_ssl': enable_ssl}
+                        vs_new_service.append(new_service)
                 elif port == conv_const.PORT_START:
                     service['port'] = 2
                 elif port == conv_const.PORT_END:
                     service['port_range_end'] = (conv_const.PORT_START - 1)
                 service_updated = True
                 break
+        vs['services'].extend(vs_new_service)
         return service_updated
 
 
@@ -540,7 +552,7 @@ class F5Util(MigrationUtil):
                  vs['ip_address']['addr'] == ip_addr]
 
         if port == 'any':
-            port = 0
+            port = '0'
         if isinstance(port, str) and (not port.isdigit()):
             port = self.get_port_by_protocol(port)
         # Port is None then skip vs
@@ -550,14 +562,19 @@ class F5Util(MigrationUtil):
         if int(port) > 0:
             for vs in vs_dup_ips:
                 service_updated = self.update_service(port, vs, enable_ssl)
+                if service_updated == 'duplicate_ip_port':
+                    LOG.debug('Skipped: Duplicate IP-Port for vs %s', vs_name)
+                    return None, None, None, None
                 if service_updated:
                     break
             services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
         else:
-            used_ports = []
-            for vs in vs_dup_ips:
-                for service in vs['services']:
-                    used_ports.append(service['port'])
+            if {service.get('port_range_end') for vs in vs_dup_ips for
+               service in vs['services']}:
+                LOG.debug('Skipped: Duplicate IP-Port for vs %s', vs_name)
+                return None, None, None, None
+            used_ports = list({service['port'] for vs in vs_dup_ips for
+                              service in vs['services']})
             if used_ports:
                 services_obj = []
                 if conv_const.PORT_END not in used_ports:
@@ -569,6 +586,9 @@ class F5Util(MigrationUtil):
                         start += 1
                         continue
                     end = int(used_ports[i]) - 1
+                    if end < start:
+                        start += 1
+                        continue
                     services_obj.append({'port': start,
                                          'port_range_end': end,
                                          'enable_ssl': enable_ssl})
@@ -593,9 +613,11 @@ class F5Util(MigrationUtil):
                 self.get_object_ref(cloud_name, 'cloud', tenant=tenant_name),
                 prefix,
                 vrf_ref)
-            # VS VIP object to be put in admin tenant to shared across tenants
-            updated_vsvip_ref = self.get_object_ref(vs_vip_name, 'vsvip',
-                                                    tenant_name, cloud_name)
+            if vs_vip_name == '':
+                updated_vsvip_ref = ''
+            else:
+                updated_vsvip_ref = self.get_object_ref(vs_vip_name, 'vsvip',
+                                                        tenant_name, cloud_name)
         return services_obj, ip_addr, updated_vsvip_ref, vrf_ref
 
     def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
@@ -1655,9 +1677,17 @@ class F5Util(MigrationUtil):
             name = '%s-%s' % (prefix, name)
         # Get the exsting vsvip object list if present
         vsvip = [vip_obj for vip_obj in vsvip_config if vip_obj['name'] == name
-                 and vip_obj['tenant_ref'] == tenant_ref]
+                 and vip_obj.get('vrf_context_ref') == vrf_ref]
+        if vsvip:
+            diff_ten = [vips for vips in vsvip if vips['tenant_ref'] !=
+                        tenant_ref]
+            if diff_ten:
+                LOG.debug('VsVip %s is repeated with vrf %s but different '
+                          'tenant %s', name, self.get_name(vrf_ref) if vrf_ref
+                          else 'None', self.get_name(tenant_ref))
+                name = ''
         # If VSVIP object not present then create new VSVIP object.
-        if not vsvip:
+        else:
             vsvip_object = {
                 "name": name,
                 "tenant_ref": tenant_ref,
