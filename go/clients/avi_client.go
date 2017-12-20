@@ -37,7 +37,9 @@ type AviClient struct {
 	DebugServiceEngine             *DebugServiceEngineClient
 	DebugVirtualService            *DebugVirtualServiceClient
 	Gslb                           *GslbClient
+	GslbApplicationPersistenceProfile *GslbApplicationPersistenceProfileClient
 	GslbGeoDbProfile               *GslbGeoDbProfileClient
+	GslbHealthMonitor              *GslbHealthMonitorClient
 	GslbService                    *GslbServiceClient
 	HTTPPolicySet                  *HTTPPolicySetClient
 	HardwareSecurityModuleGroup    *HardwareSecurityModuleGroupClient
