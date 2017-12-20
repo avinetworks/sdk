@@ -22,7 +22,8 @@ ppcount = 0
 ptotal_count = 0
 global fully_migrated
 fully_migrated = 0
-
+used_pool_groups = {}
+used_pool = {}
 
 class F5Util(MigrationUtil):
 
@@ -304,8 +305,8 @@ class F5Util(MigrationUtil):
                     key_cert = self.get_object_ref(
                         key_cert[0]['name'], 'sslkeyandcertificate',
                         tenant=self.get_name(key_cert[0]['tenant_ref']))
-                profile = profiles.get(key, None)
-                context = profile.get("context", None)
+                profile = profiles[key]
+                context = profile.get("context") if profile else None
                 if (not context) and isinstance(profile, dict):
                     if 'serverside' in profile:
                         context = 'serverside'
@@ -639,7 +640,12 @@ class F5Util(MigrationUtil):
                 new_pool = copy.deepcopy(pool)
                 break
         if new_pool:
-            new_pool["name"] = pool_name + "-" + clone_for
+            if pool_name in used_pool:
+                used_pool[pool_name] += 1
+            else:
+                used_pool[pool_name] = 1
+            LOG.debug('Cloning Pool for %s', clone_for)
+            new_pool["name"] = '{}-{}'.format(pool_name, used_pool[pool_name])
             if tenant:
                 new_pool["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
             if is_vs:
@@ -1197,7 +1203,13 @@ class F5Util(MigrationUtil):
                 new_pool_group = copy.deepcopy(pool_group)
                 break
         if new_pool_group:
-            new_pool_group["name"] = pool_group_name + "-" + clone_for
+            if pool_group_name in used_pool_groups:
+                used_pool_groups[pool_group_name] += 1
+            else:
+                used_pool_groups[pool_group_name] = 1
+            LOG.debug('Cloning pool group for %s', clone_for)
+            new_pool_group["name"] = '{}-{}'.format(pool_group_name,
+                                            used_pool_groups[pool_group_name])
             pg_ref = new_pool_group["name"]
             new_pool_group["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
             avi_config['PoolGroup'].append(new_pool_group)
