@@ -272,6 +272,11 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
     return True
 
 
+POP_FIELDS = ['state', 'controller', 'username', 'password', 'api_version',
+              'avi_credentials', 'avi_api_update_method', 'avi_api_patch_op',
+              'api_context', 'obj_password', 'obj_username', 'tenant',
+              'tenant_uuid']
+
 def avi_ansible_api(module, obj_type, sensitive_fields):
     """
     This converts the Ansible module into AVI object and invokes APIs
@@ -318,16 +323,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     else:
         obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
-    obj.pop('state', None)
-    obj.pop('controller', None)
-    obj.pop('username', None)
-    obj.pop('password', None)
-    # pop avi_version
-    obj.pop('api_version', None)
-    obj.pop('avi_credentials', None)
-    obj.pop('avi_api_update_method', None)
-    obj.pop('avi_api_patch_op', None)
-
     # Special code to handle situation where object has a field
     # named username. This is used in case of api/user
     # The following code copies the username and password
@@ -342,6 +337,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     tenant = obj.pop('tenant', '')
     tenant_uuid = obj.pop('tenant_uuid', '')
     # obj.pop('cloud_ref', None)
+    for k in POP_FIELDS:
+        obj.pop(k, None)
     purge_optional_fields(obj, module)
 
     log.info('passed object %s ', obj)
