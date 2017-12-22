@@ -131,22 +131,20 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		avisess.version = DEFAULT_AVI_VERSION
 	}
 
-	if avisess.isTokenAuth() {
-		// If auth token not provided, but callback function provided,
-		// then set token
-		if avisess.authToken == "" && avisess.refreshAuthToken != nil {
-			avisess.setAuthToken(avisess.refreshAuthToken())
-		}
-		return avisess, nil
-	} else {
-		err := avisess.initiateSession()
-		return avisess, err
-	}
+	err := avisess.initiateSession()
+	return avisess, err
 }
 
 func (avisess *AviSession) initiateSession() error {
 	if avisess.insecure == true {
 		glog.Warning("Strict certificate verification is *DISABLED*")
+	}
+
+	// If refresh auth token is provided, use callback function provided
+	if avisess.isTokenAuth() {
+		if avisess.refreshAuthToken != nil {
+			avisess.setAuthToken(avisess.refreshAuthToken())
+		}
 	}
 
 	// initiate http session here
@@ -157,9 +155,14 @@ func (avisess *AviSession) initiateSession() error {
 	// now login to get session_id, csrfToken
 	cred := make(map[string]string)
 	cred["username"] = avisess.username
-	cred["password"] = avisess.password
-	rerror = avisess.Post("login", cred, res)
 
+	if avisess.isTokenAuth() {
+		cred["token"] = avisess.authToken
+	} else {
+		cred["password"] = avisess.password
+	}
+
+	rerror = avisess.Post("login", cred, res)
 	if rerror != nil {
 		return rerror
 	}
@@ -299,9 +302,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-Avi-Version", avisess.version)
-	if avisess.isTokenAuth() {
-		req.Header.Set("Authorization", fmt.Sprintf("Token %s", avisess.authToken))
-	}
+
 	if avisess.csrfToken != "" {
 		req.Header["X-CSRFToken"] = []string{avisess.csrfToken}
 		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avisess.csrfToken})
@@ -350,33 +351,13 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return avisess.restRequest(verb, uri, payload, retry+1)
 	}
 
+	// session expired; initiate session and then retry the request
 	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
-		// session expired; initiate session and then retry the request
 		err := avisess.initiateSession()
 		if err != nil {
 			return nil, err
 		}
 		return avisess.restRequest(verb, uri, payload, retry+1)
-	}
-
-	if resp.StatusCode == 401 && avisess.isTokenAuth() {
-		// auth token incorrect; If callback function is provided,
-		// get new auth token and retry the request
-		if avisess.refreshAuthToken != nil {
-			avisess.setAuthToken(avisess.refreshAuthToken())
-			return avisess.restRequest(verb, uri, payload, retry+1)
-		} else {
-			bres, berr := ioutil.ReadAll(resp.Body)
-			if berr == nil {
-				mres, _ := convertAviResponseToMapInterface(bres)
-				emsg := fmt.Sprintf("%v", mres)
-				errorResult.Message = &emsg
-			} else {
-				emsg := "Token Invalid, no refresh token function supplied"
-				errorResult.Message = &emsg
-			}
-			return result, errorResult
-		}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
