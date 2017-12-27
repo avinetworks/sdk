@@ -34,3 +34,17 @@ NETWORK_PROF = "network_profile_ref"
 NS_PERSISTENSE_TYPE = {'COOKIEINSERT': 'PERSISTENCE_TYPE_HTTP_COOKIE',
                        'SOURCEIP': 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS',
                        'SSLSESSION': 'PERSISTENCE_TYPE_TLS'}
+
+supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
+                           'SSL_TCP', 'DNS', 'DNS_TCP']
+
+netscalar_command_status = None
+
+def init():
+    """
+    This function defines that to initialize contant from yaml file
+    :return: None
+    """
+    global netscalar_command_status
+    with open(os.path.dirname(__file__)+ "/command_status.yaml") as stream:
+        netscalar_command_status = yaml.safe_load(stream)

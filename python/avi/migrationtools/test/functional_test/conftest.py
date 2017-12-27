@@ -3,7 +3,7 @@ Get the configuration from the config.yml file.
 """
 
 def pytest_addoption(parser):
-    parser.addoption("--bigip_config_file", action="store", help="config file")
+    parser.addoption("--config_file", action="store", help="configuration file")
     parser.addoption("--type", action="store", help="config type")
     parser.addoption("--controller_version", action="store", help=" Controller version", default="17.1.1" )
     parser.addoption("--file_version", action="store", default="11")
