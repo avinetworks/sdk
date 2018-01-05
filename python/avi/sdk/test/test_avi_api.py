@@ -13,6 +13,7 @@ import traceback
 import copy
 import os
 from datetime import timedelta
+import vcr
 
 gSAMPLE_CONFIG = None
 api = None
@@ -26,6 +27,11 @@ config_file = pytest.config.getoption("--config")
 with open(config_file) as f:
     cfg = json.load(f)
 
+my_vcr = vcr.VCR(
+    cassette_library_dir='fixtures/cassettes',
+    record_mode='once',
+    match_on=['uri', 'method'],
+)
 
 def setUpModule():
     global gSAMPLE_CONFIG
@@ -69,7 +75,7 @@ def shared_session_check(index):
 
 class Test(unittest.TestCase):
 
-
+    @my_vcr.use_cassette()
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -98,6 +104,7 @@ class Test(unittest.TestCase):
                                       verify=False)
         assert api1 == api2
 
+    @my_vcr.use_cassette()
     def test_ssl_vs(self):
         papi = ApiSession(api.avi_credentials.controller,
                           api.avi_credentials.username,
@@ -146,6 +153,7 @@ class Test(unittest.TestCase):
             if hdr in api.headers:
                 assert api.headers[hdr] == api2.headers[hdr]
 
+    @my_vcr.use_cassette()
     def reset_connection(self):
         login_info = gSAMPLE_CONFIG["User2"]
         old_password = login_info["password"]
@@ -200,6 +208,7 @@ class Test(unittest.TestCase):
             log.debug('%s', traceback.format_exc())
             assert False
 
+    @my_vcr.use_cassette()
     def test_multiple_tenants(self):
         """
         Tests api with multiple tenants to make sure object is only returned
@@ -238,10 +247,12 @@ class Test(unittest.TestCase):
         resp = tapi.delete_by_name('tenant', 'test-tenant', tenant='admin')
         assert resp.status_code in (200, 204)
 
+    @my_vcr.use_cassette()
     def test_timeout(self):
         resp = api.get_object_by_name('tenant', 'admin', timeout=2)
         assert resp
 
+    @my_vcr.use_cassette()
     def test_force_uuid(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         pool_cfg = copy.deepcopy(basic_vs_cfg["pool_obj"])
@@ -266,6 +277,7 @@ class Test(unittest.TestCase):
         for result in results:
             assert result == 1
 
+    @my_vcr.use_cassette()
     def test_multiprocess_sharing(self):
         api.get_object_by_name('tenant', name='admin')
         p = Process(target=shared_session_check, args=(1,))
@@ -293,6 +305,7 @@ class Test(unittest.TestCase):
             pass
         assert avi_timedelta(timedelta(seconds=10)) == 10
 
+    @my_vcr.use_cassette()
     def test_session_reset(self):
         papi = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username,
@@ -311,6 +324,7 @@ class Test(unittest.TestCase):
         res = papi.delete_by_name('pool', 'test-reset')
         assert res.status_code == 204
 
+    @my_vcr.use_cassette()
     def test_session_multi_reset(self):
         papi = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username,
@@ -349,6 +363,7 @@ class Test(unittest.TestCase):
 
         assert api1.username == api2.username
 
+    @my_vcr.use_cassette()
     def test_set_username(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
