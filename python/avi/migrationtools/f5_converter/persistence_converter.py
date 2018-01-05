@@ -220,14 +220,9 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         skipped += [attr for attr in profile.keys()
                     if attr not in self.supported_attr]
         cookie_name = profile.get("cookie-name")
-        if not cookie_name:
-            msg = "Missing Required field cookie name in: %s", name
-            LOG.error(msg)
-            conv_utils.add_status_row('persistence', 'cookie', name,
-                                      final.STATUS_SKIPPED, msg)
-            return None
-        if cookie_name == 'none':
-            cookie_name = '{}:cookie-name'.format(name)
+        # Set cookie name to default value from avi if not given
+        if not cookie_name or cookie_name == 'none':
+            cookie_name = 'AVI_COOKIE'
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
@@ -237,7 +232,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-            "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
         }
         persist_profile['tenant_ref'] = conv_utils.get_object_ref(
             tenant, 'tenant')
@@ -368,14 +363,9 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         skipped += [attr for attr in profile.keys()
                    if attr not in self.supported_attr]
         cookie_name = profile.get("cookie name")
-        if not cookie_name:
-            msg = "Missing Required field cookie name in: %s", name
-            LOG.error(msg)
-            conv_utils.add_status_row('persistence', 'cookie', name,
-                                      final.STATUS_SKIPPED, msg)
-            return None
-        if cookie_name == 'none':
-            cookie_name = '{}:-cookie'.format(name)
+        # Set cookie name to default value from avi if not given
+        if not cookie_name or cookie_name == 'none':
+            cookie_name = 'AVI_COOKIE'
         timeout = profile.get("cookie expiration", '1')
         if timeout == 'immediate':
             timeout = '0'
@@ -392,7 +382,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-            "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
         }
         persist_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
