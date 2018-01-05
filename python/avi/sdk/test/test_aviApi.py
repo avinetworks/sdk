@@ -52,7 +52,6 @@ def setUpModule():
 
 class Test(unittest.TestCase):
 
-    @my_vcr.use_cassette()
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -74,7 +73,6 @@ class Test(unittest.TestCase):
                                   api_version='17.1.1')
         assert resp.status_code in (200, 204)
 
-    @my_vcr.use_cassette()
     def test_ssl_vs(self):
         papi = ApiSession(api.avi_credentials.controller,
                           api.avi_credentials.username,
