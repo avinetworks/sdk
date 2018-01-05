@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [!!python/unicode '[<Cookie csrftoken=AYMf0vVPINRsSqcv2HKkZDSs2u8QvSeJ
+          for 10.10.25.42/>, <Cookie sessionid=b3juz704vj089cerufm0lqawwzugqyri for
+          10.10.25.42/>]']
+      Referer: ['https://10.10.25.42']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [!!python/unicode 17.1.6]
+      X-CSRFToken: [AYMf0vVPINRsSqcv2HKkZDSs2u8QvSeJ]
+      timeout: ['60']
+    method: GET
+    uri: https://10.10.25.42/api/tenant?name=admin
+  response:
+    body: {string: !!python/unicode '{"count": 1, "results": [{"url": "https://10.10.25.42/api/tenant/admin",
+        "local": true, "name": "admin", "uuid": "admin"}]}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [17.1.6]
+      cache-control: ['no-store, no-cache']
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Fri, 05 Jan 2018 07:32:00 GMT']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-frame-options: [SAMEORIGIN]
+    status: {code: 200, message: OK}
+version: 1
