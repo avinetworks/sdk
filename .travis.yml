@@ -16,7 +16,7 @@ branches:
 
 # command to install dependencies
 install:
-- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx
+- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcr
 - export PYTHONPATH=$PWD/python/
 - echo $PYTHONPATH
 
@@ -27,3 +27,4 @@ script:
 - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
 - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
 - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+- pytest ./python/avi/sdk/python/avi/sdk/test/test_avi_api.py -vvvv -m travis --config ./python/sdk/python/avi/sdk/test/test_api.cfg --color=yes
