@@ -29,8 +29,7 @@ with open(config_file) as f:
 
 my_vcr = vcr.VCR(
     cassette_library_dir='fixtures/cassettes',
-    record_mode='none',
-    match_on=['uri', 'method'],
+    record_mode='none'
 )
 
 def setUpModule():
