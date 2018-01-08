@@ -34,7 +34,13 @@ with open(config_file) as f:
 # )
 with Betamax.configure() as config:
     config.cassette_library_dir = './'
-
+    config.default_cassette_options['record_mode'] ='none'
+    config.default_cassette_options['match_requests_on'] = [
+        'method',
+        'uri',
+        'headers',
+    ]
+    config.preserve_exact_body_bytes = True
 
 def setUpModule():
     global gSAMPLE_CONFIG
@@ -305,17 +311,18 @@ class Test(unittest.TestCase):
     #
     #@my_vcr.use_cassette('test_multiprocess_sharing.yml')
     # def test_multiprocess_sharing(self):
-    #     api.get_object_by_name('tenant', name='admin')
-    #     p = Process(target=shared_session_check, args=(1,))
-    #     p.start()
-    #     p.join()
-    #     p = Pool(16)
-    #     shared_sessions = []
-    #     for index in range(16):
-    #         shared_sessions.append(index)
-    #     results = p.map(shared_session_check, shared_sessions)
-    #     for result in results:
-    #         assert result == 200
+    #
+    #         api.get_object_by_name('tenant', name='admin')
+    #         p = Process(target=shared_session_check, args=(1,))
+    #         p.start()
+    #         p.join()
+    #         p = Pool(16)
+    #         shared_sessions = []
+    #         for index in range(16):
+    #             shared_sessions.append(index)
+    #         results = p.map(shared_session_check, shared_sessions)
+    #         for result in results:
+    #             assert result == 200
     #
     # def test_cleanup_sessions(self):
     #     api._update_session_last_used()
