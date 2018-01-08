@@ -34,7 +34,7 @@ with open(config_file) as f:
 # )
 with Betamax.configure() as config:
     config.cassette_library_dir = 'cassettes'
-    config.default_cassette_options['record_mode'] ='once'
+    config.default_cassette_options['record_mode'] ='none'
     config.default_cassette_options['match_requests_on'] = [
         'method',
         'uri',
