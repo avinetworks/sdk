@@ -88,7 +88,7 @@ class Test(unittest.TestCase):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
         with Betamax(api) as vcr:
-            vcr.use_cassette('user')
+            vcr.use_cassette('test_basic_vs1')
             resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
                         api_version='17.1.1')
             assert resp.status_code in (200, 201)
