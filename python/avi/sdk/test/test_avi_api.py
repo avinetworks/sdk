@@ -31,6 +31,7 @@ my_vcr = vcr.VCR(
     cassette_library_dir='fixtures/cassettes',
     record_mode='once',
     match_on=['uri', 'method'],
+    ignore_localhost=True
 )
 
 def setUpModule():
@@ -277,7 +278,7 @@ class Test(unittest.TestCase):
         for result in results:
             assert result == 1
 
-    @my_vcr.use_cassette()
+    #@my_vcr.use_cassette()
     def test_multiprocess_sharing(self):
         api.get_object_by_name('tenant', name='admin')
         p = Process(target=shared_session_check, args=(1,))
