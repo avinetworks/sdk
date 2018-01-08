@@ -75,7 +75,7 @@ def shared_session_check(index):
 
 class Test(unittest.TestCase):
 
-    @my_vcr.use_cassette(fixtures/cassettes/test_basic_vs)
+    @my_vcr.use_cassette('fixtures/cassettes/test_basic_vs')
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
