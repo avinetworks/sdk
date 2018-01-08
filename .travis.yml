@@ -15,6 +15,9 @@ branches:
   - 17.2.5
   - AV-32567-CASSETTE
 
+ notifications:
+  email: false
+
 # command to install dependencies
 install:
 - pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy betamax
