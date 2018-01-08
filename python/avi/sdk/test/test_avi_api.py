@@ -23,6 +23,7 @@ urllib3.disable_warnings()
 gapi_version = '17.1.6'
 
 config_file = pytest.config.getoption("--config")
+cassette_file = pytest.config.getoption("--cassette")
 with open(config_file) as f:
     cfg = json.load(f)
 
@@ -87,7 +88,7 @@ class Test(unittest.TestCase):
     def test_basic_vs1(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
-        with open('cassettes/test_basic_vs1.json') as f:
+        with open(cassette_file) as f:
                 cfg = json.load(f)
                 print cfg
         with Betamax(api) as vcr:
