@@ -2,7 +2,7 @@ import json
 import logging
 import unittest
 from urllib import urlopen
-
+from betamax import Betamax
 import pytest
 from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
                              avi_timedelta, sessionDict)
@@ -26,12 +26,15 @@ config_file = pytest.config.getoption("--config")
 with open(config_file) as f:
     cfg = json.load(f)
 
-my_vcr = vcr.VCR(
-    cassette_library_dir='./',
-    record_mode='none',
-    serializer='json'
+# my_vcr = vcr.VCR(
+#     cassette_library_dir='./',
+#     record_mode='none',
+#     serializer='json'
+#
+# )
+with Betamax.configure() as config:
+    config.cassette_library_dir = './'
 
-)
 
 def setUpModule():
     global gSAMPLE_CONFIG
@@ -75,27 +78,50 @@ def shared_session_check(index):
 
 class Test(unittest.TestCase):
 
-    @my_vcr.use_cassette()
-    def test_basic_vs(self):
+    def test_basic_vs1(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
-        resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
+        with Betamax(api) as vcr:
+            vcr.use_cassette('user')
+            resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
                         api_version='17.1.1')
-        assert resp.status_code in (200, 201)
-        vs_obj["pool_ref"] = api.get_obj_ref(resp.json())
-        resp = api.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version='17.1.1')
-        assert resp.status_code in (200, 201)
-        pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
-        resp = api.get('virtualservice', tenant='admin',
-                       api_version='17.1.1')
-        assert resp.json()['count'] >= 1
-        resp = api.delete_by_name('virtualservice', vs_obj['name'],
-                                  api_version='17.1.1')
-        assert resp.status_code in (200, 204)
-        resp = api.delete_by_name("pool", pool_name,
-                                  api_version='17.1.1')
-        assert resp.status_code in (200, 204)
+            assert resp.status_code in (200, 201)
+            vs_obj["pool_ref"] = api.get_obj_ref(resp.json())
+            resp = api.post('virtualservice', data=json.dumps(vs_obj),
+                            api_version='17.1.1')
+            assert resp.status_code in (200, 201)
+            pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
+            resp = api.get('virtualservice', tenant='admin',
+                           api_version='17.1.1')
+            assert resp.json()['count'] >= 1
+            resp = api.delete_by_name('virtualservice', vs_obj['name'],
+                                      api_version='17.1.1')
+            assert resp.status_code in (200, 204)
+            resp = api.delete_by_name("pool", pool_name,
+                                      api_version='17.1.1')
+            assert resp.status_code in (200, 204)
+
+    # @my_vcr.use_cassette()
+    # def test_basic_vs(self):
+    #     basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
+    #     vs_obj = basic_vs_cfg["vs_obj"]
+    #     resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
+    #                     api_version='17.1.1')
+    #     assert resp.status_code in (200, 201)
+    #     vs_obj["pool_ref"] = api.get_obj_ref(resp.json())
+    #     resp = api.post('virtualservice', data=json.dumps(vs_obj),
+    #                     api_version='17.1.1')
+    #     assert resp.status_code in (200, 201)
+    #     pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
+    #     resp = api.get('virtualservice', tenant='admin',
+    #                    api_version='17.1.1')
+    #     assert resp.json()['count'] >= 1
+    #     resp = api.delete_by_name('virtualservice', vs_obj['name'],
+    #                               api_version='17.1.1')
+    #     assert resp.status_code in (200, 204)
+    #     resp = api.delete_by_name("pool", pool_name,
+    #                               api_version='17.1.1')
+    #     assert resp.status_code in (200, 204)
 
     # def test_reuse_api_session(self):
     #     api1 = ApiSession(avi_credentials=api.avi_credentials,
@@ -278,18 +304,18 @@ class Test(unittest.TestCase):
     #         assert result == 1
     #
     #@my_vcr.use_cassette('test_multiprocess_sharing.yml')
-    def test_multiprocess_sharing(self):
-        api.get_object_by_name('tenant', name='admin')
-        p = Process(target=shared_session_check, args=(1,))
-        p.start()
-        p.join()
-        p = Pool(16)
-        shared_sessions = []
-        for index in range(16):
-            shared_sessions.append(index)
-        results = p.map(shared_session_check, shared_sessions)
-        for result in results:
-            assert result == 200
+    # def test_multiprocess_sharing(self):
+    #     api.get_object_by_name('tenant', name='admin')
+    #     p = Process(target=shared_session_check, args=(1,))
+    #     p.start()
+    #     p.join()
+    #     p = Pool(16)
+    #     shared_sessions = []
+    #     for index in range(16):
+    #         shared_sessions.append(index)
+    #     results = p.map(shared_session_check, shared_sessions)
+    #     for result in results:
+    #         assert result == 200
     #
     # def test_cleanup_sessions(self):
     #     api._update_session_last_used()
