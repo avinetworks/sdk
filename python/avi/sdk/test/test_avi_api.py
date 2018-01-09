@@ -2,7 +2,6 @@ import json
 import logging
 import unittest
 from urllib import urlopen
-from betamax import Betamax
 import pytest
 from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
                              avi_timedelta, sessionDict)
