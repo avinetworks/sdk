@@ -28,8 +28,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=Giem1GRPCyaqg0rEvRI07If6HLkqmv4m; expires=Tue, 08-Jan-2019 06:29:40 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1; expires=Wed, 10-Jan-2018 06:29:40 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=3nmckQbJl6laKPHBmgXr8stjt4SJNCG9; expires=Tue, 08-Jan-2019 11:11:07 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=zezb8093by702padt8biga2nt16legih; expires=Wed, 10-Jan-2018 11:11:07 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -50,7 +50,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:40 GMT"
+                        "Tue, 09 Jan 2018 11:11:07 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -72,7 +72,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "Giem1GRPCyaqg0rEvRI07If6HLkqmv4m"
+                        "3nmckQbJl6laKPHBmgXr8stjt4SJNCG9"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
@@ -84,7 +84,7 @@
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=Giem1GRPCyaqg0rEvRI07If6HLkqmv4m; sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1"
+                        "csrftoken=3nmckQbJl6laKPHBmgXr8stjt4SJNCG9; sessionid=zezb8093by702padt8biga2nt16legih"
                     ], 
                     "X-Avi-Version": [
                         "17.1.6"
@@ -127,7 +127,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:40 GMT"
+                        "Tue, 09 Jan 2018 11:11:08 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -149,7 +149,7 @@
                 "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=Giem1GRPCyaqg0rEvRI07If6HLkqmv4m; sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1"
+                        "csrftoken=3nmckQbJl6laKPHBmgXr8stjt4SJNCG9; sessionid=zezb8093by702padt8biga2nt16legih"
                     ], 
                     "Content-Length": [
                         "30"
@@ -174,8 +174,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU; expires=Tue, 08-Jan-2019 06:29:41 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1; expires=Wed, 10-Jan-2018 06:29:41 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU; expires=Tue, 08-Jan-2019 11:11:09 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=zezb8093by702padt8biga2nt16legih; expires=Wed, 10-Jan-2018 11:11:09 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -196,7 +196,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:41 GMT"
+                        "Tue, 09 Jan 2018 11:11:09 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -218,13 +218,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU"
+                        "B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU for 10.10.25.42/>, <Cookie sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1 for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU for 10.10.25.42/>, <Cookie sessionid=zezb8093by702padt8biga2nt16legih for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -273,7 +273,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:42 GMT"
+                        "Tue, 09 Jan 2018 11:11:09 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -295,7 +295,7 @@
                 "body": "{\"name\": \"test-reset\"}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU"
+                        "B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU"
                     ], 
                     "Content-Length": [
                         "22"
@@ -304,7 +304,7 @@
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU for 10.10.25.42/>, <Cookie sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1 for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU for 10.10.25.42/>, <Cookie sessionid=zezb8093by702padt8biga2nt16legih for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -347,7 +347,7 @@
                         "keep-alive"
                     ], 
                     "location": [
-                        "https://10.10.25.42/api/pool/pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf#test-reset"
+                        "https://10.10.25.42/api/pool/pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a#test-reset"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
@@ -356,7 +356,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:42 GMT"
+                        "Tue, 09 Jan 2018 11:11:10 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -369,7 +369,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515479382569122\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 0, \"uuid\": \"pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf\", \"request_queue_enabled\": false, \"name\": \"test-reset\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf#test-reset\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515496270403106\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 0, \"uuid\": \"pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a\", \"request_queue_enabled\": false, \"name\": \"test-reset\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a#test-reset\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         }, 
@@ -378,7 +378,7 @@
                 "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=3DmiY0eWqDuwdHdJqmVmcOTU31PaX7SU; sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1"
+                        "csrftoken=B6oPMv4igt6wyiAIx0UbOwqgAg7fFhtU; sessionid=zezb8093by702padt8biga2nt16legih"
                     ], 
                     "Content-Length": [
                         "30"
@@ -403,8 +403,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=PKVo7HKKaEdkV0EWr2t6cMaIFun8Jns0; expires=Tue, 08-Jan-2019 06:29:43 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1; expires=Wed, 10-Jan-2018 06:29:43 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=xQ5BHjOKlkhbuen781O5gZQ863tdz8kx; expires=Tue, 08-Jan-2019 11:11:11 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=zezb8093by702padt8biga2nt16legih; expires=Wed, 10-Jan-2018 11:11:11 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -425,7 +425,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:43 GMT"
+                        "Tue, 09 Jan 2018 11:11:11 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -447,13 +447,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PKVo7HKKaEdkV0EWr2t6cMaIFun8Jns0"
+                        "xQ5BHjOKlkhbuen781O5gZQ863tdz8kx"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PKVo7HKKaEdkV0EWr2t6cMaIFun8Jns0 for 10.10.25.42/>, <Cookie sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1 for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=xQ5BHjOKlkhbuen781O5gZQ863tdz8kx for 10.10.25.42/>, <Cookie sessionid=zezb8093by702padt8biga2nt16legih for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -502,7 +502,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:44 GMT"
+                        "Tue, 09 Jan 2018 11:11:12 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -515,7 +515,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515479382569122\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 0, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"test-reset\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf\", \"enabled\": true, \"uuid\": \"pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515496270403106\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 0, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"test-reset\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a\", \"enabled\": true, \"uuid\": \"pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -524,7 +524,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PKVo7HKKaEdkV0EWr2t6cMaIFun8Jns0"
+                        "xQ5BHjOKlkhbuen781O5gZQ863tdz8kx"
                     ], 
                     "Content-Length": [
                         "0"
@@ -533,7 +533,7 @@
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PKVo7HKKaEdkV0EWr2t6cMaIFun8Jns0 for 10.10.25.42/>, <Cookie sessionid=2n62vxx4cvfvcfl6dj8mm908ws2t2gl1 for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=xQ5BHjOKlkhbuen781O5gZQ863tdz8kx for 10.10.25.42/>, <Cookie sessionid=zezb8093by702padt8biga2nt16legih for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -549,7 +549,7 @@
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.42/api/pool/pool-6d60d7ae-168a-4df8-ada7-33a7cdf49ddf"
+                "uri": "https://10.10.25.42/api/pool/pool-10eb0f3b-f3c5-43bf-9871-6580d600c91a"
             }, 
             "response": {
                 "status": {
@@ -585,7 +585,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:44 GMT"
+                        "Tue, 09 Jan 2018 11:11:12 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"

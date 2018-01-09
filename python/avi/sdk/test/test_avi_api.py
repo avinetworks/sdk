@@ -67,12 +67,14 @@ def create_sessions(args):
             login_info.get("password", "avi123"), api_version=login_info.get(
                 "api_version", "17.1"), data_log=login_info['data_log'])
     return 1 if key in sessionDict else 0
-
+pro = None
+def setGlobal(p):
+    global pro
+    pro = p
 
 def shared_session_check(index):
     rsp = api.get('tenant')
     return rsp.status_code
-
 
 
 class Test(unittest.TestCase):
@@ -268,6 +270,7 @@ class Test(unittest.TestCase):
         resp = api.delete_by_name("pool", pool_cfg['name'])
         assert resp.status_code in (200, 204)
 
+    @my_vcr.use_cassette()
     def test_multiprocess_cache(self):
         p = Pool(4)
         num_sessions_list = [1, 4, 3, 2, 1]
@@ -278,20 +281,20 @@ class Test(unittest.TestCase):
         results = p.map(create_sessions, p_args)
         for result in results:
             assert result == 1
-    #
-    # @my_vcr.use_cassette()
-    # def test_multiprocess_sharing(self):
-    #     api.get_object_by_name('tenant', name='admin')
-    #     p = Process(target=shared_session_check, args=(1,))
-    #     p.start()
-    #     p.join()
-    #     p = Pool(16)
-    #     shared_sessions = []
-    #     for index in range(16):
-    #         shared_sessions.append(index)
-    #     results = p.map(shared_session_check, shared_sessions)
-    #     for result in results:
-    #         assert result == 200
+
+    def test_multiprocess_sharing(self):
+        api.get_object_by_name('tenant', name='admin')
+        p = Process(target=shared_session_check, args=(1,))
+        p.start()
+        p.join()
+        p = Pool(16)
+
+        shared_sessions = []
+        for index in range(16):
+            shared_sessions.append(index)
+        results = p.map(shared_session_check, shared_sessions)
+        for result in results:
+            assert result == 200
 
     def test_cleanup_sessions(self):
         api._update_session_last_used()

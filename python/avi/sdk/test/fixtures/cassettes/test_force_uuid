@@ -6,7 +6,7 @@
                 "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=0c1dIPC3SGDAwf0X93boDiTYNyUXvfs6; sessionid=3w9exlsr3gevxhow85wog0miw52967wf"
+                        "csrftoken=OIEmpdNaySooONnDJmb8GyFhDoxKNPAT; sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0"
                     ], 
                     "Content-Length": [
                         "30"
@@ -31,8 +31,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=HFNugTy91RhD663iStjtGXSoCLqVU7rF; expires=Tue, 08-Jan-2019 06:29:22 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=3w9exlsr3gevxhow85wog0miw52967wf; expires=Wed, 10-Jan-2018 06:29:22 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31; expires=Tue, 08-Jan-2019 11:10:45 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0; expires=Wed, 10-Jan-2018 11:10:45 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -53,7 +53,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:22 GMT"
+                        "Tue, 09 Jan 2018 11:10:45 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -75,7 +75,7 @@
                 "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-force\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "HFNugTy91RhD663iStjtGXSoCLqVU7rF"
+                        "A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31"
                     ], 
                     "Content-Length": [
                         "180"
@@ -90,7 +90,7 @@
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=HFNugTy91RhD663iStjtGXSoCLqVU7rF; sessionid=3w9exlsr3gevxhow85wog0miw52967wf"
+                        "csrftoken=A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31; sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0"
                     ], 
                     "X-Avi-Version": [
                         "17.1.6"
@@ -139,7 +139,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:23 GMT"
+                        "Tue, 09 Jan 2018 11:10:46 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -152,7 +152,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb#PG-964\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515479363076510\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-force-42\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb#PG-964\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515496245728701\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-force-42\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         }, 
@@ -161,13 +161,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "HFNugTy91RhD663iStjtGXSoCLqVU7rF"
+                        "A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=HFNugTy91RhD663iStjtGXSoCLqVU7rF for 10.10.25.42/>, <Cookie sessionid=3w9exlsr3gevxhow85wog0miw52967wf for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31 for 10.10.25.42/>, <Cookie sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -216,7 +216,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:23 GMT"
+                        "Tue, 09 Jan 2018 11:10:46 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -229,7 +229,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515479363076510\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515496245728701\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -238,13 +238,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "HFNugTy91RhD663iStjtGXSoCLqVU7rF"
+                        "A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=HFNugTy91RhD663iStjtGXSoCLqVU7rF for 10.10.25.42/>, <Cookie sessionid=3w9exlsr3gevxhow85wog0miw52967wf for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31 for 10.10.25.42/>, <Cookie sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -293,7 +293,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:23 GMT"
+                        "Tue, 09 Jan 2018 11:10:47 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -306,7 +306,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515479363076510\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515496245728701\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -315,7 +315,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "HFNugTy91RhD663iStjtGXSoCLqVU7rF"
+                        "A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31"
                     ], 
                     "Content-Length": [
                         "0"
@@ -324,7 +324,7 @@
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=HFNugTy91RhD663iStjtGXSoCLqVU7rF for 10.10.25.42/>, <Cookie sessionid=3w9exlsr3gevxhow85wog0miw52967wf for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=A6m3sKRNbWYBsn1mc7L92f1XZ1Lr4K31 for 10.10.25.42/>, <Cookie sessionid=ipp1rgpo13vpwf2sucion25v7nefl1o0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -376,7 +376,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 06:29:24 GMT"
+                        "Tue, 09 Jan 2018 11:10:47 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
