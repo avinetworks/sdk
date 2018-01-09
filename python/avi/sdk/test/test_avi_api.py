@@ -29,7 +29,7 @@ with open(config_file) as f:
     cfg = json.load(f)
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='python/avi/sdk/test/fixtures/cassettes/',
+    cassette_library_dir='fixtures/cassettes/',
     record_mode='none',
     serializer='json',
     match_on= ['method','url','headers']
@@ -67,13 +67,10 @@ def create_sessions(args):
             login_info.get("password", "avi123"), api_version=login_info.get(
                 "api_version", "17.1"), data_log=login_info['data_log'])
     return 1 if key in sessionDict else 0
-pro = None
-def setGlobal(p):
-    global pro
-    pro = p
 
 def shared_session_check(index):
     rsp = api.get('tenant')
+    print "tenant", rsp.status_code
     return rsp.status_code
 
 
@@ -283,7 +280,7 @@ class Test(unittest.TestCase):
             assert result == 1
 
     def test_multiprocess_sharing(self):
-        api.get_object_by_name('tenant', name='admin')
+        #api.get_object_by_name('tenant', name='admin')
         p = Process(target=shared_session_check, args=(1,))
         p.start()
         p.join()
@@ -293,8 +290,9 @@ class Test(unittest.TestCase):
         for index in range(16):
             shared_sessions.append(index)
         results = p.map(shared_session_check, shared_sessions)
+        print "results :",results
         for result in results:
-            assert result == 200
+             assert result == 200
 
     def test_cleanup_sessions(self):
         api._update_session_last_used()
