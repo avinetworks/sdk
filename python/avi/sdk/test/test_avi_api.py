@@ -23,18 +23,17 @@ urllib3.disable_warnings()
 gapi_version = '17.1.6'
 
 config_file = pytest.config.getoption("--config")
-cassette_file = pytest.config.getoption("--cassette")
 with open(config_file) as f:
     cfg = json.load(f)
 
 # my_vcr = vcr.VCR(
-#     cassette_library_dir='./',
-#     record_mode='none',
+#     cassette_library_dir='python/avi/sdk/test/cassettes/',
+#     record_mode='once',
 #     serializer='json'
 #
 # )
 with Betamax.configure() as config:
-    config.cassette_library_dir = 'cassettes'
+    config.cassette_library_dir = 'python/avi/sdk/test/cassettes/'
     config.default_cassette_options['record_mode'] ='none'
     config.default_cassette_options['match_requests_on'] = [
         'method',
@@ -59,7 +58,6 @@ def setUpModule():
         tenant_uuid=login_info.get("tenant_uuid", None),
         api_version=login_info.get("api_version", gapi_version),
         verify=False)
-
 
 def create_sessions(args):
     login_info, num_sessions = args
@@ -88,9 +86,6 @@ class Test(unittest.TestCase):
     def test_basic_vs1(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
-        with open(cassette_file) as f:
-                cfg = json.load(f)
-                print cfg
         with Betamax(api) as vcr:
             vcr.use_cassette('test_basic_vs1')
             resp = api.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
