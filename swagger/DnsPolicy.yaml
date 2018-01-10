@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi DnsPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -485,7 +485,18 @@ definitions:
                 default: True
     DnsRuleActionGslbSiteSelection:
         type: object
+        required:
+            -   site_name
         properties:
+            fallback_site_names:
+                description: "GSLB fallback sites to use in case the desired site is down. Field introduced in 17.2.5."
+                type: array
+                items:
+                    type: string
+            is_site_preferred:
+                description: "When set to true, GSLB site is a preferred site. This setting comes into play when the site is down, as well as no configured fallback site is available (all fallback sites are also down), then any one available site is selected based on the default algorithm for GSLB pool member selection. Field introduced in 17.2.5."
+                type: boolean
+                default: True
             site_name:
                 description: "GSLB site name. Field introduced in 17.1.5."
                 type: string

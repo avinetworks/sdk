@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -416,12 +416,12 @@ definitions:
                 description: "A user friendly name for this health monitor."
                 type: string
             receive_timeout:
-                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400."
+                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC)."
                 type: integer
                 default: 4
                 format: int32
             send_interval:
-                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600."
+                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32

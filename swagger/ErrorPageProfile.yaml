@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ErrorPageProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -354,6 +354,8 @@ definitions:
                 $ref: '#/definitions/HTTPStatusMatch'
     ErrorPageProfile:
         type: object
+        required:
+            -   name
         properties:
             app_name:
                 description: "Name of the Virtual Service which generated the error page. Field introduced in 17.2.4."

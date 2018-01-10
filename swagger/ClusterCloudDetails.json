@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi IpAddrGroup Object API", 
+        "title": "Avi ClusterCloudDetails Object API", 
         "version": "17.2.5", 
-        "description": "##CLI##\n```\n- configure ipaddrgroup <key>\n- show ipaddrgroup <key>\n```\n", 
+        "description": "##CLI##\n```\n- configure clusterclouddetails <key>\n- show clusterclouddetails <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,163 @@
         }
     }, 
     "paths": {
-        "/ipaddrgroup/{uuid}": {
+        "/clusterclouddetails": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ClusterCloudDetails"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "ClusterCloudDetails object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/ClusterCloudDetails"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/ClusterCloudDetailsApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/clusterclouddetails/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -24,7 +180,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
+                            "$ref": "#/definitions/ClusterCloudDetails"
                         }
                     }, 
                     "401": {
@@ -70,10 +226,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "IpAddrGroup object creation", 
+                        "description": "ClusterCloudDetails object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
+                            "$ref": "#/definitions/ClusterCloudDetails"
                         }
                     }, 
                     {
@@ -101,7 +257,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
+                            "$ref": "#/definitions/ClusterCloudDetails"
                         }
                     }, 
                     "401": {
@@ -187,7 +343,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
+                            "$ref": "#/definitions/ClusterCloudDetails"
                         }
                     }, 
                     "401": {
@@ -233,10 +389,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "IpAddrGroup object creation", 
+                        "description": "ClusterCloudDetails object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
+                            "$ref": "#/definitions/ClusterCloudDetails"
                         }
                     }, 
                     {
@@ -319,320 +475,27 @@
                     "application/json"
                 ]
             }
-        }, 
-        "/ipaddrgroup": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "IpAddrGroup object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/IpAddrGroup"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/IpAddrGroupApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
         }
     }, 
     "definitions": {
-        "IpAddrGroup": {
+        "AzureClusterInfo": {
             "required": [
-                "name"
+                "cloud_credential_ref", 
+                "subscription_id"
             ], 
             "type": "object", 
             "properties": {
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrRange"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure IP address range(s)."
-                }, 
-                "uuid": {
+                "subscription_id": {
                     "type": "string", 
-                    "description": "UUID of the IP address group."
+                    "description": " Field introduced in 17.2.5."
                 }, 
-                "name": {
+                "cloud_credential_ref": {
                     "type": "string", 
-                    "description": "Name of the IP address group."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "marathon_service_port": {
-                    "type": "integer", 
-                    "description": "Task port associated with marathon service port. If Marathon app has multiple service ports, this is required. Else, the first task port is used.", 
-                    "format": "int32"
-                }, 
-                "apic_epg_name": {
-                    "type": "string", 
-                    "description": "Populate IP addresses from members of this Cisco APIC EPG."
-                }, 
-                "prefixes": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure IP address prefix(es)."
-                }, 
-                "addrs": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure IP address(es)."
-                }, 
-                "country_codes": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Populate the IP address ranges from the geo database for this country."
-                }, 
-                "marathon_app_name": {
-                    "type": "string", 
-                    "description": "Populate IP addresses from tasks of this Marathon app."
-                }, 
-                "ip_ports": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPort"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure (IP address, port) tuple(s)."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": " It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.5."
                 }
             }
         }, 
-        "IpAddrRange": {
-            "required": [
-                "begin", 
-                "end"
-            ], 
-            "type": "object", 
-            "properties": {
-                "begin": {
-                    "description": "Starting IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "end": {
-                    "description": "Ending IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
-        "IpAddrPort": {
-            "required": [
-                "port"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip": {
-                    "description": "IP Address of host. One of IP address or hostname should be set.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "hostname": {
-                    "type": "string", 
-                    "description": "Hostname of server. One of IP address or hostname should be set."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Port number of server. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "IpAddrGroupApiResponse": {
+        "ClusterCloudDetailsApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -645,9 +508,38 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/IpAddrGroup"
+                        "$ref": "#/definitions/ClusterCloudDetails"
                     }, 
                     "type": "array"
+                }
+            }
+        }, 
+        "ClusterCloudDetails": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.5."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.5."
+                }, 
+                "azure_info": {
+                    "description": "Azure info to configure cluster_vip on the controller. Field introduced in 17.2.5.", 
+                    "$ref": "#/definitions/AzureClusterInfo"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.5."
                 }
             }
         }

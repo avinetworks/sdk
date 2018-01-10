@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi SnmpTrapProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -450,6 +450,11 @@ definitions:
             ip_addr:
                 description: "IP Address of the SNMP trap destination."
                 $ref: '#/definitions/IpAddr'
+            port:
+                description: "The UDP port of the trap server. Field introduced in 16.5.4,17.2.5."
+                type: integer
+                default: 162
+                format: int32
             user:
                 description: "SNMP version 3 configuration. Field introduced in 17.2.3."
                 $ref: '#/definitions/SnmpV3UserParams'

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroupDeploymentPolicy Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -519,13 +519,13 @@
                 "target_test_traffic_ratio": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "Target traffic ratio before pool is made production. Allowed values are 1-100.", 
+                    "description": "Target traffic ratio before pool is made production. Allowed values are 1-100. Units(RATIO).", 
                     "format": "int32"
                 }, 
                 "evaluation_duration": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Duration of evaluation period for automatic deployment. Allowed values are 60-86400.", 
+                    "description": "Duration of evaluation period for automatic deployment. Allowed values are 60-86400. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "description": {

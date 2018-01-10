@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '17.2.5'
-    title: Avi VIDCInfo Object API
+    title: Avi ClusterCloudDetails Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,7 +11,8 @@ info:
     description: |
         ##CLI##
         ```
-        - show vcenter datacenters
+        - configure clusterclouddetails <key>
+        - show clusterclouddetails <key>
         ```
 
 
@@ -21,7 +22,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /vimgrvcenterdatacenters:
+    /clusterclouddetails:
         get:
             consumes:
                 -   application/json
@@ -79,7 +80,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/VIDCInfoApiResponse"
+                        $ref: "#/definitions/ClusterCloudDetailsApiResponse"
                 401:
                     description: log in failed
         post:
@@ -110,20 +111,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: VIDCInfo object creation
+                    description: ClusterCloudDetails object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 401:
                     description: log in failed
-    /vimgrvcenterdatacenters/{uuid}:
+    /clusterclouddetails/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -178,7 +179,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 401:
                     description: log in failed
         put:
@@ -214,10 +215,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: VIDCInfo object creation
+                    description: ClusterCloudDetails object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -229,7 +230,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 401:
                     description: log in failed
         patch:
@@ -265,10 +266,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: VIDCInfo object creation
+                    description: ClusterCloudDetails object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -280,7 +281,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/VIDCInfo"
+                        $ref: "#/definitions/ClusterCloudDetails"
                 401:
                     description: log in failed
         delete:
@@ -331,29 +332,40 @@ paths:
 
 
 definitions:
-    VIDCInfo:
+    AzureClusterInfo:
         type: object
         required:
-            -   managed_object_id
+            -   cloud_credential_ref
+            -   subscription_id
+        properties:
+            cloud_credential_ref:
+                description: " It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.5."
+                type: string
+            subscription_id:
+                description: " Field introduced in 17.2.5."
+                type: string
+    ClusterCloudDetails:
+        type: object
+        required:
             -   name
         properties:
-            managed_object_id:
-                description: "managed_object_id of VIDCInfo."
-                type: string
+            azure_info:
+                description: "Azure info to configure cluster_vip on the controller. Field introduced in 17.2.5."
+                $ref: '#/definitions/AzureClusterInfo'
             name:
-                description: "Name of the object."
+                description: " Field introduced in 17.2.5."
                 type: string
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: " It is a reference to an object of type Tenant. Field introduced in 17.2.5."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "Unique object identifier of the object."
+                description: " Field introduced in 17.2.5."
                 type: string
-    VIDCInfoApiResponse:
+    ClusterCloudDetailsApiResponse:
         type: object
         required:
             - count
@@ -365,4 +377,4 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/VIDCInfo"
+                    $ref: "#/definitions/ClusterCloudDetails"

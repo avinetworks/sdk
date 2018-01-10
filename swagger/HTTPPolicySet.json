@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HTTPPolicySet Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure httppolicyset <key>\n- show httppolicyset <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -940,7 +940,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -1152,7 +1152,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE."
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS."
                 }, 
                 "match_criteria": {
                     "type": "string", 

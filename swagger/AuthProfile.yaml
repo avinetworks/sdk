@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi AuthProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -386,7 +386,7 @@ definitions:
         type: object
         properties:
             cache_expiration_time:
-                description: "The max allowed length of time a clients authentication is cached. Allowed values are 1-30."
+                description: "The max allowed length of time a clients authentication is cached. Allowed values are 1-30. Units(SEC)."
                 type: integer
                 default: 5
                 format: int32

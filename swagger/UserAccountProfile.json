@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi UserAccountProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure useraccountprofile <key>\n- show useraccountprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -501,7 +501,7 @@
                 "account_lock_timeout": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Lock timeout period (in minutes). Default is 30 minutes.", 
+                    "description": "Lock timeout period (in minutes). Default is 30 minutes. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "max_login_failure_count": {
@@ -519,7 +519,7 @@
                 "credentials_timeout_threshold": {
                     "default": 180, 
                     "type": "integer", 
-                    "description": "The time period after which credentials expire. Default is 180 days.", 
+                    "description": "The time period after which credentials expire. Default is 180 days. Units(DAYS).", 
                     "format": "int32"
                 }, 
                 "name": {

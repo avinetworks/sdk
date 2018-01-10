@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VirtualService Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\n##Examples##\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -3346,7 +3346,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -3505,7 +3505,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -3575,7 +3575,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "all_headers": {
@@ -3585,7 +3585,7 @@
                 "throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -3634,7 +3634,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": " Special values are 0 - 'infinite'.", 
+                    "description": " Special values are 0 - 'infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "all_headers": {
@@ -3928,7 +3928,7 @@
                     }, 
                     "readOnly": true, 
                     "type": "array", 
-                    "description": "Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2."
+                    "description": "GSLB pools used to manage site-persistence functionality. Each site-persistence pool contains the virtualservices in all the other sites, that is auto-generated by the GSLB manager. This is a read-only field for the user. It is a reference to an object of type Pool. Field introduced in 17.2.2."
                 }, 
                 "network_security_policy_ref": {
                     "type": "string", 
@@ -3941,7 +3941,7 @@
                 "weight": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines.", 
+                    "description": "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128.", 
                     "format": "int32"
                 }, 
                 "tenant_ref": {
@@ -4308,7 +4308,7 @@
                 "udf_log_throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -4338,7 +4338,7 @@
                 "significant_log_throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "client_insights": {
@@ -4472,7 +4472,7 @@
                 "sideband_max_request_body_size": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384.", 
+                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Units(BYTES).", 
                     "format": "int32"
                 }
             }

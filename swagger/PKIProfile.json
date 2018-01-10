@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PKIProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -750,7 +750,7 @@
                 }, 
                 "update_interval": {
                     "type": "integer", 
-                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX.", 
+                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN).", 
                     "format": "int32"
                 }
             }
