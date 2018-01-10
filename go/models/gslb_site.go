@@ -14,8 +14,11 @@ type GslbSite struct {
 	// Required: true
 	ClusterUUID string `json:"cluster_uuid"`
 
-	// The list of DNS-VSes on which the GSes shall be placed. The site has to be an ACTIVE member.
+	// The DNS VSes on which the GslbServices shall be placed. The site has to be an ACTIVE member.  This field is deprecated in 17.2.3 and replaced by 'dns_vses' field. . Field deprecated in 17.2.3.
 	DNSVsUuids []string `json:"dns_vs_uuids,omitempty"`
+
+	// This field identifies the DNS VS and the subdomains it hosts for Gslb services. . Field introduced in 17.2.3.
+	DNSVses []*GslbSiteDNSVs `json:"dns_vses,omitempty"`
 
 	// Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site's configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site.
 	Enabled bool `json:"enabled,omitempty"`
@@ -49,4 +52,7 @@ type GslbSite struct {
 	// The username used when authenticating with the Site. .
 	// Required: true
 	Username string `json:"username"`
+
+	// This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5.
+	UUID string `json:"uuid,omitempty"`
 }

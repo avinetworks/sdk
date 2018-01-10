@@ -34,17 +34,16 @@ type Pool struct {
 	// Inline estimation of capacity of servers.
 	CapacityEstimation bool `json:"capacity_estimation,omitempty"`
 
-	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.
+	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS).
 	CapacityEstimationTtfbThresh int32 `json:"capacity_estimation_ttfb_thresh,omitempty"`
 
 	// Checksum of cloud configuration for Pool. Internally set by cloud connector.
 	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
-	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
+	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN).
 	ConnectionRampDuration int32 `json:"connection_ramp_duration,omitempty"`
 
 	// Creator name.
@@ -65,16 +64,16 @@ type Pool struct {
 	// Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors.
 	Enabled bool `json:"enabled,omitempty"`
 
-	// Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2.
+	// Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2.
 	ExternalAutoscaleGroups []string `json:"external_autoscale_groups,omitempty"`
 
 	// Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
-	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.
+	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC).
 	FewestTasksFeedbackDelay int32 `json:"fewest_tasks_feedback_delay,omitempty"`
 
-	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.
+	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN).
 	GracefulDisableTimeout int32 `json:"graceful_disable_timeout,omitempty"`
 
 	// Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1.
@@ -102,8 +101,11 @@ type Pool struct {
 	// Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3.
 	LbAlgorithmCoreNonaffinity int32 `json:"lb_algorithm_core_nonaffinity,omitempty"`
 
-	// Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER.
+	// Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING.
 	LbAlgorithmHash string `json:"lb_algorithm_hash,omitempty"`
+
+	// Allow server lookup by name. Field introduced in 17.1.11,17.2.4.
+	LookupServerByName bool `json:"lookup_server_by_name,omitempty"`
 
 	// The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied.
 	MaxConcurrentConnectionsPerServer int32 `json:"max_concurrent_connections_per_server,omitempty"`
@@ -180,6 +182,5 @@ type Pool struct {
 	UUID string `json:"uuid,omitempty"`
 
 	// Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext.
-	// Read Only: true
 	VrfRef string `json:"vrf_ref,omitempty"`
 }

@@ -19,7 +19,10 @@ type ServiceEngineGroup struct {
 	// In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED.
 	Algo string `json:"algo,omitempty"`
 
-	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
+	// Allow SEs to be created using burst license. Field introduced in 17.2.5.
+	AllowBurst bool `json:"allow_burst,omitempty"`
+
+	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB).
 	ArchiveShmLimit int32 `json:"archive_shm_limit,omitempty"`
 
 	// SSL handshakes will be handled by dedicated SSL Threads.
@@ -31,7 +34,13 @@ type ServiceEngineGroup struct {
 	// If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set.
 	AutoRebalance bool `json:"auto_rebalance,omitempty"`
 
-	// Frequency of rebalance, if 'Auto rebalance' is enabled.
+	// Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4.
+	AutoRebalanceCapacityPerSe []int64 `json:"auto_rebalance_capacity_per_se,omitempty,omitempty"`
+
+	// Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3.
+	AutoRebalanceCriteria []string `json:"auto_rebalance_criteria,omitempty"`
+
+	// Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC).
 	AutoRebalanceInterval int32 `json:"auto_rebalance_interval,omitempty"`
 
 	// Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.
@@ -41,10 +50,9 @@ type ServiceEngineGroup struct {
 	BufferSe int32 `json:"buffer_se,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
-	// Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.
+	// Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT).
 	ConnectionMemoryPercentage int32 `json:"connection_memory_percentage,omitempty"`
 
 	// Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -68,7 +76,16 @@ type ServiceEngineGroup struct {
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
-	// Amount of disk space for each of the Service Engine virtual machines.
+	// Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5.
+	DisableCsumOffloads bool `json:"disable_csum_offloads,omitempty"`
+
+	// Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5.
+	DisableGro bool `json:"disable_gro,omitempty"`
+
+	// Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5.
+	DisableTso bool `json:"disable_tso,omitempty"`
+
+	// Amount of disk space for each of the Service Engine virtual machines. Units(GB).
 	DiskPerSe int32 `json:"disk_per_se,omitempty"`
 
 	// Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.
@@ -86,7 +103,7 @@ type ServiceEngineGroup struct {
 	// Multiplier for extra config to support large VS/Pool config.
 	ExtraConfigMultiplier float64 `json:"extra_config_multiplier,omitempty"`
 
-	// Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.
+	// Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB).
 	ExtraSharedConfigMemory int32 `json:"extra_shared_config_memory,omitempty"`
 
 	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled.
@@ -94,6 +111,9 @@ type ServiceEngineGroup struct {
 
 	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled.
 	FloatingIntfIPSe2 []*IPAddr `json:"floating_intf_ip_se_2,omitempty"`
+
+	// Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.
+	FlowTableNewSynMaxEntries int32 `json:"flow_table_new_syn_max_entries,omitempty"`
 
 	// High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.
 	HaMode string `json:"ha_mode,omitempty"`
@@ -110,10 +130,13 @@ type ServiceEngineGroup struct {
 	// Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key.
 	HostAttributeValue string `json:"host_attribute_value,omitempty"`
 
+	// Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4.
+	HostGatewayMonitor bool `json:"host_gateway_monitor,omitempty"`
+
 	// Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	Hypervisor string `json:"hypervisor,omitempty"`
 
-	// Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.
+	// Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS).
 	IgnoreRttThreshold int32 `json:"ignore_rtt_threshold,omitempty"`
 
 	// Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5.
@@ -131,10 +154,16 @@ type ServiceEngineGroup struct {
 	// Select core with least load for new flow.
 	LeastLoadCoreSelection bool `json:"least_load_core_selection,omitempty"`
 
-	// Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.
+	// Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	LicenseTier string `json:"license_tier,omitempty"`
+
+	// If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5.
+	LicenseType string `json:"license_type,omitempty"`
+
+	// Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB).
 	LogDisksz int32 `json:"log_disksz,omitempty"`
 
-	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.
+	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT).
 	MaxCPUUsage int32 `json:"max_cpu_usage,omitempty"`
 
 	// Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.
@@ -158,7 +187,7 @@ type ServiceEngineGroup struct {
 	// Management subnet to use for Avi Service Engines.
 	MgmtSubnet *IPAddrPrefix `json:"mgmt_subnet,omitempty"`
 
-	// When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.
+	// When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT).
 	MinCPUUsage int32 `json:"min_cpu_usage,omitempty"`
 
 	// Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.
@@ -168,7 +197,7 @@ type ServiceEngineGroup struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).
 	NonSignificantLogThrottle int32 `json:"non_significant_log_throttle,omitempty"`
 
 	// Number of changes in num flow cores sum to ignore.
@@ -198,7 +227,10 @@ type ServiceEngineGroup struct {
 	// Enable or disable real time SE metrics.
 	RealtimeSeMetrics *MetricsRealTimeUpdate `json:"realtime_se_metrics,omitempty"`
 
-	// Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.
+	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
+	SeBandwidthType string `json:"se_bandwidth_type,omitempty"`
+
+	// Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN).
 	SeDeprovisionDelay int32 `json:"se_deprovision_delay,omitempty"`
 
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
@@ -210,22 +242,28 @@ type ServiceEngineGroup struct {
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix string `json:"se_name_prefix,omitempty"`
 
-	// TCP port on SE where echo service will be run. Field introduced in 17.2.2, 18.1.1.
+	// TCP port on SE where echo service will be run. Field introduced in 17.2.2.
 	SeProbePort int32 `json:"se_probe_port,omitempty"`
 
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort int32 `json:"se_remote_punt_udp_port,omitempty"`
 
+	// Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3.
+	SeSbDedicatedCore bool `json:"se_sb_dedicated_core,omitempty"`
+
+	// Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.
+	SeSbThreads int32 `json:"se_sb_threads,omitempty"`
+
 	// Multiplier for SE threads based on vCPU. Allowed values are 1-10.
 	SeThreadMultiplier int32 `json:"se_thread_multiplier,omitempty"`
 
-	// Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1.
+	// Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.
 	SeTunnelMode int32 `json:"se_tunnel_mode,omitempty"`
 
 	// UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.
 	SeTunnelUDPPort int32 `json:"se_tunnel_udp_port,omitempty"`
 
-	// Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don't use UDP encap. Field introduced in 17.1.2.
+	// Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.
 	SeUDPEncapIpc int32 `json:"se_udp_encap_ipc,omitempty"`
 
 	// Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.
@@ -237,13 +275,13 @@ type ServiceEngineGroup struct {
 	// Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1.
 	ServiceIPSubnets []*IPAddrPrefix `json:"service_ip_subnets,omitempty"`
 
-	// This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	// This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).
 	SignificantLogThrottle int32 `json:"significant_log_throttle,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
+	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).
 	UdfLogThrottle int32 `json:"udf_log_throttle,omitempty"`
 
 	// url
@@ -277,12 +315,21 @@ type ServiceEngineGroup struct {
 	// Ensure primary and secondary Service Engines are deployed on different physical hosts.
 	VsHostRedundancy bool `json:"vs_host_redundancy,omitempty"`
 
-	// Time to wait for the scaled in SE to drain existing flows before marking the scalein done.
+	// Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC).
 	VsScaleinTimeout int32 `json:"vs_scalein_timeout,omitempty"`
 
-	// During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.
+	// During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC).
 	VsScaleinTimeoutForUpgrade int32 `json:"vs_scalein_timeout_for_upgrade,omitempty"`
 
-	// Time to wait for the scaled out SE to become ready before marking the scaleout done.
+	// Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC).
 	VsScaleoutTimeout int32 `json:"vs_scaleout_timeout,omitempty"`
+
+	// If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5.
+	VssPlacement *VssPlacement `json:"vss_placement,omitempty"`
+
+	// Enable memory pool for WAF. Field introduced in 17.2.3.
+	WafMempool bool `json:"waf_mempool,omitempty"`
+
+	// Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB).
+	WafMempoolSize int32 `json:"waf_mempool_size,omitempty"`
 }

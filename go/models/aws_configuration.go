@@ -10,8 +10,11 @@ type AwsConfiguration struct {
 	// AWS access key ID.
 	AccessKeyID string `json:"access_key_id,omitempty"`
 
-	// Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.
+	// Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Units(SEC).
 	AsgPollInterval int32 `json:"asg_poll_interval,omitempty"`
+
+	// EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.
+	EbsEncryption *AwsEncryption `json:"ebs_encryption,omitempty"`
 
 	// Free unused elastic IP addresses.
 	FreeElasticips bool `json:"free_elasticips,omitempty"`
@@ -25,10 +28,13 @@ type AwsConfiguration struct {
 	// If enabled, create/update DNS entries in Amazon Route 53 zones.
 	Route53Integration bool `json:"route53_integration,omitempty"`
 
+	// S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.
+	S3Encryption *AwsEncryption `json:"s3_encryption,omitempty"`
+
 	// AWS secret access key.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
-	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.
+	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).
 	TTL int32 `json:"ttl,omitempty"`
 
 	// Use IAM roles instead of access and secret key.

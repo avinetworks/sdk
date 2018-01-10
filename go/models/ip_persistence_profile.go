@@ -7,6 +7,6 @@ package models
 // swagger:model IPPersistenceProfile
 type IPPersistenceProfile struct {
 
-	// The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.
+	// The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN).
 	IPPersistentTimeout int32 `json:"ip_persistent_timeout,omitempty"`
 }

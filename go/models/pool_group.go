@@ -11,7 +11,6 @@ type PoolGroup struct {
 	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// Name of the user who created the object.
@@ -25,6 +24,9 @@ type PoolGroup struct {
 
 	// Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
+
+	// Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3.
+	ImplicitPriorityLabels bool `json:"implicit_priority_labels,omitempty"`
 
 	// List of pool group members object of type PoolGroupMember.
 	Members []*PoolGroupMember `json:"members,omitempty"`

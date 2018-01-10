@@ -14,7 +14,6 @@ type DebugVirtualService struct {
 	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.

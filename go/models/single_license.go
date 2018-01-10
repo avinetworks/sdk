@@ -10,7 +10,10 @@ type SingleLicense struct {
 	// Number of backend_servers.
 	BackendServers int32 `json:"backend_servers,omitempty"`
 
-	// Number of service engine cores in non-container clouds.
+	// Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5.
+	BurstCores int32 `json:"burst_cores,omitempty"`
+
+	// Number of Service Engine cores in non-container clouds.
 	Cores int32 `json:"cores,omitempty"`
 
 	// created_on of SingleLicense.
@@ -45,10 +48,13 @@ type SingleLicense struct {
 	// Number of max_apps.
 	MaxApps int32 `json:"max_apps,omitempty"`
 
-	// Number of service engines hosts in container clouds.
+	// Number of Service Engines hosts in container clouds.
 	MaxSes int32 `json:"max_ses,omitempty"`
 
-	// Number of physical cpu sockets across service engines in no access and linux server clouds.
+	// Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5.
+	SeBandwidthLimits []*SEBandwidthLimit `json:"se_bandwidth_limits,omitempty"`
+
+	// Number of physical cpu sockets across Service Engines in no access and linux server clouds.
 	Sockets int32 `json:"sockets,omitempty"`
 
 	// start_on of SingleLicense.
@@ -56,6 +62,9 @@ type SingleLicense struct {
 
 	// Number of throughput.
 	Throughput int32 `json:"throughput,omitempty"`
+
+	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	TierType string `json:"tier_type,omitempty"`
 
 	// valid_until of SingleLicense.
 	// Required: true
