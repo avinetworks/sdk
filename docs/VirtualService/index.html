@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  ##Examples## - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -4191,8 +4191,8 @@ font-style: italic;
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4. </div>
 <div class="param">full_client_logs (optional)</div><div class="param-desc"><span class="param-type"><a href="#FullClientLogs">FullClientLogs</a></span> Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">metrics_realtime_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Settings to turn on realtime metrics and set duration for realtime updates. </div>
-<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
-<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
+<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4229,7 +4229,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property all_headers of obj type ClientLogFilter field type str  type boolean </div>
 <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object </div>
-<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Special values are 0 - &#39;infinite&#39;. Units(MIN). format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enabled of obj type ClientLogFilter field type str  type boolean </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
@@ -4328,9 +4328,9 @@ font-style: italic;
     <h3 class="field-label"><a name="FullClientLogs">FullClientLogs</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log all headers. </div>
-<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - &#39;infinite&#39;. Units(MIN). format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Capture all client logs including connections and requests.  When disabled, only errors will be logged. </div>
-<div class="param">throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4427,7 +4427,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsRealTimeUpdate">MetricsRealTimeUpdate</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. Units(MIN). format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4457,7 +4457,7 @@ font-style: italic;
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4499,7 +4499,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SidebandProfile">SidebandProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP Address of the sideband server. </div>
-<div class="param">sideband_max_request_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. format: int32</div>
+<div class="param">sideband_max_request_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Units(BYTES). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4624,7 +4624,7 @@ font-style: italic;
 <div class="param">services (optional)</div><div class="param-desc"><span class="param-type"><a href="#Service">array[Service]</a></span> List of Services defined for this Virtual Service. </div>
 <div class="param">sideband_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SidebandProfile">SidebandProfile</a></span> Sideband configuration to be used for this virtualservice.It can be used for sending traffic to sideband VIPs for external inspection etc. </div>
 <div class="param">snat_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> NAT&#39;ted floating source IP Address(es) for upstream connection to servers. </div>
-<div class="param">sp_pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2. </div>
+<div class="param">sp_pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> GSLB pools used to manage site-persistence functionality. Each site-persistence pool contains the virtualservices in all the other sites, that is auto-generated by the GSLB manager. This is a read-only field for the user. It is a reference to an object of type Pool. Field introduced in 17.2.2. </div>
 <div class="param">ssl_key_and_certificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the set of SSL versions and ciphers to accept for SSL/TLS terminated connections. It is a reference to an object of type SSLProfile. </div>
 <div class="param">ssl_sess_cache_avg_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383. format: int32</div>
@@ -4645,7 +4645,7 @@ font-style: italic;
 <div class="param">vs_datascripts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VSDataScripts">array[VSDataScripts]</a></span> Datascripts applied on the data traffic of the Virtual Service. </div>
 <div class="param">vsvip_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1. </div>
 <div class="param">waf_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1. </div>
-<div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. format: int32</div>
+<div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

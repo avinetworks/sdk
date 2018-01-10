@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -999,7 +999,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">gateway_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of next hop gateway to be monitored. </div>
 <div class="param">gateway_monitor_fail_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. format: int32</div>
-<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. format: int32</div>
+<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Units(MILLISECONDS). format: int32</div>
 <div class="param">gateway_monitor_success_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. format: int32</div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for Multi-hop Gateway. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->
@@ -1009,7 +1009,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
 <div class="param">gateway_monitor_failure_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. Field introduced in 17.1.1. format: int32</div>
-<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. format: int32</div>
+<div class="param">gateway_monitor_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. Units(MILLISECONDS). format: int32</div>
 <div class="param">gateway_monitor_success_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. Field introduced in 17.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
