@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -783,11 +783,26 @@
             }
         }, 
         "DnsRuleActionGslbSiteSelection": {
+            "required": [
+                "site_name"
+            ], 
             "type": "object", 
             "properties": {
+                "is_site_preferred": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "When set to true, GSLB site is a preferred site. This setting comes into play when the site is down, as well as no configured fallback site is available (all fallback sites are also down), then any one available site is selected based on the default algorithm for GSLB pool member selection. Field introduced in 17.2.5."
+                }, 
                 "site_name": {
                     "type": "string", 
                     "description": "GSLB site name. Field introduced in 17.1.5."
+                }, 
+                "fallback_site_names": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "GSLB fallback sites to use in case the desired site is down. Field introduced in 17.2.5."
                 }
             }
         }, 

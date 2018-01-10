@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -668,9 +668,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
                 }, 
-                "global_tenant_config": {
-                    "description": "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/TenantConfiguration"
+                "dns_configuration": {
+                    "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/DNSConfiguration"
                 }, 
                 "proxy_configuration": {
                     "description": "Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object", 
@@ -707,9 +707,14 @@
                     "type": "array", 
                     "description": "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService."
                 }, 
-                "dns_configuration": {
-                    "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/DNSConfiguration"
+                "default_license_tier": {
+                    "default": "ENTERPRISE_18", 
+                    "type": "string", 
+                    "description": "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "global_tenant_config": {
+                    "description": "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object", 
+                    "$ref": "#/definitions/TenantConfiguration"
                 }, 
                 "snmp_configuration": {
                     "description": "Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object", 

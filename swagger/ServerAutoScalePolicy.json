@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServerAutoScalePolicy Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure serverautoscalepolicy <key>\n- show serverautoscalepolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -517,13 +517,13 @@
                 "scalein_cooldown": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.", 
+                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "scaleout_cooldown": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.", 
+                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "max_size": {

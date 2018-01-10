@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi AnalyticsProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -379,7 +379,7 @@ definitions:
             -   name
         properties:
             apdex_response_threshold:
-                description: "If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000."
+                description: "If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000. Units(MILLISECONDS)."
                 type: integer
                 default: 500
                 format: int32
@@ -389,7 +389,7 @@ definitions:
                 default: 4.0
                 format: double
             apdex_rtt_threshold:
-                description: "Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000."
+                description: "Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. Units(MILLISECONDS)."
                 type: integer
                 default: 250
                 format: int32
@@ -399,7 +399,7 @@ definitions:
                 default: 4.0
                 format: double
             apdex_rum_threshold:
-                description: "If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client's request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000."
+                description: "If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client's request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000. Units(MILLISECONDS)."
                 type: integer
                 default: 5000
                 format: int32
@@ -409,7 +409,7 @@ definitions:
                 default: 4.0
                 format: double
             apdex_server_response_threshold:
-                description: "A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000."
+                description: "A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000. Units(MILLISECONDS)."
                 type: integer
                 default: 400
                 format: int32
@@ -419,7 +419,7 @@ definitions:
                 default: 4.0
                 format: double
             apdex_server_rtt_threshold:
-                description: "Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000."
+                description: "Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. Units(MILLISECONDS)."
                 type: integer
                 default: 125
                 format: int32
@@ -435,42 +435,42 @@ definitions:
                 description: "Configure to stream logs to an external server. Field introduced in 17.1.1."
                 $ref: '#/definitions/ClientLogStreamingConfig'
             conn_lossy_ooo_threshold:
-                description: "A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100."
+                description: "A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 50
                 format: int32
             conn_lossy_timeo_rexmt_threshold:
-                description: "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100."
+                description: "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 20
                 format: int32
             conn_lossy_total_rexmt_threshold:
-                description: "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100."
+                description: "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 50
                 format: int32
             conn_lossy_zero_win_size_event_threshold:
-                description: "A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100."
+                description: "A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. Units(PERCENT)."
                 type: integer
                 default: 2
                 format: int32
             conn_server_lossy_ooo_threshold:
-                description: "A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100."
+                description: "A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 50
                 format: int32
             conn_server_lossy_timeo_rexmt_threshold:
-                description: "A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100."
+                description: "A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 20
                 format: int32
             conn_server_lossy_total_rexmt_threshold:
-                description: "A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100."
+                description: "A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. Units(PERCENT)."
                 type: integer
                 default: 50
                 format: int32
             conn_server_lossy_zero_win_size_event_threshold:
-                description: "A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100."
+                description: "A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. Units(PERCENT)."
                 type: integer
                 default: 2
                 format: int32

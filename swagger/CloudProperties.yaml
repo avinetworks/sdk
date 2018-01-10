@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -650,22 +650,22 @@ definitions:
                 default: 5
                 format: int32
             async_retries_delay:
-                description: "Delay between each async job status poll check."
+                description: "Delay between each async job status poll check. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32
             poll_duration_target:
-                description: "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals."
+                description: "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32
             poll_fast_target:
-                description: "Fast poll interval."
+                description: "Fast poll interval. Units(SEC)."
                 type: integer
                 default: 60
                 format: int32
             poll_slow_target:
-                description: "Slow poll interval."
+                description: "Slow poll interval. Units(SEC)."
                 type: integer
                 default: 240
                 format: int32
@@ -675,7 +675,7 @@ definitions:
                 default: 60
                 format: int32
             vnic_retries_delay:
-                description: "Delay between each vnic status poll check."
+                description: "Delay between each vnic status poll check. Units(SEC)."
                 type: integer
                 default: 5
                 format: int32
@@ -683,7 +683,7 @@ definitions:
         type: object
         properties:
             rpc_poll_interval:
-                description: "Number of rpc_poll_interval."
+                description: ". Units(SEC)."
                 type: integer
                 default: 60
                 format: int32
@@ -832,7 +832,7 @@ definitions:
                 description: "Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean"
                 type: boolean
             api_idle_timeout:
-                description: " Allowed values are 0-1440."
+                description: " Allowed values are 0-1440. Units(MIN)."
                 type: integer
                 default: 15
                 format: int32
@@ -840,7 +840,7 @@ definitions:
                 description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
                 type: boolean
             attach_ip_retry_interval:
-                description: "Number of attach_ip_retry_interval."
+                description: ". Units(SEC)."
                 type: integer
                 default: 360
                 format: int32
@@ -854,22 +854,22 @@ definitions:
                 type: boolean
                 default: True
             cluster_ip_gratuitous_arp_period:
-                description: "Number of cluster_ip_gratuitous_arp_period."
+                description: ". Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
             crashed_se_reboot:
-                description: "Number of crashed_se_reboot."
+                description: ". Units(SEC)."
                 type: integer
                 default: 900
                 format: int32
             dead_se_detection_timer:
-                description: "Number of dead_se_detection_timer."
+                description: ". Units(SEC)."
                 type: integer
                 default: 360
                 format: int32
             dns_refresh_period:
-                description: "Number of dns_refresh_period."
+                description: ". Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
@@ -878,7 +878,7 @@ definitions:
                 type: integer
                 format: int32
             fatal_error_lease_time:
-                description: "Number of fatal_error_lease_time."
+                description: ". Units(SEC)."
                 type: integer
                 default: 120
                 format: int32
@@ -903,7 +903,7 @@ definitions:
                 default: 3
                 format: int32
             persistence_key_rotate_period:
-                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
+                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
@@ -911,7 +911,7 @@ definitions:
                 description: "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
                 type: string
             query_host_fail:
-                description: "Number of query_host_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 180
                 format: int32
@@ -919,37 +919,37 @@ definitions:
                 description: "Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3."
                 type: string
             se_create_timeout:
-                description: "Number of se_create_timeout."
+                description: ". Units(SEC)."
                 type: integer
                 default: 900
                 format: int32
             se_failover_attempt_interval:
-                description: "Interval between attempting failovers to an SE."
+                description: "Interval between attempting failovers to an SE. Units(SEC)."
                 type: integer
                 default: 300
                 format: int32
             se_offline_del:
-                description: "Number of se_offline_del."
+                description: ". Units(SEC)."
                 type: integer
                 default: 172000
                 format: int32
             se_vnic_cooldown:
-                description: "Number of se_vnic_cooldown."
+                description: ". Units(SEC)."
                 type: integer
                 default: 120
                 format: int32
             secure_channel_cleanup_timeout:
-                description: "Number of secure_channel_cleanup_timeout."
+                description: ". Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
             secure_channel_controller_token_timeout:
-                description: "Number of secure_channel_controller_token_timeout."
+                description: ". Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
             secure_channel_se_token_timeout:
-                description: "Number of secure_channel_se_token_timeout."
+                description: ". Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
@@ -959,28 +959,28 @@ definitions:
                 default: 20
                 format: int32
             seupgrade_segroup_min_dead_timeout:
-                description: "Time to wait before marking segroup upgrade as stuck."
+                description: "Time to wait before marking segroup upgrade as stuck. Units(SEC)."
                 type: integer
                 default: 360
                 format: int32
             ssl_certificate_expiry_warning_days:
-                description: "Number of days for SSL Certificate expiry warning."
+                description: "Number of days for SSL Certificate expiry warning. Units(DAYS)."
                 type: array
                 items:
                     type: integer
                 format: int32
             unresponsive_se_reboot:
-                description: "Number of unresponsive_se_reboot."
+                description: ". Units(SEC)."
                 type: integer
                 default: 300
                 format: int32
             upgrade_dns_ttl:
-                description: "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1."
+                description: "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC)."
                 type: integer
                 default: 5
                 format: int32
             upgrade_lease_time:
-                description: "Number of upgrade_lease_time."
+                description: ". Units(SEC)."
                 type: integer
                 default: 360
                 format: int32
@@ -992,57 +992,57 @@ definitions:
                 description: "Unique object identifier of the object."
                 type: string
             vnic_op_fail_time:
-                description: "Number of vnic_op_fail_time."
+                description: ". Units(SEC)."
                 type: integer
                 default: 180
                 format: int32
             vs_apic_scaleout_timeout:
-                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only."
+                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC)."
                 type: integer
                 default: 360
                 format: int32
             vs_awaiting_se_timeout:
-                description: "Number of vs_awaiting_se_timeout."
+                description: ". Units(SEC)."
                 type: integer
                 default: 60
                 format: int32
             vs_key_rotate_period:
-                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
+                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN)."
                 type: integer
                 default: 60
                 format: int32
             vs_se_attach_ip_fail:
-                description: "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2."
+                description: "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC)."
                 type: integer
                 default: 3600
                 format: int32
             vs_se_bootup_fail:
-                description: "Number of vs_se_bootup_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 480
                 format: int32
             vs_se_create_fail:
-                description: "Number of vs_se_create_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 1500
                 format: int32
             vs_se_ping_fail:
-                description: "Number of vs_se_ping_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 60
                 format: int32
             vs_se_vnic_fail:
-                description: "Number of vs_se_vnic_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 300
                 format: int32
             vs_se_vnic_ip_fail:
-                description: "Number of vs_se_vnic_ip_fail."
+                description: ". Units(SEC)."
                 type: integer
                 default: 120
                 format: int32
             warmstart_se_reconnect_wait_time:
-                description: "Number of warmstart_se_reconnect_wait_time."
+                description: ". Units(SEC)."
                 type: integer
                 default: 300
                 format: int32

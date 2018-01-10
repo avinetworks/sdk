@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugVirtualService Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- debug virtualservice <key>\n- show debug virtualservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -654,7 +654,7 @@
             "properties": {
                 "duration": {
                     "type": "integer", 
-                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
+                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "num_pkts": {
@@ -665,7 +665,7 @@
                 "pkt_size": {
                     "default": 128, 
                     "type": "integer", 
-                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.", 
+                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'. Units(BYTES).", 
                     "format": "int32"
                 }
             }

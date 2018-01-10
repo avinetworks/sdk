@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -537,7 +537,7 @@ definitions:
                 type: string
                 default: "DNS_ERROR_RESPONSE_NONE"
             negative_caching_ttl:
-                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4."
+                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4. Units(SEC)."
                 type: integer
                 default: 30
                 format: int32
@@ -547,7 +547,7 @@ definitions:
                 default: 1
                 format: int32
             ttl:
-                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400."
+                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400. Units(SEC)."
                 type: integer
                 default: 30
                 format: int32
@@ -589,7 +589,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
-                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
+                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC)."
                 type: integer
                 default: 5
                 format: int32
@@ -603,26 +603,26 @@ definitions:
                 description: "HTTP Caching config to use with this HTTP Profile."
                 $ref: '#/definitions/HttpCacheConfig'
             client_body_timeout:
-                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000."
+                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Units(MILLISECONDS)."
                 type: integer
                 default: 30000
                 format: int32
             client_header_timeout:
-                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000."
+                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Units(MILLISECONDS)."
                 type: integer
                 default: 10000
                 format: int32
             client_max_body_size:
-                description: "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited."
+                description: "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited. Units(KB)."
                 type: integer
                 format: int64
             client_max_header_size:
-                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64."
+                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Units(KB)."
                 type: integer
                 default: 12
                 format: int32
             client_max_request_size:
-                description: "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256."
+                description: "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Units(KB)."
                 type: integer
                 default: 48
                 format: int32
@@ -661,7 +661,7 @@ definitions:
                 description: "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
                 type: boolean
             keepalive_timeout:
-                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000."
+                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Units(MILLISECONDS)."
                 type: integer
                 default: 30000
                 format: int32
@@ -676,6 +676,11 @@ definitions:
             max_bad_rps_uri:
                 description: "Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'."
                 type: integer
+                format: int32
+            max_response_headers_size:
+                description: "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Field introduced in 17.2.5. Units(KB)."
+                type: integer
+                default: 48
                 format: int32
             max_rps_cip:
                 description: "Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'."
@@ -701,7 +706,7 @@ definitions:
                 description: "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile."
                 type: string
             post_accept_timeout:
-                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000."
+                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS)."
                 type: integer
                 default: 30000
                 format: int32
@@ -965,7 +970,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
                 type: integer
                 default: 1
                 format: int32
