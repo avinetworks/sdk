@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure snmptrapprofile <key> - show snmptrapprofile <key> - test alerttestsnmptrap <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -255,6 +255,7 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "trap_servers" : [ {
+      "port" : 123,
       "community" : "aeiou",
       "ip_addr" : {
         "addr" : "aeiou",
@@ -328,6 +329,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -528,6 +530,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -612,6 +615,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -696,6 +700,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -783,6 +788,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">community (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The community string to communicate with the trap server. </div>
 <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the SNMP trap destination. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The UDP port of the trap server. Field introduced in 16.5.4,17.2.5. format: int32</div>
 <div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#SnmpV3UserParams">SnmpV3UserParams</a></span> SNMP version 3 configuration. Field introduced in 17.2.3. </div>
 <div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->

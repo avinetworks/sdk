@@ -362,6 +362,12 @@ and it supports several query options described in detail below.
 <td>  </td>
 </tr>
 <tr>
+<td> sni_hostname </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td>  </td>
+</tr>
+<tr>
 <td> http_version </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
@@ -786,6 +792,12 @@ and it supports several query options described in detail below.
 <td> Integer </td>
 <td> gt,ge,ne,lt,le,eq </td>
 <td> Unique HTTP Request ID  </td>
+</tr>
+<tr>
+<td> request_served_locally_remote_site_down </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Flag to indicate if request was served locally because the remote site was down </td>
 </tr>
 </table>
 </div>
@@ -1216,6 +1228,12 @@ and it supports several query options described in detail below.
 <td> dns_request </td>
 <td> Message </td>
 <td> gt,ge,ne,lt,le,eq </td>
+<td>  </td>
+</tr>
+<tr>
+<td> sni_hostname </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
 <td>  </td>
 </tr>
 </table>

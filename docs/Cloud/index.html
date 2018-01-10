@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -491,6 +491,7 @@ font-style: italic;
       "ssh_se_deployment" : "",
       "enable_event_subscription" : true,
       "secure_egress_mode" : true,
+      "cluster_tag" : "aeiou",
       "coredump_directory" : "aeiou",
       "docker_registry_se" : "",
       "routes_share_virtualservice" : true,
@@ -589,6 +590,7 @@ font-style: italic;
       "use_enhanced_ha" : true,
       "resource_group" : "aeiou",
       "use_azure_dns" : true,
+      "availability_zones" : [ "aeiou" ],
       "use_managed_disks" : true,
       "location" : "aeiou",
       "cloud_credentials_ref" : "aeiou",
@@ -656,7 +658,8 @@ font-style: italic;
       "se_exclude_attributes" : [ "" ],
       "access_key" : "aeiou",
       "east_west_placement_subnet" : ""
-    }
+    },
+    "license_tier" : "aeiou"
   } ]
 }</code></pre>
 
@@ -992,6 +995,7 @@ font-style: italic;
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
+    "cluster_tag" : "aeiou",
     "coredump_directory" : "aeiou",
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
@@ -1090,6 +1094,7 @@ font-style: italic;
     "use_enhanced_ha" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
+    "availability_zones" : [ "aeiou" ],
     "use_managed_disks" : true,
     "location" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
@@ -1157,7 +1162,8 @@ font-style: italic;
     "se_exclude_attributes" : [ "" ],
     "access_key" : "aeiou",
     "east_west_placement_subnet" : ""
-  }
+  },
+  "license_tier" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1724,6 +1730,7 @@ font-style: italic;
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
+    "cluster_tag" : "aeiou",
     "coredump_directory" : "aeiou",
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
@@ -1822,6 +1829,7 @@ font-style: italic;
     "use_enhanced_ha" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
+    "availability_zones" : [ "aeiou" ],
     "use_managed_disks" : true,
     "location" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
@@ -1889,7 +1897,8 @@ font-style: italic;
     "se_exclude_attributes" : [ "" ],
     "access_key" : "aeiou",
     "east_west_placement_subnet" : ""
-  }
+  },
+  "license_tier" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -2340,6 +2349,7 @@ font-style: italic;
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
+    "cluster_tag" : "aeiou",
     "coredump_directory" : "aeiou",
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
@@ -2438,6 +2448,7 @@ font-style: italic;
     "use_enhanced_ha" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
+    "availability_zones" : [ "aeiou" ],
     "use_managed_disks" : true,
     "location" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
@@ -2505,7 +2516,8 @@ font-style: italic;
     "se_exclude_attributes" : [ "" ],
     "access_key" : "aeiou",
     "east_west_placement_subnet" : ""
-  }
+  },
+  "license_tier" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -2800,6 +2812,7 @@ font-style: italic;
     "ssh_se_deployment" : "",
     "enable_event_subscription" : true,
     "secure_egress_mode" : true,
+    "cluster_tag" : "aeiou",
     "coredump_directory" : "aeiou",
     "docker_registry_se" : "",
     "routes_share_virtualservice" : true,
@@ -2898,6 +2911,7 @@ font-style: italic;
     "use_enhanced_ha" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
+    "availability_zones" : [ "aeiou" ],
     "use_managed_disks" : true,
     "location" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
@@ -2965,7 +2979,8 @@ font-style: italic;
     "se_exclude_attributes" : [ "" ],
     "access_key" : "aeiou",
     "east_west_placement_subnet" : ""
-  }
+  },
+  "license_tier" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -3106,7 +3121,7 @@ font-style: italic;
     <h3 class="field-label"><a name="AwsConfiguration">AwsConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">access_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS access key ID. </div>
-<div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. format: int32</div>
+<div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Units(SEC). format: int32</div>
 <div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
 <div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
@@ -3114,7 +3129,7 @@ font-style: italic;
 <div class="param">route53_integration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, create/update DNS entries in Amazon Route 53 zones. </div>
 <div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
 <div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
-<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. format: int32</div>
+<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC). format: int32</div>
 <div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
 <div class="param">use_sns_sqs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3. </div>
 <div class="param">vpc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC name. </div>
@@ -3141,7 +3156,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AzureConfiguration">AzureConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1. </div>
+      <div class="param">availability_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Availability zones to be used in Azure. Field introduced in 17.2.5. </div>
+<div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1. </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure location where this cloud will be located. Field introduced in 17.2.1. </div>
 <div class="param">network_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureNetworkInfo">array[AzureNetworkInfo]</a></span> Azure virtual network and subnet information. Field introduced in 17.2.1. </div>
 <div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
@@ -3174,10 +3190,11 @@ font-style: italic;
 <div class="param">east_west_ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">enable_vip_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use static routes for VIP side network resolution during VirtualService placement. </div>
 <div class="param">ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
-<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS. </div>
+<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
+<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. </div>
 <div class="param">linuxserver_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerConfiguration">LinuxServerConfiguration</a></span> Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object </div>
 <div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span> Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object </div>
-<div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. format: int32</div>
+<div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. Units(BYTES). format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
 <div class="param">obj_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template. </div>
@@ -3403,7 +3420,7 @@ font-style: italic;
 <div class="param">nsx_manager_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The hostname or IP address of the NSX MGr. Field introduced in 17.1.1. </div>
 <div class="param">nsx_manager_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
 <div class="param">nsx_manager_username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
-<div class="param">nsx_poll_time </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. format: int32</div>
+<div class="param">nsx_poll_time </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. Units(SECONDS). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3429,6 +3446,7 @@ font-style: italic;
 <div class="param">avi_bridge_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Avi Linux bridge subnet on OpenShift/K8s nodes. </div>
 <div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">cluster_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5. </div>
 <div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service. </div>
 <div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
 <div class="param">default_service_as_east_west_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure dnspolicy <key> - show dnspolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -307,7 +307,9 @@ font-style: italic;
           "reset_conn" : true
         },
         "gslb_site_selection" : {
-          "site_name" : "aeiou"
+          "site_name" : "aeiou",
+          "fallback_site_names" : [ "aeiou" ],
+          "is_site_preferred" : true
         },
         "response" : {
           "authoritative" : true,
@@ -428,7 +430,9 @@ font-style: italic;
         "reset_conn" : true
       },
       "gslb_site_selection" : {
-        "site_name" : "aeiou"
+        "site_name" : "aeiou",
+        "fallback_site_names" : [ "aeiou" ],
+        "is_site_preferred" : true
       },
       "response" : {
         "authoritative" : true,
@@ -618,7 +622,9 @@ font-style: italic;
         "reset_conn" : true
       },
       "gslb_site_selection" : {
-        "site_name" : "aeiou"
+        "site_name" : "aeiou",
+        "fallback_site_names" : [ "aeiou" ],
+        "is_site_preferred" : true
       },
       "response" : {
         "authoritative" : true,
@@ -750,7 +756,9 @@ font-style: italic;
         "reset_conn" : true
       },
       "gslb_site_selection" : {
-        "site_name" : "aeiou"
+        "site_name" : "aeiou",
+        "fallback_site_names" : [ "aeiou" ],
+        "is_site_preferred" : true
       },
       "response" : {
         "authoritative" : true,
@@ -882,7 +890,9 @@ font-style: italic;
         "reset_conn" : true
       },
       "gslb_site_selection" : {
-        "site_name" : "aeiou"
+        "site_name" : "aeiou",
+        "fallback_site_names" : [ "aeiou" ],
+        "is_site_preferred" : true
       },
       "response" : {
         "authoritative" : true,
@@ -1018,7 +1028,9 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsRuleActionGslbSiteSelection">DnsRuleActionGslbSiteSelection</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">site_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> GSLB site name. Field introduced in 17.1.5. </div>
+      <div class="param">fallback_site_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> GSLB fallback sites to use in case the desired site is down. Field introduced in 17.2.5. </div>
+<div class="param">is_site_preferred (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to true, GSLB site is a preferred site. This setting comes into play when the site is down, as well as no configured fallback site is available (all fallback sites are also down), then any one available site is selected based on the default algorithm for GSLB pool member selection. Field introduced in 17.2.5. </div>
+<div class="param">site_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> GSLB site name. Field introduced in 17.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

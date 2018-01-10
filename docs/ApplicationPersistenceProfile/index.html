@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure applicationpersistenceprofile <key> - show applicationpersistenceprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -802,7 +802,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">encryption_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key to use for cookie encryption. </div>
 <div class="param">prst_hdr_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header or cookie name for application cookie persistence. </div>
-<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
+<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. Units(MIN). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -850,13 +850,13 @@ font-style: italic;
 <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for cookie persistence. </div>
 <div class="param">encryption_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key name to use for cookie encryption. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Placeholder for description of property key of obj type HttpCookiePersistenceProfile field type str  type object </div>
-<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. No value or &#39;zero&#39; indicates no timeout. Allowed values are 1-14400. Special values are 0- &#39;No Timeout&#39;. format: int32</div>
+<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. No value or &#39;zero&#39; indicates no timeout. Allowed values are 1-14400. Special values are 0- &#39;No Timeout&#39;. Units(MIN). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="IPPersistenceProfile">IPPersistenceProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
+      <div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. Units(MIN). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure gslb <key> - show gslb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -284,6 +284,7 @@ font-style: italic;
         "site_uuid" : "aeiou",
         "proxy_type" : "aeiou"
       } ],
+      "uuid" : "aeiou",
       "enabled" : true,
       "password" : "aeiou",
       "dns_vses" : [ {
@@ -311,6 +312,7 @@ font-style: italic;
       "name" : "aeiou",
       "location" : "",
       "hm_proxies" : [ "" ],
+      "uuid" : "aeiou",
       "enabled" : true,
       "ratio" : 123
     } ],
@@ -405,6 +407,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -432,6 +435,7 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
@@ -595,6 +599,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -622,6 +627,7 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
@@ -727,6 +733,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -754,6 +761,7 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
@@ -859,6 +867,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -886,6 +895,7 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
@@ -1120,7 +1130,7 @@ font-style: italic;
 <div class="param">leader_cluster_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mark this Site as leader of GSLB configuration. This site is the one among the Avi sites. </div>
 <div class="param">maintenance_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field disables the configuration operations on the leader for all federated objects.  CUD operations on Gslb, GslbService, GslbGeoDbProfile and other federated objects will be rejected. The rest-api disabling helps in upgrade scenarios where we don&#39;t want configuration sync operations to the Gslb member when the member is being upgraded.  This configuration programmatically blocks the leader from accepting new Gslb configuration when member sites are undergoing upgrade. . Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the GSLB object. </div>
-<div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which group members communicate. Allowed values are 1-3600. format: int32</div>
+<div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which group members communicate. Allowed values are 1-3600. Units(SEC). format: int32</div>
 <div class="param">sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbSite">array[GslbSite]</a></span> Select Avi site member belonging to this Gslb. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">third_party_sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbThirdPartySite">array[GslbThirdPartySite]</a></span> Third party site member belonging to this Gslb. Field introduced in 17.1.1. </div>
@@ -1176,6 +1186,7 @@ font-style: italic;
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Site Controller Cluster&#39;s REST API port number. Allowed values are 1-65535. format: int32</div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs/VS(es) of this site. If this field is not  configured then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username used when authenticating with the Site. . </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1194,6 +1205,7 @@ font-style: italic;
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the third-party Site. Field introduced in 17.1.1. </div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs of this site. If this field is not configured, then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field is used as a key in the datastore for the GslbThirdPartySite table to encapsulate site-related info. . Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

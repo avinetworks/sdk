@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - show pkiprofile <key> - delete pkiprofile <key> - configure pkiprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -966,7 +966,7 @@ font-style: italic;
 <div class="param">next_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The date when a newer CRL will be available. Also conveys the date after which the CRL should be considered obsolete. </div>
 <div class="param">server_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URL of a server that issues the Certificate Revocation list. If this is configured, CRL will be periodically downloaded either based on the configured update interval or the next update interval in the CRL. CRL itself is stored in the body. </div>
 <div class="param">text (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Certificate Revocation list in plain text for readability. </div>
-<div class="param">update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. format: int32</div>
+<div class="param">update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

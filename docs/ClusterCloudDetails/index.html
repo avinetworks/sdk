@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi WafProfile Object API</title>
+    <title>Avi ClusterCloudDetails Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi WafProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
+  <h1>Avi ClusterCloudDetails Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure clusterclouddetails <key> - show clusterclouddetails <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.5</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#wafprofileGet"><code><span class="http-method">get</span> /wafprofile</code></a></li>
-  <li><a href="#wafprofilePost"><code><span class="http-method">post</span> /wafprofile</code></a></li>
-  <li><a href="#wafprofileUuidDelete"><code><span class="http-method">delete</span> /wafprofile/{uuid}</code></a></li>
-  <li><a href="#wafprofileUuidGet"><code><span class="http-method">get</span> /wafprofile/{uuid}</code></a></li>
-  <li><a href="#wafprofileUuidPatch"><code><span class="http-method">patch</span> /wafprofile/{uuid}</code></a></li>
-  <li><a href="#wafprofileUuidPut"><code><span class="http-method">put</span> /wafprofile/{uuid}</code></a></li>
+  <li><a href="#clusterclouddetailsGet"><code><span class="http-method">get</span> /clusterclouddetails</code></a></li>
+  <li><a href="#clusterclouddetailsPost"><code><span class="http-method">post</span> /clusterclouddetails</code></a></li>
+  <li><a href="#clusterclouddetailsUuidDelete"><code><span class="http-method">delete</span> /clusterclouddetails/{uuid}</code></a></li>
+  <li><a href="#clusterclouddetailsUuidGet"><code><span class="http-method">get</span> /clusterclouddetails/{uuid}</code></a></li>
+  <li><a href="#clusterclouddetailsUuidPatch"><code><span class="http-method">patch</span> /clusterclouddetails/{uuid}</code></a></li>
+  <li><a href="#clusterclouddetailsUuidPut"><code><span class="http-method">put</span> /clusterclouddetails/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="wafprofileGet"/>
+  <div class="method"><a name="clusterclouddetailsGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafprofile</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofileGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /clusterclouddetails</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WafProfileApiResponse">WafProfileApiResponse</a>
+      <a href="#ClusterCloudDetailsApiResponse">ClusterCloudDetailsApiResponse</a>
       
     </div>
 
@@ -254,31 +254,11 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "tenant_ref" : "aeiou",
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "files" : [ {
-      "data" : "aeiou",
-      "name" : "aeiou"
-    } ],
-    "config" : {
-      "argument_separator" : "aeiou",
-      "client_nonfile_upload_max_body_size" : 123,
-      "client_file_upload_max_body_size" : 123,
-      "allowed_http_versions" : [ "aeiou" ],
-      "regex_match_limit" : 123,
-      "response_body_default_action" : "aeiou",
-      "restricted_headers" : [ "aeiou" ],
-      "response_hdr_default_action" : "aeiou",
-      "server_response_max_body_size" : 123,
-      "restricted_extensions" : [ "aeiou" ],
-      "request_body_default_action" : "aeiou",
-      "allowed_methods" : [ "aeiou" ],
-      "buffer_response_body_for_inspection" : true,
-      "allowed_request_content_types" : [ "aeiou" ],
-      "static_extensions" : [ "aeiou" ],
-      "cookie_format_version" : 123,
-      "request_hdr_default_action" : "aeiou"
+    "azure_info" : {
+      "subscription_id" : "aeiou",
+      "cloud_credential_ref" : "aeiou"
     },
+    "name" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou"
   } ]
@@ -294,17 +274,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WafProfileApiResponse">WafProfileApiResponse</a>
+        <a href="#ClusterCloudDetailsApiResponse">ClusterCloudDetailsApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="wafprofilePost"/>
+  <div class="method"><a name="clusterclouddetailsPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /wafprofile</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofilePost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /clusterclouddetails</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsPost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -318,7 +298,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ClusterCloudDetails object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -326,7 +306,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WafProfile">WafProfile</a>
+      <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
       
     </div>
 
@@ -336,31 +316,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "files" : [ {
-    "data" : "aeiou",
-    "name" : "aeiou"
-  } ],
-  "config" : {
-    "argument_separator" : "aeiou",
-    "client_nonfile_upload_max_body_size" : 123,
-    "client_file_upload_max_body_size" : 123,
-    "allowed_http_versions" : [ "aeiou" ],
-    "regex_match_limit" : 123,
-    "response_body_default_action" : "aeiou",
-    "restricted_headers" : [ "aeiou" ],
-    "response_hdr_default_action" : "aeiou",
-    "server_response_max_body_size" : 123,
-    "restricted_extensions" : [ "aeiou" ],
-    "request_body_default_action" : "aeiou",
-    "allowed_methods" : [ "aeiou" ],
-    "buffer_response_body_for_inspection" : true,
-    "allowed_request_content_types" : [ "aeiou" ],
-    "static_extensions" : [ "aeiou" ],
-    "cookie_format_version" : 123,
-    "request_hdr_default_action" : "aeiou"
+  "azure_info" : {
+    "subscription_id" : "aeiou",
+    "cloud_credential_ref" : "aeiou"
   },
+  "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -375,17 +335,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WafProfile">WafProfile</a>
+        <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="wafprofileUuidDelete"/>
+  <div class="method"><a name="clusterclouddetailsUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /wafprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofileUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /clusterclouddetails/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -439,11 +399,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="wafprofileUuidGet"/>
+  <div class="method"><a name="clusterclouddetailsUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofileUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /clusterclouddetails/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -477,7 +437,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WafProfile">WafProfile</a>
+      <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
       
     </div>
 
@@ -487,31 +447,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "files" : [ {
-    "data" : "aeiou",
-    "name" : "aeiou"
-  } ],
-  "config" : {
-    "argument_separator" : "aeiou",
-    "client_nonfile_upload_max_body_size" : 123,
-    "client_file_upload_max_body_size" : 123,
-    "allowed_http_versions" : [ "aeiou" ],
-    "regex_match_limit" : 123,
-    "response_body_default_action" : "aeiou",
-    "restricted_headers" : [ "aeiou" ],
-    "response_hdr_default_action" : "aeiou",
-    "server_response_max_body_size" : 123,
-    "restricted_extensions" : [ "aeiou" ],
-    "request_body_default_action" : "aeiou",
-    "allowed_methods" : [ "aeiou" ],
-    "buffer_response_body_for_inspection" : true,
-    "allowed_request_content_types" : [ "aeiou" ],
-    "static_extensions" : [ "aeiou" ],
-    "cookie_format_version" : 123,
-    "request_hdr_default_action" : "aeiou"
+  "azure_info" : {
+    "subscription_id" : "aeiou",
+    "cloud_credential_ref" : "aeiou"
   },
+  "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -526,17 +466,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WafProfile">WafProfile</a>
+        <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="wafprofileUuidPatch"/>
+  <div class="method"><a name="clusterclouddetailsUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /wafprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofileUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /clusterclouddetails/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -556,7 +496,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ClusterCloudDetails object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -570,7 +510,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WafProfile">WafProfile</a>
+      <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
       
     </div>
 
@@ -580,31 +520,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "files" : [ {
-    "data" : "aeiou",
-    "name" : "aeiou"
-  } ],
-  "config" : {
-    "argument_separator" : "aeiou",
-    "client_nonfile_upload_max_body_size" : 123,
-    "client_file_upload_max_body_size" : 123,
-    "allowed_http_versions" : [ "aeiou" ],
-    "regex_match_limit" : 123,
-    "response_body_default_action" : "aeiou",
-    "restricted_headers" : [ "aeiou" ],
-    "response_hdr_default_action" : "aeiou",
-    "server_response_max_body_size" : 123,
-    "restricted_extensions" : [ "aeiou" ],
-    "request_body_default_action" : "aeiou",
-    "allowed_methods" : [ "aeiou" ],
-    "buffer_response_body_for_inspection" : true,
-    "allowed_request_content_types" : [ "aeiou" ],
-    "static_extensions" : [ "aeiou" ],
-    "cookie_format_version" : 123,
-    "request_hdr_default_action" : "aeiou"
+  "azure_info" : {
+    "subscription_id" : "aeiou",
+    "cloud_credential_ref" : "aeiou"
   },
+  "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -619,17 +539,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WafProfile">WafProfile</a>
+        <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="wafprofileUuidPut"/>
+  <div class="method"><a name="clusterclouddetailsUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /wafprofile/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">wafprofileUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /clusterclouddetails/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">clusterclouddetailsUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -649,7 +569,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafProfile object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ClusterCloudDetails object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -663,7 +583,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#WafProfile">WafProfile</a>
+      <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
       
     </div>
 
@@ -673,31 +593,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "files" : [ {
-    "data" : "aeiou",
-    "name" : "aeiou"
-  } ],
-  "config" : {
-    "argument_separator" : "aeiou",
-    "client_nonfile_upload_max_body_size" : 123,
-    "client_file_upload_max_body_size" : 123,
-    "allowed_http_versions" : [ "aeiou" ],
-    "regex_match_limit" : 123,
-    "response_body_default_action" : "aeiou",
-    "restricted_headers" : [ "aeiou" ],
-    "response_hdr_default_action" : "aeiou",
-    "server_response_max_body_size" : 123,
-    "restricted_extensions" : [ "aeiou" ],
-    "request_body_default_action" : "aeiou",
-    "allowed_methods" : [ "aeiou" ],
-    "buffer_response_body_for_inspection" : true,
-    "allowed_request_content_types" : [ "aeiou" ],
-    "static_extensions" : [ "aeiou" ],
-    "cookie_format_version" : 123,
-    "request_hdr_default_action" : "aeiou"
+  "azure_info" : {
+    "subscription_id" : "aeiou",
+    "cloud_credential_ref" : "aeiou"
   },
+  "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
 }</code></pre>
@@ -712,7 +612,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#WafProfile">WafProfile</a>
+        <a href="#ClusterCloudDetails">ClusterCloudDetails</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -725,58 +625,33 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#WafConfig"><code>WafConfig</code></a></li>
-    <li><a href="#WafDataFile"><code>WafDataFile</code></a></li>
-    <li><a href="#WafProfile"><code>WafProfile</code></a></li>
-    <li><a href="#WafProfileApiResponse"><code>WafProfileApiResponse</code></a></li>
+    <li><a href="#AzureClusterInfo"><code>AzureClusterInfo</code></a></li>
+    <li><a href="#ClusterCloudDetails"><code>ClusterCloudDetails</code></a></li>
+    <li><a href="#ClusterCloudDetailsApiResponse"><code>ClusterCloudDetailsApiResponse</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="WafConfig">WafConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="AzureClusterInfo">AzureClusterInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">allowed_http_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1. </div>
-<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. Field introduced in 17.2.1. </div>
-<div class="param">allowed_request_content_types (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed Content Types. Field introduced in 17.2.1. </div>
-<div class="param">argument_separator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Argument seperator. Field introduced in 17.2.1. </div>
-<div class="param">buffer_response_body_for_inspection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to buffer response body for inspection. Field introduced in 17.2.3. </div>
-<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
-<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
-<div class="param">cookie_format_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1. format: int32</div>
-<div class="param">regex_match_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5. format: int32</div>
-<div class="param">request_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Body Phase. Field introduced in 17.2.1. </div>
-<div class="param">request_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Header Phase. Field introduced in 17.2.1. </div>
-<div class="param">response_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Body Phase. Field introduced in 17.2.1. </div>
-<div class="param">response_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Header Phase. Field introduced in 17.2.1. </div>
-<div class="param">restricted_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted File Extensions. Field introduced in 17.2.1. </div>
-<div class="param">restricted_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted HTTP Headers. Field introduced in 17.2.1. </div>
-<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
-<div class="param">static_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5. </div>
+      <div class="param">cloud_credential_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.5. </div>
+<div class="param">subscription_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="WafDataFile">WafDataFile</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ClusterCloudDetails">ClusterCloudDetails</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">data </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Stringified WAF File Data. Field introduced in 17.2.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Data File Name. Field introduced in 17.2.1. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="WafProfile">WafProfile</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">config </div><div class="param-desc"><span class="param-type"><a href="#WafConfig">WafConfig</a></span> Config params for WAF. Field introduced in 17.2.1. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
-<div class="param">files (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafDataFile">array[WafDataFile]</a></span> List of Data Files Used for WAF Rules. Field introduced in 17.2.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.1. </div>
+      <div class="param">azure_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureClusterInfo">AzureClusterInfo</a></span> Azure info to configure cluster_vip on the controller. Field introduced in 17.2.5. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.5. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.5. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="WafProfileApiResponse">WafProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ClusterCloudDetailsApiResponse">ClusterCloudDetailsApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafProfile">array[WafProfile]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ClusterCloudDetails">array[ClusterCloudDetails]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>
