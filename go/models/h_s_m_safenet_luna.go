@@ -8,7 +8,6 @@ package models
 type HSMSafenetLuna struct {
 
 	// Group Number of generated HA Group.
-	// Read Only: true
 	HaGroupNum int32 `json:"ha_group_num,omitempty"`
 
 	// Set to indicate HA across more than one servers.
@@ -22,7 +21,6 @@ type HSMSafenetLuna struct {
 	Server []*HSMSafenetLunaServer `json:"server,omitempty"`
 
 	// Generated File - server.pem.
-	// Read Only: true
 	ServerPem string `json:"server_pem,omitempty"`
 
 	// If enabled, dedicated network is used to communicate with HSM,else, the management network is used.

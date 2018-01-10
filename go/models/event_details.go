@@ -46,6 +46,9 @@ type EventDetails struct {
 	// Placeholder for description of property bootup_fail_details of obj type EventDetails field type str  type object
 	BootupFailDetails *RmSeBootupFailEventDetails `json:"bootup_fail_details,omitempty"`
 
+	// Placeholder for description of property burst_checkout_details of obj type EventDetails field type str  type object
+	BurstCheckoutDetails *BurstLicenseDetails `json:"burst_checkout_details,omitempty"`
+
 	// Placeholder for description of property cc_cluster_vip_details of obj type EventDetails field type str  type object
 	CcClusterVipDetails *CloudClusterVip `json:"cc_cluster_vip_details,omitempty"`
 
@@ -196,6 +199,9 @@ type EventDetails struct {
 	// Placeholder for description of property marathon_service_port_conflict_details of obj type EventDetails field type str  type object
 	MarathonServicePortConflictDetails *MarathonServicePortConflict `json:"marathon_service_port_conflict_details,omitempty"`
 
+	// Placeholder for description of property memory_balancer_info of obj type EventDetails field type str  type object
+	MemoryBalancerInfo *MemoryBalancerInfo `json:"memory_balancer_info,omitempty"`
+
 	// Placeholder for description of property mesos_infra_details of obj type EventDetails field type str  type object
 	MesosInfraDetails *MesosSetup `json:"mesos_infra_details,omitempty"`
 
@@ -265,6 +271,9 @@ type EventDetails struct {
 	// Placeholder for description of property scheduler_action_info of obj type EventDetails field type str  type object
 	SchedulerActionInfo *SchedulerActionDetails `json:"scheduler_action_info,omitempty"`
 
+	// Placeholder for description of property se_bgp_peer_state_change_details of obj type EventDetails field type str  type object
+	SeBgpPeerStateChangeDetails *SeBgpPeerStateChangeDetails `json:"se_bgp_peer_state_change_details,omitempty"`
+
 	// Placeholder for description of property se_details of obj type EventDetails field type str  type object
 	SeDetails *SeMgrEventDetails `json:"se_details,omitempty"`
 
@@ -303,6 +312,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property se_ipfailure_event_details of obj type EventDetails field type str  type object
 	SeIpfailureEventDetails *SeIpfailureEventDetails `json:"se_ipfailure_event_details,omitempty"`
+
+	// Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type EventDetails field type str  type object
+	SeLicensedBandwdithExceededEventDetails *SeLicensedBandwdithExceededEventDetails `json:"se_licensed_bandwdith_exceeded_event_details,omitempty"`
 
 	// Placeholder for description of property se_persistence_details of obj type EventDetails field type str  type object
 	SePersistenceDetails *SePersistenceEventDetails `json:"se_persistence_details,omitempty"`

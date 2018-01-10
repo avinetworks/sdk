@@ -87,6 +87,9 @@ type OpenStackConfiguration struct {
 	// nuage_username of OpenStackConfiguration.
 	NuageUsername string `json:"nuage_username,omitempty"`
 
+	// Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3.
+	NuageVirtualip bool `json:"nuage_virtualip,omitempty"`
+
 	// Nuage VSD host name or IP address.
 	NuageVsdHost string `json:"nuage_vsd_host,omitempty"`
 

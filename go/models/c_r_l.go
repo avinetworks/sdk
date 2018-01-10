@@ -23,7 +23,6 @@ type CRL struct {
 	Fingerprint string `json:"fingerprint,omitempty"`
 
 	// Last time CRL was refreshed by the system. This is an internal field used by the system.
-	// Read Only: true
 	LastRefreshed string `json:"last_refreshed,omitempty"`
 
 	// The date when this CRL was last issued.
@@ -38,6 +37,6 @@ type CRL struct {
 	// Certificate Revocation list in plain text for readability.
 	Text string `json:"text,omitempty"`
 
-	// Interval in minutes to check for CRL update. If not specified, interval will be 1 day.
+	// Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN).
 	UpdateInterval int32 `json:"update_interval,omitempty"`
 }

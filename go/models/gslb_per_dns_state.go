@@ -19,6 +19,9 @@ type GslbPerDNSState struct {
 	// Placeholder for description of property oper_status of obj type GslbPerDnsState field type str  type object
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
+	// This field describes the SubDomain placement rules for this DNS-VS. Field introduced in 17.2.3.
+	PlacementRules []*GslbSubDomainPlacementRuntime `json:"placement_rules,omitempty"`
+
 	// The service engines associated with the DNS-VS. Field introduced in 17.1.1.
 	SeList []string `json:"se_list,omitempty"`
 

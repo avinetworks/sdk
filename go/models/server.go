@@ -8,7 +8,6 @@ package models
 type Server struct {
 
 	// Name of autoscaling group this server belongs to. Field introduced in 17.1.2.
-	// Read Only: true
 	AutoscalingGroupName string `json:"autoscaling_group_name,omitempty"`
 
 	// Availability-zone of the server VM.
@@ -43,7 +42,6 @@ type Server struct {
 	IP *IPAddr `json:"ip"`
 
 	// (internal-use) Geographic location of the server.Currently only for internal usage. Field introduced in 17.1.1.
-	// Read Only: true
 	Location *GeoLocation `json:"location,omitempty"`
 
 	// MAC address of server.

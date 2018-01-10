@@ -7,6 +7,9 @@ package models
 // swagger:model AzureConfiguration
 type AzureConfiguration struct {
 
+	// Availability zones to be used in Azure. Field introduced in 17.2.5.
+	AvailabilityZones []string `json:"availability_zones,omitempty"`
+
 	// Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1.
 	CloudCredentialsRef string `json:"cloud_credentials_ref,omitempty"`
 

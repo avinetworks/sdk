@@ -47,6 +47,9 @@ type BgpPeer struct {
 	// Peer Autonomous System ID. Allowed values are 1-4294967295.
 	RemoteAs int32 `json:"remote_as,omitempty"`
 
+	// Shutdown the bgp peer. Field introduced in 17.2.4.
+	Shutdown bool `json:"shutdown,omitempty"`
+
 	// Subnet providing reachability for Peer.
 	// Required: true
 	Subnet *IPAddrPrefix `json:"subnet"`

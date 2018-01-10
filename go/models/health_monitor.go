@@ -26,7 +26,6 @@ type HealthMonitor struct {
 	HTTPSMonitor *HealthMonitorHTTP `json:"https_monitor,omitempty"`
 
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
-	// Read Only: true
 	IsFederated bool `json:"is_federated,omitempty"`
 
 	// Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - 'Use server port'.
@@ -36,10 +35,10 @@ type HealthMonitor struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.
+	// A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC).
 	ReceiveTimeout int32 `json:"receive_timeout,omitempty"`
 
-	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.
+	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC).
 	SendInterval int32 `json:"send_interval,omitempty"`
 
 	// Number of continuous successful health checks before server is marked up. Allowed values are 1-50.

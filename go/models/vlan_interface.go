@@ -15,7 +15,6 @@ type VlanInterface struct {
 	IfName string `json:"if_name"`
 
 	// Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean
-	// Read Only: true
 	IsMgmt bool `json:"is_mgmt,omitempty"`
 
 	// Number of vlan_id.

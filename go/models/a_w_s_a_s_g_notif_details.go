@@ -25,6 +25,9 @@ type AWSASGNotifDetails struct {
 	// Placeholder for description of property instance_ip_addr of obj type AWSASGNotifDetails field type str  type object
 	InstanceIPAddr *IPAddr `json:"instance_ip_addr,omitempty"`
 
+	// UUID of the Pool. It is a reference to an object of type Pool. Field introduced in 17.2.3.
+	PoolRef string `json:"pool_ref,omitempty"`
+
 	// vpc_id of AWSASGNotifDetails.
 	VpcID string `json:"vpc_id,omitempty"`
 }
