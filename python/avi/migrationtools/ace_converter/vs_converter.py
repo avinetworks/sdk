@@ -89,6 +89,7 @@ class VSConverter(object):
         l4_type = None
         http_policy_ref = None
         http_policy_set = None
+        msg = ''
         for policy_map in self.parsed['policy-map']:
             pool_obj = dict()
             temp_vs = dict()
@@ -101,6 +102,7 @@ class VSConverter(object):
                     name)
                 # print name, vs_ref, port, ip, l4_type
                 if not vs_ref or port is None or not ip:
+                    msg = 'No vsvip, ip-port for policy-map {}'.format(name)
                     continue
                 # Excel Sheet Update for class
                 update_excel('class-map', name,
@@ -112,7 +114,7 @@ class VSConverter(object):
                         if 'action' in vsobj.keys():
                             action = vsobj['action']
                         if 'sticky-serverfarm' in vsobj.keys() or\
-                                'serverffarm' in vsobj.keys():
+                                'serverfarm' in vsobj.keys():
                             if 'sticky-serverfarm' in vsobj.keys():
                                 stick_farm = vsobj['sticky-serverfarm']
                                 for farm in self.parsed['sticky']:
@@ -151,6 +153,7 @@ class VSConverter(object):
                             pool_ref = self.common_utils.get_object_ref(
                                 pool, 'pool', tenant=self.tenant)
                 if not pool:
+                    msg = 'No Pool configured for VS {}'.format(name)
                     continue
                 if action:
                     http_policy_set = self.create_http_policy(action, name)
@@ -193,8 +196,8 @@ class VSConverter(object):
                     temp_vs['vrf_context_ref'] = self.vrf_ref
                 if http_policy_ref:
                     temp_vs['http_policy_set_ref'] = http_policy_ref
-                return temp_vs, pool_obj, http_policy_set
-        return False, False, False
+                return temp_vs, pool_obj, http_policy_set, msg
+        return False, False, False, msg
 
     def vsvip_conversion(self):
         """vs vip take from virutal-server in class map"""
@@ -305,10 +308,10 @@ class VSConverter(object):
                                                                             'sslkeyandcertificate',
                                                                             tenant=self.tenant)
                         if policy_name:
-                            vs, cloned_pool, http_policy_set = self.virtual_service_conversion_policy(policy_name,
-                                                                                                      data,
-                                                                                                      ssl_profile=ssl,
-                                                                                                      ssl_cert=ssl_cert)
+                            vs, cloned_pool, http_policy_set, msg = \
+                                self.virtual_service_conversion_policy(
+                                    policy_name, data, ssl_profile=ssl,
+                                    ssl_cert=ssl_cert)
                             if vs:
                                 vs['enabled'] = False
                                 for class_dec in cls['class_desc']:
@@ -328,8 +331,8 @@ class VSConverter(object):
                                 if http_policy_set:
                                     http_list.append(http_policy_set)
                             else:
-                                update_excel(
-                                    'policy-map', cls['class'], status='Skipped', avi_obj='Sticky-ServerFarm not allowed in Avi')
+                                update_excel('policy-map', cls['class'],
+                                             status='Skipped', avi_obj=msg)
                         else:
                             update_excel(
                                 'policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')
