@@ -1,0 +1,696 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi PoolGroupDeploymentPolicy Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi PoolGroupDeploymentPolicy Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure poolgroupdeploymentpolicy <key> - show poolgroupdeploymentpolicy <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#poolgroupdeploymentpolicyGet"><code><span class="http-method">get</span> /poolgroupdeploymentpolicy</code></a></li>
+  <li><a href="#poolgroupdeploymentpolicyPost"><code><span class="http-method">post</span> /poolgroupdeploymentpolicy</code></a></li>
+  <li><a href="#poolgroupdeploymentpolicyUuidDelete"><code><span class="http-method">delete</span> /poolgroupdeploymentpolicy/{uuid}</code></a></li>
+  <li><a href="#poolgroupdeploymentpolicyUuidGet"><code><span class="http-method">get</span> /poolgroupdeploymentpolicy/{uuid}</code></a></li>
+  <li><a href="#poolgroupdeploymentpolicyUuidPatch"><code><span class="http-method">patch</span> /poolgroupdeploymentpolicy/{uuid}</code></a></li>
+  <li><a href="#poolgroupdeploymentpolicyUuidPut"><code><span class="http-method">put</span> /poolgroupdeploymentpolicy/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="poolgroupdeploymentpolicyGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /poolgroupdeploymentpolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PoolGroupDeploymentPolicyApiResponse">PoolGroupDeploymentPolicyApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "test_traffic_ratio_rampup" : 123,
+    "scheme" : "aeiou",
+    "webhook_ref" : "aeiou",
+    "description" : "aeiou",
+    "rules" : [ {
+      "metric_id" : "aeiou",
+      "threshold" : 1.3579000000000001069366817318950779736042022705078125,
+      "operator" : "aeiou"
+    } ],
+    "uuid" : "aeiou",
+    "target_test_traffic_ratio" : 123,
+    "url" : "aeiou",
+    "cloud_ref" : "aeiou",
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "auto_disable_old_prod_pools" : true,
+    "evaluation_duration" : 123
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#PoolGroupDeploymentPolicyApiResponse">PoolGroupDeploymentPolicyApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolgroupdeploymentpolicyPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /poolgroupdeploymentpolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; PoolGroupDeploymentPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "test_traffic_ratio_rampup" : 123,
+  "scheme" : "aeiou",
+  "webhook_ref" : "aeiou",
+  "description" : "aeiou",
+  "rules" : [ {
+    "metric_id" : "aeiou",
+    "threshold" : 1.3579000000000001069366817318950779736042022705078125,
+    "operator" : "aeiou"
+  } ],
+  "uuid" : "aeiou",
+  "target_test_traffic_ratio" : 123,
+  "url" : "aeiou",
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "auto_disable_old_prod_pools" : true,
+  "evaluation_duration" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolgroupdeploymentpolicyUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /poolgroupdeploymentpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolgroupdeploymentpolicyUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /poolgroupdeploymentpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "test_traffic_ratio_rampup" : 123,
+  "scheme" : "aeiou",
+  "webhook_ref" : "aeiou",
+  "description" : "aeiou",
+  "rules" : [ {
+    "metric_id" : "aeiou",
+    "threshold" : 1.3579000000000001069366817318950779736042022705078125,
+    "operator" : "aeiou"
+  } ],
+  "uuid" : "aeiou",
+  "target_test_traffic_ratio" : 123,
+  "url" : "aeiou",
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "auto_disable_old_prod_pools" : true,
+  "evaluation_duration" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolgroupdeploymentpolicyUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /poolgroupdeploymentpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; PoolGroupDeploymentPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "test_traffic_ratio_rampup" : 123,
+  "scheme" : "aeiou",
+  "webhook_ref" : "aeiou",
+  "description" : "aeiou",
+  "rules" : [ {
+    "metric_id" : "aeiou",
+    "threshold" : 1.3579000000000001069366817318950779736042022705078125,
+    "operator" : "aeiou"
+  } ],
+  "uuid" : "aeiou",
+  "target_test_traffic_ratio" : 123,
+  "url" : "aeiou",
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "auto_disable_old_prod_pools" : true,
+  "evaluation_duration" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="poolgroupdeploymentpolicyUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /poolgroupdeploymentpolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">poolgroupdeploymentpolicyUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; PoolGroupDeploymentPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "test_traffic_ratio_rampup" : 123,
+  "scheme" : "aeiou",
+  "webhook_ref" : "aeiou",
+  "description" : "aeiou",
+  "rules" : [ {
+    "metric_id" : "aeiou",
+    "threshold" : 1.3579000000000001069366817318950779736042022705078125,
+    "operator" : "aeiou"
+  } ],
+  "uuid" : "aeiou",
+  "target_test_traffic_ratio" : 123,
+  "url" : "aeiou",
+  "cloud_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "auto_disable_old_prod_pools" : true,
+  "evaluation_duration" : 123
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#PGDeploymentRule"><code>PGDeploymentRule</code></a></li>
+    <li><a href="#PoolGroupDeploymentPolicy"><code>PoolGroupDeploymentPolicy</code></a></li>
+    <li><a href="#PoolGroupDeploymentPolicyApiResponse"><code>PoolGroupDeploymentPolicyApiResponse</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="PGDeploymentRule">PGDeploymentRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">metric_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_id of PGDeploymentRule. </div>
+<div class="param">operator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE. </div>
+<div class="param">threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool. format: double</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PoolGroupDeploymentPolicy">PoolGroupDeploymentPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">auto_disable_old_prod_pools (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> It will automatically disable old production pools once there is a new production candidate. </div>
+<div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">evaluation_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration of evaluation period for automatic deployment. Allowed values are 60-86400. format: int32</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool group deployment policy. </div>
+<div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#PGDeploymentRule">array[PGDeploymentRule]</a></span> Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object </div>
+<div class="param">scheme (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> deployment scheme. Enum options - BLUE_GREEN, CANARY. </div>
+<div class="param">target_test_traffic_ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Target traffic ratio before pool is made production. Allowed values are 1-100. format: int32</div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">test_traffic_ratio_rampup (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100. format: int32</div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool group deployment policy. </div>
+<div class="param">webhook_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results. It is a reference to an object of type Webhook. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PoolGroupDeploymentPolicyApiResponse">PoolGroupDeploymentPolicyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#PoolGroupDeploymentPolicy">array[PoolGroupDeploymentPolicy]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
