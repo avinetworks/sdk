@@ -6,7 +6,7 @@
                 "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=O0bgiqKcvrWasoWZccOMh9q6Y1RxePwd; sessionid=blvegd2z2jxnngjhyl3onchfczowlu83"
+                        "csrftoken=UUL4FqYAKz8t29qnKx0rO08A65GoVEwT; sessionid=ilepgq2vgdrhratxzwprac6nx4eqpku7"
                     ], 
                     "Content-Length": [
                         "30"
@@ -31,8 +31,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=XQk18pKGjmhoH94rjANkwiZlqCibfheX; expires=Fri, 11-Jan-2019 10:55:34 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=blvegd2z2jxnngjhyl3onchfczowlu83; expires=Sat, 13-Jan-2018 10:55:34 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=V9LVQXmCFNNA6TpAxrOfBesmCUriuYWZ; expires=Fri, 11-Jan-2019 11:02:56 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=ilepgq2vgdrhratxzwprac6nx4eqpku7; expires=Sat, 13-Jan-2018 11:02:56 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -53,7 +53,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Fri, 12 Jan 2018 10:55:34 GMT"
+                        "Fri, 12 Jan 2018 11:02:56 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -75,7 +75,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "XQk18pKGjmhoH94rjANkwiZlqCibfheX"
+                        "V9LVQXmCFNNA6TpAxrOfBesmCUriuYWZ"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
@@ -87,7 +87,7 @@
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=XQk18pKGjmhoH94rjANkwiZlqCibfheX; sessionid=blvegd2z2jxnngjhyl3onchfczowlu83"
+                        "csrftoken=V9LVQXmCFNNA6TpAxrOfBesmCUriuYWZ; sessionid=ilepgq2vgdrhratxzwprac6nx4eqpku7"
                     ], 
                     "X-Avi-Version": [
                         "17.1.6"
@@ -130,7 +130,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Fri, 12 Jan 2018 10:55:35 GMT"
+                        "Fri, 12 Jan 2018 11:02:57 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"

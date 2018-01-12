@@ -3,79 +3,10 @@
     "interactions": [
         {
             "request": {
-                "body": "username=admin&password=avi123", 
-                "headers": {
-                    "Cookie": [
-                        "csrftoken=STb39sVa0uoVvTekQU2Oaw42ttyF4L15; sessionid=bqvr0w26eugua7gke518apjsif322ud8"
-                    ], 
-                    "Content-Length": [
-                        "30"
-                    ], 
-                    "Content-Type": [
-                        "application/x-www-form-urlencoded"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.25.42/login"
-            }, 
-            "response": {
-                "status": {
-                    "message": "OK", 
-                    "code": 200
-                }, 
-                "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ], 
-                    "set-cookie": [
-                        "csrftoken=evwpgimK8bM0ab4PfGO5RA8NVMbgjNIU; expires=Tue, 08-Jan-2019 12:39:56 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=bqvr0w26eugua7gke518apjsif322ud8; expires=Wed, 10-Jan-2018 12:39:56 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "avi_api_version": [
-                        "16_4_2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "POST, OPTIONS"
-                    ], 
-                    "cache-control": [
-                        "no-store, no-cache"
-                    ], 
-                    "date": [
-                        "Tue, 09 Jan 2018 12:39:56 GMT"
-                    ], 
-                    "x-frame-options": [
-                        "SAMEORIGIN"
-                    ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1513971548349610\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-a7f1e973-4af5-4c9b-8be2-8e8be2bab49b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-fddd475c-a475-4c8c-ab2a-5cb7b9f89b38\", \"/api/sslkeyandcertificate/sslkeyandcertificate-65a3db53-94d5-4e18-9dba-0e1e7f1ed6b3\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9000, \"Tag\": \"17.2.5-9000-20171222.181937\", \"Date\": \"2017-12-22T18:19:37+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.10.25.42/api/tenant/tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"uuid\": \"tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1513973552659624\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}]}"
-                }
-            }
-        }, 
-        {
-            "request": {
                 "body": "{\"name\": \"test-tenant\"}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "evwpgimK8bM0ab4PfGO5RA8NVMbgjNIU"
+                        "V9LVQXmCFNNA6TpAxrOfBesmCUriuYWZ"
                     ], 
                     "Content-Length": [
                         "23"
@@ -83,14 +14,14 @@
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
-                    "Referer": [
-                        "https://10.10.25.42"
+                    "Cookie": [
+                        "[<Cookie csrftoken=V9LVQXmCFNNA6TpAxrOfBesmCUriuYWZ for 10.10.25.42/>, <Cookie sessionid=ilepgq2vgdrhratxzwprac6nx4eqpku7 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
                     ], 
-                    "Cookie": [
-                        "csrftoken=evwpgimK8bM0ab4PfGO5RA8NVMbgjNIU; sessionid=bqvr0w26eugua7gke518apjsif322ud8"
+                    "Referer": [
+                        "https://10.10.25.42"
                     ], 
                     "X-Avi-Version": [
                         "17.1.6"
@@ -127,7 +58,7 @@
                         "keep-alive"
                     ], 
                     "location": [
-                        "https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711#test-tenant"
+                        "https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415#test-tenant"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
@@ -136,7 +67,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:39:57 GMT"
+                        "Fri, 12 Jan 2018 11:03:05 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -149,7 +80,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"_last_modified\": \"1515501596919017\", \"url\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711#test-tenant\", \"uuid\": \"tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}"
+                    "string": "{\"_last_modified\": \"1515754985573588\", \"url\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415#test-tenant\", \"uuid\": \"tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}"
                 }
             }
         }, 
@@ -180,8 +111,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa; expires=Tue, 08-Jan-2019 12:39:59 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i; expires=Wed, 10-Jan-2018 12:39:59 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S; expires=Fri, 11-Jan-2019 11:03:07 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0; expires=Sat, 13-Jan-2018 11:03:07 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -202,7 +133,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:39:59 GMT"
+                        "Fri, 12 Jan 2018 11:03:07 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -215,7 +146,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1513971548349610\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-a7f1e973-4af5-4c9b-8be2-8e8be2bab49b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-fddd475c-a475-4c8c-ab2a-5cb7b9f89b38\", \"/api/sslkeyandcertificate/sslkeyandcertificate-65a3db53-94d5-4e18-9dba-0e1e7f1ed6b3\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9000, \"Tag\": \"17.2.5-9000-20171222.181937\", \"Date\": \"2017-12-22T18:19:37+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.10.25.42/api/tenant/tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"uuid\": \"tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1513973552659624\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}, {\"url\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"uuid\": \"tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"name\": \"test-tenant\", \"_last_modified\": \"1515501596919017\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}]}"
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1513971548349610\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-a7f1e973-4af5-4c9b-8be2-8e8be2bab49b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-fddd475c-a475-4c8c-ab2a-5cb7b9f89b38\", \"/api/sslkeyandcertificate/sslkeyandcertificate-65a3db53-94d5-4e18-9dba-0e1e7f1ed6b3\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9000, \"Tag\": \"17.2.5-9000-20171222.181937\", \"Date\": \"2017-12-22T18:19:37+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.10.25.42/api/tenant/tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"uuid\": \"tenant-f4da86bd-1155-471e-8fd2-d10c63d6babb\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1513973552659624\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}, {\"url\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"uuid\": \"tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"name\": \"test-tenant\", \"_last_modified\": \"1515754985573588\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}]}"
                 }
             }
         }, 
@@ -224,13 +155,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa; sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i"
+                        "csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S; sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0"
                     ], 
                     "timeout": [
                         "60"
@@ -276,7 +207,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:39:59 GMT"
+                        "Fri, 12 Jan 2018 11:03:08 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -289,7 +220,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1515501596919017\", \"url\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"uuid\": \"tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1515754985573588\", \"url\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"uuid\": \"tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
                 }
             }
         }, 
@@ -298,7 +229,7 @@
                 "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-test-tenant\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "Content-Length": [
                         "186"
@@ -307,7 +238,7 @@
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -347,7 +278,7 @@
                         "keep-alive"
                     ], 
                     "location": [
-                        "https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55#basic_vs-pool-test-tenant"
+                        "https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f#basic_vs-pool-test-tenant"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
@@ -356,7 +287,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:00 GMT"
+                        "Fri, 12 Jan 2018 11:03:08 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -369,7 +300,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711#test-tenant\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb#PG-964\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515501600249674\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55#basic_vs-pool-test-tenant\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415#test-tenant\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb#PG-964\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515754988426634\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb#Default-Cloud\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f#basic_vs-pool-test-tenant\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         }, 
@@ -378,13 +309,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -433,7 +364,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:00 GMT"
+                        "Fri, 12 Jan 2018 11:03:08 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -455,13 +386,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -507,7 +438,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:01 GMT"
+                        "Fri, 12 Jan 2018 11:03:09 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -520,7 +451,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515501600249674\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"enabled\": true, \"uuid\": \"pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515754988426634\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"enabled\": true, \"uuid\": \"pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -529,13 +460,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Version": [
                         "17.1.6"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -544,7 +475,7 @@
                         "https://10.10.25.42"
                     ], 
                     "X-Avi-Tenant-UUID": [
-                        "tenant-747e43ca-3361-457c-b637-dbf2e51a1711"
+                        "tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415"
                     ], 
                     "Content-Type": [
                         "application/json"
@@ -584,7 +515,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:01 GMT"
+                        "Fri, 12 Jan 2018 11:03:09 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -597,7 +528,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515501600249674\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"enabled\": true, \"uuid\": \"pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515754988426634\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"enabled\": true, \"uuid\": \"pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -606,13 +537,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -661,7 +592,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:01 GMT"
+                        "Fri, 12 Jan 2018 11:03:10 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -674,7 +605,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515501600249674\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"enabled\": true, \"uuid\": \"pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515754988426634\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"enabled\": true, \"uuid\": \"pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -683,13 +614,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -735,7 +666,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:02 GMT"
+                        "Fri, 12 Jan 2018 11:03:10 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -748,7 +679,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515501600249674\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"enabled\": true, \"uuid\": \"pool-7c5b516a-153e-48a5-93df-c618a5589b55\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"hostname\": \"10.90.64.10\", \"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"discovered_networks\": [{\"subnet\": [{\"ip_addr\": {\"type\": \"V4\", \"addr\": \"10.90.64.0\"}, \"mask\": 24}], \"network_ref\": \"https://10.10.25.42/api/network/dvportgroup-53975-cloud-4b7cc3de-1595-432c-b812-f479f325afcb\"}], \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1515754988426634\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-4b7cc3de-1595-432c-b812-f479f325afcb\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f4f469e3-2b23-42d5-9b09-f3767d94ed23\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"enabled\": true, \"uuid\": \"pool-cce8f58a-027b-4703-a5b5-046b59f3989f\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -757,7 +688,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "Content-Length": [
                         "0"
@@ -766,7 +697,7 @@
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -779,7 +710,7 @@
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.42/api/pool/pool-7c5b516a-153e-48a5-93df-c618a5589b55"
+                "uri": "https://10.10.25.42/api/pool/pool-cce8f58a-027b-4703-a5b5-046b59f3989f"
             }, 
             "response": {
                 "status": {
@@ -815,7 +746,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:02 GMT"
+                        "Fri, 12 Jan 2018 11:03:10 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -837,13 +768,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -892,7 +823,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:03 GMT"
+                        "Fri, 12 Jan 2018 11:03:11 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -914,13 +845,13 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -966,7 +897,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:03 GMT"
+                        "Fri, 12 Jan 2018 11:03:11 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -979,7 +910,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1515501596919017\", \"url\": \"https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"uuid\": \"tenant-747e43ca-3361-457c-b637-dbf2e51a1711\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1515754985573588\", \"url\": \"https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"uuid\": \"tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
                 }
             }
         }, 
@@ -988,7 +919,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa"
+                        "5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S"
                     ], 
                     "Content-Length": [
                         "0"
@@ -997,7 +928,7 @@
                         "admin"
                     ], 
                     "Cookie": [
-                        "[<Cookie csrftoken=PSO8OZRFvpSlCpRW9BlrKm885ICiLXEa for 10.10.25.42/>, <Cookie sessionid=wgh5m9aaqnk3ma6f6z7z76iy585oo55i for 10.10.25.42/>]"
+                        "[<Cookie csrftoken=5Nwy7GAat7DohgJwCxKw2RI7ysQJR52S for 10.10.25.42/>, <Cookie sessionid=o06qsx7ixf8gjd4j1ja1pgsvmfjikfw0 for 10.10.25.42/>]"
                     ], 
                     "timeout": [
                         "60"
@@ -1010,7 +941,7 @@
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.42/api/tenant/tenant-747e43ca-3361-457c-b637-dbf2e51a1711"
+                "uri": "https://10.10.25.42/api/tenant/tenant-c240debe-bec7-4e12-a8dc-0d9a2f4dc415"
             }, 
             "response": {
                 "status": {
@@ -1046,7 +977,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 09 Jan 2018 12:40:04 GMT"
+                        "Fri, 12 Jan 2018 11:03:12 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
