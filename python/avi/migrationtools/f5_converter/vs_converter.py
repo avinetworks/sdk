@@ -74,9 +74,6 @@ class VSConfigConv(object):
                     conv_utils.add_status_row('virtual', None, vs_name,
                                               final.STATUS_SKIPPED, msg)
                     continue
-                # Added prefix for objects
-                if self.prefix:
-                    vs_name = self.prefix + '-' + vs_name
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
                                          cloud_name, controller_version,
@@ -114,6 +111,9 @@ class VSConfigConv(object):
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         if not tenant_ref == 'admin':
             tenant = tenant_ref
+        # Added prefix for objects
+        if self.prefix:
+            vs_name = '{}-{}'.format(self.prefix, vs_name)
         hash_profiles = avi_config.get('hash_algorithm', [])
         description = f5_vs.get("description", None)
         skipped = [key for key in f5_vs.keys()
@@ -188,9 +188,17 @@ class VSConfigConv(object):
         services_obj, ip_addr, vsvip_ref, vrf_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
             cloud_name, self.prefix, vs_name)
+        # Added check for same vip in same vrf
+        if vsvip_ref == '':
+            msg = "Skipped: Virtualservice %s has repeated vip not in " \
+                  "different vrf" % vs_name
+            LOG.debug(msg)
+            conv_utils.add_status_row('virtual', None, vs_name,
+                                      final.STATUS_SKIPPED, msg)
+            return
         # Added Check for if port is no digit skip vs.
         if not services_obj and not ip_addr and not vsvip_ref:
-            msg = "Skipped is not a digit: Virtualservice : %s" % vs_name
+            msg = "Skipped Virtualservice : %s" % vs_name
             LOG.debug(msg)
             conv_utils.add_status_row('virtual', None, vs_name,
                                       final.STATUS_SKIPPED, msg)
@@ -206,6 +214,8 @@ class VSConfigConv(object):
             if persist_ref:
                 # Called tenant ref to get object name
                 persist_ref = conv_utils.get_tenant_ref(persist_ref)[1]
+                if self.prefix:
+                    persist_ref = '{}-{}'.format(self.prefix, persist_ref)
                 persist_profile_objs = [ob for ob in syspersist if ob['name'] ==
                                        merge_object_mapping[
                                        'app_per_profile'].get(persist_ref)] or \

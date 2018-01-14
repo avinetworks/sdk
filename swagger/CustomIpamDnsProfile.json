@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CustomIpamDnsProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure customipamdnsprofile <key>\n- show customipamdnsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

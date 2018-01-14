@@ -88,14 +88,16 @@ class PersistenceConfigConv(object):
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref
-                # TODO: Should be enabled after controller app cookie issue is fixed
-                # if persist_mode == "cookie":
-                #     persist_profile = self.convert_cookie(name, profile,
-                #                                           skipped, tenant)
-                #     if not persist_profile:
-                #         continue
-                #     u_ignore = user_ignore.get('cookie', [])
-                if persist_mode == "ssl":
+                if self.prefix:
+                    name = '{}-{}'.format(self.prefix, name)
+                # Enabled the cookie support
+                if persist_mode == "cookie":
+                    persist_profile = self.convert_cookie(name, profile,
+                                                          skipped, tenant)
+                    if not persist_profile:
+                        continue
+                    u_ignore = user_ignore.get('cookie', [])
+                elif persist_mode == "ssl":
                     persist_profile = self.convert_ssl(
                         name, profile, skipped, self.indirect, tenant)
                     u_ignore = user_ignore.get('ssl', [])
@@ -217,7 +219,10 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         self.supported_attr += ignore_lst
         skipped += [attr for attr in profile.keys()
                     if attr not in self.supported_attr]
-        cookie_name = profile.get("cookie-name", name+':cookie-name')
+        cookie_name = profile.get("cookie-name")
+        # Set cookie name to default value from avi if not given
+        if not cookie_name or cookie_name == 'none':
+            cookie_name = 'AVI_COOKIE'
         timeout = profile.get("expiration", '1')
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
@@ -227,7 +232,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-            "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
         }
         persist_profile['tenant_ref'] = conv_utils.get_object_ref(
             tenant, 'tenant')
@@ -297,7 +302,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         :return:
         """
         conv_utils.add_conv_status('persistence', persist_mode, name,
-                                   conv_status, persist_profile)
+                                   conv_status,
+                                   [{'app_per_profile': persist_profile}])
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 
@@ -356,13 +362,10 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
             return None
         skipped += [attr for attr in profile.keys()
                    if attr not in self.supported_attr]
-        cookie_name = profile.get("cookie name", name+':-cookie')
-        if not cookie_name:
-            msg = "Missing Required field cookie name in: %s", name
-            LOG.error(msg)
-            conv_utils.add_status_row('profile', 'persist-cookie', name,
-                                      final.STATUS_SKIPPED, msg)
-            return None
+        cookie_name = profile.get("cookie name")
+        # Set cookie name to default value from avi if not given
+        if not cookie_name or cookie_name == 'none':
+            cookie_name = 'AVI_COOKIE'
         timeout = profile.get("cookie expiration", '1')
         if timeout == 'immediate':
             timeout = '0'
@@ -379,7 +382,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
-            "persistence_type": "PERSISTENCE_TYPE_APP_COOKIE",
+            "persistence_type": "PERSISTENCE_TYPE_HTTP_COOKIE",
         }
         persist_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
@@ -446,8 +449,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :param persist_profile: dict of persist profile
         :return:
         """
-        conv_utils.add_conv_status('profile', 'persist', name,
-                                   conv_status, persist_profile)
+        conv_utils.add_conv_status('persistence', 'persist', name, conv_status,
+                                   [{'app_per_profile': persist_profile}])
         LOG.debug("Conversion successful for persistence profile: %s" %
                   name)
 
@@ -460,10 +463,10 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :return:
         """
         if name:
-            conv_utils.add_status_row("profile", 'persist', name,
+            conv_utils.add_status_row("persistence", 'persist', name,
                                       final.STATUS_ERROR)
         else:
-            conv_utils.add_status_row("profile", 'persist', key,
+            conv_utils.add_status_row("persistence", 'persist', key,
                                       final.STATUS_ERROR)
 
     def update_conv_status_for_skip(self, persist_mode, name, msg):
@@ -474,5 +477,5 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         :param msg: status message
         :return:
         """
-        conv_utils.add_status_row("profile", 'persist', name,
+        conv_utils.add_status_row("persistence", 'persist', name,
                                   final.STATUS_SKIPPED, msg)

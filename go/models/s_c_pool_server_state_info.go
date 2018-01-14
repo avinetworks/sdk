@@ -13,8 +13,8 @@ type SCPoolServerStateInfo struct {
 	//  Field introduced in 17.1.1.
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
-	//  It is a reference to an object of type Pool. Field introduced in 17.1.1.
-	PoolRef string `json:"pool_ref,omitempty"`
+	//  Field introduced in 17.1.1.
+	PoolID string `json:"pool_id,omitempty"`
 
 	//  Field introduced in 17.1.1.
 	ServerStates []*SCServerStateInfo `json:"server_states,omitempty"`

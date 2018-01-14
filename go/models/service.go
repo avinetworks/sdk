@@ -10,6 +10,9 @@ type Service struct {
 	// Enable SSL termination and offload for traffic from clients.
 	EnableSsl bool `json:"enable_ssl,omitempty"`
 
+	// Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4.
+	OverrideApplicationProfileRef string `json:"override_application_profile_ref,omitempty"`
+
 	// Override the network profile for this specific service port. It is a reference to an object of type NetworkProfile.
 	OverrideNetworkProfileRef string `json:"override_network_profile_ref,omitempty"`
 

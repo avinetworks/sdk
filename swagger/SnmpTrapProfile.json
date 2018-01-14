@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SnmpTrapProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure snmptrapprofile <key>\n- show snmptrapprofile <key>\n- test alerttestsnmptrap <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -632,13 +632,19 @@
                     "description": "IP Address of the SNMP trap destination.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
-                "user": {
-                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/SnmpV3UserParams"
+                "port": {
+                    "default": 162, 
+                    "type": "integer", 
+                    "description": "The UDP port of the trap server. Field introduced in 16.5.4,17.2.5.", 
+                    "format": "int32"
                 }, 
                 "community": {
                     "type": "string", 
                     "description": "The community string to communicate with the trap server."
+                }, 
+                "user": {
+                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SnmpV3UserParams"
                 }
             }
         }, 

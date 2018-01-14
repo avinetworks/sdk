@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CloudProperties Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure cloudproperties\n- show cloudproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -950,7 +950,7 @@
                 "vs_se_ping_fail": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of vs_se_ping_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "portal_token": {
@@ -960,13 +960,13 @@
                 "cluster_ip_gratuitous_arp_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of cluster_ip_gratuitous_arp_period.", 
+                    "description": ". Units(MIN).", 
                     "format": "int32"
                 }, 
                 "persistence_key_rotate_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
+                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "bm_use_ansible": {
@@ -977,19 +977,19 @@
                 "attach_ip_retry_interval": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Number of attach_ip_retry_interval.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vs_se_vnic_fail": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Number of vs_se_vnic_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "secure_channel_se_token_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of secure_channel_se_token_timeout.", 
+                    "description": ". Units(MIN).", 
                     "format": "int32"
                 }, 
                 "attach_ip_retry_limit": {
@@ -1001,13 +1001,13 @@
                 "se_vnic_cooldown": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": "Number of se_vnic_cooldown.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vnic_op_fail_time": {
                     "default": 180, 
                     "type": "integer", 
-                    "description": "Number of vnic_op_fail_time.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "max_pcap_per_tenant": {
@@ -1019,7 +1019,7 @@
                 "vs_se_bootup_fail": {
                     "default": 480, 
                     "type": "integer", 
-                    "description": "Number of vs_se_bootup_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "seupgrade_fabric_pool_size": {
@@ -1031,55 +1031,55 @@
                 "vs_key_rotate_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
+                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "seupgrade_segroup_min_dead_timeout": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Time to wait before marking segroup upgrade as stuck.", 
+                    "description": "Time to wait before marking segroup upgrade as stuck. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "dns_refresh_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of dns_refresh_period.", 
+                    "description": ". Units(MIN).", 
                     "format": "int32"
                 }, 
                 "upgrade_lease_time": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Number of upgrade_lease_time.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "se_create_timeout": {
                     "default": 900, 
                     "type": "integer", 
-                    "description": "Number of se_create_timeout.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "query_host_fail": {
                     "default": 180, 
                     "type": "integer", 
-                    "description": "Number of query_host_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vs_apic_scaleout_timeout": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only.", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "unresponsive_se_reboot": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Number of unresponsive_se_reboot.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "se_offline_del": {
                     "default": 172000, 
                     "type": "integer", 
-                    "description": "Number of se_offline_del.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "max_dead_se_in_grp": {
@@ -1091,13 +1091,13 @@
                 "upgrade_dns_ttl": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1.", 
+                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "fatal_error_lease_time": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": "Number of fatal_error_lease_time.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "allow_ip_forwarding": {
@@ -1107,7 +1107,7 @@
                 "vs_se_attach_ip_fail": {
                     "default": 3600, 
                     "type": "integer", 
-                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.", 
+                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "max_seq_vnic_failures": {
@@ -1131,7 +1131,7 @@
                 "warmstart_se_reconnect_wait_time": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Number of warmstart_se_reconnect_wait_time.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "uuid": {
@@ -1152,7 +1152,7 @@
                 "secure_channel_cleanup_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of secure_channel_cleanup_timeout.", 
+                    "description": ". Units(MIN).", 
                     "format": "int32"
                 }, 
                 "ssl_certificate_expiry_warning_days": {
@@ -1160,19 +1160,19 @@
                         "type": "integer"
                     }, 
                     "type": "array", 
-                    "description": "Number of days for SSL Certificate expiry warning.", 
+                    "description": "Number of days for SSL Certificate expiry warning. Units(DAYS).", 
                     "format": "int32"
                 }, 
                 "vs_se_vnic_ip_fail": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": "Number of vs_se_vnic_ip_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "secure_channel_controller_token_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of secure_channel_controller_token_timeout.", 
+                    "description": ". Units(MIN).", 
                     "format": "int32"
                 }, 
                 "url": {
@@ -1183,19 +1183,19 @@
                 "vs_se_create_fail": {
                     "default": 1500, 
                     "type": "integer", 
-                    "description": "Number of vs_se_create_fail.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "api_idle_timeout": {
                     "default": 15, 
                     "type": "integer", 
-                    "description": " Allowed values are 0-1440.", 
+                    "description": " Allowed values are 0-1440. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "crashed_se_reboot": {
                     "default": 900, 
                     "type": "integer", 
-                    "description": "Number of crashed_se_reboot.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "appviewx_compat_mode": {
@@ -1205,19 +1205,19 @@
                 "vs_awaiting_se_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of vs_awaiting_se_timeout.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }, 
                 "se_failover_attempt_interval": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Interval between attempting failovers to an SE.", 
+                    "description": "Interval between attempting failovers to an SE. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "dead_se_detection_timer": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Number of dead_se_detection_timer.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }
             }
@@ -1228,25 +1228,25 @@
                 "poll_duration_target": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals.", 
+                    "description": "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "poll_slow_target": {
                     "default": 240, 
                     "type": "integer", 
-                    "description": "Slow poll interval.", 
+                    "description": "Slow poll interval. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "poll_fast_target": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Fast poll interval.", 
+                    "description": "Fast poll interval. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vnic_retries_delay": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Delay between each vnic status poll check.", 
+                    "description": "Delay between each vnic status poll check. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "async_retries": {
@@ -1258,7 +1258,7 @@
                 "async_retries_delay": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Delay between each async job status poll check.", 
+                    "description": "Delay between each async job status poll check. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vnic_retries": {
@@ -1404,7 +1404,7 @@
                 "rpc_poll_interval": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Number of rpc_poll_interval.", 
+                    "description": ". Units(SEC).", 
                     "format": "int32"
                 }
             }

@@ -82,7 +82,7 @@ class PoolConfigConv(object):
                     cloud_name, merge_object_mapping, sys_dict)
                 pool_list += converted_objs['pools']
                 if 'pg_obj' in converted_objs:
-                    avi_config['PoolGroup'].append(converted_objs['pg_obj'])
+                    avi_config['PoolGroup'].extend(converted_objs['pg_obj'])
                 LOG.debug("Conversion successful for Pool: %s" % pool_name)
             except:
                 LOG.error("Failed to convert pool: %s" % pool_name,
@@ -279,7 +279,8 @@ class PoolConfigConv(object):
                 member = {
                     'pool_ref': conv_utils.get_object_ref(
                         priority_pool_ref, 'pool', tenant=tenant,
-                        cloud_name=cloud_ref)
+                        cloud_name=cloud_ref),
+                    'priority_label': priority
                 }
                 pg_members.append(member)
         # Added prefix for objects
@@ -294,7 +295,7 @@ class PoolConfigConv(object):
         pg_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         converted_objs = {
             'pools': pools,
-            'pg_obj': pg_obj
+            'pg_obj': [pg_obj]
         }
         return converted_objs
 

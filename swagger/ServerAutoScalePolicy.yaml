@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ServerAutoScalePolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -380,7 +380,7 @@ definitions:
                 items:
                     type: string
             scalein_cooldown:
-                description: "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete."
+                description: "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Units(SEC)."
                 type: integer
                 default: 300
                 format: int32
@@ -390,7 +390,7 @@ definitions:
                 items:
                     type: string
             scaleout_cooldown:
-                description: "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete."
+                description: "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Units(SEC)."
                 type: integer
                 default: 300
                 format: int32

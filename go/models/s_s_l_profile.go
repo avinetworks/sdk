@@ -20,7 +20,6 @@ type SSLProfile struct {
 	Description string `json:"description,omitempty"`
 
 	// DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits.
-	// Read Only: true
 	Dhparam string `json:"dhparam,omitempty"`
 
 	// Enable SSL session re-use.
@@ -39,7 +38,7 @@ type SSLProfile struct {
 	// Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object
 	SslRating *SSLRating `json:"ssl_rating,omitempty"`
 
-	// The amount of time before an SSL session expires.
+	// The amount of time before an SSL session expires. Units(SEC).
 	SslSessionTimeout int32 `json:"ssl_session_timeout,omitempty"`
 
 	// Placeholder for description of property tags of obj type SSLProfile field type str  type object

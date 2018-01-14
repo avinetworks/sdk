@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -663,7 +663,7 @@
                 "negative_caching_ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4.", 
+                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "aaaa_empty_response": {
@@ -685,7 +685,7 @@
                 "ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400.", 
+                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "edns": {
@@ -954,7 +954,7 @@
                 "thresh_period": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "thresh_info": {
@@ -1065,7 +1065,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -1255,7 +1255,7 @@
                 "keepalive_timeout": {
                     "default": 30000, 
                     "type": "integer", 
-                    "description": "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000.", 
+                    "description": "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "ssl_client_certificate_mode": {
@@ -1293,7 +1293,7 @@
                 "client_max_header_size": {
                     "default": 12, 
                     "type": "integer", 
-                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.", 
+                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Units(KB).", 
                     "format": "int32"
                 }, 
                 "server_side_redirect_to_https": {
@@ -1307,7 +1307,7 @@
                 "client_max_request_size": {
                     "default": 48, 
                     "type": "integer", 
-                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
+                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Units(KB).", 
                     "format": "int32"
                 }, 
                 "compression_profile": {
@@ -1339,18 +1339,24 @@
                 "client_header_timeout": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.", 
+                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "post_accept_timeout": {
                     "default": 30000, 
                     "type": "integer", 
-                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.", 
+                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "secure_cookie_enabled": {
                     "type": "boolean", 
                     "description": "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set."
+                }, 
+                "max_response_headers_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Field introduced in 17.2.5. Units(KB).", 
+                    "format": "int32"
                 }, 
                 "xff_alternate_name": {
                     "default": "X-Forwarded-For", 
@@ -1364,7 +1370,7 @@
                 }, 
                 "client_max_body_size": {
                     "type": "integer", 
-                    "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited.", 
+                    "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited. Units(KB).", 
                     "format": "int64"
                 }, 
                 "enable_fire_and_forget": {
@@ -1379,7 +1385,7 @@
                 "client_body_timeout": {
                     "default": 30000, 
                     "type": "integer", 
-                    "description": "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000.", 
+                    "description": "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "max_bad_rps_uri": {

@@ -24,6 +24,6 @@ type GslbPool struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// Priority of this pool of Members. If the priority of this is the highest in the group, DNS service picks up only this member for DNS responses. Allowed values are 1-100.
+	// Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 1-100.
 	Priority int32 `json:"priority,omitempty"`
 }

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AuthProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -837,7 +837,7 @@
                 "cache_expiration_time": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "The max allowed length of time a clients authentication is cached. Allowed values are 1-30.", 
+                    "description": "The max allowed length of time a clients authentication is cached. Allowed values are 1-30. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "request_header": {

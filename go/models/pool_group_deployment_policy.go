@@ -11,13 +11,12 @@ type PoolGroupDeploymentPolicy struct {
 	AutoDisableOldProdPools bool `json:"auto_disable_old_prod_pools,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
-	// Duration of evaluation period for automatic deployment. Allowed values are 60-86400.
+	// Duration of evaluation period for automatic deployment. Allowed values are 60-86400. Units(SEC).
 	EvaluationDuration int32 `json:"evaluation_duration,omitempty"`
 
 	// The name of the pool group deployment policy.
@@ -30,7 +29,7 @@ type PoolGroupDeploymentPolicy struct {
 	// deployment scheme. Enum options - BLUE_GREEN, CANARY.
 	Scheme string `json:"scheme,omitempty"`
 
-	// Target traffic ratio before pool is made production. Allowed values are 1-100.
+	// Target traffic ratio before pool is made production. Allowed values are 1-100. Units(RATIO).
 	TargetTestTrafficRatio int32 `json:"target_test_traffic_ratio,omitempty"`
 
 	//  It is a reference to an object of type Tenant.

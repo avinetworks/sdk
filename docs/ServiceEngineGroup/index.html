@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  ##Examples## - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -289,26 +289,36 @@ font-style: italic;
       "cluster_refs" : [ "aeiou" ]
     },
     "vcenter_datastores_include" : true,
+    "vss_placement" : {
+      "num_subcores" : 123,
+      "core_nonaffinity" : 123
+    },
     "disk_per_se" : 123,
     "host_attribute_key" : "aeiou",
+    "license_tier" : "aeiou",
     "host_attribute_value" : "aeiou",
     "instance_flavor" : "aeiou",
     "se_probe_port" : 123,
     "vcpus_per_se" : 123,
     "non_significant_log_throttle" : 123,
+    "allow_burst" : true,
     "log_disksz" : 123,
     "se_tunnel_udp_port" : 123,
     "ingress_access_data" : "aeiou",
     "auto_rebalance" : true,
     "ha_mode" : "aeiou",
     "se_sb_dedicated_core" : true,
+    "disable_tso" : true,
     "se_vs_hb_max_pkts_in_batch" : 123,
     "distribute_load_active_standby" : true,
     "auto_rebalance_interval" : 123,
     "vcenter_datastore_mode" : "aeiou",
+    "license_type" : "aeiou",
+    "flow_table_new_syn_max_entries" : 123,
     "auto_rebalance_criteria" : [ "aeiou" ],
     "url" : "aeiou",
     "vs_scalein_timeout_for_upgrade" : 123,
+    "se_bandwidth_type" : "aeiou",
     "custom_tag" : [ {
       "tag_key" : "aeiou",
       "tag_val" : "aeiou"
@@ -338,6 +348,7 @@ font-style: italic;
       "host_refs" : [ "aeiou" ]
     },
     "custom_securitygroups_mgmt" : [ "aeiou" ],
+    "disable_gro" : true,
     "openstack_availability_zone" : "aeiou",
     "se_thread_multiplier" : 123,
     "waf_mempool_size" : 123,
@@ -388,6 +399,7 @@ font-style: italic;
     "service_ip_subnets" : [ "" ],
     "memory_per_se" : 123,
     "auto_rebalance_capacity_per_se" : [ "" ],
+    "disable_csum_offloads" : true,
     "cpu_reserve" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
@@ -487,26 +499,36 @@ font-style: italic;
     "cluster_refs" : [ "aeiou" ]
   },
   "vcenter_datastores_include" : true,
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
   "disk_per_se" : 123,
   "host_attribute_key" : "aeiou",
+  "license_tier" : "aeiou",
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
+  "disable_tso" : true,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "distribute_load_active_standby" : true,
   "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
+  "license_type" : "aeiou",
+  "flow_table_new_syn_max_entries" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
+  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -536,6 +558,7 @@ font-style: italic;
     "host_refs" : [ "aeiou" ]
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "disable_gro" : true,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
@@ -586,6 +609,7 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "disable_csum_offloads" : true,
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -812,26 +836,36 @@ font-style: italic;
     "cluster_refs" : [ "aeiou" ]
   },
   "vcenter_datastores_include" : true,
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
   "disk_per_se" : 123,
   "host_attribute_key" : "aeiou",
+  "license_tier" : "aeiou",
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
+  "disable_tso" : true,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "distribute_load_active_standby" : true,
   "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
+  "license_type" : "aeiou",
+  "flow_table_new_syn_max_entries" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
+  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -861,6 +895,7 @@ font-style: italic;
     "host_refs" : [ "aeiou" ]
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "disable_gro" : true,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
@@ -911,6 +946,7 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "disable_csum_offloads" : true,
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -1021,26 +1057,36 @@ font-style: italic;
     "cluster_refs" : [ "aeiou" ]
   },
   "vcenter_datastores_include" : true,
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
   "disk_per_se" : 123,
   "host_attribute_key" : "aeiou",
+  "license_tier" : "aeiou",
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
+  "disable_tso" : true,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "distribute_load_active_standby" : true,
   "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
+  "license_type" : "aeiou",
+  "flow_table_new_syn_max_entries" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
+  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -1070,6 +1116,7 @@ font-style: italic;
     "host_refs" : [ "aeiou" ]
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "disable_gro" : true,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
@@ -1120,6 +1167,7 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "disable_csum_offloads" : true,
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -1230,26 +1278,36 @@ font-style: italic;
     "cluster_refs" : [ "aeiou" ]
   },
   "vcenter_datastores_include" : true,
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
   "disk_per_se" : 123,
   "host_attribute_key" : "aeiou",
+  "license_tier" : "aeiou",
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
+  "disable_tso" : true,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "distribute_load_active_standby" : true,
   "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
+  "license_type" : "aeiou",
+  "flow_table_new_syn_max_entries" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
+  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -1279,6 +1337,7 @@ font-style: italic;
     "host_refs" : [ "aeiou" ]
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "disable_gro" : true,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
@@ -1329,6 +1388,7 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "disable_csum_offloads" : true,
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
@@ -1494,6 +1554,7 @@ font-style: italic;
     <li><a href="#VcenterClusters"><code>VcenterClusters</code></a></li>
     <li><a href="#VcenterDatastore"><code>VcenterDatastore</code></a></li>
     <li><a href="#VcenterHosts"><code>VcenterHosts</code></a></li>
+    <li><a href="#VssPlacement"><code>VssPlacement</code></a></li>
   </ol>
 
   <div class="model">
@@ -1515,7 +1576,7 @@ font-style: italic;
     <h3 class="field-label"><a name="DosThresholdProfile">DosThresholdProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">thresh_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThreshold">array[DosThreshold]</a></span> Attack type, min and max values for DoS attack detection. </div>
-<div class="param">thresh_period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. format: int32</div>
+<div class="param">thresh_period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1558,7 +1619,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsRealTimeUpdate">MetricsRealTimeUpdate</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. Units(MIN). format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1576,17 +1637,18 @@ font-style: italic;
 <div class="param">advertise_backend_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature. </div>
 <div class="param">aggressive_failure_detection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable aggressive failover configuration for ha. </div>
 <div class="param">algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED. </div>
-<div class="param">archive_shm_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. format: int32</div>
+<div class="param">allow_burst (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow SEs to be created using burst license. Field introduced in 17.2.5. </div>
+<div class="param">archive_shm_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB). format: int32</div>
 <div class="param">async_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> SSL handshakes will be handled by dedicated SSL Threads. </div>
 <div class="param">async_ssl_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Async SSL threads per se_dp. Allowed values are 1-4. format: int32</div>
 <div class="param">auto_rebalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set. </div>
 <div class="param">auto_rebalance_capacity_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4. </div>
 <div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3. </div>
-<div class="param">auto_rebalance_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of rebalance, if &#39;Auto rebalance&#39; is enabled. format: int32</div>
+<div class="param">auto_rebalance_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of rebalance, if &#39;Auto rebalance&#39; is enabled. Units(SEC). format: int32</div>
 <div class="param">auto_redistribute_active_standby_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API. </div>
 <div class="param">buffer_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Excess Service Engine capacity provisioned for HA failover. format: int32</div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
-<div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. format: int32</div>
+<div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT). format: int32</div>
 <div class="param">cpu_reserve (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">cpu_socket_affinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud. </div>
 <div class="param">custom_securitygroups_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3. </div>
@@ -1594,15 +1656,19 @@ font-style: italic;
 <div class="param">custom_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomTag">array[CustomTag]</a></span> Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name. </div>
 <div class="param">dedicated_dispatcher_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don&#39;t use it for TCP/IP and SSL functions. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">disk_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of disk space for each of the Service Engine virtual machines. format: int32</div>
+<div class="param">disable_csum_offloads (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5. </div>
+<div class="param">disable_gro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5. </div>
+<div class="param">disable_tso (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5. </div>
+<div class="param">disk_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of disk space for each of the Service Engine virtual machines. Units(GB). format: int32</div>
 <div class="param">distribute_load_active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. </div>
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing for this ServiceEngineGroup . </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of SE. Field introduced in 17.1.1. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. </div>
 <div class="param">extra_config_multiplier (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Multiplier for extra config to support large VS/Pool config. format: double</div>
-<div class="param">extra_shared_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. format: int32</div>
+<div class="param">extra_shared_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB). format: int32</div>
 <div class="param">floating_intf_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. </div>
 <div class="param">floating_intf_ip_se_2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. </div>
+<div class="param">flow_table_new_syn_max_entries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5. format: int32</div>
 <div class="param">ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
 <div class="param">hardwaresecuritymodulegroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type HardwareSecurityModuleGroup. </div>
 <div class="param">hm_on_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable active health monitoring from the standby SE for all placed virtual services. </div>
@@ -1610,14 +1676,16 @@ font-style: italic;
 <div class="param">host_attribute_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key. </div>
 <div class="param">host_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4. </div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
-<div class="param">ignore_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. format: int32</div>
+<div class="param">ignore_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS). format: int32</div>
 <div class="param">ingress_access_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>
 <div class="param">ingress_access_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>
 <div class="param">instance_flavor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Instance/Flavor type for SE instance. </div>
 <div class="param">iptables (optional)</div><div class="param-desc"><span class="param-type"><a href="#IptableRuleSet">array[IptableRuleSet]</a></span> Iptable Rules. </div>
 <div class="param">least_load_core_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select core with least load for new flow. </div>
-<div class="param">log_disksz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. format: int32</div>
-<div class="param">max_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. format: int32</div>
+<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
+<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
+<div class="param">log_disksz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB). format: int32</div>
+<div class="param">max_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT). format: int32</div>
 <div class="param">max_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
 <div class="param">max_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Services Engines in this group. Allowed values are 0-1000. format: int32</div>
 <div class="param">max_vs_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000. format: int32</div>
@@ -1625,10 +1693,10 @@ font-style: italic;
 <div class="param">memory_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of memory for each of the Service Engine virtual machines. format: int32</div>
 <div class="param">mgmt_network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network to use for Avi Service Engines. It is a reference to an object of type Network. </div>
 <div class="param">mgmt_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Management subnet to use for Avi Service Engines. </div>
-<div class="param">min_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. format: int32</div>
+<div class="param">min_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT). format: int32</div>
 <div class="param">min_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">non_significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">non_significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
 <div class="param">num_flow_cores_sum_changes_to_ignore (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of changes in num flow cores sum to ignore. format: int32</div>
 <div class="param">openstack_availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 17.1.1. </div>
 <div class="param">openstack_availability_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Field introduced in 17.1.1. </div>
@@ -1638,7 +1706,8 @@ font-style: italic;
 <div class="param">per_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. </div>
 <div class="param">placement_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If placement mode is &#39;Auto&#39;, Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO. </div>
 <div class="param">realtime_se_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Enable or disable real time SE metrics. </div>
-<div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. format: int32</div>
+<div class="param">se_bandwidth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. </div>
+<div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN). format: int32</div>
 <div class="param">se_dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object </div>
 <div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix to use for virtual machine name of Service Engines. </div>
@@ -1647,15 +1716,15 @@ font-style: italic;
 <div class="param">se_sb_dedicated_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3. </div>
 <div class="param">se_sb_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3. format: int32</div>
 <div class="param">se_thread_multiplier (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Multiplier for SE threads based on vCPU. Allowed values are 1-10. format: int32</div>
-<div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1. format: int32</div>
+<div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_tunnel_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3. format: int32</div>
-<div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don&#39;t use UDP encap. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don&#39;t use UDP encap. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_vs_hb_max_pkts_in_batch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_vs_hb_max_vs_in_pkt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1. format: int32</div>
 <div class="param">service_ip_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1. </div>
-<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND). format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vcenter_clusters (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterClusters">VcenterClusters</a></span> Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object </div>
@@ -1666,11 +1735,12 @@ font-style: italic;
 <div class="param">vcenter_hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterHosts">VcenterHosts</a></span> Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object </div>
 <div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. format: int32</div>
 <div class="param">vs_host_redundancy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ensure primary and secondary Service Engines are deployed on different physical hosts. </div>
-<div class="param">vs_scalein_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled in SE to drain existing flows before marking the scalein done. format: int32</div>
-<div class="param">vs_scalein_timeout_for_upgrade (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. format: int32</div>
-<div class="param">vs_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done. format: int32</div>
+<div class="param">vs_scalein_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC). format: int32</div>
+<div class="param">vs_scalein_timeout_for_upgrade (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC). format: int32</div>
+<div class="param">vs_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC). format: int32</div>
+<div class="param">vss_placement (optional)</div><div class="param-desc"><span class="param-type"><a href="#VssPlacement">VssPlacement</a></span> If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5. </div>
 <div class="param">waf_mempool (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable memory pool for WAF. Field introduced in 17.2.3. </div>
-<div class="param">waf_mempool_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Memory pool size used for WAF. Field introduced in 17.2.3. format: int32</div>
+<div class="param">waf_mempool_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1698,6 +1768,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">host_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VIMgrHostRuntime. </div>
 <div class="param">include (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property include of obj type VcenterHosts field type str  type boolean </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VssPlacement">VssPlacement</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5. format: int32</div>
+<div class="param">num_subcores (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

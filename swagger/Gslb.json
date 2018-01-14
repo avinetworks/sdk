@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Gslb Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure gslb <key>\n- show gslb <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -902,6 +902,10 @@
                     "type": "integer", 
                     "description": "The Site Controller Cluster's REST API port number. Allowed values are 1-65535.", 
                     "format": "int32"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5."
                 }
             }
         }, 
@@ -936,6 +940,10 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable or disable the third-party Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance. A disabled site's configuration shall be retained  but it will not get any new configuration updates.   VIPs associated with the disabled site shall not be sent in DNS response. . Field introduced in 17.1.1."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "This field is used as a key in the datastore for the GslbThirdPartySite table to encapsulate site-related info. . Field introduced in 17.2.5."
                 }, 
                 "location": {
                     "description": "Geographic location of the site. Field introduced in 17.1.1.", 
@@ -993,7 +1001,7 @@
                 "send_interval": {
                     "default": 15, 
                     "type": "integer", 
-                    "description": "Frequency with which group members communicate. Allowed values are 1-3600.", 
+                    "description": "Frequency with which group members communicate. Allowed values are 1-3600. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "clear_on_max_retries": {

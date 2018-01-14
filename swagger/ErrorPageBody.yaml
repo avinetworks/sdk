@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ErrorPageBody Object API
     contact:
         name: Avi Networks Inc.
@@ -334,6 +334,8 @@ paths:
 definitions:
     ErrorPageBody:
         type: object
+        required:
+            -   name
         properties:
             error_page_body:
                 description: "Error page body sent to client when match. Field introduced in 17.2.4."

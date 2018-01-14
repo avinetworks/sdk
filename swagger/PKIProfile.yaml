@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi PKIProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -408,7 +408,7 @@ definitions:
                 description: "Certificate Revocation list in plain text for readability."
                 type: string
             update_interval:
-                description: "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX."
+                description: "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN)."
                 type: integer
                 format: int32
     PKIProfile:

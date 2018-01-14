@@ -7,13 +7,16 @@ package models
 // swagger:model WafPolicy
 type WafPolicy struct {
 
+	// Creator name. Field introduced in 17.2.4.
+	CreatedBy string `json:"created_by,omitempty"`
+
 	// WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1.
 	CrsGroups []*WafRuleGroup `json:"crs_groups,omitempty"`
 
 	//  Field introduced in 17.2.1.
 	Description string `json:"description,omitempty"`
 
-	// WAF Policy mode. This can be detection only or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
+	// WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
 	// Required: true
 	Mode string `json:"mode"`
 

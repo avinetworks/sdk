@@ -32,4 +32,7 @@ type BgpProfile struct {
 
 	// Send community attribute to all peers. Field introduced in 17.1.2.
 	SendCommunity bool `json:"send_community,omitempty"`
+
+	// Shutdown the bgp. Field introduced in 17.2.4.
+	Shutdown bool `json:"shutdown,omitempty"`
 }

@@ -7,31 +7,31 @@ package models
 // swagger:model AnalyticsProfile
 type AnalyticsProfile struct {
 
-	// If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000.
+	// If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000. Units(MILLISECONDS).
 	ApdexResponseThreshold int32 `json:"apdex_response_threshold,omitempty"`
 
 	// Client tolerated response latency factor. Client must receive a response within this factor times the satisfactory threshold (apdex_response_threshold) to be considered tolerated. Allowed values are 1-1000.
 	ApdexResponseToleratedFactor *float64 `json:"apdex_response_tolerated_factor,omitempty"`
 
-	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000.
+	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. Units(MILLISECONDS).
 	ApdexRttThreshold int32 `json:"apdex_rtt_threshold,omitempty"`
 
 	// Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.
 	ApdexRttToleratedFactor *float64 `json:"apdex_rtt_tolerated_factor,omitempty"`
 
-	// If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client's request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000.
+	// If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client's request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000. Units(MILLISECONDS).
 	ApdexRumThreshold int32 `json:"apdex_rum_threshold,omitempty"`
 
 	// Virtual service threshold factor for tolerated Page Load Time (PLT) as multiple of apdex_rum_threshold. Allowed values are 1-1000.
 	ApdexRumToleratedFactor *float64 `json:"apdex_rum_tolerated_factor,omitempty"`
 
-	// A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000.
+	// A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000. Units(MILLISECONDS).
 	ApdexServerResponseThreshold int32 `json:"apdex_server_response_threshold,omitempty"`
 
 	// Server tolerated response latency factor. Servermust response within this factor times the satisfactory threshold (apdex_server_response_threshold) to be considered tolerated. Allowed values are 1-1000.
 	ApdexServerResponseToleratedFactor *float64 `json:"apdex_server_response_tolerated_factor,omitempty"`
 
-	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000.
+	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. Units(MILLISECONDS).
 	ApdexServerRttThreshold int32 `json:"apdex_server_rtt_threshold,omitempty"`
 
 	// Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.
@@ -43,28 +43,28 @@ type AnalyticsProfile struct {
 	// Configure to stream logs to an external server. Field introduced in 17.1.1.
 	ClientLogStreamingConfig *ClientLogStreamingConfig `json:"client_log_streaming_config,omitempty"`
 
-	// A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.
+	// A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. Units(PERCENT).
 	ConnLossyOooThreshold int32 `json:"conn_lossy_ooo_threshold,omitempty"`
 
-	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100.
+	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. Units(PERCENT).
 	ConnLossyTimeoRexmtThreshold int32 `json:"conn_lossy_timeo_rexmt_threshold,omitempty"`
 
-	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.
+	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. Units(PERCENT).
 	ConnLossyTotalRexmtThreshold int32 `json:"conn_lossy_total_rexmt_threshold,omitempty"`
 
-	// A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100.
+	// A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. Units(PERCENT).
 	ConnLossyZeroWinSizeEventThreshold int32 `json:"conn_lossy_zero_win_size_event_threshold,omitempty"`
 
-	// A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.
+	// A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100. Units(PERCENT).
 	ConnServerLossyOooThreshold int32 `json:"conn_server_lossy_ooo_threshold,omitempty"`
 
-	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100.
+	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100. Units(PERCENT).
 	ConnServerLossyTimeoRexmtThreshold int32 `json:"conn_server_lossy_timeo_rexmt_threshold,omitempty"`
 
-	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.
+	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. Units(PERCENT).
 	ConnServerLossyTotalRexmtThreshold int32 `json:"conn_server_lossy_total_rexmt_threshold,omitempty"`
 
-	// A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100.
+	// A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. Units(PERCENT).
 	ConnServerLossyZeroWinSizeEventThreshold int32 `json:"conn_server_lossy_zero_win_size_event_threshold,omitempty"`
 
 	// User defined description for the object.

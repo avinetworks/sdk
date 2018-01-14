@@ -86,7 +86,8 @@ class MonitorConfigConv(object):
             {"type": "SSL_VERSION_TLS1_1"},
             {"type": "SSL_VERSION_TLS1_2"}
         ]
-        ssl_profile['name'] = '%s-%s' % (monitor_dict['name'], 'sslprofile')
+        # Removed '-sslprofile' suffix from name
+        ssl_profile['name'] = monitor_dict['name']
         ssl_profile['tenant_ref'] = conv_utils.get_object_ref(
             tenant, 'tenant')
         ssl_profile['accepted_ciphers'] = cipher
@@ -396,7 +397,7 @@ class MonitorConfigConv(object):
             u_ignore, na_list)
 
         conv_utils.add_conv_status('monitor', monitor_type, name, conv_status,
-                                   monitor_dict)
+                                   [{'health_monitor': monitor_dict}])
         return monitor_dict
 
 

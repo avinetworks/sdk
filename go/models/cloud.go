@@ -46,7 +46,10 @@ type Cloud struct {
 	// Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile.
 	IPAMProviderRef string `json:"ipam_provider_ref,omitempty"`
 
-	// If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS.
+	// Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	LicenseTier string `json:"license_tier,omitempty"`
+
+	// If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
 	LicenseType string `json:"license_type,omitempty"`
 
 	// Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object
@@ -55,7 +58,7 @@ type Cloud struct {
 	// Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object
 	MesosConfiguration *MesosConfiguration `json:"mesos_configuration,omitempty"`
 
-	// MTU setting for the cloud.
+	// MTU setting for the cloud. Units(BYTES).
 	Mtu int32 `json:"mtu,omitempty"`
 
 	// Name of the object.
@@ -82,6 +85,9 @@ type Cloud struct {
 
 	// Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object
 	RancherConfiguration *RancherConfiguration `json:"rancher_configuration,omitempty"`
+
+	// DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12.
+	StateBasedDNSRegistration bool `json:"state_based_dns_registration,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -1931,7 +1931,7 @@ font-style: italic;
     <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1993,7 +1993,7 @@ font-style: italic;
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

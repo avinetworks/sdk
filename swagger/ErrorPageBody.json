@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ErrorPageBody Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure errorpagebody <key>\n- show errorpagebody <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -479,6 +479,9 @@
     }, 
     "definitions": {
         "ErrorPageBody": {
+            "required": [
+                "name"
+            ], 
             "type": "object", 
             "properties": {
                 "error_page_body": {

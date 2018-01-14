@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -703,6 +703,23 @@
         }
     }, 
     "definitions": {
+        "VssPlacement": {
+            "type": "object", 
+            "properties": {
+                "core_nonaffinity": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "num_subcores": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "ServiceEngineGroupApiResponse": {
             "required": [
                 "count", 
@@ -804,6 +821,10 @@
                     "description": "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
+                "disable_tso": {
+                    "type": "boolean", 
+                    "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
+                }, 
                 "host_attribute_value": {
                     "type": "string", 
                     "description": "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
@@ -827,12 +848,12 @@
                 "disk_per_se": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Amount of disk space for each of the Service Engine virtual machines.", 
+                    "description": "Amount of disk space for each of the Service Engine virtual machines. Units(GB).", 
                     "format": "int32"
                 }, 
                 "se_tunnel_mode": {
                     "type": "integer", 
-                    "description": "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1.", 
+                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "uuid": {
@@ -845,10 +866,14 @@
                     "description": "UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
+                "disable_gro": {
+                    "type": "boolean", 
+                    "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
+                }, 
                 "vs_scalein_timeout": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
+                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "ha_mode": {
@@ -868,13 +893,13 @@
                 }, 
                 "se_udp_encap_ipc": {
                     "type": "integer", 
-                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don't use UDP encap. Field introduced in 17.1.2.", 
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.", 
                     "format": "int32"
                 }, 
                 "min_cpu_usage": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.", 
+                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT).", 
                     "format": "int32"
                 }, 
                 "custom_securitygroups_data": {
@@ -919,7 +944,7 @@
                 "connection_memory_percentage": {
                     "default": 50, 
                     "type": "integer", 
-                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.", 
+                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT).", 
                     "format": "int32"
                 }, 
                 "service_ip_subnets": {
@@ -954,6 +979,12 @@
                     "type": "boolean", 
                     "description": "Enable memory pool for WAF. Field introduced in 17.2.3."
                 }, 
+                "se_thread_multiplier": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
+                    "format": "int32"
+                }, 
                 "per_app": {
                     "type": "boolean", 
                     "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
@@ -974,6 +1005,11 @@
                     "type": "string", 
                     "description": "Prefix to use for virtual machine name of Service Engines."
                 }, 
+                "flow_table_new_syn_max_entries": {
+                    "type": "integer", 
+                    "description": "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
                 "se_vs_hb_max_pkts_in_batch": {
                     "default": 8, 
                     "type": "integer", 
@@ -987,7 +1023,7 @@
                 "ignore_rtt_threshold": {
                     "default": 5000, 
                     "type": "integer", 
-                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.", 
+                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "tenant_ref": {
@@ -1003,6 +1039,10 @@
                     "type": "string", 
                     "description": "url"
                 }, 
+                "dedicated_dispatcher_core": {
+                    "type": "boolean", 
+                    "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
+                }, 
                 "max_se": {
                     "default": 10, 
                     "type": "integer", 
@@ -1014,9 +1054,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 }, 
-                "cpu_reserve": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                "license_type": {
+                    "type": "string", 
+                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
                 }, 
                 "se_dos_profile": {
                     "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object", 
@@ -1026,6 +1066,10 @@
                     "type": "boolean", 
                     "description": "Use Virtual MAC address for interfaces on which floating interface IPs are placed."
                 }, 
+                "disable_csum_offloads": {
+                    "type": "boolean", 
+                    "description": "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5."
+                }, 
                 "openstack_mgmt_network_name": {
                     "type": "string", 
                     "description": "Avi Management network name."
@@ -1033,7 +1077,7 @@
                 "udf_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "vcenter_hosts": {
@@ -1072,7 +1116,7 @@
                 "archive_shm_limit": {
                     "default": 8, 
                     "type": "integer", 
-                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.", 
+                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB).", 
                     "format": "int32"
                 }, 
                 "hardwaresecuritymodulegroup_ref": {
@@ -1100,16 +1144,22 @@
                     "type": "array", 
                     "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled."
                 }, 
+                "se_deprovision_delay": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN).", 
+                    "format": "int32"
+                }, 
                 "log_disksz": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
+                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB).", 
                     "format": "int32"
                 }, 
                 "non_significant_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "openstack_availability_zone": {
@@ -1118,13 +1168,13 @@
                 }, 
                 "extra_shared_config_memory": {
                     "type": "integer", 
-                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
+                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB).", 
                     "format": "int32"
                 }, 
                 "auto_rebalance_interval": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "vcenter_datastores": {
@@ -1143,7 +1193,7 @@
                 "vs_scaleout_timeout": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "active_standby": {
@@ -1170,11 +1220,10 @@
                     "description": "TCP port on SE where echo service will be run. Field introduced in 17.2.2.", 
                     "format": "int32"
                 }, 
-                "se_thread_multiplier": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
-                    "format": "int32"
+                "algo": {
+                    "default": "PLACEMENT_ALGO_PACKED", 
+                    "type": "string", 
+                    "description": "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
                 }, 
                 "extra_config_multiplier": {
                     "type": "number", 
@@ -1203,14 +1252,16 @@
                 "vs_scalein_timeout_for_upgrade": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.", 
+                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC).", 
                     "format": "int32"
                 }, 
-                "se_deprovision_delay": {
-                    "default": 120, 
-                    "type": "integer", 
-                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.", 
-                    "format": "int32"
+                "cpu_reserve": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "allow_burst": {
+                    "type": "boolean", 
+                    "description": "Allow SEs to be created using burst license. Field introduced in 17.2.5."
                 }, 
                 "floating_intf_ip": {
                     "items": {
@@ -1236,7 +1287,7 @@
                 "max_cpu_usage": {
                     "default": 80, 
                     "type": "integer", 
-                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.", 
+                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT).", 
                     "format": "int32"
                 }, 
                 "min_scaleout_per_vs": {
@@ -1244,6 +1295,14 @@
                     "type": "integer", 
                     "description": "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
                     "format": "int32"
+                }, 
+                "license_tier": {
+                    "type": "string", 
+                    "description": "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "vss_placement": {
+                    "description": "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5.", 
+                    "$ref": "#/definitions/VssPlacement"
                 }, 
                 "host_gateway_monitor": {
                     "type": "boolean", 
@@ -1287,23 +1346,18 @@
                 "significant_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
                     "format": "int32"
                 }, 
                 "waf_mempool_size": {
                     "default": 64, 
                     "type": "integer", 
-                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3.", 
+                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB).", 
                     "format": "int32"
                 }, 
-                "dedicated_dispatcher_core": {
-                    "type": "boolean", 
-                    "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
-                }, 
-                "algo": {
-                    "default": "PLACEMENT_ALGO_PACKED", 
+                "se_bandwidth_type": {
                     "type": "string", 
-                    "description": "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
+                    "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 }, 
                 "mgmt_subnet": {
                     "description": "Management subnet to use for Avi Service Engines.", 
@@ -1393,7 +1447,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -1459,7 +1513,7 @@
                 "thresh_period": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "thresh_info": {
