@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\n##Examples##\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2533,7 +2533,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -2684,7 +2684,7 @@
                 "fewest_tasks_feedback_delay": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.", 
+                    "description": "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "server_auto_scale": {
@@ -2697,7 +2697,7 @@
                 }, 
                 "capacity_estimation_ttfb_thresh": {
                     "type": "integer", 
-                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.", 
+                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
                 "ab_pool": {
@@ -2776,7 +2776,7 @@
                 "graceful_disable_timeout": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.", 
+                    "description": "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "nsx_securitygroup": {
@@ -2892,7 +2892,7 @@
                 "connection_ramp_duration": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.", 
+                    "description": "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "cloud_config_cksum": {
@@ -2904,7 +2904,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2."
+                    "description": "Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2."
                 }, 
                 "created_by": {
                     "type": "string", 

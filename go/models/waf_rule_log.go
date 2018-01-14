@@ -7,21 +7,24 @@ package models
 // swagger:model WafRuleLog
 type WafRuleLog struct {
 
-	//  Field introduced in 17.2.1.
+	// Transaction data that matched the rule. Field introduced in 17.2.1.
 	Matches []*WafRuleMatchData `json:"matches,omitempty"`
 
-	//  Field introduced in 17.2.1.
+	// Rule's msg string per ModSec language. Field introduced in 17.2.1.
 	Msg string `json:"msg,omitempty"`
 
-	//  Field introduced in 17.2.1.
+	// Phase in which transaction matched the Rule - for instance, Request Header Phase. Field introduced in 17.2.1.
 	Phase string `json:"phase,omitempty"`
 
-	//  Field introduced in 17.2.1.
+	// Rule Group for the matching rule. Field introduced in 17.2.1.
 	RuleGroup string `json:"rule_group,omitempty"`
 
-	//  Field introduced in 17.2.1.
-	RuleID string `json:"rule_id,omitempty"`
+	// ID of the matching rule per ModSec language. Field introduced in 17.2.1.
+	RuleID int32 `json:"rule_id,omitempty"`
 
-	//  Field introduced in 17.2.1.
+	// Name of the rule. Field introduced in 17.2.3.
+	RuleName string `json:"rule_name,omitempty"`
+
+	// Rule's tags per ModSec language. Field introduced in 17.2.1.
 	Tags []string `json:"tags,omitempty"`
 }

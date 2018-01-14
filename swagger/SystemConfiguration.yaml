@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -753,6 +753,10 @@ definitions:
             admin_auth_configuration:
                 description: "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/AdminAuthConfiguration'
+            default_license_tier:
+                description: "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+                default: "ENTERPRISE_18"
             dns_configuration:
                 description: "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/DNSConfiguration'

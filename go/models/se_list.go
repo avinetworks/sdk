@@ -13,6 +13,12 @@ type SeList struct {
 	// Placeholder for description of property at_curr_ver of obj type SeList field type str  type boolean
 	AtCurrVer bool `json:"at_curr_ver,omitempty"`
 
+	//  Field introduced in 17.2.3.
+	AttachIPStatus string `json:"attach_ip_status,omitempty"`
+
+	//  Field introduced in 17.2.3.
+	AttachIPSuccess bool `json:"attach_ip_success,omitempty"`
+
 	// Placeholder for description of property delete_in_progress of obj type SeList field type str  type boolean
 	DeleteInProgress bool `json:"delete_in_progress,omitempty"`
 

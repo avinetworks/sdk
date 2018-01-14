@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkSecurityPolicy Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure networksecuritypolicy <key>\n- show networksecuritypolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -673,7 +673,7 @@
                 }, 
                 "age": {
                     "type": "integer", 
-                    "description": "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'.", 
+                    "description": "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "created_by": {

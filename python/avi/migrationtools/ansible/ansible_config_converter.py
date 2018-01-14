@@ -54,6 +54,7 @@ class AviAnsibleConverter(object):
         self.ns_vs_name_dict = ns_vs_name_dict
         # for test vip
         self.test_vip = test_vip
+        self.register_flag = True
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -175,7 +176,9 @@ class AviAnsibleConverter(object):
                                            task['vip'][id]['ip_address']['addr'].split('.')[3:])
                         if task.get('vsvip_ref', []):
                             task.get('vsvip_ref', [])
-
+            if not self.register_flag:
+                task.update({'api_context': "{{results.api_context | "
+                                            "default(omit)}}"})
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
             name = '%s-%s' % (obj['name'], obj_type)
@@ -198,13 +201,22 @@ class AviAnsibleConverter(object):
             # eliminate nonetype in vs_ref_tags
             if vs_ref_tags:
                 tags.extend(vs_ref_tags)
-
-            ansible_dict[TASKS].append(
-                {
-                    task_id: task,
-                    NAME: task_name,
-                    TAGS: tags
-                })
+            if self.register_flag:
+                ansible_dict[TASKS].append(
+                    {
+                        task_id: task,
+                        NAME: task_name,
+                        'register': 'results',
+                        TAGS: tags
+                    })
+                self.register_flag = False
+            else:
+                ansible_dict[TASKS].append(
+                    {
+                        task_id: task,
+                        NAME: task_name,
+                        TAGS: tags
+                    })
         return ansible_dict
 
     def get_f5_attributes(self, vs_dict):
@@ -370,13 +382,10 @@ class AviAnsibleConverter(object):
             inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
-        meta = self.avi_cfg['META']
-        if 'order' not in meta:
-            meta['order'] = self.default_meta_order['avi_resource_types']
-        total_size = len(meta['order'])
+        total_size = len(self.default_meta_order['avi_resource_types'])
         progressbar_count = 0
         print "Conversion Started For Ansible Create Object..."
-        for obj_type in meta['order']:
+        for obj_type in self.default_meta_order['avi_resource_types']:
             progressbar_count += 1
             # Added call to check progress.
             msg = "Ansible Create Object..."
@@ -393,27 +402,33 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        if f5server and f5user and f5password and instance_type:
-            self.generate_traffic(generate_traffic_dict, f5server, f5user,
-                                  f5password, instance_type)
-            # Generate traffic file separately
-            with open(ansible_traffic_path, "w+") as outf:
-                outf.write(ANSIBLE_STR)
-                outf.write('---\n')
-                yaml.safe_dump(
-                    [generate_traffic_dict], outf,
-                    default_flow_style=False, indent=2
-                )
+        # if f5server and f5user and f5password and instance_type:
+        #     self.generate_traffic(generate_traffic_dict, f5server, f5user,
+        #                           f5password, instance_type)
+        #     # Generate traffic file separately
+        #     with open(ansible_traffic_path, "w+") as outf:
+        #         outf.write(ANSIBLE_STR)
+        #         outf.write('---\n')
+        #         yaml.safe_dump(
+        #             [generate_traffic_dict], outf,
+        #             default_flow_style=False, indent=2
+        #         )
         with open(ansible_create_object_path, "w") as outf:
             outf.write(ANSIBLE_STR)
             outf.write('---\n')
             yaml.safe_dump([ad], outf, default_flow_style=False, indent=2)
 
         # Added support to generate ansible delete object playbook
+        if len(ad['tasks']):
+            ad['tasks'][0].pop('register')
+            ad['tasks'][-1].update({'register': 'results'})
+            for k, v in ad['tasks'][0].iteritems():
+                    if isinstance(v, dict):
+                        v['api_context'] = "{{results.api_context}}"
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
             for k, v in task.iteritems():
-                if k == 'name' or k == 'tags':
+                if k == 'name' or k == 'tags' or k =='register':
                     continue
                 if v.get('system_default'):
                     tasks.remove(task)

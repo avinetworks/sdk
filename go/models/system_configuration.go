@@ -10,6 +10,9 @@ type SystemConfiguration struct {
 	// Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object
 	AdminAuthConfiguration *AdminAuthConfiguration `json:"admin_auth_configuration,omitempty"`
 
+	// Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	DefaultLicenseTier string `json:"default_license_tier,omitempty"`
+
 	// Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object
 	DNSConfiguration *DNSConfiguration `json:"dns_configuration,omitempty"`
 
@@ -17,7 +20,6 @@ type SystemConfiguration struct {
 	DNSVirtualserviceRefs []string `json:"dns_virtualservice_refs,omitempty"`
 
 	// Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean
-	// Read Only: true
 	DockerMode bool `json:"docker_mode,omitempty"`
 
 	// Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object

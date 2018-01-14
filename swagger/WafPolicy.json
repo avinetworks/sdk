@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

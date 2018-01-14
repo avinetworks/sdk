@@ -16,7 +16,7 @@ type TCPProxyProfile struct {
 	// Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP.
 	CcAlgo string `json:"cc_algo,omitempty"`
 
-	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 60.  Set to 0 to allow infinite idle time. Allowed values are 60-3600. Special values are 0 - 'infinite'.
+	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'. Units(SEC).
 	IDLEConnectionTimeout int32 `json:"idle_connection_timeout,omitempty"`
 
 	// Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE.
@@ -31,7 +31,7 @@ type TCPProxyProfile struct {
 	// The number of attempts at retransmit before closing the connection. Allowed values are 3-8.
 	MaxRetransmissions int32 `json:"max_retransmissions,omitempty"`
 
-	// Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'.
+	// Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'. Units(BYTES).
 	MaxSegmentSize int32 `json:"max_segment_size,omitempty"`
 
 	// The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.
@@ -40,10 +40,10 @@ type TCPProxyProfile struct {
 	// Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH.
 	NaglesAlgorithm bool `json:"nagles_algorithm,omitempty"`
 
-	// Size of the receive window. Allowed values are 32-65536.
+	// Size of the receive window. Allowed values are 32-65536. Units(KB).
 	ReceiveWindow int32 `json:"receive_window,omitempty"`
 
-	// The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.
+	// The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS).
 	TimeWaitDelay int32 `json:"time_wait_delay,omitempty"`
 
 	// Use the interface MTU to calculate the TCP max segment size.

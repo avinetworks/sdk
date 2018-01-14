@@ -684,12 +684,12 @@ class ServiceConverter(object):
                     if self.object_merge_check:
                         # Get the merge health monitor name
                         monitor_name = merge_object_mapping[
-                            'health_monitor'].get(monitor_name, None)
+                            'health_monitor'].get(monitor_name, monitor_name)
                     monitor = [monitor for monitor in (sysdict['HealthMonitor']
-                              + avi_config['HealthMonitor']) if monitor[
-                              'name'] == monitor_name]
+                               + avi_config['HealthMonitor']) if monitor[
+                               'name'] == monitor_name]
                     if not monitor:
-                        monitor_name = '%s-%s' %(monitor_name, 'dummy')
+                        monitor_name = '%s-%s' % (monitor_name, 'dummy')
                         monitor = [monitor for monitor in
                                    avi_config['HealthMonitor']
                                    if monitor['name'] == monitor_name]

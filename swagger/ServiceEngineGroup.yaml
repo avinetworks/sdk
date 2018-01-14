@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -532,7 +532,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
-                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
+                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC)."
                 type: integer
                 default: 5
                 format: int32
@@ -619,7 +619,7 @@ definitions:
             -   enabled
         properties:
             duration:
-                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'."
+                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN)."
                 type: integer
                 default: 30
                 format: int32
@@ -658,8 +658,11 @@ definitions:
                 description: "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
                 type: string
                 default: "PLACEMENT_ALGO_PACKED"
+            allow_burst:
+                description: "Allow SEs to be created using burst license. Field introduced in 17.2.5."
+                type: boolean
             archive_shm_limit:
-                description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3."
+                description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB)."
                 type: integer
                 default: 8
                 format: int32
@@ -686,7 +689,7 @@ definitions:
                 items:
                     type: string
             auto_rebalance_interval:
-                description: "Frequency of rebalance, if 'Auto rebalance' is enabled."
+                description: "Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC)."
                 type: integer
                 default: 300
                 format: int32
@@ -702,7 +705,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             connection_memory_percentage:
-                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90."
+                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT)."
                 type: integer
                 default: 50
                 format: int32
@@ -733,8 +736,17 @@ definitions:
             description:
                 description: "User defined description for the object."
                 type: string
+            disable_csum_offloads:
+                description: "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5."
+                type: boolean
+            disable_gro:
+                description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
+                type: boolean
+            disable_tso:
+                description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
+                type: boolean
             disk_per_se:
-                description: "Amount of disk space for each of the Service Engine virtual machines."
+                description: "Amount of disk space for each of the Service Engine virtual machines. Units(GB)."
                 type: integer
                 default: 10
                 format: int32
@@ -756,7 +768,7 @@ definitions:
                 type: number
                 format: double
             extra_shared_config_memory:
-                description: "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1."
+                description: "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB)."
                 type: integer
                 format: int32
             floating_intf_ip:
@@ -769,6 +781,10 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
+            flow_table_new_syn_max_entries:
+                description: "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5."
+                type: integer
+                format: int32
             ha_mode:
                 description: "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
                 type: string
@@ -793,7 +809,7 @@ definitions:
                 description: "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 type: string
             ignore_rtt_threshold:
-                description: "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2."
+                description: "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS)."
                 type: integer
                 default: 5000
                 format: int32
@@ -817,13 +833,19 @@ definitions:
                 description: "Select core with least load for new flow."
                 type: boolean
                 default: True
+            license_tier:
+                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+            license_type:
+                description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
+                type: string
             log_disksz:
-                description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data."
+                description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB)."
                 type: integer
                 default: 10000
                 format: int32
             max_cpu_usage:
-                description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
+                description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT)."
                 type: integer
                 default: 80
                 format: int32
@@ -858,7 +880,7 @@ definitions:
                 description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'
             min_cpu_usage:
-                description: "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60."
+                description: "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT)."
                 type: integer
                 default: 30
                 format: int32
@@ -871,7 +893,7 @@ definitions:
                 description: "Name of the object."
                 type: string
             non_significant_log_throttle:
-                description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 100
                 format: int32
@@ -908,8 +930,11 @@ definitions:
             realtime_se_metrics:
                 description: "Enable or disable real time SE metrics."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
+            se_bandwidth_type:
+                description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
+                type: string
             se_deprovision_delay:
-                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600."
+                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN)."
                 type: integer
                 default: 120
                 format: int32
@@ -949,7 +974,7 @@ definitions:
                 default: 1
                 format: int32
             se_tunnel_mode:
-                description: "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1."
+                description: "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1."
                 type: integer
                 format: int32
             se_tunnel_udp_port:
@@ -958,7 +983,7 @@ definitions:
                 default: 1550
                 format: int32
             se_udp_encap_ipc:
-                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don't use UDP encap. Field introduced in 17.1.2."
+                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2."
                 type: integer
                 format: int32
             se_vs_hb_max_pkts_in_batch:
@@ -977,7 +1002,7 @@ definitions:
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             significant_log_throttle:
-                description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 100
                 format: int32
@@ -985,7 +1010,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             udf_log_throttle:
-                description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 100
                 format: int32
@@ -1028,26 +1053,29 @@ definitions:
                 type: boolean
                 default: True
             vs_scalein_timeout:
-                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done."
+                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC)."
                 type: integer
                 default: 30
                 format: int32
             vs_scalein_timeout_for_upgrade:
-                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done."
+                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC)."
                 type: integer
                 default: 30
                 format: int32
             vs_scaleout_timeout:
-                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done."
+                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC)."
                 type: integer
                 default: 30
                 format: int32
+            vss_placement:
+                description: "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5."
+                $ref: '#/definitions/VssPlacement'
             waf_mempool:
                 description: "Enable memory pool for WAF. Field introduced in 17.2.3."
                 type: boolean
                 default: True
             waf_mempool_size:
-                description: "Memory pool size used for WAF. Field introduced in 17.2.3."
+                description: "Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB)."
                 type: integer
                 default: 64
                 format: int32
@@ -1094,3 +1122,16 @@ definitions:
             include:
                 description: "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
                 type: boolean
+    VssPlacement:
+        type: object
+        properties:
+            core_nonaffinity:
+                description: "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5."
+                type: integer
+                default: 2
+                format: int32
+            num_subcores:
+                description: "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5."
+                type: integer
+                default: 4
+                format: int32

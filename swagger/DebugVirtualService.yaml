@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi DebugVirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -417,7 +417,7 @@ definitions:
         type: object
         properties:
             duration:
-                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'."
+                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'. Units(MIN)."
                 type: integer
                 format: int32
             num_pkts:
@@ -425,7 +425,7 @@ definitions:
                 type: integer
                 format: int32
             pkt_size:
-                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
+                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'. Units(BYTES)."
                 type: integer
                 default: 128
                 format: int32

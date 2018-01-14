@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
@@ -558,7 +558,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             ttl:
-                description: "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400."
+                description: "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400. Units(SEC)."
                 type: integer
                 format: int32
             url:

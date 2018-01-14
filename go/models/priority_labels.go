@@ -8,7 +8,6 @@ package models
 type PriorityLabels struct {
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// A description of the priority labels.

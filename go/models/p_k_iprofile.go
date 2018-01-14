@@ -23,7 +23,6 @@ type PKIprofile struct {
 	IgnorePeerChain bool `json:"ignore_peer_chain,omitempty"`
 
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
-	// Read Only: true
 	IsFederated bool `json:"is_federated,omitempty"`
 
 	// Name of the PKI Profile.

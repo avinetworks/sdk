@@ -16,4 +16,7 @@ type SeHmEventShmDetails struct {
 
 	// resp_string of SeHmEventShmDetails.
 	RespString string `json:"resp_string,omitempty"`
+
+	// Response code from server. Field introduced in 17.2.4.
+	ResponseCode int32 `json:"response_code,omitempty"`
 }

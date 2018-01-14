@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1632,7 +1632,7 @@ definitions:
                 description: "Inline estimation of capacity of servers."
                 type: boolean
             capacity_estimation_ttfb_thresh:
-                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'."
+                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS)."
                 type: integer
                 format: int32
             cloud_config_cksum:
@@ -1642,7 +1642,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             connection_ramp_duration:
-                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
+                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN)."
                 type: integer
                 default: 10
                 format: int32
@@ -1670,7 +1670,7 @@ definitions:
                 type: boolean
                 default: True
             external_autoscale_groups:
-                description: "Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2."
+                description: "Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2."
                 type: array
                 items:
                     type: string
@@ -1678,12 +1678,12 @@ definitions:
                 description: "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure."
                 $ref: '#/definitions/FailAction'
             fewest_tasks_feedback_delay:
-                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300."
+                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN)."
                 type: integer
                 default: 1
                 format: int32
@@ -1871,7 +1871,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
                 type: integer
                 default: 1
                 format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -2089,12 +2089,12 @@ definitions:
                 description: "Settings to turn on realtime metrics and set duration for realtime updates."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
             significant_log_throttle:
-                description: "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 10
                 format: int32
             udf_log_throttle:
-                description: "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 10
                 format: int32
@@ -2181,7 +2181,7 @@ definitions:
                 description: "Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object"
                 $ref: '#/definitions/IpAddrMatch'
             duration:
-                description: " Special values are 0 - 'infinite'."
+                description: " Special values are 0 - 'infinite'. Units(MIN)."
                 type: integer
                 default: 30
                 format: int32
@@ -2394,7 +2394,7 @@ definitions:
                 description: "Log all headers."
                 type: boolean
             duration:
-                description: "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'."
+                description: "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'. Units(MIN)."
                 type: integer
                 default: 30
                 format: int32
@@ -2402,7 +2402,7 @@ definitions:
                 description: "Capture all client logs including connections and requests.  When disabled, only errors will be logged."
                 type: boolean
             throttle:
-                description: "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
                 type: integer
                 default: 10
                 format: int32
@@ -2587,7 +2587,7 @@ definitions:
             -   enabled
         properties:
             duration:
-                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'."
+                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN)."
                 type: integer
                 default: 30
                 format: int32
@@ -2649,7 +2649,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
                 type: integer
                 default: 1
                 format: int32
@@ -2729,7 +2729,7 @@ definitions:
                 items:
                     $ref: '#/definitions/IpAddr'
             sideband_max_request_body_size:
-                description: "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384."
+                description: "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Units(BYTES)."
                 type: integer
                 default: 1024
                 format: int32
@@ -3073,7 +3073,7 @@ definitions:
                 items:
                     $ref: '#/definitions/IpAddr'
             sp_pool_refs:
-                description: "Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2."
+                description: "GSLB pools used to manage site-persistence functionality. Each site-persistence pool contains the virtualservices in all the other sites, that is auto-generated by the GSLB manager. This is a read-only field for the user. It is a reference to an object of type Pool. Field introduced in 17.2.2."
                 readOnly: True
                 type: array
                 items:
@@ -3153,7 +3153,7 @@ definitions:
                 description: "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."
                 type: string
             weight:
-                description: "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines."
+                description: "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128."
                 type: integer
                 default: 1
                 format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi ApplicationPersistenceProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -385,7 +385,7 @@ definitions:
                 description: "Header or cookie name for application cookie persistence."
                 type: string
             timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN)."
                 type: integer
                 default: 20
                 format: int32
@@ -483,14 +483,14 @@ definitions:
                 items:
                     $ref: '#/definitions/HttpCookiePersistenceKey'
             timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'. Units(MIN)."
                 type: integer
                 format: int32
     IPPersistenceProfile:
         type: object
         properties:
             ip_persistent_timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN)."
                 type: integer
                 default: 5
                 format: int32

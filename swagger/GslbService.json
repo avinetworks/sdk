@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi GslbService Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -752,7 +752,7 @@
                 }, 
                 "ttl": {
                     "type": "integer", 
-                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400.", 
+                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "health_monitor_scope": {

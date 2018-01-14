@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -755,7 +755,7 @@
                 "gateway_monitor_interval": {
                     "default": 1000, 
                     "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1.", 
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. Units(MILLISECONDS).", 
                     "format": "int32"
                 }
             }
@@ -789,7 +789,7 @@
                 "gateway_monitor_interval": {
                     "default": 1000, 
                     "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000.", 
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Units(MILLISECONDS).", 
                     "format": "int32"
                 }
             }

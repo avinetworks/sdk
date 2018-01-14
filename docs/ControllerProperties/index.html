@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -835,51 +835,51 @@ font-style: italic;
       <div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">allow_unauthenticated_apis (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow unauthenticated access for special APIs. </div>
 <div class="param">allow_unauthenticated_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean </div>
-<div class="param">api_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 0-1440. format: int32</div>
+<div class="param">api_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 0-1440. Units(MIN). format: int32</div>
 <div class="param">appviewx_compat_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Export configuration in appviewx compatibility mode. Field introduced in 17.1.1. </div>
-<div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_interval. format: int32</div>
+<div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
 <div class="param">attach_ip_retry_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_limit. format: int32</div>
 <div class="param">bm_use_ansible (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Ansible for SE creation in baremetal. Field introduced in 17.2.2. </div>
-<div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of cluster_ip_gratuitous_arp_period. format: int32</div>
-<div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of crashed_se_reboot. format: int32</div>
-<div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dead_se_detection_timer. format: int32</div>
-<div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dns_refresh_period. format: int32</div>
+<div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
+<div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
 <div class="param">dummy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dummy. format: int32</div>
-<div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of fatal_error_lease_time. format: int32</div>
+<div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
 <div class="param">max_dead_se_in_grp (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_dead_se_in_grp. format: int32</div>
 <div class="param">max_pcap_per_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of pcap files stored per tenant. format: int32</div>
 <div class="param">max_seq_attach_ip_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2. format: int32</div>
 <div class="param">max_seq_vnic_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_seq_vnic_failures. format: int32</div>
-<div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Units(MIN). format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
-<div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of query_host_fail. format: int32</div>
+<div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
 <div class="param">safenet_hsm_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3. </div>
-<div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_create_timeout. format: int32</div>
-<div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. format: int32</div>
-<div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_offline_del. format: int32</div>
-<div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_vnic_cooldown. format: int32</div>
-<div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_cleanup_timeout. format: int32</div>
-<div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_controller_token_timeout. format: int32</div>
-<div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_se_token_timeout. format: int32</div>
+<div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. Units(SEC). format: int32</div>
+<div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
+<div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
+<div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
 <div class="param">seupgrade_fabric_pool_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool size used for all fabric commands during se upgrade. format: int32</div>
-<div class="param">seupgrade_segroup_min_dead_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking segroup upgrade as stuck. format: int32</div>
-<div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. </div>
-<div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of unresponsive_se_reboot. format: int32</div>
-<div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. format: int32</div>
-<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upgrade_lease_time. format: int32</div>
+<div class="param">seupgrade_segroup_min_dead_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking segroup upgrade as stuck. Units(SEC). format: int32</div>
+<div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. Units(DAYS). </div>
+<div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC). format: int32</div>
+<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
-<div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vnic_op_fail_time. format: int32</div>
-<div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. format: int32</div>
-<div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_awaiting_se_timeout. format: int32</div>
-<div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
-<div class="param">vs_se_attach_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. format: int32</div>
-<div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_bootup_fail. format: int32</div>
-<div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_create_fail. format: int32</div>
-<div class="param">vs_se_ping_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_ping_fail. format: int32</div>
-<div class="param">vs_se_vnic_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_fail. format: int32</div>
-<div class="param">vs_se_vnic_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_ip_fail. format: int32</div>
-<div class="param">warmstart_se_reconnect_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of warmstart_se_reconnect_wait_time. format: int32</div>
+<div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC). format: int32</div>
+<div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Units(MIN). format: int32</div>
+<div class="param">vs_se_attach_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC). format: int32</div>
+<div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_se_ping_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_se_vnic_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vs_se_vnic_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">warmstart_se_reconnect_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

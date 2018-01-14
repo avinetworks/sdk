@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\n##Examples##\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -618,7 +618,7 @@
                 "receive_timeout": {
                     "default": 4, 
                     "type": "integer", 
-                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.", 
+                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -682,7 +682,7 @@
                 "send_interval": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.", 
+                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "external_monitor": {

@@ -33,7 +33,6 @@ type VrfContext struct {
 	StaticRoutes []*StaticRoute `json:"static_routes,omitempty"`
 
 	// Placeholder for description of property system_default of obj type VrfContext field type str  type boolean
-	// Read Only: true
 	SystemDefault bool `json:"system_default,omitempty"`
 
 	//  It is a reference to an object of type Tenant.

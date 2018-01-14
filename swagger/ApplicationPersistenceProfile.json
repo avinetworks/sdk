@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationPersistenceProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure applicationpersistenceprofile <key>\n- show applicationpersistenceprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -563,7 +563,7 @@
                 }, 
                 "timeout": {
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'.", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'. Units(MIN).", 
                     "format": "int32"
                 }, 
                 "key": {
@@ -585,7 +585,7 @@
                 "ip_persistent_timeout": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN).", 
                     "format": "int32"
                 }
             }
@@ -643,7 +643,7 @@
                 "timeout": {
                     "default": 20, 
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN).", 
                     "format": "int32"
                 }
             }

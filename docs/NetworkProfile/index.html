@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -842,7 +842,7 @@ font-style: italic;
     <h3 class="field-label"><a name="TCPFastPathProfile">TCPFastPathProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">enable_syn_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections. </div>
-<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -851,16 +851,16 @@ font-style: italic;
       <div class="param">aggressive_congestion_avoidance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Controls the our congestion window to send, normally it&#39;s 1 mss, If this option is turned on, we use 10 msses. </div>
 <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dynamically pick the relevant parameters for connections. </div>
 <div class="param">cc_algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP. </div>
-<div class="param">idle_connection_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">idle_connection_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. Units(SEC). format: int32</div>
 <div class="param">idle_connection_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE. </div>
 <div class="param">ignore_time_wait (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> A new SYN is accepted from the same 4-tuple even if there is already a connection in TIME_WAIT state.  This is equivalent of setting Time Wait Delay to 0. </div>
 <div class="param">ip_dscp (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Controls the value of the Differentiated Services Code Point field inserted in the IP header.  This has two options   Set to a specific value, or Pass Through, which uses the incoming DSCP value. Allowed values are 0-63. Special values are MAX - &#39;Passthrough&#39;. format: int32</div>
 <div class="param">max_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of attempts at retransmit before closing the connection. Allowed values are 3-8. format: int32</div>
-<div class="param">max_segment_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - &#39;Use Interface MTU&#39;. format: int32</div>
+<div class="param">max_segment_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - &#39;Use Interface MTU&#39;. Units(BYTES). format: int32</div>
 <div class="param">max_syn_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8. format: int32</div>
 <div class="param">nagles_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH. </div>
-<div class="param">receive_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the receive window. Allowed values are 32-65536. format: int32</div>
-<div class="param">time_wait_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - &#39;immediate&#39;. format: int32</div>
+<div class="param">receive_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the receive window. Allowed values are 32-65536. Units(KB). format: int32</div>
+<div class="param">time_wait_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - &#39;immediate&#39;. Units(MILLISECONDS). format: int32</div>
 <div class="param">use_interface_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the interface MTU to calculate the TCP max segment size. </div>
     </div>  <!-- field-items -->
   </div>
@@ -868,7 +868,7 @@ font-style: italic;
     <h3 class="field-label"><a name="UDPFastPathProfile">UDPFastPathProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">per_pkt_loadbalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server. </div>
-<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. format: int32</div>
+<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. Units(SEC). format: int32</div>
 <div class="param">snat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When disabled, Source NAT will not be performed for all client UDP packets. </div>
     </div>  <!-- field-items -->
   </div>

@@ -19,6 +19,9 @@ type OShiftK8SConfiguration struct {
 	// UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate.
 	ClientTLSKeyAndCertificateRef string `json:"client_tls_key_and_certificate_ref,omitempty"`
 
+	// Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5.
+	ClusterTag string `json:"cluster_tag,omitempty"`
+
 	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
 	ContainerPortMatchHTTPService bool `json:"container_port_match_http_service,omitempty"`
 
@@ -28,7 +31,7 @@ type OShiftK8SConfiguration struct {
 	// If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration.
 	DefaultServiceAsEastWestService bool `json:"default_service_as_east_west_service,omitempty"`
 
-	// Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.
 	DefaultSharedVirtualservice *OshiftSharedVirtualService `json:"default_shared_virtualservice,omitempty"`
 
 	// Disable auto service sync for back end services.
@@ -70,10 +73,16 @@ type OShiftK8SConfiguration struct {
 	// OpenShift/K8S Node label to be used as OpenShift/K8S Node's availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover.
 	NodeAvailabilityZoneLabel string `json:"node_availability_zone_label,omitempty"`
 
+	// Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3.
+	NsExcludeAttributes []*MesosAttribute `json:"ns_exclude_attributes,omitempty"`
+
+	// Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3.
+	NsIncludeAttributes []*MesosAttribute `json:"ns_include_attributes,omitempty"`
+
 	// Nuage Overlay SDN Controller information.
 	NuageController *NuageSDNController `json:"nuage_controller,omitempty"`
 
-	// Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.
 	RoutesShareVirtualservice bool `json:"routes_share_virtualservice,omitempty"`
 
 	// Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode.
@@ -94,7 +103,7 @@ type OShiftK8SConfiguration struct {
 	// Host volume to be used as a disk for Avi SE, This is a disruptive change.
 	SeVolume string `json:"se_volume,omitempty"`
 
-	// Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1.
+	// Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1.
 	SecureEgressMode bool `json:"secure_egress_mode,omitempty"`
 
 	// Authorization token for service account instead of client certificate. One of client certificate or token is required.
@@ -102,6 +111,9 @@ type OShiftK8SConfiguration struct {
 
 	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
 	ServicePortMatchHTTPService bool `json:"service_port_match_http_service,omitempty"`
+
+	// Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3.
+	SharedVirtualserviceNamespace bool `json:"shared_virtualservice_namespace,omitempty"`
 
 	// Parameters for SSH SE deployment. Field deprecated in 17.1.1.
 	SSHSeDeployment *SSHSeDeployment `json:"ssh_se_deployment,omitempty"`

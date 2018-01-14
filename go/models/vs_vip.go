@@ -8,7 +8,6 @@ package models
 type VsVip struct {
 
 	//  It is a reference to an object of type Cloud. Field introduced in 17.1.1.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1.

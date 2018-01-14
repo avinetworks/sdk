@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -265,6 +265,7 @@ font-style: italic;
       "client_nonfile_upload_max_body_size" : 123,
       "client_file_upload_max_body_size" : 123,
       "allowed_http_versions" : [ "aeiou" ],
+      "regex_match_limit" : 123,
       "response_body_default_action" : "aeiou",
       "restricted_headers" : [ "aeiou" ],
       "response_hdr_default_action" : "aeiou",
@@ -274,6 +275,7 @@ font-style: italic;
       "allowed_methods" : [ "aeiou" ],
       "buffer_response_body_for_inspection" : true,
       "allowed_request_content_types" : [ "aeiou" ],
+      "static_extensions" : [ "aeiou" ],
       "cookie_format_version" : 123,
       "request_hdr_default_action" : "aeiou"
     },
@@ -345,6 +347,7 @@ font-style: italic;
     "client_nonfile_upload_max_body_size" : 123,
     "client_file_upload_max_body_size" : 123,
     "allowed_http_versions" : [ "aeiou" ],
+    "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
@@ -354,6 +357,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "buffer_response_body_for_inspection" : true,
     "allowed_request_content_types" : [ "aeiou" ],
+    "static_extensions" : [ "aeiou" ],
     "cookie_format_version" : 123,
     "request_hdr_default_action" : "aeiou"
   },
@@ -494,6 +498,7 @@ font-style: italic;
     "client_nonfile_upload_max_body_size" : 123,
     "client_file_upload_max_body_size" : 123,
     "allowed_http_versions" : [ "aeiou" ],
+    "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
@@ -503,6 +508,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "buffer_response_body_for_inspection" : true,
     "allowed_request_content_types" : [ "aeiou" ],
+    "static_extensions" : [ "aeiou" ],
     "cookie_format_version" : 123,
     "request_hdr_default_action" : "aeiou"
   },
@@ -585,6 +591,7 @@ font-style: italic;
     "client_nonfile_upload_max_body_size" : 123,
     "client_file_upload_max_body_size" : 123,
     "allowed_http_versions" : [ "aeiou" ],
+    "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
@@ -594,6 +601,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "buffer_response_body_for_inspection" : true,
     "allowed_request_content_types" : [ "aeiou" ],
+    "static_extensions" : [ "aeiou" ],
     "cookie_format_version" : 123,
     "request_hdr_default_action" : "aeiou"
   },
@@ -676,6 +684,7 @@ font-style: italic;
     "client_nonfile_upload_max_body_size" : 123,
     "client_file_upload_max_body_size" : 123,
     "allowed_http_versions" : [ "aeiou" ],
+    "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
@@ -685,6 +694,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "buffer_response_body_for_inspection" : true,
     "allowed_request_content_types" : [ "aeiou" ],
+    "static_extensions" : [ "aeiou" ],
     "cookie_format_version" : 123,
     "request_hdr_default_action" : "aeiou"
   },
@@ -725,20 +735,22 @@ font-style: italic;
     <h3 class="field-label"><a name="WafConfig">WafConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allowed_http_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1. </div>
-<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. Field introduced in 17.2.1. </div>
+<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. Field introduced in 17.2.1. </div>
 <div class="param">allowed_request_content_types (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed Content Types. Field introduced in 17.2.1. </div>
 <div class="param">argument_separator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Argument seperator. Field introduced in 17.2.1. </div>
 <div class="param">buffer_response_body_for_inspection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to buffer response body for inspection. Field introduced in 17.2.3. </div>
-<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
-<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
+<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
+<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
 <div class="param">cookie_format_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1. format: int32</div>
+<div class="param">regex_match_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5. format: int32</div>
 <div class="param">request_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Body Phase. Field introduced in 17.2.1. </div>
 <div class="param">request_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Header Phase. Field introduced in 17.2.1. </div>
 <div class="param">response_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Body Phase. Field introduced in 17.2.1. </div>
 <div class="param">response_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Header Phase. Field introduced in 17.2.1. </div>
 <div class="param">restricted_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted File Extensions. Field introduced in 17.2.1. </div>
 <div class="param">restricted_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted HTTP Headers. Field introduced in 17.2.1. </div>
-<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
+<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
+<div class="param">static_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

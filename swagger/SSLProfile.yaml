@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi SSLProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -381,7 +381,7 @@ definitions:
                 description: "Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object"
                 $ref: '#/definitions/SSLRating'
             ssl_session_timeout:
-                description: "The amount of time before an SSL session expires."
+                description: "The amount of time before an SSL session expires. Units(SEC)."
                 type: integer
                 default: 86400
                 format: int32
@@ -431,7 +431,7 @@ definitions:
             -   type
         properties:
             type:
-                description: " Enum options - SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
+                description: " Enum options - SSL_VERSION_SSLV3, SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
                 type: string
                 default: "SSL_VERSION_TLS1_1"
     Tag:

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SSLProfile Object API", 
-        "version": "17.2.4", 
+        "version": "17.2.5", 
         "description": "##CLI##\n```\n- configure sslprofile <key>\n- show sslprofile <key>\n```\n\n##Examples##\n- **sslprofile_example**: To create a standard security SSL profile\n  ```json\n    {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -540,7 +540,7 @@
                 "type": {
                     "default": "SSL_VERSION_TLS1_1", 
                     "type": "string", 
-                    "description": " Enum options - SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
+                    "description": " Enum options - SSL_VERSION_SSLV3, SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
                 }
             }
         }, 
@@ -553,7 +553,7 @@
                 "ssl_session_timeout": {
                     "default": 86400, 
                     "type": "integer", 
-                    "description": "The amount of time before an SSL session expires.", 
+                    "description": "The amount of time before an SSL session expires. Units(SEC).", 
                     "format": "int32"
                 }, 
                 "accepted_ciphers": {

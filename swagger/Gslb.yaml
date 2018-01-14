@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi Gslb Object API
     contact:
         name: Avi Networks Inc.
@@ -516,7 +516,7 @@ definitions:
                 description: "Name for the GSLB object."
                 type: string
             send_interval:
-                description: "Frequency with which group members communicate. Allowed values are 1-3600."
+                description: "Frequency with which group members communicate. Allowed values are 1-3600. Units(SEC)."
                 type: integer
                 default: 15
                 format: int32
@@ -665,6 +665,9 @@ definitions:
             username:
                 description: "The username used when authenticating with the Site. ."
                 type: string
+            uuid:
+                description: "This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5."
+                type: string
     GslbSiteDnsVs:
         type: object
         required:
@@ -706,6 +709,9 @@ definitions:
                 description: "User can overide the individual GslbPoolMember ratio for all the VIPs of this site. If this field is not configured, then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1."
                 type: integer
                 format: int32
+            uuid:
+                description: "This field is used as a key in the datastore for the GslbThirdPartySite table to encapsulate site-related info. . Field introduced in 17.2.5."
+                type: string
     IpAddr:
         type: object
         required:

@@ -13,19 +13,19 @@ type HTTPApplicationProfile struct {
 	// HTTP Caching config to use with this HTTP Profile.
 	CacheConfig *HTTPCacheConfig `json:"cache_config,omitempty"`
 
-	// The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000.
+	// The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Units(MILLISECONDS).
 	ClientBodyTimeout int32 `json:"client_body_timeout,omitempty"`
 
-	// The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.
+	// The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Units(MILLISECONDS).
 	ClientHeaderTimeout int32 `json:"client_header_timeout,omitempty"`
 
-	// Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited.
+	// Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited. Units(KB).
 	ClientMaxBodySize int64 `json:"client_max_body_size,omitempty"`
 
-	// Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.
+	// Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Units(KB).
 	ClientMaxHeaderSize int32 `json:"client_max_header_size,omitempty"`
 
-	// Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.
+	// Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Units(KB).
 	ClientMaxRequestSize int32 `json:"client_max_request_size,omitempty"`
 
 	// HTTP Compression settings to use with this HTTP Profile.
@@ -36,6 +36,9 @@ type HTTPApplicationProfile struct {
 
 	// Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections.
 	DisableKeepalivePostsMsie6 bool `json:"disable_keepalive_posts_msie6,omitempty"`
+
+	// Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4.
+	EnableFireAndForget bool `json:"enable_fire_and_forget,omitempty"`
 
 	// Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size.
 	EnableRequestBodyBuffering bool `json:"enable_request_body_buffering,omitempty"`
@@ -55,7 +58,7 @@ type HTTPApplicationProfile struct {
 	// Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored.
 	KeepaliveHeader bool `json:"keepalive_header,omitempty"`
 
-	// The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000.
+	// The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Units(MILLISECONDS).
 	KeepaliveTimeout int32 `json:"keepalive_timeout,omitempty"`
 
 	// Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.
@@ -66,6 +69,9 @@ type HTTPApplicationProfile struct {
 
 	// Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxBadRpsURI int32 `json:"max_bad_rps_uri,omitempty"`
+
+	// Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Field introduced in 17.2.5. Units(KB).
+	MaxResponseHeadersSize int32 `json:"max_response_headers_size,omitempty"`
 
 	// Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxRpsCip int32 `json:"max_rps_cip,omitempty"`
@@ -85,7 +91,7 @@ type HTTPApplicationProfile struct {
 	// Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile.
 	PkiProfileRef string `json:"pki_profile_ref,omitempty"`
 
-	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.
+	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS).
 	PostAcceptTimeout int32 `json:"post_accept_timeout,omitempty"`
 
 	// Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set.

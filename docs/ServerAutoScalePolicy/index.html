@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serverautoscalepolicy <key> - show serverautoscalepolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 17.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -687,9 +687,9 @@ font-style: italic;
 <div class="param">min_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> No scale-in happens once number of operationally up servers reach min_servers. Allowed values are 0-400. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">scalein_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scalein when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scalein_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. format: int32</div>
+<div class="param">scalein_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Units(SEC). format: int32</div>
 <div class="param">scaleout_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scaleout when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scaleout_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. format: int32</div>
+<div class="param">scaleout_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Units(SEC). format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_predicted_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use predicted load rather than current load. </div>

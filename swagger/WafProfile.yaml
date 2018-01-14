@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '17.2.5'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -346,7 +346,7 @@ definitions:
                 items:
                     type: string
             allowed_methods:
-                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. Field introduced in 17.2.1."
+                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. Field introduced in 17.2.1."
                 type: array
                 items:
                     type: string
@@ -363,18 +363,23 @@ definitions:
                 description: "Enable to buffer response body for inspection. Field introduced in 17.2.3."
                 type: boolean
             client_file_upload_max_body_size:
-                description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1."
+                description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB)."
                 type: integer
                 default: 1024
                 format: int32
             client_nonfile_upload_max_body_size:
-                description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1."
+                description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB)."
                 type: integer
                 default: 128
                 format: int32
             cookie_format_version:
                 description: "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1."
                 type: integer
+                format: int32
+            regex_match_limit:
+                description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
+                type: integer
+                default: 1500
                 format: int32
             request_body_default_action:
                 description: "WAF default action for Request Body Phase. Field introduced in 17.2.1."
@@ -403,10 +408,15 @@ definitions:
                 items:
                     type: string
             server_response_max_body_size:
-                description: "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1."
+                description: "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB)."
                 type: integer
                 default: 128
                 format: int32
+            static_extensions:
+                description: "WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5."
+                type: array
+                items:
+                    type: string
     WafDataFile:
         type: object
         required:
