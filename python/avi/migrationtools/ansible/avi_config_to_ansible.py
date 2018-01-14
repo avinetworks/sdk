@@ -42,10 +42,13 @@ def my_represent_scalar(self, tag, value, style=None):
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
 class AviAnsibleConverter(object):
-    common_task_args = {'controller': "{{ controller }}",
-                        'username': "{{ username }}",
-                        'password': "{{ password }}"
-                        }
+    common_task_args = {
+        'controller': "{{ controller }}",
+        'username': "{{ username }}",
+         'password': "{{ password }}",
+         'avi_api_context': "{{avi_api_context | default(omit)}}"
+
+    }
     ansible_dict = dict({
         'connection': 'local',
         'hosts': 'localhost',
