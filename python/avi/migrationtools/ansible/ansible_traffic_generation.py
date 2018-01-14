@@ -6,7 +6,8 @@ from avi.migrationtools.ansible.ansible_constant import \
      NAME, TAGS, AVI_VIRTUALSERVICE, SERVER, VALIDATE_CERT, USER, REQEST_TYPE,
      IP_ADDRESS, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
      LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, ENABLE_NETSCALER,
-     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS)
+     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS,
+     ARP_STATE, BIGIP_VIRTUAL_ADDRESS)
 
 
 class TrafficGen(object):
@@ -46,6 +47,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = True
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Enable Avi virtualservice: %s" % avi_enable[NAME]
         if test_vip:
             test_vip = test_vip.split('.')[:3]
@@ -68,6 +72,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Update Avi virtualservice vip: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
@@ -85,6 +92,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Disable Avi virtualservice: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
@@ -128,6 +138,33 @@ class F5TrafficGen(TrafficGen):
                 BIGIP_VS_SERVER: f5_disable,
                 DELEGETE_TO: LOCAL_HOST,
                 TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
+            })
+
+    def create_virtual_address_disable(self, f5_dict, ansible_dict):
+        f5_values = deepcopy(f5_dict)
+        f5_values[STATE] = DISABLE
+        f5_values[ARP_STATE] = DISABLE
+        name = "Disable F5 virtualaddress: %s" % f5_values[NAME]
+        ansible_dict[TASKS].append(
+            {
+                NAME: name,
+                BIGIP_VIRTUAL_ADDRESS: f5_values,
+                DELEGETE_TO: LOCAL_HOST,
+                TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
+            })
+
+    def create_virtual_address_enable(self, f5_dict, ansible_dict):
+        f5_values = deepcopy(f5_dict)
+        f5_values[STATE] = ENABLE
+        f5_values[ARP_STATE] = ENABLE
+        name = "Enable F5 virtualaddress: %s" % f5_values[NAME]
+        ansible_dict[TASKS].append(
+            {
+                NAME: name,
+                BIGIP_VIRTUAL_ADDRESS: f5_values,
+                DELEGETE_TO: LOCAL_HOST,
+                TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE],
+                WHEN: RESULT
             })
 
     def create_ansible_enable(self, f5_dict, ansible_dict):
