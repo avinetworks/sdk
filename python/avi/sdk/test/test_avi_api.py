@@ -31,9 +31,7 @@ my_vcr = vcr.VCR(
     cassette_library_dir='python/avi/sdk/test/fixtures/cassettes/',
     record_mode='none',
     serializer='json',
-    match_on= ['method','url','headers'],
-    #allow_playback_repeats = True
-
+    match_on= ['method','url','headers']
 )
 
 def setUpModule():
