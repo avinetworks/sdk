@@ -28,7 +28,7 @@ with open(config_file) as f:
     cfg = json.load(f)
 
 my_vcr = vcr.VCR(
-    cassette_library_dir='python/avi/sdk/test/fixtures/cassettes/',
+    cassette_library_dir='fixtures/cassettes/',
     record_mode='none',
     serializer='json',
     match_on= ['method','url','headers']
