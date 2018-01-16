@@ -132,6 +132,17 @@ class AviAnsibleConverter(object):
                     self.transform_obj_refs(item)
         return obj
 
+    def update_tenant(self, obj):
+        """
+        updates the tenant field in the task. This is then picked up by
+        ansible task or aviconfig role to create objects in the right tenant
+        :param obj:
+        :return:
+        """
+        if 'tenant' not in obj and 'tenant_ref' in obj:
+            tenant = obj['tenant_ref'].split('name=')[1].strip()
+            obj.update({'tenant': tenant})
+
     def build_ansible_objects(self, obj_type, objs, ansible_dict, inuse_list):
         """
         adds per object type ansible task
@@ -155,6 +166,7 @@ class AviAnsibleConverter(object):
                 task.pop(skip_field, None)
             self.transform_obj_refs(task)
             task.update(common_task_args)
+            self.update_tenant(task)
             task_name = ("Create or Update %s: %s" % (obj_type, obj['name'])
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
