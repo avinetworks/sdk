@@ -86,7 +86,7 @@ def netscaler_conv(
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
         ns_passphrase_file=None, version=None, no_profile_merge=True,
         patch=None, vs_filter=None, ignore_config=None, ansible=None,
-        prefix=None, not_in_use=False, baseline_profile=None, redirect=True,
+        prefix=None, not_in_use=False, baseline_profile=None, redirect=False,
         vs_level_status=False, ansible_skip_types=None, test_vip=None,
         ansible_filter_types=None):
 
