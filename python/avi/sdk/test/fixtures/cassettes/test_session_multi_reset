@@ -28,8 +28,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=4067QVCJTV57NHhokyCQpZGwrgzIrujB; expires=Tue, 15-Jan-2019 09:00:47 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=9ttklpzm7gk2yw99qpln9j3on6f2osgw; expires=Wed, 17-Jan-2018 09:00:47 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=C2PD3nrxVHUlvQtmexxBtItUr0UgvyVv; expires=Tue, 15-Jan-2019 09:40:31 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=d0squsyyf84hpliuc33334alvmhxixsf; expires=Wed, 17-Jan-2018 09:40:31 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -50,7 +50,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 16 Jan 2018 09:00:47 GMT"
+                        "Tue, 16 Jan 2018 09:40:31 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -72,7 +72,7 @@
                 "body": "username=admin&password=Avi123%24%25", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=4067QVCJTV57NHhokyCQpZGwrgzIrujB; sessionid=9ttklpzm7gk2yw99qpln9j3on6f2osgw"
+                        "csrftoken=C2PD3nrxVHUlvQtmexxBtItUr0UgvyVv; sessionid=d0squsyyf84hpliuc33334alvmhxixsf"
                     ], 
                     "Content-Length": [
                         "36"
@@ -97,8 +97,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=u6sYHZa7m53JYdp1kr75kJsAfwGktIty; expires=Tue, 15-Jan-2019 09:00:48 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=9ttklpzm7gk2yw99qpln9j3on6f2osgw; expires=Wed, 17-Jan-2018 09:00:48 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=KLqKrMS1Vn43KufSMVJZXNXVSzctlOkL; expires=Tue, 15-Jan-2019 09:40:33 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=d0squsyyf84hpliuc33334alvmhxixsf; expires=Wed, 17-Jan-2018 09:40:33 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -119,7 +119,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 16 Jan 2018 09:00:48 GMT"
+                        "Tue, 16 Jan 2018 09:40:33 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"

@@ -292,13 +292,13 @@ class Test(unittest.TestCase):
     #     for result in results:
     #          assert result == 200
 
-    @my_vcr.use_cassette()
-    def test_multiThreading(self):
-        api.get_object_by_name('tenant', name='admin')
-        for i in range(5):
-            pool = ThreadPool(processes=3)
-            res = pool.apply_async(shared_session_check, args=(1,))
-            assert res.get() == 200
+    # @my_vcr.use_cassette()
+    # def test_multiThreading(self):
+    #     api.get_object_by_name('tenant', name='admin')
+    #     for i in range(5):
+    #         pool = ThreadPool(processes=3)
+    #         res = pool.apply_async(shared_session_check, args=(1,))
+    #         assert res.get() == 200
 
     def test_cleanup_sessions(self):
         api._update_session_last_used()
