@@ -26,4 +26,4 @@ install:
 # command to execute unit tests
 script:
 #- pytest ./python/avi/sdk/test/test_avi_api.py -vvvv --config ./python/avi/sdk/test/test_api.cfg --color=yes
-- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py --config /home/rohan/AVI/sdk/python/avi/sdk/test/test_api.cfg --cov-fail-under=80
+- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
