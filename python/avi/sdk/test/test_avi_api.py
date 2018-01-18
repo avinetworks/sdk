@@ -65,7 +65,6 @@ def create_sessions(args):
                 "api_version", "17.1"), data_log=login_info['data_log'])
     return 1 if key in sessionDict else 0
 
-@my_vcr.use_cassette()
 def shared_session_check(index):
     rsp = api.get('tenant')
     return rsp.status_code
@@ -276,29 +275,20 @@ class Test(unittest.TestCase):
         for result in results:
             assert result == 1
 
-    # @my_vcr.use_cassette()
-    # def test_multiprocess_sharing(self):
-    #     api.get_object_by_name('tenant', name='admin')
-    #     p = Process(target=shared_session_check, args=(1,))
-    #     p.start()
-    #     p.join()
-    #     p = Pool(16)
-    #     vcr_log.info("test multiprocessing started....")
-    #     shared_sessions = []
-    #     for index in range(16):
-    #         shared_sessions.append(index)
-    #     results = p.map(shared_session_check, shared_sessions)
-    #     print "results :",results
-    #     for result in results:
-    #          assert result == 200
-
-    # @my_vcr.use_cassette()
-    # def test_multiThreading(self):
-    #     api.get_object_by_name('tenant', name='admin')
-    #     for i in range(5):
-    #         pool = ThreadPool(processes=3)
-    #         res = pool.apply_async(shared_session_check, args=(1,))
-    #         assert res.get() == 200
+    @pytest.mark.skip(reason="VCR not support to record cassettes of multiple processes")
+    def test_multiprocess_sharing(self):
+        api.get_object_by_name('tenant', name='admin')
+        p = Process(target=shared_session_check, args=(1,))
+        p.start()
+        p.join()
+        p = Pool(16)
+        shared_sessions = []
+        for index in range(16):
+            shared_sessions.append(index)
+        results = p.map(shared_session_check, shared_sessions)
+        print "results :",results
+        for result in results:
+             assert result == 200
 
     def test_cleanup_sessions(self):
         api._update_session_last_used()
