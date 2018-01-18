@@ -251,7 +251,7 @@ class Test(unittest.TestCase):
         resp = tapi.delete_by_name('tenant', 'test-tenant', tenant='admin')
         assert resp.status_code in (200, 204)
 
-    #@pytest.mark.travis
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_timeout(self):
         resp = api.get_object_by_name('tenant', 'admin', timeout=2)
