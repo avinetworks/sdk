@@ -193,7 +193,8 @@ class ApiSession(Session):
                  token=None, tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
-                 avi_credentials=None, session_id=None, csrftoken=None):
+                 avi_credentials=None, session_id=None, csrftoken=None,
+                 lazy_authentication=True):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -254,12 +255,18 @@ class ApiSession(Session):
         # Added api token and session id to sessionDict for handle single
         # session
         if self.avi_credentials.csrftoken:
-            sessionDict[self.key] = {'api': self,
-                                     "csrftoken": self.avi_credentials.csrftoken,
-                                     "session_id":self.avi_credentials.session_id,
-                                     "last_used": datetime.utcnow()}
+            sessionDict[self.key] = {
+                'api': self,
+                "csrftoken": self.avi_credentials.csrftoken,
+                "session_id":self.avi_credentials.session_id,
+                "last_used": datetime.utcnow()
+            }
+        elif lazy_authentication:
+            sessionDict.get(self.key, {}).update(
+                {'api': self, "last_used": datetime.utcnow()})
         else:
-            sessionDict[self.key] = {'api': self, "last_used": datetime.utcnow()}
+            self.authenticate_session()
+
         self.num_session_retries = 0
         self.pid = os.getpid()
         ApiSession._clean_inactive_sessions()
@@ -291,7 +298,7 @@ class ApiSession(Session):
 
     @property
     def keystone_token(self):
-        return sessionDict[self.key]
+        return sessionDict.get(self.key, {}).get('csrftoken', None)
 
     @keystone_token.setter
     def keystone_token(self, token):
@@ -343,11 +350,19 @@ class ApiSession(Session):
         }
 
     @staticmethod
+    def clear_cached_sessions():
+        global sessionDict
+        sessionDict = {}
+
+
+
+    @staticmethod
     def get_session(
             controller_ip=None, username=None, password=None, token=None, tenant=None,
             tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
-            avi_credentials=None, session_id=None, csrftoken=None):
+            avi_credentials=None, session_id=None, csrftoken=None,
+            lazy_authentication=True):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -378,13 +393,17 @@ class ApiSession(Session):
         cached_session = sessionDict.get(key)
         if cached_session:
             user_session = cached_session['api']
+            if not (user_session.avi_credentials.csrftoken or
+                    lazy_authentication):
+                user_session.authenticate_session()
         else:
             user_session = ApiSession(
                 controller_ip, username, password, token=token, tenant=tenant,
                 tenant_uuid=tenant_uuid, verify=verify, port=port,
                 timeout=timeout, retry_conxn_errors=retry_conxn_errors,
                 api_version=api_version, data_log=data_log,
-                avi_credentials=avi_credentials)
+                avi_credentials=avi_credentials,
+                lazy_authentication=lazy_authentication)
             ApiSession._clean_inactive_sessions()
         return user_session
 
