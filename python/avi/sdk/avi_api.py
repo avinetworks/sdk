@@ -194,7 +194,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=True):
+                 lazy_authentication=False):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -362,7 +362,7 @@ class ApiSession(Session):
             tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
-            lazy_authentication=True):
+            lazy_authentication=False):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
