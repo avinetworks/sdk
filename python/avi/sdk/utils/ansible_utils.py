@@ -44,7 +44,8 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     changed
     Returns: specific ansible module exit function
     """
-    if rsp and rsp.status_code > 299:
+
+    if rsp is not None and rsp.status_code > 299:
         return module.fail_json(
             msg='Error %d Msg %s req: %s avi_api_context:%s ' % (
                 rsp.status_code, rsp.text, req, avi_api_context))
@@ -52,7 +53,7 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     api_creds.update_from_ansible_module(module)
     key = '%s:%s:%s' % (api_creds.controller, api_creds.username,
                         api_creds.port)
-    disable_fact = module.params['avi_disable_session_cache_as_fact']
+    disable_fact = module.params.get('avi_disable_session_cache_as_fact')
 
     fact_context = None
     if not disable_fact:
@@ -417,13 +418,13 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         try:
             if check_mode:
                 if existing_obj:
-                    ansible_return(module, None, True,
-                                   existing_obj=existing_obj,
-                                   avi_api_context=api.get_context())
+                    return ansible_return(
+                        module, None, True, existing_obj=existing_obj,
+                        avi_api_context=api.get_context())
                 else:
-                    ansible_return(module, None, False,
-                                   existing_obj=existing_obj,
-                                   avi_api_context=api.get_context())
+                    return ansible_return(
+                        module, None, False, existing_obj=existing_obj,
+                        avi_api_context=api.get_context())
             if name is not None:
                 # added api version to avi api call.
                 rsp = api.delete_by_name(
@@ -435,13 +436,13 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                     obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
                     api_version=api_version)
         except ObjectNotFound:
-            ansible_return(module, None, False,
-                           existing_obj=existing_obj,
-                           avi_api_context=api.get_context())
+            return ansible_return(
+                module, None, False, existing_obj=existing_obj,
+                avi_api_context=api.get_context())
         if rsp.status_code == 204:
-            ansible_return(module, None, True,
-                           existing_obj=existing_obj,
-                           avi_api_context=api.get_context())
+            return ansible_return(
+                module, None, True, existing_obj=existing_obj,
+                avi_api_context=api.get_context())
         return module.fail_json(msg=rsp.text)
 
     rsp = None
@@ -490,17 +491,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         else:
             rsp = api.post(obj_type, data=obj, tenant=tenant,
                            tenant_uuid=tenant_uuid, api_version=api_version)
-    if rsp is None:
-        ansible_return(module, None, changed,
-                       existing_obj=existing_obj,
-                       avi_api_context=api.get_context())
-        # return module.exit_json(changed=changed, obj=existing_obj,
-        #                         ansible_facts=dict(avi_api_context=api.get_context()))
-    else:
-        return ansible_return(module, rsp, changed, req,
-                              existing_obj=existing_obj,
-                              avi_api_context=api.get_context()
-                              )
+
+    return ansible_return(module, rsp, changed, req, existing_obj=existing_obj,
+                          avi_api_context=api.get_context())
 
 
 def avi_common_argument_spec():
