@@ -425,15 +425,19 @@ class ApiSession(Session):
         session cookies and sets header options like tenant.
         """
         body = {"username": self.avi_credentials.username}
-        if not self.avi_credentials.token:
+        if self.avi_credentials.password:
             body["password"] = self.avi_credentials.password
-        else:
+        elif self.avi_credentials.token:
             body["token"] = self.avi_credentials.token
+        else:
+            raise Exception("Neither user password or token provided")
         logger.debug('authenticating user %s ', self.avi_credentials.username)
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
             self.remote_api_version = {}
+            logger.error("Authentication failed with code %d reason %s",
+                         rsp.status_code, rsp.text)
             raise Exception(
                 "Authentication failed with code %d reason msg: %s" %
                 (rsp.status_code, rsp.text))
