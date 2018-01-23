@@ -14,7 +14,6 @@ branches:
   - 17.2.4
   - 17.2.5
   - 17.2.6
-  - AV-32567-CASSETTE
 
 
 
@@ -29,9 +28,9 @@ install:
 # command to execute unit tests
 script:
 
-#- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
-#- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
-#- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
-#- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
+- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
+- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
+- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
 - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
 
