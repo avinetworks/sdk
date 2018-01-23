@@ -3,221 +3,17 @@
     "interactions": [
         {
             "request": {
-                "body": "username=admin&password=avi123%24%25", 
+                "body": "username=admin&password=avi123", 
                 "headers": {
                     "Content-Length": [
-                        "36"
+                        "30"
                     ], 
                     "Content-Type": [
                         "application/x-www-form-urlencoded"
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.26.66/login"
-            }, 
-            "response": {
-                "status": {
-                    "message": "OK", 
-                    "code": 200
-                }, 
-                "headers": {
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ], 
-                    "set-cookie": [
-                        "csrftoken=wI6CRk13BivKvAlVJBKlOWuRmGx9M8RF; expires=Tue, 22-Jan-2019 10:16:26 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=5ol2x1iqil9prkalrqsi8e9z5mp33lkk; expires=Wed, 24-Jan-2018 10:16:26 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "cache-control": [
-                        "no-store, no-cache"
-                    ], 
-                    "avi_api_version": [
-                        "16_4_2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "POST, OPTIONS"
-                    ], 
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
-                    "date": [
-                        "Tue, 23 Jan 2018 10:16:26 GMT"
-                    ], 
-                    "x-frame-options": [
-                        "SAMEORIGIN"
-                    ], 
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
-                }
-            }
-        }, 
-        {
-            "request": {
-                "body": "username=admin&password=avi123%24%25", 
-                "headers": {
-                    "Content-Type": [
-                        "application/x-www-form-urlencoded"
-                    ], 
-                    "Content-Length": [
-                        "36"
-                    ], 
-                    "Cookie": [
-                        "csrftoken=wI6CRk13BivKvAlVJBKlOWuRmGx9M8RF; sessionid=5ol2x1iqil9prkalrqsi8e9z5mp33lkk"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.26.66/login"
-            }, 
-            "response": {
-                "status": {
-                    "message": "OK", 
-                    "code": 200
-                }, 
-                "headers": {
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ], 
-                    "set-cookie": [
-                        "csrftoken=PdEuVAE6JRLdoP8ONHbFNq3hRAisoqFk; expires=Tue, 22-Jan-2019 10:16:27 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=5ol2x1iqil9prkalrqsi8e9z5mp33lkk; expires=Wed, 24-Jan-2018 10:16:27 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "cache-control": [
-                        "no-store, no-cache"
-                    ], 
-                    "avi_api_version": [
-                        "16_4_2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "POST, OPTIONS"
-                    ], 
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
-                    "date": [
-                        "Tue, 23 Jan 2018 10:16:27 GMT"
-                    ], 
-                    "x-frame-options": [
-                        "SAMEORIGIN"
-                    ], 
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
-                }
-            }
-        }, 
-        {
-            "request": {
-                "body": "username=admin&password=avi123%24%25", 
-                "headers": {
-                    "Content-Type": [
-                        "application/x-www-form-urlencoded"
-                    ], 
-                    "Content-Length": [
-                        "36"
-                    ], 
-                    "Cookie": [
-                        "csrftoken=PdEuVAE6JRLdoP8ONHbFNq3hRAisoqFk; sessionid=5ol2x1iqil9prkalrqsi8e9z5mp33lkk"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.26.66/login"
-            }, 
-            "response": {
-                "status": {
-                    "message": "OK", 
-                    "code": 200
-                }, 
-                "headers": {
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ], 
-                    "set-cookie": [
-                        "csrftoken=EvhdueP3foAGmlsPl7BvsaPkOt13zs7X; expires=Tue, 22-Jan-2019 10:16:28 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=5ol2x1iqil9prkalrqsi8e9z5mp33lkk; expires=Wed, 24-Jan-2018 10:16:28 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "cache-control": [
-                        "no-store, no-cache"
-                    ], 
-                    "avi_api_version": [
-                        "16_4_2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "POST, OPTIONS"
-                    ], 
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
-                    "date": [
-                        "Tue, 23 Jan 2018 10:16:28 GMT"
-                    ], 
-                    "x-frame-options": [
-                        "SAMEORIGIN"
-                    ], 
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
-                }
-            }
-        }, 
-        {
-            "request": {
-                "body": "username=admin&password=avi123%24%25", 
-                "headers": {
-                    "Content-Length": [
-                        "36"
-                    ], 
-                    "Content-Type": [
-                        "application/x-www-form-urlencoded"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.26.66/login"
+                "uri": "https://10.10.25.42/login"
             }, 
             "response": {
                 "status": {
@@ -232,8 +28,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=TKrPCPSWRBZhmw1YhjIZQcpTX2DPGRd9; expires=Tue, 22-Jan-2019 10:24:45 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=jdeo5f0u9d9s85ee0362rp422p7ekq7y; expires=Wed, 24-Jan-2018 10:24:45 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=FTQSfRxmuKk0dwIqJpTQYOU0xNZnkayx; expires=Tue, 22-Jan-2019 11:54:31 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=kesvbr1anmw05ghciqyra5nigngxutmc; expires=Wed, 24-Jan-2018 11:54:31 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -254,7 +50,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 23 Jan 2018 10:24:45 GMT"
+                        "Tue, 23 Jan 2018 11:54:31 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -267,26 +63,26 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1515889842322626\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1ef8c0c9-8315-43a8-9beb-2d68a8fb291b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-9ed53e8a-24a7-4942-9ebb-76b724d4ab16\", \"/api/sslkeyandcertificate/sslkeyandcertificate-fafc7565-f694-4bfe-942f-e9e51d33b0ef\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.6\", \"build\": 9000, \"Tag\": \"17.2.6-9000-20180114.000324\", \"Date\": \"2018-01-14T00:03:24+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"uuid\": \"tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1516223602573824\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}, {\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
                 }
             }
         }, 
         {
             "request": {
-                "body": "username=admin&password=avi123%24%25", 
+                "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=TKrPCPSWRBZhmw1YhjIZQcpTX2DPGRd9; sessionid=jdeo5f0u9d9s85ee0362rp422p7ekq7y"
+                        "csrftoken=FTQSfRxmuKk0dwIqJpTQYOU0xNZnkayx; sessionid=kesvbr1anmw05ghciqyra5nigngxutmc"
                     ], 
                     "Content-Length": [
-                        "36"
+                        "30"
                     ], 
                     "Content-Type": [
                         "application/x-www-form-urlencoded"
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.26.66/login"
+                "uri": "https://10.10.25.42/login"
             }, 
             "response": {
                 "status": {
@@ -301,8 +97,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=7G1BHVMqLmBAoM6ZvNpW1jFfosWTENUd; expires=Tue, 22-Jan-2019 10:24:46 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=jdeo5f0u9d9s85ee0362rp422p7ekq7y; expires=Wed, 24-Jan-2018 10:24:46 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=N0GnUa0066FGOlJLQAfTVTcEH0uMEoxQ; expires=Tue, 22-Jan-2019 11:54:32 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=kesvbr1anmw05ghciqyra5nigngxutmc; expires=Wed, 24-Jan-2018 11:54:32 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -323,7 +119,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 23 Jan 2018 10:24:46 GMT"
+                        "Tue, 23 Jan 2018 11:54:32 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -336,26 +132,26 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1515889842322626\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1ef8c0c9-8315-43a8-9beb-2d68a8fb291b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-9ed53e8a-24a7-4942-9ebb-76b724d4ab16\", \"/api/sslkeyandcertificate/sslkeyandcertificate-fafc7565-f694-4bfe-942f-e9e51d33b0ef\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.6\", \"build\": 9000, \"Tag\": \"17.2.6-9000-20180114.000324\", \"Date\": \"2018-01-14T00:03:24+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"uuid\": \"tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1516223602573824\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}, {\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
                 }
             }
         }, 
         {
             "request": {
-                "body": "username=admin&password=avi123%24%25", 
+                "body": "username=admin&password=avi123", 
                 "headers": {
                     "Cookie": [
-                        "csrftoken=7G1BHVMqLmBAoM6ZvNpW1jFfosWTENUd; sessionid=jdeo5f0u9d9s85ee0362rp422p7ekq7y"
+                        "csrftoken=N0GnUa0066FGOlJLQAfTVTcEH0uMEoxQ; sessionid=kesvbr1anmw05ghciqyra5nigngxutmc"
                     ], 
                     "Content-Length": [
-                        "36"
+                        "30"
                     ], 
                     "Content-Type": [
                         "application/x-www-form-urlencoded"
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.26.66/login"
+                "uri": "https://10.10.25.42/login"
             }, 
             "response": {
                 "status": {
@@ -370,8 +166,8 @@
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ], 
                     "set-cookie": [
-                        "csrftoken=zFc1cz5ZLm45mqkPX9sKusOI3QCoaNE0; expires=Tue, 22-Jan-2019 10:24:47 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=jdeo5f0u9d9s85ee0362rp422p7ekq7y; expires=Wed, 24-Jan-2018 10:24:47 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=OASgb3d3sOjk92ib7OgjssTeG9Nt1GkL; expires=Tue, 22-Jan-2019 11:54:33 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=kesvbr1anmw05ghciqyra5nigngxutmc; expires=Wed, 24-Jan-2018 11:54:33 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -392,7 +188,7 @@
                         "no-store, no-cache"
                     ], 
                     "date": [
-                        "Tue, 23 Jan 2018 10:24:47 GMT"
+                        "Tue, 23 Jan 2018 11:54:33 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -405,7 +201,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1516257473989721\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-5b23b395-fc85-4185-b0d5-6dd76f723562\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-14fff860-1ea2-45b6-a708-f58e1dce0156\", \"/api/sslkeyandcertificate/sslkeyandcertificate-a34bf67b-02e9-49d1-9a45-31675a67c38b\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.5\", \"build\": 9032, \"Tag\": \"17.2.5-9032-20180110.002832\", \"Date\": \"2018-01-10T00:28:32+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.26.66/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.26.66/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1515889842322626\", \"email_configuration\": {\"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"default_license_tier\": \"ENTERPRISE_18\", \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1ef8c0c9-8315-43a8-9beb-2d68a8fb291b\", \"disable_remote_cli_shell\": false, \"enable_clickjacking_protection\": true, \"enable_https\": true, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-9ed53e8a-24a7-4942-9ebb-76b724d4ab16\", \"/api/sslkeyandcertificate/sslkeyandcertificate-fafc7565-f694-4bfe-942f-e9e51d33b0ef\"], \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.6\", \"build\": 9000, \"Tag\": \"17.2.6-9000-20180114.000324\", \"Date\": \"2018-01-14T00:03:24+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.42/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.42/api/tenant/tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"uuid\": \"tenant-c9d2e3dd-3b44-499a-93f0-579a5fe68d75\", \"name\": \"Metrics_Test_Tenant\", \"_last_modified\": \"1516223602573824\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": false}, {\"url\": \"https://10.10.25.42/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}]}"
                 }
             }
         }
