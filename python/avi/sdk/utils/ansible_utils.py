@@ -31,14 +31,14 @@ class AviCheckModeResponse(object):
 
 
 def ansible_return(module, rsp, changed, req=None, existing_obj=None,
-                   avi_api_context=None):
+                   api_context=None):
     """
     :param module: AnsibleModule
     :param rsp: ApiResponse from avi_api
     :param changed: boolean
     :param req: ApiRequest to avi_api
     :param existing_obj: object to be passed debug output
-    :param avi_api_context: api login context
+    :param api_context: api login context
 
     helper function to return the right ansible based on the error code and
     changed
@@ -47,8 +47,8 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
 
     if rsp is not None and rsp.status_code > 299:
         return module.fail_json(
-            msg='Error %d Msg %s req: %s avi_api_context:%s ' % (
-                rsp.status_code, rsp.text, req, avi_api_context))
+            msg='Error %d Msg %s req: %s api_context:%s ' % (
+                rsp.status_code, rsp.text, req, api_context))
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     key = '%s:%s:%s' % (api_creds.controller, api_creds.username,
@@ -57,21 +57,21 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
 
     fact_context = None
     if not disable_fact:
-        fact_context = module.params.get('avi_api_context', {})
+        fact_context = module.params.get('api_context', {})
         if fact_context:
-            fact_context.update({key: avi_api_context})
+            fact_context.update({key: api_context})
         else:
-            fact_context = {key: avi_api_context}
+            fact_context = {key: api_context}
 
     obj_val = rsp.json() if rsp else existing_obj
     old_obj_val = existing_obj if changed and existing_obj else None
-    avi_api_context_val = avi_api_context if disable_fact else None
+    api_context_val = api_context if disable_fact else None
     ansible_facts_val = dict(
         avi_api_context=fact_context) if not disable_fact else {}
 
     return module.exit_json(
         changed=changed, obj=obj_val, old_obj=old_obj_val,
-        ansible_facts=ansible_facts_val, avi_api_context=avi_api_context_val)
+        ansible_facts=ansible_facts_val, api_context=api_context_val)
 
 
 def purge_optional_fields(obj, module):
@@ -299,12 +299,12 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
 
 POP_FIELDS = ['state', 'controller', 'username', 'password', 'api_version',
               'avi_credentials', 'avi_api_update_method', 'avi_api_patch_op',
-              'avi_api_context', 'obj_password', 'obj_username', 'tenant',
+              'api_context', 'obj_password', 'obj_username', 'tenant',
               'tenant_uuid', 'avi_disable_session_cache_as_fact']
 
 
 def get_api_context(module, api_creds):
-    api_context = module.params.get('avi_api_context')
+    api_context = module.params.get('api_context')
     if api_context and module.params.get('avi_disable_session_cache_as_fact'):
         return api_context
     elif api_context and not module.params.get(
@@ -330,8 +330,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
-    avi_api_context = get_api_context(module, api_creds)
-    if avi_api_context:
+    api_context = get_api_context(module, api_creds)
+    if api_context:
         api = ApiSession.get_session(
             api_creds.controller,
             api_creds.username,
@@ -339,10 +339,10 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             timeout=api_creds.timeout,
             tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid,
-            token=avi_api_context['csrftoken'],
+            token=api_context['csrftoken'],
             port=api_creds.port,
-            session_id=avi_api_context['session_id'],
-            csrftoken=avi_api_context['csrftoken'])
+            session_id=api_context['session_id'],
+            csrftoken=api_context['csrftoken'])
     else:
         api = ApiSession.get_session(
             api_creds.controller,
@@ -420,11 +420,11 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                 if existing_obj:
                     return ansible_return(
                         module, None, True, existing_obj=existing_obj,
-                        avi_api_context=api.get_context())
+                        api_context=api.get_context())
                 else:
                     return ansible_return(
                         module, None, False, existing_obj=existing_obj,
-                        avi_api_context=api.get_context())
+                        api_context=api.get_context())
             if name is not None:
                 # added api version to avi api call.
                 rsp = api.delete_by_name(
@@ -438,11 +438,11 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         except ObjectNotFound:
             return ansible_return(
                 module, None, False, existing_obj=existing_obj,
-                avi_api_context=api.get_context())
+                api_context=api.get_context())
         if rsp.status_code == 204:
             return ansible_return(
                 module, None, True, existing_obj=existing_obj,
-                avi_api_context=api.get_context())
+                api_context=api.get_context())
         return module.fail_json(msg=rsp.text)
 
     rsp = None
@@ -493,7 +493,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                            tenant_uuid=tenant_uuid, api_version=api_version)
 
     return ansible_return(module, rsp, changed, req, existing_obj=existing_obj,
-                          avi_api_context=api.get_context())
+                          api_context=api.get_context())
 
 
 def avi_common_argument_spec():
@@ -509,5 +509,5 @@ def avi_common_argument_spec():
         tenant_uuid=dict(default=''),
         api_version=dict(default='16.4.4', type='str'),
         avi_credentials=dict(default=None, no_log=True, type='dict'),
-        avi_api_context=dict(type='dict'),
+        api_context=dict(type='dict'),
         avi_disable_session_cache_as_fact=dict(default=False, type='bool'))
