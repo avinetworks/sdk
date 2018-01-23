@@ -31,7 +31,7 @@ my_vcr = vcr.VCR(
     cassette_library_dir='python/avi/sdk/test/fixtures/cassettes/',
     record_mode='none',
     serializer='json',
-    match_on= ['method','url']
+    match_on= ['url']
 )
 
 def setUpModule():
@@ -103,25 +103,25 @@ class Test(unittest.TestCase):
                                       verify=False)
         assert api1 == api2
 
-    # @pytest.mark.travis
-    # @my_vcr.use_cassette()
-    # def test_lazy_authentication(self):
-    #     ApiSession.clear_cached_sessions()
-    #     session = ApiSession(
-    #         controller_ip=login_info["controller_ip"],
-    #         username=login_info.get("username", "admin"),
-    #         password=login_info.get("password", "avi123"),
-    #         lazy_authentication=True)
-    #     assert not session.keystone_token
-    #     session.get('pool')
-    #     assert session.keystone_token
-    #     ApiSession.clear_cached_sessions()
-    #     session = ApiSession(
-    #         controller_ip=login_info["controller_ip"],
-    #         username=login_info.get("username", "admin"),
-    #         password=login_info.get("password", "avi123"),
-    #         lazy_authentication=False)
-    #     assert session.keystone_token
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_lazy_authentication(self):
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=True)
+        assert not session.keystone_token
+        session.get('pool')
+        assert session.keystone_token
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=False)
+        assert session.keystone_token
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
