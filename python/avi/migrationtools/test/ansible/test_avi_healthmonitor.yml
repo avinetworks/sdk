@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+    avi_credentials:
+
+  tasks:
+   - block:
+     - name: Create health monitor
+       avi_healthmonitor:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          failed_checks: 2
+          state: "present"
+          send_interval: 10
+          successful_checks: 3
+          type: HEALTH_MONITOR_HTTPS
+          name: TestMonitor-HTTPS
+       register: result
+     - fail: msg="Monitor creation faild"
+       when:
+          - "'uuid' not in result.obj"
+
+     - name: update health monitor
+       avi_healthmonitor:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: present
+          uuid: "{{result.obj.uuid}}"
+          type: HEALTH_MONITOR_HTTPS
+          send_interval: 6
+          failed_checks: 1
+          successful_checks: 2
+          name: Testupdated-HTTPS
+       register: updated_result
+
+     - name: Delete health monitor
+       avi_healthmonitor:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: absent
+          uuid: "{{updated_result.obj.uuid}}"
+          type: HEALTH_MONITOR_HTTPS
+          name: Testupdated-HTTPS

@@ -1,0 +1,147 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create virtual service
+        avi_virtualservice:
+              api_version: 17.2.5
+              cloud_ref: /api/cloud?name=Default-Cloud
+              controller: "{{ avi_credentials.controller }}"
+              enabled: false
+              name: 'test-vs2'
+              password: "{{ avi_credentials.password }}"
+              state: 'present'
+              services:
+              - enable_ssl: true
+                port: '443'
+              tenant: admin
+              tenant_ref: /api/tenant/?name=admin
+              type: VS_TYPE_NORMAL
+              username: "{{ avi_credentials.username }}"
+              vip:
+              - ip_address:
+                  addr: 172.82.10.11
+                  type: V4
+                vip_id: 0
+        register: test_result3
+      - fail: msg="virtual service is not created"
+        when:
+            - "'uuid' not in test_result3.obj"
+
+    - block:
+      - name: Fetch virtual service
+        avi_api_session:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          http_method: get
+          path: "virtualservice/{{test_result3.obj.uuid}}"
+        register: res
+      - fail: msg="virtual service present"
+        when:
+          - "'uuid' not in res.obj"
+
+    - block:
+      - name: update virtual service
+        avi_virtualservice:
+          api_version: 17.2.5
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          state: "present"
+          name: "test-virtualservice"
+          uuid: '{{ test_result3.obj.uuid }}'
+          enabled: true
+          services:
+              - enable_ssl: true
+                port: '443'
+          tenant: admin
+          tenant_ref: /api/tenant/?name=admin
+          type: VS_TYPE_NORMAL
+          vip:
+            - ip_address:
+                addr: 172.82.50.2
+                type: V4
+              vip_id: 0
+        register: update_res
+      - fail: msg="service updation failed"
+        when:
+          - "'uuid' not in update_res.obj"
+
+    - block:
+      - name: Delete virtual service
+        avi_virtualservice:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          state: "absent"
+          name: "test-virtualservice"
+        register: delete_res
+
+#      - name: Fetch virtual service
+#        avi_api_session:
+#          http_method: get
+#          controller: "{{ avi_credentials.controller }}"
+#          username: "{{ avi_credentials.username }}"
+#          password: "{{ avi_credentials.password }}"
+#          api_version: api_version
+#          path: virtualservice
+#        register: resp
+#      - fail: msg="Virtual service deletion faild"
+#        when:
+#          - "resp.obj.count != 0"
+
+#    - block:
+#      - name: check test mode to create new virtual service
+#        avi_virtualservice:
+#                api_version: 17.2.5
+#                cloud_ref: /api/cloud?name=Default-Cloud
+#                controller: "{{ avi_credentials.controller }}"
+#                enabled: false
+#                name: 'test-vs-check'
+#                password: "{{ avi_credentials.password }}"
+#                state: 'present'
+#                services:
+#                - enable_ssl: true
+#                  port: '443'
+#                tenant: admin
+#                tenant_ref: /api/tenant/?name=admin
+#                type: VS_TYPE_NORMAL
+#                username: "{{ avi_credentials.username }}"
+#                vip:
+#                - ip_address:
+#                    addr: 172.82.10.5
+#                    type: V4
+#                  vip_id: 0
+#        check_mode: true
+#
+#      - name: check test mode to delete new virtual service
+#        avi_virtualservice:
+#                api_version: 17.2.5
+#                cloud_ref: /api/cloud?name=Default-Cloud
+#                controller: "{{ avi_credentials.controller }}"
+#                enabled: false
+#                name: 'test-vs-check'
+#                password: "{{ avi_credentials.password }}"
+#                state: 'absent'
+#                services:
+#                - enable_ssl: true
+#                  port: '443'
+#                tenant: admin
+#                tenant_ref: /api/tenant/?name=admin
+#                type: VS_TYPE_NORMAL
+#                username: "{{ avi_credentials.username }}"
+#                vip:
+#                - ip_address:
+#                    addr: 172.82.1.2
+#                    type: V4
+#                  vip_id: 0
+#        check_mode: true

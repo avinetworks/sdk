@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+      controller: '10.10.26.66'
+      username: 'admin'
+      password: 'avi123$%'
+      api_version: 17.2.5
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create pool
+        avi_pool:
+          name: testpool1
+          controller: '{{ controller }}'
+          username: '{{ username }}'
+          password: '{{ password }}'
+          api_version: '{{ api_version }}'
+          description: testpool1
+          state: present
+          health_monitor_refs:
+              - '/api/healthmonitor?name=System-HTTP'
+          application_persistence_profile_ref: "/api/applicationpersistenceprofile?name=System-Persistence-Client-IP"
+
+          servers:
+              - ip:
+                  addr: 10.10.2.20
+                  type: V4
+              - ip:
+                  addr: 10.10.2.21
+                  type: V4
+        register: result
+      - fail: msg="Pool creation failed"
+        when:
+          - "'uuid' not in result.obj"
+
+      - name: update pool
+        avi_pool:
+          name: testpoolupdate
+          controller: '{{ controller }}'
+          username: '{{ username }}'
+          password: '{{ password }}'
+          api_version: '{{ api_version }}'
+          description: updated name
+          state: present
+          health_monitor_refs:
+              - '/api/healthmonitor?name=System-HTTP'
+          uuid: '{{ result.obj.uuid }}'
+          servers:
+              - ip:
+                  addr: 10.10.2.20
+                  type: V4
+              - ip:
+                  addr: 10.10.2.22
+                  type: V4
+
+      - name: Delete pool
+        avi_pool:
+          name: testpoolupdate
+          controller: '{{ controller }}'
+          username: '{{ username }}'
+          password: '{{ password }}'
+          api_version: '{{ api_version }}'
+          state: 'absent'
+        register: delete_result
