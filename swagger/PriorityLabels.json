@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PriorityLabels Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure prioritylabels <key>\n- show prioritylabels <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

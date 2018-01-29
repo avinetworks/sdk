@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SSLProfile Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure sslprofile <key>\n- show sslprofile <key>\n```\n\n##Examples##\n- **sslprofile_example**: To create a standard security SSL profile\n  ```json\n    {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
