@@ -11,6 +11,7 @@ import sys
 import pytest
 import yaml
 
+
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
@@ -763,6 +764,34 @@ class TestF5Converter:
                 user=setup.get('controller_user_16_4_4'),
                 password=setup.get('controller_password_16_4_4'))
 
+    @pytest.mark.travis
+    def test_http_cookie_type_on_file_v10(self):
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+        fileName = output_file + '/bigip_v10-Output.json'
+        with open(fileName) as f:
+            file_object = yaml.load(f)
+        persistenceProfiles = file_object['ApplicationPersistenceProfile']
+        for type in persistenceProfiles:
+            if "COOKIE" in type['persistence_type']:
+                assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
+
+    @pytest.mark.travis
+    def test_http_cookie_type_on_file_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+        fileName = output_file +'/bigip_v11-Output.json'
+        with open(fileName) as f:
+            file_object = yaml.load(f)
+        persistenceProfiles = file_object['ApplicationPersistenceProfile']
+        for type in persistenceProfiles:
+            if "COOKIE" in type['persistence_type']:
+                assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
 
 def teardown():
     pass
