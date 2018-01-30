@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create application persistence profile
+        avi_applicationpersistenceprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "Test-HTTP-COOKIE"
+          persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+          server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+          state: "present"
+          description: 'Test-HTTP-COOKIE'
+          http_cookie_persistence_profile:
+            always_send_cookie: false
+            cookie_name: My-HTTP
+            timeout: 15
+        register: result
+
+      - name: update application persistence profile
+        avi_applicationpersistenceprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "Test-HTTP-COOKIE-UPDATED"
+          persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+          server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+          state: "present"
+          uuid: "{{result.obj.uuid}}"
+          description: 'Test-HTTP-COOKIE-UPDATED'
+          http_cookie_persistence_profile:
+            always_send_cookie: false
+            cookie_name: Update-HTTP
+            timeout: 10
+        register: update_result
+
+      - name: Delete persistence profile
+        avi_applicationpersistenceprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{update_result.obj.uuid}}"
+          name: "Test-HTTP-COOKIE-UPDATED"
+          persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+          state: 'absent'

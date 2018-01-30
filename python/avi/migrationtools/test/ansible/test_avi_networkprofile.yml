@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+    avi_credentials:
+
+  tasks:
+   - block:
+     - name: Create network profile
+       avi_networkprofile:
+         controller: "{{ avi_credentials.controller }}"
+         username: "{{ avi_credentials.username }}"
+         password: "{{ avi_credentials.password }}"
+         api_version: "{{avi_credentials.api_version}}"
+         name: "Test-UDP-FAST-PATH"
+         description: "Created profile"
+         profile:
+            type: PROTOCOL_TYPE_UDP_FAST_PATH
+            udp_fast_path_profile:
+              per_pkt_loadbalance: false
+              session_idle_timeout: 10
+              snat: true
+         tenant_ref: '/api/tenant?name=admin'
+       register: result
+
+   - block:
+     - name: update network profile
+       avi_networkprofile:
+         controller: "{{ avi_credentials.controller }}"
+         username: "{{ avi_credentials.username }}"
+         password: "{{ avi_credentials.password }}"
+         api_version: "{{avi_credentials.api_version}}"
+         name: "Test-TCP-FAST-PATH"
+         uuid: "{{result.obj.uuid}}"
+         description: "updadted profile"
+         profile:
+            type: PROTOCOL_TYPE_TCP_FAST_PATH
+            tcp_fast_path_profile:
+              per_pkt_loadbalance: false
+              session_idle_timeout: 15
+              snat: true
+         tenant_ref: '/api/tenant?name=admin'
+       register: update_result
+
+   - block:
+     - name: delete network profile
+       avi_networkprofile:
+         controller: "{{ avi_credentials.controller }}"
+         username: "{{ avi_credentials.username }}"
+         password: "{{ avi_credentials.password }}"
+         api_version: "{{avi_credentials.api_version}}"
+         name: "Test-TCP-FAST-PATH"
+         uuid: "{{result.obj.uuid}}"
+         profile:
+            type: PROTOCOL_TYPE_TCP_FAST_PATH
+            tcp_fast_path_profile:
+              per_pkt_loadbalance: false
+              session_idle_timeout: 15
+              snat: true
+         state: 'absent'
+       register: delete_result

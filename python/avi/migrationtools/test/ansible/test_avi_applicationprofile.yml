@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create application profile
+        avi_application:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: 'Test-Application-profile'
+          #descrption: 'Description'
+          state: 'present'
+          #url:
+          #virtualservice_refs:
+        register: result
+      - fail: msg="Application profile not created"
+        when: "'uuid' not in result.obj"
+
+    - block:
+      - name: Update Application profile
+        avi_application:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: 'Updated-Application-profile'
+          #descrption: 'updated Description'
+          state: 'present'
+          uuid: '{{result.obj.uuid}}'
+        register: update_result
+      - fail: msg="Update failed"
+        when:
+          - "'uuid' not in update_result.obj"
+    - block:
+      - name: Delete application profile
+        avi_application:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: 'Updated-Application-profile'
+          state: 'absent'
+          uuid: '{{update_result.obj.uuid}}'

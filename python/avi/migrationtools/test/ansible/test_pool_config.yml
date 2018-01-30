@@ -2,10 +2,8 @@
 - hosts: localhost
   connection: local
   vars:
-      controller: '10.10.26.66'
-      username: 'admin'
-      password: 'avi123$%'
-      api_version: 17.2.5
+     vars_files:
+    - 'avi_credentials.yml'
 
   roles:
     - role: avinetworks.avisdk
@@ -14,10 +12,10 @@
       - name: create pool
         avi_pool:
           name: testpool1
-          controller: '{{ controller }}'
-          username: '{{ username }}'
-          password: '{{ password }}'
-          api_version: '{{ api_version }}'
+          controller: "{{ coavi_credentials.ntroller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
           description: testpool1
           state: present
           health_monitor_refs:

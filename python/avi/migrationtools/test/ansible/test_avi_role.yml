@@ -1,0 +1,54 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create role
+        avi_role:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-System-admin
+          tenant_ref: '/api/tenant?name=admin'
+        register: result
+
+      - name: update role
+        avi_role:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-System-admin
+          tenant_ref: '/api/tenant?name=admin'
+         #uuid: "{{result.obj.uuid}}"
+        register: updated_result
+        #check_mode: false
+
+      - name: delete role
+        avi_role:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-System-admin
+          uuid: "{{updated_result.obj.uuid}}"
+          state: "absent"
+
+      - name: test create role using check mode
+        avi_role:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-role
+          state: present
+        check_mode: true

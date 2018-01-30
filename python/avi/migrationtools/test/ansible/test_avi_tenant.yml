@@ -1,0 +1,69 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+
+  vars:
+    avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create tenant
+        avi_tenant:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "test-Tenant"
+          state: 'present'
+          config_settings:
+            se_in_provider_context: false
+            tenant_access_to_provider_se: true
+            tenant_vrf: false
+          description: VCenter, Open Stack
+          local: true
+        register: result
+
+      - name: update tenant
+        avi_tenant:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "updated-Tenant"
+          state: 'present'
+          uuid: "{{result.obj.uuid}}"
+          config_settings:
+            se_in_provider_context: false
+            tenant_access_to_provider_se: true
+            tenant_vrf: false
+          description: Vmware
+          local: true
+        register: update_result
+
+      - name: Delete tenant
+        avi_tenant:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "updated-Tenant"
+          uuid: "{{update_result.obj.uuid}}"
+          state: absent
+        register: delete_result
+
+      - name: Create tenant
+        avi_tenant:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: "New-Tenant"
+          uuid: "{{update_result.obj.uuid}}"
+          state: absent
+        register: delete_result
+        check_mode: true

@@ -1,0 +1,146 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create pool testpool1
+        avi_pool:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: testpool1
+          servers:
+              - ip:
+                  addr: 10.10.2.10
+                  type: V4
+        register: pool_result1
+
+      - name: create pool testpool2
+        avi_pool:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: testpool2
+          servers:
+              - ip:
+                  addr: 10.10.2.11
+                  type: V4
+        register: pool_result2
+
+      - name: create http policy set
+        avi_httppolicyset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-HTTP-policy-set
+          description: "test-HTTP-policy-set"
+          http_request_policy:
+           rules:
+            - index: 1
+              enable: true
+              name: test-test1
+              match:
+                path:
+                  match_case: INSENSITIVE
+                  match_str:
+                    - /test1
+                  match_criteria: EQUALS
+              switching_action:
+                action: HTTP_SWITCHING_SELECT_POOL
+                status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_200
+                pool_ref: "/api/pool?name=testpool1"
+            - index: 2
+              enable: true
+              name: test-test2
+              match:
+                path:
+                  match_case: INSENSITIVE
+                  match_str:
+                    - /test2
+                  match_criteria: CONTAINS
+              switching_action:
+                action: HTTP_SWITCHING_SELECT_POOL
+                status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_200
+                pool_ref: "/api/pool?name=testpool2"
+          is_internal_policy: false
+        register: result
+
+      - name: update http policy set
+        avi_httppolicyset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-HTTP-policy-set
+          description: "updated-HTTP-policy-set"
+          http_request_policy:
+           rules:
+            - index: 1
+              enable: true
+              name: test-test1
+              match:
+                path:
+                  match_case: INSENSITIVE
+                  match_str:
+                    - /test1
+                  match_criteria: EQUALS
+              switching_action:
+                action: HTTP_SWITCHING_SELECT_POOL
+                status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_200
+                pool_ref: "/api/pool?name=testpool2"
+            - index: 2
+              enable: true
+              name: test-test2
+              match:
+                path:
+                  match_case: INSENSITIVE
+                  match_str:
+                    - /test2
+                  match_criteria: CONTAINS
+              switching_action:
+                action: HTTP_SWITCHING_SELECT_POOL
+                status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_200
+                pool_ref: "/api/pool?name=testpool1"
+          is_internal_policy: false
+        register: policy_result
+
+    - block:
+      - name: delete http policy set
+        avi_httppolicyset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-HTTP-policy-set
+          uuid: "{{policy_result.obj.uuid}}"
+          state: "absent"
+      - name: delete pool testpool1
+        avi_pool:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: testpool1
+          uuid: "{{pool_result1.obj.uuid}}"
+          state: "absent"
+
+      - name: delete pool testpool2
+        avi_pool:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: testpool2
+          uuid: "{{pool_result2.obj.uuid}}"
+          state: "absent"
+
