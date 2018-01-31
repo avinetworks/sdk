@@ -34,7 +34,6 @@ class PoolConverter(object):
                         if self.get_ips_of_server(server_name['rserver']):
                             pool_ip_list.append(
                                 self.get_ips_of_server(server_name['rserver']))
-        # print pool_ip_list
         return pool_ip_list
 
     def pool_conversion(self, data):
@@ -49,7 +48,6 @@ class PoolConverter(object):
             server = None
             temp_pool = dict()
             name = pool.get('host', '')
-            # print name
             app_persistance = self.find_app_persistance(name, data)
             app_ref = self.common_utils.get_object_ref(app_persistance,
                                                        'applicationpersistenceprofile',
@@ -60,17 +58,15 @@ class PoolConverter(object):
                         'application_persistence_profile_ref': app_ref
                     })
             skipped_list = list()
+            server = []
             for pools in pool['desc']:
                 farm_set = set(pools.keys())
                 skipped_list_temp = list(farm_set.intersection(set(POOL_SKIP)))
                 if skipped_list_temp:
                     skipped_list.extend(skipped_list_temp)
                 if "rserver" in pools.keys():
-                    server = self.server_converter(pools['rserver'])
+                    server.extend(self.server_converter(pools['rserver']))
 
-            #    print "health monitor= ",data['HealthMonitor']
-            #    print pools
-            #     print pools.get('probe')
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
                         if pools.get('probe') == hm['name']:
@@ -160,7 +156,6 @@ class PoolConverter(object):
     def find_app_persistance(self, pool_name, data):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
-        # print self.parsed.get('sticky','')
         for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
             for app in data['ApplicationPersistenceProfile']:
