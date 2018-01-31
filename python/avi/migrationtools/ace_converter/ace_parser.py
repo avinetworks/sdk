@@ -356,7 +356,7 @@ class Parser():
         grammer_12_2 = Group(Keyword('probe') + name)
         grammer_12_3 = Group(Keyword('inband-health') +
                              Keyword('check') + name)
-        grammer_12_4_1 = Keyword('rserver') + name
+        grammer_12_4_1 = Keyword('rserver') + ~Word('host') + name
         grammer_12_4_2 = Keyword('inservice')
         grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2))
         grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
