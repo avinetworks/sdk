@@ -12,8 +12,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"reflect"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -100,7 +101,6 @@ type AviSession struct {
 
 	// internal: referer field string to use in requests
 	prefix string
-
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -463,24 +463,88 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 	return avisess.restRequest("POST", uri, payload)
 }
 
-// GetObjectByName performs GET with name filter
-func (avisess *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
-	uri := "api/" + obj + "?name=" + name
+type ApiGetOptions struct {
+	name   string
+	cloud  string
+	result interface{}
+}
+
+func SetName(name string) func(*ApiGetOptions) error {
+	return func(opts *ApiGetOptions) error {
+		return opts.setName(name)
+	}
+}
+
+func (opts *ApiGetOptions) setName(name string) error {
+	opts.name = name
+	return nil
+}
+
+func SetCloud(cloud string) func(*ApiGetOptions) error {
+	return func(opts *ApiGetOptions) error {
+		return opts.setCloud(cloud)
+	}
+}
+
+func (opts *ApiGetOptions) setCloud(cloud string) error {
+	opts.cloud = cloud
+	return nil
+}
+
+func SetResult(result interface{}) func(*ApiGetOptions) error {
+	return func(opts *ApiGetOptions) error {
+		return opts.setResult(result)
+	}
+}
+
+func (opts *ApiGetOptions) setResult(result interface{}) error {
+	opts.result = result
+	return nil
+}
+
+type SettingsApiGetOptions func(*ApiGetOptions) error
+
+func (avisess *AviSession) GetObject(obj string, options ...SettingsApiGetOptions) error {
+	opts := &ApiGetOptions{}
+	for _, opt := range options {
+		err := opt(opts)
+		if err != nil {
+			return err
+		}
+	}
+	if opts.result == nil {
+		return errors.New("reference to result provided")
+	}
+
+	if opts.name == "" {
+		return errors.New("Name not specified")
+	}
+
+	uri := "api/" + obj + "?name=" + opts.name
+	if opts.cloud != "" {
+		uri = uri + "&cloud=" + opts.cloud
+	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {
 		return err
 	}
 	if res.Count == 0 {
-		return errors.New("No object of type " + obj + " with name " + name + "is found")
+		return errors.New("No object of type " + obj + " with name " + opts.name + "is found")
 	} else if res.Count > 1 {
-		return errors.New("More than one object of type " + obj + " with name " + name + "is found")
+		return errors.New("More than one object of type " + obj + " with name " + opts.name + "is found")
 	}
 	elems := make([]json.RawMessage, 1)
 	err = json.Unmarshal(res.Results, &elems)
 	if err != nil {
 		return err
 	}
-	return json.Unmarshal(elems[0], &result)
+	return json.Unmarshal(elems[0], &opts.result)
+
+}
+
+// GetObjectByName performs GET with name filter
+func (avisess *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
+	return avisess.GetObject(obj, SetName(name), SetResult(result))
 }
 
 // Utility functions
