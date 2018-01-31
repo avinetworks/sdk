@@ -54,7 +54,6 @@ class AviAnsibleConverter(object):
         self.ns_vs_name_dict = ns_vs_name_dict
         # for test vip
         self.test_vip = test_vip
-        self.register_flag = True
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -133,6 +132,17 @@ class AviAnsibleConverter(object):
                     self.transform_obj_refs(item)
         return obj
 
+    def update_tenant(self, obj):
+        """
+        updates the tenant field in the task. This is then picked up by
+        ansible task or aviconfig role to create objects in the right tenant
+        :param obj:
+        :return:
+        """
+        if 'tenant' not in obj and 'tenant_ref' in obj:
+            tenant = obj['tenant_ref'].split('name=')[1].strip()
+            obj.update({'tenant': tenant})
+
     def build_ansible_objects(self, obj_type, objs, ansible_dict, inuse_list):
         """
         adds per object type ansible task
@@ -156,6 +166,7 @@ class AviAnsibleConverter(object):
                 task.pop(skip_field, None)
             self.transform_obj_refs(task)
             task.update(common_task_args)
+            self.update_tenant(task)
             task_name = ("Create or Update %s: %s" % (obj_type, obj['name'])
                          if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
@@ -176,9 +187,7 @@ class AviAnsibleConverter(object):
                                            task['vip'][id]['ip_address']['addr'].split('.')[3:])
                         if task.get('vsvip_ref', []):
                             task.get('vsvip_ref', [])
-            if not self.register_flag:
-                task.update({'api_context': "{{results.api_context | "
-                                            "default(omit)}}"})
+            task.update({'api_context': "{{api_context | default(omit)}}"})
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
             name = '%s-%s' % (obj['name'], obj_type)
@@ -201,22 +210,12 @@ class AviAnsibleConverter(object):
             # eliminate nonetype in vs_ref_tags
             if vs_ref_tags:
                 tags.extend(vs_ref_tags)
-            if self.register_flag:
-                ansible_dict[TASKS].append(
-                    {
-                        task_id: task,
-                        NAME: task_name,
-                        'register': 'results',
-                        TAGS: tags
-                    })
-                self.register_flag = False
-            else:
-                ansible_dict[TASKS].append(
-                    {
-                        task_id: task,
-                        NAME: task_name,
-                        TAGS: tags
-                    })
+            ansible_dict[TASKS].append(
+                {
+                    task_id: task,
+                    NAME: task_name,
+                    TAGS: tags
+                })
         return ansible_dict
 
     def get_f5_attributes(self, vs_dict):
@@ -240,6 +239,26 @@ class AviAnsibleConverter(object):
         f5_dict[USER] = F5_USERNAME
         f5_dict[PASSWORD] = F5_PASSWORD
         return f5_dict
+
+
+    def get_f5_virtual_address_attrs(self, vs_dict):
+        """
+        This function used for generating f5 playbook configuration.
+        It pop out the parameters like ip address, services, controller,
+        and user name.
+        It adds related parameters for f5 yaml generation.
+        :param vs_dict: contains all virtualservice list.
+        :return: None
+        """
+        f5_dict = deepcopy(vs_dict)
+        v_address_dict = {
+            NAME: f5_dict[VIP][0]['ip_address']['addr'],
+            SERVER: F5_SERVER,
+            VALIDATE_CERT: False,
+            USER: F5_USERNAME,
+            PASSWORD: F5_PASSWORD
+        }
+        return v_address_dict
 
     def generate_avi_vs_traffic(self, vs_dict, ansible_dict,
                                 application_profile, tenant='admin',
@@ -333,8 +352,11 @@ class AviAnsibleConverter(object):
                     removed_ref = sep_ele[0].split('?')
                     vs_dict[POOL_REF] = removed_ref[0] + '?' + sep_ele[1]
                 f5_dict = self.get_f5_attributes(vs_dict)
+                f5_virtual_address_dict = \
+                    self.get_f5_virtual_address_attrs(vs_dict)
                 # Call to distinguish between f5 and netscaler
                 trafic_obj.create_ansible_disable(f5_dict, ansible_dict)
+                trafic_obj.create_virtual_address_disable(f5_virtual_address_dict, ansible_dict)
                 trafic_obj.create_avi_ansible_enable(
                     vs_dict, ansible_dict, test_vip=self.test_vip)
                 # Getting the request type
@@ -355,6 +377,7 @@ class AviAnsibleConverter(object):
                         vs_dict, ansible_dict)
                 trafic_obj.create_avi_ansible_disable(vs_dict, ansible_dict)
                 trafic_obj.create_ansible_enable(f5_dict, ansible_dict)
+                trafic_obj.create_virtual_address_enable(f5_virtual_address_dict, ansible_dict)
             # Added call to check progress.
             progressbar_count += 1
             msg = "Ansible Generate Traffic..."
@@ -402,17 +425,17 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        # if f5server and f5user and f5password and instance_type:
-        #     self.generate_traffic(generate_traffic_dict, f5server, f5user,
-        #                           f5password, instance_type)
-        #     # Generate traffic file separately
-        #     with open(ansible_traffic_path, "w+") as outf:
-        #         outf.write(ANSIBLE_STR)
-        #         outf.write('---\n')
-        #         yaml.safe_dump(
-        #             [generate_traffic_dict], outf,
-        #             default_flow_style=False, indent=2
-        #         )
+        if f5server and f5user and f5password and instance_type:
+            self.generate_traffic(generate_traffic_dict, f5server, f5user,
+                                  f5password, instance_type)
+            # Generate traffic file separately
+            with open(ansible_traffic_path, "w+") as outf:
+                outf.write(ANSIBLE_STR)
+                outf.write('---\n')
+                yaml.safe_dump(
+                    [generate_traffic_dict], outf,
+                    default_flow_style=False, indent=2
+                )
         with open(ansible_create_object_path, "w") as outf:
             outf.write(ANSIBLE_STR)
             outf.write('---\n')
@@ -420,8 +443,6 @@ class AviAnsibleConverter(object):
 
         # Added support to generate ansible delete object playbook
         if len(ad['tasks']):
-            ad['tasks'][0].pop('register')
-            ad['tasks'][-1].update({'register': 'results'})
             for k, v in ad['tasks'][0].iteritems():
                     if isinstance(v, dict):
                         v['api_context'] = "{{results.api_context}}"

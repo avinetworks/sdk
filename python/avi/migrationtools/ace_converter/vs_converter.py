@@ -60,7 +60,8 @@ class VSConverter(object):
         for index, pool in enumerate(data['Pool']):
             if pool['name'] == pool_name and (pool.get('application_persistence_profile_ref', '') or l4_type):
                 if l4_type:
-                    ref_name = pool.get('application_persistence_profile_ref').split(
+                    ref_name = pool.get(
+                        'application_persistence_profile_ref', '').split(
                         '=')[-1]
                     for app_name in data['ApplicationPersistenceProfile']:
                         if app_name.get('name') == ref_name:
@@ -262,7 +263,8 @@ class VSConverter(object):
 
         if lb_policy:
             for class_map in self.parsed['class-map']:
-                if 'match' in class_map['type'] and class_map['class-map'] == lb_policy:
+                if 'match' in class_map['type'] and class_map[
+                  'class-map'] == lb_policy and class_map['desc']:
                     port = class_map['desc'][0].get(
                         'tcp', class_map['desc'][0].get('udp', ''))
                     if 'tcp' in class_map['desc'][0].keys():
@@ -326,6 +328,7 @@ class VSConverter(object):
 
                                 # updating object
                                 vs_list.append(vs)
+                                self.port_fix(vs_list)
                                 if cloned_pool:
                                     cloned_pool_list.append(cloned_pool)
                                 if http_policy_set:
@@ -336,7 +339,6 @@ class VSConverter(object):
                         else:
                             update_excel(
                                 'policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')
-        self.port_fix(vs_list)
         return vs_list, cloned_pool_list, http_list
 
     def port_fix(self, vs_list):
