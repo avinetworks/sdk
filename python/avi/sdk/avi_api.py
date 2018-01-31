@@ -432,6 +432,7 @@ class ApiSession(Session):
         else:
             raise Exception("Neither user password or token provided")
         logger.debug('authenticating user %s ', self.avi_credentials.username)
+        self.session.clear()
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
