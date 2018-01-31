@@ -466,6 +466,7 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 type ApiGetOptions struct {
 	name   string
 	cloud  string
+	cloudUUID string
 	result interface{}
 }
 
@@ -490,6 +491,18 @@ func (opts *ApiGetOptions) setCloud(cloud string) error {
 	opts.cloud = cloud
 	return nil
 }
+
+func SetCloudUUID(cloudUUID string) func(*ApiGetOptions) error {
+	return func(opts *ApiGetOptions) error {
+		return opts.setCloudUUID(cloudUUID)
+	}
+}
+
+func (opts *ApiGetOptions) setCloudUUID(cloudUUID string) error {
+	opts.cloudUUID = cloudUUID
+	return nil
+}
+
 
 func SetResult(result interface{}) func(*ApiGetOptions) error {
 	return func(opts *ApiGetOptions) error {
