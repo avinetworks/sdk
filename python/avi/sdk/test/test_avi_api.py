@@ -98,6 +98,24 @@ class Test(unittest.TestCase):
                                       verify=False)
         assert api1 == api2
 
+    def test_lazy_authentication(self):
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=True)
+        assert not session.keystone_token
+        session.get('pool')
+        assert session.keystone_token
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=False)
+        assert session.keystone_token
+
     def test_ssl_vs(self):
         papi = ApiSession(api.avi_credentials.controller,
                           api.avi_credentials.username,

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertConfig Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure alertconfig <key>\n- show alertconfig <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

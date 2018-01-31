@@ -1,14 +1,15 @@
-'''
+"""
 Created on Aug 16, 2016
 
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
-'''
+"""
 import os
 import re
 import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
     AviCredentials
+
 
 if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
     log = logging.getLogger(__name__)
@@ -35,20 +36,42 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     :param module: AnsibleModule
     :param rsp: ApiResponse from avi_api
     :param changed: boolean
+    :param req: ApiRequest to avi_api
+    :param existing_obj: object to be passed debug output
+    :param api_context: api login context
 
     helper function to return the right ansible based on the error code and
     changed
     Returns: specific ansible module exit function
     """
-    if rsp.status_code > 299:
-        return module.fail_json(msg='Error %d Msg %s req: %s api_context:%s ' % (
-            rsp.status_code, rsp.text, req, api_context))
-    if changed and existing_obj:
-        return module.exit_json(
-            changed=changed, obj=rsp.json(), old_obj=existing_obj,
-            api_context=api_context)
-    return module.exit_json(changed=changed, obj=rsp.json(),
-                            api_context=api_context)
+
+    if rsp is not None and rsp.status_code > 299:
+        return module.fail_json(
+            msg='Error %d Msg %s req: %s api_context:%s ' % (
+                rsp.status_code, rsp.text, req, api_context))
+    api_creds = AviCredentials()
+    api_creds.update_from_ansible_module(module)
+    key = '%s:%s:%s' % (api_creds.controller, api_creds.username,
+                        api_creds.port)
+    disable_fact = module.params.get('avi_disable_session_cache_as_fact')
+
+    fact_context = None
+    if not disable_fact:
+        fact_context = module.params.get('api_context', {})
+        if fact_context:
+            fact_context.update({key: api_context})
+        else:
+            fact_context = {key: api_context}
+
+    obj_val = rsp.json() if rsp else existing_obj
+    old_obj_val = existing_obj if changed and existing_obj else None
+    api_context_val = api_context if disable_fact else None
+    ansible_facts_val = dict(
+        avi_api_context=fact_context) if not disable_fact else {}
+
+    return module.exit_json(
+        changed=changed, obj=obj_val, old_obj=old_obj_val,
+        ansible_facts=ansible_facts_val, api_context=api_context_val)
 
 
 def purge_optional_fields(obj, module):
@@ -109,6 +132,7 @@ def cleanup_absent_fields(obj):
         del obj[k]
     return obj
 
+
 RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
 
 # if HTTP ref match then strip out the #name
@@ -138,7 +162,7 @@ def ref_n_str_cmp(x, y):
     Returns
         True if they are equivalent else False
     """
-    if (type(y) in (int, float, bool, int, complex)):
+    if type(y) in (int, float, bool, int, complex):
         y = str(y)
         x = str(x)
     if not ((isinstance(x, str) or isinstance(x, unicode)) and
@@ -198,6 +222,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
 
     :param x: first string
     :param y: second string from controller's object
+    :param sensitive_fields: sensitive fields to ignore for diff
 
     Returns:
         True if x is subset of y else False
@@ -275,7 +300,21 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
 POP_FIELDS = ['state', 'controller', 'username', 'password', 'api_version',
               'avi_credentials', 'avi_api_update_method', 'avi_api_patch_op',
               'api_context', 'obj_password', 'obj_username', 'tenant',
-              'tenant_uuid']
+              'tenant_uuid', 'avi_disable_session_cache_as_fact']
+
+
+def get_api_context(module, api_creds):
+    api_context = module.params.get('api_context')
+    if api_context and module.params.get('avi_disable_session_cache_as_fact'):
+        return api_context
+    elif api_context and not module.params.get(
+            'avi_disable_session_cache_as_fact'):
+        key = '%s:%s:%s' % (api_creds.controller, api_creds.username,
+                            api_creds.port)
+        return api_context.get(key)
+    else:
+        return None
+
 
 def avi_ansible_api(module, obj_type, sensitive_fields):
     """
@@ -291,21 +330,28 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
-    if module.params.get('api_context'):
-        api_context = module.params['api_context']
+    api_context = get_api_context(module, api_creds)
+    if api_context:
         api = ApiSession.get_session(
-            api_creds.controller, api_creds.username,
+            api_creds.controller,
+            api_creds.username,
             password=api_creds.password,
-            timeout=api_creds.timeout, tenant=api_creds.tenant,
+            timeout=api_creds.timeout,
+            tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid,
-            token=api_creds.token,
-            port=api_creds.port, session_id=api_context['session_id'],
+            token=api_context['csrftoken'],
+            port=api_creds.port,
+            session_id=api_context['session_id'],
             csrftoken=api_context['csrftoken'])
     else:
         api = ApiSession.get_session(
-            api_creds.controller, api_creds.username, password=api_creds.password,
-            timeout=api_creds.timeout, tenant=api_creds.tenant,
-            tenant_uuid=api_creds.tenant_uuid, token=api_creds.token,
+            api_creds.controller,
+            api_creds.username,
+            password=api_creds.password,
+            timeout=api_creds.timeout,
+            tenant=api_creds.tenant,
+            tenant_uuid=api_creds.tenant_uuid,
+            token=api_creds.token,
             port=api_creds.port)
     state = module.params['state']
     # Get the api version.
@@ -317,7 +363,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     # Added Support to get uuid
     uuid = module.params.get('uuid', None)
     check_mode = module.check_mode
-    obj_path = None
     if uuid:
         obj_path = '%s/%s' % (obj_type, uuid)
     else:
@@ -346,9 +391,10 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if uuid:
         # Get the object based on uuid.
         try:
-            existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
-                                   params={'include_refs': '', 'include_name': ''},
-                                   api_version=api_version)
+            existing_obj = api.get(
+                obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+                params={'include_refs': '', 'include_name': ''},
+                api_version=api_version)
             existing_obj = existing_obj.json()
         except ObjectNotFound:
             existing_obj = None
@@ -368,14 +414,17 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                                api_version=api_version).json()
 
     if state == 'absent':
+        rsp = None
         try:
             if check_mode:
                 if existing_obj:
-                    return module.exit_json(changed=True, obj=existing_obj,
-                                            api_context=api.get_context())
+                    return ansible_return(
+                        module, None, True, existing_obj=existing_obj,
+                        api_context=api.get_context())
                 else:
-                    return module.exit_json(changed=False, obj=None,
-                                            api_context=api.get_context())
+                    return ansible_return(
+                        module, None, False, existing_obj=existing_obj,
+                        api_context=api.get_context())
             if name is not None:
                 # added api version to avi api call.
                 rsp = api.delete_by_name(
@@ -387,12 +436,15 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                     obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
                     api_version=api_version)
         except ObjectNotFound:
-            return module.exit_json(changed=False, api_context=api.get_context())
+            return ansible_return(
+                module, None, False, existing_obj=existing_obj,
+                api_context=api.get_context())
         if rsp.status_code == 204:
-            return module.exit_json(changed=True, api_context=api.get_context())
+            return ansible_return(
+                module, None, True, existing_obj=existing_obj,
+                api_context=api.get_context())
         return module.fail_json(msg=rsp.text)
 
-    changed = False
     rsp = None
     req = None
     if existing_obj:
@@ -439,26 +491,23 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         else:
             rsp = api.post(obj_type, data=obj, tenant=tenant,
                            tenant_uuid=tenant_uuid, api_version=api_version)
-    if rsp is None:
-        return module.exit_json(changed=changed, obj=existing_obj,
-                                api_context=api.get_context())
-    else:
-        return ansible_return(module, rsp, changed, req,
-                              existing_obj=existing_obj,
-                              api_context=api.get_context()
-                              )
+
+    return ansible_return(module, rsp, changed, req, existing_obj=existing_obj,
+                          api_context=api.get_context())
+
+
 def avi_common_argument_spec():
     """
     Returns common arguments for all Avi modules
     :return: dict
     """
     return dict(
-            controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
-            username=dict(default=os.environ.get('AVI_USERNAME', '')),
-            password=dict(default=os.environ.get('AVI_PASSWORD', ''),
-                          no_log=True),
-            tenant=dict(default='admin'),
-            tenant_uuid=dict(default=''),
-            api_version=dict(default='16.4.4', type='str'),
-            avi_credentials=dict(default=None, no_log=True, type='dict'),
-            api_context=dict(type='dict'))
+        controller=dict(default=os.environ.get('AVI_CONTROLLER', '')),
+        username=dict(default=os.environ.get('AVI_USERNAME', '')),
+        password=dict(default=os.environ.get('AVI_PASSWORD', ''), no_log=True),
+        tenant=dict(default='admin'),
+        tenant_uuid=dict(default=''),
+        api_version=dict(default='16.4.4', type='str'),
+        avi_credentials=dict(default=None, no_log=True, type='dict'),
+        api_context=dict(type='dict'),
+        avi_disable_session_cache_as_fact=dict(default=False, type='bool'))
