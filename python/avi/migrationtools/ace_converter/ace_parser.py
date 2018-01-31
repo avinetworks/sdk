@@ -66,6 +66,8 @@ class Parser():
         #        receive 5
         #        interval 10
         #        expect status 200 200
+        #        expect regex "(200|302)"
+        #        ssl version all
         #        request method get url /test/test:ping
         #        passdetect interval 10
         #        open 3
@@ -78,10 +80,13 @@ class Parser():
         grammer_3_2 = Group(Keyword('port') + Word(nums))
         grammer_3_3 = Group(Keyword('receive') + Word(nums))
         grammer_3_4 = Group(Keyword('interval') + Word(nums))
-        grammer_3_5 = Group(Keyword('expect') +
-                            Keyword('status') + Word(nums) + Word(nums))
+        grammer_3_5 = Group((Keyword('expect') +
+                            Keyword('status') + Word(nums) + Word(nums)) |  
+                            (Keyword('expect') +
+                            Keyword('regex') + Word(printables)))
         grammer_3_6 = Group(Keyword('passdetect') + Keyword('interval') + num)
         grammer_3_7 = Group(Keyword('open') + num)
+        grammer_3_8 = Group(Keyword('ssl') + Keyword('version') + Keyword('all'))
 
         request_key = Keyword('request')
         method_key = Keyword('method')
@@ -92,7 +97,8 @@ class Parser():
 
         grammer_3 = Group(grammer_3_1 + ZeroOrMore(grammer_3_2 | grammer_3_3 |
                                                    grammer_3_4 | grammer_3_5 |
-                                                   grammer_3_6))
+                                                   grammer_3_6 | grammer_3_7 |
+                                                   grammer_3_8))
 
         # grammer 4:
         # rserver host rs_Test123
@@ -350,7 +356,7 @@ class Parser():
         grammer_12_2 = Group(Keyword('probe') + name)
         grammer_12_3 = Group(Keyword('inband-health') +
                              Keyword('check') + name)
-        grammer_12_4_1 = Keyword('rserver') + name
+        grammer_12_4_1 = Keyword('rserver') + ~Word('host') + name
         grammer_12_4_2 = Keyword('inservice')
         grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2))
         grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
@@ -750,6 +756,11 @@ class Parser():
                             'status': match[2],
                             'status1': match[3]
                         }
+                    if len(match) == 3:
+                        if 'regex' in match:
+                            temp_dict = {
+                                'regex': 'yes'
+                            }
                     if len(match) == 5:
                         temp_dict = {
                             match[1]: match[2],
