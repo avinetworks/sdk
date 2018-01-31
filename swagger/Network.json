@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Network Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure network <key>\n- show network <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -609,6 +609,7 @@
                     "description": "When selected, excludes all discovered subnets in this network from consideration for virtual service placement."
                 }, 
                 "vimgrnw_ref": {
+                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type VIMgrNWRuntime."
                 }, 

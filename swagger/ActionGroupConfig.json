@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ActionGroupConfig Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure actiongroupconfig <key>\n- show actiongroupconfig <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
