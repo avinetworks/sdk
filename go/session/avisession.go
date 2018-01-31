@@ -463,62 +463,61 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 	return avisess.restRequest("POST", uri, payload)
 }
 
-type ApiGetOptions struct {
-	name   string
-	cloud  string
+type ApiOptions struct {
+	name      string
+	cloud     string
 	cloudUUID string
-	result interface{}
+	result    interface{}
 }
 
-func SetName(name string) func(*ApiGetOptions) error {
-	return func(opts *ApiGetOptions) error {
+func SetName(name string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
 		return opts.setName(name)
 	}
 }
 
-func (opts *ApiGetOptions) setName(name string) error {
+func (opts *ApiOptions) setName(name string) error {
 	opts.name = name
 	return nil
 }
 
-func SetCloud(cloud string) func(*ApiGetOptions) error {
-	return func(opts *ApiGetOptions) error {
+func SetCloud(cloud string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
 		return opts.setCloud(cloud)
 	}
 }
 
-func (opts *ApiGetOptions) setCloud(cloud string) error {
+func (opts *ApiOptions) setCloud(cloud string) error {
 	opts.cloud = cloud
 	return nil
 }
 
-func SetCloudUUID(cloudUUID string) func(*ApiGetOptions) error {
-	return func(opts *ApiGetOptions) error {
+func SetCloudUUID(cloudUUID string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
 		return opts.setCloudUUID(cloudUUID)
 	}
 }
 
-func (opts *ApiGetOptions) setCloudUUID(cloudUUID string) error {
+func (opts *ApiOptions) setCloudUUID(cloudUUID string) error {
 	opts.cloudUUID = cloudUUID
 	return nil
 }
 
-
-func SetResult(result interface{}) func(*ApiGetOptions) error {
-	return func(opts *ApiGetOptions) error {
+func SetResult(result interface{}) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
 		return opts.setResult(result)
 	}
 }
 
-func (opts *ApiGetOptions) setResult(result interface{}) error {
+func (opts *ApiOptions) setResult(result interface{}) error {
 	opts.result = result
 	return nil
 }
 
-type SettingsApiGetOptions func(*ApiGetOptions) error
+type ApiOptionsParams func(*ApiOptions) error
 
-func (avisess *AviSession) GetObject(obj string, options ...SettingsApiGetOptions) error {
-	opts := &ApiGetOptions{}
+func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
+	opts := &ApiOptions{}
 	for _, opt := range options {
 		err := opt(opts)
 		if err != nil {
