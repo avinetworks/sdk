@@ -536,6 +536,8 @@ func (avisess *AviSession) GetObject(obj string, options ...SettingsApiGetOption
 	uri := "api/" + obj + "?name=" + opts.name
 	if opts.cloud != "" {
 		uri = uri + "&cloud=" + opts.cloud
+	} else if opts.cloudUUID != "" {
+		uri = uri + "&cloud_ref.uuid=" + opts.cloudUUID
 	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {
