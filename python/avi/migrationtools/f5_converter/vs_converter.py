@@ -36,7 +36,8 @@ class VSConfigConv(object):
         pass
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
-                cloud_name, controller_version, merge_object_mapping, sys_dict):
+                cloud_name, controller_version, merge_object_mapping, sys_dict,
+                vrf=None, segroup=None):
         """
 
         :param f5_config: Parsed f5 config dict
@@ -77,8 +78,12 @@ class VSConfigConv(object):
                 vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
                                          f5_snat_pools, user_ignore, tenant,
                                          cloud_name, controller_version,
-                                         merge_object_mapping, sys_dict)
+                                         merge_object_mapping, sys_dict, vrf,
+                                         segroup)
                 if vs_obj:
+                    print "segroup is ", segroup
+                    if segroup:
+                        vs_obj['se_group_ref'] = segroup
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
@@ -92,7 +97,7 @@ class VSConfigConv(object):
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name, controller_version,
-                   merge_object_mapping, sys_dict):
+                   merge_object_mapping, sys_dict, vrf=None, segroup=None):
         """
 
         :param vs_name: name of virtual service.
@@ -187,7 +192,7 @@ class VSConfigConv(object):
         # if destination is not present then skip vs.
         services_obj, ip_addr, vsvip_ref, vrf_ref = conv_utils.get_service_obj(
             destination, avi_config, enable_ssl, controller_version, tenant,
-            cloud_name, self.prefix, vs_name)
+            cloud_name, self.prefix, vs_name, vrf)
         # Added check for same vip in same vrf
         if vsvip_ref == '':
             msg = "Skipped: Virtualservice %s has repeated vip not in " \
@@ -311,6 +316,10 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+
+        if vrf:
+            vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                cloud_name=cloud_ref)
 
         if vrf_ref:
             vs_obj['vrf_context_ref'] = vrf_ref
