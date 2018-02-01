@@ -148,6 +148,9 @@ class MigrationUtil(object):
         """
 
         file_str = None
+        # remove double quotes if available
+        file_path = file_path.replace('"', '')
+
         if '/Common/' in file_path:
             file_path = file_path.replace('/Common/', '')
         try:
@@ -158,7 +161,8 @@ class MigrationUtil(object):
             try:
                 file_str = file_str.decode('latin-1')
             except:
-                LOG.error("Error to read file %s" % file_path, exc_info=True)
+                LOG.error("[UnicodeDecode] Error to read file %s" % file_path,
+                          exc_info=True)
         except:
             LOG.error("Error to read file %s" % file_path, exc_info=True)
         return file_str
