@@ -1,0 +1,71 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - "avi_credentials.yml"
+  vars:
+    avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+
+  tasks:
+    - block:
+      - name: create ssl profile
+        avi_sslprofile:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          name: Test-SSL-Profile
+          description: test-desc
+          tenant_ref: '/api/tenant?name=admin'
+          enable_ssl_session_reuse: false
+          accepted_versions:
+          - type: SSL_VERSION_TLS1
+          - type: SSL_VERSION_TLS1_1
+          - type: SSL_VERSION_TLS1_2
+          cipher_enums:
+          - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+          - TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
+          send_close_notify: true
+          ssl_rating:
+            compatibility_rating: SSL_SCORE_EXCELLENT
+            performance_rating: SSL_SCORE_EXCELLENT
+            security_score: '100.0'
+        register: result
+
+      - name: update ssl profile
+        avi_sslprofile:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          name: Test-Updated-SSL-Profile
+          description: test-desc
+          tenant_ref: '/api/tenant?name=admin'
+          avi_api_update_method: put
+          enable_ssl_session_reuse: false
+          uuid: "{{result.obj.uuid}}"
+          accepted_versions:
+          - type: SSL_VERSION_TLS1
+          - type: SSL_VERSION_TLS1_1
+          cipher_enums:
+          - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+          - TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
+          send_close_notify: true
+          ssl_rating:
+            compatibility_rating: SSL_SCORE_EXCELLENT
+            performance_rating: SSL_SCORE_EXCELLENT
+            security_score: '90.0'
+        register: update_result
+
+      - name: Delete ssl profile
+        avi_sslprofile:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          name: Test-Updated-SSL-Profile
+          avi_api_patch_op: delete
+          enable_ssl_session_reuse: false
+          uuid: "{{update_result.obj.uuid}}"
+

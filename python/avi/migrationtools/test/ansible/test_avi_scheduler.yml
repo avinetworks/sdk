@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+#      - name: Create backup configuration object
+#        avi_backupconfiguration:
+#          controller: "{{ avi_credentials.controller }}"
+#          username: "{{ avi_credentials.username }}"
+#          password: "{{ avi_credentials.password }}"
+#          api_version: "{{avi_credentials.api_version}}"
+#          name: 'Backup-Configuration'
+#          tenant_ref: '/api/tenant?name=admin'
+#          save_local: true
+#          maximum_backups_stored: 3
+#        register: result
+
+      - name: create scheduler object
+        avi_scheduler:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Default-Scheduler
+          frequency_unit: SCHEDULER_FREQUENCY_UNIT_MONTH
+          run_mode: RUN_MODE_PERIODIC
+          backup_config_ref: '/api/backupconfiguration?name=Backup-Configuration'
+          frequency: 3
+          scheduler_action: SCHEDULER_ACTION_BACKUP
+        register: result
+
+      - name: update scheduler object
+        avi_scheduler:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Default-Scheduler
+          frequency_unit: SCHEDULER_FREQUENCY_UNIT_WEEK
+          run_mode: RUN_MODE_PERIODIC
+          backup_config_ref: '/api/backupconfiguration?name=Backup-Configuration'
+          frequency: 1
+          uuid: "{{result.obj.uuid}}"
+          scheduler_action: SCHEDULER_ACTION_BACKUP
+        register: result

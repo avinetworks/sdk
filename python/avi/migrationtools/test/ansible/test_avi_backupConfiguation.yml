@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create backup configuration object
+        avi_backupconfiguration:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: 'Backup-Configuration'
+          tenant_ref: '/api/tenant?name=admin'
+          save_local: true
+          maximum_backups_stored: 3
+        register: result
+
+      - name: Update backup configuration object
+        avi_backupconfiguration:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: 'Backup-Configuration'
+          tenant_ref: '/api/tenant?name=admin'
+          save_local: false
+          maximum_backups_stored: 2
+          backup_file_prefix: 'abc-'
+          backup_passphrase: avi123
+          avi_api_update_method: put
+        register: updated_result
+
+#      - name: Delete backup configuration
+#        avi_backupconfiguration:
+#          controller: "{{ avi_credentials.controller }}"
+#          username: "{{ avi_credentials.username }}"
+#          password: "{{ avi_credentials.password }}"
+#          api_version: "{{avi_credentials.api_version}}"
+#          name: 'Backup-Configuration'
+#          #avi_api_update_method: delete
+#          state: absent

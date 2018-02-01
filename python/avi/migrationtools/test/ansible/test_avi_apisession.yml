@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Get pool information using api session
+        avi_api_session:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          http_method: get
+          path: 'virtualservice'
+          params:
+            name: "test-vs"
+        register: vs_results
+
+      - name: patch pool information using api session
+        avi_api_session:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          http_method: get
+          path: analytics/metrics/pool
+          api_version: 16.4
+          params:
+            name: "TestPool"
+            metric_id: l4_server.avg_bandwidth,l4_server.avg_complete_conns
+            step: 300
+            limit: 10
+        register: pool_metrics

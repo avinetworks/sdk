@@ -4,16 +4,17 @@ from shlex import shlex
 from string import Template
 import pytest
 import json
+import logging
 
 playbook_file = pytest.config.getoption("--config")
+ansible_temp =Template('ansible-playbook ${playbook} ')
 
+logging.basicConfig(filename='ansible-test.log', level=logging.INFO)
+LOG = logging.getLogger(__name__)
 
-ansible_temp =Template('ansible-playbook ${playbook}')
+def test_ansible_configuration(change= 3):
 
-
-def test_configuration():
     cmd = ansible_temp.substitute(playbook = playbook_file)
-    changed = 3
     res = subprocess.check_output(cmd, shell= True)
     sout = StringIO(res)
     lines = sout.readlines()
@@ -23,5 +24,10 @@ def test_configuration():
         results = lines[index + 1]
         ch = [term.split('=')[1] for term in results.split()
               if term.startswith('changed')][0]
-        assert int(ch) == int(changed)
 
+        err = [term.split('=')[1] for term in results.split()
+              if term.startswith('failed')][0]
+        if int(err) > 1:
+            LOG.error("Ansible module is faild to create configuration from %s" %(playbook_file))
+        assert int(ch) == int(change)
+        LOG.info("Playbook %s uploaded successfully.." %(playbook_file))
