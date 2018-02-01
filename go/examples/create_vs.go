@@ -11,7 +11,7 @@ import (
 func main() {
 	// flag.Lookup("logtostderr").Value.Set("false")
 	// Create a session and a generic client to Avi Controller
-	aviClient, err := clients.NewAviClient("10.10.25.201", "admin",
+	aviClient, err := clients.NewAviClient("10.10.25.42", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetInsecure)
@@ -19,7 +19,8 @@ func main() {
 		fmt.Println("Couldn't create session: ", err)
 		return
 	}
-	fmt.Printf("Avi Controller Version: %s\n", aviClient.AviSession.GetControllerVersion())
+	cv, err := aviClient.AviSession.GetControllerVersion()
+	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
 
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
@@ -49,6 +50,17 @@ func main() {
 		return
 	}
 	fmt.Printf("VS obj: %+v", *nvsobj)
+
+	// Example of fetching object by name
+
+	var obj interface{}
+	err = aviClient.AviSession.GetObjectByName("virtualservice", "my-test-vs", &obj)
+	fmt.Printf("VS obj: %v\n", obj)
+
+	err = aviClient.AviSession.GetObject(
+		"virtualservice", session.SetName("my-test-vs"), session.SetResult(&obj),
+		session.SetCloudUUID("cloud-f39f950a-e6ca-442d-b546-fc31520991bb"))
+	fmt.Printf("VS with CLOUD_UUID obj: %v", obj)
 
 	// Delete vs
 	// aviClient.VirtualService.Delete(nvsobj.UUID)
