@@ -56,7 +56,7 @@
           state: absent
         register: delete_result
 
-      - name: Create tenant
+      - name: Create tenant using check_mode
         avi_tenant:
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
