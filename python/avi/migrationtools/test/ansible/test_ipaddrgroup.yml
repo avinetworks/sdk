@@ -1,0 +1,69 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - "avi_credentials.yml"
+  vars:
+    avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create ip address group
+        avi_ipaddrgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: New-Internal
+          tenant_ref: "/api/tenant/?name=admin"
+          prefixes:
+          - ip_addr:
+              type: V4
+              addr: 10.0.0.0
+            mask: 8
+          - ip_addr:
+              type: V4
+              addr: 192.168.0.10
+            mask: 16
+          - ip_addr:
+              type: V4
+              addr: 172.16.0.1
+            mask: 14
+        register: result
+
+      - name: update ip address group
+        avi_ipaddrgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Updated-Internal-Group
+          tenant_ref: "/api/tenant/?name=admin"
+          uuid: "{{result.obj.uuid}}"
+          prefixes:
+          - ip_addr:
+              type: V4
+              addr: 10.10.0.0
+            mask: 8
+          - ip_addr:
+              type: V4
+              addr: 192.168.0.20
+            mask: 16
+          - ip_addr:
+              type: V4
+              addr: 172.16.0.0
+            mask: 14
+        register: updated_result
+
+      - name: Delete ip address group object
+        avi_ipaddrgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: absent
+          name: Updated-Internal-Group
+          uuid: "{{updated_result.obj.uuid}}"

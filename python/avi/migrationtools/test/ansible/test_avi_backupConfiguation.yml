@@ -37,12 +37,3 @@
           avi_api_update_method: put
         register: updated_result
 
-#      - name: Delete backup configuration
-#        avi_backupconfiguration:
-#          controller: "{{ avi_credentials.controller }}"
-#          username: "{{ avi_credentials.username }}"
-#          password: "{{ avi_credentials.password }}"
-#          api_version: "{{avi_credentials.api_version}}"
-#          name: 'Backup-Configuration'
-#          #avi_api_update_method: delete
-#          state: absent

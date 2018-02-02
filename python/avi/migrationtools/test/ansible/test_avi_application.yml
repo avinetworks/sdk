@@ -19,7 +19,8 @@
           api_version: "{{avi_credentials.api_version}}"
           name: 'Test-Application-profile'
           state: 'present'
-          #virtualservice_refs: '/api/virtualservice?name=test-vs1'
+          virtualservice_refs:
+          - '/api/virtualservice?name=test-vs1'
         register: result
       - fail: msg="Application profile not created"
         when: "'uuid' not in result.obj"
