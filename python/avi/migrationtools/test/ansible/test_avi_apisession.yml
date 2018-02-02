@@ -10,30 +10,60 @@
     - role: avinetworks.avisdk
   tasks:
     - block:
+      - name: Create pool
+        avi_pool:
+          api_version: "{{ avi_credentials.api_version }}"
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          name: 'test-pool'
+          state: 'present'
+          tenant: admin
+          tenant_ref: /api/tenant/?name=admin
+          cloud_ref: /api/cloud?name=Default-Cloud
+        register: test_result
+      - fail: msg="pool is not created"
+        when:
+            - "'uuid' not in test_result.obj"
+
       - name: Get pool information using api session
         avi_api_session:
+          api_version: "{{ avi_credentials.api_version }}"
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
           password: "{{ avi_credentials.password }}"
-          api_version: "{{avi_credentials.api_version}}"
           http_method: get
-          path: 'virtualservice'
+          path: 'pool'
           params:
-            name: "test-vs"
-        register: vs_results
+            name: "test-pool"
+        register: get_result
 
-      - name: patch pool information using api session
+      - name: Patch Pool with list of servers using api session
+        avi_api_session:
+          api_version: "{{ avi_credentials.api_version }}"
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          http_method: patch
+          path: "pool/{{ get_result.obj.results[0]['uuid'] }}"
+          data:
+            add:
+              name: TEST-POOL
+              servers:
+                - ip:
+                    addr: 10.10.10.10
+                    type: V4
+                - ip:
+                    addr: 20.20.20.20
+                    type: V4
+        register: updated_pool
+
+      - name: delete pool using api session
         avi_api_session:
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
           password: "{{ avi_credentials.password }}"
           api_version: "{{avi_credentials.api_version}}"
-          http_method: get
-          path: analytics/metrics/pool
-          api_version: 16.4
-          params:
-            name: "TestPool"
-            metric_id: l4_server.avg_bandwidth,l4_server.avg_complete_conns
-            step: 300
-            limit: 10
-        register: pool_metrics
+          http_method: delete
+          path: "pool/{{ updated_pool.obj.uuid }}"
+        register: pool_result

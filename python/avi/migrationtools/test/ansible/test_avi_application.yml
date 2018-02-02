@@ -9,6 +9,7 @@
   roles:
     - role: avinetworks.avisdk
   tasks:
+
     - block:
       - name: Create application profile
         avi_application:
@@ -17,10 +18,8 @@
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
           name: 'Test-Application-profile'
-          #descrption: 'Description'
           state: 'present'
-          #url:
-          #virtualservice_refs:
+          #virtualservice_refs: '/api/virtualservice?name=test-vs1'
         register: result
       - fail: msg="Application profile not created"
         when: "'uuid' not in result.obj"
@@ -33,7 +32,6 @@
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
           name: 'Updated-Application-profile'
-          #descrption: 'updated Description'
           state: 'present'
           uuid: '{{result.obj.uuid}}'
         register: update_result
