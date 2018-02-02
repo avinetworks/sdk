@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Tenant Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure tenant <key>\n- show tenant <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

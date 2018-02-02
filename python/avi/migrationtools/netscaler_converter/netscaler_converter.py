@@ -90,6 +90,9 @@ class NetscalerConverter(AviConverter):
             is_download_from_host = True
 
         self.print_pip_and_controller_version()
+        # print the arguments in input
+        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
+
         if is_download_from_host:
             LOG.debug("Copying files from host")
             print "Copying Files from Host..."

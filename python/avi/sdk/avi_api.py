@@ -432,6 +432,7 @@ class ApiSession(Session):
         else:
             raise Exception("Neither user password or token provided")
         logger.debug('authenticating user %s ', self.avi_credentials.username)
+        self.cookies.clear()
         rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                            timeout=self.timeout)
         if rsp.status_code != 200:
@@ -443,7 +444,6 @@ class ApiSession(Session):
                 (rsp.status_code, rsp.text))
         self.remote_api_version = rsp.json().get('version', {})
         self.headers.update(self.user_hdrs)
-
 
         if rsp.cookies and 'csrftoken' in rsp.cookies:
             csrftoken = rsp.cookies['csrftoken']
@@ -498,6 +498,10 @@ class ApiSession(Session):
         elif tenant:
             api_hdrs.update({"X-Avi-Tenant": "%s" % tenant})
             api_hdrs.pop("X-Avi-Tenant-UUID", None)
+        # Override any user headers that were passed by users. We don't know
+        # when the user had updated the user_hdrs
+        if self.user_hdrs:
+            api_hdrs.update(self.user_hdrs)
         if headers:
             # overwrite the headers passed via the API calls.
             api_hdrs.update(headers)

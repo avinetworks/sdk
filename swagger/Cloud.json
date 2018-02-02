@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.5", 
+        "version": "17.2.6", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
