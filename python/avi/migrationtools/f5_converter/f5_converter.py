@@ -77,7 +77,7 @@ class F5Converter(AviConverter):
         # Added args for creating test vips
         self.test_vip = args.test_vip
         # Support for vrf ref and segroup ref
-        self.vrf = args.vrf_ref
+        self.vrf = args.vrf
         self.segroup = args.segroup
 
         # Created f5 util object.
@@ -435,7 +435,7 @@ if __name__ == "__main__":
                         'use it with caution ')
     
     # Support for vrf and segroups
-    parser.add_argument('--vrf_ref',
+    parser.add_argument('--vrf',
                         help='Update the available vrf ref with the custom vrf'
                              'reference')
     

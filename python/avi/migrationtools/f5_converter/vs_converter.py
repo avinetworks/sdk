@@ -81,7 +81,6 @@ class VSConfigConv(object):
                                          merge_object_mapping, sys_dict, vrf,
                                          segroup)
                 if vs_obj:
-                    print "segroup is ", segroup
                     if segroup:
                         vs_obj['se_group_ref'] = segroup
                     avi_config['VirtualService'].append(vs_obj)
