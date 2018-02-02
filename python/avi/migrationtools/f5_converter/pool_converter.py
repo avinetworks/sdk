@@ -353,6 +353,7 @@ class PoolConfigConvV11(PoolConfigConv):
             servers = servers[0:400]
             status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
+        tenant_name = tenant
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         num_retries = f5_pool.get('reselect-tries', None)
@@ -384,6 +385,7 @@ class PoolConfigConvV11(PoolConfigConv):
                   else None
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                tenant_name=tenant_name,
                                                 cloud_name=cloud_ref)
         else:
             vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
@@ -605,6 +607,7 @@ class PoolConfigConvV10(PoolConfigConv):
                   else None
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                tenant=tenant_ref,
                                                 cloud_name=cloud_ref)
         else:
             vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',

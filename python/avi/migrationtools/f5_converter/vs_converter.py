@@ -82,7 +82,11 @@ class VSConfigConv(object):
                                          segroup)
                 if vs_obj:
                     if segroup:
-                        vs_obj['se_group_ref'] = segroup
+                        segroup_ref = conv_utils.get_object_ref(segroup,
+                                                    'serviceenginegroup',
+                                                    tenant=tenant,
+                                                    cloud_name=cloud_name)
+                        vs_obj['segroup_ref'] = segroup_ref
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
@@ -113,6 +117,7 @@ class VSConfigConv(object):
         :return:
         """
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
+        tenant_name = tenant
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         # Added prefix for objects
@@ -318,6 +323,7 @@ class VSConfigConv(object):
 
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                tenant=tenant_name,
                                                 cloud_name=cloud_ref)
 
         if vrf_ref:
