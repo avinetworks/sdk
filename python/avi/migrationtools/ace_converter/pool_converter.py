@@ -137,16 +137,16 @@ class PoolConverter(object):
             # checking for server enabled or not ?
             if 'type' in serv.keys():
                 enabled = (True if serv['type'] == 'inservice' else False)
-
-        server_list.append({
-            "ip": {
-                "addr": server,
-                "type": "V4",
-            },
-            "enabled": enabled,
-            "description": desc,
-            "port": default_port
-        })
+        if server != '':
+            server_list.append({
+                "ip": {
+                    "addr": server,
+                    "type": "V4",
+                },
+                "enabled": enabled,
+                "description": desc,
+                "port": default_port
+            })
 
         # Update Excel Sheet
         update_excel('rserver', server_name, avi_obj=server_list)
