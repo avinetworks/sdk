@@ -1,0 +1,163 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create application profile object
+        avi_applicationprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-profile
+          type: APPLICATION_PROFILE_TYPE_HTTP
+          tenant_ref: '/api/tenant?nameadmin'
+          http_profile:
+            max_rps_uri: 0
+            keepalive_header: false
+            max_rps_cip_uri: 0
+            x_forwarded_proto_enabled: false
+            connection_multiplexing_enabled: true
+            websockets_enabled: true
+            enable_request_body_buffering: false
+            hsts_enabled: false
+            xff_enabled: true
+            disable_keepalive_posts_msie6: true
+            keepalive_timeout: 30000
+            ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
+            http_to_https: false
+            spdy_enabled: false
+            client_body_timeout: 30000
+            httponly_enabled: false
+            hsts_max_age: 365
+            max_bad_rps_cip: 0
+            server_side_redirect_to_https: false
+            client_max_header_size: 12
+            client_max_request_size: 48
+            max_rps_unknown_uri: 0
+            ssl_everywhere_enabled: false
+            spdy_fwd_proxy_mode: false
+            allow_dots_in_header_name: false
+            client_header_timeout: 10000
+            post_accept_timeout: 30000
+            secure_cookie_enabled: false
+            max_response_headers_size: 48
+            xff_alternate_name: X-Forwarded-For
+            max_rps_cip: 0
+            client_max_body_size: 0
+            enable_fire_and_forget: false
+            max_rps_unknown_cip: 0
+            max_bad_rps_cip_uri: 0
+            max_bad_rps_uri: 0
+            use_app_keepalive_timeout: false
+          dos_rl_profile:
+            rl_profile:
+              client_ip_connections_rate_limit:
+                count: 0
+                explicit_tracking: false
+                period: 1
+                action:
+                  status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_429
+                  type: RL_ACTION_NONE
+                burst_sz: 0
+                fine_grain: false
+            dos_profile:
+              thresh_period: 5
+          preserve_client_ip: false
+        register: result
+
+      - name: Update application profile object
+        avi_applicationprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-updated-profile
+          avi_api_update_method: put
+          type: APPLICATION_PROFILE_TYPE_HTTP
+          tenant_ref: '/api/tenant?nameadmin'
+          uuid: "{{result.obj.uuid}}"
+          http_profile:
+            max_rps_uri: 0
+            keepalive_header: false
+            max_rps_cip_uri: 0
+            x_forwarded_proto_enabled: false
+            connection_multiplexing_enabled: true
+            websockets_enabled: true
+            enable_request_body_buffering: false
+            hsts_enabled: false
+            xff_enabled: true
+            disable_keepalive_posts_msie6: true
+            keepalive_timeout: 72000
+            ssl_client_certificate_mode: SSL_CLIENT_CERTIFICATE_NONE
+            http_to_https: false
+            spdy_enabled: false
+            client_body_timeout: 30000
+            httponly_enabled: false
+            hsts_max_age: 365
+            max_bad_rps_cip: 0
+            server_side_redirect_to_https: false
+            client_max_header_size: 12
+            client_max_request_size: 45
+            max_rps_unknown_uri: 0
+            ssl_everywhere_enabled: false
+            spdy_fwd_proxy_mode: false
+            allow_dots_in_header_name: false
+            client_header_timeout: 10000
+            post_accept_timeout: 30000
+            secure_cookie_enabled: false
+            max_response_headers_size: 48
+            xff_alternate_name: X-Forwarded-For
+            max_rps_cip: 0
+            client_max_body_size: 0
+            enable_fire_and_forget: false
+            max_rps_unknown_cip: 0
+            max_bad_rps_cip_uri: 0
+            max_bad_rps_uri: 0
+            use_app_keepalive_timeout: false
+          dos_rl_profile:
+            rl_profile:
+              client_ip_connections_rate_limit:
+                count: 0
+                explicit_tracking: false
+                period: 1
+                action:
+                  status_code: HTTP_LOCAL_RESPONSE_STATUS_CODE_429
+                  type: RL_ACTION_NONE
+                burst_sz: 0
+                fine_grain: false
+            dos_profile:
+              thresh_period: 5
+          preserve_client_ip: false
+        register: updated_result
+
+      - name: Delete application profile object
+        avi_applicationprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test-updated-profile
+          uuid: "{{updated_result.obj.uuid}}"
+          state: absent
+          type: APPLICATION_PROFILE_TYPE_HTTP
+        register: delete_result
+
+      - name: check object is deleted or not
+        avi_api_session:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          path: 'applicationprofile'
+          http_method: get
+        register: get_result
+      - fail: msg="Application profile deletion faild"
+        when: get_result.obj.count != 6

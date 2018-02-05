@@ -1,0 +1,105 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - "avi_credentials.yml"
+  vars:
+    avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create auth profile group
+        avi_authprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          http:
+            cache_expiration_time: 5
+            group_member_is_full_dn: false
+          ldap:
+            base_dn: dc=avi,dc=local
+            bind_as_administrator: true
+            port: 389
+            security_mode: AUTH_LDAP_SECURE_NONE
+            server:
+            - 10.10.0.100
+            settings:
+              admin_bind_dn: user@avi.local
+              group_filter: (objectClass=*)
+              group_member_attribute: member
+              group_member_is_full_dn: true
+              group_search_dn: dc=avi,dc=local
+              group_search_scope: AUTH_LDAP_SCOPE_SUBTREE
+              ignore_referrals: true
+              password: password
+              user_id_attribute: samAccountname
+              user_search_dn: dc=avi,dc=local
+              user_search_scope: AUTH_LDAP_SCOPE_ONE
+          name: ProdAuth
+          tenant_ref: admin
+          type: AUTH_PROFILE_LDAP
+        register: result
+
+      - name: update auth profile configuration
+        avi_authprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          http:
+            cache_expiration_time: 8
+            group_member_is_full_dn: false
+          ldap:
+            base_dn: dc=avi,dc=local
+            bind_as_administrator: true
+            port: 334
+            security_mode: AUTH_LDAP_SECURE_NONE
+            server:
+            - 10.10.0.25
+            settings:
+              admin_bind_dn: user@avi.local
+              group_filter: (objectClass=*)
+              group_member_attribute: member
+              group_member_is_full_dn: true
+              group_search_dn: dc=avi,dc=local
+              group_search_scope: AUTH_LDAP_SCOPE_SUBTREE
+              ignore_referrals: true
+              password: password
+              user_id_attribute: samAccountname
+              user_search_dn: dc=avi,dc=local
+              user_search_scope: AUTH_LDAP_SCOPE_ONE
+          name: Updated-ProdAuth
+          tenant_ref: admin
+          type: AUTH_PROFILE_LDAP
+          uuid: "{{result.obj.uuid}}"
+        register: updated_result
+
+      - name: Delete auth profile object
+        avi_authprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: absent
+          uuid: "{{updated_result.obj.uuid}}"
+          avi_api_patch_op: delete
+          name: Updated-ProdAuth
+          type: AUTH_PROFILE_LDAP
+
+      - name: Check auth profile is deleted or not
+        avi_api_session:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          http_method: get
+          path: authprofile
+        register: get_result
+      - fail: msg="Profile deletion faild"
+        when:
+          - get_result.obj.count != 0
+

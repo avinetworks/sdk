@@ -1,0 +1,216 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+    avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+
+  tasks:
+    - block:
+      - name: Create service engine group object
+        avi_serviceenginegroup:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-Default-Group
+          tenant_ref: "/api/tenant/?name=admin"
+          cloud_ref: "/api/cloud/?name=Default-Cloud"
+          archive_shm_limit: 8
+          udf_log_throttle: 100
+          se_ipc_udp_port: 1500
+          ingress_access_data: SG_INGRESS_ACCESS_ALL
+          vcpus_per_se: 1
+          disable_tso: false
+          se_sb_dedicated_core: false
+          async_ssl: false
+          license_tier: ENTERPRISE_18
+          se_name_prefix: Avi_new
+          auto_redistribute_active_standby_load: false
+          auto_rebalance: false
+          aggressive_failure_detection: false
+          vs_scaleout_timeout: 30
+          auto_rebalance_interval: 300
+          active_standby: false
+          se_tunnel_mode: 0
+          ignore_rtt_threshold: 5000
+          extra_shared_config_memory: 0
+          enable_vip_on_all_interfaces: true
+          se_tunnel_udp_port: 1550
+          disable_gro: false
+          vs_scalein_timeout: 30
+          hm_on_standby: true
+          ha_mode: HA_MODE_SHARED
+          se_sb_threads: 1
+          se_remote_punt_udp_port: 1501
+          se_udp_encap_ipc: 0
+          min_cpu_usage: 30
+          disk_per_se: 10
+          cpu_reserve: false
+          disable_csum_offloads: false
+          log_disksz: 10000
+          cpu_socket_affinity: false
+          se_probe_port: 7
+          ingress_access_mgmt: SG_INGRESS_ACCESS_ALL
+          extra_config_multiplier: 0
+          distribute_load_active_standby: false
+          max_vs_per_se: 10
+          async_ssl_threads: 1
+          connection_memory_percentage: 50
+          placement_mode: PLACEMENT_MODE_AUTO
+          max_scaleout_per_vs: 4
+          vs_scalein_timeout_for_upgrade: 30
+          vcenter_folder: AviSeFolder
+          os_reserved_memory: 0
+          enable_routing: false
+          se_bandwidth_type: SE_BANDWIDTH_UNLIMITED
+          waf_mempool: true
+          se_thread_multiplier: 1
+          se_deprovision_delay: 120
+          dedicated_dispatcher_core: false
+          per_app: false
+          se_vs_hb_max_vs_in_pkt: 256
+          vcenter_datastores_include: false
+          advertise_backend_networks: false
+          realtime_se_metrics:
+            duration: 0
+            enabled: true
+          #mgmt_network_ref: "/api/network/dvportgroup-102-cloud-bb998f08-691d-4624-8b24-b6e6eb85186d"
+          non_significant_log_throttle: 100
+          max_cpu_usage: 80
+          min_scaleout_per_vs: 2
+          se_vs_hb_max_pkts_in_batch: 8
+          host_gateway_monitor: false
+          buffer_se: 1
+          mem_reserve: true
+          flow_table_new_syn_max_entries: 0
+          vcenter_datastore_mode: VCENTER_DATASTORE_ANY
+          num_flow_cores_sum_changes_to_ignore: 8
+          least_load_core_selection: true
+          max_se: 11
+          significant_log_throttle: 100
+          waf_mempool_size: 64
+          license_type: LIC_CORES
+          algo: PLACEMENT_ALGO_DISTRIBUTED
+          memory_per_se: 2048
+          enable_vmac: false
+          vs_host_redundancy: true
+        register: result
+
+      - name: Update service engine group object
+        avi_serviceenginegroup:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-Updated-Group
+          tenant_ref: "/api/tenant/?name=admin"
+          cloud_ref: "/api/cloud/?name=Default-Cloud"
+          archive_shm_limit: 8
+          udf_log_throttle: 100
+          se_ipc_udp_port: 1500
+          ingress_access_data: SG_INGRESS_ACCESS_ALL
+          vcpus_per_se: 1
+          disable_tso: false
+          se_sb_dedicated_core: false
+          async_ssl: false
+          license_tier: ENTERPRISE_18
+          se_name_prefix: Avi_new
+          auto_redistribute_active_standby_load: false
+          auto_rebalance: false
+          aggressive_failure_detection: false
+          vs_scaleout_timeout: 30
+          auto_rebalance_interval: 300
+          active_standby: false
+          se_tunnel_mode: 0
+          ignore_rtt_threshold: 5000
+          extra_shared_config_memory: 0
+          enable_vip_on_all_interfaces: true
+          se_tunnel_udp_port: 1550
+          disable_gro: false
+          vs_scalein_timeout: 30
+          hm_on_standby: true
+          ha_mode: HA_MODE_SHARED
+          se_sb_threads: 1
+          se_remote_punt_udp_port: 1501
+          se_udp_encap_ipc: 0
+          min_cpu_usage: 30
+          disk_per_se: 10
+          cpu_reserve: false
+          disable_csum_offloads: false
+          log_disksz: 10000
+          cpu_socket_affinity: false
+          se_probe_port: 7
+          ingress_access_mgmt: SG_INGRESS_ACCESS_ALL
+          extra_config_multiplier: 0
+          distribute_load_active_standby: false
+          max_vs_per_se: 10
+          async_ssl_threads: 1
+          connection_memory_percentage: 75
+          placement_mode: PLACEMENT_MODE_AUTO
+          max_scaleout_per_vs: 4
+          vs_scalein_timeout_for_upgrade: 30
+          vcenter_folder: AviSeFolder
+          os_reserved_memory: 0
+          enable_routing: false
+          se_bandwidth_type: SE_BANDWIDTH_UNLIMITED
+          waf_mempool: true
+          se_thread_multiplier: 1
+          se_deprovision_delay: 120
+          dedicated_dispatcher_core: false
+          per_app: false
+          se_vs_hb_max_vs_in_pkt: 256
+          vcenter_datastores_include: false
+          advertise_backend_networks: false
+          realtime_se_metrics:
+            duration: 0
+            enabled: true
+          #mgmt_network_ref: "/api/network/dvportgroup-102-cloud-bb998f08-691d-4624-8b24-b6e6eb85186d"
+          non_significant_log_throttle: 100
+          max_cpu_usage: 80
+          min_scaleout_per_vs: 2
+          se_vs_hb_max_pkts_in_batch: 8
+          host_gateway_monitor: false
+          buffer_se: 1
+          mem_reserve: true
+          flow_table_new_syn_max_entries: 0
+          vcenter_datastore_mode: VCENTER_DATASTORE_ANY
+          num_flow_cores_sum_changes_to_ignore: 8
+          least_load_core_selection: true
+          max_se: 5
+          significant_log_throttle: 100
+          waf_mempool_size: 64
+          license_type: LIC_CORES
+          algo: PLACEMENT_ALGO_DISTRIBUTED
+          memory_per_se: 2048
+          enable_vmac: false
+          vs_host_redundancy: true
+          uuid: "{{result.obj.uuid}}"
+        register: updated_result
+
+      - name: Delete SE Group object
+        avi_serviceenginegroup:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: Test-Updated-Group
+          uuid: "{{updated_result.obj.uuid}}"
+          state: absent
+
+      - name: Check SE Group is deleted ot not
+        avi_api_session:
+          controller: "{{avi_credentials.controller}}"
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          api_version: "{{avi_credentials.api_version}}"
+          http_method: get
+          path: serviceenginegroup
+        register: get_result
+      - fail: msg="Service group deletion faild"
+        when:
+          - get_result.obj.count != 1
