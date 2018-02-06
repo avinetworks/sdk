@@ -168,51 +168,61 @@ if __name__ == '__main__':
 Converts Ace config to avi config
 
 Usage:
+======
     * ace_convertor.py -f <input_file> -o <output_location>
 
-Mandatory
+Mandatory:
+==========
 :param input file: the input configuration file
 :param output_file : the output file that needs to be generated
 
 Optional:
+=========
+:param ansible: To create ansible upload file
 :param controller_version: To Target which controller converting into
+:param cloudname: To change the cloud name
+:param input_file: Path of the file that needs to be parsed
+:param input_folder_location: Location of input key and cert files, if not use current run location
+:param output_loc: Path where the parsed data needs to be stored
+:param patch: To patch the configuration file
+:param tenant: Tenant for which config need to be converted
+:param version: version of the controller
+:param vrf_name: Add vrf reference to pool and vs
+:param vs_filter: To filter vs out of configuration
 :param vs_state: To enable or disable after the vs is create
-:param input_folder_location: Location of input key and cert files, if not use 
-                              current run location
-:param option: (auto-upload) Upload after conversion directly into controller
+
+:param option: (auto-upload) Upload after conversion, directly into controller
     :param user: Username of Controller to upload 
     :param password: Password of Controller to upload
     :param controller_ip: The ip of the controller to upload
-
-:param tenant: Tenant for which config need to be converted
-:param cloudname: To change the cloud name
-:param ansible: To create ansible upload file
-:param vs_filter: To filter vs out of configuration
-:param patch: To patch the configuration file
-:param version: version of the controller
-:param vrf_name: Add vrf reference to pool and vs
-            '''
+'''
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=HELP_STR)
 
-    parser.add_argument('-f', '--input_file',
-                        help='Input configuration file that needs to be parsed')
+    parser.add_argument('--ansible',
+                        help='Flag for create ansible file',
+                        action='store_true')
 
-    parser.add_argument('-o', '--output_loc',
-                        help='Out file location')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
+
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
 
     parser.add_argument('--controller_version', default='17.1.1',
                         help='Specify the particular version')
 
-    # enable vs
-    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
+    parser.add_argument('-f', '--input_file',
+                        help='Input configuration file that needs to be parsed')
 
     # key and cert input location
     parser.add_argument('-l', '--input_folder_location',
                         help='location of key and cert file')
+
+    parser.add_argument('-o', '--output_loc',
+                        help='Out file location')
 
     # Auto Upload Options
     parser.add_argument('-O', '--option',
@@ -220,34 +230,27 @@ Optional:
                         help='Upload option cli-upload genarates Avi config '
                              'file auto upload will upload config to '
                              'controller', default='cli-upload')
-    parser.add_argument('-u', '--user',
-                        help='controller username for auto upload',
-                        default='admin')
+
     parser.add_argument('-p', '--password',
                         help='controller password for auto upload',
                         default='avi123')
-    parser.add_argument('-c', '--controller_ip',
-                        help='controller ip for auto upload')
-
-    # tenant and cloud reference
-    parser.add_argument('-t', '--tenant',
-                        help='tenant name for auto upload',
-                        default='admin')
-    parser.add_argument('--cloud_name', help='cloud name for auto upload',
-                        default='Default-Cloud')
-
-    # Ansible
-    parser.add_argument('--ansible',
-                        help='Flag for create ansible file',
-                        action='store_true')
 
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
                                         'location of patch.yaml')
-    # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of'
-                                            'virtualservices')
+
+    # enable vs
+    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
+                        help='state of VS created', default='disable')
+
+    parser.add_argument('-t', '--tenant',
+                        help='tenant name for auto upload',
+                        default='admin')
+
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
 
     # Version Parameter
     parser.add_argument('--version',
@@ -257,6 +260,10 @@ Optional:
     # vrf name Parameter
     parser.add_argument('--vrf_name',
                         help='Attach the vrf reference to pool and vs')
+
+    # Added command line args to execute vs_filter.py with vs_name.
+    parser.add_argument('--vs_filter', help='comma seperated names of'
+                                            'virtualservices')
 
     pargs = parser.parse_args()
 
