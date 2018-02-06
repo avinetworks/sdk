@@ -134,7 +134,8 @@ def f5_conv(
                      prefix=prefix, convertsnat=convertsnat,
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
-                     vs_level_status=vs_level_status, test_vip=test_vip)
+                     vs_level_status=vs_level_status, test_vip=test_vip,
+                     vrf=None, segroup=None)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
