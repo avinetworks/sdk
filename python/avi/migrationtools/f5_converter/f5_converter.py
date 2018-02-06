@@ -76,6 +76,10 @@ class F5Converter(AviConverter):
         self.vs_level_status = args.vs_level_status
         # Added args for creating test vips
         self.test_vip = args.test_vip
+        # Support for vrf ref and segroup ref
+        self.vrf = args.vrf
+        self.segroup = args.segroup
+
         # Created f5 util object.
         self.conversion_util = F5Util()
 
@@ -199,7 +203,7 @@ class F5Converter(AviConverter):
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name, self.f5_passphrase_file,
-            self.vs_level_status)
+            self.vs_level_status, self.vrf, self.segroup)
 
         avi_config_dict["META"] = self.meta(self.tenant,
                                             self.controller_version)
@@ -429,6 +433,15 @@ if __name__ == "__main__":
                         'It will replace the original vip '
                         'Note: The actual ip will vary from input to output'
                         'use it with caution ')
+    
+    # Support for vrf and segroups
+    parser.add_argument('--vrf',
+                        help='Update the available vrf ref with the custom vrf'
+                             'reference')
+    
+    parser.add_argument('--segroup',
+                        help='Update the available segroup ref with the'
+                             'custom ref')
 
     args = parser.parse_args()
     # print avi f5 converter version

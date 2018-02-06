@@ -25,7 +25,6 @@ tmp_used_pool_group_ref = used_pool_group_ref
 ns_util = NsUtil()
 
 
-
 class CsvsConverter(object):
 
     def __init__(self, tenant_name, cloud_name, tenant_ref, cloud_ref,
@@ -67,7 +66,8 @@ class CsvsConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict):
+    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict,
+                vrf=None, se_group=None):
         """
         This function defines that it convert netscalar cs vs config to vs
         config of AVI
@@ -180,6 +180,17 @@ class CsvsConverter(object):
                     'enabled': enabled,
                     'services': []
                 }
+                if vrf:
+                    vrf_ref = ns_util.get_object_ref(vrf, 'vrfcontext',
+                                                     tenant=self.tenant_name,
+                                                     cloud_name=self.cloud_name)
+                    vs_obj['vrf_ref'] = vrf_ref
+                if se_group:
+                    se_group_ref = ns_util.get_object_ref(se_group,
+                                                    'serviceenginegroup',
+                                                    tenant=self.tenant_name,
+                                                    cloud_name=self.cloud_name)
+                    vs_obj['segroup_ref'] = se_group_ref
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1'):
                     vs_obj['vip'] = [vip]

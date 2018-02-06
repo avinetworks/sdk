@@ -65,7 +65,8 @@ class LbvsConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict):
+    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict,
+                vrf=None, segroup=None):
 
         """
         This function defines that it convert netscalar lb vs config to vs
@@ -191,6 +192,17 @@ class LbvsConverter(object):
                     'enabled': enabled,
                     'services': [],
                 }
+                if vrf:
+                    vrf_ref = ns_util.get_object_ref(vrf, 'vrfcontext',
+                                                     tenant=self.tenant_name,
+                                                     cloud_name=self.cloud_name)
+                    vs_obj['vrf_ref'] = vrf_ref
+                if se_group:
+                    se_group_ref = ns_util.get_object_ref(se_group,
+                                                    'serviceenginegroup',
+                                                    tenant=self.tenant_name,
+                                                    cloud_name=self.cloud_name)
+                    vs_obj['se_group_ref'] = se_group_ref
                 if parse_version(self.controller_version) >= \
                         parse_version('17.1'):
                     vs_obj['vip'] = [vip]

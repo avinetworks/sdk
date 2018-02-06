@@ -68,8 +68,9 @@ class NetscalerConverter(AviConverter):
         self.ansible_filter_types = args.ansible_filter_types
         # Test Vip
         self.test_vip = args.test_vip
-
-
+        # vrf and segroup
+        self.vrf = args.vrf
+        self.segroup = args.segroup
 
     def convert(self):
         if not os.path.exists(self.output_file_path):
@@ -123,7 +124,8 @@ class NetscalerConverter(AviConverter):
                                                input_dir, skipped_cmds, self.vs_state,
                                                self.object_merge_check, report_name, self.prefix,
                                                vs_name_dict, self.profile_path, self.redirect,
-                                               self.ns_passphrase_file, user_ignore, self.vs_level_status)
+                                               self.ns_passphrase_file, user_ignore, self.vs_level_status,
+                                               self.vrf, self.segroup)
         avi_config = self.process_for_utils(
             avi_config)
         # Check if flag true then skip not in use object
@@ -286,6 +288,15 @@ if __name__ == "__main__":
                         'It will replace the original vip '
                         'Note: The actual ip will vary from input to output'
                         'use it with caution ')
+
+    # Support for vrf and segroups
+    parser.add_argument('--vrf',
+                        help='Update the available vrf ref with the custom vrf'
+                             'reference')
+    
+    parser.add_argument('--segroup',
+                        help='Update the available segroup ref with the'
+                             'custom ref')
 
     args = parser.parse_args()
     netscaler_converter = NetscalerConverter(args)
