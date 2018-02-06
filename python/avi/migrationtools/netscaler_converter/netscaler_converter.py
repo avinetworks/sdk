@@ -184,89 +184,23 @@ if __name__ == "__main__":
         
         Example to patch the config after conversion:
           netscaler_converter.py -f ns.conf --patch test/patch.yaml
+
+        Example to use segroup flag 
+            netscalar_converter.py -f ns.conf --segroup segroup_name
+        UseCase: To add / Change segroup reference of vs
+
+        Example to use vrf flag
+            netscalar_converter.py -f ns.conf --vrf vrf_name
+        UseCase: Change all the vrf reference in the configuration while conversion
         '''
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
 
-    parser.add_argument('-f', '--ns_config_file',
-                        help='absolute path for Netscaler config file')
-    parser.add_argument('-l', '--input_folder_location',
-                        help='location of extracted backup folder',
-                        default='netscaler_converter/test/certs')
-    parser.add_argument('-o', '--output_file_path',
-                        help='Folder path for output files to be created in')
-    parser.add_argument('-O', '--option',
-                        choices=['cli-upload', 'auto-upload'],
-                        help='Upload option cli-upload genarates Avi config '
-                             'file auto upload will upload config to '
-                             'controller', default='cli-upload')
-    parser.add_argument('-u', '--user',
-                        help='controller username for auto upload',
-                        default='admin')
-    parser.add_argument('-p', '--password',
-                        help='controller password for auto upload',
-                        default='avi123')
-    parser.add_argument('-t', '--tenant',
-                        help='tenant name for auto upload',
-                        default='admin')
-    parser.add_argument('--cloud_name', help='cloud name for auto upload',
-                        default='Default-Cloud')
-    parser.add_argument('-c', '--controller_ip',
-                        help='controller ip for auto upload')
-    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
-    parser.add_argument('--controller_version',
-                        help='Target Avi controller version',
-                        default='17.1.1')
-    parser.add_argument('--ns_host_ip',
-                        help='host ip of Netscaler instance')
-    parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
-    parser.add_argument('--ns_ssh_password',
-                        help='Netscaler host ssh password if password based '
-                             'authentication')
-    parser.add_argument('--ns_key_file',
-                        help='Netscaler host key file location if key based '
-                             'authentication')
-    parser.add_argument('--ns_passphrase_file',
-                        help='Netscaler key passphrase yaml file')
-    parser.add_argument('--version',
-                        help='Print product version and exit',
-                        action='store_true')
-    # Changed the option name and description to generic as along with profile
-    # health monitor can also be merged
-    parser.add_argument('--no_object_merge',
-                        help='Flag for object merge', action='store_false')
-    # Added command line args to execute config_patch file with related avi
-    # json file location and patch location
-    parser.add_argument('--patch', help='Run config_patch please provide '
-                                        'location of patch.yaml')
-    # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of '
-                                            'virtualservices')
-    parser.add_argument('--ignore_config',
-                        help='config json to skip the config in conversion')
-    # Added prefix for objects
-    parser.add_argument('--prefix', help='Prefix for objects')
-    # Added not in use flag
-    parser.add_argument('--not_in_use',
-                        help='Flag for skipping not in use object',
-                        action="store_true")
-    # Added args for baseline profile json file
-    parser.add_argument('--baseline_profile', help='asolute path for json '
-                        'file containing baseline profiles')
-    # Added args for redirecting http vs to https vs
-    parser.add_argument('--redirect', help='redirect http vs to https vs if '
-                        'there is no pool assigned', action="store_true")
-
     # Ansible tags
     parser.add_argument('--ansible', help='Flag for create ansible file',
                         action="store_true")
-
-    parser.add_argument('--vs_level_status', action='store_true',
-                        help='Add columns of vs reference and overall skipped '
-                             'settings in status excel sheet')
     # Added command line args to take skip type for ansible playbook
     parser.add_argument('--ansible_skip_types',
                         help='Comma separated list of Avi Object types to skip '
@@ -281,22 +215,91 @@ if __name__ == "__main__":
                              'VirtualService, Pool will do ansible conversion '
                              'only for Virtualservice and Pool objects',
                         default=[])
-
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='absolute path for json '
+                        'file containing baseline profiles')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
+    parser.add_argument('--controller_version',
+                        help='Target Avi controller version',
+                        default='17.1.1')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
+    parser.add_argument('-f', '--ns_config_file',
+                        help='absolute path for Netscaler config file')
+    parser.add_argument('--ignore_config',
+                        help='config json to skip the config in conversion')
+    parser.add_argument('-l', '--input_folder_location',
+                        help='location of extracted backup folder',
+                        default='netscaler_converter/test/certs')
+    # Changed the option name and description to generic as along with profile
+    # health monitor can also be merged
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
+    # Added not in use flag
+    parser.add_argument('--not_in_use',
+                        help='Flag for skipping not in use object',
+                        action="store_true")
+    parser.add_argument('--ns_key_file',
+                        help='Netscaler host key file location if key based '
+                             'authentication')
+    parser.add_argument('--ns_passphrase_file',
+                        help='Netscaler key passphrase yaml file')
+    parser.add_argument('--ns_host_ip',
+                        help='host ip of Netscaler instance')                        
+    parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
+    parser.add_argument('--ns_ssh_password',
+                        help='Netscaler host ssh password if password based '
+                             'authentication')                             
+    parser.add_argument('-o', '--output_file_path',
+                        help='Folder path for output files to be created in')
+    parser.add_argument('-O', '--option',
+                        choices=['cli-upload', 'auto-upload'],
+                        help='Upload option cli-upload genarates Avi config '
+                             'file auto upload will upload config to '
+                             'controller', default='cli-upload')
+    parser.add_argument('-p', '--password',
+                        help='controller password for auto upload',
+                        default='avi123')
+    # Added command line args to execute config_patch file with related avi
+    # json file location and patch location
+    parser.add_argument('--patch', help='Run config_patch please provide '
+                                        'location of patch.yaml')
+    # Added prefix for objects
+    parser.add_argument('--prefix', help='Prefix for objects')
+    # Added args for redirecting http vs to https vs
+    parser.add_argument('--redirect', help='redirect http vs to https vs if '
+                        'there is no pool assigned', action="store_true")
+    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
+                        help='state of VS created', default='disable')
+    parser.add_argument('--segroup',
+                        help='Update the available segroup ref with the'
+                             'custom ref')
+    parser.add_argument('-t', '--tenant',
+                        help='tenant name for auto upload',
+                        default='admin')
     # Adding support for test vip
     parser.add_argument('--test_vip',
                         help='Enable test vip for ansible generated file '
                         'It will replace the original vip '
                         'Note: The actual ip will vary from input to output'
                         'use it with caution ')
-
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
     # Support for vrf and segroups
     parser.add_argument('--vrf',
                         help='Update the available vrf ref with the custom vrf'
                              'reference')
-    
-    parser.add_argument('--segroup',
-                        help='Update the available segroup ref with the'
-                             'custom ref')
+    # Added command line args to execute vs_filter.py with vs_name.
+    parser.add_argument('--vs_filter', help='comma seperated names of '
+                                            'virtualservices')
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                             'settings in status excel sheet')
 
     args = parser.parse_args()
     netscaler_converter = NetscalerConverter(args)
