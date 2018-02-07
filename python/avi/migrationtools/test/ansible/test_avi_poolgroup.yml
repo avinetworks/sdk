@@ -49,6 +49,6 @@
           username: "{{ avi_credentials.username }}"
           password: "{{ avi_credentials.password }}"
           api_version: "{{avi_credentials.api_version}}"
-          avi_api_patch_op: 'delete'
+          state: absent
           uuid: "{{result1.obj.uuid}}"
           name: "Test-PoolGroup-Patch"

@@ -1,0 +1,92 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create snmptrapprofile object
+        avi_snmptrapprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: test
+          tenant_ref: /api/tenant/?name=admin
+          trap_servers:
+          - version: SNMP_VER2
+            ip_addr:
+              type: V4
+              addr: 10.10.10.2
+            port: 162
+            community: "dummy-string"
+        register: result
+
+      - name: Update snmptrapprofile object by replace
+        avi_snmptrapprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: update-test1
+          avi_api_patch_op: replace
+          tenant_ref: /api/tenant/?name=admin
+          uuid: "{{result.obj.uuid}}"
+        register: updated_result
+
+      - name: Update snmptrapprofile object by put
+        avi_snmptrapprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: update-test1
+          avi_api_update_method: put
+          tenant_ref: /api/tenant/?name=admin
+          uuid: "{{updated_result.obj.uuid}}"
+          trap_servers:
+          - version: SNMP_VER3
+            ip_addr:
+              type: V4
+              addr: 10.10.10.2
+            port: 162
+            user:
+              username: admin
+              auth_type: SNMP_V3_AUTH_SHA
+              priv_passphrase: "avi"
+              auth_passphrase: "avi"
+              priv_type: SNMP_V3_PRIV_DES
+        register: updated_result1
+
+    - block:
+      - name: Destroy snmptrapprofile object
+        avi_snmptrapprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: update-test1
+          uuid: "{{updated_result1.obj.uuid}}"
+          state: absent
+        register: del_result
+
+      - name: check object is deleted or not
+        avi_api_session:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          http_method: get
+          path: snmptrapprofile
+        register: get_result
+      - fail: msg="Object not deleted"
+        when:
+          - get_result.obj.count != 0
+
+
+

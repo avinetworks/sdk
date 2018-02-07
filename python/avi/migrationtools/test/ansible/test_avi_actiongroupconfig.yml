@@ -1,0 +1,93 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+    avi_credentials:
+  roles:
+    - role: avinetworks.avisdk
+
+  tasks:
+  - block:
+    - name: Create action group object
+      avi_actiongroupconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: Test-Syslog-Config
+        tenant_ref: "/api/tenant/?name=admin"
+        level: ALERT_HIGH
+        autoscale_trigger_notification: false
+        external_only: true
+      register: result
+  - block:
+    - name: create email notification object
+      avi_alertemailconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: test-email
+        tenant_ref: "/api/tenant/?name=admin"
+        to_emails: 'abc.pqx@gmail.com'
+        cc_emails: 'avi.123@gmail.com'
+      register: email-result
+
+    - name: Update action group object
+      avi_actiongroupconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: Test-updated-Syslog-Config
+        tenant_ref: "/api/tenant/?name=admin"
+        level: ALERT_LOW
+        autoscale_trigger_notification: true
+        avi_api_update_method: put
+        avi_api_patch_op: replace
+        external_only: false
+        email_config_ref: '/api/alertemailconfig/?name=test-email'
+        uuid: "{{result.obj.uuid}}"
+      register: updated_result
+
+    - name: Replace level using patch
+      avi_actiongroupconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: Test-updated-Syslog-Config
+        tenant_ref: "/api/tenant/?name=admin"
+        level: ALERT_MEDIUM
+        autoscale_trigger_notification: true
+        avi_api_patch_op: replace
+        external_only: false
+        email_config_ref: '/api/alertemailconfig/?name=test-email'
+        uuid: "{{updated_result.obj.uuid}}"
+      register: updated_result1
+  - block:
+    - name: Destroy configuration
+      avi_actiongroupconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: Test-updated-Syslog-Config
+        external_only: false
+        level: ALERT_MEDIUM
+        uuid: "{{updated_result1.obj.uuid}}"
+        state: absent
+      register: del_res
+
+    - name: Delete email configuration
+      avi_alertemailconfig:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: test-email
+        to_emails: 'abc.pqx@gmail.com'
+        state: absent
