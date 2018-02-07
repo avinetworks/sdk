@@ -68,4 +68,4 @@
           avi_api_patch_op: delete
           enable_ssl_session_reuse: false
           uuid: "{{update_result.obj.uuid}}"
-
+          state: absent

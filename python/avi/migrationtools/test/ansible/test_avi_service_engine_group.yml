@@ -213,4 +213,4 @@
         register: get_result
       - fail: msg="Service group deletion faild"
         when:
-          - get_result.obj.count != 1
+          - get_result.obj.count == 1
