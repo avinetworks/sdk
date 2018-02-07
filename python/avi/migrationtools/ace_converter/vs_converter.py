@@ -21,6 +21,64 @@ class VSConverter(object):
         self.tenant = tenant
         self.vrf_ref = vrf_ref
         self.http_policy_set = []
+        self.data = ''
+
+    def create_redirect_http_policy(self, name, data):
+        real_name = name
+        name = "%s-httppolicyset" % name
+
+        if data.get('code') not in ['301', '302', '307']:
+            code = 'HTTP_REDIRECT_STATUS_CODE_301'
+        else:
+            code = 'HTTP_REDIRECT_STATUS_CODE_%s' % data.get('code')
+
+        if data.get('location'):
+            url = data.get('location')
+            protocol = url.split('/')[0].replace(':', '')
+            host = url.split('/')[2]
+            path = '/'.join(url.split('/')[3:])
+            protocol = 'HTTP'
+            port = 80
+            if protocol == 'https':
+                protocol = 'HTTPS'
+                port = 443
+        httppolicyset = {
+            "http_security_policy": [],
+            "http_request_policy": {
+                "rules": [
+                    {
+                        "redirect_action": {
+                            "protocol": protocol,
+                            "status_code": "HTTP_REDIRECT_STATUS_CODE_301",
+                            "host": {
+                                "tokens": [
+                                    {
+                                        "str_value": host,
+                                        "type": "URI_TOKEN_TYPE_STRING"
+                                    }
+                                ],
+                                "type": "URI_PARAM_TYPE_TOKENIZED"
+                            },
+                            "path": {
+                                "tokens": [
+                                    {
+                                        "str_value": path,
+                                        "type": "URI_TOKEN_TYPE_STRING"
+                                    }
+                                ],
+                                "type": "URI_PARAM_TYPE_TOKENIZED"
+                            },
+                            "port": port
+                        },
+                        "enable": True,
+                        "name": 'rule1'
+                    }
+                ]
+            },
+            "name": name,
+        }
+        update_excel('action-list', real_name, avi_obj=httppolicyset)
+        return httppolicyset
 
     def create_http_policy(self, action, name):
         type = None
@@ -97,11 +155,11 @@ class VSConverter(object):
             if policy_map.get('name') == name:
                 name = policy_map['name']
                 pool = None
+                original_pool_name = None
                 pool_ref = None
                 action = None
                 vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
                     name)
-                # print name, vs_ref, port, ip, l4_type
                 if not vs_ref or port is None or not ip:
                     msg = 'No vsvip, ip-port for policy-map {}'.format(name)
                     continue
@@ -125,6 +183,13 @@ class VSConverter(object):
                                             break
                             if 'serverfarm' in vsobj.keys():
                                 pool = vsobj['serverfarm']
+                                original_pool_name = pool
+                            flag = 0
+                            for pool_set in self.data['Pool']:
+                                if pool_set['name'] == original_pool_name:
+                                    flag = 1
+                            if flag == 0:
+                                pool = ''
                             # if pool is already used do clone the pool and
                             # having persistance profile
                             if self.check_persistance(pool, data, l4_type):
@@ -151,15 +216,29 @@ class VSConverter(object):
                                     },
                                     "vip_id": 0
                                 })
-                            pool_ref = self.common_utils.get_object_ref(
-                                pool, 'pool', tenant=self.tenant)
+                            if pool != '':
+                                pool_ref = self.common_utils.get_object_ref(
+                                    pool, 'pool', tenant=self.tenant)
                 if not pool:
                     msg = 'No Pool configured for VS {}'.format(name)
-                    continue
+                    # continue
                 if action:
                     http_policy_set = self.create_http_policy(action, name)
                     http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set['name'],
                                                                        object_type='httppolicyset', tenant=self.tenant)
+                else:
+                    for sfarm in self.parsed.get('serverfarm'):
+                        if sfarm['host'] == original_pool_name:
+                            for pools in sfarm['desc']:
+                                temp_pool_name = pools.get('rserver', [])
+                                for servers in self.parsed.get('rserver', []):
+                                    if servers.get('host', []) == temp_pool_name:
+                                        if len(servers) > 0 and len(servers['desc']) > 0 and \
+                                                "code" in servers.get('desc', [])[0].keys():
+                                            http_policy_set = self.create_redirect_http_policy(
+                                                original_pool_name, servers['desc'][0])
+                                            http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set['name'],
+                                                                                               object_type='httppolicyset', tenant=self.tenant)
 
                 temp_vs = {
                     "vsvip_ref": vs_ref,
@@ -170,13 +249,14 @@ class VSConverter(object):
                         "enable_ssl": enable_ssl,
                         "port": port,
                     }],
-                    "pool_ref": pool_ref,
                     "description": None,
                     "name": name,
                     "cloud_ref": self.cloud_ref,
                     "tenant_ref": self.tenant_ref,
                     "type": "VS_TYPE_NORMAL"
                 }
+                if pool_ref:
+                    temp_vs['pool_ref'] = pool_ref
                 if l4_type:
                     app_ref = self.common_utils.get_object_ref(
                         'System-L4-Application', 'applicationprofile', tenant='admin')
@@ -264,7 +344,7 @@ class VSConverter(object):
         if lb_policy:
             for class_map in self.parsed['class-map']:
                 if 'match' in class_map['type'] and class_map[
-                  'class-map'] == lb_policy and class_map['desc']:
+                        'class-map'] == lb_policy and class_map['desc']:
                     port = class_map['desc'][0].get(
                         'tcp', class_map['desc'][0].get('udp', ''))
                     if 'tcp' in class_map['desc'][0].keys():
@@ -284,6 +364,7 @@ class VSConverter(object):
         return vs_ref, port, vs_ip, l4_type
 
     def virtual_service_conversion(self, data):
+        self.data = data
         vs_list = list()
         cloned_pool_list = list()
         http_list = list()
