@@ -50,6 +50,7 @@
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
           http:
             cache_expiration_time: 8
             group_member_is_full_dn: false
