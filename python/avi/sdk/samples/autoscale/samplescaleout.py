@@ -63,7 +63,7 @@ HEAT_KWARGS = {'image': 'cirros', 'flavor': 'm1.tiny',
 
 
 def autoscale_dump(*args):
-    print('SCALEOUT: Num Args ', len(args), ' Args: ', args)
+    print('Autoscale: Num Args ', len(args), ' Args: ', args)
     f = open('/tmp/scaleout.log', 'a')
     f.write('Num Args %d Args %s' % (len(args), str(args)))
     f.write('\n')
@@ -84,7 +84,7 @@ def autoscale_dump(*args):
         scalein_info = event_details.get('server_autoscalein_info')
         if scalein_info:
             pool_uuid = scalein_info.get('pool_uuid')
-            msg = 'Num Scaleout Servers %d for pool %s\n' % (
+            msg = 'Num Scalein Servers %d for pool %s\n' % (
                 scalein_info.get('num_scalein_servers'),
                 pool_uuid)
             f.write(msg)
@@ -93,9 +93,8 @@ def autoscale_dump(*args):
 
 def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
     pool_name = alert_info.get('obj_name')
-    print(' get pool obj for ', pool_name)
     pool_obj = api.get_object_by_name('pool', pool_name, tenant=tenant)
-    print('returned pool obj', pool_obj)
+    print('pool obj ', pool_obj)
     pool_uuid = pool_obj['uuid']
     num_autoscale = 0
     for events in alert_info.get('events', []):
@@ -108,9 +107,6 @@ def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
             continue
         num_autoscale_field = 'num_%s_servers' % scaleout_type
         num_autoscale = autoscale_info.get(num_autoscale_field)
-
-    print((' Calling scaleout for ', pool_name, ':', pool_uuid,
-           ' num scaleout', num_autoscale))
     return pool_name, pool_uuid, pool_obj, num_autoscale
 
 
