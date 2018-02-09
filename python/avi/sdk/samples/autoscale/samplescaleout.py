@@ -24,6 +24,8 @@ Step 4: Monitor the output of the script as
 import sys
 import json
 import copy
+from collections import namedtuple
+
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.autoscale.heat_scaler import heat_stack_scale
@@ -38,6 +40,10 @@ from avi.protobuf.options_pb2 import V4
 from avi.infrastructure.rpc_channel import RpcChannel
 import time
 import os
+
+AutoscaleEventInfo = namedtuple(
+    'AutoscaleEventInfo',
+    ['pool_name', 'pool_uuid', 'pool_obj', 'num_autoscale', 'autoscale_info'])
 
 
 def get_ssl_params_from_path(folder_path=''):
@@ -108,6 +114,34 @@ def scaleout_params(scaleout_type, alert_info, api=None, tenant='admin'):
         num_autoscale_field = 'num_%s_servers' % scaleout_type
         num_autoscale = autoscale_info.get(num_autoscale_field)
     return pool_name, pool_uuid, pool_obj, num_autoscale
+
+
+def get_autoscale_event_info(scaleout_type, alert_info, api=None, tenant='admin'):
+    """
+
+    :param scaleout_type:
+    :param alert_info:
+    :param api:
+    :param tenant:
+    :return: AutoscaleEventInfo
+    """
+    pool_name = alert_info.get('obj_name')
+    pool_obj = api.get_object_by_name('pool', pool_name, tenant=tenant)
+    print('pool obj ', pool_obj)
+    pool_uuid = pool_obj['uuid']
+    num_autoscale = 0
+    for events in alert_info.get('events', []):
+        event_details = events.get('event_details')
+        if not event_details:
+            continue
+        autoscale_str = 'server_auto%s_info' % scaleout_type
+        autoscale_info = event_details.get(autoscale_str)
+        if not autoscale_info:
+            continue
+        num_autoscale_field = 'num_%s_servers' % scaleout_type
+        num_autoscale = autoscale_info.get(num_autoscale_field)
+    return AutoscaleEventInfo(
+        pool_name, pool_uuid, pool_obj, num_autoscale, autoscale_info)
 
 
 def server_autoscale(api, pool_uuid, pool_obj, num_autoscale, action):
