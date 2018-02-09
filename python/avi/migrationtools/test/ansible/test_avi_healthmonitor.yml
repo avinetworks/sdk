@@ -1,10 +1,13 @@
 ---
 - hosts: localhost
   connection: local
-  vars_files:
-    - 'avi_credentials.yml'
+
   vars:
     avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
 
   tasks:
    - block:

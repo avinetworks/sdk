@@ -2,10 +2,12 @@
 - hosts: localhost
   connection: local
 
-  vars_files:
-    - "avi_credentials.yml"
   vars:
     avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
 
   roles:
     - role: avinetworks.avisdk
@@ -32,7 +34,7 @@
           nodes:
           - ip:
               type: V4
-              addr: 10.10.26.66
+              addr: 10.10.26.6
             vm_hostname: node1.controller.local
             vm_uuid: 005056b0481e
             name: 10.10.26.166
@@ -40,3 +42,4 @@
           tenant_uuid: admin
           uuid: "{{result.obj.uuid}}"
           name: cluster-0-1
+          rejoin_nodes_automatically: true

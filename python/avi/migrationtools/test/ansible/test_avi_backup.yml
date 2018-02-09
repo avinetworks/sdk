@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - 'avi_credentials.yml'
+  vars:
+   avi_credentials:
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create backup object
+        avi_backup:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          backup_config_ref: '/api/backupconfiguration/?name=Backup-Configuration'
+          tenant_ref: '/api/tenant?name=admin'
+          file_name: 'backup_Default-Scheduler_20180131_050700.json'
+          scheduler_ref: '/api/scheduler?name=Default-Scheduler'
+          timestamp: '2018-01-31 05:07:00.727121+00:00'
+          avi_api_update_method: put
+        register: result

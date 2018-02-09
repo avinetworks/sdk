@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create ipamdnsproviderprofile object
+        avi_trafficcloneprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
