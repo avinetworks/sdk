@@ -284,6 +284,10 @@ class ApiSession(Session):
     def username(self):
         return self.avi_credentials.username
 
+    @property
+    def connected(self):
+        return sessionDict.get(self.key, {}).get('connected', False)
+
     @username.setter
     def username(self, username):
         self.avi_credentials.username = username
@@ -411,6 +415,7 @@ class ApiSession(Session):
         """
         resets and re-authenticates the current session.
         """
+        sessionDict[self.key]['connected'] = False
         logger.info('resetting session for %s', self.key)
         self.user_hdrs = {}
         for k, v in self.headers.items():
@@ -451,7 +456,8 @@ class ApiSession(Session):
                 'csrftoken': csrftoken,
                 'session_id': rsp.cookies['sessionid'],
                 'last_used': datetime.utcnow(),
-                'api': self
+                'api': self,
+                'connected': True
             }
         logger.debug("authentication success for user %s",
                      self.avi_credentials.username)
@@ -586,6 +592,13 @@ class ApiSession(Session):
             self.headers.update({"X-CSRFToken": csrftoken})
         self._update_session_last_used()
         return ApiResponse.to_avi_response(resp)
+
+    def get_controller_details(self):
+        result = {
+            "controller_ip": self.controller_ip,
+            "controller_api_version": self.remote_api_version
+        }
+        return result
 
     def get(self, path, tenant='', tenant_uuid='', timeout=None, params=None,
             api_version=None, **kwargs):
@@ -863,7 +876,7 @@ class ApiSession(Session):
                      os.getpid(), len(session_cache))
         keys_to_delete = []
         for key, session in list(session_cache.items()):
-            tdiff = avi_timedelta(session["last_used"] - datetime.utcnow())
+            tdiff = avi_timedelta(datetime.utcnow() - session["last_used"])
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue
             keys_to_delete.append(key)

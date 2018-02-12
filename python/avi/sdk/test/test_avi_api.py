@@ -29,7 +29,6 @@ with open(config_file) as f:
 
 my_vcr = vcr.VCR(
     cassette_library_dir='python/avi/sdk/test/fixtures/cassettes/',
-    record_mode='none',
     serializer='json',
     match_on= ['method','url']
 )
@@ -551,6 +550,35 @@ class Test(unittest.TestCase):
         api1.api_version = "17.2.2"
         assert api1.api_version == api2.api_version
         api1.api_version = login_info.get("api_version", gapi_version)
+
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_get_controller_details(self):
+        controller_details = api.get_controller_details()
+        assert controller_details['controller_ip'] == api.controller_ip
+        assert controller_details[
+                   'controller_api_version'] == api.remote_api_version
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_session_connected(self):
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=True)
+        assert not session.connected
+        session.get('pool')
+        assert session.connected
+        ApiSession.clear_cached_sessions()
+        session = ApiSession(
+            controller_ip=login_info["controller_ip"],
+            username=login_info.get("username", "admin"),
+            password=login_info.get("password", "avi123"),
+            lazy_authentication=False)
+        assert session.connected
 
 
 if __name__ == "__main__":
