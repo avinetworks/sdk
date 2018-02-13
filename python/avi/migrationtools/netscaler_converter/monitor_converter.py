@@ -177,12 +177,14 @@ class MonitorConverter(object):
         ssl_attributes = None
         if ns_monitor.get('secure', []) == 'YES':
             # Force changing HTTP/HTTP-ECV to HTTPS in attributes 
+            ecv_flag = 0
             if ns_monitor.get('attrs', []):
                 attr = ns_monitor['attrs']
                 if 'HTTP' in attr:
                     attr.append('HTTPS')
                     attr.remove('HTTP')
                 if 'HTTP-ECV' in attr:
+                    ecv_flag = 1
                     attr.append('HTTPS')
                     attr.remove('HTTP-ECV')
                 ns_monitor['attrs'] = attr
@@ -267,10 +269,31 @@ class MonitorConverter(object):
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1'):
                     avi_monitor["https_monitor"] = {
-                        "http_request": send,
-                        "http_response_code": resp_code,
                         "ssl_attributes": ssl_attributes
                     }
+                   
+                # Ecv Style HTTPS
+                if ecv_flag == 1:
+                    send = ns_monitor.get("send", None)
+                    if send:
+                        send = send.replace('"', '')
+                        # Removed \\ from send.
+                        if '\\' in send:
+                            send = send.replace('\\', '"')
+                    response = ns_monitor.get('recv', None)
+                    if response:
+                        response = response.replace('"', '')
+                        # Removed \\ from response.
+                        if '\\' in response:
+                            response = response.replace('\\', '"')
+                        avi_monitor["https_monitor"]["http_response"] = response
+                else:
+                    if resp_code is not None:
+                        avi_monitor["https_monitor"]["http_response_code"] = resp_code
+                
+                if send is not None:
+                    avi_monitor["https_monitor"]["http_request"] = send
+
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1.6'):
                     custom_header = ns_monitor.get('customHeaders')
