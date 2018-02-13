@@ -1,0 +1,94 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create string group object
+        avi_stringgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          kv:
+          - key: text/html
+          - key: text/xml
+          - key: text/plain
+          - key: text/css
+          - key: text/javascript
+          - key: application/javascript
+          - key: application/x-javascript
+          - key: application/xml
+          - key: application/pdf
+          name: Test-System-Compressible-Content-Types
+          tenant_ref: admin
+          type: SG_TYPE_STRING
+        register: result
+
+      - name: Update string group object
+        avi_stringgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          uuid: "{{result.obj.uuid}}"
+          kv:
+          - key: text/html
+          - key: text/xml
+          - key: text/plain
+          - key: text/css
+          - key: text/javascript
+          - key: application/javascript
+          - key: application/x-javascript
+          - key: application/xml
+          - key: application/pdf
+          name: Updated-System-Compressible-Content-Types
+          tenant_ref: admin
+          type: SG_TYPE_STRING
+        register: updated_result
+
+      - name: Update string group object by add
+        avi_stringgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_patch_op: add
+          uuid: "{{updated_result.obj.uuid}}"
+          kv:
+          - key: text/html
+          - key: text/xml
+          - key: text/py
+          - key: text/plain
+          - key: text/css
+          - key: text/javascript
+          - key: application/javascript
+          - key: application/x-javascript
+          - key: application/xml
+          - key: application/pdf
+          name: Updated-System-Compressible-Content-Types
+          tenant_ref: admin
+          type: SG_TYPE_STRING
+        register: updated_result1
+
+      - name: Delete string group object
+        avi_stringgroup:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{updated_result1.obj.uuid}}"
+          state: absent
+          name: Updated-System-Compressible-Content-Types
+          type: SG_TYPE_STRING
+        register: delete_result

@@ -1,0 +1,254 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
+  roles:
+    - role: avinetworks.avisdk
+
+  tasks:
+  - block:
+    - name: Create ssl key and certificate
+      avi_sslkeyandcertificate:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: Test-cert
+        tenant_ref: "/api/tenant/?name=admin"
+        status: SSL_CERTIFICATE_FINISHED
+        certificate:
+          public_key: |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0j27Lkt7WvqYRoj0F3Rm
+            RX2j9KaQHJoRmM8BhgCh23YLfWdYOzaHiB9ASC5nZ0K3/kLald9vLv3DG/Y05XcT
+            WUi+yZkzjIVnusdnRIKGUcNNdXZ/uNwaKHPH9CaWSGIIHTwVZGRnv59hT4uvyMIq
+            DqKRWB//IxsLsChMFPgLBAak1gfttAzuq8oqLrA7gg85ceq5zG5rxK8iIQbqYK/M
+            HyUXgpCJyMPVK2y/xhQD54p+IQw3B1JyFwYDvH1w7IfBlMIaWaJvKMg+el8WAMEJ
+            nz/B+ZCr2Lv3Os2PLQ6Eo0q+PvR1DsrgWvWUURbx3dgJQh1FwdpRaqyGT5rEcagC
+            5wIDAQAB
+            -----END PUBLIC KEY-----
+          self_signed: true
+          version: '2'
+          certificate: |
+            -----BEGIN CERTIFICATE-----
+            MIIDSDCCAjCgAwIBAgIEDo2e/zANBgkqhkiG9w0BAQsFADBmMQswCQYDVQQGEwJV
+            UzELMAkGA1UECBMCQWIxCzAJBgNVBAcTAmJBMQswCQYDVQQKEwJBYjELMAkGA1UE
+            CxMCQWIxCzAJBgNVBAMTAkFiMRYwFAYJKoZIhvcNAQkBFgdiQGMuY29tMB4XDTE3
+            MDkyNzA2NTE0M1oXDTE4MDkyNzA2NTE0M1owZjELMAkGA1UEBhMCVVMxCzAJBgNV
+            BAgTAkFiMQswCQYDVQQHEwJiQTELMAkGA1UEChMCQWIxCzAJBgNVBAsTAkFiMQsw
+            CQYDVQQDEwJBYjEWMBQGCSqGSIb3DQEJARYHYkBjLmNvbTCCASIwDQYJKoZIhvcN
+            AQEBBQADggEPADCCAQoCggEBANI9uy5Le1r6mEaI9Bd0ZkV9o/SmkByaEZjPAYYA
+            odt2C31nWDs2h4gfQEguZ2dCt/5C2pXfby79wxv2NOV3E1lIvsmZM4yFZ7rHZ0SC
+            hlHDTXV2f7jcGihzx/QmlkhiCB08FWRkZ7+fYU+Lr8jCKg6ikVgf/yMbC7AoTBT4
+            CwQGpNYH7bQM7qvKKi6wO4IPOXHqucxua8SvIiEG6mCvzB8lF4KQicjD1Stsv8YU
+            A+eKfiEMNwdSchcGA7x9cOyHwZTCGlmibyjIPnpfFgDBCZ8/wfmQq9i79zrNjy0O
+            hKNKvj70dQ7K4Fr1lFEW8d3YCUIdRcHaUWqshk+axHGoAucCAwEAATANBgkqhkiG
+            9w0BAQsFAAOCAQEAN2amM5773q8u81UNyvex1tKhfHfBOBzi4z6zXGL2NjcMMJl+
+            5h9QKh9I6MxT4e0z5ckMcsBP3DgjdHr/fxf5ohxNlaMKYoxkSTbnrvM0z6RuTpgs
+            lpCt800XYfwONnRab3ew21iyCtbxddvyG32meiFUtOyPwJHPLJbxrevxryk0Nx1c
+            w4X0N1y1wUmqUERMLpTeWSWUt7kdyRk29HeuFhPyK5C9dEgHq3Y7uThzt/gfkhMO
+            qVIBXsY8CFPBpYfM2BXSwFNo9Pf9BFDBTEglyiesB9iLRARr8SStJ0MpSLk05fUh
+            hUwTs87nwroJLKqMyzqtf2w52fb53qQyLQ7jOg==
+            -----END CERTIFICATE-----
+          not_after: '2018-09-27 06:51:43'
+          signature_algorithm: sha256WithRSAEncryption
+          expiry_status: SSL_CERTIFICATE_GOOD
+          days_until_expire: 365
+          text: |
+            Certificate:
+                Data:
+                    Version: 3 (0x2)
+                    Serial Number: 244162303 (0xe8d9eff)
+                Signature Algorithm: sha256WithRSAEncryption
+                    Issuer: C=US, ST=Ab, L=bA, O=Ab, OU=Ab, CN=Ab/emailAddress=b@c.com
+                    Validity
+                        Not Before: Sep 27 06:51:43 2017 GMT
+                        Not After : Sep 27 06:51:43 2018 GMT
+                    Subject: C=US, ST=Ab, L=bA, O=Ab, OU=Ab, CN=Ab/emailAddress=b@c.com
+                    Subject Public Key Info:
+                        Public Key Algorithm: rsaEncryption
+                            Public-Key: (2048 bit)
+                            Modulus:
+                                00:d2:3d:bb:2e:4b:7b:5a:fa:98:46:88:f4:17:74:
+                                66:45:7d:a3:f4:a6:90:1c:9a:11:98:cf:01:86:00:
+                                a1:db:76:0b:7d:67:58:3b:36:87:88:1f:40:48:2e:
+                                67:67:42:b7:fe:42:da:95:df:6f:2e:fd:c3:1b:f6:
+                                34:e5:77:13:59:48:be:c9:99:33:8c:85:67:ba:c7:
+                                67:44:82:86:51:c3:4d:75:76:7f:b8:dc:1a:28:73:
+                                c7:f4:26:96:48:62:08:1d:3c:15:64:64:67:bf:9f:
+                                61:4f:8b:af:c8:c2:2a:0e:a2:91:58:1f:ff:23:1b:
+                                0b:b0:28:4c:14:f8:0b:04:06:a4:d6:07:ed:b4:0c:
+                                ee:ab:ca:2a:2e:b0:3b:82:0f:39:71:ea:b9:cc:6e:
+                                6b:c4:af:22:21:06:ea:60:af:cc:1f:25:17:82:90:
+                                89:c8:c3:d5:2b:6c:bf:c6:14:03:e7:8a:7e:21:0c:
+                                37:07:52:72:17:06:03:bc:7d:70:ec:87:c1:94:c2:
+                                1a:59:a2:6f:28:c8:3e:7a:5f:16:00:c1:09:9f:3f:
+                                c1:f9:90:ab:d8:bb:f7:3a:cd:8f:2d:0e:84:a3:4a:
+                                be:3e:f4:75:0e:ca:e0:5a:f5:94:51:16:f1:dd:d8:
+                                09:42:1d:45:c1:da:51:6a:ac:86:4f:9a:c4:71:a8:
+                                02:e7
+                            Exponent: 65537 (0x10001)
+                Signature Algorithm: sha256WithRSAEncryption
+                     37:66:a6:33:9e:fb:de:af:2e:f3:55:0d:ca:f7:b1:d6:d2:a1:
+                     7c:77:c1:38:1c:e2:e3:3e:b3:5c:62:f6:36:37:0c:30:99:7e:
+                     e6:1f:50:2a:1f:48:e8:cc:53:e1:ed:33:e5:c9:0c:72:c0:4f:
+                     dc:38:23:74:7a:ff:7f:17:f9:a2:1c:4d:95:a3:0a:62:8c:64:
+                     49:36:e7:ae:f3:34:cf:a4:6e:4e:98:2c:96:90:ad:f3:4d:17:
+                     61:fc:0e:36:74:5a:6f:77:b0:db:58:b2:0a:d6:f1:75:db:f2:
+                     1b:7d:a6:7a:21:54:b4:ec:8f:c0:91:cf:2c:96:f1:ad:eb:f1:
+                     af:29:34:37:1d:5c:c3:85:f4:37:5c:b5:c1:49:aa:50:44:4c:
+                     2e:94:de:59:25:94:b7:b9:1d:c9:19:36:f4:77:ae:16:13:f2:
+                     2b:90:bd:74:48:07:ab:76:3b:b9:38:73:b7:f8:1f:92:13:0e:
+                     a9:52:01:5e:c6:3c:08:53:c1:a5:87:cc:d8:15:d2:c0:53:68:
+                     f4:f7:fd:04:50:c1:4c:48:25:ca:27:ac:07:d8:8b:44:04:6b:
+                     f1:24:ad:27:43:29:48:b9:34:e5:f5:21:85:4c:13:b3:ce:e7:
+                     c2:ba:09:2c:aa:8c:cb:3a:ad:7f:6c:39:d9:f6:f9:de:a4:32:
+                     2d:0e:e3:3a
+          fingerprint: 'SHA1 Fingerprint=91:49:A5:BE:25:F0:49:EB:D4:8E:60:26:CB:66:03:DA:72:2F:C8:8A
+
+        '
+          serial_number: '244162303'
+          subject:
+            locality: bA
+            distinguished_name: C=US, ST=Ab, L=bA, O=Ab, OU=Ab, CN=Ab/emailAddress=b@c.com
+            country: US
+            organization_unit: Ab
+            state: Ab
+            common_name: Ab
+            organization: Ab
+            email_address: b@c.com
+          not_before: '2017-09-27 06:51:43'
+          issuer:
+            locality: bA
+            distinguished_name: C=US, ST=Ab, L=bA, O=Ab, OU=Ab, CN=Ab/emailAddress=b@c.com
+            country: US
+            organization_unit: Ab
+            state: Ab
+            common_name: Ab
+            organization: Ab
+            email_address: b@c.com
+        key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSPbsuS3ta+phG
+          iPQXdGZFfaP0ppAcmhGYzwGGAKHbdgt9Z1g7NoeIH0BILmdnQrf+QtqV328u/cMb
+          9jTldxNZSL7JmTOMhWe6x2dEgoZRw011dn+43Booc8f0JpZIYggdPBVkZGe/n2FP
+          i6/IwioOopFYH/8jGwuwKEwU+AsEBqTWB+20DO6ryiousDuCDzlx6rnMbmvEryIh
+          Bupgr8wfJReCkInIw9UrbL/GFAPnin4hDDcHUnIXBgO8fXDsh8GUwhpZom8oyD56
+          XxYAwQmfP8H5kKvYu/c6zY8tDoSjSr4+9HUOyuBa9ZRRFvHd2AlCHUXB2lFqrIZP
+          msRxqALnAgMBAAECggEAPzqtlsjAuqXvMhdyQbOSJogYzTVi1hdH/4sSTDjYdOZV
+          okt4b6aAsGGltY+vLZEVQPTeRIDEMX/ENB6h3fkn6oxEROE8baCZh8T8u8/9kY2J
+          ODCBTRl1DIF1u2n3fKFvC0vMqzq/MRQ/8epy3Y/3khs2VyiYVPiHVV1pNE09EuJY
+          r/8V7fE2bQkvqBk0oKMdldOIqm7KkIdVJCd/LGhtHCbND386hkw1XuXYXs2x99bk
+          etGMC6cb96f8TO6elF5Q2+fXzZ4+W48L/fVQkuEgkw4eR+H7soABgb6hilQTfhVx
+          AsgYd7exbg4OjVdwKkEeaGPJjw8Bqw2F5ZRqT1KvkQKBgQD6fRuZ1Xb32nqP212B
+          8oE9ObCj0WPf/KxWvd5JaNTaxgslpGsIBA4mY5E5NSQLNg+a7JubxNdRFLpT9nLS
+          6jbE4JMjbauWY4ejqL1PbBgNoPWtBVa2Ltbdfp/WHjtC012ET/CvzCW8pzmwBrTN
+          NQXvlggK5J0PItKETapO6RbufQKBgQDW3e02N300HotrCAFvN7R0KumNRBGSnzqY
+          vVC+17OK3NSE+D/SLBz/CMHlbKxRdioEnVVR3Ct9S0pqEPjhqlkGIWf8sg/I4BgP
+          n3Q7UTqDQF1xblAze1k9+csf8GKz2QGhNsYcmKbWydjFGbQHLhB2LnUO+oiblnEG
+          GPn+dbiAMwKBgQCtLthpaJQDUxOP6Ivi70Z5jSxaZsfVsf15T3ajbI5V370PPnkd
+          pqgd1JMwaVRNSAhMBbCkZtizX1BgArFqr7JENjykrwuGQ7Qg6+ZPRh3vNk0FXf6Q
+          oRu/Me/Sez5fuoEanKZ89PlWUIvq7wgMJM/A0QsodN09/MZt4MCSJEfNhQKBgBbS
+          caytjiXoDKTsr8JRZ2BjYnU3wqoRMZchnJ74qEBanlQVTioTt2y7UGT++vqYE3R0
+          BajxOslPIvNLJDRL9LK6/6GOhDCw5L1cEWtvgEiKoKI4tloRgvQbQSD+Vm2F4i9u
+          cvJ8oFP2Eok05rNQiD0VSCe0Iqhr/UtJgdwuQs+TAoGAHixG8U6QNcJquZHyJeZC
+          zkH5z4kC3K9vrDDl/l6TvhwD6uD2IdovlcDdIeYqO0NY4HYCCKbAZph6QpYAMK85
+          bd9Zs9H5XZwgWgTMWtIg8d3OjF06fPlIPHSLZSc0cuzpDbLEHaE+Re2prHwBbqhX
+          HAwAD9o+wqeQS4fBEX+ehkw=
+          -----END PRIVATE KEY-----
+        key_params:
+          rsa_params:
+            key_size: SSL_KEY_2048_BITS
+            exponent: 65537
+          algorithm: SSL_KEY_ALGORITHM_RSA
+        type: SSL_CERTIFICATE_TYPE_VIRTUALSERVICE
+      register: result
+
+    - name: Update ssl key and cert object
+      avi_sslkeyandcertificate:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: updated_cert_name
+        uuid: "{{result.obj.uuid}}"
+        certificate:
+          self_signed: true
+        key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSPbsuS3ta+phG
+          iPQXdGZFfaP0ppAcmhGYzwGGAKHbdgt9Z1g7NoeIH0BILmdnQrf+QtqV328u/cMb
+          9jTldxNZSL7JmTOMhWe6x2dEgoZRw011dn+43Booc8f0JpZIYggdPBVkZGe/n2FP
+          i6/IwioOopFYH/8jGwuwKEwU+AsEBqTWB+20DO6ryiousDuCDzlx6rnMbmvEryIh
+          Bupgr8wfJReCkInIw9UrbL/GFAPnin4hDDcHUnIXBgO8fXDsh8GUwhpZom8oyD56
+          XxYAwQmfP8H5kKvYu/c6zY8tDoSjSr4+9HUOyuBa9ZRRFvHd2AlCHUXB2lFqrIZP
+          msRxqALnAgMBAAECggEAPzqtlsjAuqXvMhdyQbOSJogYzTVi1hdH/4sSTDjYdOZV
+          okt4b6aAsGGltY+vLZEVQPTeRIDEMX/ENB6h3fkn6oxEROE8baCZh8T8u8/9kY2J
+          ODCBTRl1DIF1u2n3fKFvC0vMqzq/MRQ/8epy3Y/3khs2VyiYVPiHVV1pNE09EuJY
+          r/8V7fE2bQkvqBk0oKMdldOIqm7KkIdVJCd/LGhtHCbND386hkw1XuXYXs2x99bk
+          etGMC6cb96f8TO6elF5Q2+fXzZ4+W48L/fVQkuEgkw4eR+H7soABgb6hilQTfhVx
+          AsgYd7exbg4OjVdwKkEeaGPJjw8Bqw2F5ZRqT1KvkQKBgQD6fRuZ1Xb32nqP212B
+          8oE9ObCj0WPf/KxWvd5JaNTaxgslpGsIBA4mY5E5NSQLNg+a7JubxNdRFLpT9nLS
+          6jbE4JMjbauWY4ejqL1PbBgNoPWtBVa2Ltbdfp/WHjtC012ET/CvzCW8pzmwBrTN
+          NQXvlggK5J0PItKETapO6RbufQKBgQDW3e02N300HotrCAFvN7R0KumNRBGSnzqY
+          vVC+17OK3NSE+D/SLBz/CMHlbKxRdioEnVVR3Ct9S0pqEPjhqlkGIWf8sg/I4BgP
+          n3Q7UTqDQF1xblAze1k9+csf8GKz2QGhNsYcmKbWydjFGbQHLhB2LnUO+oiblnEG
+          GPn+dbiAMwKBgQCtLthpaJQDUxOP6Ivi70Z5jSxaZsfVsf15T3ajbI5V370PPnkd
+          pqgd1JMwaVRNSAhMBbCkZtizX1BgArFqr7JENjykrwuGQ7Qg6+ZPRh3vNk0FXf6Q
+          oRu/Me/Sez5fuoEanKZ89PlWUIvq7wgMJM/A0QsodN09/MZt4MCSJEfNhQKBgBbS
+          caytjiXoDKTsr8JRZ2BjYnU3wqoRMZchnJ74qEBanlQVTioTt2y7UGT++vqYE3R0
+          BajxOslPIvNLJDRL9LK6/6GOhDCw5L1cEWtvgEiKoKI4tloRgvQbQSD+Vm2F4i9u
+          cvJ8oFP2Eok05rNQiD0VSCe0Iqhr/UtJgdwuQs+TAoGAHixG8U6QNcJquZHyJeZC
+          zkH5z4kC3K9vrDDl/l6TvhwD6uD2IdovlcDdIeYqO0NY4HYCCKbAZph6QpYAMK85
+          bd9Zs9H5XZwgWgTMWtIg8d3OjF06fPlIPHSLZSc0cuzpDbLEHaE+Re2prHwBbqhX
+          HAwAD9o+wqeQS4fBEX+ehkw=
+          -----END PRIVATE KEY-----
+      register: updated_result
+
+    - name: Delete ssl key and cert
+      avi_sslkeyandcertificate:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        name: updated_cert_name
+        state: absent
+        uuid: "{{updated_result.obj.uuid}}"
+        certificate:
+          self_signed: true
+        key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSPbsuS3ta+phG
+          iPQXdGZFfaP0ppAcmhGYzwGGAKHbdgt9Z1g7NoeIH0BILmdnQrf+QtqV328u/cMb
+          9jTldxNZSL7JmTOMhWe6x2dEgoZRw011dn+43Booc8f0JpZIYggdPBVkZGe/n2FP
+          i6/IwioOopFYH/8jGwuwKEwU+AsEBqTWB+20DO6ryiousDuCDzlx6rnMbmvEryIh
+          Bupgr8wfJReCkInIw9UrbL/GFAPnin4hDDcHUnIXBgO8fXDsh8GUwhpZom8oyD56
+          XxYAwQmfP8H5kKvYu/c6zY8tDoSjSr4+9HUOyuBa9ZRRFvHd2AlCHUXB2lFqrIZP
+          msRxqALnAgMBAAECggEAPzqtlsjAuqXvMhdyQbOSJogYzTVi1hdH/4sSTDjYdOZV
+          okt4b6aAsGGltY+vLZEVQPTeRIDEMX/ENB6h3fkn6oxEROE8baCZh8T8u8/9kY2J
+          ODCBTRl1DIF1u2n3fKFvC0vMqzq/MRQ/8epy3Y/3khs2VyiYVPiHVV1pNE09EuJY
+          r/8V7fE2bQkvqBk0oKMdldOIqm7KkIdVJCd/LGhtHCbND386hkw1XuXYXs2x99bk
+          etGMC6cb96f8TO6elF5Q2+fXzZ4+W48L/fVQkuEgkw4eR+H7soABgb6hilQTfhVx
+          AsgYd7exbg4OjVdwKkEeaGPJjw8Bqw2F5ZRqT1KvkQKBgQD6fRuZ1Xb32nqP212B
+          8oE9ObCj0WPf/KxWvd5JaNTaxgslpGsIBA4mY5E5NSQLNg+a7JubxNdRFLpT9nLS
+          6jbE4JMjbauWY4ejqL1PbBgNoPWtBVa2Ltbdfp/WHjtC012ET/CvzCW8pzmwBrTN
+          NQXvlggK5J0PItKETapO6RbufQKBgQDW3e02N300HotrCAFvN7R0KumNRBGSnzqY
+          vVC+17OK3NSE+D/SLBz/CMHlbKxRdioEnVVR3Ct9S0pqEPjhqlkGIWf8sg/I4BgP
+          n3Q7UTqDQF1xblAze1k9+csf8GKz2QGhNsYcmKbWydjFGbQHLhB2LnUO+oiblnEG
+          GPn+dbiAMwKBgQCtLthpaJQDUxOP6Ivi70Z5jSxaZsfVsf15T3ajbI5V370PPnkd
+          pqgd1JMwaVRNSAhMBbCkZtizX1BgArFqr7JENjykrwuGQ7Qg6+ZPRh3vNk0FXf6Q
+          oRu/Me/Sez5fuoEanKZ89PlWUIvq7wgMJM/A0QsodN09/MZt4MCSJEfNhQKBgBbS
+          caytjiXoDKTsr8JRZ2BjYnU3wqoRMZchnJ74qEBanlQVTioTt2y7UGT++vqYE3R0
+          BajxOslPIvNLJDRL9LK6/6GOhDCw5L1cEWtvgEiKoKI4tloRgvQbQSD+Vm2F4i9u
+          cvJ8oFP2Eok05rNQiD0VSCe0Iqhr/UtJgdwuQs+TAoGAHixG8U6QNcJquZHyJeZC
+          zkH5z4kC3K9vrDDl/l6TvhwD6uD2IdovlcDdIeYqO0NY4HYCCKbAZph6QpYAMK85
+          bd9Zs9H5XZwgWgTMWtIg8d3OjF06fPlIPHSLZSc0cuzpDbLEHaE+Re2prHwBbqhX
+          HAwAD9o+wqeQS4fBEX+ehkw=
+          -----END PRIVATE KEY-----
+      register: delete_result

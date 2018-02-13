@@ -1,0 +1,68 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+
+      - name: Create System configuration object
+        avi_systemconfiguration:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          url: "/api/systemconfiguration"
+          avi_api_update_method: put
+          email_configuration:
+            from_email: admin@avi.com
+            mail_server_port: 25
+            smtp_type: SMTP_LOCAL_HOST
+            mail_server_name: localhost
+          global_tenant_config:
+            se_in_provider_context: true
+            tenant_access_to_provider_se: true
+            tenant_vrf: false
+          dns_configuration:
+            search_domain: ''
+            server_list:
+            - type: V4
+              addr: 10.10.0.100
+          default_license_tier: ENTERPRISE_18
+          docker_mode: false
+          portal_configuration:
+            use_uuid_from_input: false
+            redirect_to_https: true
+            sslprofile_ref: "/api/sslprofile/?name=System-Standard"
+            sslkeyandcertificate_refs:
+            - "/api/sslkeyandcertificate/?name=System-Default-Portal-Cert"
+            - "/api/sslkeyandcertificate/?name=System-Default-Portal-Cert-EC256"
+            enable_clickjacking_protection: true
+            enable_https: true
+            disable_remote_cli_shell: false
+            password_strength_check: false
+            enable_http: false
+            allow_basic_authentication: true
+          ntp_configuration:
+            ntp_servers:
+            - server:
+                type: DNS
+                addr: 0.us.pool.ntp.org
+            - server:
+                type: DNS
+                addr: 1.us.pool.ntp.org
+            - server:
+                type: DNS
+                addr: 2.us.pool.ntp.org
+            - server:
+                type: DNS
+                addr: 3.us.pool.ntp.org
+        register: result

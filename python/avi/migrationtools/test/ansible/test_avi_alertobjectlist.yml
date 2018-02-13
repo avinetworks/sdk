@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create alert object list object
+        avi_alertobjectlist:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: EventObjectListTest
+          state: present
+          objects:
+          - VIRTUALSERVICE
+          - POOL
+          - SERVICEENGINE
+          - CLUSTER
+          source: EVENT_LOGS
+          tenant_ref: admin
+        register: result
+
+      - name: Delete alert object list object
+        avi_alertobjectlist:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          name: EventObjectListTest
+          source: EVENT_LOGS
+          tenant_ref: admin
+          state: absent
+        register: result

@@ -1,0 +1,113 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
+  roles:
+    - role: avinetworks.avisdk
+
+  tasks:
+  - block:
+    - name: get cluster object
+      avi_api_session:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        api_version: "{{ avi_credentials.api_version }}"
+        path: cluster
+        http_method: get
+        params:
+          name: cluster-0-1
+      register: get_result
+  - block:
+    - name: Create gslb object
+      avi_gslb:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          name: Default
+          tenant_ref: /api/tenant/admin#admin
+          maintenance_mode: false
+          view_id: 0
+          sites:
+          - username: admin
+            name: Test1
+            ip_addresses:
+            - type: V4
+              addr: 10.10.26.66
+            enabled: true
+            member_type: GSLB_ACTIVE_MEMBER
+            location:
+              source: GSLB_LOCATION_SRC_USER_CONFIGURED
+              location:
+                latitude: 18.520429611206055
+                tag: Pune
+                name: pune
+                longitude: 73.85674285888672
+            cluster_uuid: "{{get_result.obj.uuid}}"
+            password: "admin"
+            port: 443
+          client_ip_addr_group:
+            type: GSLB_IP_PUBLIC
+          send_interval: 15
+          dns_configs:
+          - domain_name: com
+          is_federated: true
+          leader_cluster_uuid: "{{get_result.obj.uuid}}"
+          clear_on_max_retries: 20
+      register: result
+
+    - name: Update gslb object
+      avi_gslb:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          name: Updated-Default
+          uuid: "{{result.obj.uuid}}"
+          tenant_ref: /api/tenant/admin#admin
+          maintenance_mode: false
+          view_id: 0
+          sites:
+          - username: admin
+            name: Test1
+            ip_addresses:
+            - type: V4
+              addr: 10.10.26.66
+            enabled: true
+            member_type: GSLB_ACTIVE_MEMBER
+            location:
+              source: GSLB_LOCATION_SRC_USER_CONFIGURED
+              location:
+                latitude: 18.520429611206055
+                tag: Pune
+                name: pune
+                longitude: 73.85674285888672
+            cluster_uuid: cluster-84f51ff6-73dc-4a15-a92e-7ef14b1cbcad
+            password: "admin"
+            port: 502
+          client_ip_addr_group:
+            type: GSLB_IP_PUBLIC
+          send_interval: 10
+          dns_configs:
+          - domain_name: abc
+          is_federated: true
+          leader_cluster_uuid: "{{get_result.obj.uuid}}"
+          clear_on_max_retries: 20
+      register: updated_result
+
+    - name: Delete gslb object
+      avi_gslb:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          state: absent
+          name: Updated-Default
+          leader_cluster_uuid: "{{get_result.obj.uuid}}"

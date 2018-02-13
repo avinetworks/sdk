@@ -1,0 +1,111 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create server auto scale profile
+        avi_serverautoscalepolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: present
+          name: TestAutoscaleProperty
+          description: 'Test desc'
+          tenant_ref: admin
+          max_scalein_adjustment_step: 1
+          intelligent_autoscale: false
+          intelligent_scalein_margin: 40
+          use_predicted_load: false
+          intelligent_scaleout_margin: 20
+          scaleout_alertconfig_refs:
+          - /api/alertconfig/alertconfig-bf87601c-e527-4a08-a9ba-3328b5ae94b9#Syslog-Config-Events
+          - /api/alertconfig/alertconfig-bd695fad-2100-48a1-b7a4-44e96787474f#Syslog-System-Events
+          min_size: 2
+          scalein_alertconfig_refs:
+          - /api/alertconfig/alertconfig-81416167-98ae-40cc-947f-e5366c51605e#System-SE-Alert
+          - /api/alertconfig/alertconfig-40056299-073f-4e07-a39e-8f139f34bbdc#System-SSL-Alert
+          scalein_cooldown: 300
+          max_scaleout_adjustment_step: 1
+          scaleout_cooldown: 300
+          max_size: 400
+        register: result
+
+      - name: Update scale in ref by replace
+        avi_serverautoscalepolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_patch_op: replace
+          name: UpdatedAutoscaleProperty
+          description: 'Updated desc'
+          uuid: "{{result.obj.uuid}}"
+          tenant_ref: admin
+          max_scalein_adjustment_step: 1
+          intelligent_autoscale: false
+          intelligent_scalein_margin: 40
+          use_predicted_load: false
+          intelligent_scaleout_margin: 20
+          scaleout_alertconfig_refs:
+          - /api/alertconfig/alertconfig-bf87601c-e527-4a08-a9ba-3328b5ae94b9#Syslog-Config-Events
+          - /api/alertconfig/alertconfig-bd695fad-2100-48a1-b7a4-44e96787474f#Syslog-System-Events
+          min_size: 2
+          scalein_alertconfig_refs:
+          - /api/alertconfig/alertconfig-81416167-98ae-40cc-947f-e5366c51605e#System-SE-Alert
+          - /api/alertconfig/alertconfig-fc3352b1-c571-4573-9b1c-2afdc9430fcb#System-CC-Alert
+          scalein_cooldown: 300
+          max_scaleout_adjustment_step: 1
+          scaleout_cooldown: 300
+          max_size: 400
+        register: replace_result
+
+      - name: Update scale out ref by add
+        avi_serverautoscalepolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_patch_op: add
+          name: UpdatedAutoscaleProperty
+          description: 'Updated desc'
+          uuid: "{{replace_result.obj.uuid}}"
+          tenant_ref: admin
+          max_scalein_adjustment_step: 1
+          intelligent_autoscale: false
+          intelligent_scalein_margin: 40
+          use_predicted_load: false
+          intelligent_scaleout_margin: 20
+          scaleout_alertconfig_refs:
+          - /api/alertconfig/alertconfig-bf87601c-e527-4a08-a9ba-3328b5ae94b9#Syslog-Config-Events
+          - /api/alertconfig/alertconfig-bd695fad-2100-48a1-b7a4-44e96787474f#Syslog-System-Events
+          - /api/alertconfig/alertconfig-c07ec47c-e3a8-4c04-9448-384d325f3871#System-VS-Alert
+          min_size: 2
+          scalein_alertconfig_refs:
+          - /api/alertconfig/alertconfig-81416167-98ae-40cc-947f-e5366c51605e#System-SE-Alert
+          - /api/alertconfig/alertconfig-fc3352b1-c571-4573-9b1c-2afdc9430fcb#System-CC-Alert
+          scalein_cooldown: 300
+          max_scaleout_adjustment_step: 1
+          scaleout_cooldown: 300
+          max_size: 400
+        register: add_result
+
+      - name: Delete auto scale policy object
+        avi_serverautoscalepolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: absent
+          name: UpdatedAutoscaleProperty
+          uuid: "add_result.object.uuid"
