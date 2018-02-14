@@ -24,6 +24,7 @@
         params:
           name: cluster-0-1
       register: get_result
+
   - block:
     - name: Create gslb object
       avi_gslb:
@@ -32,7 +33,7 @@
           password: "{{ avi_credentials.password }}"
           api_version: "{{ avi_credentials.api_version }}"
           name: Default
-          tenant_ref: /api/tenant/admin#admin
+          tenant_ref: admin
           maintenance_mode: false
           view_id: 0
           sites:
@@ -71,7 +72,7 @@
           api_version: "{{ avi_credentials.api_version }}"
           name: Updated-Default
           uuid: "{{result.obj.uuid}}"
-          tenant_ref: /api/tenant/admin#admin
+          tenant_ref: admin
           maintenance_mode: false
           view_id: 0
           sites:
@@ -89,7 +90,7 @@
                 tag: Pune
                 name: pune
                 longitude: 73.85674285888672
-            cluster_uuid: cluster-84f51ff6-73dc-4a15-a92e-7ef14b1cbcad
+            cluster_uuid: "{{get_result.obj.uuid}}"
             password: "admin"
             port: 502
           client_ip_addr_group:
