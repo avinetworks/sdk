@@ -324,8 +324,7 @@ class VSConfigConv(object):
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
-                                                cloud_name=cloud_ref)
-
+                                                cloud_name=cloud_name)
         if vrf_ref:
             vs_obj['vrf_context_ref'] = vrf_ref
             # Added code for assigning VS's vrf ref to poolgroup/pool having no
