@@ -53,18 +53,12 @@
           tenant_ref: "/api/tenant/?name=admin"
           uuid: "{{updated_result.obj.uuid}}"
           trap_servers:
-          - version: SNMP_VER3
+          - version: SNMP_VER2
             ip_addr:
               type: V4
-              addr: 10.10.10.2
-            port: 162
+              addr: 10.10.10.20
+            port: 145
             community: "dummy-string"
-            user:
-              username: admin
-              auth_type: SNMP_V3_AUTH_SHA
-              priv_passphrase: 'avi'
-              auth_passphrase: 'avi'
-              priv_type: SNMP_V3_PRIV_DES
         register: updated_result1
 
     - block:
