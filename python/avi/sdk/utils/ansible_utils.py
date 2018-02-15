@@ -407,6 +407,15 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         existing_obj = api.get_object_by_name(
             obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
             params=params, api_version=api_version)
+
+        # Need to check if tenant_ref was provided and the object returned
+        # is actually in admin tenant.
+        if 'tenant_ref' in obj and 'tenant_ref' in existing_obj:
+            # https://10.10.25.42/api/tenant/admin#admin
+            existing_obj_tenant = existing_obj['tenant_ref'].split('#')[1]
+            obj_tenant = obj['tenant_ref'].split('name=')[1]
+            if obj_tenant != existing_obj_tenant:
+                existing_obj = None
     else:
         # added api version to avi api call.
         existing_obj = api.get(obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
@@ -415,35 +424,36 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
     if state == 'absent':
         rsp = None
-        try:
-            if check_mode:
-                if existing_obj:
-                    return ansible_return(
-                        module, None, True, existing_obj=existing_obj,
-                        api_context=api.get_context())
+        changed = False
+        err = False
+        if not check_mode and existing_obj:
+            try:
+                if name is not None:
+                    # added api version to avi api call.
+                    rsp = api.delete_by_name(
+                        obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
+                        api_version=api_version)
                 else:
-                    return ansible_return(
-                        module, None, False, existing_obj=existing_obj,
-                        api_context=api.get_context())
-            if name is not None:
-                # added api version to avi api call.
-                rsp = api.delete_by_name(
-                    obj_type, name, tenant=tenant, tenant_uuid=tenant_uuid,
-                    api_version=api_version)
+                    # added api version to avi api call.
+                    rsp = api.delete(
+                        obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
+                        api_version=api_version)
+            except ObjectNotFound:
+                pass
+        if check_mode and existing_obj:
+            changed = True
+
+        if rsp:
+            if rsp.status_code == 204:
+                changed = True
             else:
-                # added api version to avi api call.
-                rsp = api.delete(
-                    obj_path, tenant=tenant, tenant_uuid=tenant_uuid,
-                    api_version=api_version)
-        except ObjectNotFound:
+                err = True
+        if not err:
             return ansible_return(
-                module, None, False, existing_obj=existing_obj,
+                module, rsp, changed, existing_obj=existing_obj,
                 api_context=api.get_context())
-        if rsp.status_code == 204:
-            return ansible_return(
-                module, None, True, existing_obj=existing_obj,
-                api_context=api.get_context())
-        return module.fail_json(msg=rsp.text)
+        elif rsp:
+            return module.fail_json(msg=rsp.text)
 
     rsp = None
     req = None
