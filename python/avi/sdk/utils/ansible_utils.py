@@ -410,7 +410,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
 
         # Need to check if tenant_ref was provided and the object returned
         # is actually in admin tenant.
-        if 'tenant_ref' in obj and 'tenant_ref' in existing_obj:
+        if existing_obj and 'tenant_ref' in obj and 'tenant_ref' in existing_obj:
             # https://10.10.25.42/api/tenant/admin#admin
             existing_obj_tenant = existing_obj['tenant_ref'].split('#')[1]
             obj_tenant = obj['tenant_ref'].split('name=')[1]
