@@ -2,7 +2,7 @@
     #cat test-playbook.dat > test.txt
     rm -rf ./updated_results/*.txt
     mkdir -p updated_results
-    touch  ./updated_results/failuer.txt
+    touch  ./updated_results/test_failure.txt
     touch  ./updated_results/passed.txt
     center() {
       termwidth="$(tput cols)"
@@ -11,7 +11,7 @@
     }
 
     center "Successfully passed ansible playbooks" >> updated_results/passed.txt
-    center "Errors occured in ansible playbooks" >> updated_results/failuer.txt
+    center "Errors occured in ansible playbooks" >> updated_results/test_failure.txt
     while read file;
     do
         echo $file
@@ -22,18 +22,18 @@
         pytest ansible_test.py -vvvv --config $fileName --change $change | tee ./updated_results/$fileName.txt
 
         if grep -q failed "./updated_results/$fileName.txt"; then
-             echo $fileName >> ./updated_results/failuer.txt
-             cat ./updated_results/$fileName.txt >> ./updated_results/failuer.txt
+             echo $fileName >> ./updated_results/test_failure.txt
+             cat ./updated_results/$fileName.txt >> ./updated_results/test_failure.txt
         else
             echo $fileName >> ./updated_results/passed.txt
         fi
         rm -rf ./updated_results/$fileName.txt
     done < test-playbook.dat
 
-    count=`awk 'END {print NR}' ./updated_results/failuer.txt`
+    count=`awk 'END {print NR}' ./updated_results/test_failure.txt`
     if [ "$count" == 1 ]
     then
-        rm -rf ./updated_results/failuer.txt
+        rm -rf ./updated_results/test_failure.txt
     fi
     count=`awk 'END {print NR}' ./updated_results/passed.txt`
     if [ "$count" == 1 ]
