@@ -1,6 +1,5 @@
 import subprocess
 from StringIO import StringIO
-from shlex import shlex
 from string import Template
 import pytest
 import json
@@ -20,6 +19,7 @@ def test_ansible_configuration():
 
         cmd = ansible_temp.substitute(playbook = playbook_file)
         res = subprocess.check_output(cmd, shell= True)
+
         sout = StringIO(res)
         lines = sout.readlines()
         LOG.info(res)
