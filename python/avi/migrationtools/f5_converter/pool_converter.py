@@ -3,6 +3,7 @@ import copy
 import re
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.avi_migration_utils import update_count
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
@@ -87,6 +88,7 @@ class PoolConfigConv(object):
                     avi_config['PoolGroup'].extend(converted_objs['pg_obj'])
                 LOG.debug("Conversion successful for Pool: %s" % pool_name)
             except:
+                update_count('error')
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name,
