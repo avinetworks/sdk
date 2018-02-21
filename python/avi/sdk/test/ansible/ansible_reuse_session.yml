@@ -1,0 +1,49 @@
+# Auto-generated from Avi Configuration
+---
+- connection: local
+  hosts: localhost
+  tasks:
+  - avi_applicationpersistenceprofile:
+      api_version: "{{api_version}}"
+      controller: '{{ controller }}'
+      avi_disable_session_cache_as_fact: "{{ avi_disable_session_cache_as_fact }}"
+      http_cookie_persistence_profile:
+        always_send_cookie: false
+      name: Merged25
+      password: '{{ password }}'
+      persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+      server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+      state: '{{ state | default(omit)}}'
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+    register: results
+    name: 'Create or Update applicationpersistenceprofile:
+    app_persist_profile-0CQ-1'
+  - debug: msg="Results:{{results.api_context}}"
+  - avi_applicationpersistenceprofile:
+      api_version: "{{api_version}}"
+      controller: '{{ controller }}'
+      avi_disable_session_cache_as_fact: "{{ avi_disable_session_cache_as_fact }}"
+      api_context: '{{results.api_context | default(omit)}}'
+      http_cookie_persistence_profile:
+        always_send_cookie: false
+        timeout: 2
+      name: Merged26
+      password: '{{ password }}'
+      persistence_type: PERSISTENCE_TYPE_HTTP_COOKIE
+      server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+      state: '{{ state | default(omit)}}'
+      tenant_ref: /api/tenant/?name=admin
+      username: '{{ username }}'
+    name: 'Create or Update applicationpersistenceprofile:
+    app_persist_profile-0CQ-2'
+  - debug: msg="Results:{{results.api_context}}"
+  vars:
+    controller: '{{ controller }}'
+    password: '{{ password }}'
+    state: present
+    username: '{{ username }}'
+    api_token: '{{results.api_context}}'
+    session_id: '{{results.session_id}}'
+    api_version: "{{api_version}}"
+    avi_disable_session_cache_as_fact: true

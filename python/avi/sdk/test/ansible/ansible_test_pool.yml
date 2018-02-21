@@ -1,0 +1,79 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    controller: "{{ controller }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    pool_name: "{{ pool_name }}"
+    pool_servers: "{{ pool_servers }}"
+    servers: servers
+    enabled: "{{ enabled }}"
+    state: "{{ state }}"
+    api_version: "{{api_version}}"
+  tasks:
+  - name: build server list
+    set_fact:
+      servers_list: "{{servers_list|default([]) + [{'ip': {'addr': item, 'type': 'V4'}, 'enabled': enabled | bool}] }}"
+    with_items: "{{pool_servers.split(',')}}"
+    # each server_list item has ansible fact as server
+  - block:
+    - name: Create / Update Pool
+      avi_pool:
+        controller: "{{ controller }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        name: "{{ pool_name }}"
+        description: test pool
+        state: "{{ state }}"
+        api_version: "{{api_version}}"
+        health_monitor_refs:
+           - '/api/healthmonitor?name=System-HTTP'
+        servers: "{{ servers_list }}"
+      register: mypool
+    - fail: msg=pool "{{ pool_name }}" creation failed
+      when:
+        - "'uuid' not in mypool.obj"
+    - name: Fetch Pool using api session
+      avi_api_session:
+        # get pool information
+        controller: "{{ controller }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        http_method: get
+        path: "pool/{{ mypool.obj.uuid }}"
+        api_version: "{{api_version}}"
+      register: rsp
+    - fail: msg="pool {{ pool_name }} present"
+      when:
+        - "'uuid' not in rsp.obj"
+    when: state == "present"
+  - block:
+    - name: Delete Pool
+      avi_pool:
+        controller: "{{ controller }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        name: "{{ pool_name }}"
+        description: test pool
+        state: "{{ state }}"
+        api_version: "{{api_version}}"
+      register: mypool
+    - name: Check Pool deleted using api session
+      avi_api_session:
+        # get pool information
+        controller: "{{ controller }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        http_method: get
+        path: pool
+        params:
+          name: "{{ pool_name }}"
+        api_version: "{{api_version}}"
+      register: rsp
+    - fail: msg="pool {{ pool_name }} present"
+      when:
+        - "rsp.obj.count != 0"
+    when: state == "absent"
+
+
