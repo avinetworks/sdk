@@ -103,7 +103,7 @@ def netscaler_conv(
         not_in_use=not_in_use, baseline_profile=baseline_profile,
         redirect=redirect, ansible=ansible, vs_level_status=vs_level_status,
         ansible_skip_types=ansible_skip_types, test_vip=None,
-        ansible_filter_types=ansible_filter_types)
+        ansible_filter_types=ansible_filter_types, vrf=None, segroup=None)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config

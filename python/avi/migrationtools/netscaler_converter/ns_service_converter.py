@@ -76,7 +76,7 @@ class ServiceConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, sysdict):
+    def convert(self, ns_config, avi_config, sysdict, vrf):
 
         """
         Converts service or service groups bound to VS to avi Pool entity
@@ -99,7 +99,7 @@ class ServiceConverter(object):
         ns_bind_lb_vserver_command = 'bind lb vserver'
 
         # Conversion set ssl service netscalar commands to pool in AVI
-        self.service_convert(ns_config, avi_config, sysdict)
+        self.service_convert(ns_config, avi_config, sysdict, vrf)
         ns_dns = ns_config.get('add dns addRec', {})
         for dns_key in ns_dns:
             dns_obj = ns_dns.get(dns_key, [])
@@ -318,7 +318,7 @@ class ServiceConverter(object):
                             ns_bind_lb_group_complate_command,
                             STATUS_SUCCESSFUL, pool_group[0])
 
-    def service_convert(self, ns_config, avi_config, sysdict):
+    def service_convert(self, ns_config, avi_config, sysdict, vrf):
         """
         This function is defines that convert service to pool
         :param ns_config: Dict of netscalar commands
@@ -373,6 +373,12 @@ class ServiceConverter(object):
                     'tenant_ref': self.tenant_ref,
                     'cloud_ref': self.cloud_ref
                 }
+
+                if vrf:
+                    vrf_ref = ns_util.get_object_ref(vrf, 'vrfcontext',
+                                                tenant=self.tenant_name,
+                                                cloud_name=self.cloud_name)
+                    pool_obj['vrf_ref'] = vrf_ref
 
                 if use_service_port:
                     pool_obj['use_service_port'] = use_service_port

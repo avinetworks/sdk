@@ -76,6 +76,10 @@ class F5Converter(AviConverter):
         self.vs_level_status = args.vs_level_status
         # Added args for creating test vips
         self.test_vip = args.test_vip
+        # Support for vrf ref and segroup ref
+        self.vrf = args.vrf
+        self.segroup = args.segroup
+
         # Created f5 util object.
         self.conversion_util = F5Util()
 
@@ -199,7 +203,7 @@ class F5Converter(AviConverter):
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name, self.f5_passphrase_file,
-            self.vs_level_status)
+            self.vs_level_status, self.vrf, self.segroup)
 
         avi_config_dict["META"] = self.meta(self.tenant,
                                             self.controller_version)
@@ -322,69 +326,24 @@ if __name__ == "__main__":
     Example to use vs level status option:
         f5_converter.py -f bigip.conf --vs_level_status
     Usecase: To get the vs level status for the avi objects in excel sheet
+
+    Example to use segroup flag 
+        f5_converter.py -f ns.conf --segroup segroup_name
+    UseCase: To add / Change segroup reference of vs
+
+    Example to use vrf flag
+        f5_converter.py -f ns.conf --vrf vrf_name
+    UseCase: Change all the vrf reference in the configuration while conversion
     '''
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
 
-    parser.add_argument('-f', '--bigip_config_file',
-                        help='absolute path for F5 config file')
-    parser.add_argument('--skip_default_file',
-                        help='Flag for skip default file', action='store_true')
-    parser.add_argument('-v', '--f5_config_version',
-                        help='version of f5 config file', default='11')
-    parser.add_argument('-o', '--output_file_path',
-                        help='Folder path for output files to be created in',
-                        )
-    parser.add_argument('-O', '--option', choices=['cli-upload', 'auto-upload'],
-                        help='Upload option cli-upload genarates Avi config ' +
-                             'file auto upload will upload config to ' +
-                             'controller', default='cli-upload')
-    parser.add_argument('-u', '--user',
-                        help='controller username for auto upload',
-                        default='admin')
-    parser.add_argument('-p', '--password',
-                        help='controller password for auto upload',
-                        default='avi123')
-    parser.add_argument('--cloud_name', help='cloud name for auto upload',
-                        default='Default-Cloud')
-    parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
-                        default='admin')
-    parser.add_argument('-c', '--controller_ip',
-                        help='controller ip for auto upload')
-    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
-    parser.add_argument('-l', '--input_folder_location',
-                        help='location of input files like cert files ' +
-                             'external monitor scripts', default='./')
-    parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
-    parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
-    parser.add_argument('--f5_ssh_password',
-                        help='f5 host ssh password if password based ' +
-                             'authentication')
-    parser.add_argument('--f5_key_file',
-                        help='f5 host key file location if key based ' +
-                             'authentication')
-    parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='17.1.1')
-    parser.add_argument('--ignore_config',
-                        help='config json to skip the config in conversion')
-    parser.add_argument('--partition_config',
-                        help='comma separated partition config files')
-    parser.add_argument('--version',
-                        help='Print product version and exit',
+    # Create Ansible Script based on Flag
+    parser.add_argument('--ansible',
+                        help='Flag for create ansible file',
                         action='store_true')
-    # Changed the command line option to more generic term object
-    parser.add_argument('--no_object_merge',
-                        help='Flag for object merge', action='store_false')
-    # Added command line args to execute config_patch file with related avi
-    # json file location and patch location
-    parser.add_argument('--patch', help='Run config_patch please provide '
-                                        'location of patch.yaml')
-    # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of '
-                                            'virtualservices')
     # Added command line args to take skip type for ansible playbook
     parser.add_argument('--ansible_skip_types',
                         help='Comma separated list of Avi Object types to skip '
@@ -398,37 +357,97 @@ if __name__ == "__main__":
                              'VirtualService, Pool will do ansible conversion '
                              'only for Virtualservice and Pool objects',
                         default=[])
-    # Create Ansible Script based on Flag
-    parser.add_argument('--ansible',
-                        help='Flag for create ansible file',
-                        action='store_true')
-    # Added prefix for objects
-    parser.add_argument('--prefix', help='Prefix for objects')
-
+    # Added args for baseline profile json file
+    parser.add_argument('--baseline_profile', help='asolute path for json '
+                        'file containing baseline profiles')
+    parser.add_argument('-c', '--controller_ip',
+                        help='controller ip for auto upload')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload',
+                        default='Default-Cloud')
+    parser.add_argument('--controller_version',
+                        help='Target Avi controller version', default='17.1.1')
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
                         help='Flag for converting snatpool into '
                              'individual addresses',
                         action="store_true")
+    parser.add_argument('-f', '--bigip_config_file',
+                        help='absolute path for F5 config file')
+    parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
+    parser.add_argument('--f5_key_file',
+                        help='f5 host key file location if key based ' +
+                             'authentication')
+    parser.add_argument('--f5_passphrase_file',
+                        help='F5 key passphrase yaml file path')
+    parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
+    parser.add_argument('--f5_ssh_password',
+                        help='f5 host ssh password if password based ' +
+                             'authentication')
+    parser.add_argument('--ignore_config',
+                        help='config json to skip the config in conversion')
+
+    parser.add_argument('-l', '--input_folder_location',
+                        help='location of input files like cert files ' +
+                             'external monitor scripts', default='./')
+    # Changed the command line option to more generic term object
+    parser.add_argument('--no_object_merge',
+                        help='Flag for object merge', action='store_false')
     # Added not in use flag
     parser.add_argument('--not_in_use',
                         help='Flag for skipping not in use object',
                         action="store_true")
-    # Added args for baseline profile json file
-    parser.add_argument('--baseline_profile', help='asolute path for json '
-                        'file containing baseline profiles')
-    parser.add_argument('--f5_passphrase_file',
-                        help='F5 key passphrase yaml file path')
-
-    parser.add_argument('--vs_level_status', action='store_true',
-                        help='Add columns of vs reference and overall skipped '
-                             'settings in status excel sheet')
+    parser.add_argument('-o', '--output_file_path',
+                        help='Folder path for output files to be created in',
+                        )
+    parser.add_argument('-O', '--option', choices=['cli-upload', 'auto-upload'],
+                        help='Upload option cli-upload genarates Avi config ' +
+                             'file auto upload will upload config to ' +
+                             'controller', default='cli-upload')
+    parser.add_argument('-p', '--password',
+                        help='controller password for auto upload',
+                        default='avi123')
+    parser.add_argument('--partition_config',
+                        help='comma separated partition config files')
+    # Added command line args to execute config_patch file with related avi
+    # json file location and patch location
+    parser.add_argument('--patch', help='Run config_patch please provide '
+                                        'location of patch.yaml')
+    # Added prefix for objects
+    parser.add_argument('--prefix', help='Prefix for objects')
+    parser.add_argument('--skip_default_file',
+                        help='Flag for skip default file', action='store_true')
+    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
+                        help='state of VS created', default='disable')
     # Adding support for test vip
+    parser.add_argument('--segroup',
+                    help='Update the available segroup ref with the'
+                            'custom ref')
+    parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
+                        default='admin')
     parser.add_argument('--test_vip',
                         help='Enable test vip for ansible generated file '
                         'It will replace the original vip '
                         'Note: The actual ip will vary from input to output'
                         'use it with caution ')
+    parser.add_argument('-u', '--user',
+                        help='controller username for auto upload',
+                        default='admin')
+    parser.add_argument('-v', '--f5_config_version',
+                        help='version of f5 config file', default='11')
+    parser.add_argument('--version',
+                        help='Print product version and exit',
+                        action='store_true')
+    parser.add_argument('--vrf',
+                        help='Update the available vrf ref with the custom vrf'
+                             'reference')
+    # Added command line args to execute vs_filter.py with vs_name.
+    parser.add_argument('--vs_filter', help='comma seperated names of '
+                                            'virtualservices')
+    parser.add_argument('--vs_level_status', action='store_true',
+                        help='Add columns of vs reference and overall skipped '
+                             'settings in status excel sheet')
+
+    
 
     args = parser.parse_args()
     # print avi f5 converter version

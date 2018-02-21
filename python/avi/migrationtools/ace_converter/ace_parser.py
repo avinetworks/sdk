@@ -104,6 +104,7 @@ class Parser():
         # rserver host rs_Test123
         #   description TEST_DESC
         #   ip address 127.0.0.1
+        #   webhost-redirection https://www.google.com/test/1234/ 301
         #   probe prb_HTTP-1234
         #   inservice
 
@@ -116,9 +117,12 @@ class Parser():
         grammer_4_3 = Group(Keyword('ip address') + ipaddress)
         grammer_4_4 = Group(Keyword('probe') + Word(printables))
         grammer_4_5 = Group(Keyword('inservice'))
+        grammer_4_6 = Group(Keyword('webhost-redirection') + Word(printables) +
+                            num)
 
         grammer_4 = Group(grammer_4_1 + ZeroOrMore(grammer_4_2 | grammer_4_3 |
-                                                   grammer_4_4 | grammer_4_5))
+                                                   grammer_4_4 | grammer_4_5 |
+                                                   grammer_4_6))
 
         # grammer 5
         # parameter-map type <connection|http|ssl> ALLOW_TEST
@@ -533,6 +537,12 @@ class Parser():
                         temp_dict = {
                             'type': match[0]
                         }
+                    elif len(match) == 3:
+                        temp_dict = {
+                            'type': 'redirect',
+                            'code': match[2],
+                            'location': match[1]
+                        }
                     else:
                         temp_dict = {
                             match[0]: match[1]
@@ -662,8 +672,6 @@ class Parser():
 
             if key == 'sticky':
                 matched = matched[0][0]
-                # print len(matched)
-                # print matched
                 if len(matched[0]) == 6:
                     name_to_log = matched[0][5]
                     extra_dict = {
@@ -691,7 +699,6 @@ class Parser():
             if key == 'ssl-proxy':
                 matched = matched[0][0]
                 name_to_log = matched[0][2]
-                # print matched
                 extra_dict = {
                     'type': matched[0][1],
                     'name': name_to_log,
@@ -714,7 +721,6 @@ class Parser():
             if key == 'action-list':
                 matched = matched[0][0]
                 name_to_log = matched[0][4]
-                # print matched
                 extra_dict = {
                     matched[0][0]: name_to_log,
                     matched[0][1]: matched[0][2],
