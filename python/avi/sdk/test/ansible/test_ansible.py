@@ -117,7 +117,6 @@ def test_ansible_pool_playbook_cd(playbook_dir, pool_name, state='present',
         assert int(ch) == int(changed)
         break
 
-
 # Added api version
 def test_ansible_patch_pool_playbook_cd(playbook_dir, pool_name, state='present',
                                   changed=1, enabled='True', api_version='16.4'):
@@ -150,7 +149,6 @@ def test_ansible_patch_pool_playbook_cd(playbook_dir, pool_name, state='present'
               if term.startswith('changed')][0]
         assert int(ch) == int(changed)
         break
-
 
 def test_ansible_check_mode_playbook(playbook_dir, pool_name, state='present',
                                      enabled='True', api_version='16.4',

@@ -22,7 +22,6 @@ class Test_Ansible(object):
     def test_ansible_patch_method(self):
         test_ansible.test_ansible_patch_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='4')
 
-
     def test_ansible_pool_modify(self):
         test_ansible.test_ansible_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='1', enabled='False')
         test_ansible.test_ansible_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='0', enabled='False')
@@ -45,7 +44,6 @@ class Test_Ansible(object):
     def test_ansible_playbook_create(self):
         test_ansible.test_create_ansible_playbook()
 
-
     def test_ansible_playbook_check_mode(self):
         self.ansible_check_mode()
 
@@ -60,8 +58,6 @@ class Test_Ansible(object):
         test_ansible.test_ansible_config_playbook(state='absent', changed=self.changed)
         self.changed = eval('False')
         test_ansible.test_ansible_config_playbook(state='absent', changed=self.changed)
-
-
 
     def test_ansible_session_reuse(self):
         test_ansible.test_ansible_reuse_session('/home/rohan/AVI/sdk/python/avi/sdk/test/ansible', state='present', api_version=self.api_version)
