@@ -17,6 +17,7 @@ from avi.migrationtools.netscaler_converter.monitor_converter \
 from avi.migrationtools.netscaler_converter.profile_converter import \
     app_merge_count
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 tmp_policy_ref = []
@@ -604,6 +605,7 @@ class CsvsConverter(object):
                 LOG.debug("Context Switch VS conversion completed for: %s"
                           % key)
             except:
+                update_count('error')
                 LOG.error('Error in cs vs conversion for: %s' % key,
                           exc_info=True)
             # Calling progress bar function.
