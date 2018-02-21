@@ -1,0 +1,1164 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi Gslb Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi Gslb Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure gslb <key> - show gslb <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#gslbGet"><code><span class="http-method">get</span> /gslb</code></a></li>
+  <li><a href="#gslbPost"><code><span class="http-method">post</span> /gslb</code></a></li>
+  <li><a href="#gslbUuidDelete"><code><span class="http-method">delete</span> /gslb/{uuid}</code></a></li>
+  <li><a href="#gslbUuidGet"><code><span class="http-method">get</span> /gslb/{uuid}</code></a></li>
+  <li><a href="#gslbUuidPatch"><code><span class="http-method">patch</span> /gslb/{uuid}</code></a></li>
+  <li><a href="#gslbUuidPut"><code><span class="http-method">put</span> /gslb/{uuid}</code></a></li>
+  <li><a href="#gslbUuidRuntimeDetailGet"><code><span class="http-method">get</span> /gslb/{uuid}/runtime/detail/</code></a></li>
+  <li><a href="#gslbUuidRuntimeGet"><code><span class="http-method">get</span> /gslb/{uuid}/runtime/</code></a></li>
+  <li><a href="#gslbUuidRuntimeInternalGet"><code><span class="http-method">get</span> /gslb/{uuid}/runtime/internal/</code></a></li>
+  </ol>
+
+  <div class="method"><a name="gslbGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslb</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#GslbApiResponse">GslbApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "client_ip_addr_group" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ],
+      "type" : "aeiou"
+    },
+    "leader_cluster_uuid" : "aeiou",
+    "view_id" : 123456789,
+    "description" : "aeiou",
+    "sites" : [ {
+      "member_type" : "aeiou",
+      "address" : "aeiou",
+      "ip_addresses" : [ "" ],
+      "dns_vs_uuids" : [ "aeiou" ],
+      "hm_proxies" : [ {
+        "site_uuid" : "aeiou",
+        "proxy_type" : "aeiou"
+      } ],
+      "enabled" : true,
+      "password" : "aeiou",
+      "cluster_uuid" : "aeiou",
+      "port" : 123,
+      "name" : "aeiou",
+      "location" : {
+        "location" : {
+          "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+          "name" : "aeiou",
+          "tag" : "aeiou",
+          "longitude" : 1.3579000000000001069366817318950779736042022705078125
+        },
+        "source" : "aeiou"
+      },
+      "ratio" : 123,
+      "username" : "aeiou"
+    } ],
+    "clear_on_max_retries" : 123,
+    "third_party_sites" : [ {
+      "cluster_uuid" : "aeiou",
+      "name" : "aeiou",
+      "location" : "",
+      "hm_proxies" : [ "" ],
+      "enabled" : true,
+      "ratio" : 123
+    } ],
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "send_interval" : 123,
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "dns_configs" : [ {
+      "domain_name" : "aeiou"
+    } ]
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#GslbApiResponse">GslbApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /gslb</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Gslb object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Gslb">Gslb</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "client_ip_addr_group" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ],
+    "type" : "aeiou"
+  },
+  "leader_cluster_uuid" : "aeiou",
+  "view_id" : 123456789,
+  "description" : "aeiou",
+  "sites" : [ {
+    "member_type" : "aeiou",
+    "address" : "aeiou",
+    "ip_addresses" : [ "" ],
+    "dns_vs_uuids" : [ "aeiou" ],
+    "hm_proxies" : [ {
+      "site_uuid" : "aeiou",
+      "proxy_type" : "aeiou"
+    } ],
+    "enabled" : true,
+    "password" : "aeiou",
+    "cluster_uuid" : "aeiou",
+    "port" : 123,
+    "name" : "aeiou",
+    "location" : {
+      "location" : {
+        "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+        "name" : "aeiou",
+        "tag" : "aeiou",
+        "longitude" : 1.3579000000000001069366817318950779736042022705078125
+      },
+      "source" : "aeiou"
+    },
+    "ratio" : 123,
+    "username" : "aeiou"
+  } ],
+  "clear_on_max_retries" : 123,
+  "third_party_sites" : [ {
+    "cluster_uuid" : "aeiou",
+    "name" : "aeiou",
+    "location" : "",
+    "hm_proxies" : [ "" ],
+    "enabled" : true,
+    "ratio" : 123
+  } ],
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "send_interval" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "dns_configs" : [ {
+    "domain_name" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Gslb">Gslb</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /gslb/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslb/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Gslb">Gslb</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "client_ip_addr_group" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ],
+    "type" : "aeiou"
+  },
+  "leader_cluster_uuid" : "aeiou",
+  "view_id" : 123456789,
+  "description" : "aeiou",
+  "sites" : [ {
+    "member_type" : "aeiou",
+    "address" : "aeiou",
+    "ip_addresses" : [ "" ],
+    "dns_vs_uuids" : [ "aeiou" ],
+    "hm_proxies" : [ {
+      "site_uuid" : "aeiou",
+      "proxy_type" : "aeiou"
+    } ],
+    "enabled" : true,
+    "password" : "aeiou",
+    "cluster_uuid" : "aeiou",
+    "port" : 123,
+    "name" : "aeiou",
+    "location" : {
+      "location" : {
+        "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+        "name" : "aeiou",
+        "tag" : "aeiou",
+        "longitude" : 1.3579000000000001069366817318950779736042022705078125
+      },
+      "source" : "aeiou"
+    },
+    "ratio" : 123,
+    "username" : "aeiou"
+  } ],
+  "clear_on_max_retries" : 123,
+  "third_party_sites" : [ {
+    "cluster_uuid" : "aeiou",
+    "name" : "aeiou",
+    "location" : "",
+    "hm_proxies" : [ "" ],
+    "enabled" : true,
+    "ratio" : 123
+  } ],
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "send_interval" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "dns_configs" : [ {
+    "domain_name" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Gslb">Gslb</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /gslb/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Gslb object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Gslb">Gslb</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "client_ip_addr_group" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ],
+    "type" : "aeiou"
+  },
+  "leader_cluster_uuid" : "aeiou",
+  "view_id" : 123456789,
+  "description" : "aeiou",
+  "sites" : [ {
+    "member_type" : "aeiou",
+    "address" : "aeiou",
+    "ip_addresses" : [ "" ],
+    "dns_vs_uuids" : [ "aeiou" ],
+    "hm_proxies" : [ {
+      "site_uuid" : "aeiou",
+      "proxy_type" : "aeiou"
+    } ],
+    "enabled" : true,
+    "password" : "aeiou",
+    "cluster_uuid" : "aeiou",
+    "port" : 123,
+    "name" : "aeiou",
+    "location" : {
+      "location" : {
+        "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+        "name" : "aeiou",
+        "tag" : "aeiou",
+        "longitude" : 1.3579000000000001069366817318950779736042022705078125
+      },
+      "source" : "aeiou"
+    },
+    "ratio" : 123,
+    "username" : "aeiou"
+  } ],
+  "clear_on_max_retries" : 123,
+  "third_party_sites" : [ {
+    "cluster_uuid" : "aeiou",
+    "name" : "aeiou",
+    "location" : "",
+    "hm_proxies" : [ "" ],
+    "enabled" : true,
+    "ratio" : 123
+  } ],
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "send_interval" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "dns_configs" : [ {
+    "domain_name" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Gslb">Gslb</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /gslb/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Gslb object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Gslb">Gslb</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "client_ip_addr_group" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ],
+    "type" : "aeiou"
+  },
+  "leader_cluster_uuid" : "aeiou",
+  "view_id" : 123456789,
+  "description" : "aeiou",
+  "sites" : [ {
+    "member_type" : "aeiou",
+    "address" : "aeiou",
+    "ip_addresses" : [ "" ],
+    "dns_vs_uuids" : [ "aeiou" ],
+    "hm_proxies" : [ {
+      "site_uuid" : "aeiou",
+      "proxy_type" : "aeiou"
+    } ],
+    "enabled" : true,
+    "password" : "aeiou",
+    "cluster_uuid" : "aeiou",
+    "port" : 123,
+    "name" : "aeiou",
+    "location" : {
+      "location" : {
+        "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+        "name" : "aeiou",
+        "tag" : "aeiou",
+        "longitude" : 1.3579000000000001069366817318950779736042022705078125
+      },
+      "source" : "aeiou"
+    },
+    "ratio" : 123,
+    "username" : "aeiou"
+  } ],
+  "clear_on_max_retries" : 123,
+  "third_party_sites" : [ {
+    "cluster_uuid" : "aeiou",
+    "name" : "aeiou",
+    "location" : "",
+    "hm_proxies" : [ "" ],
+    "enabled" : true,
+    "ratio" : 123
+  } ],
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "send_interval" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "dns_configs" : [ {
+    "domain_name" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Gslb">Gslb</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidRuntimeDetailGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslb/{uuid}/runtime/detail/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidRuntimeDetailGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidRuntimeGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslb/{uuid}/runtime/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidRuntimeGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="gslbUuidRuntimeInternalGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /gslb/{uuid}/runtime/internal/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">gslbUuidRuntimeInternalGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#DNSConfig"><code>DNSConfig</code></a></li>
+    <li><a href="#GeoLocation"><code>GeoLocation</code></a></li>
+    <li><a href="#Gslb"><code>Gslb</code></a></li>
+    <li><a href="#GslbApiResponse"><code>GslbApiResponse</code></a></li>
+    <li><a href="#GslbClientIpAddrGroup"><code>GslbClientIpAddrGroup</code></a></li>
+    <li><a href="#GslbGeoLocation"><code>GslbGeoLocation</code></a></li>
+    <li><a href="#GslbHealthMonitorProxy"><code>GslbHealthMonitorProxy</code></a></li>
+    <li><a href="#GslbSite"><code>GslbSite</code></a></li>
+    <li><a href="#GslbThirdPartySite"><code>GslbThirdPartySite</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="DNSConfig">DNSConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">domain_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> GSLB subdomain used for GSLB service FQDN match and placement. . </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GeoLocation">GeoLocation</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">latitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Latitude of the location. Field introduced in 17.1.1. format: float</div>
+<div class="param">longitude (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Longitude of the location. Field introduced in 17.1.1. format: float</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location name in the format Country/State/City. Field introduced in 17.1.1. </div>
+<div class="param">tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Location tag string - example  USEast. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Gslb">Gslb</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">clear_on_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max retries after which the remote site is treatedas a fresh start. In fresh start all the configsare downloaded. Allowed values are 1-1024. format: int32</div>
+<div class="param">client_ip_addr_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbClientIpAddrGroup">GslbClientIpAddrGroup</a></span> Group to specify if the client ip addresses are public or private. Field introduced in 17.1.2. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">dns_configs (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfig">array[DNSConfig]</a></span> Sub domain configuration for the GSLB.  GSLB service&#39;s FQDN must be a match one of these subdomains. . </div>
+<div class="param">leader_cluster_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mark this Site as leader of GSLB configuration. This site is the one among the Avi sites. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the GSLB object. </div>
+<div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which group members communicate. Allowed values are 1-3600. format: int32</div>
+<div class="param">sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbSite">array[GslbSite]</a></span> Select Avi site member belonging to this Gslb. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">third_party_sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbThirdPartySite">array[GslbThirdPartySite]</a></span> Third party site member belonging to this Gslb. Field introduced in 17.1.1. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the GSLB object. </div>
+<div class="param">view_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> The view-id is used in maintenance mode to differentiate partitioned groups while they havethe same gslb namespace. Each partitioned groupwill be able to operate independently by using theview-id. format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbApiResponse">GslbApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Gslb">array[Gslb]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbClientIpAddrGroup">GslbClientIpAddrGroup</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Configure IP address(es). Field introduced in 17.1.2. </div>
+<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Configure IP address prefix(es). Field introduced in 17.1.2. </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Configure IP address range(s). Field introduced in 17.1.2. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify whether this client IP address range is public or private. Enum options - GSLB_IP_PUBLIC, GSLB_IP_PRIVATE. Field introduced in 17.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbGeoLocation">GslbGeoLocation</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GeoLocation">GeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
+<div class="param">source </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field describes the source of the GeoLocation. . Enum options - GSLB_LOCATION_SRC_USER_CONFIGURED, GSLB_LOCATION_SRC_INHERIT_FROM_SITE, GSLB_LOCATION_SRC_FROM_GEODB. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbHealthMonitorProxy">GslbHealthMonitorProxy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">proxy_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field identifies the health monitor proxy behavior. The designated site for health monitor proxy can monitor public or private or all the members of a given site. . Enum options - GSLB_HEALTH_MONITOR_PROXY_ALL_MEMBERS, GSLB_HEALTH_MONITOR_PROXY_PRIVATE_MEMBERS. Field introduced in 17.1.1. </div>
+<div class="param">site_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field identifies the site that will health monitor on behalf of the current site. i.e. it will be a health monitor proxy and monitor members of the current site. . Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbSite">GslbSite</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">address (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. </div>
+<div class="param">cluster_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the &#39;Cluster&#39; object of the Controller Cluster in this site. </div>
+<div class="param">dns_vs_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The list of DNS-VSes on which the GSes shall be placed. The site has to be an ACTIVE member. </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site&#39;s configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site. </div>
+<div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1. </div>
+<div class="param">ip_addresses (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP Address(es) of the Site&#39;s Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided. </div>
+<div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
+<div class="param">member_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The site&#39;s member type  A leader is set to ACTIVE while allmembers are set to passive. . Enum options - GSLB_ACTIVE_MEMBER, GSLB_PASSIVE_MEMBER. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the Site Controller Cluster. </div>
+<div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password used when authenticating with the Site. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Site Controller Cluster&#39;s REST API port number. Allowed values are 1-65535. format: int32</div>
+<div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs/VS(es) of this site. If this field is not  configured then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
+<div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username used when authenticating with the Site. . </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GslbThirdPartySite">GslbThirdPartySite</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cluster_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Third-party-site identifier generated by Avi. Field introduced in 17.1.1. </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the third-party Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance. A disabled site&#39;s configuration shall be retained  but it will not get any new configuration updates.   VIPs associated with the disabled site shall not be sent in DNS response. . Field introduced in 17.1.1. </div>
+<div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1. </div>
+<div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the third-party Site. Field introduced in 17.1.1. </div>
+<div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs of this site. If this field is not configured, then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
