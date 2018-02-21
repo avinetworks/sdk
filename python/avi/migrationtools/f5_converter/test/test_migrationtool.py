@@ -92,7 +92,9 @@ setup = dict(
         os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
     vs_level_status=True,
     test_vip=None,
-    output_file_path=output_file
+    output_file_path=output_file,
+    vrf = 'test_vrf',
+    segroup = 'test_se'
 )
 
 mylogger = logging.getLogger()
@@ -114,7 +116,8 @@ def f5_conv(
         vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
         convertsnat=None, not_in_use=None, baseline_profile=None,
-        f5_passphrase_file=None, vs_level_status=False, test_vip=None):
+        f5_passphrase_file=None, vs_level_status=False, test_vip=None,
+        vrf=None, segroup=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -793,6 +796,42 @@ class TestF5Converter:
         for type in persistenceProfiles:
             if "COOKIE" in type['persistence_type']:
                 assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vrf = setup.get('vrf'),
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                segroup = setup.get('segroup')
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vrf = setup.get('vrf'),
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                segroup = setup.get('segroup')
+                )
 
 def teardown():
     pass

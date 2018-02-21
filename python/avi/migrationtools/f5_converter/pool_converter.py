@@ -385,7 +385,7 @@ class PoolConfigConvV11(PoolConfigConv):
                   else None
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
-                                                tenant_name=tenant_name,
+                                                tenant=tenant_name,
                                                 cloud_name=cloud_ref)
         else:
             vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
