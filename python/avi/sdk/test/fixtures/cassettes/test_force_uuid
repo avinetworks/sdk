@@ -1,0 +1,328 @@
+{
+    "version": 1, 
+    "interactions": [
+        {
+            "request": {
+                "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-force\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
+                "headers": {
+                    "X-CSRFToken": [
+                        "HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q"
+                    ], 
+                    "Content-Length": [
+                        "180"
+                    ], 
+                    "X-Avi-Tenant": [
+                        "admin"
+                    ], 
+                    "Cookie": [
+                        "[<Cookie csrftoken=HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q for 10.10.25.42/>, <Cookie sessionid=ljuoosyd1l339v9rwkbpj1ja0qaez74l for 10.10.25.42/>]"
+                    ], 
+                    "timeout": [
+                        "60"
+                    ], 
+                    "Referer": [
+                        "https://10.10.25.42"
+                    ], 
+                    "X-Avi-Version": [
+                        "17.1.6"
+                    ], 
+                    "Content-Type": [
+                        "application/json"
+                    ], 
+                    "Slug": [
+                        "pool-force-42"
+                    ]
+                }, 
+                "method": "POST", 
+                "uri": "https://10.10.25.42/api/pool"
+            }, 
+            "response": {
+                "status": {
+                    "message": "CREATED", 
+                    "code": 201
+                }, 
+                "headers": {
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    ], 
+                    "access-control-allow-credentials": [
+                        "true"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.6"
+                    ], 
+                    "connection": [
+                        "keep-alive"
+                    ], 
+                    "location": [
+                        "https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force"
+                    ], 
+                    "allow": [
+                        "HEAD, GET, POST, OPTIONS"
+                    ], 
+                    "cache-control": [
+                        "no-store, no-cache"
+                    ], 
+                    "date": [
+                        "Tue, 23 Jan 2018 11:53:41 GMT"
+                    ], 
+                    "x-frame-options": [
+                        "SAMEORIGIN"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "body": {
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1516708420927844\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-f39f950a-e6ca-442d-b546-fc31520991bb#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-a8f76971-cb72-40dd-8956-aedf144ed60d#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-force-42\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                }
+            }
+        }, 
+        {
+            "request": {
+                "body": null, 
+                "headers": {
+                    "X-CSRFToken": [
+                        "HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q"
+                    ], 
+                    "X-Avi-Tenant": [
+                        "admin"
+                    ], 
+                    "Cookie": [
+                        "[<Cookie csrftoken=HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q for 10.10.25.42/>, <Cookie sessionid=ljuoosyd1l339v9rwkbpj1ja0qaez74l for 10.10.25.42/>]"
+                    ], 
+                    "timeout": [
+                        "60"
+                    ], 
+                    "Referer": [
+                        "https://10.10.25.42"
+                    ], 
+                    "X-Avi-Version": [
+                        "17.1.6"
+                    ], 
+                    "Content-Type": [
+                        "application/json"
+                    ]
+                }, 
+                "method": "GET", 
+                "uri": "https://10.10.25.42/api/pool?name=basic_vs-pool-force"
+            }, 
+            "response": {
+                "status": {
+                    "message": "OK", 
+                    "code": 200
+                }, 
+                "headers": {
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    ], 
+                    "access-control-allow-credentials": [
+                        "true"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.6"
+                    ], 
+                    "connection": [
+                        "keep-alive"
+                    ], 
+                    "allow": [
+                        "HEAD, GET, POST, OPTIONS"
+                    ], 
+                    "cache-control": [
+                        "no-store, no-cache"
+                    ], 
+                    "date": [
+                        "Tue, 23 Jan 2018 11:53:41 GMT"
+                    ], 
+                    "x-frame-options": [
+                        "SAMEORIGIN"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "body": {
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1516708420927844\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-f39f950a-e6ca-442d-b546-fc31520991bb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-a8f76971-cb72-40dd-8956-aedf144ed60d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                }
+            }
+        }, 
+        {
+            "request": {
+                "body": null, 
+                "headers": {
+                    "X-CSRFToken": [
+                        "HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q"
+                    ], 
+                    "X-Avi-Tenant": [
+                        "admin"
+                    ], 
+                    "Cookie": [
+                        "[<Cookie csrftoken=HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q for 10.10.25.42/>, <Cookie sessionid=ljuoosyd1l339v9rwkbpj1ja0qaez74l for 10.10.25.42/>]"
+                    ], 
+                    "timeout": [
+                        "60"
+                    ], 
+                    "Referer": [
+                        "https://10.10.25.42"
+                    ], 
+                    "X-Avi-Version": [
+                        "17.1.6"
+                    ], 
+                    "Content-Type": [
+                        "application/json"
+                    ]
+                }, 
+                "method": "GET", 
+                "uri": "https://10.10.25.42/api/pool?name=basic_vs-pool-force"
+            }, 
+            "response": {
+                "status": {
+                    "message": "OK", 
+                    "code": 200
+                }, 
+                "headers": {
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    ], 
+                    "access-control-allow-credentials": [
+                        "true"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.6"
+                    ], 
+                    "connection": [
+                        "keep-alive"
+                    ], 
+                    "allow": [
+                        "HEAD, GET, POST, OPTIONS"
+                    ], 
+                    "cache-control": [
+                        "no-store, no-cache"
+                    ], 
+                    "date": [
+                        "Tue, 23 Jan 2018 11:53:41 GMT"
+                    ], 
+                    "x-frame-options": [
+                        "SAMEORIGIN"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "body": {
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1516708420927844\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-f39f950a-e6ca-442d-b546-fc31520991bb\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-a8f76971-cb72-40dd-8956-aedf144ed60d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                }
+            }
+        }, 
+        {
+            "request": {
+                "body": null, 
+                "headers": {
+                    "X-CSRFToken": [
+                        "HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q"
+                    ], 
+                    "Content-Length": [
+                        "0"
+                    ], 
+                    "X-Avi-Tenant": [
+                        "admin"
+                    ], 
+                    "Cookie": [
+                        "[<Cookie csrftoken=HmDdEOVYaPX9hqpv4QvFyWYw8kbvIG6q for 10.10.25.42/>, <Cookie sessionid=ljuoosyd1l339v9rwkbpj1ja0qaez74l for 10.10.25.42/>]"
+                    ], 
+                    "timeout": [
+                        "60"
+                    ], 
+                    "Referer": [
+                        "https://10.10.25.42"
+                    ], 
+                    "X-Avi-Version": [
+                        "17.1.6"
+                    ], 
+                    "Content-Type": [
+                        "application/json"
+                    ]
+                }, 
+                "method": "DELETE", 
+                "uri": "https://10.10.25.42/api/pool/pool-force-42"
+            }, 
+            "response": {
+                "status": {
+                    "message": "NO CONTENT", 
+                    "code": 204
+                }, 
+                "headers": {
+                    "content-length": [
+                        "0"
+                    ], 
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    ], 
+                    "access-control-allow-credentials": [
+                        "true"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.6"
+                    ], 
+                    "connection": [
+                        "keep-alive"
+                    ], 
+                    "allow": [
+                        "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
+                    ], 
+                    "cache-control": [
+                        "no-store, no-cache"
+                    ], 
+                    "date": [
+                        "Tue, 23 Jan 2018 11:53:42 GMT"
+                    ], 
+                    "x-frame-options": [
+                        "SAMEORIGIN"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
+                    "content-type": [
+                        "application/json"
+                    ]
+                }, 
+                "body": {
+                    "string": ""
+                }
+            }
+        }
+    ]
+}

@@ -509,7 +509,7 @@ class F5Util(MigrationUtil):
 
     def get_service_obj(self, destination, avi_config, enable_ssl,
                         controller_version, tenant_name, cloud_name, prefix,
-                        vs_name):
+                        vs_name, input_vrf=None):
         """
         Checks port overlapping scenario for port value 0 in F5 config
         :param destination: IP and Port destination of VS
@@ -601,10 +601,15 @@ class F5Util(MigrationUtil):
         # Getting vrf ref
         if vrf:
             self.add_vrf(avi_config, vrf, cloud_name)
+
+            vrf_list.append(vrf_obj)
         vrf_config = avi_config['VrfContext']
         vrf_ref = self.get_vrf_context_ref(destination, vrf_config,
                                            'virtual service', vs_name,
                                            cloud_name)
+        if input_vrf:
+            vrf_ref = self.get_object_ref(input_vrf, 'vrfcontext',
+                                          cloud_name=cloud_name)
 
         updated_vsvip_ref = None
         if parse_version(controller_version) >= parse_version('17.1'):

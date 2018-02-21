@@ -36,7 +36,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
             cloud_name='Default-Cloud', keypassphrase=None,
-            vs_level_status=False):
+            vs_level_status=False, vrf=None, segroup=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -57,6 +57,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param cloud_name: cloud for which config need to be converted
     :param keypassphrase: path of keypassphrase file.
     :param vs_level_status: flag to add cloumn of vs reference.
+    :param vrf vrf ref object
+    :param segroup segroup ref
     :return: Converted avi objects
     """
 
@@ -92,7 +94,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
-                          cloud_name, merge_object_mapping, sys_dict)
+                          cloud_name, merge_object_mapping, sys_dict, vrf,
+                          segroup)
 
         persist_conv = PersistenceConfigConv.get_instance(
             version, f5_attributes, prefix, object_merge_check)
@@ -106,7 +109,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                                             con_snatpool)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
-                        merge_object_mapping, sys_dict)
+                        merge_object_mapping, sys_dict, vrf, segroup)
         # Updating application profile from L4 to http if service has ssl enable
         conv_utils.update_app_profile(avi_config_dict, sys_dict)
         # Updated network profile to TCP PROXY if application profile is HTTP
