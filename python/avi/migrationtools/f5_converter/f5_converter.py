@@ -8,7 +8,7 @@ import avi.migrationtools
 import yaml
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.vs_filter import filter_for_vs
-#from avi.migrationtools.config_patch import ConfigPatch
+from avi.migrationtools.avi_migration_utils import get_count
 from requests.packages import urllib3
 
 from avi.migrationtools.f5_converter import (f5_config_converter,
@@ -457,3 +457,5 @@ if __name__ == "__main__":
         exit(0)
     f5_converter = F5Converter(args)
     f5_converter.convert()
+    print "Total Warning: ", get_count('warning')
+    print "Total Errors: ", get_count('error')

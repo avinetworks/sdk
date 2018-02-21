@@ -35,6 +35,22 @@ csv_writer_dict_list = []
 tenants = []
 ran_str = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase
                                 + string.digits) for _ in range(3))
+warning_count = 0
+error_count = 0
+
+def update_count(type='warning'):
+    global warning_count, error_count
+    if type == 'warning':
+        warning_count += 1
+    elif type == 'error':
+        error_count += 1
+
+def get_count(type='None'):
+    if type == 'warning':
+        return warning_count
+    elif type == 'error':
+        return error_count
+    return { 'warning': warning_count, 'error': error_count }
 
 class MigrationUtil(object):
 
@@ -73,6 +89,7 @@ class MigrationUtil(object):
             child.expect('Enter pass phrase for')
             return True
         except Exception as e:
+            update_count('warning')
             return False
 
     def update_vs_complexity_level(self, vs_csv_row, virtual_service):
@@ -161,9 +178,11 @@ class MigrationUtil(object):
             try:
                 file_str = file_str.decode('latin-1')
             except:
+                update_count('error')
                 LOG.error("[UnicodeDecode] Error to read file %s" % file_path,
                           exc_info=True)
         except:
+            update_count('error')
             LOG.error("Error to read file %s" % file_path, exc_info=True)
         return file_str
 
