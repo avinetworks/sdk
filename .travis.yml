@@ -5,6 +5,7 @@ python:
 # safelist
 branches:
   only:
+  - master
   - 17.1.4
   - 17.1.5
   - 17.1.6
@@ -15,6 +16,7 @@ branches:
   - 17.2.5
   - 17.2.6
   - 17.2.7
+
 
 # command to install dependencies
 install:
