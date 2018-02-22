@@ -464,11 +464,11 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 }
 
 type ApiOptions struct {
-	name      string
-	cloud     string
-	cloudUUID string
+	name        string
+	cloud       string
+	cloudUUID   string
 	skipDefault bool
-	result    interface{}
+	result      interface{}
 }
 
 func SetName(name string) func(*ApiOptions) error {

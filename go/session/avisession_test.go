@@ -1,12 +1,12 @@
 package session
 
 import (
+	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
-	"reflect"
-	"testing"
 	"github.com/golang/glog"
 	"os/exec"
-	"encoding/json"
+	"reflect"
+	"testing"
 )
 
 // Function that generates auth token from django
@@ -47,8 +47,8 @@ func getSessions(t *testing.T) []*AviSession {
 
 	/* Test token authentication with provided callback function */
 	authTokenSessionCallback, err := NewAviSession("localhost", "admin",
-			SetRefreshAuthTokenCallback(getAuthToken),
-				SetInsecure)
+		SetRefreshAuthTokenCallback(getAuthToken),
+		SetInsecure)
 
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
