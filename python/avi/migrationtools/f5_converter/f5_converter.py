@@ -223,6 +223,8 @@ class F5Converter(AviConverter):
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
+        print "Total Warning: ", get_count('warning')
+        print "Total Errors: ", get_count('error')
 
     def get_default_config(self, is_download, path):
         """
@@ -457,5 +459,3 @@ if __name__ == "__main__":
         exit(0)
     f5_converter = F5Converter(args)
     f5_converter.convert()
-    print "Total Warning: ", get_count('warning')
-    print "Total Errors: ", get_count('error')

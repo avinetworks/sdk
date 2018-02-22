@@ -7,11 +7,9 @@ import logging
 import os
 import subprocess
 import sys
-
 import pytest
 import yaml
-
-
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
@@ -19,6 +17,7 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud
+
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -832,6 +831,28 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 segroup = setup.get('segroup')
                 )
+
+    @pytest.mark.travis
+    def test_error_and_warning_count_on_file_v11(self):
+        set_update_count()
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+
+        assert get_count('error') == 6
+        assert get_count('warning') == 14
+
+    @pytest.mark.travis
+    def test_error_and_warning_count_on_file_v10(self):
+        set_update_count()
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+
+        assert get_count('error') == 2
+        assert get_count('warning') == 4
 
 def teardown():
     pass

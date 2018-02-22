@@ -38,6 +38,12 @@ ran_str = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase
 warning_count = 0
 error_count = 0
 
+def set_update_count():
+    global warning_count, error_count
+    warning_count = 0
+    error_count = 0
+
+
 def update_count(type='warning'):
     global warning_count, error_count
     if type == 'warning':
