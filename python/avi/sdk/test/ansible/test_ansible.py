@@ -15,7 +15,7 @@ controller = pytest.config.getoption("--controller")
 username = pytest.config.getoption("--username")
 password = pytest.config.getoption("--password")
 
-dir_path = '/home/rohan/AVI/avi_ansible_modules'
+dir_path = '/home/rohan/AVI/modules'
 playbook_dir = '/tmp'
 hosts_file = '/tmp/ansible_hosts'
 default_servers = '10.42.10.10,10.42.10.11,10.42.10.12'
@@ -117,6 +117,39 @@ def test_ansible_pool_playbook_cd(playbook_dir, pool_name, state='present',
         assert int(ch) == int(changed)
         break
 
+
+# Added api version
+def test_ansible_patch_pool_playbook_cd(playbook_dir, pool_name, state='present',
+                                  changed=1, enabled='True', api_version='16.4'):
+    """
+    1. launch ansible pool playbook
+    2. expect no errors
+    3. launch ansible pool playbook again
+    4. expect no change
+    """
+    servers = default_servers
+    cmd = pool_playbook_tmpl.substitute(
+        hosts=hosts_file,
+        controller=controller, username=username, password=password,
+        pool_name=pool_name, servers=servers,
+        playbook="%s/ansible_patch_test.yml" % playbook_dir,
+        avi_ansible_module='%s' % dir_path, state=state,
+        enabled=enabled, api_version=api_version)
+    LOG.debug('executing command %s' % cmd)
+
+    out = subprocess.check_output(shlex.split(cmd))
+    # print out
+    LOG.debug('playbook out %s' % (out))
+    sout = StringIO(out)
+    lines = sout.readlines()
+    for index, line in enumerate(lines):
+        if not line.startswith('PLAY RECAP'):
+            continue
+        results = lines[index + 1]
+        ch = [term.split('=')[1] for term in results.split()
+              if term.startswith('changed')][0]
+        assert int(ch) == int(changed)
+        break
 
 
 def test_ansible_check_mode_playbook(playbook_dir, pool_name, state='present',
