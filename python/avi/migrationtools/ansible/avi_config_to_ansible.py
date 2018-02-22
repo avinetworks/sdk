@@ -45,10 +45,9 @@ class AviAnsibleConverter(object):
     common_task_args = {
         'controller': "{{ controller }}",
         'username': "{{ username }}",
-         'password': "{{ password }}",
-         'avi_api_context': "{{avi_api_context | default(omit)}}"
-
+        'password': "{{ password }}"
     }
+
     ansible_dict = dict({
         'connection': 'local',
         'hosts': 'localhost',
@@ -257,6 +256,8 @@ class AviAnsibleConverter(object):
             task.update(self.common_task_args)
             task.update(
                 {'api_version': self.avi_cfg['META']['version']['Version']})
+            task.update(
+                {'avi_api_context': "{{avi_api_context | default(omit)}}"})
             # update tenant if there is a tenant_ref in the object
             self.update_tenant(task)
             task_name = (
