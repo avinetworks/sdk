@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create waf policy
+        avi_wafpolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          url: "/api/wafpolicy/wafpolicy-2e664499-9c9b-4512-956b-6a070f241074"
+          uuid: wafpolicy-2e664499-9c9b-4512-956b-6a070f241074
+          name: Test-WAF-Policy
+          tenant_ref: "/api/tenant/admin"
+          mode: WAF_MODE_DETECTION_ONLY
+          paranoia_level: WAF_PARANOIA_LEVEL_LOW
+          waf_profile_ref: "/api/wafprofile/wafprofile-b11150a6-afb5-4caa-9ea0-71250a3d6ec6"
+
+      - name: update waf policy
+        avi_wafpolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          url: "/api/wafpolicy/wafpolicy-2e664499-9c9b-4512-956b-6a070f241074"
+          uuid: wafpolicy-2e664499-9c9b-4512-956b-6a070f241074
+          name: Update-WAF-Policy
+          tenant_ref: "/api/tenant/admin"
+          mode: WAF_MODE_DETECTION_ONLY
+          paranoia_level: WAF_PARANOIA_LEVEL_LOW
+          waf_profile_ref: "/api/wafprofile/wafprofile-b11150a6-afb5-4caa-9ea0-71250a3d6ec6"
+        reguster: result
+
+      - name: Delete waf policy
+        avi_wafpolicy:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          uuid: "{{result.obj.uiid}}"
+          url: '/api/wafpolicy/{{result.obj.uiid}}'
+          name: Update-WAF-Policy

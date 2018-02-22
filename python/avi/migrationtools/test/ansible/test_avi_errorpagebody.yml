@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create error page body object
+        avi_errorpagebody:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          name: Test-Error-Page
+          tenant_ref: "/api/tenant/admin"
+          error_page_body: "Test error"
+        register: result
+
+      - name: Update error page body object
+        avi_errorpagebody:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: patch
+          avi_api_patch_op: add
+          uuid: "{{result.obj.uuid}}"
+          url: "/api/errorpagebody/{{result.obj.uuid}}"
+          name: Test-Error-Page
+          error_page_body: "Updated1 Test error"
+          tenant_ref: "/api/tenant/admin"
+        register: updated_result
+
+      - name: delete error page body object
+        avi_errorpagebody:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{updated_result.obj.uuid}}"
+          url: "/api/errorpagebody/{{updated_result.obj.uuid}}"
+          name: Test-Error-Page
+          state: 'absent'

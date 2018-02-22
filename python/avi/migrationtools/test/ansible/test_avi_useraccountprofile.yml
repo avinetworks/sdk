@@ -1,0 +1,58 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create user account profile
+        avi_useraccountprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          name: Test-Default-User-Account-Profile
+          max_concurrent_sessions: 0
+          account_lock_timeout: 30
+          max_login_failure_count: 20
+          max_password_history_count: 0
+          credentials_timeout_threshold: 0
+        register: result
+
+      - name: update user account profile
+        avi_useraccountprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          name: Test-Default-User-Account-Profile
+          url: "/api/useraccount/{{result.obj.uuid}}"
+          uuid: "{{result.obj.uuid}}"
+          max_concurrent_sessions: 0
+          account_lock_timeout: 30
+          max_login_failure_count: 10
+          max_password_history_count: 2
+          credentials_timeout_threshold: 0
+        register: update_result
+
+      - name: Delete user account profile
+        avi_useraccountprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          name: Test-Default-User-Account-Profile
+          url: "/api/useraccount/{{result.obj.uuid}}"
+          uuid: "{{result.obj.uuid}}"
+        register: delete_result
