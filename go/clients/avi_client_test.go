@@ -1,12 +1,12 @@
 package clients
 
 import (
+	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"testing"
 	"github.com/golang/glog"
 	"os/exec"
-	"encoding/json"
+	"testing"
 )
 
 // Function that generates auth token from django
@@ -61,7 +61,7 @@ func getSessions(t *testing.T) []*session.AviSession {
 // Get All
 // Update Pool
 // Delete Pool
-func testAviPoolClient(t * testing.T, aviSession *session.AviSession) {
+func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 	pclient := NewPoolClient(aviSession)
 
 	obj := models.Pool{}
