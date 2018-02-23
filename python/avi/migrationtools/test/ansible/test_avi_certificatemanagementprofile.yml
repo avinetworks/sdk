@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create certificate management profile
+        avi_certificatemanagementprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          tenant_ref: https://10.10.28.98/api/tenant/admin
+          name: test
+          script_path: 'path/to/script'
+        register: result
+
+      - name: Update certificate management profile
+        avi_certificatemanagementprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: 'put'
+          uuid: "{{result.obj.uuid}}"
+          tenant_ref: https://10.10.28.98/api/tenant/admin
+          name: updated-test
+          script_path: 'updated/path/to/script'
+        register: updated_result
+
+      - name: Delete certificate management profile
+        avi_certificatemanagementprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          uuid: "{{updated_result.obj.uuid}}"
+          tenant_ref: https://10.10.28.98/api/tenant/admin
+          name: updated-test
+          script_path: 'updated/path/to/script'
