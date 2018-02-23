@@ -13,51 +13,66 @@
     - role: avinetworks.avisdk
   tasks:
     - block:
-      - name: Create trafficcloneprofile object
-        avi_trafficcloneprofile:
+      - name: Create errorpageprofile object
+        avi_errorpageprofile:
           username: "{{avi_credentials.username}}"
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          name: test-traffic
-          state: 'present'
-          preserve_client_ip: true
+          state: present
+          name: profile-1
           tenant_ref: '/api/tenant?name=admin'
+          host_name: 'admin'
+          company_name: 'test-company'
+          app_name: 'Demo-app'
         register: result
 
-      - name: Update trafficcloneprofile object
-        avi_trafficcloneprofile:
+      - name: Updated errorpageprofile object
+        avi_errorpageprofile:
           username: "{{avi_credentials.username}}"
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          name: test-traffic
-          uuid: "{{result.obj.uuid}}"
           avi_api_update_method: patch
-          avi_api_patch_op: add
-          preserve_client_ip: false
-          tenant_ref: '/api/tenant?name=admin'
-        register: updated_result
+          avi_api_patch_op: replace
+          uuid: "{{result.obj.uuid}}"
+          name: profile-1
+          company_name: 'test-company'
+          app_name: 'Demo-application'
+        register: replace_result
 
-      - name: Delete trafficcloneprofile object
-        avi_trafficcloneprofile:
+      - name: Delete errorpageprofile object
+        avi_errorpageprofile:
           username: "{{avi_credentials.username}}"
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          name: test-traffic
-          uuid: "{{updated_result.obj.uuid}}"
           state: 'absent'
+          uuid: "{{replace_result.obj.uuid}}"
+          name: profile-1
+        register: delete_result
 
-      - name: Create trafficcloneprofile object
-        avi_trafficcloneprofile:
+      - name: Create errorpageprofile object using by check mode
+        avi_errorpageprofile:
           username: "{{avi_credentials.username}}"
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          name: test-traffic1
-          state: 'present'
-          preserve_client_ip: true
+          state: present
+          name: profile-1
           tenant_ref: '/api/tenant?name=admin'
-        register: result
+          host_name: 'admin'
+          company_name: 'test-company'
+          app_name: 'Demo-app'
+        register: mode_result
         check_mode: true
+
+      - name: Delete non existing errorpageprofile object
+        avi_errorpageprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          name: profile-2
+        register: del_obj_result

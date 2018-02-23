@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create pool
+        avi_pool:
+          name: testpool1
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          description: testpool1
+          state: present
+          health_monitor_refs:
+              - '/api/healthmonitor?name=System-HTTP'
+          servers:
+              - ip:
+                  addr: 10.10.2.20
+                  type: V4
+              - ip:
+                  addr: 10.10.2.21
+                  type: V4
+        register: result
+
+      - name: Create vsdatascriptset object
+        avi_vsdatascriptset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          name: test-vsdatascript
+          description: 'test data script'
+        register: vsresult
+
+      - name: Update pool ref using patch add method
+        avi_vsdatascriptset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{vsresult.obj.uuid}}"
+          avi_api_update_method: patch
+          avi_api_patch_op: add
+          name: test-vsdatascript
+          description: 'test data script'
+          pool_refs:
+            - '/api/pool?name=testpool1'
+        register: vsresult
+
+      - name: Delete vsdatascriptset object
+        avi_vsdatascriptset:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{vsresult.obj.uuid}}"
+          state: 'absent'
+          name: test-vsdatascript
+
+      - name: Delete pool object
+        avi_pool:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{result.obj.uuid}}"
+          state: 'absent'
+          name: testpool1
+

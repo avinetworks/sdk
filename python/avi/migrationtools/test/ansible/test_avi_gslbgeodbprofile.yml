@@ -1,0 +1,145 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: get cluster object
+        avi_api_session:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          path: cluster
+          http_method: get
+          params:
+            name: cluster-0-1
+        register: get_result
+      - name: Create gslb object
+        avi_gslb:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          name: Updated-Default
+          state: 'present'
+          tenant_ref: admin
+          maintenance_mode: false
+          view_id: 0
+          sites:
+          - username: admin
+            name: Test1
+            ip_addresses:
+            - type: V4
+              addr: "{{ avi_credentials.controller }}"
+            enabled: true
+            member_type: GSLB_ACTIVE_MEMBER
+            location:
+              source: GSLB_LOCATION_SRC_USER_CONFIGURED
+              location:
+                latitude: 18.520429611206055
+                tag: Pune
+                name: pune
+                longitude: 73.85674285888672
+            cluster_uuid: "{{get_result.obj.uuid}}"
+            password: "{{ avi_credentials.password }}"
+            port: 502
+          client_ip_addr_group:
+            type: GSLB_IP_PUBLIC
+          send_interval: 10
+          dns_configs:
+          - domain_name: abc
+          is_federated: true
+          leader_cluster_uuid: "{{get_result.obj.uuid}}"
+          clear_on_max_retries: 20
+        register: gslb_res
+
+      - name: Create gslbgeodbprofile object
+        avi_gslbgeodbprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: present
+          tenant_ref: /api/tenant/admin
+          is_federated: true
+          entries:
+          - priority: 10
+            file:
+              format: GSLB_GEODB_FILE_FORMAT_AVI
+              filename: AviGeoDb.txt.gz
+          name: test-profile
+        register: result
+
+      - name: Update gslbgeodbprofile object using patch add method
+        avi_gslbgeodbprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          uuid: "{{result.obj.uuid}}"
+          tenant_ref: /api/tenant/admin
+          is_federated: true
+          entries:
+          - priority: 2
+            file:
+              format: GSLB_GEODB_FILE_FORMAT_AVI
+              filename: AviGeoDb.txt.gz
+          name: test-profile
+        register: updated_result
+
+      - name: Update gslbgeodbprofile object using patch replace method
+        avi_gslbgeodbprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: patch
+          avi_api_patch_op: replace
+          uuid: "{{updated_result.obj.uuid}}"
+          tenant_ref: /api/tenant/admin
+          is_federated: true
+          entries:
+          - priority: 13
+            file:
+              format: GSLB_GEODB_FILE_FORMAT_AVI
+              filename: AviGeoDb.txt.gz
+          name: test-profile
+        register: replace_result
+
+      - name: Delete gslbgeodbprofile object
+        avi_gslbgeodbprofile:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          uuid: "{{replace_result.obj.uuid}}"
+          entries:
+          - priority: 13
+            file:
+              format: GSLB_GEODB_FILE_FORMAT_AVI
+              filename: AviGeoDb.txt.gz
+          name: test-profile
+        register: del_result
+
+      - name: Delete gslb object
+        avi_gslb:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          state: absent
+          uuid: "{{gslb_res.obj.uuid}}"
+          name: Updated-Default
+          leader_cluster_uuid: "{{get_result.obj.uuid}}"

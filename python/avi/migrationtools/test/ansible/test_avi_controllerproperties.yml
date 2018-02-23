@@ -1,0 +1,82 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create controller properties object
+        avi_controllerproperties:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          vs_se_ping_fail: 60
+          vs_se_create_fail: 1500
+          cluster_ip_gratuitous_arp_period: 60
+          persistence_key_rotate_period: 60
+          unresponsive_se_reboot: 300
+          attach_ip_retry_interval: 360
+          vs_se_vnic_fail: 300
+          attach_ip_retry_limit: 4
+          se_vnic_cooldown: 120
+          vnic_op_fail_time: 180
+          max_pcap_per_tenant: 4
+          vs_se_bootup_fail: 300
+          seupgrade_fabric_pool_size: 20
+          vs_key_rotate_period: 60
+          seupgrade_segroup_min_dead_timeout: 360
+          upgrade_lease_time: 360
+          se_create_timeout: 900
+          query_host_fail: 180
+          vs_apic_scaleout_timeout: 360
+          se_offline_del: 172000
+          max_dead_se_in_grp: 1
+          upgrade_dns_ttl: 5
+          fatal_error_lease_time: 120
+          allow_ip_forwarding: false
+          max_seq_vnic_failures: 3
+          allow_unauthenticated_nodes: false
+          allow_unauthenticated_apis: false
+          vs_awaiting_se_timeout: 60
+          warmstart_se_reconnect_wait_time: 300
+          dns_refresh_period: 60
+          secure_channel_cleanup_timeout: 60
+          vs_se_vnic_ip_fail: 120
+          ssl_certificate_expiry_warning_days:
+          - 30
+          - 7
+          - 1
+          secure_channel_se_token_timeout: 60
+          secure_channel_controller_token_timeout: 60
+          api_idle_timeout: 15
+          crashed_se_reboot: 900
+          appviewx_compat_mode: false
+          se_failover_attempt_interval: 300
+          dead_se_detection_timer: 360
+        register: result
+
+      - name: update controller properties object
+        avi_controllerproperties:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: patch
+          avi_api_patch_op: replace
+          secure_channel_se_token_timeout: 60
+          secure_channel_controller_token_timeout: 60
+          api_idle_timeout: 20
+          crashed_se_reboot: 900
+          appviewx_compat_mode: false
+          se_failover_attempt_interval: 300
+          dead_se_detection_timer: 360

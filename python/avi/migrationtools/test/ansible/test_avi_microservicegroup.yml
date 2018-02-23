@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+
+      - name: Create microservice group object
+        avi_microservicegroup:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          description: Group created by my Secure My App UI.
+          name: vs-marketing
+          tenant_ref: admin
+        register: result
+
+      - name: Create microservice group object using check mode
+        avi_microservicegroup:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          description: Group created by my Secure My App UI.
+          name: vs-marketing
+          tenant_ref: admin
+        register: result
+        check_mode: true
+      - name: Create microservice group object
+        avi_microservicegroup:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{result.obj.uuid}}"
+          avi_api_update_method: put
+          description: Group created by my Secure My App UI.
+          name: updated-vs-marketing
+          tenant_ref: admin
+        register: updated_result
+
+      - name: Delete microservice group object
+        avi_microservicegroup:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{updated_result.obj.uuid}}"
+          state: 'absent'
+          name: updated-vs-marketing
+          tenant_ref: admin
+        register: result

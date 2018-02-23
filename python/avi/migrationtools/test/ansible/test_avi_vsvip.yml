@@ -1,0 +1,70 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create vsvip object
+        avi_vsvip:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          east_west_placement: false
+          tenant_ref: '/api/tenant/admin'
+          name: vsvip-test
+          vip:
+          - vip_id: '1'
+            avi_allocated_fip: false
+            auto_allocate_ip: false
+            enabled: true
+            auto_allocate_floating_ip: false
+            avi_allocated_vip: false
+            ip_address:
+              type: V4
+              addr: 10.10.2.9
+        register: result
+
+      - name: create vsvip object
+        avi_vsvip:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{result.obj.uuid}}"
+          url: '/api/vsvip'
+          avi_api_update_method: patch
+          avi_api_patch_op: replace
+          east_west_placement: false
+          tenant_ref: '/api/tenant/admin'
+          name: vsvip-test
+          vip:
+          - vip_id: '1'
+            avi_allocated_fip: false
+            auto_allocate_ip: false
+            enabled: true
+            auto_allocate_floating_ip: false
+            avi_allocated_vip: false
+            ip_address:
+              type: V4
+              addr: 10.10.2.3
+
+      - name: Delete vsvip object
+        avi_vsvip:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{result.obj.uuid}}"
+          name: vsvip-test
+          state: 'absent'

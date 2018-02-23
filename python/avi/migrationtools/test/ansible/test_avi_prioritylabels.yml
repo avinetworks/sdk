@@ -1,0 +1,49 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: Create prioritylabels
+        avi_prioritylabels:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: present
+          name: test-proritylabel
+          tenant_ref: '/api/tenant?name=admin'
+          description: 'desc'
+        register: result
+
+      - name: update prioritylabels
+        avi_prioritylabels:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          uuid: "{{result.obj.uuid}}"
+          name: test-proritylabel
+          tenant_ref: '/api/tenant?name=admin'
+          description: 'updated desc'
+        register: updated_result
+
+      - name: delete prioritylabels
+        avi_prioritylabels:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          uuid: "{{updated_result.obj.uuid}}"
+          name: test-proritylabel
+          state: 'absent'

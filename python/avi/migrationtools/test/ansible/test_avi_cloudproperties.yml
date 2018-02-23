@@ -1,0 +1,105 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create cloud properties object
+        avi_cloudproperties:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          info:
+          - vtype: CLOUD_VCENTER
+            htypes:
+            - VMWARE_ESX
+          - vtype: CLOUD_OPENSTACK
+            flavor_props:
+            - max_ips_per_nic: 11
+              public: true
+              name: all
+              id: all
+            htypes:
+            - KVM
+            - VMWARE_ESX
+            - VMWARE_VSAN
+          - vtype: CLOUD_AWS
+            flavor_regex_filter: "[ctmr][0-9]+\\..*"
+            flavor_props:
+            - max_nics: 2
+              name: t2.micro
+              disk_gb: 0
+              max_ips_per_nic: 2
+              ram_mb: 1024
+              public: true
+              vcpus: 1
+              cost: "{u'reserved': {u'yrTerm1Convertible.noUpfront': u'0.008', u'yrTerm3Convertible.allUpfront':
+                u'0.005', u'yrTerm3Convertible.partialUpfront': u'0.005', u'yrTerm1Convertible.partialUpfront':
+                u'0.008', u'yrTerm1Standard.partialUpfront': u'0.007', u'yrTerm3Standard.noUpfront':
+                u'0.005', u'yrTerm3Convertible.noUpfront': u'0.006', u'yrTerm3Standard.allUpfront':
+                u'0.004', u'yrTerm1Convertible.allUpfront': u'0.008', u'yrTerm1Standard.allUpfront':
+                u'0.007', u'yrTerm3Standard.partialUpfront': u'0.005', u'yrTerm1Standard.noUpfront':
+                u'0.007'}, u'ondemand': u'0.0116'}"
+              id: t2.micro
+            - max_nics: 2
+              name: t2.small
+              disk_gb: 0
+              max_ips_per_nic: 4
+              ram_mb: 2048
+              public: true
+              vcpus: 1
+              cost: "{u'reserved': {u'yrTerm1Convertible.noUpfront': u'0.017', u'yrTerm3Convertible.allUpfront':
+                u'0.011', u'yrTerm3Convertible.partialUpfront': u'0.011', u'yrTerm1Convertible.partialUpfront':
+                u'0.016', u'yrTerm1Standard.partialUpfront': u'0.014', u'yrTerm3Standard.noUpfront':
+                u'0.010', u'yrTerm3Convertible.noUpfront': u'0.012', u'yrTerm3Standard.allUpfront':
+                u'0.009', u'yrTerm1Convertible.allUpfront': u'0.015', u'yrTerm1Standard.allUpfront':
+                u'0.013', u'yrTerm3Standard.partialUpfront': u'0.009', u'yrTerm1Standard.noUpfront':
+                u'0.014'}, u'ondemand': u'0.023'}"
+              id: t2.small
+            htypes:
+            - XEN
+          - vtype: CLOUD_MESOS
+          - vtype: CLOUD_DOCKER_UCP
+          - vtype: CLOUD_RANCHER
+          - vtype: CLOUD_OSHIFT_K8S
+          - vtype: CLOUD_LINUXSERVER
+          - vtype: CLOUD_VCA
+            htypes:
+            - VMWARE_ESX
+          - vtype: CLOUD_AZURE
+            flavor_props:
+            - max_nics: 1
+              max_ips_per_nic: 150
+              public: true
+              name: all
+              id: all
+          hyp_props:
+          - max_nics: 10
+            htype: VMWARE_ESX
+          - max_nics: 10
+            htype: VMWARE_VSAN
+          - max_nics: 24
+            htype: KVM
+          - htype: XEN
+          cc_vtypes:
+          - CLOUD_OPENSTACK
+          - CLOUD_AWS
+          - CLOUD_VCA
+          - CLOUD_MESOS
+          - CLOUD_DOCKER_UCP
+          - CLOUD_RANCHER
+          - CLOUD_OSHIFT_K8S
+          - CLOUD_LINUXSERVER
+          - CLOUD_AZURE
+        register: result

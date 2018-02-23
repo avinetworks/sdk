@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+   avi_credentials:
+    controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+    username: "{{ lookup('env', 'AVI_USERNAME') }}"
+    password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+    api_version: "{{ lookup('env', 'API_VERSION') }}"
+
+  roles:
+    - role: avinetworks.avisdk
+  tasks:
+    - block:
+      - name: create vrfcontext object
+        avi_vrfcontext:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'present'
+          url: "/api/vrfcontext/vrfcontext-f54f6d8a-d2c9-4bc9-a0b8-cfaed295aff6"
+          name: test-vrf-context
+          tenant_ref: "/api/tenant/admin"
+          system_default: false
+        register: result
+
+      - name: update vrfcontext object
+        avi_vrfcontext:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          avi_api_update_method: put
+          url: "/api/vrfcontext/vrfcontext-f54f6d8a-d2c9-4bc9-a0b8-cfaed295aff6"
+          name: updated-vrf-context
+          tenant_ref: "/api/tenant/admin"
+          system_default: false
+          uuid: "{{result.obj.uuid}}"
+
+      - name: Delete vrfcontext object
+        avi_vrfcontext:
+          username: "{{avi_credentials.username}}"
+          password: "{{avi_credentials.password}}"
+          controller: "{{avi_credentials.controller}}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: 'absent'
+          name: updated-vrf-context
+          uuid: "{{result.obj.uuid}}"

@@ -41,7 +41,7 @@
             name: Test1
             ip_addresses:
             - type: V4
-              addr: 10.10.26.66
+              addr: "{{ avi_credentials.controller }}"
             enabled: true
             member_type: GSLB_ACTIVE_MEMBER
             location:
@@ -52,7 +52,7 @@
                 name: pune
                 longitude: 73.85674285888672
             cluster_uuid: "{{get_result.obj.uuid}}"
-            password: "admin"
+            password: "{{avi_credentials.password}}"
             port: 443
           client_ip_addr_group:
             type: GSLB_IP_PUBLIC
@@ -80,7 +80,7 @@
             name: Test1
             ip_addresses:
             - type: V4
-              addr: 10.10.26.66
+              addr: "{{avi_credentials.controller}}"
             enabled: true
             member_type: GSLB_ACTIVE_MEMBER
             location:
@@ -91,7 +91,7 @@
                 name: pune
                 longitude: 73.85674285888672
             cluster_uuid: "{{get_result.obj.uuid}}"
-            password: "admin"
+            password: "{{ avi_credentials.password }}"
             port: 502
           client_ip_addr_group:
             type: GSLB_IP_PUBLIC

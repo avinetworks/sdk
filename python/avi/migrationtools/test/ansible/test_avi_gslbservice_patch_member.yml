@@ -13,12 +13,22 @@
     - role: avinetworks.avisdk
   tasks:
     - block:
-      - name: create controller properties object
-        avi_gslbservice:
+      - name: patch GSLB Service to add a new member and group
+        avi_gslbservice_patch_member:
           username: "{{avi_credentials.username}}"
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          name: test-gslb
-          domain_names:
-            - com
+          name: test-patch
+          data:
+            group:
+              name: newfoo
+              priority: 60
+              domain_names:
+              - com
+              members:
+                - enabled: true
+                  ip:
+                    addr:  10.30.10.66
+                    type: V4
+                  ratio: 3

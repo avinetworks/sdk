@@ -12,7 +12,82 @@
     - role: avinetworks.avisdk
   tasks:
     - block:
-      - name: Update se property config object
+      - name: Create se property config object
+        avi_seproperties:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          state: present
+          se_agent_properties:
+            dp_enq_interval_msec: 10
+            sdb_scan_count: 600
+            dp_reg_pending_max_wait_time: 75
+            controller_echo_rpc_aggressive_timeout: 2000
+            dp_aggressive_enq_interval_msec: 1
+            vnic_ip_delete_interval: 5
+            dp_max_wait_rsp_time_sec: 60
+            controller_rpc_timeout: 10
+            controller_heartbeat_miss_limit: 6
+            dp_aggressive_deq_interval_msec: 1
+            controller_echo_rpc_timeout: 2000
+            ignore_docker_mac_change: true
+            sdb_pipeline_size: 100
+            cpustats_interval: 5
+            dp_batch_size: 100
+            vnic_probe_interval: 5
+            debug_mode: false
+            vnic_dhcp_ip_max_retries: 10
+            dp_deq_interval_msec: 20
+            ctrl_reg_pending_max_wait_time: 150
+            headless_timeout_sec: 0
+            sdb_flush_interval: 100
+            controller_echo_miss_aggressive_limit: 2
+            controller_heartbeat_timeout_sec: 12
+            controller_registration_timeout_sec: 10
+            controller_echo_miss_limit: 4
+            vnic_dhcp_ip_check_interval: 6
+          se_runtime_properties:
+            upstream_connpool_conn_life_tmo: -1
+            log_agent_max_active_adf_files_per_vs: 100
+            se_auth_ldap_conns_per_server: 1
+            log_agent_file_sz_appl: 4
+            se_packet_buffer_max: 0
+            log_agent_max_logmessage_proto_sz: 65536
+            se_hb_persist_fudge_bits: 3
+            se_dp_vnic_stall_se_restart_window: 3600
+            upstream_connpool_conn_max_reuse: -1
+            upstream_connpool_server_max_cache: -1
+            dp_aggressive_hb_timeout_count: 10
+            se_metrics_rt_interval: 1000
+            persistence_mem_max: 0
+            upstream_connpool_core_max_cache: -1
+            log_agent_log_storage_min_sz: 1024
+            se_random_tcp_drops: false
+            se_dp_if_state_poll_interval: 10
+            se_auth_ldap_cache_size: 100000
+            log_message_max_file_list_size: 64
+            services_accessible_all_interfaces: false
+            dupip_timeout_count: 5
+            baremetal_dispatcher_handles_flows: false
+            upstream_connpool_cache_thresh: -1
+            connections_lossy_log_rate_limiter_threshold: 1000
+            upstream_connpool_conn_idle_tmo: -1
+            log_agent_unknown_vs_timer: 1800
+            upstream_connpool_strategy: -1
+            upstream_connpool_conn_idle_thresh_tmo: -1
+            log_agent_min_storage_per_vs: 10
+            feproxy_vips_enable_proxy_arp: true
+            service_port_ranges:
+            - start: 4000
+              end: 9000
+            scaleout_udp_per_pkt: true
+            se_dp_log_nf_enqueue_percent: 70
+            http_rum_min_content_length: 64
+            flow_table_batch_push_frequency: 5
+            log_agent_file_sz_conn: 4
+
+      - name: Update se property using put config object
         avi_seproperties:
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
@@ -87,3 +162,41 @@
             http_rum_min_content_length: 64
             flow_table_batch_push_frequency: 5
             log_agent_file_sz_conn: 4
+
+      - name: Update se property using patch config object
+        avi_seproperties:
+          controller: "{{ avi_credentials.controller }}"
+          username: "{{ avi_credentials.username }}"
+          password: "{{ avi_credentials.password }}"
+          api_version: "{{avi_credentials.api_version}}"
+          url: '/api/seproperties'
+          avi_api_update_method: patch
+          avi_api_patch_op: add
+          se_agent_properties:
+            dp_enq_interval_msec: 10
+            sdb_scan_count: 600
+            dp_reg_pending_max_wait_time: 75
+            controller_echo_rpc_aggressive_timeout: 2000
+            dp_aggressive_enq_interval_msec: 1
+            vnic_ip_delete_interval: 5
+            dp_max_wait_rsp_time_sec: 60
+            controller_rpc_timeout: 10
+            controller_heartbeat_miss_limit: 6
+            dp_aggressive_deq_interval_msec: 1
+            controller_echo_rpc_timeout: 2000
+            ignore_docker_mac_change: true
+            sdb_pipeline_size: 100
+            cpustats_interval: 5
+            dp_batch_size: 10
+            vnic_probe_interval: 3
+            debug_mode: true
+            vnic_dhcp_ip_max_retries: 10
+            dp_deq_interval_msec: 20
+            ctrl_reg_pending_max_wait_time: 150
+            headless_timeout_sec: 0
+            sdb_flush_interval: 100
+            controller_echo_miss_aggressive_limit: 2
+            controller_heartbeat_timeout_sec: 12
+            controller_registration_timeout_sec: 10
+            controller_echo_miss_limit: 4
+            vnic_dhcp_ip_check_interval: 6
