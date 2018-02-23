@@ -17,6 +17,7 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -497,6 +498,16 @@ class TestNetscalerConverter:
                        user=setup.get('controller_user_17_1_1'),
                        password=setup.get('controller_password_17_1_1'))
 
+    def test_error_and_warning_count(self):
+        set_update_count()
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       cloud_name=file_attribute['cloud_name'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        assert get_count('error') == 2815
+        assert get_count('warning') == 0
 
 def teardown():
     pass

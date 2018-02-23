@@ -851,8 +851,8 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'))
 
-        assert get_count('error') == 2
-        assert get_count('warning') == 4
+        assert get_count('error') == 1
+        assert get_count('warning') == 5
 
 def teardown():
     pass
