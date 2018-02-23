@@ -129,7 +129,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
 
     except:
-        update_count('error')
+        update_count('warning')
         LOG.error("Conversion error", exc_info=True)
     datascript_objs = ['data-group']
     # Added support node as not applicable

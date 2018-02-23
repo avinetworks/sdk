@@ -207,7 +207,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
 
     except:
-        update_count('error')
+        update_count('warning')
         LOG.error('Error in config conversion', exc_info=True)
 
     return avi_config
