@@ -1,12 +1,11 @@
-
 /***************************************************************************
- * 
+ *
  * AVI CONFIDENTIAL
  * __________________
- * 
+ *
  * [2013] - [2017] Avi Networks Incorporated
  * All Rights Reserved.
- * 
+ *
  * NOTICE: All information contained herein is, and remains the property
  * of Avi Networks Incorporated and its suppliers, if any. The intellectual
  * and technical concepts contained herein are proprietary to Avi Networks
