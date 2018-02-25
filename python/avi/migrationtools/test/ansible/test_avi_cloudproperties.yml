@@ -19,7 +19,7 @@
           password: "{{avi_credentials.password}}"
           controller: "{{avi_credentials.controller}}"
           api_version: "{{avi_credentials.api_version}}"
-          state: 'present'
+          avi_api_update_method: 'put'
           info:
           - vtype: CLOUD_VCENTER
             htypes:

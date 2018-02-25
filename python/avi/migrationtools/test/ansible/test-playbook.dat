@@ -52,7 +52,6 @@ test_avi_autoscalelaunchconfig.yml change=3
 test_avi_gslbgeodbprofile.yml change=6
 test_avi_errorpageprofile.yml change=4
 test_avi_analyticsprofile.yml change=3
-test_avi_cloudproperties.yml change=1
 test_avi_errorpagebody.yml change=3
 test_avi_wafpolicy.yml change=5
 test_avi_controllerproperties.yml change=2
