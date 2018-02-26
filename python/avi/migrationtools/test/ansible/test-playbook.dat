@@ -1,5 +1,5 @@
 test_avi_cloudproperties.yml change=1
-test_avi_pkiprofile.yml: change=5
+test_avi_pkiprofile.yml change=5
 test_avi_backupConfiguation.yml change=2
 test_avi_virtualservice.yml change=3
 test_avi_cloud.yml change=3
