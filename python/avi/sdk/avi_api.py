@@ -229,6 +229,7 @@ class ApiSession(Session):
         self.remote_api_version = {}
         self.user_hdrs = {}
         self.data_log = data_log
+        self.num_session_retries = 0
 
         # Refer Notes 01 and 02
         k_port = port if port else 443
@@ -438,9 +439,23 @@ class ApiSession(Session):
             raise Exception("Neither user password or token provided")
         logger.debug('authenticating user %s ', self.avi_credentials.username)
         self.cookies.clear()
-        rsp = super(ApiSession, self).post(self.prefix+"/login", body,
-                                           timeout=self.timeout)
+        try:
+            rsp = super(ApiSession, self).post(self.prefix+"/login", body,
+                                               timeout=self.timeout)
+        except (ConnectionError, SSLError) as e:
+            if not self.retry_conxn_errors:
+                raise
+            logger.warning('Connection error retrying %s', e)
+            time.sleep(5)
+            self.num_session_retries += 1
+            if self.num_session_retries > self.MAX_API_RETRIES:
+                self.num_session_retries = 0
+                raise APIError(
+                    "giving up after %d retries connection failure %s" %
+                    (self.MAX_API_RETRIES, True))
+            self.authenticate_session()
         if rsp.status_code != 200:
+            self.num_session_retries = 0
             self.remote_api_version = {}
             logger.error("Authentication failed with code %d reason %s",
                          rsp.status_code, rsp.text)
