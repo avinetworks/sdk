@@ -93,9 +93,9 @@ class MigrationUtil(object):
             # Expect for enter pass phrase if key is protected else it will raise
             # an exception
             child.expect('Enter pass phrase for')
+            update_count('warning')
             return True
         except Exception as e:
-            update_count('warning')
             return False
 
     def update_vs_complexity_level(self, vs_csv_row, virtual_service):
@@ -187,9 +187,12 @@ class MigrationUtil(object):
                 update_count('error')
                 LOG.error("[UnicodeDecode] Error to read file %s" % file_path,
                           exc_info=True)
+        except IOError:
+            update_count('warning')
+            LOG.warn("Error to read file %s" % file_path, exc_info=True)
         except:
             update_count('error')
-            LOG.error("Error to read file %s" % file_path, exc_info=True)
+            LOG.error("Error accessing file %s" % file_path, exc_info=True)
         return file_str
 
     def get_name(self, url):

@@ -835,24 +835,25 @@ class TestF5Converter:
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v11(self):
         set_update_count()
+        assert get_count('warning') == 0
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'))
 
-        assert get_count('error') == 6
-        assert get_count('warning') == 14
+        assert get_count('error') == 0
+        assert get_count('warning') == 6
 
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v10(self):
         set_update_count()
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                f5_config_version=setup.get('file_version_v11'),
+                f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'))
 
-        assert get_count('error') == 1
-        assert get_count('warning') == 5
+        assert get_count('error') == 0
+        assert get_count('warning') == 0
 
 def teardown():
     pass
