@@ -669,11 +669,17 @@ class ApiSession(Session):
             resp = self.get_object_by_name(
                     path, name, tenant, tenant_uuid, timeout=timeout,
                     params=params, **kwargs)
-        if resp.status_code > 299:
+        if resp.status_code > 499 or 'Invalid version' in resp.text:
+            logger.error('Error in get object by name for %s named %s. '
+                         'Error: %s' % (path, name, resp.text))
+            raise AviServerError(resp.text, rsp=resp)
+        elif resp.status_code > 299:
             return obj
         try:
             obj = resp.json()['results'][0]
         except IndexError:
+            logger.warning('Warning: Object Not found for %s named %s' %
+                           (path, name))
             obj = None
         self._update_session_last_used()
         return obj
