@@ -45,6 +45,7 @@
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
           password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
           http_method: get
           path: "virtualservice/{{test_result3.obj.uuid}}"
         register: res
@@ -85,6 +86,8 @@
           controller: "{{ avi_credentials.controller }}"
           username: "{{ avi_credentials.username }}"
           password: "{{ avi_credentials.password }}"
+          api_version: "{{ avi_credentials.api_version }}"
+          uuid: "{{ update_res.obj.uuid }}"
           state: "absent"
           name: "test-virtualservice"
         register: delete_res
