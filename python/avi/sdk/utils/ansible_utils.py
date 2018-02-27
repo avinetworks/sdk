@@ -260,6 +260,9 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
         # return false if item is marked absent and is present in y
         d_x_absent_ks = []
         for k, v in x.items():
+            if v is None:
+                x.pop(k)
+                continue
             if isinstance(v, dict):
                 if ('state' in v) and (v['state'] == 'absent'):
                     if type(y) == dict and k not in y:
