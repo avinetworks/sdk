@@ -75,7 +75,7 @@ setup = dict(
     config_file_name_v10=input_file_v10,
     config_file_name_v11=input_file_v11,
     partition_config='new',  # this is new
-    f5_key_file='cd_rt_key.pem',
+    f5_key_file='python/avi/migrationtools/f5_converter/test/cd_rt_key.pem',
     ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                'ignore-config.yaml')),
     patch=os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -106,7 +106,7 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location='certs', output_file_path=output_file,
+        input_folder_location='python/avi/migrationtools/f5_converter/test/certs', output_file_path=output_file,
         option='cli-upload', user=None, password=None, controller_ip=None,
         tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
         controller_version=None, f5_host_ip=None, f5_ssh_user=None,
