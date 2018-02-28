@@ -508,7 +508,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 0
+        assert get_count('warning') == 1
 
 def teardown():
     pass
