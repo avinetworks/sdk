@@ -49,14 +49,14 @@ setup = dict(
     tenant=file_attribute['tenant'],
     input_folder_location='',
     config_file_name=input_file,
-    config_file_name_passphrase='ns_passphrase.conf',
-    ns_passphrase_file='passphrase.yaml',
-    ns_key_file='cd_rt_key.pem',
+    config_file_name_passphrase='python/avi/migrationtools/netscaler_converter/test/ns_passphrase.conf',
+    ns_passphrase_file='python/avi/migrationtools/netscaler_converter/test/passphrase.yaml',
+    ns_key_file='python/avi/migrationtools/netscaler_converter/test/cd_rt_key.pem',
     ignore_config=os.path.abspath(os.path.join(
         os.path.dirname(__file__), 'ignore-config.yaml')),
     ns_ansible_object=os.path.abspath
     (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
-    patch='patch.yaml',
+    patch='python/avi/migrationtools/netscaler_converter/test/patch.yaml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     baseline_profile=None,
