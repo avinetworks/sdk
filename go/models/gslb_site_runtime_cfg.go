@@ -31,6 +31,9 @@ type GslbSiteRuntimeCfg struct {
 	// Maintenance mode info published for a site.
 	MmInfo *ConfigInfo `json:"mm_info,omitempty"`
 
+	// The replication queue for all object-types for a site. Field introduced in 17.2.7.
+	ReplQueue *ConfigInfo `json:"repl_queue,omitempty"`
+
 	// Configuration sync-info of the site .
 	SyncInfo *GslbSiteCfgSyncInfo `json:"sync_info,omitempty"`
 }

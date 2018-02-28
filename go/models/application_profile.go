@@ -26,6 +26,9 @@ type ApplicationProfile struct {
 	// Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing.
 	PreserveClientIP bool `json:"preserve_client_ip,omitempty"`
 
+	// Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7.
+	PreserveClientPort bool `json:"preserve_client_port,omitempty"`
+
 	// Specifies the TCP application proxy profile parameters.
 	TCPAppProfile *TCPApplicationProfile `json:"tcp_app_profile,omitempty"`
 

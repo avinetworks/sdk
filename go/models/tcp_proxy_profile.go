@@ -43,6 +43,9 @@ type TCPProxyProfile struct {
 	// Size of the receive window. Allowed values are 32-65536. Units(KB).
 	ReceiveWindow int32 `json:"receive_window,omitempty"`
 
+	// Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7.
+	ReorderThreshold int32 `json:"reorder_threshold,omitempty"`
+
 	// The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS).
 	TimeWaitDelay int32 `json:"time_wait_delay,omitempty"`
 
