@@ -52,7 +52,6 @@ def parse_config_file(filepath):
                 result += tokens
                 line_no += 1
             except Exception as exception:
-                update_count('error')
                 line_no += 1
                 LOG.error("Parsing error: " + line)
             msg = "Parsing started..."

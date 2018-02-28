@@ -24,7 +24,7 @@ input_file = pytest.config.getoption("--file")
 output_file = pytest.config.getoption("--out")
 
 if input_file is None:
-    input_file = 'ns.conf'
+    input_file = 'python/avi/migrationtools/netscaler_converter/test/ns.conf'
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -81,7 +81,7 @@ class Namespace:
 
 def netscaler_conv(
         config_file_name=None, tenant='admin', cloud_name='Default-Cloud',
-        input_folder_location='certs', output_file_path='output',
+        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path='output',
         option='cli-upload', user=None, password=None, controller_ip=None,
         vs_state='disable', controller_version=None, ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
@@ -498,6 +498,7 @@ class TestNetscalerConverter:
                        user=setup.get('controller_user_17_1_1'),
                        password=setup.get('controller_password_17_1_1'))
 
+    @pytest.mark.travis
     def test_error_and_warning_count(self):
         set_update_count()
         netscaler_conv(config_file_name=setup.get('config_file_name'),
@@ -506,7 +507,7 @@ class TestNetscalerConverter:
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
 
-        assert get_count('error') == 2815
+        assert get_count('error') == 0
         assert get_count('warning') == 0
 
 def teardown():
