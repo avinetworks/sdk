@@ -75,7 +75,7 @@ setup = dict(
     config_file_name_v10=input_file_v10,
     config_file_name_v11=input_file_v11,
     partition_config='new',  # this is new
-    f5_key_file='python/avi/migrationtools/f5_converter/test/cd_rt_key.pem',
+    f5_key_file='cd_rt_key.pem',
     ignore_config=os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                'ignore-config.yaml')),
     patch=os.path.abspath(os.path.join(os.path.dirname(__file__),
