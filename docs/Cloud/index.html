@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -588,6 +588,7 @@ font-style: italic;
     "azure_configuration" : {
       "subscription_id" : "aeiou",
       "use_enhanced_ha" : true,
+      "use_standard_alb" : true,
       "resource_group" : "aeiou",
       "use_azure_dns" : true,
       "availability_zones" : [ "aeiou" ],
@@ -1092,6 +1093,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -1827,6 +1829,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -2446,6 +2449,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -2909,6 +2913,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -3165,6 +3170,7 @@ font-style: italic;
 <div class="param">use_azure_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Azure is the DNS provider. Field introduced in 17.2.1. </div>
 <div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. . Field introduced in 17.2.1. </div>
 <div class="param">use_managed_disks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure managed disks for SE storage. Field introduced in 17.2.2. </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
