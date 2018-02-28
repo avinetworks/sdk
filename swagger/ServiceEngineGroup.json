@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.7", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -822,6 +822,7 @@
                     "format": "int32"
                 }, 
                 "disable_tso": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
                 }, 
@@ -867,6 +868,7 @@
                     "format": "int32"
                 }, 
                 "disable_gro": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
                 }, 
@@ -1233,7 +1235,7 @@
                 "async_ssl_threads": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-4.", 
+                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-16.", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -1322,6 +1324,10 @@
                     "default": "VCENTER_DATASTORE_ANY", 
                     "type": "string", 
                     "description": " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
+                }, 
+                "enable_hsm_priming": {
+                    "type": "boolean", 
+                    "description": "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7."
                 }, 
                 "auto_rebalance_criteria": {
                     "items": {

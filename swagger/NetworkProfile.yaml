@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.7'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -492,6 +492,10 @@ definitions:
                 type: integer
                 default: 64
                 format: int32
+            reorder_threshold:
+                description: "Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7."
+                type: integer
+                format: int32
             time_wait_delay:
                 description: "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS)."
                 type: integer
@@ -508,7 +512,7 @@ definitions:
                 description: "When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. Units(SEC)."
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32

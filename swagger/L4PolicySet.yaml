@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '17.2.7'
-    title: Avi PoolGroupDeploymentPolicy Object API
+    title: Avi L4PolicySet Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,8 +11,8 @@ info:
     description: |
         ##CLI##
         ```
-        - configure poolgroupdeploymentpolicy <key>
-        - show poolgroupdeploymentpolicy <key>
+        - configure l4policyset <key>
+        - show l4policyset <key>
         ```
 
 
@@ -22,7 +22,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /poolgroupdeploymentpolicy:
+    /l4policyset:
         get:
             consumes:
                 -   application/json
@@ -74,21 +74,13 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: cloud_uuid
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
-                    type: string
-                -   name: cloud_ref.name
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
-                    type: string
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicyApiResponse"
+                        $ref: "#/definitions/L4PolicySetApiResponse"
                 401:
                     description: log in failed
         post:
@@ -119,20 +111,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: PoolGroupDeploymentPolicy object creation
+                    description: L4PolicySet object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 401:
                     description: log in failed
-    /poolgroupdeploymentpolicy/{uuid}:
+    /l4policyset/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -187,7 +179,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 401:
                     description: log in failed
         put:
@@ -223,10 +215,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: PoolGroupDeploymentPolicy object creation
+                    description: L4PolicySet object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -238,7 +230,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 401:
                     description: log in failed
         patch:
@@ -274,10 +266,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: PoolGroupDeploymentPolicy object creation
+                    description: L4PolicySet object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -289,7 +281,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                        $ref: "#/definitions/L4PolicySet"
                 401:
                     description: log in failed
         delete:
@@ -340,77 +332,110 @@ paths:
 
 
 definitions:
-    PGDeploymentRule:
+    IpAddr:
+        type: object
+        required:
+            -   addr
+            -   type
+        properties:
+            addr:
+                description: "IP address."
+                type: string
+            type:
+                description: " Enum options - V4, DNS."
+                type: string
+    IpAddrMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            addrs:
+                description: "IP address(es)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddr'
+            group_refs:
+                description: "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                type: array
+                items:
+                    type: string
+            match_criteria:
+                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            prefixes:
+                description: "IP address prefix(es)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+            ranges:
+                description: "IP address range(s)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrRange'
+    IpAddrPrefix:
+        type: object
+        required:
+            -   ip_addr
+            -   mask
+        properties:
+            ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            mask:
+                description: "Number of mask."
+                type: integer
+                format: int32
+    IpAddrRange:
+        type: object
+        required:
+            -   begin
+            -   end
+        properties:
+            begin:
+                description: "Starting IP address of the range."
+                $ref: '#/definitions/IpAddr'
+            end:
+                description: "Ending IP address of the range."
+                $ref: '#/definitions/IpAddr'
+    L4ConnectionPolicy:
         type: object
         properties:
-            metric_id:
-                description: "metric_id of PGDeploymentRule."
-                type: string
-                default: "health.health_score_value"
-            operator:
-                description: " Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE."
-                type: string
-                default: "CO_GE"
-            threshold:
-                description: "metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool."
-                type: number
-                format: double
-    PoolGroupDeploymentPolicy:
+            rules:
+                description: "Rules to apply when a new transport connection is setup. Field introduced in 17.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/L4Rule'
+    L4PolicySet:
         type: object
         required:
             -   name
         properties:
-            auto_disable_old_prod_pools:
-                description: "It will automatically disable old production pools once there is a new production candidate."
-                type: boolean
-                default: True
-            cloud_ref:
-                description: " It is a reference to an object of type Cloud."
+            created_by:
+                description: "Creator name. Field introduced in 17.2.7."
                 type: string
             description:
-                description: "User defined description for the object."
+                description: " Field introduced in 17.2.7."
                 type: string
-            evaluation_duration:
-                description: "Duration of evaluation period for automatic deployment. Allowed values are 60-86400. Units(SEC)."
-                type: integer
-                default: 300
-                format: int32
+            is_internal_policy:
+                description: " Field introduced in 17.2.7."
+                type: boolean
+            l4_connection_policy:
+                description: "Policy to apply when a new transport connection is setup. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4ConnectionPolicy'
             name:
-                description: "The name of the pool group deployment policy."
+                description: "Name of the L4 Policy Set. Field introduced in 17.2.7."
                 type: string
-            rules:
-                description: "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object"
-                type: array
-                items:
-                    $ref: '#/definitions/PGDeploymentRule'
-            scheme:
-                description: "deployment scheme. Enum options - BLUE_GREEN, CANARY."
-                type: string
-                default: "BLUE_GREEN"
-            target_test_traffic_ratio:
-                description: "Target traffic ratio before pool is made production. Allowed values are 1-100. Units(RATIO)."
-                type: integer
-                default: 100
-                format: int32
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: " It is a reference to an object of type Tenant. Field introduced in 17.2.7."
                 type: string
-            test_traffic_ratio_rampup:
-                description: "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100."
-                type: integer
-                default: 100
-                format: int32
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "UUID of the pool group deployment policy."
+                description: "ID of the L4 Policy Set. Field introduced in 17.2.7."
                 type: string
-            webhook_ref:
-                description: "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results. It is a reference to an object of type Webhook. Field introduced in 17.1.1."
-                type: string
-    PoolGroupDeploymentPolicyApiResponse:
+    L4PolicySetApiResponse:
         type: object
         required:
             - count
@@ -422,4 +447,104 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/PoolGroupDeploymentPolicy"
+                    $ref: "#/definitions/L4PolicySet"
+    L4Rule:
+        type: object
+        required:
+            -   index
+            -   name
+        properties:
+            action:
+                description: "Action to be performed upon successful rule match. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4RuleAction'
+            enable:
+                description: "Enable or disable the rule. Field introduced in 17.2.7."
+                type: boolean
+                default: True
+            index:
+                description: "Index of the rule. Field introduced in 17.2.7."
+                type: integer
+                format: int32
+            match:
+                description: "Match criteria of the rule. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4RuleMatchTarget'
+            name:
+                description: "Name of the rule. Field introduced in 17.2.7."
+                type: string
+    L4RuleAction:
+        type: object
+        properties:
+            select_pool:
+                description: "Indicates pool or pool-group selection on rule match. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4RuleActionSelectPool'
+    L4RuleActionSelectPool:
+        type: object
+        required:
+            -   action_type
+        properties:
+            action_type:
+                description: "Indicates action to take on rule match. Enum options - L4_RULE_ACTION_SELECT_POOL, L4_RULE_ACTION_SELECT_POOLGROUP. Field introduced in 17.2.7."
+                type: string
+            pool_group_ref:
+                description: "ID of the pool group to serve the request. It is a reference to an object of type PoolGroup. Field introduced in 17.2.7."
+                type: string
+            pool_ref:
+                description: "ID of the pool of servers to serve the request. It is a reference to an object of type Pool. Field introduced in 17.2.7."
+                type: string
+    L4RuleMatchTarget:
+        type: object
+        properties:
+            client_ip:
+                description: "IP addresses to match against client IP. Field introduced in 17.2.7."
+                $ref: '#/definitions/IpAddrMatch'
+            port:
+                description: "Port number to match against Virtual Service listner port. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4RulePortMatch'
+            protocol:
+                description: "TCP/UDP/ICMP protocol to match against transport protocol. Field introduced in 17.2.7."
+                $ref: '#/definitions/L4RuleProtocolMatch'
+    L4RulePortMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for Virtual Service port matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
+                type: string
+            port_ranges:
+                description: "Range of TCP/UDP port numbers of the Virtual Service. Field introduced in 17.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/PortRange'
+            ports:
+                description: "Virtual Service's listening port(s). Allowed values are 1-65535. Field introduced in 17.2.7."
+                type: array
+                items:
+                    type: integer
+                format: int32
+    L4RuleProtocolMatch:
+        type: object
+        required:
+            -   match_criteria
+            -   protocol
+        properties:
+            match_criteria:
+                description: "Criterion to use for transport protocol matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
+                type: string
+            protocol:
+                description: "Transport protocol to match. Enum options - PROTOCOL_ICMP, PROTOCOL_TCP, PROTOCOL_UDP. Field introduced in 17.2.7."
+                type: string
+    PortRange:
+        type: object
+        required:
+            -   end
+            -   start
+        properties:
+            end:
+                description: "TCP/UDP port range end (inclusive). Allowed values are 1-65535."
+                type: integer
+                format: int32
+            start:
+                description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
+                type: integer
+                format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.7'
     title: Avi ServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -2655,6 +2655,9 @@ definitions:
             adapter:
                 description: "adapter of vNIC."
                 type: string
+            aggregator_chgd:
+                description: " Field introduced in 17.2.7."
+                type: boolean
             can_se_dp_takeover:
                 description: "Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean"
                 type: boolean
