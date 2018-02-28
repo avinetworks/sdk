@@ -28,67 +28,67 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 )
 
-// SePropertiesClient is a client for avi SeProperties resource
-type SePropertiesClient struct {
+// L4PolicySetClient is a client for avi L4PolicySet resource
+type L4PolicySetClient struct {
 	aviSession *session.AviSession
 }
 
-// NewSePropertiesClient creates a new client for SeProperties resource
-func NewSePropertiesClient(aviSession *session.AviSession) *SePropertiesClient {
-	return &SePropertiesClient{aviSession: aviSession}
+// NewL4PolicySetClient creates a new client for L4PolicySet resource
+func NewL4PolicySetClient(aviSession *session.AviSession) *L4PolicySetClient {
+	return &L4PolicySetClient{aviSession: aviSession}
 }
 
-func (client *SePropertiesClient) getAPIPath(uuid string) string {
-	path := "api/seproperties"
+func (client *L4PolicySetClient) getAPIPath(uuid string) string {
+	path := "api/l4policyset"
 	if uuid != "" {
 		path += "/" + uuid
 	}
 	return path
 }
 
-// GetAll is a collection API to get a list of SeProperties objects
-func (client *SePropertiesClient) GetAll() ([]*models.SeProperties, error) {
-	var plist []*models.SeProperties
+// GetAll is a collection API to get a list of L4PolicySet objects
+func (client *L4PolicySetClient) GetAll() ([]*models.L4PolicySet, error) {
+	var plist []*models.L4PolicySet
 	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
 	return plist, err
 }
 
-// Get an existing SeProperties by uuid
-func (client *SePropertiesClient) Get(uuid string) (*models.SeProperties, error) {
-	var obj *models.SeProperties
+// Get an existing L4PolicySet by uuid
+func (client *L4PolicySetClient) Get(uuid string) (*models.L4PolicySet, error) {
+	var obj *models.L4PolicySet
 	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
 	return obj, err
 }
 
-// GetByName - Get an existing SeProperties by name
-func (client *SePropertiesClient) GetByName(name string) (*models.SeProperties, error) {
-	var obj *models.SeProperties
-	err := client.aviSession.GetObjectByName("seproperties", name, &obj)
+// GetByName - Get an existing L4PolicySet by name
+func (client *L4PolicySetClient) GetByName(name string) (*models.L4PolicySet, error) {
+	var obj *models.L4PolicySet
+	err := client.aviSession.GetObjectByName("l4policyset", name, &obj)
 	return obj, err
 }
 
-// Create a new SeProperties object
-func (client *SePropertiesClient) Create(obj *models.SeProperties) (*models.SeProperties, error) {
-	var robj *models.SeProperties
+// Create a new L4PolicySet object
+func (client *L4PolicySetClient) Create(obj *models.L4PolicySet) (*models.L4PolicySet, error) {
+	var robj *models.L4PolicySet
 	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
 	return robj, err
 }
 
-// Update an existing SeProperties object
-func (client *SePropertiesClient) Update(obj *models.SeProperties) (*models.SeProperties, error) {
-	var robj *models.SeProperties
+// Update an existing L4PolicySet object
+func (client *L4PolicySetClient) Update(obj *models.L4PolicySet) (*models.L4PolicySet, error) {
+	var robj *models.L4PolicySet
 	path := client.getAPIPath(obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
 
-// Delete an existing SeProperties object with a given UUID
-func (client *SePropertiesClient) Delete(uuid string) error {
+// Delete an existing L4PolicySet object with a given UUID
+func (client *L4PolicySetClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
 }
 
-// DeleteByName - Delete an existing SeProperties object with a given name
-func (client *SePropertiesClient) DeleteByName(name string) error {
+// DeleteByName - Delete an existing L4PolicySet object with a given name
+func (client *L4PolicySetClient) DeleteByName(name string) error {
 	res, err := client.GetByName(name)
 	if err != nil {
 		return err
