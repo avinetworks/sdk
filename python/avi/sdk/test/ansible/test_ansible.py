@@ -15,7 +15,7 @@ controller = pytest.config.getoption("--controller")
 username = pytest.config.getoption("--username")
 password = pytest.config.getoption("--password")
 
-dir_path = '/home/rohan/AVI/modules'
+dir_path = '/home/rohan/.ansible/roles/avinetworks.avisdk/library/ansible/'
 playbook_dir = '/tmp'
 hosts_file = '/tmp/ansible_hosts'
 default_servers = '10.42.10.10,10.42.10.11,10.42.10.12'

@@ -20,7 +20,7 @@ class Test_Ansible(object):
         test_ansible.test_ansible_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='0')
 
     def test_ansible_patch_method(self):
-        test_ansible.test_ansible_patch_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='4')
+        test_ansible.test_ansible_patch_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible1', state='present', api_version=self.api_version, changed='4')
 
     def test_ansible_pool_modify(self):
         test_ansible.test_ansible_pool_playbook_cd( playbook_dir=self.playbook_dir, pool_name='p_ansible', state='present', api_version=self.api_version, changed='1', enabled='False')
