@@ -1,0 +1,33 @@
+# This is playbook for an application.
+# This can invoke any of the avi roles like application, profile or cloud
+#
+---
+- hosts: localhost
+  connection: local
+  vars:
+    avi_credentials:
+      controller: "{{ controller }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      api_version: "{{ api_version }}"
+      monitor_name: "{{ monitor_name }}"
+      state: "{{ state }}"
+    
+  roles:
+    - role: avinetworks.aviconfig
+  tasks:
+    - name: AVI Healthmonitor | Create HealthMonitor
+      avi_healthmonitor:
+        controller: "{{avi_credentials.controller}}"
+        username: "{{avi_credentials.username}}"
+        password: "{{avi_credentials.password}}"
+        api_version: "{{avi_credentials.api_version}}"
+        state: "{{avi_credentials.state}}"
+        name: "{{avi_credentials.monitor_name}}"
+        receive_timeout: 2
+        monitor_port: 15000
+        failed_checks: 2
+        send_interval: 3
+        successful_checks: 2
+        type: HEALTH_MONITOR_HTTP
+
