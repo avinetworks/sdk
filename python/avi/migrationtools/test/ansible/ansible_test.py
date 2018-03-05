@@ -7,12 +7,9 @@ from avi.migrationtools.test.ansible import env_vars
 
 playbook_file = pytest.config.getoption("--config")
 expected_change = pytest.config.getoption("--change")
-
 ansible_temp = Template('ansible-playbook ${playbook} -v')
-
 logging.basicConfig(filename='ansible-test.log', level=logging.INFO)
 LOG = logging.getLogger(__name__)
-
 
 def test_ansible_configuration():
     cmd = ansible_temp.substitute(playbook=playbook_file)
