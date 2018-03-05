@@ -48,16 +48,16 @@ class Test_Ansible(object):
         self.ansible_check_mode()
 
     def test_ansible_config_create(self):
-        self.changed = eval('True')
-        test_ansible.test_ansible_config_playbook(state='present', changed=self.changed)
-        self.changed = eval('False')
-        test_ansible.test_ansible_config_playbook(state='present', changed=self.changed)
+        changed = eval('True')
+        test_ansible.test_ansible_config_playbook(state='present', changed=changed)
+        changed = eval('False')
+        test_ansible.test_ansible_config_playbook(state='present', changed=changed)
 
     def test_ansible_config_delete(self):
-        self.changed = eval('True')
-        test_ansible.test_ansible_config_playbook(state='absent', changed=self.changed)
-        self.changed = eval('False')
-        test_ansible.test_ansible_config_playbook(state='absent', changed=self.changed)
+        changed = eval('True')
+        test_ansible.test_ansible_config_playbook(state='absent', changed=changed)
+        changed = eval('False')
+        test_ansible.test_ansible_config_playbook(state='absent', changed=changed)
 
     def test_ansible_session_reuse(self):
         test_ansible.test_ansible_reuse_session('/home/rohan/AVI/sdk/python/avi/sdk/test/ansible', state='present', api_version=self.api_version)

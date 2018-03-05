@@ -203,7 +203,7 @@ def test_ansible_config_playbook(state='present', changed=True):
         controller=controller, username=username, password=password,
         playbook="%s/%s" % (playbook_dir, playbook_name),
         avi_ansible_module='%s' % dir_path)
-    LOG.debug('executing command %s' % cmd)
+    LOG.info('executing command %s' % cmd)
     out = subprocess.check_output(shlex.split(cmd))
     LOG.debug('playbook out %s' % (out))
     print out
