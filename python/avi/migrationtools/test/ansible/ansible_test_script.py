@@ -1,7 +1,6 @@
 import os
 from subprocess import Popen, PIPE, STDOUT
 import logging
-import env_vars
 
 logging.basicConfig(filename='ansible_test.log', level=logging.INFO)
 LOG = logging.getLogger(__name__)
@@ -30,6 +29,7 @@ with open(FILE, 'r') as f:
         list = line.split(' ')
         fileName = list[0]
         change = list[1].split('=')[1]
+        print fileName
         cmd = 'pytest ansible_test.py -vvvv --config %s --change %s' %(fileName, change)
         p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
         output = p.stdout.read()
