@@ -1,41 +1,39 @@
 import shlex
-
 import pytest
 import logging
 from cStringIO import StringIO
 from string import Template
 import subprocess
+import set_env_vars
+import os
+logging.basicConfig(filename='ansible_config_role.log', level=logging.INFO)
+LOG = logging.getLogger(__name__)
 
 
-
-controller = pytest.config.getoption("--controller")
-username = pytest.config.getoption("--username")
-password = pytest.config.getoption("--password")
+os.environ['AVI_USERNAME'] = "admin"
+os.environ['AVI_PASSWORD'] = "admin"
+os.environ['AVI_CONTROLLER'] = "10.10.28.98"
+os.environ['API_VERSION'] = "17.2.7"
 
 # Added api_version to pool_playbook_tmpl.
 healthmonitor_playbook_tmpl = \
     Template('ansible-playbook ${playbook} '
-             '--extra-vars "monitor_name=${monitor_name} '
-             'controller=${controller} username=${username} state=${state} '
-             'password=${password} api_version=${api_version}"')
+             '--extra-vars "state=${state}"')
 
 # Added api version
-def test_ansible_create_role(playbook_dir, monitor_name, state='present',
-                                  changed=1, api_version='16.4'):
+def test_ansible_create_role(playbook_dir, state='present', changed=1):
     """
     1. launch ansible healthmonitor playbook
     2. expect no errors
     3. launch ansible pool playbook again
     4. expect no change
     """
+    LOG.info(" ##### %s" %(playbook_dir))
 
     cmd = healthmonitor_playbook_tmpl.substitute(
-        controller=controller, username=username, password=password,
-        playbook="%s/test_healthmonitor_config.yml " %(playbook_dir),
-        monitor_name=monitor_name,
-        state=state,
-        api_version=api_version)
-    #LOG.debug('executing command %s' % cmd)
+        playbook="%s" %(playbook_dir),
+        state=state)
+    LOG.info('executing command %s' % cmd)
 
     out = subprocess.check_output(shlex.split(cmd))
     #LOG.debug('playbook out %s' % (out))
@@ -53,22 +51,16 @@ def test_ansible_create_role(playbook_dir, monitor_name, state='present',
 
 
 # Added api version
-def test_ansible_update_role(playbook_dir, monitor_name, state='present',
-                                  changed=1, api_version='16.4'):
+def test_ansible_update_role(playbook_dir, state='present', changed=1):
     """
     1. launch ansible healthmonitor playbook
     2. expect no errors
     3. launch ansible pool playbook again
     4. expect no change
     """
-
     cmd = healthmonitor_playbook_tmpl.substitute(
-        controller=controller, username=username, password=password,
-        playbook="%s/test_update_healthmonitor_config.yml " %(playbook_dir),
-        monitor_name=monitor_name,
-        state=state,
-        api_version=api_version)
-    #LOG.debug('executing command %s' % cmd)
+        playbook="%s" %(playbook_dir), state=state)
+    LOG.info('executing command %s' % cmd)
 
     out = subprocess.check_output(shlex.split(cmd))
     #LOG.debug('playbook out %s' % (out))

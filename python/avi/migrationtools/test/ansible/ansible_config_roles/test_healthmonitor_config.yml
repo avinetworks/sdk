@@ -1,16 +1,14 @@
-# This is playbook for an application.
-# This can invoke any of the avi roles like application, profile or cloud
+# This is playbook for healthmonitor.
 #
 ---
 - hosts: localhost
   connection: local
   vars:
     avi_credentials:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      api_version: "{{ api_version }}"
-      monitor_name: "{{ monitor_name }}"
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
       state: "{{ state }}"
     
   roles:
@@ -23,24 +21,10 @@
         password: "{{avi_credentials.password}}"
         api_version: "{{avi_credentials.api_version}}"
         state: "{{avi_credentials.state}}"
-        name: "{{avi_credentials.monitor_name}}"
+        name: "test-healthmonitor"
         receive_timeout: 1
         monitor_port: 18000
         failed_checks: 3
         send_interval: 2
         successful_checks: 1
         type: HEALTH_MONITOR_HTTP
-
-#    - name: AVI Create or Update HealthMonitor
-#      avi_healthmonitor:
-#        controller: "{{avi_credentials.controller}}"
-#        username: "{{avi_credentials.username}}"
-#        password: "{{avi_credentials.password}}"
-#        api_version: "{{avi_credentials.api_version}}"
-#        name: ad_test_p18000
-#        receive_timeout: 1
-#        monitor_port: 18000
-#        failed_checks: 3
-#        send_interval: 2
-#        successful_checks: 1
-#        type: HEALTH_MONITOR_HTTP

@@ -6,11 +6,10 @@
   connection: local
   vars:
     avi_credentials:
-      controller: "{{ controller }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      api_version: "{{ api_version }}"
-      monitor_name: "{{ monitor_name }}"
+      controller: "{{ lookup('env', 'AVI_CONTROLLER') }}"
+      username: "{{ lookup('env', 'AVI_USERNAME') }}"
+      password: "{{ lookup('env', 'AVI_PASSWORD') }}"
+      api_version: "{{ lookup('env', 'API_VERSION') }}"
       state: "{{ state }}"
     
   roles:
@@ -23,7 +22,7 @@
         password: "{{avi_credentials.password}}"
         api_version: "{{avi_credentials.api_version}}"
         state: "{{avi_credentials.state}}"
-        name: "{{avi_credentials.monitor_name}}"
+        name: "test-healthmonitor"
         receive_timeout: 2
         monitor_port: 15000
         failed_checks: 2
