@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.7'
     title: Avi IpamDnsProviderProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -505,6 +505,9 @@ definitions:
                     type: string
             use_enhanced_ha:
                 description: "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
+                type: boolean
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
                 type: boolean
             virtual_network_ids:
                 description: "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."

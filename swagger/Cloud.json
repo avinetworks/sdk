@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.7", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1375,6 +1375,10 @@
                 "subscription_id": {
                     "type": "string", 
                     "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
+                }, 
+                "use_standard_alb": {
+                    "type": "boolean", 
+                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
                 }
             }
         }, 

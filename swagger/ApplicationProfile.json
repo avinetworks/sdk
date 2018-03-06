@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.7", 
         "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1165,6 +1165,10 @@
                 "http_profile": {
                     "description": "Specifies the HTTP application proxy profile parameters.", 
                     "$ref": "#/definitions/HTTPApplicationProfile"
+                }, 
+                "preserve_client_port": {
+                    "type": "boolean", 
+                    "description": "Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7."
                 }, 
                 "url": {
                     "readOnly": true, 

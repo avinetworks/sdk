@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.7", 
         "description": "##CLI##\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -556,7 +556,7 @@
                 "session_idle_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. Units(SEC).", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC).", 
                     "format": "int32"
                 }
             }
@@ -647,6 +647,11 @@
                     "default": 8, 
                     "type": "integer", 
                     "description": "The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.", 
+                    "format": "int32"
+                }, 
+                "reorder_threshold": {
+                    "type": "integer", 
+                    "description": "Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7.", 
                     "format": "int32"
                 }, 
                 "max_retransmissions": {

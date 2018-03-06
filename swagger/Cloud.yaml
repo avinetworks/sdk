@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.7'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -889,6 +889,9 @@ definitions:
                 description: "Use Azure managed disks for SE storage. Field introduced in 17.2.2."
                 type: boolean
                 default: True
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
+                type: boolean
     AzureNetworkInfo:
         type: object
         properties:

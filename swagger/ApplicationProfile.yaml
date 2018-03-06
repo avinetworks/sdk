@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.7'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -396,6 +396,9 @@ definitions:
                 type: string
             preserve_client_ip:
                 description: "Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing."
+                type: boolean
+            preserve_client_port:
+                description: "Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7."
                 type: boolean
             tcp_app_profile:
                 description: "Specifies the TCP application proxy profile parameters."

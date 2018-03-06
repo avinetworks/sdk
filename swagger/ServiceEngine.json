@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.7", 
         "description": "##CLI##\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -3818,6 +3818,10 @@
                     "type": "integer", 
                     "description": "Number of vrf_id.", 
                     "format": "int32"
+                }, 
+                "aggregator_chgd": {
+                    "type": "boolean", 
+                    "description": " Field introduced in 17.2.7."
                 }, 
                 "dhcp_enabled": {
                     "default": true, 

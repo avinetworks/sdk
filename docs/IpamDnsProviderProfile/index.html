@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -326,6 +326,7 @@ font-style: italic;
     "azure_profile" : {
       "subscription_id" : "aeiou",
       "use_enhanced_ha" : true,
+      "use_standard_alb" : true,
       "resource_group" : "aeiou",
       "azure_userpass" : {
         "password" : "aeiou",
@@ -476,6 +477,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -695,6 +697,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -856,6 +859,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -1017,6 +1021,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -1165,6 +1170,7 @@ font-style: italic;
 <div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Azure DNS. Field introduced in 17.2.1. </div>
 <div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1. </div>
 <div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1. </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7. </div>
 <div class="param">virtual_network_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>
