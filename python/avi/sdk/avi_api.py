@@ -230,6 +230,8 @@ class ApiSession(Session):
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
+        self.retry_wait_time = 0
+        self.max_session_retries = self.MAX_API_RETRIES
 
         # Refer Notes 01 and 02
         k_port = port if port else 443
@@ -442,40 +444,38 @@ class ApiSession(Session):
         try:
             rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                                timeout=self.timeout)
+
+            if rsp.status_code == 200:
+                self.num_session_retries = 0
+                self.remote_api_version = rsp.json().get('version', {})
+                self.headers.update(self.user_hdrs)
+                if rsp.cookies and 'csrftoken' in rsp.cookies:
+                    csrftoken = rsp.cookies['csrftoken']
+                    sessionDict[self.key] = {
+                        'csrftoken': csrftoken,
+                        'session_id': rsp.cookies['sessionid'],
+                        'last_used': datetime.utcnow(),
+                        'api': self,
+                        'connected': True
+                    }
+                logger.debug("authentication success for user %s",
+                             self.avi_credentials.username)
+                return
         except (ConnectionError, SSLError) as e:
             if not self.retry_conxn_errors:
                 raise
             logger.warning('Connection error retrying %s', e)
-            time.sleep(5)
-            self.num_session_retries += 1
-            if self.num_session_retries > self.MAX_API_RETRIES:
-                self.num_session_retries = 0
-                raise APIError(
-                    "giving up after %d retries connection failure %s" %
-                    (self.MAX_API_RETRIES, True))
-            self.authenticate_session()
-        if rsp.status_code != 200:
+        # comes here only if there was either exception or login was not
+        # successful
+        if self.retry_wait_time:
+            time.sleep(self.retry_wait_time)
+        self.num_session_retries += 1
+        if self.num_session_retries > self.max_session_retries:
             self.num_session_retries = 0
-            self.remote_api_version = {}
-            logger.error("Authentication failed with code %d reason %s",
-                         rsp.status_code, rsp.text)
             raise APIError(
-                "Authentication failed with code %d reason msg: %s" %
-                (rsp.status_code, rsp.text), rsp)
-        self.remote_api_version = rsp.json().get('version', {})
-        self.headers.update(self.user_hdrs)
-
-        if rsp.cookies and 'csrftoken' in rsp.cookies:
-            csrftoken = rsp.cookies['csrftoken']
-            sessionDict[self.key] = {
-                'csrftoken': csrftoken,
-                'session_id': rsp.cookies['sessionid'],
-                'last_used': datetime.utcnow(),
-                'api': self,
-                'connected': True
-            }
-        logger.debug("authentication success for user %s",
-                     self.avi_credentials.username)
+                "giving up after %d retries connection failure %s" %
+                (self.max_session_retries, True))
+        self.authenticate_session()
         return
 
     def _get_api_headers(self, tenant, tenant_uuid, timeout, headers,
@@ -583,19 +583,20 @@ class ApiSession(Session):
                     pass
                 logger.warning('Connection failed, retrying.')
                 # Adding sleep before retrying
-                time.sleep(5)
+                if self.retry_wait_time:
+                    time.sleep(self.retry_wait_time)
             else:
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
             ApiSession.reset_session(self)
             self.num_session_retries += 1
-            if self.num_session_retries > self.MAX_API_RETRIES:
+            if self.num_session_retries > self.max_session_retries:
                 # Added this such that any code which re-tries can succeed
                 # eventually.
                 self.num_session_retries = 0
                 raise APIError(
                     "giving up after %d retries connection failure %s" %
-                    (self.MAX_API_RETRIES, connection_error))
+                    (self.max_session_retries, connection_error))
             # should restore the updated_hdrs to one passed down
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
                              headers=headers, api_version=api_version,
