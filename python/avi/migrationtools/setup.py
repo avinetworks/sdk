@@ -20,7 +20,8 @@ setup(
              'avi/migrationtools/gss_convertor/gss_convertor.py',
              'avi/migrationtools/ace_converter/ace_converter.py',
              'avi/migrationtools/config_patch.py',
-             'avi/migrationtools/ansible/avi_config_to_ansible.py'],
+             'avi/migrationtools/ansible/avi_config_to_ansible.py',
+             'avi/migrationtools/f5_inventory.py'],
     classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python',
