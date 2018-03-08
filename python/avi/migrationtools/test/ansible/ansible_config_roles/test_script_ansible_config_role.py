@@ -4,7 +4,6 @@ import logging
 from cStringIO import StringIO
 from string import Template
 import subprocess
-import set_env_vars
 import os
 logging.basicConfig(filename='ansible_config_role.log', level=logging.INFO)
 LOG = logging.getLogger(__name__)

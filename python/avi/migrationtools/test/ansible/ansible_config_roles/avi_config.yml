@@ -1,0 +1,30 @@
+avi_config:
+  pool:
+    - name: app1-pool
+      lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+      servers:
+        - ip:
+             addr: 10.90.64.12
+             type: 'V4'
+
+  virtualservice:
+    - name: test_vs
+      services:
+        - port: 80
+      vip:
+        - ip_address:
+            addr: 10.10.26.17
+            type: 'V4'
+          vip_id: '2'
+#
+#  applicationprofile:
+#    - name: test-applicationprofile
+#      http_profile:
+#        websockets_enabled: true
+#        x_forwarded_proto_enabled: false
+#        xff_alternate_name: X-Forwarded-For
+#        xff_enabled: true
+#      type: APPLICATION_PROFILE_TYPE_HTTP
+
+
+
