@@ -872,7 +872,9 @@ class ApiSession(Session):
         """
         This function returns the full url from relative path and uuid.
         """
-        if uuid:
+        if path == 'logout':
+            return self.prefix+'/'+path
+        elif uuid:
             return self.prefix+'/api/'+path+'/'+uuid
         else:
             return self.prefix+'/api/'+path
