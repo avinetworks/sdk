@@ -7,7 +7,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_EXTERNAL_MONITOR, STATUS_MISSING_FILE)
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 from pkg_resources import parse_version
-
+from avi.migrationtools.avi_migration_utils import update_count
 
 
 LOG = logging.getLogger(__name__)
@@ -356,5 +356,6 @@ class MonitorConverter(object):
 
             LOG.debug('Successfully converted monitor %s' % mon_name)
         except:
+            update_count('error')
             LOG.error('Error converting monitor %s', exc_info=True)
         return avi_monitor

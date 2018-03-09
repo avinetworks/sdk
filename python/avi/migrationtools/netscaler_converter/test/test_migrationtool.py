@@ -17,13 +17,14 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
 output_file = pytest.config.getoption("--out")
 
 if input_file is None:
-    input_file = 'ns.conf'
+    input_file = 'python/avi/migrationtools/netscaler_converter/test/ns.conf'
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -48,14 +49,14 @@ setup = dict(
     tenant=file_attribute['tenant'],
     input_folder_location='',
     config_file_name=input_file,
-    config_file_name_passphrase='ns_passphrase.conf',
-    ns_passphrase_file='passphrase.yaml',
-    ns_key_file='cd_rt_key.pem',
+    config_file_name_passphrase='python/avi/migrationtools/netscaler_converter/test/ns_passphrase.conf',
+    ns_passphrase_file='python/avi/migrationtools/netscaler_converter/test/passphrase.yaml',
+    ns_key_file='python/avi/migrationtools/netscaler_converter/test/cd_rt_key.pem',
     ignore_config=os.path.abspath(os.path.join(
         os.path.dirname(__file__), 'ignore-config.yaml')),
     ns_ansible_object=os.path.abspath
     (os.path.join(os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
-    patch='patch.yaml',
+    patch='python/avi/migrationtools/netscaler_converter/test/patch.yaml',
     vs_filter='vs_ksl.com,vs_NStoAvi-SG',
     not_in_use=True,
     baseline_profile=None,
@@ -80,7 +81,7 @@ class Namespace:
 
 def netscaler_conv(
         config_file_name=None, tenant='admin', cloud_name='Default-Cloud',
-        input_folder_location='certs', output_file_path='output',
+        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path='output',
         option='cli-upload', user=None, password=None, controller_ip=None,
         vs_state='disable', controller_version=None, ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
@@ -497,6 +498,17 @@ class TestNetscalerConverter:
                        user=setup.get('controller_user_17_1_1'),
                        password=setup.get('controller_password_17_1_1'))
 
+    @pytest.mark.travis
+    def test_error_and_warning_count(self):
+        set_update_count()
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       cloud_name=file_attribute['cloud_name'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        assert get_count('error') == 0
+        assert get_count('warning') == 1
 
 def teardown():
     pass
