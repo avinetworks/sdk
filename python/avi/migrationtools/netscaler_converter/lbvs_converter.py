@@ -16,6 +16,7 @@ from avi.migrationtools.netscaler_converter.ns_service_converter \
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 redirect_pools = {}
@@ -465,6 +466,7 @@ class LbvsConverter(object):
                         pool_group['fail_action'] = backup_pool
                         backup_configured = True
                     except Exception as e:
+                        update_count('warning')
                         # Skipped lb vs if backup pool is found in AVI
                         LOG.error('No Backup pool found: %s' % full_cmd)
                         ns_util.add_status_row(lb_vs['line_no'], cmd, key,
@@ -684,6 +686,7 @@ class LbvsConverter(object):
                                         full_cmd, conv_status, vs_obj)
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
+                update_count('error')
                 LOG.error('Error in lb vs conversion for: %s' %
                           key, exc_info=True)
             # Calling progress bar function.

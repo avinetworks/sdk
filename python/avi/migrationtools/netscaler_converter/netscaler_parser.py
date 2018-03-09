@@ -1,6 +1,7 @@
 import logging
 import time
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constant
+from avi.migrationtools.avi_migration_utils import update_count
 
 from pyparsing import (ParserElement, Suppress, Literal, LineEnd, printables,
                        Word, originalTextFor, Optional, ZeroOrMore, Group,
@@ -129,6 +130,7 @@ def get_ns_conf_dict(filepath):
                 skipped_cmds.append(cmd)
         LOG.debug('File parsed successfully')
     except Exception as exception:
+        update_count('error')
         print exception
         LOG.error('Error in parsing the file', exc_info=True)
 

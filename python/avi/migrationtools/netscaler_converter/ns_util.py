@@ -22,7 +22,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST, COMPLEXITY_ADVANCED,
             COMPLEXITY_BASIC, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
             OBJECT_TYPE_APPLICATION_PROFILE)
-from avi.migrationtools.avi_migration_utils import MigrationUtil
+from avi.migrationtools.avi_migration_utils import MigrationUtil, update_count
 
 LOG = logging.getLogger(__name__)
 
@@ -767,6 +767,7 @@ class NsUtil(MigrationUtil):
                     app_profile['name'])
                 return app_profile['name']
         except:
+            update_count('error')
             LOG.error("Error in convertion of httpProfile", exc_info=True)
 
     def convert_persistance_prof(self, vs, name, tenant_ref):

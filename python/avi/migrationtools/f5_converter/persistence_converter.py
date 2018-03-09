@@ -3,6 +3,7 @@ import avi.migrationtools.f5_converter.converter_constants as final
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.f5_converter.profile_converter import ProfileConfigConv
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.avi_migration_utils import update_count
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
@@ -146,6 +147,7 @@ class PersistenceConfigConv(object):
                 self.update_conversion_status(conv_status, persist_mode,
                                               name, persist_profile)
             except:
+                update_count('error')
                 LOG.error("Failed to convert persistance profile : %s" % key,
                           exc_info=True)
                 self.update_conv_status_for_error(name, persist_mode, key)
