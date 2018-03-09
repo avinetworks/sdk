@@ -5,6 +5,7 @@
 - hosts: localhost
   connection: local
   vars:
+    config: "{{ config }}"
     avi_credentials:
       controller: '10.10.28.98'
       username: 'admin'
@@ -18,5 +19,5 @@
       include_role:
         name: avinetworks.aviconfig
       vars:
-        avi_config_file: "avi_config.yml"
+        avi_config_file: "{{ config }}"
         

@@ -1,0 +1,647 @@
+avi_config:
+  pool:
+    - name: app1-pool
+      lb_algorithm: LB_ALGORITHM_LEAST_LOAD
+      servers:
+        - ip:
+             addr: 10.90.64.22
+             type: 'V4'
+
+  virtualservice:
+    - name: test_vs
+      services:
+        - port: 300
+      vip:
+        - ip_address:
+            addr: 10.10.26.27
+            type: 'V4'
+          vip_id: '2'
+      application_profile_ref: /api/applicationprofile?name=test-applicationprofile
+
+  applicationprofile:
+    - name: test-applicationprofile
+      http_profile:
+        websockets_enabled: true
+        x_forwarded_proto_enabled: false
+        xff_alternate_name: X-Forwarded-For
+        xff_enabled: true
+      type: APPLICATION_PROFILE_TYPE_HTTP
+
+  poolgroup:
+    - name: 'Test-PoolGroup'
+      tenant_ref: "/api/tenant?name=admin"
+      cloud_ref: "/api/cloud?name=Default-Cloud"
+      min_servers: 2
+      members:
+      - pool_ref: "/api/pool?name=app1-pool"
+
+  vsvip:
+    - name: 10.10.26.27-vsvip
+      cloud_ref: "/api/cloud/?name=Default-Cloud"
+      vip:
+      - ip_address:
+          type: V4
+          addr: 10.10.26.27
+        vip_id: '0'
+      tenant_ref: "/api/tenant/?name=admin"
+
+  networkprofile:
+  - name: NDS-TCP-PROFILE
+    profile:
+      tcp_proxy_profile:
+        max_segment_size: 0
+        receive_window: 3662
+        nagles_algorithm: false
+        use_interface_mtu: false
+        automatic: false
+      type: PROTOCOL_TYPE_TCP_PROXY
+    tenant_ref: "/api/tenant/?name=admin"
+
+  applicationpersisteceprofile:
+  - name: Test-persistance-profile
+    persistence_type: PERSISTENCE_TYPE_CLIENT_IP_ADDRESS
+    ip_persistence_profile:
+      ip_persistent_timeout: 24
+    tenant_ref: "/api/tenant/?name=admin"
+    server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
+
+  sslprofile:
+  - name: Test-ssl_profile-cEE
+    accepted_ciphers: DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA
+    tenant_ref: "/api/tenant/?name=admin"
+    accepted_versions:
+    - type: SSL_VERSION_TLS1
+    - type: SSL_VERSION_TLS1_1
+    - type: SSL_VERSION_TLS1_2
+    enable_ssl_session_reuse: false
+
+  sslkeyandcertificate:
+  - name: reportcentercd2.cer-dummy
+    tenant_ref: "/api/tenant/?name=admin"
+    certificate:
+      certificate: |
+        -----BEGIN CERTIFICATE-----
+        MIIC+TCCAeECAgPoMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNVBAYTAlVTMRUwEwYD
+        VQQKDAxBdmkgTmV0d29ya3MxHDAaBgNVBAMME3JvaGFuLVRoaW5rUGFkLUU0NjAw
+        HhcNMTgwMTE4MTMzNzA3WhcNMjgwMTE2MTMzNzA3WjBCMQswCQYDVQQGEwJVUzEV
+        MBMGA1UECgwMQXZpIE5ldHdvcmtzMRwwGgYDVQQDDBNyb2hhbi1UaGlua1BhZC1F
+        NDYwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ZSb6PSjUuyIrC9I
+        v9jn7szuuvFEDCTROik1iXCWs0jKVv3zfHXYW+xAhZHJC4xbF864ENqskrkexZ0r
+        wXkjIV2ERT7s2qDSs4ox4z7ilfZgIciSYy2Uouw3BVYdIEfkgsF3jXZY5xeXu9wi
+        aSpsQvi97C6ljme+APzfSAqrP2VzyVP/HQilF47HhuPQX9UGLr5lkzqVDEqePgtG
+        p3zQslMQcN3QuANdLdmhn2URzLEmmZZKUR/YRMCrGcMXtcIbr2GH+E42V0zrENYK
+        VxnFqWK8YTRJAkHgdqhBPXXmt92+OVCCuA5pnZAiAaylULBK4O2wvcEh+G9Nw79l
+        cpTIkQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAH8vnMDLgB+6FvkjxIX0i6+emz
+        NPfu6uitPbj5/n6xZftaXNon2gO53PHyndEJWrSu5GM2rCYP/vX0qnFAuEzCt8pY
+        8X5/yIlFhKo5sTj1Jb8L3V11jdQ5X0IJnOSOmOFsObN0fY4xdwF1lGPYvckGV/q+
+        Dasi/Iei2pU+aUY7M7lEiB/p/pG0Cm31YAPwG68VxzFkmWu6O4oeSqR/LcxzmI2B
+        GlG3sTgIphSbx0xPhoCNkJuBWR4khuBQexrQ+IK6vG2coGCHB4CwDWYjCcbxDkYV
+        TWew1S6yMbvndK0+0Yjtu0J+qv7NcBNt445CumfMrVqwWAsq5Y+4BkE2JljN
+        -----END CERTIFICATE-----
+    type: SSL_CERTIFICATE_TYPE_VIRTUALSERVICE
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDdlJvo9KNS7Iis
+      L0i/2OfuzO668UQMJNE6KTWJcJazSMpW/fN8ddhb7ECFkckLjFsXzrgQ2qySuR7F
+      nSvBeSMhXYRFPuzaoNKzijHjPuKV9mAhyJJjLZSi7DcFVh0gR+SCwXeNdljnF5e7
+      3CJpKmxC+L3sLqWOZ74A/N9ICqs/ZXPJU/8dCKUXjseG49Bf1QYuvmWTOpUMSp4+
+      C0anfNCyUxBw3dC4A10t2aGfZRHMsSaZlkpRH9hEwKsZwxe1whuvYYf4TjZXTOsQ
+      1gpXGcWpYrxhNEkCQeB2qEE9dea33b45UIK4DmmdkCIBrKVQsErg7bC9wSH4b03D
+      v2VylMiRAgMBAAECggEAIjxp8o6KBbACVghgRzQucdk8MapBh1bQ9RmU6g15W24t
+      xU8rpdlXeqyAM6MY2y3ujTkle4UuEOWFeacVMamT4f3fCAv28LjUlWUO3DvFKsKM
+      i+u/oo9SXfH9dled3HT/O6zE2hilF9+vVBlpP7KMU7S3M5zpe51P4DsyDKGJYBv1
+      KaV1hYAUKdI6AIiafkHv3HJ8zvo6Eev36XCs7N1LKVC5GjQ+39eX7f2g5m+pp/on
+      SZQetYWd/8Fyqppnlv+G4U2Kd/R9u4AoEu/Us9PvOqVlRqQcemEKzJoc7ol121bP
+      +eaYbo7+mv8FA2VEX7fUKmLqceSarTxcbz4tuPTJ+QKBgQD2Zcyu/w8uAEWrXD1t
+      WAMu2a29JmiJN2BjT+s7eIJGbMbAKx2++7uFUKKxiMpU5gxV5klZ6f3V9r/omLdy
+      8uvHWxaqH3KBXfA6cKDQB9fcZsodV8sJMr/QP6t0buWs89lWGHjN2VTxlWvmEAef
+      km/gjv27BWG1W+IGIWM7E3gBXwKBgQDmNzhA7Ii36kZVYnTCN/7J33JqMhc9iAH/
+      vGgwDjVYGQ4/6s3YfvyPkdYjTpA37frxRQmu4eQuw+39gnwXMzXYh8E9eWv4hr0f
+      yTeDIPnu9YXDY/wbMM2gBlKq6c6PTERvy7sUWqsuQsDgt8snFvwBszFq9IQeWB0w
+      sEzFHavMDwKBgQDUT/2iIMdctQFTWgTYLkl32jvZy7mx2tSkXp3sPbfLpTlRJxXX
+      liQMCOJXpe3qX9vrPKah4n1GG/tbGhSg6O7/dd6+sqBBFsfEI35+IvP+x1eLFzYt
+      c9xSPjqn9lLTx77Tb/zQK2AFVuKFd/SJrG3Yin3Z5BZAZq8I50YRBoKWcwKBgQCc
+      bTsBCnffmAVQcUTqz0eF/hltRTn7alYJYgjdVloy0VuYXMCf8bFFEJATj4d5KXBQ
+      zltFBGKa0DD/B9GvpfFZfuz0C3Qs+8i4N25L4HVTRGsul9qu0xt1N7amQZZEUktS
+      N3mX2//iwCL0zo3wsrJrqUnT5e97+t1ivvh7G60nSwKBgQDWQ/UiZhgx/pOa1/VM
+      1UDwLLQFiOIvb4tdi8BaK4yrZCTxx/UfdDrYsfEHq4VmIjaY8ZJTWlnZ7H961kWR
+      bMF39SLFRP4BQlecH29mW/Ngz1YVUVcYS4gvaPal4dk3+xjbP6is+lrQ6SBwXtDw
+      v204b9IvIdQ/ZBImNOf3p7OYAg==
+      -----END PRIVATE KEY-----
+
+  httppolicyset:
+  - name: mysitestg-43000-redirect-policy
+    http_request_policy:
+      rules:
+      - index: 0
+        redirect_action:
+          host:
+            tokens:
+            - str_value: mysitestg.qualcomm.com
+              type: URI_TOKEN_TYPE_STRING
+              start_index: '0'
+              end_index: '65535'
+            type: URI_PARAM_TYPE_TOKENIZED
+          protocol: HTTP
+        name: mysitestg-43000-redirect-policy-rule-0
+        match:
+          path:
+            match_case: INSENSITIVE
+            match_str:
+            - "/"
+            match_criteria: EQUALS
+    enable: 'false'
+    tenant_ref: "/api/tenant/?name=admin"
+
+  healthmonitor:
+    - name: Test-HTTP-health_monitor
+      monitor_port: '14100'
+      receive_timeout: '2'
+      tenant_ref: "/api/tenant/?name=admin"
+      failed_checks: 3
+      send_interval: '5'
+      http_monitor:
+        http_request: GET /oam/server/HeartBeat
+        http_response_code:
+        - HTTP_2XX
+      type: HEALTH_MONITOR_HTTP
+      successful_checks: 1
+
+  backupconfiguration:
+    - name: 'Backup-Configuration'
+      tenant_ref: '/api/tenant?name=admin'
+      save_local: true
+      maximum_backups_stored: 3
+
+  role:
+    - name: Test- role
+      tenant_ref: "/api/tenant?name=admin"
+
+  scheduler:
+    - name: Default-Scheduler
+      frequency_unit: SCHEDULER_FREQUENCY_UNIT_MONTH
+      run_mode: RUN_MODE_PERIODIC
+      backup_config_ref: '/api/backupconfiguration?name=Backup-Configuration'
+      frequency: 3
+      scheduler_action: SCHEDULER_ACTION_BACKUP
+
+  prioritylabels:
+    - name: test-proritylabel
+      tenant_ref: '/api/tenant?name=admin'
+      description: 'desc'
+
+  cloud:
+    - name: Test-Vcenter-Cloud
+      tenant_ref: '/api/tenant?name=admin'
+      dhcp_enabled: true
+      enable_vip_static_routes: false
+      license_type: LIC_CORES
+      mtu: 1500
+      prefer_static_routes: false
+      vcenter_configuration:
+        datacenter: "Demo-DC"
+        management_network: api/vimgrnwruntime/dvportgroup-102-10.128.2.190
+        password: vmware
+        privilege: WRITE_ACCESS
+        username: root
+        vcenter_url: 10.128.2.190
+      vtype: CLOUD_VCENTER
+
+  tenant:
+    - name: "test-Tenant"
+      state: 'present'
+      config_settings:
+        se_in_provider_context: false
+        tenant_access_to_provider_se: true
+        tenant_vrf: false
+      description: VCenter, Open Stack
+      local: true
+
+  errorpagebody:
+    - name: Test-Error-Page
+      tenant_ref: "/api/tenant/admin"
+      error_page_body: "Test error"
+
+  systemconfiguration:
+  vrfcontext:
+    - name: test-vrf-context
+      url: "/api/vrfcontext/vrfcontext-f54f6d8a-d2c9-4bc9-a0b8-cfaed295aff6"
+      tenant_ref: "/api/tenant/admin"
+      system_default: false
+
+  gslbservice:
+    - name: test-gslb-service
+      domain_names:
+        - com
+  useraccountprofile:
+    - name: Test-Default-User-Account-Profile
+      max_concurrent_sessions: 0
+      account_lock_timeout: 30
+      max_login_failure_count: 20
+      max_password_history_count: 0
+      credentials_timeout_threshold: 0
+
+  vsdatascriptset:
+    - name: Test-datascript
+      description: "Desc"
+
+  seproperties:
+    - se_agent_properties:
+        dp_enq_interval_msec: 10
+        sdb_scan_count: 600
+        dp_reg_pending_max_wait_time: 75
+        controller_echo_rpc_aggressive_timeout: 2000
+        dp_aggressive_enq_interval_msec: 1
+        vnic_ip_delete_interval: 5
+        dp_max_wait_rsp_time_sec: 60
+        controller_rpc_timeout: 10
+        controller_heartbeat_miss_limit: 6
+        dp_aggressive_deq_interval_msec: 1
+        controller_echo_rpc_timeout: 2000
+        ignore_docker_mac_change: true
+        sdb_pipeline_size: 100
+        cpustats_interval: 5
+        dp_batch_size: 100
+        vnic_probe_interval: 5
+        debug_mode: false
+        vnic_dhcp_ip_max_retries: 10
+        dp_deq_interval_msec: 20
+        ctrl_reg_pending_max_wait_time: 150
+        headless_timeout_sec: 0
+        sdb_flush_interval: 100
+        controller_echo_miss_aggressive_limit: 2
+        controller_heartbeat_timeout_sec: 12
+        controller_registration_timeout_sec: 10
+        controller_echo_miss_limit: 4
+        vnic_dhcp_ip_check_interval: 6
+      se_runtime_properties:
+        upstream_connpool_conn_life_tmo: -1
+        log_agent_max_active_adf_files_per_vs: 100
+        se_auth_ldap_conns_per_server: 1
+        log_agent_file_sz_appl: 4
+        se_packet_buffer_max: 0
+        log_agent_max_logmessage_proto_sz: 65536
+        se_hb_persist_fudge_bits: 3
+        se_dp_vnic_stall_se_restart_window: 3600
+        upstream_connpool_conn_max_reuse: -1
+        upstream_connpool_server_max_cache: -1
+        dp_aggressive_hb_timeout_count: 10
+        se_metrics_rt_interval: 1000
+        persistence_mem_max: 0
+        upstream_connpool_core_max_cache: -1
+        log_agent_log_storage_min_sz: 1024
+        se_random_tcp_drops: false
+        se_dp_if_state_poll_interval: 10
+        se_auth_ldap_cache_size: 100000
+        log_message_max_file_list_size: 64
+        services_accessible_all_interfaces: false
+        dupip_timeout_count: 5
+        baremetal_dispatcher_handles_flows: false
+        upstream_connpool_cache_thresh: -1
+        connections_lossy_log_rate_limiter_threshold: 1000
+        upstream_connpool_conn_idle_tmo: -1
+        log_agent_unknown_vs_timer: 1800
+        upstream_connpool_strategy: -1
+        upstream_connpool_conn_idle_thresh_tmo: -1
+        log_agent_min_storage_per_vs: 10
+        feproxy_vips_enable_proxy_arp: true
+        service_port_ranges:
+          - start: 4000
+            end: 9000
+        scaleout_udp_per_pkt: true
+        se_dp_log_nf_enqueue_percent: 70
+        http_rum_min_content_length: 64
+        flow_table_batch_push_frequency: 5
+        log_agent_file_sz_conn: 4
+
+  stringgroup:
+    - name: Test-System-Compressible-Content-Types
+      kv:
+      - key: text/html
+      - key: text/xml
+      - key: text/plain
+      - key: text/css
+      - key: text/javascript
+      - key: application/javascript
+      - key: application/x-javascript
+      - key: application/xml
+      - key: application/pdf
+      tenant_ref: admin
+      type: SG_TYPE_STRING
+
+  hardwaresecuritymodulegroup:
+    - name: test
+      tenant_ref: '/api/tenant?name=admin'
+      hsm:
+        rfs:
+          ip:
+            type: V4
+            addr: 1.2.3.4
+          port: 9004
+        type: HSM_TYPE_THALES_NETHSM
+        nethsm:
+        - remote_port: 9004
+          priority: 100
+          keyhash: abc
+          module_id: 0
+          esn: '123'
+          remote_ip:
+            type: V4
+            addr: 1.2.3.4
+
+  wafprofile:
+    - name: Test-WAF-Profile
+      tenant_ref: "/api/tenant/?name=admin"
+      config:
+        client_nonfile_upload_max_body_size: 128
+        regex_match_limit: 1500
+        allowed_request_content_types:
+        - application/x-www-form-urlencoded
+        - multipart/form-data
+        - text/xml
+        - application/xml
+        - application/x-amf
+        - application/json
+        allowed_methods:
+        - HTTP_METHOD_GET
+        - HTTP_METHOD_HEAD
+        - HTTP_METHOD_POST
+        - HTTP_METHOD_OPTIONS
+        response_hdr_default_action: phase:3,deny,status:403,log,auditlog
+        allowed_http_versions:
+        - ONE_ZERO
+        - ONE_ONE
+        request_body_default_action: phase:2,deny,status:403,log,auditlog
+        response_body_default_action: phase:4,deny,status:403,log,auditlog
+        request_hdr_default_action: phase:1,deny,status:403,log,auditlog
+        static_extensions:
+        - ".gif"
+        - ".jpg"
+        - ".jpeg"
+        - ".png"
+        - ".js"
+        - ".css"
+        - ".ico"
+        - ".svg"
+        - ".webp"
+        buffer_response_body_for_inspection: false
+        restricted_extensions:
+        - ".asa"
+        - ".asax"
+        - ".ascx"
+        client_file_upload_max_body_size: 1024
+        cookie_format_version: 0
+        restricted_headers:
+        - Proxy-Connection
+        - Lock-Token
+        - Content-Range
+        - Translate
+        - via
+        - if
+        server_response_max_body_size: 128
+        argument_separator: "&"
+
+  wafpolicy:
+    - name: Test-WAF-Policy
+      tenant_ref: "/api/tenant/admin"
+      mode: WAF_MODE_DETECTION_ONLY
+      paranoia_level: WAF_PARANOIA_LEVEL_LOW
+      waf_profile_ref: "/api/wafprofile/Test-WAF-Profile"
+
+  ipaddrgroup:
+    - name: New-Internal
+      tenant_ref: "/api/tenant/?name=admin"
+      prefixes:
+      - ip_addr:
+          type: V4
+          addr: 10.0.0.0
+        mask: 8
+      - ip_addr:
+          type: V4
+          addr: 192.168.0.10
+        mask: 16
+      - ip_addr:
+          type: V4
+          addr: 172.16.0.1
+        mask: 14
+
+  ipamdnsproviderprofile:
+    - name: test
+      tenant_ref: /api/tenant?name=admin
+      internal_profile:
+        dns_service_domain:
+        - record_ttl: 150
+          num_dns_ip: 1
+          domain_name: rohan
+          pass_through: true
+      ttl: 30
+      type: IPAMDNS_TYPE_INTERNAL_DNS
+
+  webhook:
+    - name: Test-webhook
+      tenant_ref: '/api/tenant?name=admin'
+      description: 'desc'
+
+  microservicegroup:
+    - name: vs-marketing
+      description: Group created by my Secure My App UI.
+      tenant_ref: admin
+
+  actiongroupconfig:
+    - name: Test-Syslog-Config
+      tenant_ref: "/api/tenant/?name=admin"
+      level: ALERT_HIGH
+      autoscale_trigger_notification: false
+      external_only: true
+
+  alertconfig:
+    - name: Test-System-SSL-Alert
+      enabled: true
+      tenant_ref: "/api/tenant/?name=admin"
+      category: REALTIME
+      expiry_time: 86400
+      summary: System-SSL-Alert System Alert Triggered
+      rolling_window: 300
+      source: EVENT_LOGS
+      alert_rule:
+        operator: OPERATOR_OR
+        sys_event_rule:
+        - event_id: SSL_CERT_EXPIRE
+          not_cond: false
+        - event_id: SSL_CERT_RENEW
+          not_cond: false
+        - event_id: SSL_CERT_RENEW_FAILED
+          not_cond: false
+      threshold: 1
+      throttle: 0
+      action_group_ref: "/api/actiongroupconfig/?name=System-Alert-Level-Medium"
+
+  alertemailconfig:
+    - name: test-email
+      tenant_ref: "/api/tenant/?name=admin"
+      to_emails: 'abc.pqx@gmail.com'
+      cc_emails: 'avi.123@gmail.com'
+
+  network:
+    - name: test-network
+      synced_from_se: false
+      tenant_ref: '/api/tenant?name=admin'
+      exclude_discovered_subnets: true
+      dhcp_enabled: true
+
+  networksecuritypolicy:
+    - name: Test-network-policy
+      tenant_ref: '/api/tenant?name=admin'
+
+  alertscriptconfig:
+    - name: test
+      tenant_ref: /api/tenant?name=admin
+      action_script: echo "avi networks"
+
+  alertsyslogconfig:
+    - name: test
+      tenant_ref: '/api/tenant/?name=admin'
+      syslog_servers:
+      - udp: true
+        syslog_server_port: 443
+        syslog_server: 10.10.3.10
+
+  pkiprofile:
+    - name: test-pkiprofile
+      tenant_ref: '/api/tenant?name=admin'
+      is_federated: true
+      ignore_peer_chain: false
+      crl_check: true
+
+  analyticsprofile:
+    - name: Test-System-Analytics-Profile
+      tenant_ref: "/api/tenant/?name=admin"
+      hs_event_throttle_window: 1209600
+      description: Test System Analytics Profile
+      apdex_response_threshold: 500
+      disable_se_analytics: false
+      apdex_server_rtt_tolerated_factor: 4
+      hs_security_nonpfs_penalty: 1
+      hs_security_tls12_score: 5
+      exclude_server_tcp_reset_as_error: false
+      hs_min_dos_rate: 1000
+      exclude_no_dns_record_as_error: false
+      conn_server_lossy_zero_win_size_event_threshold: 2
+      hs_max_resources_penalty: 25
+      conn_lossy_total_rexmt_threshold: 50
+      hs_pscore_traffic_threshold_l4_client: 10
+      exclude_no_valid_gs_member_as_error: false
+      apdex_server_response_threshold: 400
+      hs_security_cipherscore_ge128b: 5
+      hs_performance_boost: 0
+      exclude_invalid_dns_domain_as_error: false
+      exclude_http_error_codes:
+      - 475
+      hs_max_anomaly_penalty: 10
+      hs_security_tls11_score: 5
+      exclude_gs_down_as_error: false
+      apdex_server_response_tolerated_factor: 4
+      disable_server_analytics: false
+      conn_server_lossy_timeo_rexmt_threshold: 20
+      exclude_client_close_before_request_as_error: true
+      hs_security_weak_signature_algo_penalty: 1
+      exclude_persistence_change_as_error: false
+      hs_security_selfsignedcert_penalty: 1
+      conn_server_lossy_total_rexmt_threshold: 50
+      conn_lossy_timeo_rexmt_threshold: 20
+      conn_lossy_ooo_threshold: 50
+      apdex_rtt_tolerated_factor: 4
+      hs_security_certscore_gt30d: 5
+      hs_security_ssl30_score: 3.5
+      conn_server_lossy_ooo_threshold: 50
+      apdex_rum_tolerated_factor: 4
+      hs_security_cipherscore_eq000b: 0
+      hs_security_certscore_le30d: 4
+      hs_pscore_traffic_threshold_l4_server: 10
+      exclude_syn_retransmit_as_error: false
+      apdex_server_rtt_threshold: 125
+      hs_security_hsts_penalty: 1
+      exclude_server_dns_error_as_error: false
+      hs_security_certscore_le07d: 2
+      conn_lossy_zero_win_size_event_threshold: 2
+      hs_security_encalgo_score_rc4: 2.5
+      hs_max_security_penalty: 100
+      exclude_tcp_reset_as_error: false
+      hs_security_encalgo_score_none: 0
+      apdex_response_tolerated_factor: 4
+      client_log_config:
+        enable_significant_log_collection: true
+        significant_log_processing: LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND
+        non_significant_log_processing: LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND
+        filtered_log_processing: LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND
+      hs_security_chain_invalidity_penalty: 1
+      exclude_invalid_dns_query_as_error: false
+      apdex_rum_threshold: 5000
+      hs_security_cipherscore_lt128b: 3.5
+      hs_security_tls10_score: 5
+      hs_security_certscore_expired: 0
+      apdex_rtt_threshold: 250
+      exclude_unsupported_dns_query_as_error: false
+
+  poolgroupdeploymentpolicy:
+    - name: test-policy
+      target_test_traffic_ratio: 2
+      test_traffic_ratio_rampup: 3
+      evaluation_duration: 7599
+
+  authprofile:
+    - name: ProdAuth
+      http:
+        cache_expiration_time: 5
+        group_member_is_full_dn: false
+      ldap:
+        base_dn: dc=avi,dc=local
+        bind_as_administrator: true
+        port: 389
+        security_mode: AUTH_LDAP_SECURE_NONE
+        server:
+        - 10.10.0.100
+      settings:
+        admin_bind_dn: user@avi.local
+        group_filter: (objectClass=*)
+        group_member_attribute: member
+        group_member_is_full_dn: true
+        group_search_dn: dc=avi,dc=local
+        group_search_scope: AUTH_LDAP_SCOPE_SUBTREE
+        ignore_referrals: true
+        password: password
+        user_id_attribute: samAccountname
+        user_search_dn: dc=avi,dc=local
+        user_search_scope: AUTH_LDAP_SCOPE_ONE
+      tenant_ref: admin
+      type: AUTH_PROFILE_LDAP
+
+  autoscalelaunchconfig:
+    - name: Test-autoscalelaunchconfig
+      tenant_ref: "/api/tenant/admin"
+      image_id: default
+      use_external_asg: true
+
+  network:
+    - name: test-network
+      synced_from_se: false
+      tenant_ref: '/api/tenant?name=admin'
+      exclude_discovered_subnets: true
+      dhcp_enabled: true
+
+  serverautoscalepolicy:
+  cloudconnectoruser:
+    - name: Test-User
+      tenant_ref: '/api/tenant?name=admin'
+      private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA7Lri81+WxnMx\nzg+b8Mw3tH6ls0WIdT90cZlgnb/0YBDzeft2etemC50cHVbqLYZ+UkYMQJjk0Zk9\nF1ANPcY6KhRM0oDh1tb2YdemO19lqy/pXub46rrFI4EutgvG4hMgQm6uBBOEZTxl\nntGzUeh6pLQpUcPvcjCKjDn0j/SMtjMo6q5/q+af0X4+CoASE84mv+VLWnhlF5gr\nZyW7OfkcPUqRcGnt/VplGJHvugcoNmrEuKi8fzK0WRsEYUwAWgQ3DDMuJSgrPSRc\nWanOV5BES8Wtv0CnicXa8wo05Rfnof1p6oOdhjAgN5OhD6Keq98UpgNkSDvZgW5R\nGJpeYqhrAgMBAAECggEBAKhhNQ+FWEVw+PNcJJV2ydZIi0y1tZdOtc48o6AGrpVs\nDv9h1I5o0rRSaJI0LTp/92VjC04ARzFWmgcOxMh5xPvY5BTUmLYDW2R4qs2j/jPv\nAAcP1EkmHVKYFVSegJLZl9XNBWqNljc0YE1VGzMF5wC7pZ52hasDn8gccSy5Q7hW\ne9Kiek3C02vDdlCEs5EK0O7+KBZb75YsOSEjaoDJGAPH3Iw3Y8FTDChpA5zv94PC\nY4XFxmxZ5hj3WJoKcf0MYTbUP31sjnWYPfckr8F6xic/AHO8e009bjRCSLeOrut7\n3pC1F+8ekuvdTtiQKMYWjZDKOIx65ClJP+8nC/VXG1ECgYEA8nxUSl2f3JOB/RmM\nuEXgmeY0iQqXmOH1WesRofCNXQA4ENzwl5ADrZ+rFJ9B9fjkT5+Q+QP7CClW6AhC\neBtHDxr6rUcZsKrZdZJrdOk6Wxw8+Ql3wGnd81frrhTSOStUm5X5ztBVtvdfDPhj\nmcJpRIbUtb8XZJWRMfz6gtxZIFkCgYEAy61J7iMbbzv+gTEd719A0ITGSAQ3FRWw\nL4Co0PtEhq0lmJHRcYVTX20fj2n0eTL23FRPAz1K48+pj9DpqXIsuzU0sgUe4erQ\n6pJ5kFy0TRisqgh2JBpYsMNAX+q1lTtjUR0IaSCIILXydX20yZHdgFx4dgjR+R9d\nzm7OPx/PlmMCgYARiMIDmp+LsLLunWFaldr25fmYi0aJDJXUSbY9sopWVkS3m3Je\nU1CgxnH1jMqVQckopM4z44DMh0i8gJRl4PsTcYz86K5H4yLUaKESlCbfHbye+XtK\nU510EkB9lw3YinSUx5SHyvLXxy19X5y8Kp24EdPhzI6hfFtCdRucSNi9CQKBgF7c\nH3GcwjtFStxqvtFsoKg9HogOBoV4a21EU9u5GwpKfBcZ2t0vRkxMa4WEyIrmFJk7\nXu1YT5fYcNV9bEYx2el690buIZsAnTqS67Ezq/m4QzqR5EweRS5WUZYan2WYmkH9\n7pvfvebWNs1Htbqnh+0vpB79LqYDWNI7Qy2dKDaXAoGBAKrS+3RKLBspcKtxh42u\nMDNgFykpHExlT09qqBmmD52+k7lGKeciwRiBPO2wckuTJHOsxOFt0IRCVtzrKzgL\nrz+GlYExiuvr08DvHabTwE0+ASTOlOfS1/XPO7OA2fbQTg/mUiSvqDPS225Ah6Gx\nCpfvapb71uWuMinrDbEhTEc5\n-----END PRIVATE KEY-----\n"
+
+  certificatemanagementprofile:
+  serviceengine:
+  serviceenginegroup:
+  cloudproperties:
+  cluster:
+  controllerproperties:
+  errorpageprofile:
+  gslb:
+  gslbgeodbprofile:
+  ipamdnsproviderprofile:
