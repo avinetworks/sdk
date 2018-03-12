@@ -224,7 +224,7 @@ class VSConverter(object):
                     # continue
                 if action:
                     http_policy_set = self.create_http_policy(action, name)
-                    http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set['name'],
+                    http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set.get('name'),
                                                                        object_type='httppolicyset', tenant=self.tenant)
                 else:
                     for sfarm in self.parsed.get('serverfarm'):
@@ -288,7 +288,7 @@ class VSConverter(object):
 
         # get the number of vips available
         for class_map in self.parsed.get('class-map', ''):
-            if 'match-all' not in class_map.values():
+            if 'match-all' not in class_map.values() and 'match-any' not in class_map.values():
                 LOG.warning('This type of class map not supported : %s' %
                             class_map['class-map'])
                 update_excel(
