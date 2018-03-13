@@ -441,6 +441,7 @@ class ApiSession(Session):
             raise APIError("Neither user password or token provided")
         logger.debug('authenticating user %s ', self.avi_credentials.username)
         self.cookies.clear()
+        err = None
         try:
             rsp = super(ApiSession, self).post(self.prefix+"/login", body,
                                                timeout=self.timeout)
@@ -461,10 +462,16 @@ class ApiSession(Session):
                 logger.debug("authentication success for user %s",
                              self.avi_credentials.username)
                 return
+            else:
+                logger.error("Error status code %s msg %s", rsp.status_code,
+                             rsp.text)
+                err = APIError('Status Code %s msg %s' % (
+                    rsp.status_code, rsp.text), rsp)
         except (ConnectionError, SSLError) as e:
             if not self.retry_conxn_errors:
                 raise
             logger.warning('Connection error retrying %s', e)
+            err = e
         # comes here only if there was either exception or login was not
         # successful
         if self.retry_wait_time:
@@ -472,9 +479,9 @@ class ApiSession(Session):
         self.num_session_retries += 1
         if self.num_session_retries > self.max_session_retries:
             self.num_session_retries = 0
-            raise APIError(
-                "giving up after %d retries connection failure %s" %
-                (self.max_session_retries, True))
+            logger.error("giving up after %d retries connection failure %s" % (
+                self.max_session_retries, True))
+            raise err
         self.authenticate_session()
         return
 
