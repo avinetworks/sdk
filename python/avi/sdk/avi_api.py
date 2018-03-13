@@ -561,6 +561,7 @@ class ApiSession(Session):
         api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
                                          api_version)
         connection_error = False
+        err = None
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
@@ -573,6 +574,7 @@ class ApiSession(Session):
             if not self.retry_conxn_errors:
                 raise
             connection_error = True
+            err = e
         except Exception as e:
             logger.error('Error in Requests library %s', e)
             raise
@@ -601,9 +603,13 @@ class ApiSession(Session):
                 # Added this such that any code which re-tries can succeed
                 # eventually.
                 self.num_session_retries = 0
-                raise APIError(
-                    "giving up after %d retries connection failure %s" %
-                    (self.max_session_retries, connection_error))
+                if not connection_error:
+                    err = APIError('Status Code %s msg %s' % (
+                        resp.status_code, resp.text), resp)
+                logger.error(
+                    "giving up after %d retries conn failure %s err %s" % (
+                        self.max_session_retries, connection_error, err))
+                raise err
             # should restore the updated_hdrs to one passed down
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
                              headers=headers, api_version=api_version,
