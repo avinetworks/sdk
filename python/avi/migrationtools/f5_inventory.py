@@ -8,6 +8,7 @@ import yaml
 import xlsxwriter
 import time
 from datetime import datetime
+from collections import defaultdict
 
 try:
     from bigsuds import BIGIP               # version 10
@@ -61,8 +62,54 @@ class F5InventoryConv(object):
 
     def print_human(self, path, version, ip, times=1):
 
-        # Loop times
-        self.times = int(times)
+        # refactor the data for easy access
+        traffic_global_dict = {}
+        for data in self.avi_object:
+            for k, v in data.iteritems():
+                if data[k].get('traffic'):
+                    entries = data[k]['traffic'].stats.load().entries
+                    unpacked_entries = { str(k): v[u'value'] for k, v in entries.items() if v.get(u'value', '') is not '' }
+                    if k in traffic_global_dict:
+                        traffic_global_dict[k].append(unpacked_entries)
+                    else:
+                        traffic_global_dict[k] = [unpacked_entries]
+
+                if data[k].get('traffic_list'):
+                    # for types in data[k]['traffic_list']:
+                    unpacked_entries = { types['type']: types['value']['high'] for types in data[k]['traffic_list']}
+                    if k in traffic_global_dict:
+                        traffic_global_dict[k].append(unpacked_entries)
+                    else:
+                        traffic_global_dict[k] = [unpacked_entries]
+
+        # print traffic_global_dict
+    
+        new_traffic_global_dict = {}
+
+        for k in traffic_global_dict.keys():
+            intermediate = defaultdict(list)
+
+            if version == '11':
+                keys =  ['clientside.curConns', 'totRequests', 'clientside.totConns',
+                            'clientside.bitsIn', 'clientside.pktsOut']
+            else:
+                keys = ['STATISTIC_EPHEMERAL_CURRENT_CONNECTIONS',
+                        'STATISTIC_CLIENT_SIDE_PACKETS_OUT',
+                        'STATISTIC_CLIENT_SIDE_TOTAL_CONNECTIONS',
+                        'STATISTIC_CLIENT_SIDE_BYTES_OUT',
+                        'STATISTIC_CLIENT_SIDE_PACKETS_OUT']
+
+            for subdict in traffic_global_dict[k]:
+                for key, val in subdict.items():
+                    intermediate[key].append(val)
+
+            for key in keys:
+                value = intermediate[key]
+                per_sec =  abs((value[0] - value[1]) / (2 * 60))
+                if k in new_traffic_global_dict:
+                    new_traffic_global_dict[k].update({ key: per_sec})
+                else:
+                    new_traffic_global_dict[k] = { key: per_sec}
 
         # Print Summary
         workbook = xlsxwriter.Workbook(path + os.sep + 'output_data.xlsx')
@@ -90,24 +137,15 @@ class F5InventoryConv(object):
 
         total_vs = total_pools = total_enabled_vs = total_enabled_pools = 0
 
-        # Print Virtual Service Details
-        if version == 10:
-            print "version 10"
-            return
-
-        input = self.avi_object
+        input = self.avi_object[0]
 
         pool_list = []
         vs_list = []
         traffic_list = []
         tenant_list = set()
 
-        # print "===================="
         for vs in input.keys():
             total_vs = total_vs + 1
-
-            # print "vs ", input[vs]
-            # print "=================="
 
             temp_dict = {}
             details_dict = {}
@@ -158,7 +196,6 @@ class F5InventoryConv(object):
             # pool conversion
             if vsval.get('pool'):
                 total_pools = total_pools + 1
-                # print "pool is there", vsval['pool']['members']
                 if vsval['pool']['members'][0].get('name'):
                     pool_details = vsval['pool']['members'][0]
                     pool_list.append({'name': pool_details.get('name'), 'status': pool_details.get(
@@ -176,11 +213,6 @@ class F5InventoryConv(object):
             if vsval.get('partition'):
                 tenant_list.add(vsval['partition'])
 
-        # Traffic Details ???
-            if vsval.get('traffic'):
-                traffic_list.append(
-                    {'name': vs, 'details': vsval['traffic'].stats.load().entries})
-
         worksheet = workbook.add_worksheet('VS')
         worksheet_pool = workbook.add_worksheet('Pools')
         worksheet_tenant = workbook.add_worksheet('Tenants')
@@ -197,17 +229,26 @@ class F5InventoryConv(object):
         vs_list = sorted(vs_list, key=lambda k: k['max_conn'], reverse=True)
 
         for vs in vs_list:
+            if vs.get('name'):
+                vs_name = vs.get('name')
+            else:
+                continue
             # write headers
             if init == 0:
                 for keys in vs['details'].keys():
                     col = col + 1
                     worksheet.write(row, col, keys.strip(), bold)
                 worksheet.write(row, col+1, "Max Connections", bold)    
+                worksheet.write(row, col+2, "Number of Open connections / Min", bold)    
+                worksheet.write(row, col+3, "Requests / sec", bold)    
+                worksheet.write(row, col+4, "Connections / sec", bold)    
+                worksheet.write(row, col+5, "bytes / sec", bold)    
+                worksheet.write(row, col+6, "pkts / sec", bold)  
                 row = row + 1
             init = init + 1
             col = 2
 
-            worksheet.write(row, 0, vs.get('name'), bold)
+            worksheet.write(row, 0, vs_name, bold)
             status = disabled
             v = ''
             if vs.get('enabled') == True:
@@ -228,6 +269,27 @@ class F5InventoryConv(object):
                 worksheet.write(row, col, vs['max_conn'].get('value'), bold)
             else:
                 worksheet.write(row, col, vs['max_conn'], bold)
+            
+            # write necessary details 
+            if version == '11':
+                open_conn = new_traffic_global_dict[vs_name]['clientside.curConns']
+                req_psec = new_traffic_global_dict[vs_name]['totRequests']
+                conn_psec = new_traffic_global_dict[vs_name]['clientside.totConns']
+                bytes_psec = new_traffic_global_dict[vs_name]['clientside.bitsIn']
+                pkts_psec = new_traffic_global_dict[vs_name]['clientside.pktsOut']
+            else:
+                open_conn = new_traffic_global_dict[vs_name]['STATISTIC_EPHEMERAL_CURRENT_CONNECTIONS']
+                req_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_PACKETS_OUT']
+                conn_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_TOTAL_CONNECTIONS']
+                bytes_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_BYTES_OUT']
+                pkts_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_PACKETS_OUT']
+              
+            worksheet.write(row, col+1, open_conn, bold)    
+            worksheet.write(row, col+2, req_psec, bold)    
+            worksheet.write(row, col+3, conn_psec, bold)    
+            worksheet.write(row, col+4, bytes_psec, bold)    
+            worksheet.write(row, col+5, pkts_psec, bold)
+
             row = row + 1
         
             # write total
@@ -240,9 +302,6 @@ class F5InventoryConv(object):
                     from_row = chr(ord('A') + col) + "2"
                     to_row = chr(ord('A') + col) + str(row)
                     worksheet.write_formula(row, col, '=COUNTIF({}:{},"Y")'.format(from_row, to_row),bold)
-                # # printing msg in the next row
-                # row = row + 1
-                # worksheet.merge_range(row, 0, row, 7, '* If you are using LibreOffice Press Ctrl+shift+f9 to do formula calculations')
 
         # write pools
         row = 0
@@ -268,63 +327,60 @@ class F5InventoryConv(object):
             worksheet_tenant.write(row, col, tenant, enabled)
 
         # write traffic details on different page
-        row, col = 0, 0
-        worksheet_traffic.write('A1', 'Vs Name', bold)
-        init = 0
-        if self.version == '11':
-            for vs in traffic_list:
-                # for Title Creation
-                if init == 0:
-                    for keys, vals in vs['details'].items():
-                        if 'value' in vals:
-                            col = col + 1
-                            worksheet_traffic.write(
-                                row, col, keys.strip(), bold)
-                    row = row + 1
-                    init = 1
+        # row, col = 0, 0
+        # worksheet_traffic.write('A1', 'Vs Name', bold)
+        # init = 0
+        # if self.version == '11':
+        #     for vs_name, vs_value in new_traffic_global_dict.iteritems():
+        #         # for Title Creation
+        #         if init == 0:
+        #             for keys, vals in vs_value.items():
+        #                 col = col + 1
+        #                 worksheet_traffic.write(
+        #                     row, col, keys.strip(), bold)
+        #             row = row + 1
+        #             init = 1
 
-                # write details
-                col = 1
-                worksheet_traffic.write(row, 0, vs['name'])
-                for k, v in vs['details'].items():
-                    if 'value' in v:
-                        state = enabled
-                        val = int(v[u'value'])
-                        if val == 0:
-                            state = disabled
-                        # trying to normalize
-                        if '.bits' in k:
-                            val = str(val/(8*1024)) + "MB"
-                        worksheet_traffic.write(
-                            row, col, val, state)
-                        col = col + 1
-                row = row + 1
-        else:
-            for keys, vsval in input.items():
-                # print vsval
-                if len(vsval.get('traffic_list')):
-                    if init == 0:
-                        for vs in vsval.get('traffic_list'):
-                            if 'type' in vs.keys():
-                                col = col + 1
-                                worksheet_traffic.write(
-                                    row, col, vs['type'].strip(), bold)
-                        row = row + 1
-                        init = 1
+        #         # write details
+        #         col = 1
+        #         worksheet_traffic.write(row, 0, vs_name)
+        #         for keys, vals in vs_value.items():
+        #             state = enabled
+        #             if vals == 0:
+        #                 state = disabled
+        #             # trying to normalize
+        #             if '.bits' in keys:
+        #                 vals = str(vals/(8*1024)) + "MB"
+        #             worksheet_traffic.write(
+        #                 row, col, vals, state)
+        #             col = col + 1
+        #         row = row + 1
+        # else:
+        #     for keys, vsval in input.items():
+        #         # print vsval
+        #         if len(vsval.get('traffic_list')):
+        #             if init == 0:
+        #                 for vs in vsval.get('traffic_list'):
+        #                     if 'type' in vs.keys():
+        #                         col = col + 1
+        #                         worksheet_traffic.write(
+        #                             row, col, vs['type'].strip(), bold)
+        #                 row = row + 1
+        #                 init = 1
 
-                    # write details
-                    col = 1
-                    worksheet_traffic.write(row, 0, vsval['name'])
-                    for index, vs in enumerate(vsval.get('traffic_list')):
-                        if 'value' in vs.keys():
-                            avg = vs['value'].get('high', 0)
-                            # trying to normalize
-                            if '.bits' in vs['type']:
-                                avg = str(avg/(8*1024)) + "MB"
-                            worksheet_traffic.write(
-                                row, col, str(avg).strip(), bold)
-                        col = col + 1
-                    row = row + 1
+        #             # write details
+        #             col = 1
+        #             worksheet_traffic.write(row, 0, vsval['name'])
+        #             for index, vs in enumerate(vsval.get('traffic_list')):
+        #                 if 'value' in vs.keys():
+        #                     avg = vs['value'].get('high', 0)
+        #                     # trying to normalize
+        #                     if '.bits' in vs['type']:
+        #                         avg = str(avg/(8*1024)) + "MB"
+        #                     worksheet_traffic.write(
+        #                         row, col, str(avg).strip(), bold)
+        #                 col = col + 1
+        #             row = row + 1
 
         # adding some more summary
         worksheet_summary.write(9, 5, "Total vs", bold)
@@ -368,7 +424,7 @@ class F5InventoryConvV10(F5InventoryConv):
 
     def __init__(self, host, username, password, times):
         self.f5_client = BIGIP(host, username, password)
-        self.avi_object = {}
+        self.avi_object = []
         self.version = '10'
         self.avi_traffic_object = []
         self.times = times
@@ -381,80 +437,92 @@ class F5InventoryConvV10(F5InventoryConv):
         return virtual_services
 
     def get_inventory(self):
-        virtual_services = self.get_all_virtual_service()
-        for vs in virtual_services:
-            vs_object = {
-                'name': vs
-            }
-            state = self.f5_client.LocalLB.VirtualServer.get_enabled_state([
-                                                                           vs])
-            state = state[0].split('STATE_')[1]
-            if state == 'ENABLED':
-                vs_object['enabled'] = True
+
+        i = 0
+
+        while i < 2:
+            self.avi_object_temp = {}
+            i += 1
+            if i == 1:
+                print "Running Sample for 1st time"
             else:
-                vs_object['enabled'] = False
-            destination = self.f5_client.LocalLB.VirtualServer.get_destination([
-                vs])
-            if destination:
-                vs_object['destination'] = destination
-            persist = self.f5_client.LocalLB.VirtualServer\
-                .get_persistence_profile([vs])[0]
-            if persist:
-                persist = [persist_profile['profile_name'] for
-                           persist_profile in persist]
-                vs_object['persist'] = persist
-            source_address_translation = self.f5_client.LocalLB.VirtualServer\
-                .get_snat_type([vs])
-            source_address_translation = source_address_translation[0].split(
-                'SNAT_TYPE_')[1]
-            if source_address_translation != 'NONE':
-                vs_object['source_address_translation'] = \
-                    source_address_translation
-            pool = self.f5_client.LocalLB.VirtualServer.get_default_pool_name([
-                vs])[0]
-            exit
-            if pool:
-                vs_object['pool'] = {
-                    'name': pool
+                print "Running Sample for 2nd time"
+
+            virtual_services = self.get_all_virtual_service()
+            for vs in virtual_services:
+                self.avi_object_temp = {}
+                vs_object = {
+                    'name': vs
                 }
-                members = self.f5_client.LocalLB.Pool.get_member([pool])[0]
-                if members:
-                    vs_object['pool']['members'] = members
-                health_monitors = \
-                    self.f5_client.LocalLB.Pool.get_monitor_instance([pool])[0]
-                if health_monitors:
-                    monitors = set([monitor['instance']['template_name'] for
-                                    monitor in health_monitors])
-                    vs_object['pool']['health_monitors'] = list(monitors)
-            profiles = self.f5_client.LocalLB.VirtualServer.get_profile([vs])[
-                0]
-            if profiles:
-                profiles = [profile['profile_name'] for profile in profiles]
-                vs_object['profiles'] = profiles
+                state = self.f5_client.LocalLB.VirtualServer.get_enabled_state([
+                                                                            vs])
+                state = state[0].split('STATE_')[1]
+                if state == 'ENABLED':
+                    vs_object['enabled'] = True
+                else:
+                    vs_object['enabled'] = False
+                destination = self.f5_client.LocalLB.VirtualServer.get_destination([
+                    vs])
+                if destination:
+                    vs_object['destination'] = destination
+                persist = self.f5_client.LocalLB.VirtualServer\
+                    .get_persistence_profile([vs])[0]
+                if persist:
+                    persist = [persist_profile['profile_name'] for
+                            persist_profile in persist]
+                    vs_object['persist'] = persist
+                source_address_translation = self.f5_client.LocalLB.VirtualServer\
+                    .get_snat_type([vs])
+                source_address_translation = source_address_translation[0].split(
+                    'SNAT_TYPE_')[1]
+                if source_address_translation != 'NONE':
+                    vs_object['source_address_translation'] = \
+                        source_address_translation
+                pool = self.f5_client.LocalLB.VirtualServer.get_default_pool_name([
+                    vs])[0]
+                exit
+                if pool:
+                    vs_object['pool'] = {
+                        'name': pool
+                    }
+                    members = self.f5_client.LocalLB.Pool.get_member([pool])[0]
+                    if members:
+                        vs_object['pool']['members'] = members
+                    health_monitors = \
+                        self.f5_client.LocalLB.Pool.get_monitor_instance([pool])[0]
+                    if health_monitors:
+                        monitors = set([monitor['instance']['template_name'] for
+                                        monitor in health_monitors])
+                        vs_object['pool']['health_monitors'] = list(monitors)
+                profiles = self.f5_client.LocalLB.VirtualServer.get_profile([vs])[
+                    0]
+                if profiles:
+                    profiles = [profile['profile_name'] for profile in profiles]
+                    vs_object['profiles'] = profiles
 
-            traffic = self.f5_client.LocalLB.VirtualServer.get_statistics([vs])
+                traffic = self.f5_client.LocalLB.VirtualServer.get_statistics([vs])
 
-            max_conn = 0
+                max_conn = 0
 
-            for t in traffic['statistics'][0]['statistics']:
-                if t.get('type') == 'STATISTIC_CLIENT_SIDE_MAXIMUM_CONNECTIONS':
-                    max_conn =  int(t['value']['high'])
-            
-            vs_object['max_conn'] = max_conn
+                for t in traffic['statistics'][0]['statistics']:
+                    if t.get('type') == 'STATISTIC_CLIENT_SIDE_MAXIMUM_CONNECTIONS':
+                        max_conn =  int(t['value']['high'])
+                
+                vs_object['max_conn'] = max_conn
 
-            if traffic and len(traffic['statistics']):
-                vs_object['traffic_list'] = traffic['statistics'][0]['statistics']
-            self.avi_object[vs_object['name']] = vs_object
+                if traffic and len(traffic['statistics']):
+                    vs_object['traffic_list'] = traffic['statistics'][0]['statistics']
+                self.avi_object_temp[vs_object['name']] = vs_object
+            self.avi_object.append(self.avi_object_temp)
 
-
-        # print 'Inventory: %s' % self.avi_object
+            time.sleep(2 * 60)
 
 
 class F5InventoryConvV11(F5InventoryConv):
 
     def __init__(self, host, username, password, times):
         self.f5_client = ManagementRoot(host, username, password)
-        self.avi_object = {}
+        self.avi_object = []
         self.version = '11'
         self.avi_traffic_object = []
         self.times = times
@@ -468,71 +536,82 @@ class F5InventoryConvV11(F5InventoryConv):
 
     def get_inventory(self):
 
-        virtual_services = self.get_all_virtual_service()
-        for vs in virtual_services:
+        i = 0
 
-            vs_object = {
-                'name': vs.name,
-                'partition': vs.partition
-            }
-            if hasattr(vs, 'enabled'):
-                vs_object['enabled'] = True
+        while i < 2:
+            self.avi_object_temp = {}
+            i += 1
+            if i == 1:
+                print "Running Sample for 1st time"
             else:
-                vs_object['enabled'] = False
-            if hasattr(vs, 'destination'):
-                destination_partition, destination_ip = get_name_and_entity(
-                    vs.destination)
-                vs_object['destination'] = destination_ip
-            if hasattr(vs, 'persist'):
-                vs_object['persist'] = vs.attrs['persist'][0]
-            source_address_translation = vs.sourceAddressTranslation
-            if source_address_translation.get('type') != 'none':
-                vs_object['source_address_translation'] = \
-                    source_address_translation
-            if hasattr(vs, 'pool'):
-                pool = vs.pool
-                pool_partition, pool_name = get_name_and_entity(pool)
-                if pool_name:
-                    vs_object['pool'] = {
-                        'name': pool_name
-                    }
-                    if pool_partition:
-                        vs_object['pool']['partition'] = pool_partition
-                    poolobj = self.f5_client.tm.ltm.pools.pool.load(
-                        partition=pool_partition, name=pool_name)
-                    health_monitors = [get_name_and_entity(monitors.strip())[1]
-                                    for monitors in poolobj.monitor.split(
-                                    ' and ') if monitors]
-                    if health_monitors:
-                        vs_object['pool']['health_monitors'] = health_monitors
-                    members = [{'name': pool_member.name,
-                                'address': pool_member.address,
-                                'state': pool_member.state} for
-                            pool_member in
-                            poolobj.members_s.get_collection()]
-                    if members:
-                        vs_object['pool']['members'] = members
-            virtual_obj = self.f5_client.tm.ltm.virtuals.virtual.load(
-                partition=vs.partition, name=vs.name)
+                print "Running Sample for 2nd time"
+
+            virtual_services = self.get_all_virtual_service()
+            for vs in virtual_services:
+
+                vs_object = {
+                    'name': vs.name,
+                    'partition': vs.partition
+                }
+                if hasattr(vs, 'enabled'):
+                    vs_object['enabled'] = True
+                else:
+                    vs_object['enabled'] = False
+                if hasattr(vs, 'destination'):
+                    destination_partition, destination_ip = get_name_and_entity(
+                        vs.destination)
+                    vs_object['destination'] = destination_ip
+                if hasattr(vs, 'persist'):
+                    vs_object['persist'] = vs.attrs['persist'][0]
+                source_address_translation = vs.sourceAddressTranslation
+                if source_address_translation.get('type') != 'none':
+                    vs_object['source_address_translation'] = \
+                        source_address_translation
+                if hasattr(vs, 'pool'):
+                    pool = vs.pool
+                    pool_partition, pool_name = get_name_and_entity(pool)
+                    if pool_name:
+                        vs_object['pool'] = {
+                            'name': pool_name
+                        }
+                        if pool_partition:
+                            vs_object['pool']['partition'] = pool_partition
+                        poolobj = self.f5_client.tm.ltm.pools.pool.load(
+                            partition=pool_partition, name=pool_name)
+                        health_monitors = [get_name_and_entity(monitors.strip())[1]
+                                        for monitors in poolobj.monitor.split(
+                                        ' and ') if monitors]
+                        if health_monitors:
+                            vs_object['pool']['health_monitors'] = health_monitors
+                        members = [{'name': pool_member.name,
+                                    'address': pool_member.address,
+                                    'state': pool_member.state} for
+                                pool_member in
+                                poolobj.members_s.get_collection()]
+                        if members:
+                            vs_object['pool']['members'] = members
+                virtual_obj = self.f5_client.tm.ltm.virtuals.virtual.load(
+                    partition=vs.partition, name=vs.name)
 
 
-            profiles = [profile.name for profile in
-                        virtual_obj.profiles_s.get_collection()]
+                profiles = [profile.name for profile in
+                            virtual_obj.profiles_s.get_collection()]
 
-            if profiles:
-                vs_object['profiles'] = profiles
-            policies = [policy.name for policy in
-                        virtual_obj.policies_s.get_collection()]
-            if policies:
-                vs_object['policies'] = policies
+                if profiles:
+                    vs_object['profiles'] = profiles
+                policies = [policy.name for policy in
+                            virtual_obj.policies_s.get_collection()]
+                if policies:
+                    vs_object['policies'] = policies
 
-            if hasattr(vs, 'rules'):
-                vs_object['rules'] = vs.rules
+                if hasattr(vs, 'rules'):
+                    vs_object['rules'] = vs.rules
 
-            vs_object['traffic'] = virtual_obj
-            max_conn = virtual_obj.stats.load().entries.get(u'clientside.maxConns', 0)
-            vs_object['max_conn'] = max_conn
-            self.avi_object[vs_object['name']] = vs_object
+                vs_object['traffic'] = virtual_obj
+                max_conn = virtual_obj.stats.load().entries.get(u'clientside.maxConns', 0)
+                vs_object['max_conn'] = max_conn
+                self.avi_object_temp[vs_object['name']] = vs_object
+            self.avi_object.append(self.avi_object_temp)
 
         # print 'Inventory: %s' % self.avi_object
 
