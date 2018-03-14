@@ -14,7 +14,7 @@ try:
     from bigsuds import BIGIP               # version 10
     from f5.bigip import ManagementRoot     # version 11
 except ImportError:
-    print "Please Install bigsuds and f5 sdk python packages to proceed.."
+    print "Please Install bigsuds and f5 sdk python packages using `pip install bigsuds f5-sdk` "
     sys.exit(1)
 
 profile_mappings = {
