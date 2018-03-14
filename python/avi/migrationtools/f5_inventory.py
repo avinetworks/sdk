@@ -112,7 +112,7 @@ class F5InventoryConv(object):
                     new_traffic_global_dict[k] = { key: per_sec}
 
         # Print Summary
-        workbook = xlsxwriter.Workbook(path + os.sep + 'output_data.xlsx')
+        workbook = xlsxwriter.Workbook(path + os.sep + '{}_discovery_data.xlsx'.format(ip))
 
         bold = workbook.add_format({'bold': True})
         disabled = workbook.add_format({'font_color': 'red'})
@@ -138,6 +138,7 @@ class F5InventoryConv(object):
         total_vs = total_pools = total_enabled_vs = total_enabled_pools = 0
 
         input = self.avi_object[0]
+        total_input = self.avi_object
 
         pool_list = []
         vs_list = []
@@ -216,7 +217,6 @@ class F5InventoryConv(object):
         worksheet = workbook.add_worksheet('VS')
         worksheet_pool = workbook.add_worksheet('Pools')
         worksheet_tenant = workbook.add_worksheet('Tenants')
-        worksheet_traffic = workbook.add_worksheet('Traffic Details')
 
         row, col = 0, 1
 
@@ -239,12 +239,12 @@ class F5InventoryConv(object):
                     col = col + 1
                     worksheet.write(row, col, keys.strip(), bold)
                 worksheet.write(row, col+1, "Max Connections", bold)    
-                worksheet.write(row, col+2, "Number of Open connections / Min", bold)    
+                worksheet.write(row, col+2, "Number of Open connections / Sec", bold)    
                 worksheet.write(row, col+3, "Requests / sec", bold)    
                 worksheet.write(row, col+4, "Connections / sec", bold)    
                 worksheet.write(row, col+5, "bytes / sec", bold)    
                 worksheet.write(row, col+6, "pkts / sec", bold)  
-                row = row + 1
+                row = row + 2
             init = init + 1
             col = 2
 
@@ -295,12 +295,13 @@ class F5InventoryConv(object):
             # write total
             if init == len(vs_list):
                 # doing offset
-                row = row + 1
+                end_row = row
+                row = 1
                 col = 0
                 for keys in vs['details'].keys():
                     col = col + 1
-                    from_row = chr(ord('A') + col) + "2"
-                    to_row = chr(ord('A') + col) + str(row)
+                    from_row = chr(ord('A') + col) + "3"
+                    to_row = chr(ord('A') + col) + str(end_row)
                     worksheet.write_formula(row, col, '=COUNTIF({}:{},"Y")'.format(from_row, to_row),bold)
 
         # write pools
@@ -326,61 +327,50 @@ class F5InventoryConv(object):
             row = row + 1
             worksheet_tenant.write(row, col, tenant, enabled)
 
-        # write traffic details on different page
-        # row, col = 0, 0
-        # worksheet_traffic.write('A1', 'Vs Name', bold)
-        # init = 0
-        # if self.version == '11':
-        #     for vs_name, vs_value in new_traffic_global_dict.iteritems():
-        #         # for Title Creation
-        #         if init == 0:
-        #             for keys, vals in vs_value.items():
-        #                 col = col + 1
-        #                 worksheet_traffic.write(
-        #                     row, col, keys.strip(), bold)
-        #             row = row + 1
-        #             init = 1
+        sheet = 0
+        for all_vs in total_input:
+            sheet = sheet + 1
+            traffic_list = []
+            worksheet_traffic = workbook.add_worksheet('Traffic-Sheet -{}'.format(sheet))
+            for vs in all_vs.keys():
+                vsval = input[vs]
+                # Traffic Details ???
+                if vsval.get('traffic'):
+                    traffic_list.append(
+                        {'name': vs, 'details': vsval['traffic'].stats.load().entries})
+                
+                # write traffic details on different page
+                row, col = 0, 0
+                worksheet_traffic.write('A1', 'Vs Name', bold)
+                init = 0
+                if self.version == '11':
+                    for vs in traffic_list:
+                        # for Title Creation
+                        if init == 0:
+                            for keys, vals in vs['details'].items():
+                                if 'value' in vals:
+                                    col = col + 1
+                                    worksheet_traffic.write(
+                                        row, col, keys.strip(), bold)
+                            row = row + 1
+                            init = 1
 
-        #         # write details
-        #         col = 1
-        #         worksheet_traffic.write(row, 0, vs_name)
-        #         for keys, vals in vs_value.items():
-        #             state = enabled
-        #             if vals == 0:
-        #                 state = disabled
-        #             # trying to normalize
-        #             if '.bits' in keys:
-        #                 vals = str(vals/(8*1024)) + "MB"
-        #             worksheet_traffic.write(
-        #                 row, col, vals, state)
-        #             col = col + 1
-        #         row = row + 1
-        # else:
-        #     for keys, vsval in input.items():
-        #         # print vsval
-        #         if len(vsval.get('traffic_list')):
-        #             if init == 0:
-        #                 for vs in vsval.get('traffic_list'):
-        #                     if 'type' in vs.keys():
-        #                         col = col + 1
-        #                         worksheet_traffic.write(
-        #                             row, col, vs['type'].strip(), bold)
-        #                 row = row + 1
-        #                 init = 1
-
-        #             # write details
-        #             col = 1
-        #             worksheet_traffic.write(row, 0, vsval['name'])
-        #             for index, vs in enumerate(vsval.get('traffic_list')):
-        #                 if 'value' in vs.keys():
-        #                     avg = vs['value'].get('high', 0)
-        #                     # trying to normalize
-        #                     if '.bits' in vs['type']:
-        #                         avg = str(avg/(8*1024)) + "MB"
-        #                     worksheet_traffic.write(
-        #                         row, col, str(avg).strip(), bold)
-        #                 col = col + 1
-        #             row = row + 1
+                        # write details
+                        col = 1
+                        worksheet_traffic.write(row, 0, vs['name'])
+                        for k, v in vs['details'].items():
+                            if 'value' in v:
+                                state = enabled
+                                val = int(v[u'value'])
+                                if val == 0:
+                                    state = disabled
+                                # trying to normalize
+                                if '.bits' in k:
+                                    val = str(val/(8*1024)) + "MB"
+                                worksheet_traffic.write(
+                                    row, col, val, state)
+                                col = col + 1
+                        row = row + 1
 
         # adding some more summary
         worksheet_summary.write(9, 5, "Total vs", bold)
@@ -447,6 +437,7 @@ class F5InventoryConvV10(F5InventoryConv):
                 print "Running Sample for 1st time"
             else:
                 print "Running Sample for 2nd time"
+                time.sleep(2 * 60)
 
             virtual_services = self.get_all_virtual_service()
             for vs in virtual_services:
@@ -515,8 +506,6 @@ class F5InventoryConvV10(F5InventoryConv):
                 self.avi_object_temp[vs_object['name']] = vs_object
             self.avi_object.append(self.avi_object_temp)
 
-            time.sleep(2 * 60)
-
 
 class F5InventoryConvV11(F5InventoryConv):
 
@@ -544,6 +533,7 @@ class F5InventoryConvV11(F5InventoryConv):
             if i == 1:
                 print "Running Sample for 1st time"
             else:
+                time.sleep(2 * 5)
                 print "Running Sample for 2nd time"
 
             virtual_services = self.get_all_virtual_service()
@@ -612,7 +602,6 @@ class F5InventoryConvV11(F5InventoryConv):
                 vs_object['max_conn'] = max_conn
                 self.avi_object_temp[vs_object['name']] = vs_object
             self.avi_object.append(self.avi_object_temp)
-
         # print 'Inventory: %s' % self.avi_object
 
 
