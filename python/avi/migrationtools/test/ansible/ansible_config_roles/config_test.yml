@@ -6,11 +6,12 @@
   connection: local
   vars:
     config: "{{ config }}"
+    state: "{{ state }}"
     avi_credentials:
-      controller: '10.10.28.98'
+      controller: '10.10.28.99'
       username: 'admin'
       password: 'avi123$%'
-      api_version: 17.1.2
+      api_version: '17.2.8'
 
   roles:
     - role: avinetworks.avisdk

@@ -1,25 +1,28 @@
 avi_config:
   pool:
     - name: app1-pool
+      state: "{{ state }}"
       lb_algorithm: LB_ALGORITHM_LEAST_LOAD
       servers:
         - ip:
-             addr: 10.90.64.22
+             addr: 10.90.24.12
              type: 'V4'
 
   virtualservice:
     - name: test_vs
+      state: "{{ state }}"
       services:
-        - port: 300
+        - port: 120
       vip:
         - ip_address:
-            addr: 10.10.26.27
+            addr: 10.10.16.17
             type: 'V4'
-          vip_id: '2'
+          vip_id: '3'
       application_profile_ref: /api/applicationprofile?name=test-applicationprofile
 
   applicationprofile:
     - name: test-applicationprofile
+      state: "{{ state }}"
       http_profile:
         websockets_enabled: true
         x_forwarded_proto_enabled: false
@@ -29,28 +32,29 @@ avi_config:
 
   poolgroup:
     - name: 'Test-PoolGroup'
+      state: "{{ state }}"
       tenant_ref: "/api/tenant?name=admin"
       cloud_ref: "/api/cloud?name=Default-Cloud"
-      min_servers: 2
-      members:
-      - pool_ref: "/api/pool?name=app1-pool"
+      min_servers: 3
 
   vsvip:
-    - name: 10.10.26.27-vsvip
+    - name: 10.10.26.28-vsvip
+      state: "{{ state }}"
       cloud_ref: "/api/cloud/?name=Default-Cloud"
       vip:
       - ip_address:
           type: V4
-          addr: 10.10.26.27
-        vip_id: '0'
+          addr: 10.10.36.22
+        vip_id: '1'
       tenant_ref: "/api/tenant/?name=admin"
 
   networkprofile:
   - name: NDS-TCP-PROFILE
+    state: "{{ state }}"
     profile:
       tcp_proxy_profile:
-        max_segment_size: 0
-        receive_window: 3662
+        max_segment_size: 589
+        receive_window: 3362
         nagles_algorithm: false
         use_interface_mtu: false
         automatic: false
@@ -59,78 +63,27 @@ avi_config:
 
   applicationpersisteceprofile:
   - name: Test-persistance-profile
+    state: "{{ state }}"
     persistence_type: PERSISTENCE_TYPE_CLIENT_IP_ADDRESS
     ip_persistence_profile:
-      ip_persistent_timeout: 24
+      ip_persistent_timeout: 20
     tenant_ref: "/api/tenant/?name=admin"
     server_hm_down_recovery: HM_DOWN_PICK_NEW_SERVER
 
   sslprofile:
   - name: Test-ssl_profile-cEE
+    state: "{{ state }}"
     accepted_ciphers: DHE-DSS-AES256-SHA:AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:DHE-RSA-AES256-SHA
     tenant_ref: "/api/tenant/?name=admin"
     accepted_versions:
     - type: SSL_VERSION_TLS1
     - type: SSL_VERSION_TLS1_1
     - type: SSL_VERSION_TLS1_2
-    enable_ssl_session_reuse: false
-
-  sslkeyandcertificate:
-  - name: reportcentercd2.cer-dummy
-    tenant_ref: "/api/tenant/?name=admin"
-    certificate:
-      certificate: |
-        -----BEGIN CERTIFICATE-----
-        MIIC+TCCAeECAgPoMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNVBAYTAlVTMRUwEwYD
-        VQQKDAxBdmkgTmV0d29ya3MxHDAaBgNVBAMME3JvaGFuLVRoaW5rUGFkLUU0NjAw
-        HhcNMTgwMTE4MTMzNzA3WhcNMjgwMTE2MTMzNzA3WjBCMQswCQYDVQQGEwJVUzEV
-        MBMGA1UECgwMQXZpIE5ldHdvcmtzMRwwGgYDVQQDDBNyb2hhbi1UaGlua1BhZC1F
-        NDYwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ZSb6PSjUuyIrC9I
-        v9jn7szuuvFEDCTROik1iXCWs0jKVv3zfHXYW+xAhZHJC4xbF864ENqskrkexZ0r
-        wXkjIV2ERT7s2qDSs4ox4z7ilfZgIciSYy2Uouw3BVYdIEfkgsF3jXZY5xeXu9wi
-        aSpsQvi97C6ljme+APzfSAqrP2VzyVP/HQilF47HhuPQX9UGLr5lkzqVDEqePgtG
-        p3zQslMQcN3QuANdLdmhn2URzLEmmZZKUR/YRMCrGcMXtcIbr2GH+E42V0zrENYK
-        VxnFqWK8YTRJAkHgdqhBPXXmt92+OVCCuA5pnZAiAaylULBK4O2wvcEh+G9Nw79l
-        cpTIkQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAH8vnMDLgB+6FvkjxIX0i6+emz
-        NPfu6uitPbj5/n6xZftaXNon2gO53PHyndEJWrSu5GM2rCYP/vX0qnFAuEzCt8pY
-        8X5/yIlFhKo5sTj1Jb8L3V11jdQ5X0IJnOSOmOFsObN0fY4xdwF1lGPYvckGV/q+
-        Dasi/Iei2pU+aUY7M7lEiB/p/pG0Cm31YAPwG68VxzFkmWu6O4oeSqR/LcxzmI2B
-        GlG3sTgIphSbx0xPhoCNkJuBWR4khuBQexrQ+IK6vG2coGCHB4CwDWYjCcbxDkYV
-        TWew1S6yMbvndK0+0Yjtu0J+qv7NcBNt445CumfMrVqwWAsq5Y+4BkE2JljN
-        -----END CERTIFICATE-----
-    type: SSL_CERTIFICATE_TYPE_VIRTUALSERVICE
-    key: |
-      -----BEGIN PRIVATE KEY-----
-      MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDdlJvo9KNS7Iis
-      L0i/2OfuzO668UQMJNE6KTWJcJazSMpW/fN8ddhb7ECFkckLjFsXzrgQ2qySuR7F
-      nSvBeSMhXYRFPuzaoNKzijHjPuKV9mAhyJJjLZSi7DcFVh0gR+SCwXeNdljnF5e7
-      3CJpKmxC+L3sLqWOZ74A/N9ICqs/ZXPJU/8dCKUXjseG49Bf1QYuvmWTOpUMSp4+
-      C0anfNCyUxBw3dC4A10t2aGfZRHMsSaZlkpRH9hEwKsZwxe1whuvYYf4TjZXTOsQ
-      1gpXGcWpYrxhNEkCQeB2qEE9dea33b45UIK4DmmdkCIBrKVQsErg7bC9wSH4b03D
-      v2VylMiRAgMBAAECggEAIjxp8o6KBbACVghgRzQucdk8MapBh1bQ9RmU6g15W24t
-      xU8rpdlXeqyAM6MY2y3ujTkle4UuEOWFeacVMamT4f3fCAv28LjUlWUO3DvFKsKM
-      i+u/oo9SXfH9dled3HT/O6zE2hilF9+vVBlpP7KMU7S3M5zpe51P4DsyDKGJYBv1
-      KaV1hYAUKdI6AIiafkHv3HJ8zvo6Eev36XCs7N1LKVC5GjQ+39eX7f2g5m+pp/on
-      SZQetYWd/8Fyqppnlv+G4U2Kd/R9u4AoEu/Us9PvOqVlRqQcemEKzJoc7ol121bP
-      +eaYbo7+mv8FA2VEX7fUKmLqceSarTxcbz4tuPTJ+QKBgQD2Zcyu/w8uAEWrXD1t
-      WAMu2a29JmiJN2BjT+s7eIJGbMbAKx2++7uFUKKxiMpU5gxV5klZ6f3V9r/omLdy
-      8uvHWxaqH3KBXfA6cKDQB9fcZsodV8sJMr/QP6t0buWs89lWGHjN2VTxlWvmEAef
-      km/gjv27BWG1W+IGIWM7E3gBXwKBgQDmNzhA7Ii36kZVYnTCN/7J33JqMhc9iAH/
-      vGgwDjVYGQ4/6s3YfvyPkdYjTpA37frxRQmu4eQuw+39gnwXMzXYh8E9eWv4hr0f
-      yTeDIPnu9YXDY/wbMM2gBlKq6c6PTERvy7sUWqsuQsDgt8snFvwBszFq9IQeWB0w
-      sEzFHavMDwKBgQDUT/2iIMdctQFTWgTYLkl32jvZy7mx2tSkXp3sPbfLpTlRJxXX
-      liQMCOJXpe3qX9vrPKah4n1GG/tbGhSg6O7/dd6+sqBBFsfEI35+IvP+x1eLFzYt
-      c9xSPjqn9lLTx77Tb/zQK2AFVuKFd/SJrG3Yin3Z5BZAZq8I50YRBoKWcwKBgQCc
-      bTsBCnffmAVQcUTqz0eF/hltRTn7alYJYgjdVloy0VuYXMCf8bFFEJATj4d5KXBQ
-      zltFBGKa0DD/B9GvpfFZfuz0C3Qs+8i4N25L4HVTRGsul9qu0xt1N7amQZZEUktS
-      N3mX2//iwCL0zo3wsrJrqUnT5e97+t1ivvh7G60nSwKBgQDWQ/UiZhgx/pOa1/VM
-      1UDwLLQFiOIvb4tdi8BaK4yrZCTxx/UfdDrYsfEHq4VmIjaY8ZJTWlnZ7H961kWR
-      bMF39SLFRP4BQlecH29mW/Ngz1YVUVcYS4gvaPal4dk3+xjbP6is+lrQ6SBwXtDw
-      v204b9IvIdQ/ZBImNOf3p7OYAg==
-      -----END PRIVATE KEY-----
+    enable_ssl_session_reuse: true
 
   httppolicyset:
   - name: mysitestg-43000-redirect-policy
+    state: "{{ state }}"
     http_request_policy:
       rules:
       - index: 0
@@ -150,16 +103,17 @@ avi_config:
             match_str:
             - "/"
             match_criteria: EQUALS
-    enable: 'false'
+    enable: 'true'
     tenant_ref: "/api/tenant/?name=admin"
 
   healthmonitor:
     - name: Test-HTTP-health_monitor
-      monitor_port: '14100'
+      state: "{{ state }}"
+      monitor_port: '14530'
       receive_timeout: '2'
       tenant_ref: "/api/tenant/?name=admin"
       failed_checks: 3
-      send_interval: '5'
+      send_interval: '4'
       http_monitor:
         http_request: GET /oam/server/HeartBeat
         http_response_code:
@@ -171,24 +125,125 @@ avi_config:
     - name: 'Backup-Configuration'
       tenant_ref: '/api/tenant?name=admin'
       save_local: true
-      maximum_backups_stored: 3
+      maximum_backups_stored: 4
 
-  role:
-    - name: Test- role
-      tenant_ref: "/api/tenant?name=admin"
+#  role:
+#    - name: Test-role
+#      state: "{{ state }}"
+#      tenant_ref: '/api/tenant?name=admin'
+#      privileges:
+#      - type: READ_ACCESS
+#        resource: PERMISSION_VIRTUALSERVICE
+#      - type: READ_ACCESS
+#        resource: PERMISSION_POOL
+#      - type: READ_ACCESS
+#        resource: PERMISSION_POOLGROUP
+#      - type: NO_ACCESS
+#        resource: PERMISSION_HTTPPOLICYSET
+#      - type: NO_ACCESS
+#        resource: PERMISSION_NETWORKSECURITYPOLICY
+#      - type: NO_ACCESS
+#        resource: PERMISSION_AUTOSCALE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_NETWORKPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_APPLICATIONPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_APPLICATIONPERSISTENCEPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_HEALTHMONITOR
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ANALYTICSPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_IPAMDNSPROVIDERPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_TRAFFICCLONEPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_IPADDRGROUP
+#      - type: NO_ACCESS
+#        resource: PERMISSION_STRINGGROUP
+#      - type: NO_ACCESS
+#        resource: PERMISSION_VSDATASCRIPTSET
+#      - type: NO_ACCESS
+#        resource: PERMISSION_MICROSERVICEGROUP
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SSLPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_AUTHPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_PKIPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SSLKEYANDCERTIFICATE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_CERTIFICATEMANAGEMENTPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_WAFPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_WAFPOLICY
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ALERTCONFIG
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ALERT
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ACTIONGROUPCONFIG
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ALERTSYSLOGCONFIG
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ALERTEMAILCONFIG
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SNMPTRAPPROFILE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_TRAFFIC_CAPTURE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_CLOUD
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SERVICEENGINE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SERVICEENGINEGROUP
+#      - type: NO_ACCESS
+#        resource: PERMISSION_NETWORK
+#      - type: NO_ACCESS
+#        resource: PERMISSION_VRFCONTEXT
+#      - type: NO_ACCESS
+#        resource: PERMISSION_USER_CREDENTIAL
+#      - type: NO_ACCESS
+#        resource: PERMISSION_SYSTEMCONFIGURATION
+#      - type: NO_ACCESS
+#        resource: PERMISSION_CONTROLLER
+#      - type: NO_ACCESS
+#        resource: PERMISSION_REBOOT
+#      - type: NO_ACCESS
+#        resource: PERMISSION_UPGRADE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_TECHSUPPORT
+#      - type: NO_ACCESS
+#        resource: PERMISSION_INTERNAL
+#      - type: NO_ACCESS
+#        resource: PERMISSION_USER
+#      - type: NO_ACCESS
+#        resource: PERMISSION_ROLE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_TENANT
+#      - type: NO_ACCESS
+#        resource: PERMISSION_GSLB
+#      - type: NO_ACCESS
+#        resource: PERMISSION_GSLBSERVICE
+#      - type: NO_ACCESS
+#        resource: PERMISSION_GSLBGEODBPROFILE
 
   scheduler:
     - name: Default-Scheduler
       frequency_unit: SCHEDULER_FREQUENCY_UNIT_MONTH
       run_mode: RUN_MODE_PERIODIC
       backup_config_ref: '/api/backupconfiguration?name=Backup-Configuration'
-      frequency: 3
+      frequency: 4
       scheduler_action: SCHEDULER_ACTION_BACKUP
 
   prioritylabels:
     - name: test-proritylabel
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
-      description: 'desc'
+      description: 'updated_desc'
 
   cloud:
     - name: Test-Vcenter-Cloud
@@ -196,7 +251,7 @@ avi_config:
       dhcp_enabled: true
       enable_vip_static_routes: false
       license_type: LIC_CORES
-      mtu: 1500
+      mtu: 1300
       prefer_static_routes: false
       vcenter_configuration:
         datacenter: "Demo-DC"
@@ -207,115 +262,84 @@ avi_config:
         vcenter_url: 10.128.2.190
       vtype: CLOUD_VCENTER
 
-  tenant:
-    - name: "test-Tenant"
-      state: 'present'
-      config_settings:
-        se_in_provider_context: false
-        tenant_access_to_provider_se: true
-        tenant_vrf: false
-      description: VCenter, Open Stack
-      local: true
+#  tenant:
+#    - name: "test-Tenant"
+#      state: "{{ state }}"
+#      config_settings:
+#        se_in_provider_context: false
+#        tenant_access_to_provider_se: true
+#        tenant_vrf: false
+#      description: VCenter, Open Stack
+#      local: true
 
   errorpagebody:
     - name: Test-Error-Page
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/admin"
       error_page_body: "Test error"
 
-  systemconfiguration:
   vrfcontext:
     - name: test-vrf-context
+      state: "{{ state }}"
       url: "/api/vrfcontext/vrfcontext-f54f6d8a-d2c9-4bc9-a0b8-cfaed295aff6"
       tenant_ref: "/api/tenant/admin"
       system_default: false
 
   gslbservice:
-    - name: test-gslb-service
+    - name: test-gslbservice
+      state: "{{ state }}"
+      controller_health_status_enabled: true
+      wildcard_match: false
+      tenant_ref: '/api/tenant/admin'
+      down_response:
+        type: GSLB_SERVICE_DOWN_RESPONSE_NONE
+      enabled: true
       domain_names:
-        - com
+      - test-application.com
+      is_federated: true
+      use_edns_client_subnet: true
+      groups:
+      - priority: 10
+        members:
+        - ip:
+            type: V4
+            addr: 1.2.3.5
+          ratio: 1
+          enabled: true
+        name: test
+        algorithm: GSLB_ALGORITHM_ROUND_ROBIN
+      - priority: 1
+        members:
+        - ip:
+            type: V4
+            addr: 10.20.30.40
+          ratio: 1
+          enabled: true
+        name: test-pool
+        algorithm: GSLB_ALGORITHM_ROUND_ROBIN
+      site_persistence_enabled: false
+      min_members: 1
+      health_monitor_scope: GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS
+      pool_algorithm: GSLB_SERVICE_ALGORITHM_PRIORITY
+
+
   useraccountprofile:
     - name: Test-Default-User-Account-Profile
-      max_concurrent_sessions: 0
-      account_lock_timeout: 30
+      state: "{{ state }}"
+      max_concurrent_sessions: 1
+      account_lock_timeout: 40
       max_login_failure_count: 20
       max_password_history_count: 0
       credentials_timeout_threshold: 0
 
   vsdatascriptset:
     - name: Test-datascript
-      description: "Desc"
-
-  seproperties:
-    - se_agent_properties:
-        dp_enq_interval_msec: 10
-        sdb_scan_count: 600
-        dp_reg_pending_max_wait_time: 75
-        controller_echo_rpc_aggressive_timeout: 2000
-        dp_aggressive_enq_interval_msec: 1
-        vnic_ip_delete_interval: 5
-        dp_max_wait_rsp_time_sec: 60
-        controller_rpc_timeout: 10
-        controller_heartbeat_miss_limit: 6
-        dp_aggressive_deq_interval_msec: 1
-        controller_echo_rpc_timeout: 2000
-        ignore_docker_mac_change: true
-        sdb_pipeline_size: 100
-        cpustats_interval: 5
-        dp_batch_size: 100
-        vnic_probe_interval: 5
-        debug_mode: false
-        vnic_dhcp_ip_max_retries: 10
-        dp_deq_interval_msec: 20
-        ctrl_reg_pending_max_wait_time: 150
-        headless_timeout_sec: 0
-        sdb_flush_interval: 100
-        controller_echo_miss_aggressive_limit: 2
-        controller_heartbeat_timeout_sec: 12
-        controller_registration_timeout_sec: 10
-        controller_echo_miss_limit: 4
-        vnic_dhcp_ip_check_interval: 6
-      se_runtime_properties:
-        upstream_connpool_conn_life_tmo: -1
-        log_agent_max_active_adf_files_per_vs: 100
-        se_auth_ldap_conns_per_server: 1
-        log_agent_file_sz_appl: 4
-        se_packet_buffer_max: 0
-        log_agent_max_logmessage_proto_sz: 65536
-        se_hb_persist_fudge_bits: 3
-        se_dp_vnic_stall_se_restart_window: 3600
-        upstream_connpool_conn_max_reuse: -1
-        upstream_connpool_server_max_cache: -1
-        dp_aggressive_hb_timeout_count: 10
-        se_metrics_rt_interval: 1000
-        persistence_mem_max: 0
-        upstream_connpool_core_max_cache: -1
-        log_agent_log_storage_min_sz: 1024
-        se_random_tcp_drops: false
-        se_dp_if_state_poll_interval: 10
-        se_auth_ldap_cache_size: 100000
-        log_message_max_file_list_size: 64
-        services_accessible_all_interfaces: false
-        dupip_timeout_count: 5
-        baremetal_dispatcher_handles_flows: false
-        upstream_connpool_cache_thresh: -1
-        connections_lossy_log_rate_limiter_threshold: 1000
-        upstream_connpool_conn_idle_tmo: -1
-        log_agent_unknown_vs_timer: 1800
-        upstream_connpool_strategy: -1
-        upstream_connpool_conn_idle_thresh_tmo: -1
-        log_agent_min_storage_per_vs: 10
-        feproxy_vips_enable_proxy_arp: true
-        service_port_ranges:
-          - start: 4000
-            end: 9000
-        scaleout_udp_per_pkt: true
-        se_dp_log_nf_enqueue_percent: 70
-        http_rum_min_content_length: 64
-        flow_table_batch_push_frequency: 5
-        log_agent_file_sz_conn: 4
+      state: "{{ state }}"
+      description: "Updated-Desc"
 
   stringgroup:
     - name: Test-System-Compressible-Content-Types
+      state: "{{ state }}"
       kv:
       - key: text/html
       - key: text/xml
@@ -324,20 +348,19 @@ avi_config:
       - key: text/javascript
       - key: application/javascript
       - key: application/x-javascript
-      - key: application/xml
-      - key: application/pdf
       tenant_ref: admin
       type: SG_TYPE_STRING
 
   hardwaresecuritymodulegroup:
     - name: test
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
       hsm:
         rfs:
           ip:
             type: V4
-            addr: 1.2.3.4
-          port: 9004
+            addr: 10.2.30.11
+          port: 9060
         type: HSM_TYPE_THALES_NETHSM
         nethsm:
         - remote_port: 9004
@@ -351,6 +374,7 @@ avi_config:
 
   wafprofile:
     - name: Test-WAF-Profile
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/?name=admin"
       config:
         client_nonfile_upload_max_body_size: 128
@@ -360,7 +384,6 @@ avi_config:
         - multipart/form-data
         - text/xml
         - application/xml
-        - application/x-amf
         - application/json
         allowed_methods:
         - HTTP_METHOD_GET
@@ -381,7 +404,6 @@ avi_config:
         - ".png"
         - ".js"
         - ".css"
-        - ".ico"
         - ".svg"
         - ".webp"
         buffer_response_body_for_inspection: false
@@ -403,22 +425,24 @@ avi_config:
 
   wafpolicy:
     - name: Test-WAF-Policy
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/admin"
       mode: WAF_MODE_DETECTION_ONLY
-      paranoia_level: WAF_PARANOIA_LEVEL_LOW
-      waf_profile_ref: "/api/wafprofile/Test-WAF-Profile"
+      paranoia_level: WAF_PARANOIA_LEVEL_HIGH
+      waf_profile_ref: "/api/wafprofile?name=Test-WAF-Profile"
 
   ipaddrgroup:
     - name: New-Internal
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/?name=admin"
       prefixes:
       - ip_addr:
           type: V4
-          addr: 10.0.0.0
+          addr: 10.20.0.10
         mask: 8
       - ip_addr:
           type: V4
-          addr: 192.168.0.10
+          addr: 192.168.0.11
         mask: 16
       - ip_addr:
           type: V4
@@ -427,35 +451,40 @@ avi_config:
 
   ipamdnsproviderprofile:
     - name: test
+      state: "{{ state }}"
       tenant_ref: /api/tenant?name=admin
       internal_profile:
         dns_service_domain:
         - record_ttl: 150
           num_dns_ip: 1
-          domain_name: rohan
+          domain_name: test
           pass_through: true
       ttl: 30
       type: IPAMDNS_TYPE_INTERNAL_DNS
 
   webhook:
     - name: Test-webhook
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
-      description: 'desc'
+      description: 'Updated-desc'
 
   microservicegroup:
     - name: vs-marketing
-      description: Group created by my Secure My App UI.
-      tenant_ref: admin
+      state: "{{ state }}"
+      description: "Group updated by my Secure My App UI."
+      tenant_ref: /api/tenant?name=admin
 
   actiongroupconfig:
     - name: Test-Syslog-Config
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/?name=admin"
-      level: ALERT_HIGH
+      level: ALERT_LOW
       autoscale_trigger_notification: false
       external_only: true
 
   alertconfig:
     - name: Test-System-SSL-Alert
+      state: "{{ state }}"
       enabled: true
       tenant_ref: "/api/tenant/?name=admin"
       category: REALTIME
@@ -472,42 +501,48 @@ avi_config:
           not_cond: false
         - event_id: SSL_CERT_RENEW_FAILED
           not_cond: false
-      threshold: 1
+      threshold: 12
       throttle: 0
       action_group_ref: "/api/actiongroupconfig/?name=System-Alert-Level-Medium"
 
   alertemailconfig:
     - name: test-email
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/?name=admin"
       to_emails: 'abc.pqx@gmail.com'
-      cc_emails: 'avi.123@gmail.com'
+      cc_emails: 'avi.456@gmail.com'
 
   network:
     - name: test-network
+      state: "{{ state }}"
       synced_from_se: false
       tenant_ref: '/api/tenant?name=admin'
       exclude_discovered_subnets: true
-      dhcp_enabled: true
+      dhcp_enabled: false
 
   networksecuritypolicy:
     - name: Test-network-policy
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
 
   alertscriptconfig:
     - name: test
+      state: "{{ state }}"
       tenant_ref: /api/tenant?name=admin
-      action_script: echo "avi networks"
+      action_script: echo "avi networks!"
 
   alertsyslogconfig:
     - name: test
+      state: "{{ state }}"
       tenant_ref: '/api/tenant/?name=admin'
       syslog_servers:
       - udp: true
-        syslog_server_port: 443
+        syslog_server_port: 343
         syslog_server: 10.10.3.10
 
   pkiprofile:
     - name: test-pkiprofile
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
       is_federated: true
       ignore_peer_chain: false
@@ -515,8 +550,9 @@ avi_config:
 
   analyticsprofile:
     - name: Test-System-Analytics-Profile
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/?name=admin"
-      hs_event_throttle_window: 1209600
+      hs_event_throttle_window: 1203400
       description: Test System Analytics Profile
       apdex_response_threshold: 500
       disable_se_analytics: false
@@ -524,7 +560,7 @@ avi_config:
       hs_security_nonpfs_penalty: 1
       hs_security_tls12_score: 5
       exclude_server_tcp_reset_as_error: false
-      hs_min_dos_rate: 1000
+      hs_min_dos_rate: 800
       exclude_no_dns_record_as_error: false
       conn_server_lossy_zero_win_size_event_threshold: 2
       hs_max_resources_penalty: 25
@@ -585,63 +621,881 @@ avi_config:
 
   poolgroupdeploymentpolicy:
     - name: test-policy
-      target_test_traffic_ratio: 2
-      test_traffic_ratio_rampup: 3
-      evaluation_duration: 7599
+      state: "{{ state }}"
+      target_test_traffic_ratio: 3
+      test_traffic_ratio_rampup: 4
+      evaluation_duration: 6599
 
   authprofile:
-    - name: ProdAuth
+    - name: Test-AuthProfile
+      state: "{{ state }}"
       http:
         cache_expiration_time: 5
         group_member_is_full_dn: false
       ldap:
         base_dn: dc=avi,dc=local
         bind_as_administrator: true
-        port: 389
+        port: 380
         security_mode: AUTH_LDAP_SECURE_NONE
         server:
         - 10.10.0.100
-      settings:
-        admin_bind_dn: user@avi.local
-        group_filter: (objectClass=*)
-        group_member_attribute: member
-        group_member_is_full_dn: true
-        group_search_dn: dc=avi,dc=local
-        group_search_scope: AUTH_LDAP_SCOPE_SUBTREE
-        ignore_referrals: true
-        password: password
-        user_id_attribute: samAccountname
-        user_search_dn: dc=avi,dc=local
-        user_search_scope: AUTH_LDAP_SCOPE_ONE
+        settings:
+          admin_bind_dn: user@avi.local
+          group_filter: (objectClass=*)
+          group_member_attribute: member
+          group_member_is_full_dn: true
+          group_search_dn: dc=avi,dc=local
+          group_search_scope: AUTH_LDAP_SCOPE_SUBTREE
+          ignore_referrals: true
+          password: password
+          user_id_attribute: samAccountname
+          user_search_dn: dc=avi,dc=local
+          user_search_scope: AUTH_LDAP_SCOPE_ONE
       tenant_ref: admin
       type: AUTH_PROFILE_LDAP
 
   autoscalelaunchconfig:
     - name: Test-autoscalelaunchconfig
+      state: "{{ state }}"
       tenant_ref: "/api/tenant/admin"
       image_id: default
-      use_external_asg: true
+      use_external_asg: false
 
   network:
     - name: test-network
+      state: "{{ state }}"
       synced_from_se: false
       tenant_ref: '/api/tenant?name=admin'
       exclude_discovered_subnets: true
-      dhcp_enabled: true
+      dhcp_enabled: false
 
-  serverautoscalepolicy:
   cloudconnectoruser:
     - name: Test-User
+      state: "{{ state }}"
       tenant_ref: '/api/tenant?name=admin'
       private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDA7Lri81+WxnMx\nzg+b8Mw3tH6ls0WIdT90cZlgnb/0YBDzeft2etemC50cHVbqLYZ+UkYMQJjk0Zk9\nF1ANPcY6KhRM0oDh1tb2YdemO19lqy/pXub46rrFI4EutgvG4hMgQm6uBBOEZTxl\nntGzUeh6pLQpUcPvcjCKjDn0j/SMtjMo6q5/q+af0X4+CoASE84mv+VLWnhlF5gr\nZyW7OfkcPUqRcGnt/VplGJHvugcoNmrEuKi8fzK0WRsEYUwAWgQ3DDMuJSgrPSRc\nWanOV5BES8Wtv0CnicXa8wo05Rfnof1p6oOdhjAgN5OhD6Keq98UpgNkSDvZgW5R\nGJpeYqhrAgMBAAECggEBAKhhNQ+FWEVw+PNcJJV2ydZIi0y1tZdOtc48o6AGrpVs\nDv9h1I5o0rRSaJI0LTp/92VjC04ARzFWmgcOxMh5xPvY5BTUmLYDW2R4qs2j/jPv\nAAcP1EkmHVKYFVSegJLZl9XNBWqNljc0YE1VGzMF5wC7pZ52hasDn8gccSy5Q7hW\ne9Kiek3C02vDdlCEs5EK0O7+KBZb75YsOSEjaoDJGAPH3Iw3Y8FTDChpA5zv94PC\nY4XFxmxZ5hj3WJoKcf0MYTbUP31sjnWYPfckr8F6xic/AHO8e009bjRCSLeOrut7\n3pC1F+8ekuvdTtiQKMYWjZDKOIx65ClJP+8nC/VXG1ECgYEA8nxUSl2f3JOB/RmM\nuEXgmeY0iQqXmOH1WesRofCNXQA4ENzwl5ADrZ+rFJ9B9fjkT5+Q+QP7CClW6AhC\neBtHDxr6rUcZsKrZdZJrdOk6Wxw8+Ql3wGnd81frrhTSOStUm5X5ztBVtvdfDPhj\nmcJpRIbUtb8XZJWRMfz6gtxZIFkCgYEAy61J7iMbbzv+gTEd719A0ITGSAQ3FRWw\nL4Co0PtEhq0lmJHRcYVTX20fj2n0eTL23FRPAz1K48+pj9DpqXIsuzU0sgUe4erQ\n6pJ5kFy0TRisqgh2JBpYsMNAX+q1lTtjUR0IaSCIILXydX20yZHdgFx4dgjR+R9d\nzm7OPx/PlmMCgYARiMIDmp+LsLLunWFaldr25fmYi0aJDJXUSbY9sopWVkS3m3Je\nU1CgxnH1jMqVQckopM4z44DMh0i8gJRl4PsTcYz86K5H4yLUaKESlCbfHbye+XtK\nU510EkB9lw3YinSUx5SHyvLXxy19X5y8Kp24EdPhzI6hfFtCdRucSNi9CQKBgF7c\nH3GcwjtFStxqvtFsoKg9HogOBoV4a21EU9u5GwpKfBcZ2t0vRkxMa4WEyIrmFJk7\nXu1YT5fYcNV9bEYx2el690buIZsAnTqS67Ezq/m4QzqR5EweRS5WUZYan2WYmkH9\n7pvfvebWNs1Htbqnh+0vpB79LqYDWNI7Qy2dKDaXAoGBAKrS+3RKLBspcKtxh42u\nMDNgFykpHExlT09qqBmmD52+k7lGKeciwRiBPO2wckuTJHOsxOFt0IRCVtzrKzgL\nrz+GlYExiuvr08DvHabTwE0+ASTOlOfS1/XPO7OA2fbQTg/mUiSvqDPS225Ah6Gx\nCpfvapb71uWuMinrDbEhTEc5\n-----END PRIVATE KEY-----\n"
 
   certificatemanagementprofile:
-  serviceengine:
-  serviceenginegroup:
-  cloudproperties:
-  cluster:
-  controllerproperties:
-  errorpageprofile:
-  gslb:
-  gslbgeodbprofile:
+    - name: test
+      state: "{{ state }}"
+      tenant_ref: '/api/tenant?name=admin'
+      script_path: 'updated/path/to/script'
+
+  systemconfiguration:
+    - url: "/api/systemconfiguration"
+      avi_api_update_method: put
+      email_configuration:
+        from_email: admin@avinetworks.com
+        mail_server_port: 25
+        smtp_type: SMTP_LOCAL_HOST
+        mail_server_name: localhost
+      global_tenant_config:
+        se_in_provider_context: true
+        tenant_access_to_provider_se: true
+        tenant_vrf: false
+      dns_configuration:
+        search_domain: ''
+        server_list:
+        - type: V4
+          addr: 10.10.0.100
+      default_license_tier: ENTERPRISE_18
+      docker_mode: false
+      portal_configuration:
+        use_uuid_from_input: false
+        redirect_to_https: true
+        sslprofile_ref: "/api/sslprofile/?name=System-Standard-Portal"
+        sslkeyandcertificate_refs:
+        - "/api/sslkeyandcertificate/?name=System-Default-Portal-Cert"
+        - "/api/sslkeyandcertificate/?name=System-Default-Portal-Cert-EC256"
+        enable_clickjacking_protection: true
+        enable_https: true
+        disable_remote_cli_shell: false
+        password_strength_check: false
+        enable_http: false
+        allow_basic_authentication: true
+      ntp_configuration:
+        ntp_servers:
+        - server:
+            type: DNS
+            addr: 0.us.pool.ntp.org
+        - server:
+            type: DNS
+            addr: 1.us.pool.ntp.org
+        - server:
+            type: DNS
+            addr: 2.us.pool.ntp.org
+        - server:
+            type: DNS
+            addr: 3.us.pool.ntp.org
+
+
   ipamdnsproviderprofile:
+    - name: test
+      state: "{{ state }}"
+      tenant_ref: '/api/tenant?name=admin'
+      internal_profile:
+        dns_service_domain:
+        - record_ttl: 150
+          num_dns_ip: 1
+          domain_name: rohan
+          pass_through: true
+        ttl: 40
+      type: IPAMDNS_TYPE_INTERNAL_DNS
+
+  serverautoscalepolicy:
+    - name: TestAutoscaleProperty
+      state: "{{ state }}"
+      description: 'Updated Test desc'
+      tenant_ref: admin
+      max_scalein_adjustment_step: 1
+      intelligent_autoscale: false
+      intelligent_scalein_margin: 50
+      use_predicted_load: false
+      intelligent_scaleout_margin: 30
+      scaleout_alertconfig_refs:
+      - /api/alertconfig/alertconfig-bf87601c-e527-4a08-a9ba-3328b5ae94b9#Syslog-Config-Events
+      - /api/alertconfig/alertconfig-bd695fad-2100-48a1-b7a4-44e96787474f#Syslog-System-Events
+      min_size: 3
+      scalein_alertconfig_refs:
+      - /api/alertconfig/alertconfig-81416167-98ae-40cc-947f-e5366c51605e#System-SE-Alert
+      - /api/alertconfig/alertconfig-40056299-073f-4e07-a39e-8f139f34bbdc#System-SSL-Alert
+      scalein_cooldown: 300
+      max_scaleout_adjustment_step: 1
+      scaleout_cooldown: 300
+      max_size: 50
+
+
+  serviceenginegroup:
+    - name: Test-Default-Group
+      state: "{{ state }}"
+      tenant_ref: "/api/tenant/?name=admin"
+      cloud_ref: "/api/cloud/?name=Default-Cloud"
+      archive_shm_limit: 8
+      udf_log_throttle: 100
+      se_ipc_udp_port: 1500
+      ingress_access_data: SG_INGRESS_ACCESS_ALL
+      vcpus_per_se: 1
+      disable_tso: false
+      se_sb_dedicated_core: false
+      async_ssl: false
+      license_tier: ENTERPRISE_18
+      se_name_prefix: Avi_new
+      auto_redistribute_active_standby_load: false
+      auto_rebalance: false
+      aggressive_failure_detection: false
+      vs_scaleout_timeout: 30
+      auto_rebalance_interval: 300
+      active_standby: false
+      se_tunnel_mode: 0
+      ignore_rtt_threshold: 5000
+      extra_shared_config_memory: 0
+      enable_vip_on_all_interfaces: true
+      se_tunnel_udp_port: 1550
+      disable_gro: false
+      vs_scalein_timeout: 30
+      hm_on_standby: true
+      ha_mode: HA_MODE_SHARED
+      se_sb_threads: 1
+      se_remote_punt_udp_port: 1501
+      se_udp_encap_ipc: 0
+      min_cpu_usage: 30
+      disk_per_se: 10
+      cpu_reserve: false
+      disable_csum_offloads: false
+      log_disksz: 10000
+      cpu_socket_affinity: false
+      se_probe_port: 7
+      ingress_access_mgmt: SG_INGRESS_ACCESS_ALL
+      extra_config_multiplier: 0
+      distribute_load_active_standby: false
+      max_vs_per_se: 8
+      async_ssl_threads: 1
+      connection_memory_percentage: 50
+      placement_mode: PLACEMENT_MODE_AUTO
+      max_scaleout_per_vs: 4
+      vs_scalein_timeout_for_upgrade: 30
+      vcenter_folder: AviSeFolder
+      os_reserved_memory: 0
+      enable_routing: false
+      se_bandwidth_type: SE_BANDWIDTH_UNLIMITED
+      waf_mempool: true
+      se_thread_multiplier: 1
+      se_deprovision_delay: 120
+      dedicated_dispatcher_core: false
+      per_app: false
+      se_vs_hb_max_vs_in_pkt: 256
+      vcenter_datastores_include: false
+      advertise_backend_networks: false
+      realtime_se_metrics:
+        duration: 0
+        enabled: true
+      #mgmt_network_ref: "/api/network/dvportgroup-102-cloud-bb998f08-691d-4624-8b24-b6e6eb85186d"
+      non_significant_log_throttle: 100
+      max_cpu_usage: 80
+      min_scaleout_per_vs: 2
+      se_vs_hb_max_pkts_in_batch: 8
+      host_gateway_monitor: false
+      buffer_se: 2
+      mem_reserve: true
+      flow_table_new_syn_max_entries: 0
+      vcenter_datastore_mode: VCENTER_DATASTORE_ANY
+      num_flow_cores_sum_changes_to_ignore: 8
+      least_load_core_selection: true
+      max_se: 11
+      significant_log_throttle: 100
+      waf_mempool_size: 64
+      license_type: LIC_CORES
+      algo: PLACEMENT_ALGO_DISTRIBUTED
+      memory_per_se: 2048
+      enable_vmac: false
+      vs_host_redundancy: true
+
+  gslbgeodbprofile:
+    - name: test-profile
+      state: "{{ state }}"
+      tenant_ref: /api/tenant/admin
+      is_federated: true
+      entries:
+      - priority: 9
+        file:
+          format: GSLB_GEODB_FILE_FORMAT_AVI
+          filename: AviGeoDb.txt.gz
+
+  errorpageprofile:
+    - name: test-pageprofile
+      state: "{{ state }}"
+      tenant_ref: '/api/tenant?name=admin'
+      host_name: 'admin'
+      company_name: 'Avi-Networks'
+      app_name: 'Demo-app'
+
+  gslb:
+    - name: Default
+      state: "{{ state }}"
+      tenant_ref: admin
+      maintenance_mode: false
+      view_id: 0
+      sites:
+      - username: admin
+        name: Test1
+        ip_addresses:
+        - type: V4
+          addr: "{{ avi_credentials.controller }}"
+        enabled: true
+        member_type: GSLB_ACTIVE_MEMBER
+        location:
+          source: GSLB_LOCATION_SRC_USER_CONFIGURED
+          location:
+            latitude: 18.520429611206055
+            tag: Pune
+            name: pune
+            longitude: 73.85674285888672
+        cluster_uuid: "cluster-c21b09af-785a-4b7a-a8ed-9cc030400864"
+        password: "{{avi_credentials.password}}"
+        port: 443
+      client_ip_addr_group:
+        type: GSLB_IP_PUBLIC
+      send_interval: 25
+      dns_configs:
+      - domain_name: com
+      is_federated: true
+      leader_cluster_uuid: "cluster-c21b09af-785a-4b7a-a8ed-9cc030400864"
+      clear_on_max_retries: 20
+
+  seproperties:
+    - se_agent_properties:
+        dp_enq_interval_msec: 10
+        sdb_scan_count: 600
+        dp_reg_pending_max_wait_time: 75
+        controller_echo_rpc_aggressive_timeout: 2000
+        dp_aggressive_enq_interval_msec: 1
+        vnic_ip_delete_interval: 5
+        dp_max_wait_rsp_time_sec: 60
+        controller_rpc_timeout: 10
+        controller_heartbeat_miss_limit: 6
+        dp_aggressive_deq_interval_msec: 1
+        controller_echo_rpc_timeout: 2000
+        ignore_docker_mac_change: true
+        sdb_pipeline_size: 150
+        cpustats_interval: 5
+        dp_batch_size: 100
+        vnic_probe_interval: 5
+        debug_mode: false
+        vnic_dhcp_ip_max_retries: 10
+        dp_deq_interval_msec: 20
+        ctrl_reg_pending_max_wait_time: 150
+        headless_timeout_sec: 0
+        sdb_flush_interval: 100
+        controller_echo_miss_aggressive_limit: 2
+        controller_heartbeat_timeout_sec: 12
+        controller_registration_timeout_sec: 10
+        controller_echo_miss_limit: 4
+        vnic_dhcp_ip_check_interval: 6
+      se_runtime_properties:
+        upstream_connpool_conn_life_tmo: -1
+        log_agent_max_active_adf_files_per_vs: 100
+        se_auth_ldap_conns_per_server: 1
+        log_agent_file_sz_appl: 4
+        se_packet_buffer_max: 0
+        log_agent_max_logmessage_proto_sz: 65536
+        se_hb_persist_fudge_bits: 3
+        se_dp_vnic_stall_se_restart_window: 3600
+        upstream_connpool_conn_max_reuse: -1
+        upstream_connpool_server_max_cache: -1
+        dp_aggressive_hb_timeout_count: 10
+        se_metrics_rt_interval: 1000
+        persistence_mem_max: 0
+        upstream_connpool_core_max_cache: -1
+        log_agent_log_storage_min_sz: 1024
+        se_random_tcp_drops: false
+        se_dp_if_state_poll_interval: 10
+        se_auth_ldap_cache_size: 100000
+        log_message_max_file_list_size: 64
+        services_accessible_all_interfaces: false
+        dupip_timeout_count: 5
+        baremetal_dispatcher_handles_flows: false
+        upstream_connpool_cache_thresh: -1
+        connections_lossy_log_rate_limiter_threshold: 1000
+        upstream_connpool_conn_idle_tmo: -1
+        log_agent_unknown_vs_timer: 1800
+        upstream_connpool_strategy: -1
+        upstream_connpool_conn_idle_thresh_tmo: -1
+        log_agent_min_storage_per_vs: 10
+        feproxy_vips_enable_proxy_arp: true
+        service_port_ranges:
+          - start: 4000
+            end: 9000
+        scaleout_udp_per_pkt: true
+        se_dp_log_nf_enqueue_percent: 70
+        http_rum_min_content_length: 64
+        flow_table_batch_push_frequency: 5
+        log_agent_file_sz_conn: 3
+
+  snmptrapprofile:
+    - name: test
+      state: "{{ state }}"
+      tenant_ref: '/api/tenant/?name=admin'
+      trap_servers:
+      - version: SNMP_VER2
+        ip_addr:
+          type: V4
+          addr: 10.10.3.20
+        port: 163
+        community: "dummy-string"
+
+#  serviceengine:
+#    - name: 10.10.28.97
+#      url: '/api/serviceengine/se-005056b0635f#10.10.28.97'
+#      uuid: se-005056b0635f
+#      tenant_ref: '/api/tenant/admin#admin'
+#      cloud_ref: '/api/cloud/cloud-c9c6b2a1-9e6f-4a12-96d6-b896c166beed#Default-Cloud'
+#      se_group_ref: '/api/serviceenginegroup/serviceenginegroup-ce3ab09b-ff17-4c42-a212-13463a6175ba#Default-Group'
+#      enable_state: SE_STATE_ENABLED
+#      container_mode: false
+#      controller_created: false
+#      mgmt_vnic:
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        is_asm: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        linux_name: eth0
+#        mac_address: 00:50:56:b0:63:5f
+#        enabled: true
+#        if_name: eth0
+#        mtu: 1500
+#        del_pending: false
+#        is_mgmt: true
+#        connected: true
+#        vnic_networks:
+#        - ip:
+#            ip_addr:
+#              type: V4
+#              addr: 10.10.28.97
+#            mask: 23
+#          ctlr_alloc: false
+#          mode: DHCP
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        adapter: Unknown
+#        dhcp_enabled: true
+#        can_se_dp_takeover: true
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      hypervisor: DEFAULT
+#      data_vnics:
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth1
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:04:b7
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth1
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth2
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:06:44
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth2
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth5
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:25:46
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth3
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth3
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:27:d2
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth6
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth8
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:73:42
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth8
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth4
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:8e:ec
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth7
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth9
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:c8:c8
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth9
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth7
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:e4:92
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth5
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      - mtu: 1500
+#        port_uuid: Unknown
+#        is_portchannel: false
+#        can_se_dp_takeover: true
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        adapter: Unknown
+#        enabled: true
+#        if_name: eth6
+#        dhcp_enabled: true
+#        del_pending: false
+#        is_mgmt: false
+#        connected: true
+#        mac_address: 00:50:56:b0:fb:80
+#        vrf_id: 0
+#        aggregator_chgd: false
+#        is_asm: false
+#        linux_name: eth4
+#        vlan_id: 0
+#        vrf_ref: '/api/vrfcontext/vrfcontext-e8fdaabd-9ce2-4c66-a098-3aec043d0d8e#global'
+#      container_type: CONTAINER_TYPE_HOST
+#      flavor: ''
+#      resources:
+#        cores_per_socket: 1
+#        num_vcpus: 1
+#        hyper_threading: false
+#        memory: 2000
+#        disk: 9
+#        sockets: 1
+#      vnic:
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:04:b7
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:06:44
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:25:46
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:27:d2
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:63:5f
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:73:42
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:8e:ec
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:c8:c8
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:e4:92
+#        present_in_vinfra: false
+#      - is_portchannel: false
+#        is_hsm: false
+#        is_avi_internal_network: false
+#        present_in_se: true
+#        mtu: 1500
+#        state: VNIC_STATE_UNKNOWN
+#        is_mgmt: false
+#        mac_addr: 00:50:56:b0:fb:80
+#        present_in_vinfra: false
+#      vcenter_rm_cookie: ''
+#      prev_se_connected: true
+#      migrate_state: SE_MIGRATE_STATE_IDLE
+#      inband_mgmt: false
+#      se_connected: true
+#      delete_in_progress: false
+#      state_name: SeMgrFsmMap::Online
+#      gateway_up: true
+#      oper_status:
+#        state: OPER_UP
+#        reason_code: 0
+#        reason:
+#        - Service Engine connected to controller
+#        last_changed_time:
+#          secs: 1520925797
+#          usecs: 813497
+#      at_curr_ver: true
+#      vinfra_discovered: false
+#      online_since: 2018-Mar-13 07:23:17
+#      version: 17.2.8(9012) 2018-03-12 15:20:02 UTC
+#      creation_in_progress: false
+#      state_id: '4'
+#      power_state: SE_POWER_ON
+#      license_state: LICENSE_STATE_LICENSED
+#      counters:
+#        reg_fail_cnt: 1
+#        hb_sent_cnt: 0
+#        last_hb_miss: ''
+#        reg_cnt: 2
+#        last_up: 2018-Mar-13 07:23:17
+#        se_down_cnt: 0
+#        last_dp_hb_miss: ''
+#        hb_miss_cnt: 0
+#        se_up_cnt: 1
+#        last_down: ''
+#        last_partitioned: ''
+#        hb_recv_cnt: 0
+#        dp_hb_miss_cnt: 0
+#      cloud_ref_data:
+#        vtype: CLOUD_NONE
+#        license_tier: ENTERPRISE_18
+#        uuid: cloud-c9c6b2a1-9e6f-4a12-96d6-b896c166beed
+#        enable_vip_static_routes: false
+#        url: '/api/cloud/cloud-c9c6b2a1-9e6f-4a12-96d6-b896c166beed#Default-Cloud'
+#        tenant_ref: '/api/tenant?name=admin'
+#        mtu: 1500
+#        state_based_dns_registration: true
+#        prefer_static_routes: false
+#        license_type: LIC_CORES
+#        apic_mode: false
+#        dhcp_enabled: true
+#        name: Default-Cloud
+
+#  cluster:
+#  clusterclouddetails
+#  snmptrapprofile
+#  customipamdnsprofile
+#  dnspolicy
+#controllerproperties:
+#    - vs_se_ping_fail: 60
+#      vs_se_create_fail: 1500
+#      cluster_ip_gratuitous_arp_period: 60
+#      persistence_key_rotate_period: 60
+#      unresponsive_se_reboot: 300
+#      attach_ip_retry_interval: 360
+#      vs_se_vnic_fail: 300
+#      attach_ip_retry_limit: 4
+#      se_vnic_cooldown: 120
+#      vnic_op_fail_time: 180
+#      max_pcap_per_tenant: 4
+#      vs_se_bootup_fail: 300
+#      seupgrade_fabric_pool_size: 20
+#      vs_key_rotate_period: 60
+#      seupgrade_segroup_min_dead_timeout: 360
+#      upgrade_lease_time: 360
+#      se_create_timeout: 900
+#      query_host_fail: 180
+#      vs_apic_scaleout_timeout: 360
+#      se_offline_del: 172000
+#      max_dead_se_in_grp: 1
+#      upgrade_dns_ttl: 5
+#      fatal_error_lease_time: 120
+#      allow_ip_forwarding: false
+#      max_seq_vnic_failures: 3
+#      allow_unauthenticated_nodes: false
+#      allow_unauthenticated_apis: false
+#      vs_awaiting_se_timeout: 60
+#      warmstart_se_reconnect_wait_time: 300
+#      dns_refresh_period: 60
+#      secure_channel_cleanup_timeout: 60
+#      vs_se_vnic_ip_fail: 120
+#      ssl_certificate_expiry_warning_days:
+#      - 30
+#      - 7
+#      - 2
+#      secure_channel_se_token_timeout: 60
+#      secure_channel_controller_token_timeout: 60
+#      api_idle_timeout: 15
+#      crashed_se_reboot: 900
+#      appviewx_compat_mode: false
+#      se_failover_attempt_interval: 300
+#      dead_se_detection_timer: 360
+
+  cloudproperties:
+    - info:
+      - vtype: CLOUD_VCENTER
+        htypes:
+        - VMWARE_ESX
+      - vtype: CLOUD_OPENSTACK
+        flavor_props:
+        - max_ips_per_nic: 11
+          public: true
+          name: all
+          id: all
+        htypes:
+        - KVM
+        - VMWARE_ESX
+        - VMWARE_VSAN
+      - vtype: CLOUD_AWS
+        flavor_regex_filter: "[ctmr][0-9]+\\..*"
+        flavor_props:
+        - max_nics: 2
+          name: t2.micro
+          disk_gb: 0
+          max_ips_per_nic: 2
+          ram_mb: 1024
+          public: true
+          vcpus: 1
+          cost: "{u'reserved': {u'yrTerm1Convertible.noUpfront': u'0.008', u'yrTerm3Convertible.allUpfront':
+            u'0.005', u'yrTerm3Convertible.partialUpfront': u'0.005', u'yrTerm1Convertible.partialUpfront':
+            u'0.008', u'yrTerm1Standard.partialUpfront': u'0.007', u'yrTerm3Standard.noUpfront':
+            u'0.005', u'yrTerm3Convertible.noUpfront': u'0.006', u'yrTerm3Standard.allUpfront':
+            u'0.004', u'yrTerm1Convertible.allUpfront': u'0.008', u'yrTerm1Standard.allUpfront':
+            u'0.007', u'yrTerm3Standard.partialUpfront': u'0.005', u'yrTerm1Standard.noUpfront':
+            u'0.007'}, u'ondemand': u'0.0116'}"
+          id: t2.micro
+        - max_nics: 2
+          name: t2.small
+          disk_gb: 0
+          max_ips_per_nic: 4
+          ram_mb: 2048
+          public: true
+          vcpus: 1
+          cost: "{u'reserved': {u'yrTerm1Convertible.noUpfront': u'0.017', u'yrTerm3Convertible.allUpfront':
+            u'0.011', u'yrTerm3Convertible.partialUpfront': u'0.011', u'yrTerm1Convertible.partialUpfront':
+            u'0.016', u'yrTerm1Standard.partialUpfront': u'0.014', u'yrTerm3Standard.noUpfront':
+            u'0.010', u'yrTerm3Convertible.noUpfront': u'0.012', u'yrTerm3Standard.allUpfront':
+            u'0.009', u'yrTerm1Convertible.allUpfront': u'0.015', u'yrTerm1Standard.allUpfront':
+            u'0.013', u'yrTerm3Standard.partialUpfront': u'0.009', u'yrTerm1Standard.noUpfront':
+            u'0.014'}, u'ondemand': u'0.023'}"
+          id: t2.small
+        htypes:
+        - XEN
+      - vtype: CLOUD_MESOS
+      - vtype: CLOUD_DOCKER_UCP
+      - vtype: CLOUD_RANCHER
+      - vtype: CLOUD_OSHIFT_K8S
+      - vtype: CLOUD_LINUXSERVER
+      - vtype: CLOUD_VCA
+        htypes:
+        - VMWARE_ESX
+      - vtype: CLOUD_AZURE
+        flavor_props:
+        - max_nics: 1
+          max_ips_per_nic: 150
+          public: true
+          name: all
+          id: all
+      hyp_props:
+      - max_nics: 10
+        htype: VMWARE_ESX
+      - max_nics: 10
+        htype: VMWARE_VSAN
+      - max_nics: 24
+        htype: KVM
+      - htype: XEN
+      cc_vtypes:
+      - CLOUD_OPENSTACK
+      - CLOUD_AWS
+      - CLOUD_VCA
+      - CLOUD_MESOS
+      - CLOUD_DOCKER_UCP
+      - CLOUD_RANCHER
+      - CLOUD_OSHIFT_K8S
+      - CLOUD_LINUXSERVER
+      - CLOUD_AZURE
+
+
+
+
+  trafficcloneprofile:
+    - name: test-traffic
+      state: "{{ state }}"
+      preserve_client_ip: false
+      tenant_ref: '/api/tenant?name=admin'
