@@ -194,7 +194,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False):
+                 lazy_authentication=False, max_api_retries=None):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -231,8 +231,9 @@ class ApiSession(Session):
         self.data_log = data_log
         self.num_session_retries = 0
         self.retry_wait_time = 0
-        self.max_session_retries = self.MAX_API_RETRIES
-
+        self.max_session_retries = (
+            self.MAX_API_RETRIES if max_api_retries is None
+            else int(max_api_retries))
         # Refer Notes 01 and 02
         k_port = port if port else 443
         if self.avi_credentials.controller.startswith('http'):
@@ -369,7 +370,7 @@ class ApiSession(Session):
             tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
-            lazy_authentication=False):
+            lazy_authentication=False, max_api_retries=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -410,7 +411,8 @@ class ApiSession(Session):
                 timeout=timeout, retry_conxn_errors=retry_conxn_errors,
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
-                lazy_authentication=lazy_authentication)
+                lazy_authentication=lazy_authentication,
+                max_api_retries=max_api_retries)
             ApiSession._clean_inactive_sessions()
         return user_session
 
@@ -439,7 +441,8 @@ class ApiSession(Session):
             body["token"] = self.avi_credentials.token
         else:
             raise APIError("Neither user password or token provided")
-        logger.debug('authenticating user %s ', self.avi_credentials.username)
+        logger.debug('authenticating user %s prefix %s',
+                     self.avi_credentials.username, self.prefix)
         self.cookies.clear()
         err = None
         try:
