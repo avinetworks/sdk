@@ -12,7 +12,8 @@ PORT_END = 65535
 class VSConverter(object):
     """ Vsvip and Vs Conversion """
 
-    def __init__(self, parsed, tenant_ref, common_utils, enable_vs, cloud_ref, tenant, vrf_ref):
+    def __init__(self, parsed, tenant_ref, common_utils, enable_vs, cloud_ref,
+                 tenant, vrf_ref, segroup=None, cloud=None):
         self.parsed = parsed
         self.tenant_ref = tenant_ref
         self.common_utils = common_utils
@@ -22,6 +23,8 @@ class VSConverter(object):
         self.vrf_ref = vrf_ref
         self.http_policy_set = []
         self.data = ''
+        self.segroup = segroup
+        self.cloud = cloud
 
     def create_redirect_http_policy(self, name, data):
         real_name = name
@@ -255,6 +258,12 @@ class VSConverter(object):
                     "tenant_ref": self.tenant_ref,
                     "type": "VS_TYPE_NORMAL"
                 }
+                if self.segroup:
+                    segroup_ref = self.common_utils.get_object_ref(self.segroup,
+                                                                   'serviceenginegroup',
+                                                                   tenant=self.tenant,
+                                                                   cloud_name=self.cloud)
+                    temp_vs['segroup_ref'] = segroup_ref
                 if pool_ref:
                     temp_vs['pool_ref'] = pool_ref
                 if l4_type:
