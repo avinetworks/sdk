@@ -227,7 +227,10 @@ class NsUtil(MigrationUtil):
                 elif code < 600:
                     avi_resp_codes.append("HTTP_5XX")
         # Get the unique dict from list.
-        return list(set(avi_resp_codes))
+        avi_resp_codes = list(set(avi_resp_codes))
+        if not avi_resp_codes:
+            avi_resp_codes = ["HTTP_ANY"]
+        return avi_resp_codes
 
     def get_conv_status(self, ns_object, skipped_list, na_list, indirect_list,
                         ignore_for_val=None, indirect_commands=None,

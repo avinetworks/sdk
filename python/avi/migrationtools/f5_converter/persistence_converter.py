@@ -79,6 +79,12 @@ class PersistenceConfigConv(object):
             msg = "persistence conversion started..."
             conv_utils.print_progress_bar(progressbar_count, total_size, msg,
                              prefix='Progress', suffix='')
+            if key == 'global-settings':
+                msg = 'persist mode not supported skipping conversion: %s' \
+                      % name
+                LOG.warning(msg)
+                self.update_conv_status_for_skip(None, name, msg)
+                continue
             try:
                 persist_mode, name = key.split(" ")
                 LOG.debug("Converting persistence profile: %s" % name)
