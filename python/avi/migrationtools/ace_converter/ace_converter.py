@@ -52,6 +52,8 @@ class AceConvertor(AviConverter):
         self.vs_filter = args.vs_filter
         # vrf name
         self.vrf_name = args.vrf_name
+        # segroup
+        self.segroup = args.segroup
 
     def avi_json_bakery(self, config):
         """ Here we make json cakes for avi """
@@ -76,7 +78,8 @@ class AceConvertor(AviConverter):
         cfgConvert = ConfigConverter(parsed_output,
                                      version=self.controller_version, enable_vs=self.enable_vs,
                                      input_folder_loc=self.input_folder_location,
-                                     tenant=self.tenant, cloud=self.cloud, vrf=self.vrf_name)
+                                     tenant=self.tenant, cloud=self.cloud, vrf=self.vrf_name,
+                                     segroup=self.segroup)
         converted_output = cfgConvert.conversion()
 
         out_file = "/%s-config.json" % os.path.splitext(
@@ -243,6 +246,10 @@ Optional:
     # enable vs
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='state of VS created', default='disable')
+
+    # add segroup flag
+    parser.add_argument('-se', '--segroup', help='Update the available segroup ref with the'
+                        'custom ref')
 
     parser.add_argument('-t', '--tenant',
                         help='tenant name for auto upload',
