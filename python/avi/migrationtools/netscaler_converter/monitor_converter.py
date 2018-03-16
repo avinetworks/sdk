@@ -254,14 +254,23 @@ class MonitorConverter(object):
             elif mon_type == 'HTTPS':
                 avi_monitor["type"] = "HEALTH_MONITOR_HTTPS"
                 send = ns_monitor.get('httpRequest', None)
+                if send is None:
+                    send = ns_monitor.get('send', None)
                 if send:
                     send = send.replace('"', '')
                     # Removed \\ from send.
                     if '\\' in send:
                         send = send.replace('\\', '"')
-                resp_code = ns_monitor.get('respCode', None)
+                resp_code = ns_monitor.get('respCode', 'any')
                 if resp_code:
                     resp_code = ns_util.get_avi_resp_code(resp_code)
+
+                response = ns_monitor.get('recv', None)
+                if response:
+                    response = response.replace('"', '')
+                    # Removed \\ from response.
+                    if '\\' in response:
+                        response = response.replace('\\', '"')
                 # TODO: Remove this after all the clients are moved to 
                 # 17 version and above
                 if parse_version(self.controller_version) >= parse_version(
@@ -269,7 +278,8 @@ class MonitorConverter(object):
                     avi_monitor["https_monitor"] = {
                         "http_request": send,
                         "http_response_code": resp_code,
-                        "ssl_attributes": ssl_attributes
+                        "ssl_attributes": ssl_attributes,
+                        "http_response": response
                     }
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1.6'):
