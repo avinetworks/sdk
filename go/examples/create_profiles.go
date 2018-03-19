@@ -45,15 +45,26 @@ func main() {
 	profileobj.IPPersistenceProfile = &ipobj
 	npobj, err := aviClient.ApplicationPersistenceProfile.Create(&profileobj)
 	if err != nil {
-		fmt.Println("Pool creation failed: ", err)
+		fmt.Println("Application persistence profile creation failed: ", err)
 		return
 	}
 	fmt.Println("Application persistence profile ", npobj)
-	fmt.Println("\n ###### ", profileobj)
 
-	//sslobj := SSLProfile{}
-	//sslobj.Name= "Test-Ssl-Profile"
-	//sslobj.TenantRef= uuid.(string)
-	//sslobj.EnableSslSessionReuse = true
+	sslobj := SSLProfile{}
+	sslobj.Name= "Test-Ssl-Profile"
+	sslobj.TenantRef= uuid.(string)
+	sslobj.EnableSslSessionReuse = true
+	sslobj.SslSessionTimeout = 86400
+	sslobj.PreferClientCipherOrdering = false
+	sslobj.SendCloseNotify = true
+	sslobj.AcceptedCiphers = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA"
+	vobj := models.SSLVersion{Type: "SSL_VERSION_TLS1"}
+	sslobj.AcceptedVersions = &vobj
 
+	profobj, err := aviClient.SSLProfile.Create(&sslobj)
+	if err != nill {
+		fmt.Println("Ssl profile creation failed: ", err)
+		return
+	}
+	fmt.Println("Ssl profile ", profobj)
 }
