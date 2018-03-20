@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 from pyparsing import Keyword, Word, OneOrMore, printables, Group, nums,\
-    alphas, ZeroOrMore, Optional, Combine, QuotedString
+    alphas, ZeroOrMore, Optional, Combine, QuotedString, restOfLine
 from itertools import cycle
 from avi.migrationtools.ace_converter.ace_utils import printProgressBar,\
     set_excel_dict
@@ -160,10 +160,13 @@ class Parser():
         grammer_5_5 = Group(set + length + num)
         grammer_5_6 = Group(sess_queue + timeout + num)
         grammer_5_7 = Group(Keyword('cipher') + name)
+        grammer_5_8 = Keyword('case-insensitive')
+        grammer_5_9 = Group(Keyword('parsing') + name)
+        grammer_5_10 = Group(Keyword('exceed-mss') + name)
 
-        grammer_5 = Group(grammer_5_1 + ZeroOrMore(grammer_5_2 | grammer_5_3 |
-                                                   grammer_5_4 | grammer_5_6 |
-                                                   grammer_5_7))
+        grammer_5 = Group(grammer_5_1 + ZeroOrMore(
+            grammer_5_2 | grammer_5_3 | grammer_5_4 | grammer_5_6 |
+            grammer_5_7 | grammer_5_8 | grammer_5_9 | grammer_5_10))
 
         # Grammer 6:
         # sticky ip-netmask 255.255.255.255 address source test-adfdas-$5D
@@ -268,13 +271,17 @@ class Parser():
 
         grammer_8_2_1 = Group(Keyword('class') + name)
 
-        grammer_8_2_2 = Group(
-            (Keyword('serverfarm') | Keyword('sticky-serverfarm')) + name)
+        grammer_8_2_2 = Group((
+            (Keyword('serverfarm') | Keyword('action') |
+             Keyword('sticky-serverfarm')) + name) | Keyword('drop') |
+                              Keyword('insert-http') + restOfLine)
         grammer_8_2_3 = Group(Keyword('connection') +
                               Keyword('advanced-option') + name)
 
-        lb_vip = Keyword('vip') + (Keyword('inservice')
-                                   | Keyword('icmp-reply'))
+        lb_vip = Keyword('vip') + (
+                Keyword('inservice') | Keyword('icmp-reply') +
+                ZeroOrMore(Keyword('active') +
+                ZeroOrMore(Keyword('primary-inservice'))) | Keyword('inservice'))
         lb_policy = Keyword('policy') + name
         grammer_8_2_4 = Group(Keyword('loadbalance') + (lb_vip | lb_policy))
         grammer_8_2_5 = Group(Keyword('inspect') + Keyword('ftp'))
@@ -288,17 +295,15 @@ class Parser():
                               name)
         grammer_8_2_10 = Group(Keyword('action') + name)
 
-        grammer_8_2 = Group(grammer_8_2_1 + ZeroOrMore(grammer_8_2_2 |
-                                                       grammer_8_2_3 |
-                                                       grammer_8_2_4 |
-                                                       grammer_8_2_5 |
-                                                       grammer_8_2_6 |
-                                                       grammer_8_2_7 |
-                                                       grammer_8_2_8 |
-                                                       grammer_8_2_9 |
-                                                       grammer_8_2_10))
+        grammer_8_3 = Group(Keyword('description') + restOfLine)
 
-        grammer_8 = Group(grammer_8_1 + ZeroOrMore(grammer_8_2))
+        grammer_8_2 = Group(grammer_8_2_1 + ZeroOrMore(
+            grammer_8_2_2 | grammer_8_2_3 | grammer_8_2_4 | grammer_8_2_5 |
+            grammer_8_2_6 | grammer_8_2_7 | grammer_8_2_8 | grammer_8_2_9 |
+            grammer_8_2_10))
+
+        grammer_8 = Group(grammer_8_1 + ZeroOrMore(grammer_8_3) +
+                          ZeroOrMore(grammer_8_2))
 
         # grammer9:
         # interface vlan 1011
@@ -360,15 +365,20 @@ class Parser():
         grammer_12_2 = Group(Keyword('probe') + name)
         grammer_12_3 = Group(Keyword('inband-health') +
                              Keyword('check') + name)
-        grammer_12_4_1 = Keyword('rserver') + ~Word('host') + name
+        grammer_12_4_1 = Keyword('rserver') + ~Word(
+            'host') + name + ZeroOrMore(num)
         grammer_12_4_2 = Keyword('inservice')
         grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2))
         grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
                              Keyword('slowstart') + num)
+        grammer_12_6 = Group(Keyword('description') + printables)
+        grammer_12_7 = Group(Keyword('predictor') + printables)
+        grammer_12_6 = Group(Keyword('description') + restOfLine)
+        grammer_12_7 = Group(Keyword('predictor') + restOfLine)
 
-        grammer_12 = Group(grammer_12_1 + ZeroOrMore(grammer_12_2 | grammer_12_2 |
-                                                     grammer_12_3 | grammer_12_4 |
-                                                     grammer_12_5))
+        grammer_12 = Group(grammer_12_1 + ZeroOrMore(
+            grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
+            grammer_12_5 | grammer_12_6 | grammer_12_7))
 
         # grammer ssl
         # ssl-proxy service SSL_CLIENT
@@ -790,3 +800,39 @@ class Parser():
         printProgressBar(file_size, file_size, msg,
                          prefix='Progress', suffix='')
         return final_dict
+
+if __name__ == '__main__':
+    s = """
+      serverfarm host ACME_MOSS_INTRA_80
+  probe ACME_PROD_80
+  rserver ACMENPMOS01 80
+    inservice
+  rserver ACMENPMOS02 80
+    inservice
+        """
+
+    name = Word(printables)
+    num = Word(nums)
+    serverfarm = Keyword('serverfarm')
+    host = Keyword('host')
+    grammer_12_1 = Group(serverfarm + host + name)
+    grammer_12_2 = Group(Keyword('probe') + name)
+    grammer_12_3 = Group(Keyword('inband-health') +
+                         Keyword('check') + name)
+
+    grammer_12_4_1 = Keyword('rserver') + ~Word('host') + name + ZeroOrMore(num)
+    grammer_12_4_2 = Keyword('inservice')
+
+    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2)).setDebug()
+
+    grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
+                         Keyword('slowstart') + num)
+    grammer_12_6 = Group(Keyword('description') + restOfLine)
+    grammer_12_7 = Group(Keyword('predictor') + restOfLine)
+
+    grammer = Group(grammer_12_1 + ZeroOrMore(
+        grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
+        grammer_12_5 | grammer_12_6 | grammer_12_7))
+
+    for match, start, end in grammer.scanString(s):
+        print match

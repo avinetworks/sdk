@@ -7,11 +7,9 @@ import logging
 import os
 import subprocess
 import sys
-
 import pytest
 import yaml
-
-
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
@@ -19,6 +17,7 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud
+
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -92,7 +91,9 @@ setup = dict(
         os.path.dirname(__file__), 'output', 'avi_config_create_object.yml')),
     vs_level_status=True,
     test_vip=None,
-    output_file_path=output_file
+    output_file_path=output_file,
+    vrf = 'test_vrf',
+    segroup = 'test_se'
 )
 
 mylogger = logging.getLogger()
@@ -105,7 +106,7 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location='certs', output_file_path=output_file,
+        input_folder_location='python/avi/migrationtools/f5_converter/test/certs', output_file_path=output_file,
         option='cli-upload', user=None, password=None, controller_ip=None,
         tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
         controller_version=None, f5_host_ip=None, f5_ssh_user=None,
@@ -114,7 +115,8 @@ def f5_conv(
         vs_filter=None, ansible_skip_types=None,
         ansible_filter_types=None, ansible=None, prefix=None,
         convertsnat=None, not_in_use=None, baseline_profile=None,
-        f5_passphrase_file=None, vs_level_status=False, test_vip=None):
+        f5_passphrase_file=None, vs_level_status=False, test_vip=None,
+        vrf=None, segroup=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -793,6 +795,65 @@ class TestF5Converter:
         for type in persistenceProfiles:
             if "COOKIE" in type['persistence_type']:
                 assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vrf = setup.get('vrf'),
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                segroup = setup.get('segroup')
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vrf = setup.get('vrf'),
+                )
+
+    @pytest.mark.travis
+    def test_vrf_flag_on_file_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                segroup = setup.get('segroup')
+                )
+
+    @pytest.mark.travis
+    def test_error_and_warning_count_on_file_v11(self):
+        set_update_count()
+        assert get_count('warning') == 0
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+
+        assert get_count('error') == 0
+        assert get_count('warning') == 6
+
+    @pytest.mark.travis
+    def test_error_and_warning_count_on_file_v10(self):
+        set_update_count()
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'))
+
+        assert get_count('error') == 0
+        assert get_count('warning') == 0
 
 def teardown():
     pass

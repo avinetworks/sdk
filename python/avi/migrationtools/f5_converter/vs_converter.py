@@ -5,6 +5,7 @@ import re
 import avi.migrationtools.f5_converter.converter_constants as final
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 from avi.migrationtools.f5_converter.policy_converter import used_pools
+from avi.migrationtools.avi_migration_utils import update_count
 from pkg_resources import parse_version
 
 LOG = logging.getLogger(__name__)
@@ -90,6 +91,7 @@ class VSConfigConv(object):
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:
+                update_count('error')
                 LOG.error("Failed to convert VS: %s" % vs_name, exc_info=True)
             # Added call to get the progress.
             msg = "virtualservice conversion started..."
@@ -324,8 +326,7 @@ class VSConfigConv(object):
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
-                                                cloud_name=cloud_ref)
-
+                                                cloud_name=cloud_name)
         if vrf_ref:
             vs_obj['vrf_context_ref'] = vrf_ref
             # Added code for assigning VS's vrf ref to poolgroup/pool having no

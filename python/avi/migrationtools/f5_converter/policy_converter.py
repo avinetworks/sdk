@@ -1,6 +1,7 @@
 import logging
 import avi.migrationtools.f5_converter.converter_constants as final
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 
@@ -72,6 +73,7 @@ class PolicyConfigConv(object):
                     LOG.debug('Skipping:Conversion unsuccessful for the policy'
                               ' %s', each_policy)
             except:
+                update_count('error')
                 LOG.error("Error in conversion of policy %s" % each_policy,
                           exc_info=True)
 

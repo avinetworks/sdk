@@ -15,6 +15,7 @@ from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.ansible.ansible_config_converter import\
     AviAnsibleConverter
+from avi.migrationtools.avi_migration_utils import get_count    
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -308,3 +309,5 @@ if __name__ == "__main__":
         netscaler_converter.print_pip_and_controller_version()
         exit(0)
     netscaler_converter.convert()
+    print "Total Warning: ", get_count('warning')
+    print "Total Errors: ", get_count('error')

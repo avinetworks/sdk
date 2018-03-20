@@ -22,7 +22,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
             OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST, COMPLEXITY_ADVANCED,
             COMPLEXITY_BASIC, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
             OBJECT_TYPE_APPLICATION_PROFILE)
-from avi.migrationtools.avi_migration_utils import MigrationUtil
+from avi.migrationtools.avi_migration_utils import MigrationUtil, update_count
 
 LOG = logging.getLogger(__name__)
 
@@ -227,7 +227,10 @@ class NsUtil(MigrationUtil):
                 elif code < 600:
                     avi_resp_codes.append("HTTP_5XX")
         # Get the unique dict from list.
-        return list(set(avi_resp_codes))
+        avi_resp_codes = list(set(avi_resp_codes))
+        if not avi_resp_codes:
+            avi_resp_codes = ["HTTP_ANY"]
+        return avi_resp_codes
 
     def get_conv_status(self, ns_object, skipped_list, na_list, indirect_list,
                         ignore_for_val=None, indirect_commands=None,
@@ -767,6 +770,7 @@ class NsUtil(MigrationUtil):
                     app_profile['name'])
                 return app_profile['name']
         except:
+            update_count('error')
             LOG.error("Error in convertion of httpProfile", exc_info=True)
 
     def convert_persistance_prof(self, vs, name, tenant_ref):
