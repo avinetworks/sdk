@@ -18,6 +18,7 @@ from avi.migrationtools.netscaler_converter.profile_converter import \
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.netscaler_converter import ns_util as nsu
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 
 LOG = logging.getLogger(__name__)
@@ -206,6 +207,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
 
     except:
+        update_count('warning')
         LOG.error('Error in config conversion', exc_info=True)
 
     return avi_config

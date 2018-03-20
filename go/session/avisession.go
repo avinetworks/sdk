@@ -471,10 +471,11 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 }
 
 type ApiOptions struct {
-	name      string
-	cloud     string
-	cloudUUID string
-	result    interface{}
+	name        string
+	cloud       string
+	cloudUUID   string
+	skipDefault bool
+	result      interface{}
 }
 
 func SetName(name string) func(*ApiOptions) error {
@@ -507,6 +508,17 @@ func SetCloudUUID(cloudUUID string) func(*ApiOptions) error {
 
 func (opts *ApiOptions) setCloudUUID(cloudUUID string) error {
 	opts.cloudUUID = cloudUUID
+	return nil
+}
+
+func SetSkipDefault(skipDefault bool) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setSkipDefault(skipDefault)
+	}
+}
+
+func (opts *ApiOptions) setSkipDefault(skipDefault bool) error {
+	opts.skipDefault = skipDefault
 	return nil
 }
 
@@ -544,6 +556,9 @@ func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) er
 		uri = uri + "&cloud=" + opts.cloud
 	} else if opts.cloudUUID != "" {
 		uri = uri + "&cloud_ref.uuid=" + opts.cloudUUID
+	}
+	if opts.skipDefault {
+		uri = uri + "&skip_default=true"
 	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {

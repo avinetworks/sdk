@@ -10,6 +10,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
     import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_DATASCRIPT,
             OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_STRING_GROUP)
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 
 LOG = logging.getLogger(__name__)
@@ -223,6 +224,7 @@ class PolicyConverter(object):
                         STATUS_SKIPPED, skipped_status)
                     continue
             except:
+                update_count('error')
                 LOG.error('Error in policy conversion', exc_info=True)
         if len(http_request_policy['rules']) > 0:
             policy_obj['http_request_policy'] = http_request_policy

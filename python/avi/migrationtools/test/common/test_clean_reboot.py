@@ -49,7 +49,7 @@ def upload_license(session, licensefile):
     print "Successfully uploaded license AviInternal"
 
 
-def wait_until_node_ready(session, interval=10, timeout=3600):
+def wait_until_node_ready(session, interval=10, timeout=6000):
     """""
     Polls the controller at every 10 seconds status till we get success state
     and verify cluster state.
