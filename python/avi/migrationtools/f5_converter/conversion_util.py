@@ -602,7 +602,6 @@ class F5Util(MigrationUtil):
         if vrf:
             self.add_vrf(avi_config, vrf, cloud_name)
 
-            vrf_list.append(vrf_obj)
         vrf_config = avi_config['VrfContext']
         vrf_ref = self.get_vrf_context_ref(destination, vrf_config,
                                            'virtual service', vs_name,

@@ -8,7 +8,7 @@ import avi.migrationtools
 import yaml
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.vs_filter import filter_for_vs
-#from avi.migrationtools.config_patch import ConfigPatch
+from avi.migrationtools.avi_migration_utils import get_count
 from requests.packages import urllib3
 
 from avi.migrationtools.f5_converter import (f5_config_converter,
@@ -223,6 +223,8 @@ class F5Converter(AviConverter):
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
+        print "Total Warning: ", get_count('warning')
+        print "Total Errors: ", get_count('error')
 
     def get_default_config(self, is_download, path):
         """

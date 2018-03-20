@@ -232,7 +232,7 @@ class Test(unittest.TestCase):
                 {
                     "enable_ssl": False,
                     "port_range_end": 443,
-                    "port": None
+                    "port": 80
                 }
             ],
             "name": "vs-health-test",

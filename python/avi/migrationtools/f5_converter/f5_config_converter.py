@@ -14,6 +14,7 @@ from avi.migrationtools.f5_converter.vs_converter import VSConfigConv
 from avi.migrationtools.f5_converter import conversion_util
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -128,6 +129,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
 
     except:
+        update_count('warning')
         LOG.error("Conversion error", exc_info=True)
     datascript_objs = ['data-group']
     # Added support node as not applicable

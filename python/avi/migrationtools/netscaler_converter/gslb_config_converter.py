@@ -4,6 +4,7 @@ from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 from avi.sdk.avi_api import ApiSession
 from avi.migrationtools.netscaler_converter.gslb_vs_converter \
     import GslbVsConverter
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 
@@ -58,6 +59,7 @@ def convert(meta, gslb_config_dict, controller_ip, user_name,
             gslb_config_dict, output_dir, avi_config, report_name, vs_level_status)
 
     except:
+        update_count('error')
         LOG.error('Error in config conversion', exc_info=True)
 
     return avi_gslb_config

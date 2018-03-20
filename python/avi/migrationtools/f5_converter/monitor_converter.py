@@ -5,6 +5,7 @@ import avi.migrationtools.f5_converter.converter_constants as conv_const
 from pkg_resources import parse_version
 from avi.migrationtools.f5_converter.profile_converter import ssl_count
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
@@ -265,6 +266,7 @@ class MonitorConfigConv(object):
                     avi_config["HealthMonitor"].append(avi_monitor)
                 LOG.debug("Conversion successful for monitor: %s" % name)
             except:
+                update_count('error')
                 LOG.error("Failed to convert monitor: %s" % key, exc_info=True)
                 if name:
                     conv_utils.add_status_row('monitor', monitor_type, name,
