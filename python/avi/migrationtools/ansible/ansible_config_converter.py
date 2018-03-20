@@ -445,7 +445,7 @@ class AviAnsibleConverter(object):
         if len(ad['tasks']):
             for k, v in ad['tasks'][0].iteritems():
                     if isinstance(v, dict):
-                        v['api_context'] = "{{results.api_context}}"
+                        v['api_context'] = "{{avi_api_context | default(omit)}}"
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
             for k, v in task.iteritems():
