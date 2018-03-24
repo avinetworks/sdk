@@ -43,7 +43,7 @@ def setUpModule():
     global api
     api = ApiSession.get_session(
         login_info["controller_ip"], login_info.get("username", "admin"),
-        login_info.get("password", "avi123"),
+        login_info.get("password", "fr3sca$%^"),
         tenant=login_info.get("tenant", "admin"),
         tenant_uuid=login_info.get("tenant_uuid", None),
         api_version=login_info.get("api_version", gapi_version),
