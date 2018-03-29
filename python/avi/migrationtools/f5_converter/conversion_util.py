@@ -910,8 +910,8 @@ class F5Util(MigrationUtil):
                     avi_config['Tenant'].remove(tenant)
 
     def create_hdr_erase_rule(self, name, hdr_name, rule_index):
-        return self.create_header_rule(name, hdr_name, "HTTP_REPLACE_HDR",
-                                       "000000", rule_index)
+        return self.create_header_rule(name, hdr_name, "HTTP_REMOVE_HDR",
+                                       None, rule_index)
 
 
     def create_hdr_insert_rule(self, name, hdr_name, val, rule_index):
