@@ -43,7 +43,7 @@ def setUpModule():
     global api
     api = ApiSession.get_session(
         login_info["controller_ip"], login_info.get("username", "admin"),
-        login_info.get("password", "avi123"),
+        login_info.get("password", "fr3sca$%^"),
         tenant=login_info.get("tenant", "admin"),
         tenant_uuid=login_info.get("tenant_uuid", None),
         api_version=login_info.get("api_version", gapi_version),
@@ -60,7 +60,7 @@ def create_sessions(args):
     for _ in range(num_sessions):
         api = ApiSession(
             login_info["controller_ip"], login_info.get("username", "admin"),
-            login_info.get("password", "avi123"), api_version=login_info.get(
+            login_info.get("password", "fr3sca$%^"), api_version=login_info.get(
                 "api_version", "17.1"), data_log=login_info['data_log'])
     return 1 if key in sessionDict else 0
 
@@ -110,7 +110,7 @@ class Test(unittest.TestCase):
         session = ApiSession(
             controller_ip=login_info["controller_ip"],
             username=login_info.get("username", "admin"),
-            password=login_info.get("password", "avi123"),
+            password=login_info.get("password", "fr3sca$%^"),
             lazy_authentication=True)
         assert not session.keystone_token
         session.get('pool')
@@ -119,7 +119,7 @@ class Test(unittest.TestCase):
         session = ApiSession(
             controller_ip=login_info["controller_ip"],
             username=login_info.get("username", "admin"),
-            password=login_info.get("password", "avi123"),
+            password=login_info.get("password", "fr3sca$%^"),
             lazy_authentication=False)
         assert session.keystone_token
 
@@ -174,26 +174,6 @@ class Test(unittest.TestCase):
         for hdr in SHARED_USER_HDRS:
             if hdr in api.headers:
                 assert api.headers[hdr] == api2.headers[hdr]
-
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
-    def reset_connection(self):
-        login_info = gSAMPLE_CONFIG["User2"]
-        old_password = login_info["password"]
-        api2 = ApiSession.get_session(
-            api.controller_ip, login_info["username"], old_password,
-            tenant=api.tenant, tenant_uuid=api.tenant_uuid,
-            api_version=api.api_version, verify=False)
-        user_obj = api.get_object_by_name("user", login_info["name"])
-        new_password = "avi1234"
-        if login_info["password"] == new_password:
-            new_password = "avi123"
-        user_obj["password"] = new_password
-        api.put("user/%s" % user_obj["uuid"], data=json.dumps(user_obj))
-        user_obj["password"] = old_password
-        api.put_by_name("user", user_obj["name"], data=json.dumps(user_obj))
-        resp = api2.get("pool")
-        assert resp.status_code < 300
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
@@ -436,7 +416,7 @@ class Test(unittest.TestCase):
                                       verify=False)
         api1.password = 'admin@#$'
         assert api1.password == api2.password
-        api1.password = login_info.get("password", "avi123")
+        api1.password = login_info.get("password", "fr3sca$%^")
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
@@ -567,7 +547,7 @@ class Test(unittest.TestCase):
         session = ApiSession(
             controller_ip=login_info["controller_ip"],
             username=login_info.get("username", "admin"),
-            password=login_info.get("password", "avi123"),
+            password=login_info.get("password", "fr3sca$%^"),
             lazy_authentication=True)
         assert not session.connected
         session.get('pool')
@@ -576,7 +556,7 @@ class Test(unittest.TestCase):
         session = ApiSession(
             controller_ip=login_info["controller_ip"],
             username=login_info.get("username", "admin"),
-            password=login_info.get("password", "avi123"),
+            password=login_info.get("password", "fr3sca$%^"),
             lazy_authentication=False)
         assert session.connected
 
