@@ -221,7 +221,8 @@ class VSConverter(object):
                                 })
                             if pool != '':
                                 pool_ref = self.common_utils.get_object_ref(
-                                    pool, 'pool', tenant=self.tenant)
+                                    pool, 'pool', tenant=self.tenant,
+                                    cloud_name=self.cloud)
                 if not pool:
                     msg = 'No Pool configured for VS {}'.format(name)
                     # continue
