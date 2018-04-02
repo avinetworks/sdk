@@ -1,0 +1,1495 @@
+{
+  "Name": "TestCreateTenant",
+  "Path": "govcr-fixtures",
+  "Tracks": [
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "200 OK",
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+          ],
+          "Access-Control-Allow-Methods": [
+            "GET, POST, PUT, DELETE, OPTIONS"
+          ],
+          "Allow": [
+            "OPTIONS, GET"
+          ],
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "text/html"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:26 GMT"
+          ],
+          "Expires": [
+            "Mon, 02 Apr 2018 10:07:26 GMT"
+          ],
+          "Last-Modified": [
+            "Mon, 02 Apr 2018 10:07:26 GMT"
+          ],
+          "Set-Cookie": [
+            "csrftoken=zPvEqMojzGl2hMDt3FwisTAPSnebUPZ4; expires=Mon, 01-Apr-2019 10:07:26 GMT; Max-Age=31449600; Path=/"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000; includeSubdomains"
+          ],
+          "Vary": [
+            "Accept, Cookie"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ]
+        },
+        "Body": "PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc9ImVuIiBuZy1hcHA9ImF2aUFwcCIgbmctc3RyaWN0LWRpPgo8aGVhZD4KPG1ldGEgaHR0cC1lcXVpdj0iWC1VQS1Db21wYXRpYmxlIiBjb250ZW50PSJJRT0xMSI+CjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCxpbml0aWFsLXNjYWxlPTEiPgo8dGl0bGU+QXZpIFZhbnRhZ2UgQ29udHJvbGxlcjwvdGl0bGU+CjxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0ic3JjL2xlc3MvbWFpbi4yNjc0MWFjMy5jc3MiPgo8bGluayByZWw9InNob3J0Y3V0IGljb24iIGhyZWY9Ii9zcmMvaW1nL2Zhdmljb24uaWNvIj4KPC9oZWFkPgo8Ym9keT4KPGRpdiB1aS12aWV3PjwvZGl2Pgo8ZGl2IGNsYXNzPSJtZXNzYWdlcyI+PC9kaXY+CjxkaXYgY2xhc3M9Im1vZGFscyI+PC9kaXY+CjxzY3JpcHQgc3JjPSJzcmMvdmVuZG9yLjdmMWJkYTE2LmpzIj48L3NjcmlwdD4KPHNjcmlwdCBzcmM9InNyYy9hcHAuM2UzNmZkOWIuanMiPjwvc2NyaXB0Pgo8c2NyaXB0IHNyYz0ic3JjL3RlbXBsYXRlcy4yOGFjNDBlZi5qcyI+PC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPgo=",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "B": 4.105836372515214e+76,
+                  "BitSize": 256,
+                  "Gx": 4.8439561293906455e+76,
+                  "Gy": 3.6134250956749796e+76,
+                  "N": 1.1579208921035625e+77,
+                  "Name": "P-256",
+                  "P": 1.1579208921035625e+77
+                },
+                "X": 3.2855046101954114e+76,
+                "Y": 3.471657960503931e+76
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "QkfMfbcziG0uoGlH"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    },
+    {
+      "Request": {
+        "Method": "POST",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "/login",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "csrftoken=zPvEqMojzGl2hMDt3FwisTAPSnebUPZ4"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ],
+          "X-CSRFToken": [
+            "zPvEqMojzGl2hMDt3FwisTAPSnebUPZ4"
+          ]
+        },
+        "Body": "eyJwYXNzd29yZCI6ImF2aTEyMyIsInVzZXJuYW1lIjoiYWRtaW4ifQ=="
+      },
+      "Response": {
+        "Status": "200 OK",
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+          ],
+          "Access-Control-Allow-Methods": [
+            "GET, POST, PUT, DELETE, OPTIONS"
+          ],
+          "Allow": [
+            "POST, OPTIONS"
+          ],
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:28 GMT"
+          ],
+          "Set-Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; expires=Mon, 01-Apr-2019 10:07:28 GMT; Max-Age=31449600; Path=/; secure",
+            "sessionid=9hklhtg1ckywsmpjnd1tfhtf2k3q9esd; expires=Tue, 03-Apr-2018 10:07:28 GMT; httponly; Max-Age=86400; Path=/; secure"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000; includeSubdomains"
+          ],
+          "Vary": [
+            "Accept, Cookie"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ]
+        },
+        "Body": "eyJ1c2VyX2luaXRpYWxpemVkIjogdHJ1ZSwgInN5c3RlbV9jb25maWciOiB7InVybCI6ICIvYXBpL3N5c3RlbWNvbmZpZ3VyYXRpb24iLCAidXVpZCI6ICJkZWZhdWx0IiwgIl9sYXN0X21vZGlmaWVkIjogIjE1MjIzOTQ0MDI1NzE0NDgiLCAiZW1haWxfY29uZmlndXJhdGlvbiI6IHsiZnJvbV9lbWFpbCI6ICJhZG1pbkBhdmljb250cm9sbGVyLm5ldCIsICJtYWlsX3NlcnZlcl9wb3J0IjogMjUsICJzbXRwX3R5cGUiOiAiU01UUF9MT0NBTF9IT1NUIiwgIm1haWxfc2VydmVyX25hbWUiOiAibG9jYWxob3N0In0sICJnbG9iYWxfdGVuYW50X2NvbmZpZyI6IHsic2VfaW5fcHJvdmlkZXJfY29udGV4dCI6IHRydWUsICJ0ZW5hbnRfYWNjZXNzX3RvX3Byb3ZpZGVyX3NlIjogdHJ1ZSwgInRlbmFudF92cmYiOiBmYWxzZX0sICJkbnNfY29uZmlndXJhdGlvbiI6IHsic2VhcmNoX2RvbWFpbiI6ICIifSwgInNzaF9obWFjcyI6IFsiaG1hYy1zaGEyLTUxMi1ldG1Ab3BlbnNzaC5jb20iLCAiaG1hYy1zaGEyLTI1Ni1ldG1Ab3BlbnNzaC5jb20iLCAidW1hYy0xMjgtZXRtQG9wZW5zc2guY29tIiwgImhtYWMtc2hhMi01MTIiXSwgImRvY2tlcl9tb2RlIjogZmFsc2UsICJzbm1wX2NvbmZpZ3VyYXRpb24iOiB7InZlcnNpb24iOiAiU05NUF9WRVIyIiwgInN5c19jb250YWN0IjogInN1cHBvcnRAYXZpbmV0d29ya3MuY29tIiwgImNvbW11bml0eSI6ICI8c2Vuc2l0aXZlPiJ9LCAicG9ydGFsX2NvbmZpZ3VyYXRpb24iOiB7InVzZV91dWlkX2Zyb21faW5wdXQiOiBmYWxzZSwgInJlZGlyZWN0X3RvX2h0dHBzIjogdHJ1ZSwgInNzbHByb2ZpbGVfcmVmIjogIi9hcGkvc3NscHJvZmlsZS9zc2xwcm9maWxlLTk1YTY5NmVlLTM0NjMtNGQ1NC04OTM4LTczYWUzNGNhNDUyZiIsICJzc2xrZXlhbmRjZXJ0aWZpY2F0ZV9yZWZzIjogWyIvYXBpL3NzbGtleWFuZGNlcnRpZmljYXRlL3NzbGtleWFuZGNlcnRpZmljYXRlLWVhMDU3YTNmLWZlNmYtNGVjZi1hMmJkLWNhZDJkMTIwNTZmNCIsICIvYXBpL3NzbGtleWFuZGNlcnRpZmljYXRlL3NzbGtleWFuZGNlcnRpZmljYXRlLWVjZjNhM2NjLTUyOWYtNGNlOS1iZDcwLWI0NTM3MDUzOWJjMyJdLCAiZW5hYmxlX2NsaWNramFja2luZ19wcm90ZWN0aW9uIjogdHJ1ZSwgImVuYWJsZV9odHRwcyI6IHRydWUsICJkaXNhYmxlX3JlbW90ZV9jbGlfc2hlbGwiOiBmYWxzZSwgInBhc3N3b3JkX3N0cmVuZ3RoX2NoZWNrIjogZmFsc2UsICJlbmFibGVfaHR0cCI6IHRydWUsICJhbGxvd19iYXNpY19hdXRoZW50aWNhdGlvbiI6IGZhbHNlfSwgIm50cF9jb25maWd1cmF0aW9uIjogeyJudHBfc2VydmVycyI6IFt7InNlcnZlciI6IHsidHlwZSI6ICJETlMiLCAiYWRkciI6ICIwLnVzLnBvb2wubnRwLm9yZyJ9fSwgeyJzZXJ2ZXIiOiB7InR5cGUiOiAiRE5TIiwgImFkZHIiOiAiMS51cy5wb29sLm50cC5vcmcifX0sIHsic2VydmVyIjogeyJ0eXBlIjogIkROUyIsICJhZGRyIjogIjIudXMucG9vbC5udHAub3JnIn19LCB7InNlcnZlciI6IHsidHlwZSI6ICJETlMiLCAiYWRkciI6ICIzLnVzLnBvb2wubnRwLm9yZyJ9fV19LCAic3NoX2NpcGhlcnMiOiBbImFlczEyOC1jdHIiLCAiYWVzMjU2LWN0ciIsICJhcmNmb3VyMjU2IiwgImFyY2ZvdXIxMjgiXSwgImRlZmF1bHRfbGljZW5zZV90aWVyIjogIkVOVEVSUFJJU0VfMTgifSwgImNvbnRyb2xsZXIiOiB7ImFwaV9pZGxlX3RpbWVvdXQiOiAxNX0sICJ2ZXJzaW9uIjogeyJQcm9kdWN0IjogImNvbnRyb2xsZXIiLCAiVmVyc2lvbiI6ICIxNy4yLjgiLCAiYnVpbGQiOiA5MDIyLCAiVGFnIjogIjE3LjIuOC05MDIyLTIwMTgwMzI5LjE3MjkwNiIsICJEYXRlIjogIjIwMTgtMDMtMjlUMTc6Mjk6MDYrMDA6MDAiLCAibWluX3ZlcnNpb24iOiAxNS4yLCAiUHJvZHVjdE5hbWUiOiAiQXZpIENsb3VkIENvbnRyb2xsZXIifSwgInVzZXIiOiB7InVzZXJuYW1lIjogImFkbWluIiwgIm5hbWUiOiAiYWRtaW4iLCAiaXNfc3VwZXJ1c2VyIjogdHJ1ZSwgImZ1bGxfbmFtZSI6ICJTeXN0ZW0gQWRtaW5pc3RyYXRvciIsICJ1aV9wcm9wZXJ0eSI6ICJ7XCJkZWZhdWx0VGltZWZyYW1lXCI6XCI2aFwiLFwidmFsdWVzVG9EaXNwbGF5XCI6XCJhdmdcIixcInNpZGVSYWlsT3BlblwiOnRydWUsXCJsb2dzXCI6e1wic2F2ZWRTZWFyY2hcIjpbXSxcInNpZGViYXJBY3RpdmVUYWJcIjpcIjFcIn0sXCJhcHBEYXNoYm9hcmRcIjp7XCJ2aWV3VHlwZVwiOlwibGlzdFwifSxcImdyaWRcIjp7XCJwYWdlU2l6ZVwiOjMwfX0iLCAibG9jYWwiOiB0cnVlLCAiZW1haWwiOiAiIiwgImRlZmF1bHRfdGVuYW50X3JlZiI6ICJodHRwczovLzEwLjEwLjI4LjkxL2FwaS90ZW5hbnQvYWRtaW4ifSwgInRlbmFudHMiOiBbeyJ1cmwiOiAiaHR0cHM6Ly8xMC4xMC4yOC45MS9hcGkvdGVuYW50L2FkbWluIiwgInV1aWQiOiAiYWRtaW4iLCAibmFtZSI6ICJhZG1pbiIsICJsb2NhbCI6IHRydWV9XX0=",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "B": 4.105836372515214e+76,
+                  "BitSize": 256,
+                  "Gx": 4.8439561293906455e+76,
+                  "Gy": 3.6134250956749796e+76,
+                  "N": 1.1579208921035625e+77,
+                  "Name": "P-256",
+                  "P": 1.1579208921035625e+77
+                },
+                "X": 3.2855046101954114e+76,
+                "Y": 3.471657960503931e+76
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "1oJvXq1/cMiK/DfH"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "//api/initial-data",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; sessionid=9hklhtg1ckywsmpjnd1tfhtf2k3q9esd"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ],
+          "X-CSRFToken": [
+            "iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "200 OK",
+        "StatusCode": 200,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+          ],
+          "Access-Control-Allow-Methods": [
+            "GET, POST, PUT, DELETE, OPTIONS"
+          ],
+          "Allow": [
+            "OPTIONS, GET"
+          ],
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:30 GMT"
+          ],
+          "Expires": [
+            "Mon, 02 Apr 2018 10:07:30 GMT"
+          ],
+          "Last-Modified": [
+            "Mon, 02 Apr 2018 10:07:30 GMT"
+          ],
+          "Set-Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; expires=Mon, 01-Apr-2019 10:07:30 GMT; Max-Age=31449600; Path=/"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000; includeSubdomains"
+          ],
+          "Vary": [
+            "Accept, Cookie"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ]
+        },
+        "Body": "eyJjdXJyZW50X3RpbWUiOiAiMjAxOC0wNC0wMlQxMDowNzozMC4xNTU5MzYrMDA6MDAiLCAic2V0dXBfZmFpbGVkIjogZmFsc2UsICJlbWFpbF9jb25maWd1cmF0aW9uX2lzX3NldCI6IHRydWUsICJlcnJvcl9tZXNzYWdlIjogIiIsICJ1c2VyX2luaXRpYWxfc2V0dXAiOiBmYWxzZSwgInNzbyI6IGZhbHNlLCAidmVyc2lvbiI6IHsiUHJvZHVjdCI6ICJjb250cm9sbGVyIiwgIlZlcnNpb24iOiAiMTcuMi44IiwgImJ1aWxkIjogOTAyMiwgIlRhZyI6ICIxNy4yLjgtOTAyMi0yMDE4MDMyOS4xNzI5MDYiLCAiRGF0ZSI6ICIyMDE4LTAzLTI5VDE3OjI5OjA2KzAwOjAwIiwgIm1pbl92ZXJzaW9uIjogMTUuMiwgIlByb2R1Y3ROYW1lIjogIkF2aSBDbG91ZCBDb250cm9sbGVyIn0sICJzc29fbG9nZ2VkX2luIjogZmFsc2UsICJiYW5uZXIiOiAiIn0=",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "B": 4.105836372515214e+76,
+                  "BitSize": 256,
+                  "Gx": 4.8439561293906455e+76,
+                  "Gy": 3.6134250956749796e+76,
+                  "N": 1.1579208921035625e+77,
+                  "Name": "P-256",
+                  "P": 1.1579208921035625e+77
+                },
+                "X": 3.2855046101954114e+76,
+                "Y": 3.471657960503931e+76
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "mvq4+evU57nZwVHs"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    },
+    {
+      "Request": {
+        "Method": "POST",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "/api/tenant",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; sessionid=9hklhtg1ckywsmpjnd1tfhtf2k3q9esd"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ],
+          "X-CSRFToken": [
+            "iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL"
+          ]
+        },
+        "Body": "eyJuYW1lIjoiYXZpbmV0d29ya3MifQ=="
+      },
+      "Response": {
+        "Status": "201 CREATED",
+        "StatusCode": 201,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+          ],
+          "Access-Control-Allow-Methods": [
+            "GET, POST, PUT, DELETE, OPTIONS"
+          ],
+          "Allow": [
+            "HEAD, GET, POST, OPTIONS"
+          ],
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:31 GMT"
+          ],
+          "Location": [
+            "https://10.10.28.91/api/tenant/tenant-a7cae6c9-f86c-4fe5-884f-3ddef5ac0fda#avinetworks"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000; includeSubdomains"
+          ],
+          "Vary": [
+            "Accept, Cookie"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ]
+        },
+        "Body": "eyJ1cmwiOiAiaHR0cHM6Ly8xMC4xMC4yOC45MS9hcGkvdGVuYW50L3RlbmFudC1hN2NhZTZjOS1mODZjLTRmZTUtODg0Zi0zZGRlZjVhYzBmZGEjYXZpbmV0d29ya3MiLCAidXVpZCI6ICJ0ZW5hbnQtYTdjYWU2YzktZjg2Yy00ZmU1LTg4NGYtM2RkZWY1YWMwZmRhIiwgIm5hbWUiOiAiYXZpbmV0d29ya3MiLCAiX2xhc3RfbW9kaWZpZWQiOiAiMTUyMjY2MzY1MTM2MTE0MyIsICJsb2NhbCI6IHRydWUsICJjb25maWdfc2V0dGluZ3MiOiB7InNlX2luX3Byb3ZpZGVyX2NvbnRleHQiOiB0cnVlLCAidGVuYW50X2FjY2Vzc190b19wcm92aWRlcl9zZSI6IHRydWUsICJ0ZW5hbnRfdnJmIjogZmFsc2V9fQ==",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "B": 4.105836372515214e+76,
+                  "BitSize": 256,
+                  "Gx": 4.8439561293906455e+76,
+                  "Gy": 3.6134250956749796e+76,
+                  "N": 1.1579208921035625e+77,
+                  "Name": "P-256",
+                  "P": 1.1579208921035625e+77
+                },
+                "X": 3.2855046101954114e+76,
+                "Y": 3.471657960503931e+76
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "EmLg0DPmEQA+14qd"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    },
+    {
+      "Request": {
+        "Method": "POST",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "/api/tenant",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; sessionid=9hklhtg1ckywsmpjnd1tfhtf2k3q9esd"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ],
+          "X-CSRFToken": [
+            "iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL"
+          ]
+        },
+        "Body": "eyJuYW1lIjoid2ViYXBwIn0="
+      },
+      "Response": {
+        "Status": "419 FORBIDDEN",
+        "StatusCode": 419,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "text/html; charset=utf-8"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:32 GMT"
+          ],
+          "Set-Cookie": [
+            "sessionid=pe3akj027m2a1vb35i40mudxde5lyd6w; expires=Tue, 03-Apr-2018 10:07:32 GMT; httponly; Max-Age=86400; Path=/; secure"
+          ],
+          "Vary": [
+            "Cookie"
+          ]
+        },
+        "Body": "eyJlcnJvciI6ICJOZWVkIHRvIHN3aXRjaCBzZXNzaW9uIn0=",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "B": 4.105836372515214e+76,
+                  "BitSize": 256,
+                  "Gx": 4.8439561293906455e+76,
+                  "Gy": 3.6134250956749796e+76,
+                  "N": 1.1579208921035625e+77,
+                  "Name": "P-256",
+                  "P": 1.1579208921035625e+77
+                },
+                "X": 3.2855046101954114e+76,
+                "Y": 3.471657960503931e+76
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "8SwF2zjBoxFKkwLd"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    },
+    {
+      "Request": {
+        "Method": "POST",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "10.10.28.91",
+          "Path": "/api/tenant",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "csrftoken=iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL; sessionid=pe3akj027m2a1vb35i40mudxde5lyd6w"
+          ],
+          "Referer": [
+            "https://10.10.28.91/"
+          ],
+          "X-Avi-Tenant": [
+            "admin"
+          ],
+          "X-Avi-Version": [
+            "17.2.8"
+          ],
+          "X-CSRFToken": [
+            "iXFktyE1sX0aTbELsHvDTzUeSy3lDqzL"
+          ]
+        },
+        "Body": "eyJuYW1lIjoid2ViYXBwIn0="
+      },
+      "Response": {
+        "Status": "201 CREATED",
+        "StatusCode": 201,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+          ],
+          "Access-Control-Allow-Methods": [
+            "GET, POST, PUT, DELETE, OPTIONS"
+          ],
+          "Allow": [
+            "HEAD, GET, POST, OPTIONS"
+          ],
+          "Avi_api_version": [
+            "17.2.8"
+          ],
+          "Cache-Control": [
+            "no-store, no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 02 Apr 2018 10:07:34 GMT"
+          ],
+          "Location": [
+            "https://10.10.28.91/api/tenant/tenant-0e4bdbc1-db94-42a1-9018-25e6a5160171#webapp"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000; includeSubdomains"
+          ],
+          "Vary": [
+            "Accept, Cookie"
+          ],
+          "X-Frame-Options": [
+            "SAMEORIGIN"
+          ]
+        },
+        "Body": "eyJ1cmwiOiAiaHR0cHM6Ly8xMC4xMC4yOC45MS9hcGkvdGVuYW50L3RlbmFudC0wZTRiZGJjMS1kYjk0LTQyYTEtOTAxOC0yNWU2YTUxNjAxNzEjd2ViYXBwIiwgInV1aWQiOiAidGVuYW50LTBlNGJkYmMxLWRiOTQtNDJhMS05MDE4LTI1ZTZhNTE2MDE3MSIsICJuYW1lIjogIndlYmFwcCIsICJfbGFzdF9tb2RpZmllZCI6ICIxNTIyNjYzNjU0MDI3MTIyIiwgImxvY2FsIjogdHJ1ZSwgImNvbmZpZ19zZXR0aW5ncyI6IHsic2VfaW5fcHJvdmlkZXJfY29udGV4dCI6IHRydWUsICJ0ZW5hbnRfYWNjZXNzX3RvX3Byb3ZpZGVyX3NlIjogdHJ1ZSwgInRlbmFudF92cmYiOiBmYWxzZX19",
+        "ContentLength": -1,
+        "TransferEncoding": [
+          "chunked"
+        ],
+        "Trailer": null,
+        "TLS": {
+          "Version": 771,
+          "HandshakeComplete": true,
+          "DidResume": false,
+          "CipherSuite": 49195,
+          "NegotiatedProtocol": "",
+          "NegotiatedProtocolIsMutual": true,
+          "ServerName": "",
+          "PeerCertificates": [
+            {
+              "Raw": "MIIBtDCCAVqgAwIBAgIJAMibKggIEfaFMAoGCCqGSM49BAMCMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwHhcNMTgwMzMwMDcxMzIwWhcNMTkwMzMwMDcxMzIwWjAhMR8wHQYDVQQDDBZEZWZhdWx0IFBvcnRhbCBFQyBDZXJ0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7aN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNII2SBEIRwgFKswtQTC8lRV06W4MB8GA1UdIwQYMBaAFNII2SBEIRwgFKswtQTC8lRV06W4MAoGCCqGSM49BAMCA0gAMEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "RawTBSCertificate": "MIIBWqADAgECAgkAyJsqCAgR9oUwCgYIKoZIzj0EAwIwITEfMB0GA1UEAwwWRGVmYXVsdCBQb3J0YWwgRUMgQ2VydDAeFw0xODAzMzAwNzEzMjBaFw0xOTAzMzAwNzEzMjBaMCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARIo0wO0yqt7GQ5W3Q97hkQL1cibjee0/5025Wx9phcn0zA40IEtrh9M3ZLGfx0gbHeLrD6F7DHSUGJHA8bszPto3sweTAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU0gjZIEQhHCAUqzC1BMLyVFXTpbgwHwYDVR0jBBgwFoAU0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "RawSubjectPublicKeyInfo": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESKNMDtMqrexkOVt0Pe4ZEC9XIm43ntP+dNuVsfaYXJ9MwONCBLa4fTN2Sxn8dIGx3i6w+hewx0lBiRwPG7Mz7Q==",
+              "RawSubject": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "RawIssuer": "MCExHzAdBgNVBAMMFkRlZmF1bHQgUG9ydGFsIEVDIENlcnQ=",
+              "Signature": "MEUCIQDUdr9Pe8Tot3eoPssbBKWU06xnykjnM17bbFLfqNcs/AIgRu350Wo+Z0tU4RnC5213AfL7NDaZZVorYMR1Bcii9N0=",
+              "SignatureAlgorithm": 10,
+              "PublicKeyAlgorithm": 3,
+              "PublicKey": {
+                "Curve": {
+                  "P": 115792089210356248762697446949407573530086143415290314195533631308867097853951,
+                  "N": 115792089210356248762697446949407573529996955224135760342422259061068512044369,
+                  "B": 41058363725152142129326129780047268409114441015993725554835256314039467401291,
+                  "Gx": 48439561293906451759052585252797914202762949526041747995844080717082404635286,
+                  "Gy": 36134250956749795798585127919587881956611106672985015071877198253568414405109,
+                  "BitSize": 256,
+                  "Name": "P-256"
+                },
+                "X": 32855046101954116855610811204155622407603345722716667534665954817512050285727,
+                "Y": 34716579605039312884106654246226806820151683073757934123249171508702737544173
+              },
+              "Version": 3,
+              "SerialNumber": 14455193642959238789,
+              "Issuer": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "Subject": {
+                "Country": null,
+                "Organization": null,
+                "OrganizationalUnit": null,
+                "Locality": null,
+                "Province": null,
+                "StreetAddress": null,
+                "PostalCode": null,
+                "SerialNumber": "",
+                "CommonName": "Default Portal EC Cert",
+                "Names": [
+                  {
+                    "Type": [
+                      2,
+                      5,
+                      4,
+                      3
+                    ],
+                    "Value": "Default Portal EC Cert"
+                  }
+                ],
+                "ExtraNames": null
+              },
+              "NotBefore": "2018-03-30T07:13:20Z",
+              "NotAfter": "2019-03-30T07:13:20Z",
+              "KeyUsage": 0,
+              "Extensions": [
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    19
+                  ],
+                  "Critical": false,
+                  "Value": "MAA="
+                },
+                {
+                  "Id": [
+                    2,
+                    16,
+                    840,
+                    1,
+                    113730,
+                    1,
+                    13
+                  ],
+                  "Critical": false,
+                  "Value": "Fh1PcGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZQ=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    14
+                  ],
+                  "Critical": false,
+                  "Value": "BBTSCNkgRCEcIBSrMLUEwvJUVdOluA=="
+                },
+                {
+                  "Id": [
+                    2,
+                    5,
+                    29,
+                    35
+                  ],
+                  "Critical": false,
+                  "Value": "MBaAFNII2SBEIRwgFKswtQTC8lRV06W4"
+                }
+              ],
+              "ExtraExtensions": null,
+              "UnhandledCriticalExtensions": null,
+              "ExtKeyUsage": null,
+              "UnknownExtKeyUsage": null,
+              "BasicConstraintsValid": true,
+              "IsCA": false,
+              "MaxPathLen": -1,
+              "MaxPathLenZero": false,
+              "SubjectKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "AuthorityKeyId": "0gjZIEQhHCAUqzC1BMLyVFXTpbg=",
+              "OCSPServer": null,
+              "IssuingCertificateURL": null,
+              "DNSNames": null,
+              "EmailAddresses": null,
+              "IPAddresses": null,
+              "PermittedDNSDomainsCritical": false,
+              "PermittedDNSDomains": null,
+              "ExcludedDNSDomains": null,
+              "CRLDistributionPoints": null,
+              "PolicyIdentifiers": null
+            }
+          ],
+          "VerifiedChains": null,
+          "SignedCertificateTimestamps": null,
+          "OCSPResponse": null,
+          "TLSUnique": "KgEczC8QwH7odZsZ"
+        }
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    }
+  ]
+}
