@@ -13,8 +13,9 @@ import (
 	"net/http/httputil"
 	"reflect"
 	"time"
-
 	"github.com/golang/glog"
+	"github.com/seborama/govcr"
+	"os"
 )
 
 type aviResult struct {
@@ -254,6 +255,8 @@ func (avisess *AviSession) isTokenAuth() bool {
 func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
 
 	var result []byte
+	flag := os.Getenv("testenv")
+	cassette_name := os.Getenv("testname")
 	url := avisess.prefix + uri
 
 	// If optional retryNum arg is provided, then count which retry number this is
@@ -280,7 +283,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	}
 
 	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 
 	errorResult := AviError{verb: verb, url: url}
@@ -294,7 +297,18 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		payloadIO = bytes.NewBuffer(jsonStr)
 	}
 
+	obj := http.Client{Transport: tr}
 	req, err := http.NewRequest(verb, url, payloadIO)
+	fmt.Printf("\n\n$$$$ ", req)
+
+	// vcr configuration.
+	vcr := govcr.NewVCR(cassette_name,
+		&govcr.VCRConfig{
+			Client: &obj,
+			CassettePath: "govcr-fixtures",
+			Logging: true,
+		})
+
 	if err != nil {
 		errorResult.err = fmt.Errorf("http.NewRequest failed: %v", err)
 		return result, errorResult
@@ -316,18 +330,23 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if avisess.sessionid != "" {
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 	}
-
 	// glog.Infof("Request headers: %v", req.Header)
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
-
+	var resp *http.Response
 	client := &http.Client{Transport: tr}
 
-	resp, err := client.Do(req)
+	if flag == "true" {
+		resp, err = vcr.Client.Do(req)
+	} else {
+		resp, err = client.Do(req)
+	}
+
 	if err != nil {
 		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
 		return result, errorResult
 	}
+
 
 	defer resp.Body.Close()
 
