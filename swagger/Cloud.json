@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1060,51 +1060,17 @@
         }
     }, 
     "definitions": {
-        "vCloudAirConfiguration": {
-            "required": [
-                "privilege", 
-                "vca_host", 
-                "vca_instance", 
-                "vca_mgmt_network", 
-                "vca_orgnization", 
-                "vca_password", 
-                "vca_username", 
-                "vca_vdc"
-            ], 
+        "AwsEncryption": {
             "type": "object", 
             "properties": {
-                "vca_orgnization": {
+                "master_key": {
                     "type": "string", 
-                    "description": "vCloudAir orgnization ID."
+                    "description": "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
                 }, 
-                "vca_username": {
+                "mode": {
+                    "default": "AWS_ENCRYPTION_MODE_NONE", 
                     "type": "string", 
-                    "description": "vCloudAir username."
-                }, 
-                "vca_mgmt_network": {
-                    "type": "string", 
-                    "description": "vCloudAir management network."
-                }, 
-                "vca_password": {
-                    "type": "string", 
-                    "description": "vCloudAir password."
-                }, 
-                "vca_instance": {
-                    "type": "string", 
-                    "description": "vCloudAir instance ID."
-                }, 
-                "privilege": {
-                    "default": "WRITE_ACCESS", 
-                    "type": "string", 
-                    "description": "vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
-                }, 
-                "vca_vdc": {
-                    "type": "string", 
-                    "description": "vCloudAir virtual data center name."
-                }, 
-                "vca_host": {
-                    "type": "string", 
-                    "description": "vCloudAir host address."
+                    "description": "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
                 }
             }
         }, 
@@ -1375,6 +1341,10 @@
                 "subscription_id": {
                     "type": "string", 
                     "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
+                }, 
+                "use_standard_alb": {
+                    "type": "boolean", 
+                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
                 }
             }
         }, 
@@ -1900,6 +1870,54 @@
                 }
             }
         }, 
+        "vCloudAirConfiguration": {
+            "required": [
+                "privilege", 
+                "vca_host", 
+                "vca_instance", 
+                "vca_mgmt_network", 
+                "vca_orgnization", 
+                "vca_password", 
+                "vca_username", 
+                "vca_vdc"
+            ], 
+            "type": "object", 
+            "properties": {
+                "vca_orgnization": {
+                    "type": "string", 
+                    "description": "vCloudAir orgnization ID."
+                }, 
+                "vca_username": {
+                    "type": "string", 
+                    "description": "vCloudAir username."
+                }, 
+                "vca_mgmt_network": {
+                    "type": "string", 
+                    "description": "vCloudAir management network."
+                }, 
+                "vca_password": {
+                    "type": "string", 
+                    "description": "vCloudAir password."
+                }, 
+                "vca_instance": {
+                    "type": "string", 
+                    "description": "vCloudAir instance ID."
+                }, 
+                "privilege": {
+                    "default": "WRITE_ACCESS", 
+                    "type": "string", 
+                    "description": "vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS."
+                }, 
+                "vca_vdc": {
+                    "type": "string", 
+                    "description": "vCloudAir virtual data center name."
+                }, 
+                "vca_host": {
+                    "type": "string", 
+                    "description": "vCloudAir host address."
+                }
+            }
+        }, 
         "OShiftK8SConfiguration": {
             "type": "object", 
             "properties": {
@@ -1975,10 +1993,10 @@
                     "type": "string", 
                     "description": "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
                 }, 
-                "sdn_overlay": {
+                "auto_assign_fqdn": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
+                    "description": "Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8."
                 }, 
                 "node_availability_zone_label": {
                     "type": "string", 
@@ -2007,6 +2025,10 @@
                     "type": "boolean", 
                     "description": "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
                 }, 
+                "disable_auto_frontend_service_sync": {
+                    "type": "boolean", 
+                    "description": "Disable auto service sync for front end services."
+                }, 
                 "service_account_token": {
                     "type": "string", 
                     "description": "Authorization token for service account instead of client certificate. One of client certificate or token is required."
@@ -2024,9 +2046,10 @@
                     "type": "string", 
                     "description": "Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change."
                 }, 
-                "disable_auto_frontend_service_sync": {
+                "sdn_overlay": {
+                    "default": true, 
                     "type": "boolean", 
-                    "description": "Disable auto service sync for front end services."
+                    "description": "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
                 }, 
                 "use_service_cluster_ip_as_ew_vip": {
                     "type": "boolean", 
@@ -2546,9 +2569,13 @@
                     "type": "boolean", 
                     "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 }, 
+                "sqs_encryption": {
+                    "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
                 "ebs_encryption": {
                     "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/aws_encryption"
+                    "$ref": "#/definitions/AwsEncryption"
                 }, 
                 "free_elasticips": {
                     "default": true, 
@@ -2584,7 +2611,7 @@
                 }, 
                 "s3_encryption": {
                     "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/aws_encryption"
+                    "$ref": "#/definitions/AwsEncryption"
                 }, 
                 "region": {
                     "default": "us-west-1", 
@@ -2626,7 +2653,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -2806,20 +2833,6 @@
                 "east_west_dns_provider_ref": {
                     "type": "string", 
                     "description": "DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile."
-                }
-            }
-        }, 
-        "aws_encryption": {
-            "type": "object", 
-            "properties": {
-                "master_key": {
-                    "type": "string", 
-                    "description": "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
-                }, 
-                "mode": {
-                    "default": "AWS_ENCRYPTION_MODE_NONE", 
-                    "type": "string", 
-                    "description": "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
                 }
             }
         }, 

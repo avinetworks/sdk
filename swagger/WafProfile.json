@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

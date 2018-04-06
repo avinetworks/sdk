@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -1570,6 +1570,47 @@ paths:
                         type: string
                 401:
                     description: log in failed
+    /virtualservice/{uuid}/l4policysetstats/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
     /virtualservice/{uuid}/networksecuritypolicystats/:
         get:
             consumes:
@@ -2482,7 +2523,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrMatch:
         type: object
@@ -2555,6 +2596,19 @@ definitions:
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 type: string
+    L4Policies:
+        type: object
+        required:
+            -   index
+            -   l4_policy_set_ref
+        properties:
+            index:
+                description: "Index of the virtual service L4 policy set. Field introduced in 17.2.7."
+                type: integer
+                format: int32
+            l4_policy_set_ref:
+                description: "ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7."
+                type: string
     Lif:
         type: object
         properties:
@@ -2574,6 +2628,8 @@ definitions:
                 type: string
     MatchReplacePair:
         type: object
+        required:
+            -   match_string
         properties:
             match_string:
                 description: "String to be matched."
@@ -2718,7 +2774,7 @@ definitions:
                 type: integer
                 format: int32
             service_protocol:
-                description: "Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH."
+                description: "Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY."
                 type: string
     SidebandProfile:
         type: object
@@ -2887,6 +2943,9 @@ definitions:
             avi_allocated_vip:
                 description: "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1."
                 type: boolean
+            bulk_sync_kvcache:
+                description: "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1."
+                type: boolean
             client_auth:
                 description: "HTTP authentication configuration for protected resources."
                 $ref: '#/definitions/HTTPClientAuthenticationParams'
@@ -2997,6 +3056,11 @@ definitions:
             ipam_network_subnet:
                 description: "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1."
                 $ref: '#/definitions/IPNetworkSubnet'
+            l4_policies:
+                description: "L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/L4Policies'
             limit_doser:
                 description: "Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while."
                 type: boolean
@@ -3108,6 +3172,10 @@ definitions:
             traffic_clone_profile_ref:
                 description: "Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1."
                 type: string
+            traffic_enabled:
+                description: "Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8."
+                type: boolean
+                default: True
             type:
                 description: "Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD."
                 type: string
@@ -3147,7 +3215,7 @@ definitions:
                 items:
                     $ref: '#/definitions/VSDataScripts'
             vsvip_ref:
-                description: "Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1."
+                description: "Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1."
                 type: string
             waf_policy_ref:
                 description: "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."

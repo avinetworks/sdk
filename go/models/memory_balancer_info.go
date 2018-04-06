@@ -10,6 +10,9 @@ type MemoryBalancerInfo struct {
 	// Child Process information.
 	Child []*ChildProcessInfo `json:"child,omitempty"`
 
+	// Controller memory.
+	ControllerMemory int32 `json:"controller_memory,omitempty"`
+
 	// Limit on the memory (in MB) for the Process.
 	Limit int32 `json:"limit,omitempty"`
 

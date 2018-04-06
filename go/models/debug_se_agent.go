@@ -7,6 +7,9 @@ package models
 // swagger:model DebugSeAgent
 type DebugSeAgent struct {
 
+	// Log every nth message. Field introduced in 17.2.7.
+	LogEveryN int32 `json:"log_every_n,omitempty"`
+
 	//  Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR.
 	// Required: true
 	LogLevel string `json:"log_level"`

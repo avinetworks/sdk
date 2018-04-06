@@ -76,6 +76,9 @@ type SeRuntimeProperties struct {
 	// Minimum response size content length to sample for client insights.
 	HTTPRumMinContentLength int32 `json:"http_rum_min_content_length,omitempty"`
 
+	// How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.
+	LbBatchPushFrequency int32 `json:"lb_batch_push_frequency,omitempty"`
+
 	// Deprecated. Field deprecated in 17.1.1. Units(SEC).
 	LbFailMaxTime int32 `json:"lb_fail_max_time,omitempty"`
 

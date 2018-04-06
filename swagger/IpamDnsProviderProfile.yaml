@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi IpamDnsProviderProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -417,7 +417,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -487,6 +487,11 @@ definitions:
             azure_userpass:
                 description: "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1."
                 $ref: '#/definitions/AzureUserPassCredentials'
+            egress_service_subnets:
+                description: "Used for allocating egress service source IPs. Field introduced in 17.2.8."
+                type: array
+                items:
+                    type: string
             resource_group:
                 description: "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
                 type: string
@@ -505,6 +510,9 @@ definitions:
                     type: string
             use_enhanced_ha:
                 description: "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
+                type: boolean
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
                 type: boolean
             virtual_network_ids:
                 description: "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."

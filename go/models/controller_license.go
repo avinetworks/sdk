@@ -10,9 +10,6 @@ type ControllerLicense struct {
 	// List of active burst core license in use. Field introduced in 17.2.5.
 	ActiveBurstResources []*BurstResource `json:"active_burst_resources,omitempty"`
 
-	// Number of backend_servers.
-	BackendServers int32 `json:"backend_servers,omitempty"`
-
 	// Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.
 	BurstCores int32 `json:"burst_cores,omitempty"`
 
@@ -41,14 +38,8 @@ type ControllerLicense struct {
 	// Placeholder for description of property licenses of obj type ControllerLicense field type str  type object
 	Licenses []*SingleLicense `json:"licenses,omitempty"`
 
-	// Number of max_apps.
-	MaxApps int32 `json:"max_apps,omitempty"`
-
 	// Number of Service Engines hosts in container clouds.
 	MaxSes int32 `json:"max_ses,omitempty"`
-
-	// Deprecated.
-	MaxVses int32 `json:"max_vses,omitempty"`
 
 	// Name of the object.
 	Name string `json:"name,omitempty"`
@@ -61,9 +52,6 @@ type ControllerLicense struct {
 
 	// start_on of ControllerLicense.
 	StartOn string `json:"start_on,omitempty"`
-
-	// Number of throughput.
-	Throughput int32 `json:"throughput,omitempty"`
 
 	// url
 	// Read Only: true
