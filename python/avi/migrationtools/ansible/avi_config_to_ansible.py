@@ -6,10 +6,12 @@ Created on September 15, 2016
 '''
 
 import json
-from copy import deepcopy
 import yaml
 import argparse
 import re
+import urlparse
+from copy import deepcopy
+from urllib import urlencode
 
 DEFAULT_SKIP_TYPES = [
     'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
@@ -183,6 +185,13 @@ class AviAnsibleConverter(object):
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
+
+        u = urlparse.urlparse(x)
+        query = {'name': urlparse.parse_qs(u.query)['name']}
+        # query.pop('tenant', None)
+        # query.pop('cloud', None)
+        u = u._replace(query=urlencode(query, True))
+        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):
